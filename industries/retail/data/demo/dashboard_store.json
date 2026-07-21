@@ -1,0 +1,120 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "store_count": 48,
+      "total_revenue": 6200000,
+      "total_profit": 820000,
+      "loss_store_count": 3,
+      "avg_pingxiao": 2680
+    },
+    "top10": [
+      {
+        "revenue_rank": 1,
+        "store_name": "上海静安店",
+        "region": "华东",
+        "revenue": 520000,
+        "profit": 78000,
+        "pingxiao": 3200
+      },
+      {
+        "revenue_rank": 2,
+        "store_name": "北京朝阳店",
+        "region": "华北",
+        "revenue": 480000,
+        "profit": 65000,
+        "pingxiao": 2980
+      },
+      {
+        "revenue_rank": 3,
+        "store_name": "深圳南山店",
+        "region": "华南",
+        "revenue": 450000,
+        "profit": 72000,
+        "pingxiao": 3100
+      },
+      {
+        "revenue_rank": 4,
+        "store_name": "杭州西湖店",
+        "region": "华东",
+        "revenue": 410000,
+        "profit": 58000,
+        "pingxiao": 2750
+      },
+      {
+        "revenue_rank": 5,
+        "store_name": "成都春熙店",
+        "region": "西南",
+        "revenue": 390000,
+        "profit": 52000,
+        "pingxiao": 2600
+      },
+      {
+        "revenue_rank": 6,
+        "store_name": "广州天河店",
+        "region": "华南",
+        "revenue": 370000,
+        "profit": 48000,
+        "pingxiao": 2550
+      },
+      {
+        "revenue_rank": 7,
+        "store_name": "南京新街口店",
+        "region": "华东",
+        "revenue": 350000,
+        "profit": 42000,
+        "pingxiao": 2400
+      },
+      {
+        "revenue_rank": 8,
+        "store_name": "武汉光谷店",
+        "region": "华中",
+        "revenue": 330000,
+        "profit": 38000,
+        "pingxiao": 2350
+      },
+      {
+        "revenue_rank": 9,
+        "store_name": "西安雁塔店",
+        "region": "西北",
+        "revenue": 310000,
+        "profit": 35000,
+        "pingxiao": 2200
+      },
+      {
+        "revenue_rank": 10,
+        "store_name": "苏州园区店",
+        "region": "华东",
+        "revenue": 295000,
+        "profit": 32000,
+        "pingxiao": 2100
+      }
+    ],
+    "scatter": [
+      {
+        "store_name": "上海静安店",
+        "pingxiao": 3200,
+        "profit": 78000
+      },
+      {
+        "store_name": "北京朝阳店",
+        "pingxiao": 2980,
+        "profit": 65000
+      },
+      {
+        "store_name": "亏损样例店",
+        "pingxiao": 1200,
+        "profit": -15000
+      }
+    ],
+    "alerts": [
+      {
+        "store_name": "亏损样例店",
+        "region": "华北",
+        "revenue": 180000,
+        "profit": -15000,
+        "alert_tag": "亏损"
+      }
+    ]
+  }
+}

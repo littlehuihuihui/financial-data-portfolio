@@ -1,0 +1,14 @@
+<section class="dashboard-page" data-dashboard="supply">
+  <h2 class="dashboard-page-title">供应链分析</h2>
+  <p class="dashboard-page-desc">采购金额 · 库存周转 · 供应商准时率 · 供应商明细</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>供应商准时交付率</h3><div id="db-chart-supplier-otd" class="chart"></div></div>
+  <div class="chart-box"><h3>供应商采购额</h3><div id="db-chart-inventory" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>供应商明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-supplier" data-export-name="供应商明细.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>供应商</th><th class="num">准时率%</th><th class="num">采购额</th><th class="num">周转天数</th><th>预警</th></tr></thead><tbody id="db-table-supplier"></tbody></table></div>
+  </div>
+</section>

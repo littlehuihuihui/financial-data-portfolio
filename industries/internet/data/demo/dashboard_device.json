@@ -1,0 +1,69 @@
+{
+  "ok": true,
+  "data": {
+    "dual": {
+      "dual_users": 180000,
+      "total_users": 1280000
+    },
+    "type_dist": [
+      {
+        "device_type_name": "机顶盒",
+        "device_cnt": 980000
+      },
+      {
+        "device_type_name": "音箱",
+        "device_cnt": 300000
+      }
+    ],
+    "model_dist": [
+      {
+        "model_name": "Model-1",
+        "device_cnt": 250000.0
+      },
+      {
+        "model_name": "Model-2",
+        "device_cnt": 200000.0
+      },
+      {
+        "model_name": "Model-3",
+        "device_cnt": 180000.0
+      },
+      {
+        "model_name": "Model-4",
+        "device_cnt": 150000.0
+      },
+      {
+        "model_name": "Model-5",
+        "device_cnt": 120000.0
+      }
+    ],
+    "fw_dist": [
+      {
+        "fw_version": "v3.2",
+        "device_cnt": 500000.0
+      },
+      {
+        "fw_version": "v3.1",
+        "device_cnt": 400000.0
+      },
+      {
+        "fw_version": "v3.0",
+        "device_cnt": 380000.0
+      }
+    ],
+    "region": [
+      {
+        "region_name": "广东",
+        "active_mac": 420000.0
+      },
+      {
+        "region_name": "深圳",
+        "active_mac": 210000.0
+      },
+      {
+        "region_name": "广州",
+        "active_mac": 180000.0
+      }
+    ]
+  }
+}

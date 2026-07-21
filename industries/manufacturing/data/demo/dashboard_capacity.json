@@ -1,0 +1,101 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "capacity_util_pct": 86.5,
+      "output_qty": 125000,
+      "plan_qty": 130000,
+      "plan_achieve_pct": 96.2
+    },
+    "lines": [
+      {
+        "line_name": "产线1",
+        "line_code": "L1",
+        "factory_name": "华南工厂",
+        "output_qty": 32000.0,
+        "design_capacity_daily": 1200,
+        "capacity_util_pct": 90,
+        "load_vs_design_pct": 95,
+        "alert_level": "正常"
+      },
+      {
+        "line_name": "产线2",
+        "line_code": "L2",
+        "factory_name": "华南工厂",
+        "output_qty": 28000.0,
+        "design_capacity_daily": 1100,
+        "capacity_util_pct": 85,
+        "load_vs_design_pct": 90,
+        "alert_level": "正常"
+      },
+      {
+        "line_name": "产线3",
+        "line_code": "L3",
+        "factory_name": "华南工厂",
+        "output_qty": 25000.0,
+        "design_capacity_daily": 1000,
+        "capacity_util_pct": 82,
+        "load_vs_design_pct": 88,
+        "alert_level": "正常"
+      }
+    ],
+    "trend": [
+      {
+        "snapshot_date": "2026-06-01",
+        "capacity_util_pct": 82.0
+      },
+      {
+        "snapshot_date": "2026-06-02",
+        "capacity_util_pct": 82.3
+      },
+      {
+        "snapshot_date": "2026-06-03",
+        "capacity_util_pct": 82.6
+      },
+      {
+        "snapshot_date": "2026-06-04",
+        "capacity_util_pct": 82.9
+      },
+      {
+        "snapshot_date": "2026-06-05",
+        "capacity_util_pct": 83.2
+      },
+      {
+        "snapshot_date": "2026-06-06",
+        "capacity_util_pct": 83.5
+      },
+      {
+        "snapshot_date": "2026-06-07",
+        "capacity_util_pct": 83.8
+      },
+      {
+        "snapshot_date": "2026-06-08",
+        "capacity_util_pct": 84.1
+      },
+      {
+        "snapshot_date": "2026-06-09",
+        "capacity_util_pct": 84.4
+      },
+      {
+        "snapshot_date": "2026-06-10",
+        "capacity_util_pct": 84.7
+      },
+      {
+        "snapshot_date": "2026-06-11",
+        "capacity_util_pct": 85.0
+      },
+      {
+        "snapshot_date": "2026-06-12",
+        "capacity_util_pct": 85.3
+      },
+      {
+        "snapshot_date": "2026-06-13",
+        "capacity_util_pct": 85.6
+      },
+      {
+        "snapshot_date": "2026-06-14",
+        "capacity_util_pct": 85.9
+      }
+    ]
+  }
+}

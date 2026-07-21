@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跃动体育 · 财务数据监控体系报告</title>
+  <link rel="stylesheet" href="report.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="page-report">
+
+  <header class="report-toolbar no-print">
+    <div class="toolbar-title">跃动体育 · 财务数据监控体系（P0–P3 报告）</div>
+    <div class="toolbar-actions">
+      <button type="button" class="btn-export primary" id="btn-download-pdf">下载 PDF</button>
+      <button type="button" class="btn-export" id="btn-print">打印 / 另存为 PDF</button>
+      <a href="shell.html" class="btn-export">返回看板</a>
+    </div>
+    <p class="toolbar-hint">P0 体系总览 · P1 经营监控看板 · P2 分析方法论 · P2b 31问清单 · P3 数据管道 · 也可运行 <code>run_export.bat</code></p>
+  </header>
+
+  <div id="report-content">
+
+    <!-- ==================== P0 · 体系总览 ==================== -->
+    <section class="pdf-page pdf-page-overview" id="page-p0">
+      <header class="overview-hero">
+        <h1 class="overview-title">跃动体育 · 财务数据监控体系</h1>
+        <p class="overview-subtitle">从 0 到 1 搭建 · CSV → MySQL → Tableau 全链路</p>
+      </header>
+
+      <div class="overview-modules">
+        <a href="#page-p1" class="overview-card">
+          <div class="overview-card-icon">📊</div>
+          <h2 class="overview-card-title">经营监控看板</h2>
+          <ul class="overview-card-list">
+            <li>13 个主题看板：经营总览 · 品牌 · 渠道 · 三大报表 · 杜邦 · 现金流 · 税务 · 库存 · 预算执行 · 门店 · 利润质量 · 本量利 · 数据质量</li>
+            <li>8 类角色视图：CEO / CFO / 财务 BP / 品牌经理 / 渠道运营 / 门店运营 / 供应链 / 运维（全量看板）</li>
+            <li>核心指标 8+ 项 · 收入趋势（日/周/月切换，默认日维度）· 品牌排名 · 门店 Top10</li>
+            <li>支持日/周/月粒度切换 · 底层 dws_sales_daily / dws_store_daily 日粒度存储</li>
+          </ul>
+          <span class="overview-card-tag">高层经营会 · T+1 刷新</span>
+        </a>
+
+        <a href="#page-p2" class="overview-card">
+          <div class="overview-card-icon">📐</div>
+          <h2 class="overview-card-title">财务数据分析方法论</h2>
+          <ul class="overview-card-list">
+            <li>六层分析框架：描述 → 诊断 → 预测 → 评估 → 优化 + 分析方法工具箱</li>
+            <li>31 个分析问题 · 交互式分析路径（含 SQL 与判断标准）</li>
+            <li>诊断层含 3 个真实经营案例（毛利率/退货/ROAS）</li>
+          </ul>
+          <span class="overview-card-tag">系统化分析思维 · 财务 BP 核心能力</span>
+        </a>
+
+        <a href="#page-p3" class="overview-card">
+          <div class="overview-card-icon">⚙️</div>
+          <h2 class="overview-card-title">数据仓库与管道架构</h2>
+          <ul class="overview-card-list">
+            <li>ODS → DIM → DWD → DWS → ADS 五层数仓（sql6）</li>
+            <li>宽表 <code>dwd_sales_wide</code> + 5 张 DWS 汇总</li>
+            <li>每日 T+1 ETL 清洗与汇总</li>
+          </ul>
+          <span class="overview-card-tag">全链路自建 · 工程化</span>
+        </a>
+      </div>
+
+      <footer class="overview-footer">
+        <p class="overview-path">📌 阅读路径：P1 经营总览 → P2 分析方法论 → P3 数仓架构 · DDL/SQL 见 <code>sql6_portfolio_model/</code></p>
+        <p class="overview-closing">从数据到决策的完整闭环</p>
+      </footer>
+    </section>
+
+    <!-- ==================== P1 · 经营监控看板 ==================== -->
+    <section class="pdf-page pdf-page-p1" id="page-p1">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">跃动体育 · 财务数据监控体系</h1>
+          <p class="page-subtitle">数据链路：CSV → MySQL → Tableau 可视化看板</p>
+        </div>
+        <nav class="module-nav module-nav-three" aria-label="模块导航">
+          <a href="#page-p1" class="active">📊 经营监控看板</a>
+          <a href="#page-p2">📐 分析方法论</a>
+          <a href="#page-p3">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+
+      <section class="p1-section" aria-label="核心经营指标">
+        <h2 class="p1-section-title">核心经营指标</h2>
+        <div class="kpi-rows" id="kpi-rows">
+          <div class="kpi-row" id="kpi-row-1"></div>
+          <div class="kpi-row" id="kpi-row-2"></div>
+        </div>
+      </section>
+
+      <section class="p1-section" aria-label="趋势与结构">
+        <div class="charts-row charts-row-p1">
+          <div class="chart-box chart-box-wide">
+            <div class="chart-box-title">收入趋势（日/周/月切换，默认日维度）</div>
+            <canvas id="trendChart" height="210"></canvas>
+            <p class="chart-legend-hint">折线图 · X 轴按日/周/月切换 · Y 轴净收入（万元）· Tableau 左上角粒度按钮同步全看板</p>
+          </div>
+          <div class="chart-box chart-box-narrow">
+            <div class="chart-box-title">各渠道净收入占比</div>
+            <canvas id="channelChart" height="210"></canvas>
+            <p class="chart-legend-hint">环形图 · 抖音 / 天猫 / 线下直营 / 其他渠道</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="p1-section" aria-label="品牌与门店排名">
+        <div class="tables-row tables-row-p1">
+          <div>
+            <div class="table-block-title">各品牌收入排名</div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>品牌</th>
+                  <th class="num">净收入</th>
+                  <th class="num">毛利率</th>
+                  <th class="num">同比</th>
+                </tr>
+              </thead>
+              <tbody id="brand-table-body"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">直营门店收入 Top5</div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>门店</th>
+                  <th>区域</th>
+                  <th class="num">收入</th>
+                  <th class="num">坪效</th>
+                  <th class="num">利润</th>
+                </tr>
+              </thead>
+              <tbody id="store-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="export-module no-print-interactive" aria-label="明细数据导出">
+        <div class="export-module-header">
+          <h2 class="export-module-title">📥 明细数据导出</h2>
+          <p class="export-module-desc">按需筛选维度，导出订单级明细数据（CSV 格式），用于深度下钻与业务复盘</p>
+        </div>
+
+        <div class="export-filters">
+          <div class="filter-field filter-date">
+            <label for="export-date-from">日期范围</label>
+            <div class="date-range-inputs">
+              <input type="date" id="export-date-from" value="2026-06-01">
+              <span class="date-sep">至</span>
+              <input type="date" id="export-date-to" value="2026-06-30">
+            </div>
+          </div>
+          <div class="filter-field">
+            <label for="export-brand">品牌</label>
+            <select id="export-brand">
+              <option value="全部">全部</option>
+              <option value="跃动Pro">跃动Pro</option>
+              <option value="跃动Life">跃动Life</option>
+              <option value="跃动Go">跃动Go</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="export-channel">渠道</label>
+            <select id="export-channel">
+              <option value="全部">全部</option>
+              <option value="抖音">抖音</option>
+              <option value="天猫">天猫</option>
+              <option value="线下直营">线下直营</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="export-category">品类</label>
+            <select id="export-category">
+              <option value="全部">全部</option>
+              <option value="鞋类">鞋类</option>
+              <option value="服装">服装</option>
+              <option value="配件">配件</option>
+            </select>
+          </div>
+          <div class="filter-field filter-action">
+            <label>&nbsp;</label>
+            <button type="button" class="btn-export-csv" id="btn-export-csv">📥 导出 CSV</button>
+          </div>
+        </div>
+
+        <div class="export-preview">
+          <div class="export-preview-title">导出数据预览 <span id="export-preview-count" class="export-preview-count"></span></div>
+          <div class="table-wrap">
+            <table class="data-table export-preview-table">
+              <thead>
+                <tr>
+                  <th>订单编号</th>
+                  <th>日期</th>
+                  <th>品牌</th>
+                  <th>渠道</th>
+                  <th>品类</th>
+                  <th class="num">实付金额</th>
+                  <th class="num">成本</th>
+                  <th>退货标记</th>
+                </tr>
+              </thead>
+              <tbody id="export-preview-body">
+                <tr><td colspan="8" class="loading-msg">加载预览数据…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="export-footnote">
+            📌 导出数据来源于 MySQL 视图 <code>dwd_sales_wide</code>（关联 dwd_sales_wide 与四维表），
+            含品牌、渠道、品类、实付金额、成本、退货标记等字段。筛选示例：
+            <code>WHERE order_date BETWEEN '2026-06-01' AND '2026-06-30'</code>
+          </p>
+        </div>
+      </section>
+
+      <section class="p1-section" aria-label="主题看板清单">
+        <h2 class="p1-section-title">13 个主题看板清单</h2>
+        <table class="data-table dashboard-catalog-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>看板</th>
+              <th>核心内容</th>
+              <th>主要角色</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>经营总览</td><td>8 项 KPI · 趋势 · 渠道占比 · 品牌排名 · 门店 Top5</td><td>CEO / 财务 BP</td></tr>
+            <tr><td>2</td><td>品牌分析</td><td>品牌 KPI · 渠道占比 · 品类毛利率 · 趋势</td><td>品牌经理</td></tr>
+            <tr><td>3</td><td>渠道分析</td><td>渠道 KPI · 日趋势 · 散点图 · 广告 ROAS</td><td>渠道运营 / 财务 BP</td></tr>
+            <tr><td>4</td><td>三大报表</td><td>利润表 · 资产负债表 · 现金流量表 · 三表勾稽</td><td>财务 BP / CFO</td></tr>
+            <tr><td>5</td><td>杜邦分析</td><td>ROE 拆解 · 同比归因 · 趋势 · 品牌对比</td><td>CFO / 财务 BP</td></tr>
+            <tr><td>6</td><td>现金流分析</td><td>三类型现金流 · 净现比 · 差异拆解 · 资金缺口</td><td>CFO</td></tr>
+            <tr><td>7</td><td>税务分析</td><td>税负 KPI · 行业对比 · 风险预警</td><td>财务 BP</td></tr>
+            <tr><td>8</td><td>库存分析</td><td>库存 KPI · 库龄结构 · 周转对比 · 滞销 SKU</td><td>商品运营</td></tr>
+            <tr><td>9</td><td>预算执行</td><td>渠道/品牌预算达成 · 超预算预警 · 费用明细</td><td>财务 BP</td></tr>
+            <tr><td>10</td><td>门店分析</td><td>门店 KPI · Top10 排名 · 健康度散点 · 异常预警</td><td>区域运营</td></tr>
+            <tr><td>11</td><td>利润质量</td><td>净现比 · 利润 vs 现金流 · 差异拆解</td><td>CFO</td></tr>
+            <tr><td>12</td><td>本量利分析</td><td>盈亏平衡 · 安全边际 · 敏感性分析</td><td>财务 BP</td></tr>
+            <tr><td>13</td><td>数据质量</td><td>质量评分 · 对账结果 · 未解决异常</td><td>CFO / 数据治理</td></tr>
+          </tbody>
+        </table>
+        <p class="page-footnote">Web 看板入口：<code>shell.html</code> · 配置见 <code>docs/config/dashboards.json</code>（13 个主题看板 + PDF 报告导出，共 14 项）· <strong>运维</strong>可查看全部 13 个看板（无行级过滤）</p>
+      </section>
+
+      <aside class="tableau-ref-link">
+        <a href="#page-p1-tableau">📘 Tableau 实现操作参考 →</a>
+      </aside>
+
+      <nav class="module-nav-inline">
+        <a href="#page-p0">📋 体系总览</a>
+        <span>·</span>
+        <a href="#page-p1" class="active">📊 经营监控看板</a>
+        <span>·</span>
+        <a href="#page-p2">📐 分析方法论</a>
+        <span>·</span>
+        <a href="#page-p3">⚙️ 数仓架构</a>
+      </nav>
+      <p class="page-footnote" id="p1-footnote">分析月份：2026-06 · 数据来源：MySQL 汇总视图 · 明细导出支持 CSV 格式</p>
+      <p class="page-footnote page-footnote-granularity">底层数据粒度：日（<code>dws_sales_daily</code>、<code>dws_store_daily</code>），看板支持日/周/月切换，满足运营监控与财务复盘双场景。</p>
+    </section>
+
+    <!-- ==================== P1 附录 · Tableau 实现操作参考 ==================== -->
+    <section class="pdf-page pdf-page-tableau-ref" id="page-p1-tableau">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">附录 · Tableau P1 看板实现操作参考</h1>
+          <p class="page-subtitle">在 Tableau 中复现「经营监控看板」的完整步骤</p>
+        </div>
+        <nav class="module-nav" aria-label="模块导航">
+          <a href="#page-p0">📋 体系总览</a>
+          <a href="#page-p1">📊 经营监控看板</a>
+          <a href="#page-p2">📐 分析方法论</a>
+          <a href="#page-p3">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+
+      <div class="tableau-guide">
+        <div class="guide-block">
+          <h3 class="guide-block-title">1. 数据连接</h3>
+          <ul class="guide-list">
+            <li>连接 MySQL 数据库中的汇总视图</li>
+            <li>主要视图：<code>dws_sales_monthly（按月汇总）</code>、<code>dws_sales_monthly</code>、<code>dws_store_daily</code>（日粒度门店排名）</li>
+            <li>粒度 SQL：<code>sql6_portfolio_model/07_tableau_sql/</code> · 参数 <code>date_granularity</code>（day/week/month，默认 day）</li>
+          </ul>
+        </div>
+
+        <div class="guide-block">
+          <h3 class="guide-block-title">2. 仪表板布局</h3>
+          <p class="guide-desc">建议尺寸：<strong>1200px 宽 × 2000px 高</strong>（适合 PDF 导出）</p>
+          <div class="layout-wireframe" aria-label="仪表板布局示意图">
+            <div class="wire-row wire-header">顶部：标题区 + 日/周/月粒度切换（默认日视图）</div>
+            <div class="wire-row wire-kpi">第一行：8 个 KPI 指标卡片（4 + 4 两行）</div>
+            <div class="wire-row wire-charts">
+              <div class="wire-cell wire-60">左侧折线图<br><span>60%</span></div>
+              <div class="wire-cell wire-40">右侧环形图<br><span>40%</span></div>
+            </div>
+            <div class="wire-row wire-tables">
+              <div class="wire-cell wire-50">品牌排名表<br><span>50%</span></div>
+              <div class="wire-cell wire-50">门店 Top5<br><span>50%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-block guide-two-col">
+          <div>
+            <h3 class="guide-block-title">3. KPI 卡片制作技巧</h3>
+            <ul class="guide-list">
+              <li>计算字段 <strong>同比变化率</strong> = (当期值 − 去年同期值) / 去年同期值</li>
+              <li>计算字段 <strong>环比变化率</strong> = (当期值 − 上期值) / 上期值</li>
+              <li>Unicode 箭头：↑ (U+2191)、↓ (U+2193)</li>
+              <li>条件格式：正增长 <span class="val-up">#27ae60</span>，负增长 <span class="val-down">#e74c3c</span></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="guide-block-title">4. 环形图制作技巧</h3>
+            <ul class="guide-list">
+              <li>创建两个饼图叠加（双轴）</li>
+              <li>底层饼图只留一个标记，设置为白色</li>
+              <li>上层饼图显示渠道占比：渠道 → 颜色，净收入 → 角度</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="guide-block guide-formula">
+          <h3 class="guide-block-title">折线图 · 快速对照</h3>
+          <p class="guide-desc">订单月份拖到<strong>列</strong>，净收入拖到<strong>行</strong>，标记选「折线图」· X 轴连续月份 (YYYY-MM) · Y 轴净收入金额</p>
+        </div>
+      </div>
+
+      <nav class="module-nav-inline">
+        <a href="#page-p0">📋 体系总览</a>
+        <span>·</span>
+        <a href="#page-p1">📊 经营监控看板</a>
+        <span>·</span>
+        <a href="#page-p2">📐 分析方法论</a>
+        <span>·</span>
+        <a href="#page-p3">⚙️ 数仓架构</a>
+      </nav>
+      <p class="page-footnote"><a href="#page-p1">← 返回 P1 经营总览看板</a></p>
+    </section>
+
+    <!-- ==================== 附录 · 全量看板说明 ==================== -->
+    <section class="pdf-page pdf-page-tableau-ref" id="page-tableau-p23">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">附录 · 13 个主题看板说明</h1>
+          <p class="page-subtitle">与 Web 看板（shell.html）一一对应 · SQL 见 <code>sql6_portfolio_model/</code></p>
+        </div>
+      </header>
+
+      <div class="tableau-guide">
+        <div class="guide-block">
+          <h3 class="guide-block-title">看板 1 · 经营总览</h3>
+          <p class="guide-desc"><strong>定位</strong>：CEO / 财务 BP · 一屏掌握经营全貌</p>
+          <ul class="guide-list">
+            <li>8 项核心 KPI · 收入趋势（日/周/月）· 渠道占比 · 品牌排名 · 门店 Top5</li>
+            <li>数据源：<code>dws_sales_daily</code>、<code>dws_store_daily</code></li>
+          </ul>
+        </div>
+
+        <div class="guide-block">
+          <h3 class="guide-block-title">看板 2 · 品牌深度分析</h3>
+          <p class="guide-desc"><strong>定位</strong>：品牌经理 / 商品运营 · 单品牌详细表现</p>
+          <ul class="guide-list">
+            <li>品牌 KPI 卡：净收入 / 毛利率 / 同比增速 / 收入占比</li>
+            <li>品牌 × 渠道收入占比（堆叠柱状图）· 各品类毛利率对比（柱状图）</li>
+            <li>品牌收入趋势（折线图，日/周/月切换）</li>
+            <li>支持日/周/月粒度切换（与 P1 共用 <code>date_granularity</code> 参数）</li>
+            <li>数据源：<code>dws_sales_daily</code> + 维度表 · SQL：<code>tableau_brand_deep_dive.sql</code></li>
+            <li>Tableau：3 个品牌用 Tab 切换，或并列小倍数图</li>
+          </ul>
+        </div>
+
+        <div class="guide-block">
+          <h3 class="guide-block-title">看板 3 · 渠道与费用分析</h3>
+          <p class="guide-desc"><strong>定位</strong>：渠道运营 / 财务 BP · 渠道健康度与费用效率</p>
+          <ul class="guide-list">
+            <li>渠道 KPI 卡（每行一渠道）：收入 / 毛利率 / ROAS / 退货率</li>
+            <li>渠道收入 vs 利润贡献（散点图）· 费用构成（饼图）· 预算执行进度条</li>
+            <li>数据源：<code>dws_sales_daily</code> + <code>dws_expense_monthly</code> + <code>ods_budget</code></li>
+            <li>SQL：<code>tableau_channel_expense.sql</code> · 退货率 &gt; 20% 条件格式标红</li>
+            <li>支持日/周/月粒度切换 · SQL 见 <code>with_granularity/channel/</code></li>
+          </ul>
+        </div>
+
+        <div class="guide-block">
+          <h3 class="guide-block-title">看板 4–13 · 财务深度与治理看板</h3>
+          <ul class="guide-list">
+            <li><strong>4 三大报表</strong>：利润表 / 资产负债表 / 现金流量表 / 三表勾稽</li>
+            <li><strong>5 杜邦分析</strong>：ROE 拆解 · 同比归因 · 品牌对比</li>
+            <li><strong>6 现金流分析</strong>：三类型现金流 · 净现比 · 资金缺口</li>
+            <li><strong>7 税务分析</strong>：税负 KPI · 风险预警</li>
+            <li><strong>8 库存分析</strong>：库龄结构 · 周转对比 · 滞销 SKU</li>
+            <li><strong>9 预算执行</strong>：渠道/品牌达成率 · 超预算预警 · 费用明细</li>
+            <li><strong>10 门店分析</strong>：Top10 排名 · 坪效散点 · 亏损/低坪效预警</li>
+            <li><strong>11 利润质量</strong>：净现比 · 利润 vs 现金流差异</li>
+            <li><strong>12 本量利分析</strong>：盈亏平衡 · 安全边际 · 敏感性</li>
+            <li><strong>13 数据质量</strong>：质量评分 · 对账结果 · 未解决异常</li>
+          </ul>
+        </div>
+
+        <div class="guide-block guide-formula">
+          <h3 class="guide-block-title">sql6 目录速查</h3>
+          <p class="guide-desc">
+            看板 API：<code>queries.py</code> · ADS 视图：<code>sql6_portfolio_model/05_ads.sql</code><br>
+            完整说明：<code>sql6_portfolio_model/README.md</code>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== P2 · 财务数据分析方法论 ==================== -->
+    <section class="pdf-page pdf-page-p2" id="page-p2">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">📐 财务数据分析方法论</h1>
+          <p class="page-subtitle">六层分析框架 · 遇到业务问题先判断层级，再按对应方法展开</p>
+          <p class="page-note">描述（现状）→ 诊断（根因）→ 预测（未来）→ 评估（效果）→ 优化（决策）</p>
+        </div>
+        <nav class="module-nav" aria-label="模块导航">
+          <a href="#page-p0">📋 体系总览</a>
+          <a href="#page-p1">📊 经营监控看板</a>
+          <a href="#page-p2" class="active">📐 分析方法论</a>
+          <a href="#page-p3">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+
+      <div class="framework-stack framework-stack-pdf">
+        <section class="framework-layer-pdf layer-1">
+          <h3 class="fw-layer-title"><span class="fw-num">1</span> 描述性分析 — 「现在是什么状况？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>目的：</strong>客观描述现状 · <strong>方法：</strong>KPI → 趋势 → 结构 → 排名</p>
+            <p><strong>数据：</strong><code>dws_sales_monthly（按月汇总）</code>、<code>dws_sales_daily</code>、<code>dws_store_daily</code></p>
+            <p><strong>看板：</strong>经营总览 · 品牌 · 渠道 · 门店</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-2">
+          <h3 class="fw-layer-title"><span class="fw-num">2</span> 诊断性分析 — 「为什么会这样？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>目的：</strong>根因定位 · <strong>路径：</strong>品牌→渠道→品类→SKU · <strong>产出：</strong>根因+影响金额</p>
+            <p><strong>数据：</strong><code>dws_sales_daily</code>、<code>dwd_sales_wide</code>、<code>ods_orders（return_flag=1）</code></p>
+            <p class="fw-cases"><strong>案例：</strong>Life 毛利率 52%→48%（抖音鞋类折扣 25%→42%，-1,400万）· 抖音退货 15%→22% · ROAS 3.0→2.1</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-3">
+          <h3 class="fw-layer-title"><span class="fw-num">3</span> 预测性分析 — 「接下来会怎样？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>方法：</strong>趋势外推 / 移动平均 / 指数平滑 · <strong>产出：</strong>乐观/基准/悲观三情景</p>
+            <p><strong>示例：</strong>Q3 收入预测 2.5–2.9 亿（基准 2.7 亿）· 看板：现金流分析</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-4">
+          <h3 class="fw-layer-title"><span class="fw-num">4</span> 评估性分析 — 「做得怎么样？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>方法：</strong>ROI/ROAS · vs 目标/历史/行业 · <strong>示例：</strong>天猫 ROI=3.5（行业 2.8）优秀，建议加投</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-5">
+          <h3 class="fw-layer-title"><span class="fw-num">5</span> 优化性分析 — 「应该怎么做？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>方法：</strong>边际分析 · 敏感性 · What-if · <strong>示例：</strong>抖音减投 100 万挪天猫，利润 +180 万</p>
+            <p><strong>看板：</strong>预算执行 · 本量利分析</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf" style="border-left-color:#f472b6">
+          <h3 class="fw-layer-title"><span class="fw-num">6</span> 第六层：分析方法工具箱 —— "用什么方法？"</h3>
+          <div class="fw-layer-body">
+            <p><strong>定位：</strong>分析方法工具箱是前五层分析的补充，提供19种可复用的定量与结构化分析手法，按6个小类组织，帮助业务方快速定位适合当前问题的分析方法。</p>
+            <p><strong>6 小类 19 法：</strong>优先级（帕累托/ABC/波士顿）· 诊断（根因/归因/下钻/相关）· 转化（漏斗/同期群）· 预测（外推/MA/WMA/指数平滑/季节）· 财务（杜邦/ROI/CVP）· 优化（敏感性/边际）</p>
+            <p><strong>详情：</strong>见本报告 P2c 页 · 交互版见 <code>anomaly.html#toolbox-pareto</code></p>
+          </div>
+        </section>
+      </div>
+
+      <div class="fw-guide-pdf">
+        <h3 class="fw-guide-title">快速索引 · 业务问题 → 分析层级（共 31 个分析问题，完整清单见下页）</h3>
+        <table class="data-table fw-index-table">
+          <thead>
+            <tr><th>业务问题</th><th>层级</th><th>核心方法</th><th>关联看板</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>这个月业绩怎么样？</td><td>描述性</td><td>KPI+趋势+结构</td><td>经营总览</td></tr>
+            <tr><td>为什么退货率这么高？</td><td>诊断性</td><td>下钻+根因定位</td><td>品牌/渠道/库存</td></tr>
+            <tr><td>下个月能卖多少？</td><td>预测性</td><td>趋势外推+情景</td><td>现金流分析</td></tr>
+            <tr><td>这次活动效果怎么样？</td><td>评估性</td><td>ROI+增量分析</td><td>渠道/预算执行</td></tr>
+            <tr><td>预算应该往哪投？</td><td>优化性</td><td>边际+资源分配</td><td>本量利/预算</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <nav class="module-nav-inline">
+        <a href="#page-p0">📋 体系总览</a>
+        <span>·</span>
+        <a href="#page-p1">📊 经营监控看板</a>
+        <span>·</span>
+        <a href="#page-p2" class="active">📐 分析方法论</a>
+        <span>·</span>
+        <a href="#page-p2b">📋 31问清单</a>
+        <span>·</span>
+        <a href="#page-p3">⚙️ 数仓架构</a>
+      </nav>
+      <p class="page-footnote"><a href="anomaly.html">→ 打开交互式分析路径（31 个问题 · 含 SQL 与判断标准）</a></p>
+    </section>
+
+    <!-- ==================== P2c · 第六层：分析方法工具箱 ==================== -->
+    <section class="pdf-page pdf-page-p2-toolbox" id="page-p2-toolbox">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">第六层：分析方法工具箱 —— "用什么方法？"</h1>
+          <p class="page-subtitle">6 个小类 · 19 种方法 · 解释 + 业务问题 + 作品集应用（交互图表见 anomaly.html）</p>
+        </div>
+      </header>
+      <p class="toolbox-opening-pdf">分析方法工具箱是前五层分析的补充，提供19种可复用的定量与结构化分析手法，按6个小类组织，帮助业务方快速定位适合当前问题的分析方法。同时通过"人话解释"模块，让非技术背景的业务人员也能理解每种方法的适用场景。</p>
+
+      <h3 class="pdf-toolbox-cat">优先级分析类</h3>
+      <div class="pdf-toolbox-grid">
+        <div class="pdf-toolbox-item">
+          <strong>帕累托分析（二八定律）</strong>
+          <p>解释：按贡献度排序识别少数关键项，约20%对象贡献80%结果。</p>
+          <p>业务问题：哪些品牌、渠道或SKU对业绩贡献最大？</p>
+          <p>作品集：跃动Pro 52% 收入，Pro+Life 合计 83%；预算向 Pro 倾斜 15%。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>ABC 分类</strong>
+          <p>解释：按价值分 A/B/C 三类，配套不同管理强度。</p>
+          <p>业务问题：哪些 SKU/门店应重点监控？</p>
+          <p>作品集：A=Pro/Life 日监控，C=配件月审视；A 类占库存资金 68%。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>波士顿矩阵（四象限）</strong>
+          <p>解释：增长率×份额分明星/金牛/问题/瘦狗，定投/守/攻/退策略。</p>
+          <p>业务问题：各品牌与渠道组合应加大投入还是收缩退出？</p>
+          <p>作品集：抖音×Pro=明星；线下×Go=瘦狗，纳入关店评估。</p>
+        </div>
+      </div>
+
+      <h3 class="pdf-toolbox-cat">诊断分析类</h3>
+      <div class="pdf-toolbox-grid">
+        <div class="pdf-toolbox-item">
+          <strong>根因分析（RCA）</strong>
+          <p>解释：逐层追问原因，直至定位可执行的根本原因。</p>
+          <p>业务问题：毛利率为什么掉了？最底层原因是什么？</p>
+          <p>作品集：Life 毛利率 52%→48%，根因抖音鞋类折扣 25%→42%，影响约 -1,400 万。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>归因分析</strong>
+          <p>解释：量化各因素对结果变动的贡献度。</p>
+          <p>业务问题：收入涨了，是量变还是价变？退货拖了多少？</p>
+          <p>作品集：环比 +220 万 = 销量 +310 / 均价 -90 / 退货 -40 / 结构 +40。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>下钻分析</strong>
+          <p>解释：从汇总按维度逐层展开，定位异常落在哪一格。</p>
+          <p>业务问题：退货率 18% 偏高，是哪个品牌×渠道×品类？</p>
+          <p>作品集：全公司 18% → Life 22% → 抖音 26% → 服装 31%。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>相关性分析</strong>
+          <p>解释：看两指标是否同涨同跌；相关≠因果。</p>
+          <p>业务问题：广告费多了收入真的会涨吗？</p>
+          <p>作品集：广告费 vs 收入 r=0.87；ROAS 下滑时先查投放结构。</p>
+        </div>
+      </div>
+
+      <h3 class="pdf-toolbox-cat">转化分析类</h3>
+      <div class="pdf-toolbox-grid">
+        <div class="pdf-toolbox-item">
+          <strong>漏斗分析</strong>
+          <p>解释：分析各步骤留存与流失，识别流失最显著的环节。</p>
+          <p>业务问题：从下单到成交的哪个环节流失率最高？</p>
+          <p>作品集：签收→无退货环节流失最大（87.5% 留存），联动退货下钻。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>同期群分析</strong>
+          <p>解释：按首购时间分组，跟踪各群后续复购与留存。</p>
+          <p>业务问题：不同批次新客的复购与留存表现如何？</p>
+          <p>作品集：2026-03 新客 3 月复购率 35%，高于 2025-11 的 28%。</p>
+        </div>
+      </div>
+
+      <h3 class="pdf-toolbox-cat">时间序列预测类</h3>
+      <div class="pdf-toolbox-grid">
+        <div class="pdf-toolbox-item">
+          <strong>同比/环比增长率外推法</strong>
+          <p>解释：用近期增速假设延续，快速得到短期预测。</p>
+          <p>业务问题：按当前增速，下季度能否完成目标？</p>
+          <p>作品集：同比 +12.3% → Q3 基准预测 2.7 亿（区间 2.5–2.9 亿）。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>移动平均法 / 加权移动平均 / 指数平滑</strong>
+          <p>解释：用近期均值或指数衰减权重预测，越近的数据越重要。</p>
+          <p>业务问题：剔除大促波动后，常态收入水平是多少？</p>
+          <p>作品集：3月MA=1.026亿，WMA=1.029亿，ES(α=0.3)=1.0175亿。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>季节性指数法</strong>
+          <p>解释：月指数&gt;1 旺季，&lt;1 淡季；预测×季节因子。</p>
+          <p>业务问题：春节淡季会掉多少？大促该备多少货？</p>
+          <p>作品集：11–12月指数 1.25，2月 0.72；排产按指数分配。</p>
+        </div>
+      </div>
+
+      <h3 class="pdf-toolbox-cat">财务评估类</h3>
+      <div class="pdf-toolbox-grid">
+        <div class="pdf-toolbox-item">
+          <strong>杜邦分析（ROE 拆解）</strong>
+          <p>解释：ROE = 净利率 × 周转 × 杠杆，定位 ROE 变化因子。</p>
+          <p>业务问题：ROE 下滑是利润率、周转还是杠杆的问题？</p>
+          <p>作品集：ROE 15.2%，同比下滑主因净利率 -1.2pct（Life 折扣）。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>ROI 分析</strong>
+          <p>解释：每投 1 元带来多少回报；营销场景即 ROAS。</p>
+          <p>业务问题：天猫 ROI 3.5 算不算好？要不要加投？</p>
+          <p>作品集：天猫 3.5（优于行业 2.8）建议加投；抖音 ROAS 2.1 暂停放量。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>盈亏平衡分析（CVP）</strong>
+          <p>解释：算卖多少才不亏；看安全边际距离。</p>
+          <p>业务问题：这家门店要卖到多少万才能打平？</p>
+          <p>作品集：Go 店保本 118 万/月，实际 92 万，安全边际 -22%。</p>
+        </div>
+      </div>
+
+      <h3 class="pdf-toolbox-cat">优化决策类</h3>
+      <div class="pdf-toolbox-grid">
+        <div class="pdf-toolbox-item">
+          <strong>敏感性分析（What-if）</strong>
+          <p>解释：单独改变一个变量，识别对结果最敏感的杠杆因素。</p>
+          <p>业务问题：退货率再涨 2pct 利润会少多少？</p>
+          <p>作品集：退货 +2pct → 利润 -680 万（最敏感）；折扣 +5pct → -1,100 万。</p>
+        </div>
+        <div class="pdf-toolbox-item">
+          <strong>边际分析</strong>
+          <p>解释：看多投/多卖一个单位的增量收益是否值得。</p>
+          <p>业务问题：再多投 100 万广告值不值？</p>
+          <p>作品集：抖音减 100 万挪天猫，预计月利润 +180 万。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== P2b · 31个分析问题清单 ==================== -->
+    <section class="pdf-page pdf-page-p2b" id="page-p2b">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">📋 财务分析 · 31 个问题清单</h1>
+          <p class="page-subtitle">六层框架完整覆盖（l1–l5 共 31 问 + l6 工具箱 19 法）· Web 版可点击展开分析路径</p>
+        </div>
+        <nav class="module-nav" aria-label="模块导航">
+          <a href="#page-p0">📋 体系总览</a>
+          <a href="#page-p1">📊 经营监控看板</a>
+          <a href="#page-p2">📐 分析方法论</a>
+          <a href="#page-p2b" class="active">📋 31问清单</a>
+          <a href="#page-p3">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+
+      <table class="data-table fw-playbook-table">
+        <thead>
+          <tr><th>层级</th><th>分类</th><th>分析问题</th><th>业务问法</th></tr>
+        </thead>
+        <tbody>
+          <tr class="layer-row l1"><td rowspan="7">描述性</td><td>经营概况</td><td>月度经营概况</td><td>这个月业绩怎么样？</td></tr>
+          <tr class="layer-row l1"><td>经营概况</td><td>年度累计经营概况</td><td>今年到目前为止怎么样了？</td></tr>
+          <tr class="layer-row l1"><td>经营概况</td><td>单日经营简报</td><td>昨天卖了多少？</td></tr>
+          <tr class="layer-row l1"><td>结构分析</td><td>各品牌表现排名</td><td>哪个品牌表现最好？</td></tr>
+          <tr class="layer-row l1"><td>结构分析</td><td>各渠道表现排名</td><td>哪个渠道表现最好？</td></tr>
+          <tr class="layer-row l1"><td>结构分析</td><td>各品类表现排名</td><td>哪个品类最好卖？</td></tr>
+          <tr class="layer-row l1"><td>结构分析</td><td>各门店表现排名</td><td>哪个门店表现最好？</td></tr>
+          <tr class="layer-row l2"><td rowspan="8">诊断性</td><td>利润</td><td>毛利率下滑诊断</td><td>毛利率为什么下降？</td></tr>
+          <tr class="layer-row l2"><td>利润</td><td>净利润下滑诊断</td><td>净利润为什么少了？</td></tr>
+          <tr class="layer-row l2"><td>收入</td><td>收入下滑诊断</td><td>收入为什么下降？</td></tr>
+          <tr class="layer-row l2"><td>收入</td><td>收入增长缓慢诊断</td><td>收入增长为什么这么慢？</td></tr>
+          <tr class="layer-row l2"><td>退货</td><td>退货率异常诊断</td><td>退货率为什么升高？</td></tr>
+          <tr class="layer-row l2"><td>费用</td><td>费用率异常诊断</td><td>费用率为什么高了？</td></tr>
+          <tr class="layer-row l2"><td>现金流</td><td>净现比下降诊断</td><td>净现比为什么下降？</td></tr>
+          <tr class="layer-row l2"><td>库存</td><td>库存周转天数上升诊断</td><td>库存为什么越压越多？</td></tr>
+          <tr class="layer-row l3"><td rowspan="5">预测性</td><td>收入预测</td><td>下月收入预测</td><td>下个月能卖多少？</td></tr>
+          <tr class="layer-row l3"><td>收入预测</td><td>下季度品牌/品类收入预测</td><td>Q3 哪个品类会好卖？</td></tr>
+          <tr class="layer-row l3"><td>目标追踪</td><td>年底目标达成预测</td><td>年底能完成目标吗？</td></tr>
+          <tr class="layer-row l3"><td>资金</td><td>资金缺口预测</td><td>下个月资金够用吗？</td></tr>
+          <tr class="layer-row l3"><td>风险</td><td>渠道 ROI 持续下降预警</td><td>渠道 ROI 还会降吗？</td></tr>
+          <tr class="layer-row l4"><td rowspan="6">评估性</td><td>营销效果</td><td>营销活动 ROI 评估</td><td>这次活动效果怎么样？</td></tr>
+          <tr class="layer-row l4"><td>营销效果</td><td>渠道投入产出评估</td><td>这个渠道投入值不值？</td></tr>
+          <tr class="layer-row l4"><td>营销效果</td><td>促销活动效果评估</td><td>这次促销赚了还是亏了？</td></tr>
+          <tr class="layer-row l4"><td>运营效率</td><td>门店关停评估</td><td>这家门店该不该关？</td></tr>
+          <tr class="layer-row l4"><td>运营效率</td><td>供应商绩效评估</td><td>这个供应商要不要换？</td></tr>
+          <tr class="layer-row l4"><td>运营效率</td><td>新品表现评估</td><td>新品卖得怎么样？</td></tr>
+          <tr class="layer-row l5"><td rowspan="5">优化性</td><td>资源配置</td><td>预算分配优化</td><td>预算有限钱往哪投？</td></tr>
+          <tr class="layer-row l5"><td>资源配置</td><td>营销费用优化</td><td>哪些费用该砍？</td></tr>
+          <tr class="layer-row l5"><td>定价</td><td>定价优化分析</td><td>价格降 5% 利润会怎样？</td></tr>
+          <tr class="layer-row l5"><td>定价</td><td>折扣策略优化</td><td>打折打到多少最合适？</td></tr>
+          <tr class="layer-row l5"><td>库存</td><td>库存清仓优化</td><td>库存积压了怎么清？</td></tr>
+        </tbody>
+      </table>
+
+      <nav class="module-nav-inline">
+        <a href="#page-p2">← 返回六层框架</a>
+        <span>·</span>
+        <a href="anomaly.html" target="_blank">打开交互式页面</a>
+      </nav>
+    </section>
+
+    <!-- ==================== P3 · 数据仓库与管道架构 ==================== -->
+    <section class="pdf-page pdf-page-p3" id="page-p3">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">⚙️ 数据仓库与管道架构</h1>
+          <p class="page-subtitle">ODS → DIM → DWD → DWS → ADS 五层数仓 · sql6_portfolio_model <span class="arch-scale-badge">作品集版 · 21 表 + 8 视图 = 29 对象</span></p>
+        </div>
+        <nav class="module-nav" aria-label="模块导航">
+          <a href="#page-p0">📋 体系总览</a>
+          <a href="#page-p1">📊 经营监控看板</a>
+          <a href="#page-p2">📐 分析方法论</a>
+          <a href="#page-p3" class="active">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+
+      <!-- 区块1：数据流全景图 -->
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">数据流全景图</h3>
+        <div class="dw-flow-panorama">
+          <div class="dw-flow-chain">
+            <span class="dw-node">CSV 原始数据</span><span class="dw-arrow">→</span>
+            <span class="dw-node">ODS 层</span><span class="dw-arrow">→</span>
+            <span class="dw-node dw-etl">ETL 清洗</span><span class="dw-arrow">→</span>
+            <span class="dw-node">DWD 层</span><span class="dw-arrow">→</span>
+            <span class="dw-node dw-etl">ETL 汇总</span><span class="dw-arrow">→</span>
+            <span class="dw-node">DWS 层</span><span class="dw-arrow">→</span>
+            <span class="dw-node">ADS 视图</span><span class="dw-arrow">→</span>
+            <span class="dw-node dw-end">Tableau 看板</span>
+          </div>
+          <p class="dw-flow-note"><strong>核心事实表均为日粒度</strong>（<code>dws_sales_daily</code>、<code>dws_store_daily</code>）· <strong>看板层支持日/周/月切换</strong>（Tableau 参数动态聚合）</p>
+          <p class="dw-flow-tech">技术链路：Python（数据生成）→ MySQL（存储 / 存储过程 ETL）→ Tableau（可视化）</p>
+        </div>
+      </div>
+
+      <!-- 区块1b：三大报表 + 杜邦 -->
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">三大报表 + 杜邦分析（FP&B 层）</h3>
+        <div class="fpb-arch-diagram">
+          <pre>          DWS 汇总 → dws_sales_monthly / dws_expense_monthly
+                    ↓ API 推导：三大报表 · 净现比 · 本量利 · 预算执行
+          v_dupont（ROE）· v_cashflow · v_budget · v_inventory（sql6_portfolio_model/05_ads.sql）
+          Tableau / Web API：<code>sql6_portfolio_model/07_tableau_sql/</code> · Flask <code>queries.py</code></pre>
+        </div>
+        <ul class="fpb-reconcile-list">
+          <li><strong>利润 → 权益：</strong>权益变动 ≈ 净利润（分红/增资除外）</li>
+          <li><strong>利润 → 现金流：</strong>经营现金流 = 净利润 + 非现金支出 − 营运资本变动</li>
+          <li><strong>资产 = 负债 + 权益：</strong>dws_asset_monthly 恒等式（权益为残差）</li>
+        </ul>
+      </div>
+
+      <aside class="layer-glossary section-compact" aria-label="数仓分层名词解释">
+        <h3 class="section-block-title">分层是什么？</h3>
+        <dl class="layer-glossary-list">
+          <dt>ODS · 操作数据层</dt>
+          <dd>原始数据落地，与 CSV / 业务表一一对应（<code>*_raw</code> 视图），不做复杂加工。</dd>
+          <dt>DWD · 明细数据层</dt>
+          <dd>清洗后的明细事实 + 维度表（<code>dwd_sales_wide</code>、<code>dim_*</code>），星型模型。</dd>
+          <dt>DWS · 汇总数据层</dt>
+          <dd>按日 / 月等粒度预聚合（<code>dws_sales_daily</code> 等），供看板快速查询。</dd>
+          <dt>ADS · 应用数据层</dt>
+          <dd>面向 Tableau / Web 的业务视图，封装指标口径，直接给前端用。</dd>
+        </dl>
+        <p class="layer-glossary-foot">口诀：ODS 存原始 → DWD 洗干净 → DWS 先算好 → ADS 给业务用。</p>
+      </aside>
+
+      <!-- 区块2：数仓分层架构表 -->
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">数仓分层架构</h3>
+        <table class="data-table dw-layer-table">
+          <thead>
+            <tr><th>层级</th><th>表名</th><th>说明</th><th>更新频率</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ODS</strong></td>
+              <td>8 张表（ods_orders / ods_payment / ods_expense 等）</td>
+              <td>ERP 原始数据落地</td>
+              <td>每日增量</td>
+            </tr>
+            <tr>
+              <td><strong>DIM</strong></td>
+              <td>5 张维表（dim_brand / dim_channel / dim_date 等）</td>
+              <td>品牌·渠道·品类·门店·日期</td>
+              <td>缓慢变化</td>
+            </tr>
+            <tr>
+              <td><strong>DWD</strong></td>
+              <td>3 张宽表（dwd_sales_wide / dwd_expense_wide / dwd_inventory_wide）</td>
+              <td>清洗后明细宽表</td>
+              <td>每日 ETL</td>
+            </tr>
+            <tr>
+              <td><strong>DWS</strong></td>
+              <td>5 张汇总表（dws_sales_daily / dws_sales_monthly 等）</td>
+              <td>日/月 × 品牌 × 渠道 × 品类</td>
+              <td>每日 ETL</td>
+            </tr>
+            <tr>
+              <td><strong>ADS</strong></td>
+              <td>8 个视图（v_overview / v_dupont / v_cashflow 等）</td>
+              <td>Tableau / Web API</td>
+              <td>实时</td>
+            </tr>
+            <tr>
+              <td><strong>元数据</strong></td>
+              <td>portfolio_metadata · version_history · search_index</td>
+              <td>作品集版本与全局搜索</td>
+              <td>功能迭代时 INSERT 新版本</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 区块3：维度建模 -->
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">维度建模关系</h3>
+        <p class="star-schema-desc">
+          核心事实表 <code>dwd_sales_wide</code> 通过外键关联 4 张维度表，构成星型模型：
+        </p>
+        <ul class="star-schema-list">
+          <li><code>date_id</code> → <strong>dim_date</strong>（时间维度，支持下钻年 / 季 / 月 / 日）</li>
+          <li><code>brand_id</code> → <strong>dim_brand</strong>（品牌：跃动Pro / Life / Go）</li>
+          <li><code>channel_id</code> → <strong>dim_channel</strong>（渠道：抖音 / 天猫 / 线下直营 / 其他）</li>
+          <li><code>category_id</code> → <strong>dim_category</strong>（品类：鞋类 / 服装 / 配件）</li>
+        </ul>
+      </div>
+
+      <!-- 区块4：ETL 调度策略 -->
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">ETL 调度策略</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>任务</th><th>执行频率</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>dim_date 日期补齐</td><td>每日</td><td>确保日期维度覆盖业务区间（2019–2026）</td></tr>
+            <tr><td>ODS → DWD 清洗</td><td>每日 T+1 02:00</td><td>清洗、去重、维度映射（05_ods_to_dwd_etl.sql）</td></tr>
+            <tr><td>DWD → DWS 汇总</td><td>每日 T+1 03:00</td><td>按维度预聚合（06_dws_refresh_incr.sql）</td></tr>
+            <tr><td>ADS 视图刷新</td><td>实时</td><td>视图自动反映 DWS 最新数据</td></tr>
+          </tbody>
+        </table>
+        <p class="etl-impl-note">技术实现：MySQL 存储过程 <code>sp_etl_daily_refresh</code> + Event Scheduler 事件调度</p>
+      </div>
+
+      <!-- 区块5：监控视图映射 -->
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">监控视图与业务场景映射</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>监控视图</th><th>解决什么业务问题</th><th>粒度</th><th>刷新频率</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>dws_sales_monthly（按月汇总）</td><td>月度经营会怎么看？CEO 要的 3 个核心数字</td><td>月（可由日汇总）</td><td>T+1 日</td></tr>
+            <tr><td>dws_sales_monthly</td><td>哪个品牌在哪个渠道在亏钱？</td><td>月（可由日汇总）</td><td>T+1 日</td></tr>
+            <tr><td>v_expense_monthly</td><td>费用有没有超预算？超了要预警</td><td>月</td><td>T+1 日</td></tr>
+            <tr><td>v_inventory_monitor</td><td>库存积压会不会拖死现金流？</td><td>日</td><td>每周</td></tr>
+            <tr><td>v_store_monthly_rank</td><td>哪些门店要关？哪些要扩？（月累计）</td><td>月</td><td>月度</td></tr>
+            <tr><td>dws_store_daily</td><td>今日/当周/当月门店销售排名</td><td>日（支持汇总到周/月）</td><td>T+1 日</td></tr>
+            <tr><td>v_budget_vs_actual</td><td>全年目标还差多少？</td><td>月</td><td>T+1 日</td></tr>
+            <tr><td>v_dupont</td><td>ROE 下滑是哪个因子拖累？</td><td>月</td><td>月度</td></tr>
+            <tr><td>ods_payment + dws_sales_monthly（净现比推导）_analysis</td><td>利润有没有变成现金？</td><td>月</td><td>月度</td></tr>
+            <tr><td>dws_sales_monthly + dws_expense_monthly（本量利推导）</td><td>盈亏平衡点与安全边际？</td><td>月</td><td>月度</td></tr>
+            <tr><td>dws_expense_monthly_tracking</td><td>超预算 10% 红色预警</td><td>月</td><td>月度</td></tr>
+            <tr><td>v_forecast_analysis</td><td>未来 3 个月收入趋势</td><td>月</td><td>滚动</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 区块5b：数据字典（PDF 静态摘要） -->
+      <div class="section-block section-compact" id="page-p3-dictionary">
+        <h3 class="section-block-title">数据字典（生产级全量 ODS/DWD/DWS/ADS）</h3>
+        <p class="lineage-intro">完整交互版（29 对象 · 可折叠血缘）见 <code>architecture.html#data-dictionary-section</code> · DDL 见 <code>sql6_portfolio_model/</code></p>
+        <table class="data-table pdf-dd-compact">
+          <thead><tr><th>层级</th><th>对象数</th><th>字段标准</th><th>代表对象</th><th>血缘路径（简）</th></tr></thead>
+          <tbody>
+            <tr><td>ODS</td><td>8 表</td><td>30~80 字段</td><td><code>ods_orders</code></td><td>ERP SO → dwd_sales_wide → dws_sales_daily → 经营总览</td></tr>
+            <tr><td>DWD-DIM</td><td>5 表</td><td>12~20 字段</td><td><code>dim_brand</code></td><td>MDM → dwd_sales_wide 维度关联</td></tr>
+            <tr><td>DWD</td><td>3 表</td><td>20~35 字段</td><td><code>dwd_sales_wide</code></td><td>ods_orders → dws_sales_daily → dws_sales_monthly（按月汇总）</td></tr>
+            <tr><td>DWS</td><td>5 表</td><td>15~25 字段</td><td><code>dws_sales_daily</code></td><td>dwd_* 聚合 → 各 ADS 看板 API</td></tr>
+            <tr><td>ADS</td><td>8 视图</td><td>10~20 字段</td><td><code>dws_sales_monthly（按月汇总）</code></td><td>dws_sales_daily → 8 项 KPI</td></tr>
+            <tr><td>元数据</td><td>2 表+1 视图</td><td>—</td><td><code>field_lineage</code></td><td>ODS 字段 → ADS 字段全链路映射</td></tr>
+          </tbody>
+        </table>
+        <p class="lineage-chain-example"><strong>字段血缘示例 · 净收入：</strong> ods_orders.payment_amount → dwd_sales_wide.payment_amount → dws_sales_daily.revenue → dws_sales_monthly（按月汇总）.revenue → 经营总览 KPI</p>
+      </div>
+
+      <!-- 区块6：血缘应用说明 -->
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">血缘应用：问题溯源与变更影响</h3>
+        <p class="lineage-usage"><strong>问题溯源（自下而上）</strong>：看板指标异常时，从 ADS 视图定位月份/维度 → 下钻 DWS 汇总表 → 回查 dwd_sales_wide 订单明细 → 对比 ODS 原始数据，逐层锁定是口径、清洗还是源数据问题。</p>
+        <p class="lineage-usage"><strong>变更影响（自上而下）</strong>：修改 ETL 规则或指标公式前，查血缘表「下游依赖」列评估影响面（如改渠道映射会影响 dwd_sales_wide 及全部销售类 ADS）；变更后按 ODS→DWD→DWS→ADS 重跑 ETL 并对账。</p>
+      </div>
+
+      <!-- 区块8：技术栈 -->
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">技术栈</h3>
+        <div class="tech-badges">
+          <span class="tech-badge"><strong>数据生成</strong>Python (Pandas)</span>
+          <span class="tech-badge"><strong>数仓</strong>MySQL 8.0</span>
+          <span class="tech-badge"><strong>ETL</strong>SQL 脚本 + 存储过程</span>
+          <span class="tech-badge"><strong>可视化</strong>Tableau</span>
+          <span class="tech-badge"><strong>版本控制</strong>GitHub</span>
+        </div>
+      </div>
+
+      <!-- 区块9：明细导出 -->
+      <div class="section-block export-arch-note">
+        <h3 class="section-block-title">📥 明细数据导出</h3>
+        <p class="export-arch-desc">
+          视图 <code>dwd_sales_wide</code>（<code>sql/08_dwd_sales_wide.sql</code>）关联 dwd_sales_wide 与四维表，
+          输出 order_id、order_date、brand_name、channel_name、category_name、payment_amount、cost、profit、return_flag 等字段。
+          业务侧按日期筛选导出：
+          <code>WHERE order_date BETWEEN '2026-06-01' AND '2026-06-30'</code> → CSV。
+          前端实现见 P1「明细数据导出」模块。
+        </p>
+      </div>
+
+      <p class="pipeline-summary">五层数仓全链路自建 · ODS 接入 → DIM 维度 → DWD 宽表 → DWS 汇总 → ADS 服务 → Web 看板</p>
+
+      <nav class="module-nav-inline">
+        <a href="#page-p0">📋 体系总览</a>
+        <span>·</span>
+        <a href="#page-p1">📊 经营监控看板</a>
+        <span>·</span>
+        <a href="#page-p2">📐 分析方法论</a>
+        <span>·</span>
+        <a href="#page-p3" class="active">⚙️ 数仓架构</a>
+      </nav>
+    </section>
+
+  </div>
+
+  <script src="data/summary.js"></script>
+  <script src="report.js"></script>
+</body>
+</html>

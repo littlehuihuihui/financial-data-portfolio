@@ -1,0 +1,58 @@
+{
+  "default_role": "plant_manager",
+  "roles": {
+    "plant_manager": {
+      "label": "厂长/生产经理",
+      "dashboards": [
+        "production",
+        "delivery",
+        "quality",
+        "scrap-rework",
+        "process-yield",
+        "equipment",
+        "downtime",
+        "capacity",
+        "cost",
+        "supply",
+        "supplier-score",
+        "material",
+        "bom-variance",
+        "labor"
+      ]
+    },
+    "quality_manager": {
+      "label": "质量经理",
+      "dashboards": [
+        "quality",
+        "scrap-rework",
+        "process-yield",
+        "production",
+        "equipment",
+        "delivery"
+      ]
+    },
+    "supply_manager": {
+      "label": "供应链经理",
+      "dashboards": [
+        "supply",
+        "supplier-score",
+        "material",
+        "bom-variance",
+        "cost",
+        "delivery",
+        "production"
+      ]
+    },
+    "finance_bp": {
+      "label": "财务BP",
+      "dashboards": [
+        "cost",
+        "production",
+        "labor",
+        "delivery",
+        "bom-variance",
+        "capacity"
+      ]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "ok": true,
+  "data": {
+    "overview": [
+      {
+        "tag_category": "消费",
+        "tag_code": "pay_level",
+        "tag_value": "高",
+        "user_count": 120000.0
+      },
+      {
+        "tag_category": "消费",
+        "tag_code": "pay_level",
+        "tag_value": "中",
+        "user_count": 350000.0
+      },
+      {
+        "tag_category": "偏好",
+        "tag_code": "content_pref",
+        "tag_value": "电视剧",
+        "user_count": 480000.0
+      },
+      {
+        "tag_category": "偏好",
+        "tag_code": "content_pref",
+        "tag_value": "体育",
+        "user_count": 210000.0
+      }
+    ],
+    "by_category": [
+      {
+        "tag_category": "消费",
+        "user_count": 470000.0
+      },
+      {
+        "tag_category": "偏好",
+        "user_count": 690000.0
+      }
+    ]
+  }
+}

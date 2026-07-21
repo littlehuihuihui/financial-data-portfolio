@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "data": {
+    "overview": [
+      {
+        "prev_page": "首页",
+        "next_page": "点播",
+        "product_line": "OTT",
+        "user_cnt": 200000.0,
+        "trans_cnt": 500000.0,
+        "sess_cnt": 300000.0
+      },
+      {
+        "prev_page": "点播",
+        "next_page": "播放页",
+        "product_line": "OTT",
+        "user_cnt": 150000.0,
+        "trans_cnt": 400000.0,
+        "sess_cnt": 250000.0
+      },
+      {
+        "prev_page": "首页",
+        "next_page": "直播",
+        "product_line": "OTT",
+        "user_cnt": 120000.0,
+        "trans_cnt": 280000.0,
+        "sess_cnt": 180000.0
+      },
+      {
+        "prev_page": "播放页",
+        "next_page": "订购",
+        "product_line": "OTT",
+        "user_cnt": 40000.0,
+        "trans_cnt": 60000.0,
+        "sess_cnt": 50000.0
+      }
+    ],
+    "drop_off": [
+      {
+        "prev_page": "播放页",
+        "user_cnt": 80000.0,
+        "sess_cnt": 110000.0
+      },
+      {
+        "prev_page": "订购页",
+        "user_cnt": 30000.0,
+        "sess_cnt": 40000.0
+      }
+    ]
+  }
+}

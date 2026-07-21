@@ -1,0 +1,93 @@
+{
+  "ok": true,
+  "data": {
+    "brand_kpi": {
+      "net_revenue": 4200000,
+      "gross_margin_pct": 38.2,
+      "yoy_growth_pct": 14.0,
+      "revenue_share_pct": 32.7
+    },
+    "channel_revenue": [
+      {
+        "channel_name": "天猫",
+        "net_revenue": 1500000.0
+      },
+      {
+        "channel_name": "京东",
+        "net_revenue": 1200000.0
+      },
+      {
+        "channel_name": "门店",
+        "net_revenue": 1000000.0
+      },
+      {
+        "channel_name": "抖音",
+        "net_revenue": 500000.0
+      }
+    ],
+    "category_margin": [
+      {
+        "category_name": "鞋类",
+        "gross_margin_pct": 41.2
+      },
+      {
+        "category_name": "服装",
+        "gross_margin_pct": 35.5
+      },
+      {
+        "category_name": "配件",
+        "gross_margin_pct": 28.0
+      }
+    ],
+    "monthly_trend": [
+      {
+        "order_month": "2025-01",
+        "net_revenue": 3200000.0
+      },
+      {
+        "order_month": "2025-02",
+        "net_revenue": 3280000.0
+      },
+      {
+        "order_month": "2025-03",
+        "net_revenue": 3360000.0
+      },
+      {
+        "order_month": "2025-04",
+        "net_revenue": 3440000.0
+      },
+      {
+        "order_month": "2025-05",
+        "net_revenue": 3520000.0
+      },
+      {
+        "order_month": "2025-06",
+        "net_revenue": 3600000.0
+      },
+      {
+        "order_month": "2026-01",
+        "net_revenue": 3680000.0
+      },
+      {
+        "order_month": "2026-02",
+        "net_revenue": 3760000.0
+      },
+      {
+        "order_month": "2026-03",
+        "net_revenue": 3840000.0
+      },
+      {
+        "order_month": "2026-04",
+        "net_revenue": 3920000.0
+      },
+      {
+        "order_month": "2026-05",
+        "net_revenue": 4000000.0
+      },
+      {
+        "order_month": "2026-06",
+        "net_revenue": 4080000.0
+      }
+    ]
+  }
+}

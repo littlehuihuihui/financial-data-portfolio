@@ -1,0 +1,103 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "operating_cashflow": 1530000,
+      "investing_cashflow": -350000,
+      "financing_cashflow": -200000,
+      "profit_to_cash_ratio": 1.28
+    },
+    "trend": [
+      {
+        "month_id": "202601",
+        "net_profit": 900000.0,
+        "operating_cashflow": 1100000.0
+      },
+      {
+        "month_id": "202602",
+        "net_profit": 920000.0,
+        "operating_cashflow": 1130000.0
+      },
+      {
+        "month_id": "202603",
+        "net_profit": 940000.0,
+        "operating_cashflow": 1160000.0
+      },
+      {
+        "month_id": "202604",
+        "net_profit": 960000.0,
+        "operating_cashflow": 1190000.0
+      },
+      {
+        "month_id": "202605",
+        "net_profit": 980000.0,
+        "operating_cashflow": 1220000.0
+      },
+      {
+        "month_id": "202606",
+        "net_profit": 1000000.0,
+        "operating_cashflow": 1250000.0
+      }
+    ],
+    "gap_breakdown": [
+      {
+        "brand_name": "耐克",
+        "net_profit": 420000.0,
+        "operating_cashflow": 500000.0,
+        "gap_reason": "应收减少"
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "net_profit": 310000.0,
+        "operating_cashflow": 400000.0,
+        "gap_reason": "正常"
+      },
+      {
+        "brand_name": "李宁",
+        "net_profit": 280000.0,
+        "operating_cashflow": 350000.0,
+        "gap_reason": "库存增加"
+      },
+      {
+        "brand_name": "安踏",
+        "net_profit": 190000.0,
+        "operating_cashflow": 280000.0,
+        "gap_reason": "正常"
+      }
+    ],
+    "forecast": [
+      {
+        "forecast_period": "未来30天",
+        "cumulative_balance": 2800000.0,
+        "gap_amount": 0,
+        "status": "充足"
+      },
+      {
+        "forecast_period": "未来60天",
+        "cumulative_balance": 2100000.0,
+        "gap_amount": 0,
+        "status": "充足"
+      },
+      {
+        "forecast_period": "未来90天",
+        "cumulative_balance": 1500000.0,
+        "gap_amount": -200000.0,
+        "status": "关注"
+      }
+    ],
+    "bank_balances": [
+      {
+        "bank_account": "工行经营户",
+        "closing_balance": 1800000.0,
+        "available_days": 45,
+        "fund_status": "正常"
+      },
+      {
+        "bank_account": "招行电商户",
+        "closing_balance": 950000.0,
+        "available_days": 28,
+        "fund_status": "正常"
+      }
+    ]
+  }
+}

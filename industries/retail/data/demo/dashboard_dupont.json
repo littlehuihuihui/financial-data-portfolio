@@ -1,0 +1,161 @@
+{
+  "ok": true,
+  "data": {
+    "current": [
+      {
+        "brand_name": "耐克",
+        "roe": 18.5,
+        "net_profit_margin": 10.0,
+        "asset_turnover": 1.05,
+        "equity_multiplier": 1.76,
+        "roe_drag_factor": "周转"
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "roe": 16.2,
+        "net_profit_margin": 8.9,
+        "asset_turnover": 1.1,
+        "equity_multiplier": 1.66,
+        "roe_drag_factor": "利润率"
+      },
+      {
+        "brand_name": "李宁",
+        "roe": 15.8,
+        "net_profit_margin": 10.0,
+        "asset_turnover": 0.98,
+        "equity_multiplier": 1.61,
+        "roe_drag_factor": "周转"
+      },
+      {
+        "brand_name": "安踏",
+        "roe": 14.0,
+        "net_profit_margin": 8.1,
+        "asset_turnover": 1.02,
+        "equity_multiplier": 1.7,
+        "roe_drag_factor": "利润率"
+      }
+    ],
+    "trend": [
+      {
+        "brand_name": "耐克",
+        "month_id": "202601",
+        "roe": 12.0
+      },
+      {
+        "brand_name": "耐克",
+        "month_id": "202602",
+        "roe": 12.4
+      },
+      {
+        "brand_name": "耐克",
+        "month_id": "202603",
+        "roe": 12.8
+      },
+      {
+        "brand_name": "耐克",
+        "month_id": "202604",
+        "roe": 13.2
+      },
+      {
+        "brand_name": "耐克",
+        "month_id": "202605",
+        "roe": 13.6
+      },
+      {
+        "brand_name": "耐克",
+        "month_id": "202606",
+        "roe": 14.0
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "month_id": "202601",
+        "roe": 12.5
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "month_id": "202602",
+        "roe": 12.9
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "month_id": "202603",
+        "roe": 13.3
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "month_id": "202604",
+        "roe": 13.7
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "month_id": "202605",
+        "roe": 14.1
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "month_id": "202606",
+        "roe": 14.5
+      },
+      {
+        "brand_name": "李宁",
+        "month_id": "202601",
+        "roe": 13.0
+      },
+      {
+        "brand_name": "李宁",
+        "month_id": "202602",
+        "roe": 13.4
+      },
+      {
+        "brand_name": "李宁",
+        "month_id": "202603",
+        "roe": 13.8
+      },
+      {
+        "brand_name": "李宁",
+        "month_id": "202604",
+        "roe": 14.2
+      },
+      {
+        "brand_name": "李宁",
+        "month_id": "202605",
+        "roe": 14.6
+      },
+      {
+        "brand_name": "李宁",
+        "month_id": "202606",
+        "roe": 15.0
+      },
+      {
+        "brand_name": "安踏",
+        "month_id": "202601",
+        "roe": 13.5
+      },
+      {
+        "brand_name": "安踏",
+        "month_id": "202602",
+        "roe": 13.9
+      },
+      {
+        "brand_name": "安踏",
+        "month_id": "202603",
+        "roe": 14.3
+      },
+      {
+        "brand_name": "安踏",
+        "month_id": "202604",
+        "roe": 14.7
+      },
+      {
+        "brand_name": "安踏",
+        "month_id": "202605",
+        "roe": 15.1
+      },
+      {
+        "brand_name": "安踏",
+        "month_id": "202606",
+        "roe": 15.5
+      }
+    ]
+  }
+}

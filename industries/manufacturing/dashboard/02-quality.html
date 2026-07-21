@@ -1,0 +1,15 @@
+<section class="dashboard-page" data-dashboard="quality">
+  <h2 class="dashboard-page-title">质量分析</h2>
+  <p class="dashboard-page-desc">良品率 · 缺陷帕累托 · 缺陷大类构成 · 产线质量明细（含原不良分析）</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>良品率趋势</h3><div id="db-chart-quality-trend" class="chart"></div></div>
+  <div class="chart-box"><h3>缺陷帕累托</h3><div id="db-chart-defect-pareto" class="chart"></div></div>
+  <div class="chart-box"><h3>缺陷大类构成</h3><div id="db-chart-defect-category" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>产线质量明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-quality-line" data-export-name="产线质量.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>产线</th><th class="num">良品率%</th><th class="num">不良率%</th><th class="num">报废率%</th><th class="num">FPY%</th><th>预警</th></tr></thead><tbody id="db-table-quality-line"></tbody></table></div>
+  </div>
+</section>

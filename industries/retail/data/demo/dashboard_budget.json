@@ -1,0 +1,88 @@
+{
+  "ok": true,
+  "data": {
+    "by_channel": [
+      {
+        "channel_name": "天猫",
+        "budget_amount": 1200000.0,
+        "actual_amount": 1150000.0
+      },
+      {
+        "channel_name": "京东",
+        "budget_amount": 1000000.0,
+        "actual_amount": 1050000.0
+      },
+      {
+        "channel_name": "门店",
+        "budget_amount": 800000.0,
+        "actual_amount": 750000.0
+      },
+      {
+        "channel_name": "抖音",
+        "budget_amount": 600000.0,
+        "actual_amount": 720000.0
+      }
+    ],
+    "by_brand": [
+      {
+        "brand_name": "耐克",
+        "achievement_rate": 102
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "achievement_rate": 98
+      },
+      {
+        "brand_name": "李宁",
+        "achievement_rate": 105
+      },
+      {
+        "brand_name": "安踏",
+        "achievement_rate": 88
+      }
+    ],
+    "alerts": [
+      {
+        "brand_name": "安踏",
+        "channel_name": "抖音",
+        "expense_type": "广告",
+        "variance_rate": 20,
+        "alert_level": "预警"
+      }
+    ],
+    "detail": [
+      {
+        "brand_name": "耐克",
+        "channel_name": "天猫",
+        "expense_type": "广告",
+        "budget_amount": 300000.0,
+        "actual_amount": 290000.0,
+        "achievement_rate": 97
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "channel_name": "天猫",
+        "expense_type": "广告",
+        "budget_amount": 300000.0,
+        "actual_amount": 290000.0,
+        "achievement_rate": 97
+      },
+      {
+        "brand_name": "李宁",
+        "channel_name": "天猫",
+        "expense_type": "广告",
+        "budget_amount": 300000.0,
+        "actual_amount": 290000.0,
+        "achievement_rate": 97
+      },
+      {
+        "brand_name": "安踏",
+        "channel_name": "天猫",
+        "expense_type": "广告",
+        "budget_amount": 300000.0,
+        "actual_amount": 290000.0,
+        "achievement_rate": 97
+      }
+    ]
+  }
+}

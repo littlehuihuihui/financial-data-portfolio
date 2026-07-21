@@ -1,0 +1,14 @@
+<section class="dashboard-page" data-dashboard="capacity">
+  <h2 class="dashboard-page-title">产能负荷</h2>
+  <p class="dashboard-page-desc">加权产能利用率 · 设计产能负荷 · 产线对比 · 数据源：dws_production_daily / dim_production_line</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>产线产能利用率 / 负荷</h3><div id="db-chart-capacity-bar" class="chart"></div></div>
+  <div class="chart-box"><h3>产能利用率趋势</h3><div id="db-chart-capacity-trend" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>产线产能明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-capacity" data-export-name="产能负荷.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>产线</th><th>工厂</th><th class="num">产量</th><th class="num">日设计产能</th><th class="num">利用率%</th><th class="num">负荷vs设计%</th><th>预警</th></tr></thead><tbody id="db-table-capacity"></tbody></table></div>
+  </div>
+</section>

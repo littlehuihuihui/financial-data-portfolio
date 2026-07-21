@@ -1,0 +1,13 @@
+<section class="dashboard-page" data-dashboard="cvp">
+  <h2 class="dashboard-page-title">📐 本量利分析</h2>
+  <p class="dashboard-page-desc">盈亏平衡点 · 安全边际率 · 边际贡献率 · 敏感性分析 · 数据源：v_cvp_analysis / dws_sales_daily</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>各品牌安全边际率</h3><div id="db-chart-cvp-brand" class="chart"></div></div>
+    <div class="chart-box"><h3>各渠道边际贡献率</h3><div id="db-chart-cvp-channel" class="chart"></div></div>
+  </div>
+  <div class="chart-box cvp-sensitivity-box">
+    <h3>敏感性分析（品牌×渠道）</h3>
+    <div class="table-scroll table-scroll-cvp"><table class="data-table"><thead><tr><th>品牌</th><th>渠道</th><th class="num">收入</th><th class="num">盈亏平衡收入</th><th class="num">安全边际%</th></tr></thead><tbody id="db-cvp-sensitivity"></tbody></table></div>
+  </div>
+</section>

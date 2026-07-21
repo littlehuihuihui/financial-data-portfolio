@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "roles": {
+    "ceo": {
+      "label": "CEO/总经理",
+      "dashboards": ["overview", "financial", "dupont", "cashflow", "profit-quality"],
+      "row_filters": {}
+    },
+    "cfo": {
+      "label": "CFO/财务总监",
+      "dashboards": ["financial", "dupont", "cashflow", "tax", "budget", "profit-quality", "quality"],
+      "row_filters": {}
+    },
+    "finance_bp": {
+      "label": "财务BP",
+      "dashboards": [
+        "overview", "brand", "channel", "financial", "dupont", "cashflow",
+        "tax", "inventory", "budget", "store", "profit-quality", "cvp"
+      ],
+      "row_filters": {}
+    },
+    "brand_manager": {
+      "label": "品牌经理",
+      "dashboards": ["overview", "brand", "channel", "inventory"],
+      "row_filters": {
+        "brand": ["跃动Pro"]
+      }
+    },
+    "channel_ops": {
+      "label": "渠道运营",
+      "dashboards": ["overview", "channel", "budget", "cvp"],
+      "row_filters": {
+        "channel": ["抖音"]
+      }
+    },
+    "store_ops": {
+      "label": "门店运营",
+      "dashboards": ["overview", "store"],
+      "row_filters": {
+        "store_region": ["华东"]
+      }
+    },
+    "supply_chain": {
+      "label": "供应链/商品运营",
+      "dashboards": ["overview", "inventory", "channel"],
+      "row_filters": {}
+    },
+    "ops": {
+      "label": "运维",
+      "dashboards": [
+        "overview", "brand", "channel", "financial", "dupont", "cashflow",
+        "tax", "inventory", "budget", "store", "profit-quality", "cvp", "quality"
+      ],
+      "row_filters": {}
+    }
+  }
+}

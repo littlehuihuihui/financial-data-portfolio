@@ -1,0 +1,20 @@
+{
+  "version": "1.2",
+  "default_role": "plant_manager",
+  "dashboards": [
+    {"id": "production", "title": "生产总览", "icon": "📊", "file": "dashboard/01-production.html", "api": "/api/dashboard_production", "filters": ["month", "factory"], "description": "产量 · 产能利用率 · 产线明细"},
+    {"id": "delivery", "title": "交付分析", "icon": "🚚", "file": "dashboard/11-delivery.html", "api": "/api/dashboard_delivery", "filters": ["month", "factory"], "description": "准时交付率OTD · 计划达成 · 逾期工单 · 在制品WIP"},
+    {"id": "quality", "title": "质量分析", "icon": "✅", "file": "dashboard/02-quality.html", "api": "/api/dashboard_quality", "filters": ["month", "factory"], "description": "良品率 · FPY · 缺陷帕累托 · 产线质量明细"},
+    {"id": "scrap-rework", "title": "报废与返工", "icon": "♻️", "file": "dashboard/12-scrap-rework.html", "api": "/api/dashboard_scrap_rework", "filters": ["month", "factory"], "description": "报废率 · 返工率 · 缺陷类型 · 产线报废"},
+    {"id": "process-yield", "title": "工序良率", "icon": "🔧", "file": "dashboard/13-process-yield.html", "api": "/api/dashboard_process_yield", "filters": ["month", "factory"], "description": "工序良率 · 产线工序对比"},
+    {"id": "equipment", "title": "设备OEE", "icon": "⚙️", "file": "dashboard/04-equipment.html", "api": "/api/dashboard_equipment", "filters": ["month", "factory"], "description": "OEE · 停机原因 · 设备明细"},
+    {"id": "downtime", "title": "停机损失", "icon": "⏸️", "file": "dashboard/14-downtime.html", "api": "/api/dashboard_downtime", "filters": ["month", "factory"], "description": "停机时长 · 原因分布 · 设备停机排名"},
+    {"id": "capacity", "title": "产能负荷", "icon": "📈", "file": "dashboard/06-capacity.html", "api": "/api/dashboard_capacity", "filters": ["month", "factory"], "description": "产能利用率 · 设计产能负荷 · 产线对比"},
+    {"id": "cost", "title": "成本分析", "icon": "💰", "file": "dashboard/05-cost.html", "api": "/api/dashboard_cost", "filters": ["month", "factory"], "description": "总成本 · 单位成本 · 结构 · 产品成本明细"},
+    {"id": "supply", "title": "供应链分析", "icon": "📦", "file": "dashboard/03-supply.html", "api": "/api/dashboard_supply", "filters": ["month"], "description": "采购 · 库存 · 供应商准时率 · 供应商明细"},
+    {"id": "supplier-score", "title": "供应商评分", "icon": "🏅", "file": "dashboard/16-supplier-score.html", "api": "/api/dashboard_supplier_score", "filters": ["month"], "description": "OTD加权评分 · 采购额 · 预警分级"},
+    {"id": "material", "title": "物料周转", "icon": "🔄", "file": "dashboard/08-material.html", "api": "/api/dashboard_material", "filters": ["month", "factory"], "description": "周转天数 · 呆滞物料 · 领料Top"},
+    {"id": "bom-variance", "title": "领料差异", "icon": "📋", "file": "dashboard/15-bom-variance.html", "api": "/api/dashboard_bom_variance", "filters": ["month", "factory"], "description": "BOM应领vs实领 · 超领金额 · 产线差异"},
+    {"id": "labor", "title": "人工效率", "icon": "👷", "file": "dashboard/09-labor.html", "api": "/api/dashboard_labor", "filters": ["month", "factory"], "description": "工时达成 · 人工成本 · 分产线明细"}
+  ]
+}

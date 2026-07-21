@@ -1,0 +1,14 @@
+<section class="dashboard-page" data-dashboard="activity">
+  <h2 class="dashboard-page-title">营销活动复盘</h2>
+  <p class="dashboard-page-desc">活动全周期效果 · 触达→参与→转化 · ROI 评估</p>
+  <div class="kpi-grid" id="db-kpi"></div>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>活动 ROI 对比</h3><div id="db-chart-activity-roi" class="chart"></div></div>
+    <div class="chart-box"><h3>活动类型分布</h3><div id="db-chart-activity-type" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>活动列表</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-activity" data-export-name="活动复盘.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>活动名称</th><th>类型</th><th>开始</th><th>结束</th><th class="num">预算(元)</th><th class="num">触达</th><th class="num">参与</th><th class="num">订单</th><th class="num">金额</th><th class="num">分成</th><th class="num">ROI</th><th class="num">参与率%</th></tr></thead><tbody id="db-table-activity"></tbody></table></div>
+  </div>
+</section>

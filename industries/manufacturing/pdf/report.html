@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>制造业 · 生产运营监控体系报告</title>
+  <link rel="stylesheet" href="../css/report.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="page-report">
+  <header class="report-toolbar no-print">
+    <div class="toolbar-title">制造业 · 生产运营监控体系（P0–P3 报告）</div>
+    <div class="toolbar-actions">
+      <button type="button" class="btn-export primary" id="btn-download-pdf">下载 PDF</button>
+      <button type="button" class="btn-export" id="btn-print">打印 / 另存为 PDF</button>
+      <a href="../manufacturing_dashboard.html" class="btn-export">返回看板</a>
+    </div>
+    <p class="toolbar-hint">P0 体系总览 · P1 生产监控看板 · P2 分析方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓架构 · 也可运行 <code>run_export.bat</code></p>
+  </header>
+
+  <div id="report-content">
+
+    <section class="pdf-page pdf-page-overview" id="page-p0">
+      <header class="overview-hero">
+        <h1 class="overview-title">制造业生产运营监控体系</h1>
+        <p class="overview-subtitle">保质量 · 降成本 · 提效率 · 稳交付</p>
+      </header>
+      <div class="overview-modules">
+        <a href="#page-p1" class="overview-card">
+          <div class="overview-card-icon">🏭</div>
+          <h2 class="overview-card-title">生产运营监控看板</h2>
+          <ul class="overview-card-list">
+            <li>14 个主题看板：生产总览 · 交付 · 质量 · 报废返工 · 工序良率 · 设备OEE · 停机 · 产能 · 成本 · 供应链 · 供应商评分 · 物料 · 领料差异 · 人工</li>
+            <li>4 类角色视图：厂长 / 质量经理 / 供应链经理 / 财务BP</li>
+            <li>核心指标：产量 · 良品率/FPY · OEE · 加权产能利用率 · 单位成本 · 准时交付 · 报废返工 · BOM超领</li>
+          </ul>
+          <span class="overview-card-tag">生产月会 · T+1 刷新</span>
+        </a>
+        <a href="#page-p2" class="overview-card">
+          <div class="overview-card-icon">📐</div>
+          <h2 class="overview-card-title">生产运营分析方法论</h2>
+          <ul class="overview-card-list">
+            <li>六层分析框架：描述 → 诊断 → 预测 → 评估 → 优化 + 工具箱</li>
+            <li>10 个典型分析问题 · 含柏拉图/OEE/5Why 等制造场景</li>
+            <li>内置异常点：2025-04 华东良品率 · EQ-F02-L02 OEE 下滑</li>
+          </ul>
+          <span class="overview-card-tag">精益改善核心能力</span>
+        </a>
+        <a href="#page-p3" class="overview-card">
+          <div class="overview-card-icon">⚙️</div>
+          <h2 class="overview-card-title">数据仓库与管道架构</h2>
+          <ul class="overview-card-list">
+            <li>ODS → DIM → DWD → DWS → ADS 五层数仓（31 对象）</li>
+            <li>宽表 dwd_production_wide + 日/月预聚合 DWS</li>
+            <li>每日 T+1 ETL：工单/质检/库存清洗与汇总</li>
+          </ul>
+          <span class="overview-card-tag">全链路自建 · 工程化</span>
+        </a>
+      </div>
+      <footer class="overview-footer">
+        <p class="overview-path">📌 阅读路径：P1 生产总览 → P2 分析方法论 → P2c 工具箱 → P3 数仓架构</p>
+        <p class="overview-closing" id="report-meta">数据区间 2024-01 ~ 2026-07 · 数据库 manufacturing_analytics</p>
+      </footer>
+    </section>
+
+    <section class="pdf-page pdf-page-p1" id="page-p1">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">制造业 · 生产运营监控体系</h1>
+          <p class="page-subtitle">数据链路：MES/ERP → MySQL 数仓 → Flask API → Web 看板</p>
+        </div>
+        <nav class="module-nav module-nav-three" aria-label="模块导航">
+          <a href="#page-p1" class="active">🏭 生产监控看板</a>
+          <a href="#page-p2">📐 分析方法论</a>
+          <a href="#page-p3">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+
+      <section class="p1-section">
+        <h2 class="p1-section-title">核心生产 KPI</h2>
+        <div class="kpi-rows" id="kpi-rows">
+          <div class="kpi-row" id="kpi-row-1"></div>
+          <div class="kpi-row" id="kpi-row-2"></div>
+        </div>
+        <p class="chart-legend-hint" id="cost-structure-hint">成本结构：—</p>
+      </section>
+
+      <section class="p1-section">
+        <div class="charts-row charts-row-p1">
+          <div class="chart-box chart-box-wide">
+            <div class="chart-box-title">产量与产能利用率趋势（近 6 月）</div>
+            <canvas id="trendChart" height="210"></canvas>
+          </div>
+          <div class="chart-box chart-box-narrow">
+            <div class="chart-box-title">不良原因 TOP（柏拉图）</div>
+            <canvas id="defectChart" height="210"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="p1-section">
+        <div class="charts-row charts-row-p1">
+          <div class="chart-box chart-box-wide">
+            <div class="chart-box-title">产线产能利用率</div>
+            <canvas id="capacityChart" height="200"></canvas>
+          </div>
+          <div class="chart-box chart-box-narrow">
+            <div class="chart-box-title">成本结构占比</div>
+            <canvas id="costChart" height="200"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="p1-section">
+        <div class="tables-row tables-row-p1">
+          <div>
+            <div class="table-block-title">产线产能与产量</div>
+            <table class="data-table">
+              <thead><tr><th>产线</th><th class="num">产能利用率%</th><th class="num">产量</th></tr></thead>
+              <tbody id="tbl-lines"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">供应商准时率</div>
+            <table class="data-table">
+              <thead><tr><th>供应商</th><th class="num">准时率%</th><th class="num">采购额</th></tr></thead>
+              <tbody id="tbl-suppliers"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">设备 OEE 排名</div>
+            <table class="data-table">
+              <thead><tr><th>设备</th><th class="num">OEE%</th></tr></thead>
+              <tbody id="tbl-oee"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">质量指标趋势（近 6 月）</div>
+            <table class="data-table">
+              <thead><tr><th>月份</th><th class="num">良品率%</th><th class="num">一次通过率%</th></tr></thead>
+              <tbody id="tbl-quality-trend"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="p1-section">
+        <h2 class="p1-section-title">口径说明（加权率 · FPY · 预警）</h2>
+        <p class="chart-legend-hint" id="metric-notes">
+          产能利用率 / OEE / 供应商 OTD 按产量或采购额加权；FPY（一次通过率）= 非返工良品 / 总检量；
+          alert_level：严重 / 关注 / 预警 / 正常（阈值与看板一致）。
+        </p>
+        <div class="kpi-row" id="kpi-row-extra" style="margin-top:8px"></div>
+      </section>
+
+      <section class="p1-section">
+        <h2 class="p1-section-title">交付 · 报废返工 · 工序良率</h2>
+        <div class="tables-row tables-row-p1">
+          <div>
+            <div class="table-block-title">逾期工单（交付）</div>
+            <table class="data-table">
+              <thead><tr><th>工单</th><th>产品</th><th class="num">逾期天</th><th>预警</th></tr></thead>
+              <tbody id="tbl-delivery-late"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">产线报废 / 返工</div>
+            <table class="data-table">
+              <thead><tr><th>产线</th><th class="num">报废率%</th><th class="num">返工数</th><th>预警</th></tr></thead>
+              <tbody id="tbl-scrap-line"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">工序良率（按工序）</div>
+            <table class="data-table">
+              <thead><tr><th>工序</th><th class="num">投入</th><th class="num">良率%</th><th>预警</th></tr></thead>
+              <tbody id="tbl-process-step"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">报废缺陷类型</div>
+            <table class="data-table">
+              <thead><tr><th>缺陷</th><th>严重度</th><th class="num">报废数</th><th>预警</th></tr></thead>
+              <tbody id="tbl-scrap-defect"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="p1-section">
+        <h2 class="p1-section-title">停机损失 · 产能负荷 · 领料差异 · 供应商评分</h2>
+        <div class="tables-row tables-row-p1">
+          <div>
+            <div class="table-block-title">停机原因</div>
+            <table class="data-table">
+              <thead><tr><th>原因</th><th class="num">小时</th><th class="num">故障次</th></tr></thead>
+              <tbody id="tbl-downtime-reason"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">设备停机排名</div>
+            <table class="data-table">
+              <thead><tr><th>设备</th><th class="num">停机h</th><th class="num">OEE%</th><th>预警</th></tr></thead>
+              <tbody id="tbl-downtime-equip"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">产能负荷（产线）</div>
+            <table class="data-table">
+              <thead><tr><th>产线</th><th class="num">利用率%</th><th class="num">负荷vs设计%</th><th>预警</th></tr></thead>
+              <tbody id="tbl-capacity-lines"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">领料差异 Top</div>
+            <table class="data-table">
+              <thead><tr><th>物料</th><th class="num">应领</th><th class="num">实领</th><th class="num">超领额</th><th>预警</th></tr></thead>
+              <tbody id="tbl-bom"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">供应商评分（OTD 加权）</div>
+            <table class="data-table">
+              <thead><tr><th>供应商</th><th>等级</th><th class="num">OTD%</th><th class="num">评分</th><th>预警</th></tr></thead>
+              <tbody id="tbl-supplier-score"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">呆滞物料 / 人工产线</div>
+            <table class="data-table">
+              <thead><tr><th>对象</th><th class="num">指标</th><th class="num">数值</th><th>预警</th></tr></thead>
+              <tbody id="tbl-material-labor"></tbody>
+            </table>
+          </div>
+        </div>
+        <p class="chart-legend-hint" id="extra-kpi-hint">扩展看板 KPI：—</p>
+      </section>
+
+      <section class="p1-section">
+        <h2 class="p1-section-title">异常诊断摘要</h2>
+        <ul class="overview-card-list" id="diagnosis-list">
+          <li>2025-04 华东工厂良品率降至约 88%，需拆产线→产品→不良类型定位根因</li>
+          <li>设备 EQ-F02-L02 连续 3 个月 OEE 下滑，建议拆解可用率×性能率×良品率</li>
+          <li>单位成本环比上升时需拆解材料/人工/制造费用占比变化</li>
+        </ul>
+      </section>
+
+      <section class="p1-section">
+        <h2 class="p1-section-title">14 个主题看板清单</h2>
+        <table class="data-table dashboard-catalog-table">
+          <thead><tr><th>#</th><th>看板</th><th>核心内容</th><th>主要角色</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>生产总览</td><td>产量 · 加权产能利用率 · 良品率 · 交付 · 单位成本</td><td>厂长</td></tr>
+            <tr><td>2</td><td>交付分析</td><td>OTD · 计划达成 · 逾期工单 · WIP</td><td>厂长 / 供应链</td></tr>
+            <tr><td>3</td><td>质量分析</td><td>良品率 · FPY · 缺陷帕累托 · 产线质量</td><td>质量经理</td></tr>
+            <tr><td>4</td><td>报废与返工</td><td>报废率 · 返工率 · 缺陷类型 · alert_level</td><td>质量经理</td></tr>
+            <tr><td>5</td><td>工序良率</td><td>工序良率 · 产线工序对比 · 预警分级</td><td>质量经理</td></tr>
+            <tr><td>6</td><td>设备OEE</td><td>OEE 加权 · 停机原因 · 设备明细</td><td>设备工程师</td></tr>
+            <tr><td>7</td><td>停机损失</td><td>停机时长 · 原因分布 · 设备停机排名</td><td>设备工程师</td></tr>
+            <tr><td>8</td><td>产能负荷</td><td>加权利用率 · 设计产能负荷 · 产线对比</td><td>生产计划</td></tr>
+            <tr><td>9</td><td>成本分析</td><td>材料/人工/制造费用结构 · 产品成本</td><td>财务BP</td></tr>
+            <tr><td>10</td><td>供应链分析</td><td>采购 · 库存 · 供应商准时率</td><td>供应链经理</td></tr>
+            <tr><td>11</td><td>供应商评分</td><td>OTD 采购额加权 · 综合评分 · 预警</td><td>供应链经理</td></tr>
+            <tr><td>12</td><td>物料周转</td><td>周转天数 · 呆滞物料 · 领料 Top</td><td>供应链经理</td></tr>
+            <tr><td>13</td><td>领料差异</td><td>BOM 应领 vs 实领 · 超领金额 · 产线差异</td><td>财务BP / 供应链</td></tr>
+            <tr><td>14</td><td>人工效率</td><td>工时达成 · 人工成本 · 分产线明细</td><td>厂长 / 财务BP</td></tr>
+          </tbody>
+        </table>
+        <p class="page-footnote">Web 看板：<code>../manufacturing_dashboard.html</code> · API 端口 5002 · 配置 <code>../config/dashboards.json</code>（14）</p>
+      </section>
+
+      <nav class="module-nav-inline">
+        <a href="#page-p0">📋 体系总览</a><span>·</span>
+        <a href="#page-p1" class="active">🏭 生产监控看板</a><span>·</span>
+        <a href="#page-p2">📐 分析方法论</a><span>·</span>
+        <a href="#page-p2c">🧰 工具箱</a><span>·</span>
+        <a href="#page-p3">⚙️ 数仓架构</a>
+      </nav>
+      <p class="page-footnote" id="p1-footnote">分析月份：— · 数据来源：MySQL API · manufacturing_analytics</p>
+    </section>
+
+    <section class="pdf-page pdf-page-p2" id="page-p2">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">📐 生产运营分析方法论</h1>
+          <p class="page-subtitle">六层分析框架 · 制造场景专用诊断路径</p>
+        </div>
+        <nav class="module-nav">
+          <a href="#page-p0">📋 体系总览</a>
+          <a href="#page-p1">🏭 生产监控看板</a>
+          <a href="#page-p2" class="active">📐 分析方法论</a>
+          <a href="#page-p2b">📋 问题清单</a>
+          <a href="#page-p2c">🧰 工具箱</a>
+          <a href="#page-p3">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+      <div class="framework-stack framework-stack-pdf">
+        <section class="framework-layer-pdf layer-1">
+          <h3 class="fw-layer-title"><span class="fw-num">1</span> 描述性分析</h3>
+          <div class="fw-layer-body">
+            <p>生产总览 · 产线排名 · 质量概况 · 数据：v_production_overview、dws_production_daily</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-2">
+          <h3 class="fw-layer-title"><span class="fw-num">2</span> 诊断性分析</h3>
+          <div class="fw-layer-body">
+            <p>良品率下降 · 产能不足 · 成本上升 · 供应链延误 · 设备 OEE 下滑 · 路径：工厂→产线→工序→根因</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-3">
+          <h3 class="fw-layer-title"><span class="fw-num">3</span> 预测性分析</h3>
+          <div class="fw-layer-body"><p>产量预测 · 物料需求 · 设备故障预警</p></div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-4">
+          <h3 class="fw-layer-title"><span class="fw-num">4</span> 评估性分析</h3>
+          <div class="fw-layer-body"><p>OEE 评估 · 供应商评分卡 · 新品导入评估</p></div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-5">
+          <h3 class="fw-layer-title"><span class="fw-num">5</span> 优化决策</h3>
+          <div class="fw-layer-body"><p>排产优化 · 供应商选择 · 质量改善优先级（柏拉图）</p></div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf" style="border-left-color:#f472b6">
+          <h3 class="fw-layer-title"><span class="fw-num">6</span> 制造业分析工具箱（8 法）</h3>
+          <div class="fw-layer-body">
+            <p>柏拉图 · 鱼骨图 · SPC · 5Why · OEE · 产能瓶颈 · 单位成本趋势 · 供应商评分卡</p>
+            <p>详情见 P2c 页 · 交互版 <code>../pages/methodology.html</code></p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="pdf-page pdf-page-p2b" id="page-p2b">
+      <header class="page-header">
+        <h1 class="page-title">📋 生产分析 · 典型问题清单</h1>
+        <p class="page-subtitle">10 个制造场景分析问题 · 交互版见 methodology.html</p>
+      </header>
+      <table class="data-table">
+        <thead><tr><th>#</th><th>层级</th><th>问题</th><th>关联看板</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>描述</td><td>本月生产运营怎么样？</td><td>生产总览</td></tr>
+          <tr><td>2</td><td>描述</td><td>哪条产线表现最好？</td><td>产能负荷</td></tr>
+          <tr><td>3</td><td>诊断</td><td>为什么良品率下降了？</td><td>质量分析 / 报废与返工 / 工序良率</td></tr>
+          <tr><td>4</td><td>诊断</td><td>为什么单位成本涨了？</td><td>成本分析 / 领料差异</td></tr>
+          <tr><td>5</td><td>诊断</td><td>为什么设备老出问题？</td><td>设备OEE / 停机损失</td></tr>
+          <tr><td>6</td><td>预测</td><td>下月能产多少？</td><td>生产总览 / 交付分析</td></tr>
+          <tr><td>7</td><td>评估</td><td>哪些设备最该优先改善？</td><td>设备OEE / 停机损失</td></tr>
+          <tr><td>8</td><td>评估</td><td>哪家供应商最可靠？</td><td>供应链分析 / 供应商评分</td></tr>
+          <tr><td>9</td><td>优化</td><td>先改哪个不良？</td><td>报废与返工 / 工序良率</td></tr>
+          <tr><td>10</td><td>优化</td><td>如何提升产能利用率？</td><td>产能负荷 / 停机损失</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="pdf-page pdf-page-p2c" id="page-p2c">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">🧰 第六层 · 制造业分析工具箱（8）</h1>
+          <p class="page-subtitle">质量 / 设备与产能 / 成本与供应链 · 人话解释 + 业务问题 + 作品集应用</p>
+        </div>
+        <nav class="module-nav">
+          <a href="#page-p0">📋 体系总览</a>
+          <a href="#page-p1">🏭 生产监控看板</a>
+          <a href="#page-p2">📐 分析方法论</a>
+          <a href="#page-p2b">📋 问题清单</a>
+          <a href="#page-p2c" class="active">🧰 工具箱</a>
+          <a href="#page-p3">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+      <div id="toolbox-pdf-root"></div>
+      <p class="page-footnote"><a href="../pages/methodology.html">→ 打开交互式工具箱（含柏拉图/OEE/SPC 示例图表）</a></p>
+    </section>
+
+    <section class="pdf-page pdf-page-p3" id="page-p3">
+      <header class="page-header">
+        <h1 class="page-title">⚙️ 数据仓库与管道架构</h1>
+        <p class="page-subtitle">manufacturing_analytics · 31 对象</p>
+        <nav class="module-nav">
+          <a href="#page-p3" class="active">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">五层数仓概览</h3>
+        <table class="data-table">
+          <thead><tr><th>层级</th><th>对象数</th><th>颗粒度</th><th>代表对象</th></tr></thead>
+          <tbody>
+            <tr><td>ODS</td><td>8</td><td>原始工单/质检/库存记录</td><td>ods_production_order</td></tr>
+            <tr><td>DIM</td><td>5</td><td>产品/产线/供应商主数据</td><td>dim_product</td></tr>
+            <tr><td>DWD</td><td>3</td><td>生产/质量/供应链宽表</td><td>dwd_production_wide</td></tr>
+            <tr><td>DWS</td><td>5</td><td>日/月预聚合</td><td>dws_production_daily</td></tr>
+            <tr><td>ADS</td><td>14</td><td>看板主题 API / 视图</td><td>v_production_overview + 扩展看板</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">ETL 管道（T+1）</h3>
+        <table class="data-table">
+          <thead><tr><th>步骤</th><th>频率</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>ODS 接入</td><td>日批</td><td>生产工单 · 质检 · 采购 · 库存 · 工序 · 领料</td></tr>
+            <tr><td>ODS → DWD</td><td>T+1</td><td>宽表清洗与维度冗余</td></tr>
+            <tr><td>DWD → DWS</td><td>T+1</td><td>产线/工厂/设备日汇总</td></tr>
+            <tr><td>看板 API</td><td>实时</td><td>14 个主题看板（含报废/工序/停机/BOM/供应商评分）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tech-badges">
+        <span class="tech-badge"><strong>样例数据</strong>Python 种子脚本</span>
+        <span class="tech-badge"><strong>数仓</strong>MySQL 8.0</span>
+        <span class="tech-badge"><strong>API</strong>Flask :5002</span>
+      </div>
+      <p class="pipeline-summary">五层数仓全链路 · 工单 → 宽表 → 日汇总 → ADS → 生产看板</p>
+    </section>
+  </div>
+
+  <script src="../js/methodology-playbook-data.js"></script>
+  <script src="report.js"></script>
+</body>
+</html>

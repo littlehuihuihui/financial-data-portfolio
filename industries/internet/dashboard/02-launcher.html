@@ -1,0 +1,12 @@
+<section class="dashboard-page" data-dashboard="launcher">
+  <h2 class="dashboard-page-title">开机活跃</h2>
+  <p class="dashboard-page-desc">开机次数/设备数/在线时长 · 端对比 · 只开机占比 · 多时间维度</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>开机趋势（近30天）</h3><div id="db-chart-boot-trend" class="chart"></div></div>
+  <div class="chart-box"><h3>分端开机设备数</h3><div id="db-chart-boot-type" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>多时间窗开机</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-window" data-export-name="开机多窗口.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>时间窗</th><th class="num">开机设备数</th><th class="num">开机次数</th></tr></thead><tbody id="db-table-window"></tbody></table></div>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+{
+  "version": "2.1",
+  "default_role": "operation_lead",
+  "roles": {
+    "operation_lead": {
+      "label": "运营负责人",
+      "dashboards": ["overview", "launcher", "vod", "live", "series", "episode", "quality", "lifecycle", "retention", "device", "funnel", "order", "path", "revenue", "activity", "health", "tags"],
+      "row_filters": {}
+    },
+    "content_ops": {
+      "label": "内容运营",
+      "dashboards": ["overview", "vod", "live", "series", "episode", "quality", "path"],
+      "row_filters": {}
+    },
+    "user_growth": {
+      "label": "用户增长",
+      "dashboards": ["overview", "launcher", "lifecycle", "retention", "device", "path", "tags", "health"],
+      "row_filters": {}
+    },
+    "commercial": {
+      "label": "商业化运营",
+      "dashboards": ["overview", "funnel", "order", "vod", "series", "revenue", "activity"],
+      "row_filters": {}
+    }
+  }
+}

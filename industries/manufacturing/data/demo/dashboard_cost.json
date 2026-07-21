@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "total_cost": 5300000.0,
+      "unit_cost": 42.5,
+      "material_pct": 55,
+      "labor_pct": 25,
+      "overhead_pct": 20
+    },
+    "trend": [
+      {
+        "snapshot_month": "2026-01",
+        "total_cost": 4850000.0,
+        "unit_cost": 43.8
+      },
+      {
+        "snapshot_month": "2026-02",
+        "total_cost": 4900000.0,
+        "unit_cost": 43.6
+      },
+      {
+        "snapshot_month": "2026-03",
+        "total_cost": 4950000.0,
+        "unit_cost": 43.4
+      },
+      {
+        "snapshot_month": "2026-04",
+        "total_cost": 5000000.0,
+        "unit_cost": 43.2
+      },
+      {
+        "snapshot_month": "2026-05",
+        "total_cost": 5050000.0,
+        "unit_cost": 43.0
+      },
+      {
+        "snapshot_month": "2026-06",
+        "total_cost": 5100000.0,
+        "unit_cost": 42.8
+      }
+    ],
+    "products": [
+      {
+        "product_name": "产品1",
+        "output_qty": 40000.0,
+        "unit_cost": 40,
+        "material_cost": 880000.0,
+        "labor_cost": 400000.0,
+        "overhead_cost": 320000.0
+      },
+      {
+        "product_name": "产品2",
+        "output_qty": 35000.0,
+        "unit_cost": 43,
+        "material_cost": 830000.0,
+        "labor_cost": 380000.0,
+        "overhead_cost": 300000.0
+      }
+    ]
+  }
+}

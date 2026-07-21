@@ -1,0 +1,11 @@
+<section class="dashboard-page" data-dashboard="quality">
+  <h2 class="dashboard-page-title">完播与 QoS</h2>
+  <p class="dashboard-page-desc">完播率/平均完成度/首帧时长/卡顿率 · 内容质量榜 · 近3天日志</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>分端质量（完成度/首帧）</h3><div id="db-chart-qos-type" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>内容质量榜（剧集）</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-qos" data-export-name="内容质量.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>剧集</th><th class="num">播放数</th><th class="num">平均完成度%</th><th class="num">完播率%</th><th class="num">首帧(ms)</th></tr></thead><tbody id="db-table-qos"></tbody></table></div>
+  </div>
+</section>

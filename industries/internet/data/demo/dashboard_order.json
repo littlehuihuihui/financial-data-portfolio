@@ -1,0 +1,50 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "order_cnt": 180000,
+      "unsub_cnt": 22000,
+      "revenue_share": 540000
+    },
+    "mau_settle": {
+      "revenue": 1280000
+    },
+    "by_paytype": [
+      {
+        "pay_type": "包月",
+        "order_cnt": 100000.0,
+        "unsub_cnt": 10000.0,
+        "order_amount": 1500000.0,
+        "revenue_share": 450000.0
+      },
+      {
+        "pay_type": "包季",
+        "order_cnt": 50000.0,
+        "unsub_cnt": 7000.0,
+        "order_amount": 1200000.0,
+        "revenue_share": 360000.0
+      },
+      {
+        "pay_type": "包年",
+        "order_cnt": 30000.0,
+        "unsub_cnt": 5000.0,
+        "order_amount": 1800000.0,
+        "revenue_share": 540000.0
+      }
+    ],
+    "by_src": [
+      {
+        "src_type": "信息流",
+        "order_cnt": 80000.0
+      },
+      {
+        "src_type": "应用商店",
+        "order_cnt": 60000.0
+      },
+      {
+        "src_type": "自然搜索",
+        "order_cnt": 40000.0
+      }
+    ]
+  }
+}

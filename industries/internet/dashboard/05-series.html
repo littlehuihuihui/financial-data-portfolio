@@ -1,0 +1,12 @@
+<section class="dashboard-page" data-dashboard="series">
+  <h2 class="dashboard-page-title">内容消费·剧集</h2>
+  <p class="dashboard-page-desc">剧集 VV/UV/时长/完播率 Top · 内容类型分布 · 题材渗透率</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>内容类型 VV 占比</h3><div id="db-chart-category" class="chart"></div></div>
+  <div class="chart-box"><h3>题材渗透率</h3><div id="db-chart-genre" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>剧集 Top15</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-series" data-export-name="剧集Top.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>剧集</th><th>类型</th><th>题材</th><th class="num">VV</th><th class="num">UV</th><th class="num">时长(时)</th><th class="num">完播率%</th></tr></thead><tbody id="db-table-series"></tbody></table></div>
+  </div>
+</section>

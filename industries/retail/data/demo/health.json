@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "data": {
+    "status": "ok",
+    "db": false,
+    "demo": true,
+    "message": "static demo"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "purchase_amount": 2800000.0,
+      "inventory_turnover_days": 32,
+      "supplier_otd_pct": 93.5
+    },
+    "suppliers": [
+      {
+        "supplier_code": "S1",
+        "otd_pct": 96,
+        "purchase_amount": 800000.0
+      },
+      {
+        "supplier_code": "S2",
+        "otd_pct": 94,
+        "purchase_amount": 700000.0
+      },
+      {
+        "supplier_code": "S3",
+        "otd_pct": 91,
+        "purchase_amount": 600000.0
+      },
+      {
+        "supplier_code": "S4",
+        "otd_pct": 89,
+        "purchase_amount": 400000.0
+      }
+    ],
+    "detail": [
+      {
+        "supplier_name": "供应商1",
+        "otd_pct": 96,
+        "purchase_amount": 800000.0,
+        "turnover_days": 28,
+        "alert_level": "正常"
+      },
+      {
+        "supplier_name": "供应商2",
+        "otd_pct": 94,
+        "purchase_amount": 700000.0,
+        "turnover_days": 30,
+        "alert_level": "正常"
+      },
+      {
+        "supplier_name": "供应商3",
+        "otd_pct": 91,
+        "purchase_amount": 600000.0,
+        "turnover_days": 35,
+        "alert_level": "正常"
+      }
+    ]
+  }
+}

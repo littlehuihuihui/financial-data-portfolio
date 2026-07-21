@@ -1,0 +1,132 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "output_qty": 125000,
+      "capacity_util_pct": 86.5,
+      "yield_rate_pct": 97.2,
+      "unit_cost": 42.5,
+      "on_time_delivery_pct": 94.0
+    },
+    "trend": [
+      {
+        "snapshot_date": "2026-06-01",
+        "output_qty": 8000,
+        "capacity_util_pct": 82.0
+      },
+      {
+        "snapshot_date": "2026-06-02",
+        "output_qty": 8100,
+        "capacity_util_pct": 82.3
+      },
+      {
+        "snapshot_date": "2026-06-03",
+        "output_qty": 8200,
+        "capacity_util_pct": 82.6
+      },
+      {
+        "snapshot_date": "2026-06-04",
+        "output_qty": 8300,
+        "capacity_util_pct": 82.9
+      },
+      {
+        "snapshot_date": "2026-06-05",
+        "output_qty": 8400,
+        "capacity_util_pct": 83.2
+      },
+      {
+        "snapshot_date": "2026-06-06",
+        "output_qty": 8500,
+        "capacity_util_pct": 83.5
+      },
+      {
+        "snapshot_date": "2026-06-07",
+        "output_qty": 8600,
+        "capacity_util_pct": 83.8
+      },
+      {
+        "snapshot_date": "2026-06-08",
+        "output_qty": 8700,
+        "capacity_util_pct": 84.1
+      },
+      {
+        "snapshot_date": "2026-06-09",
+        "output_qty": 8800,
+        "capacity_util_pct": 84.4
+      },
+      {
+        "snapshot_date": "2026-06-10",
+        "output_qty": 8900,
+        "capacity_util_pct": 84.7
+      },
+      {
+        "snapshot_date": "2026-06-11",
+        "output_qty": 9000,
+        "capacity_util_pct": 85.0
+      },
+      {
+        "snapshot_date": "2026-06-12",
+        "output_qty": 9100,
+        "capacity_util_pct": 85.3
+      },
+      {
+        "snapshot_date": "2026-06-13",
+        "output_qty": 9200,
+        "capacity_util_pct": 85.6
+      },
+      {
+        "snapshot_date": "2026-06-14",
+        "output_qty": 9300,
+        "capacity_util_pct": 85.9
+      }
+    ],
+    "line_share": [
+      {
+        "line_code": "L1",
+        "output_qty": 32000.0
+      },
+      {
+        "line_code": "L2",
+        "output_qty": 28000.0
+      },
+      {
+        "line_code": "L3",
+        "output_qty": 25000.0
+      },
+      {
+        "line_code": "L4",
+        "output_qty": 20000.0
+      },
+      {
+        "line_code": "L5",
+        "output_qty": 20000.0
+      }
+    ],
+    "line_detail": [
+      {
+        "line_name": "产线1",
+        "factory_name": "华南工厂",
+        "output_qty": 32000.0,
+        "capacity_util_pct": 90,
+        "otd_pct": 95,
+        "plan_achieve_pct": 98
+      },
+      {
+        "line_name": "产线2",
+        "factory_name": "华南工厂",
+        "output_qty": 28000.0,
+        "capacity_util_pct": 85,
+        "otd_pct": 93,
+        "plan_achieve_pct": 96
+      },
+      {
+        "line_name": "产线3",
+        "factory_name": "华南工厂",
+        "output_qty": 25000.0,
+        "capacity_util_pct": 82,
+        "otd_pct": 92,
+        "plan_achieve_pct": 94
+      }
+    ]
+  }
+}

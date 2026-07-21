@@ -1,0 +1,46 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "uv": 410000,
+      "play_hours": 980000
+    },
+    "channels": [
+      {
+        "channel_name": "频道1",
+        "channel_cat_name": "卫视",
+        "vv": 1200000.0,
+        "uv": 80000.0,
+        "play_hours": 200000.0
+      },
+      {
+        "channel_name": "频道2",
+        "channel_cat_name": "体育",
+        "vv": 900000.0,
+        "uv": 60000.0,
+        "play_hours": 150000.0
+      },
+      {
+        "channel_name": "频道3",
+        "channel_cat_name": "少儿",
+        "vv": 700000.0,
+        "uv": 90000.0,
+        "play_hours": 180000.0
+      },
+      {
+        "channel_name": "频道4",
+        "channel_cat_name": "电影",
+        "vv": 600000.0,
+        "uv": 50000.0,
+        "play_hours": 120000.0
+      },
+      {
+        "channel_name": "频道5",
+        "channel_cat_name": "综艺",
+        "vv": 500000.0,
+        "uv": 40000.0,
+        "play_hours": 100000.0
+      }
+    ]
+  }
+}

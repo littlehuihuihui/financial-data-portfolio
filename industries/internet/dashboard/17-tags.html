@@ -1,0 +1,19 @@
+<section class="dashboard-page" data-dashboard="tags">
+  <h2 class="dashboard-page-title">用户标签画像</h2>
+  <p class="dashboard-page-desc">标签体系 · 人群覆盖 · 分群画像 · 标签明细</p>
+  <div class="kpi-grid" id="db-kpi"></div>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>标签分类分布</h3><div id="db-chart-tag-category" class="chart"></div></div>
+    <div class="chart-box"><h3>标签覆盖 Top</h3><div id="db-chart-tag-coverage" class="chart chart-tag-tall"></div></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>标签概览</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-tags" data-export-name="用户标签.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>分类</th><th>标签编码</th><th>标签名称</th><th class="num">覆盖用户数</th><th>标签值</th><th>来源</th></tr></thead><tbody id="db-table-tags"></tbody></table></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>标签 × 分类明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-tag-cat" data-export-name="标签分类.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>分类</th><th>标签编码</th><th>标签名称</th><th>类型</th><th>标签值</th><th class="num">覆盖用户</th><th class="num">分类占比%</th></tr></thead><tbody id="db-table-tag-cat"></tbody></table></div>
+  </div>
+</section>

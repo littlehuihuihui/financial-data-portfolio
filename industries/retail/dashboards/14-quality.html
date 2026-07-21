@@ -1,0 +1,14 @@
+<section class="dashboard-page" data-dashboard="quality">
+  <h2 class="dashboard-page-title">✅ 数据质量</h2>
+  <p class="dashboard-page-desc">质量评分 · 各表PASS率 · ODS↔DWD↔DWS对账 · 未解决异常</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>近7天质量评分</h3><div id="db-chart-quality" class="chart"></div></div>
+  <div class="chart-box">
+    <h3>对账结果</h3>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>表</th><th>检查类型</th><th class="num">期望</th><th class="num">实际</th><th>状态</th></tr></thead><tbody id="db-quality-recon"></tbody></table></div>
+  </div>
+  <div class="chart-box">
+    <h3>未解决异常</h3>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>日期</th><th>源表</th><th>类型</th><th>严重度</th></tr></thead><tbody id="db-quality-issues"></tbody></table></div>
+  </div>
+</section>

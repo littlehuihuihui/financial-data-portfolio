@@ -1,0 +1,56 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "hours_achievement_pct": 96.0,
+      "labor_cost": 1300000.0,
+      "order_count": 320
+    },
+    "trend": [
+      {
+        "snapshot_month": "2026-01",
+        "hours_achievement_pct": 93.5
+      },
+      {
+        "snapshot_month": "2026-02",
+        "hours_achievement_pct": 94.0
+      },
+      {
+        "snapshot_month": "2026-03",
+        "hours_achievement_pct": 94.5
+      },
+      {
+        "snapshot_month": "2026-04",
+        "hours_achievement_pct": 95.0
+      },
+      {
+        "snapshot_month": "2026-05",
+        "hours_achievement_pct": 95.5
+      },
+      {
+        "snapshot_month": "2026-06",
+        "hours_achievement_pct": 96.0
+      }
+    ],
+    "line_detail": [
+      {
+        "line_name": "产线1",
+        "actual_hours": 4200,
+        "hours_achievement_pct": 97,
+        "labor_cost": 450000.0
+      },
+      {
+        "line_name": "产线2",
+        "actual_hours": 3800,
+        "hours_achievement_pct": 95,
+        "labor_cost": 410000.0
+      },
+      {
+        "line_name": "产线3",
+        "actual_hours": 3500,
+        "hours_achievement_pct": 94,
+        "labor_cost": 380000.0
+      }
+    ]
+  }
+}

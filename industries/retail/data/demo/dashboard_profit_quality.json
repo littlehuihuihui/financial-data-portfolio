@@ -1,0 +1,91 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "avg_cash_ratio": 1.25,
+      "total_net_profit": 1200000,
+      "total_operating_cashflow": 1530000,
+      "danger_count": 0
+    },
+    "trend": [
+      {
+        "month_id": "202601",
+        "net_profit": 900000.0,
+        "operating_cashflow": 1100000.0
+      },
+      {
+        "month_id": "202602",
+        "net_profit": 920000.0,
+        "operating_cashflow": 1130000.0
+      },
+      {
+        "month_id": "202603",
+        "net_profit": 940000.0,
+        "operating_cashflow": 1160000.0
+      },
+      {
+        "month_id": "202604",
+        "net_profit": 960000.0,
+        "operating_cashflow": 1190000.0
+      },
+      {
+        "month_id": "202605",
+        "net_profit": 980000.0,
+        "operating_cashflow": 1220000.0
+      },
+      {
+        "month_id": "202606",
+        "net_profit": 1000000.0,
+        "operating_cashflow": 1250000.0
+      }
+    ],
+    "by_brand": [
+      {
+        "brand_name": "耐克",
+        "cash_ratio": 1.19,
+        "cash_ratio_status": "健康",
+        "gap_reason": "正常"
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "cash_ratio": 1.29,
+        "cash_ratio_status": "健康",
+        "gap_reason": "正常"
+      },
+      {
+        "brand_name": "李宁",
+        "cash_ratio": 1.25,
+        "cash_ratio_status": "健康",
+        "gap_reason": "正常"
+      },
+      {
+        "brand_name": "安踏",
+        "cash_ratio": 1.47,
+        "cash_ratio_status": "健康",
+        "gap_reason": "正常"
+      }
+    ],
+    "benchmark": [
+      {
+        "brand_name": "耐克",
+        "our_cash_ratio": 1.19,
+        "industry_avg_cash_ratio": 1.1
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "our_cash_ratio": 1.29,
+        "industry_avg_cash_ratio": 1.1
+      },
+      {
+        "brand_name": "李宁",
+        "our_cash_ratio": 1.25,
+        "industry_avg_cash_ratio": 1.1
+      },
+      {
+        "brand_name": "安踏",
+        "our_cash_ratio": 1.47,
+        "industry_avg_cash_ratio": 1.1
+      }
+    ]
+  }
+}

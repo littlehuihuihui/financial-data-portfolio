@@ -1,0 +1,23 @@
+{
+  "version": "2.1",
+  "default_role": "operation_lead",
+  "dashboards": [
+    {"id": "overview", "title": "活跃总览", "icon": "📈", "file": "dashboard/01-overview.html", "api": "/api/dashboard_overview", "filters": ["month"], "description": "有效MAU(STB/Speaker/合计) · DAU/WAU/MAU · 多时间窗"},
+    {"id": "launcher", "title": "开机活跃", "icon": "📺", "file": "dashboard/02-launcher.html", "api": "/api/dashboard_launcher", "filters": ["month"], "description": "开机次数/设备数/时长 · 端对比 · 只开机占比"},
+    {"id": "vod", "title": "点播活跃", "icon": "🎬", "file": "dashboard/03-vod.html", "api": "/api/dashboard_vod", "filters": ["month"], "description": "VV/UV/时长 · 人均VV/人均时长 · 多时间窗"},
+    {"id": "live", "title": "直播活跃", "icon": "📡", "file": "dashboard/04-live.html", "api": "/api/dashboard_live", "filters": ["month"], "description": "观看次数/人数/时长 · 频道分布"},
+    {"id": "series", "title": "内容·剧集", "icon": "🎞️", "file": "dashboard/05-series.html", "api": "/api/dashboard_series", "filters": ["month"], "description": "剧集 VV/UV/时长/完播率 · 题材渗透"},
+    {"id": "episode", "title": "内容·单集与行为", "icon": "▶️", "file": "dashboard/06-episode.html", "api": "/api/dashboard_episode", "filters": ["month"], "description": "单集排名 · 播放行为分布(action/完成度)"},
+    {"id": "quality", "title": "完播与QoS", "icon": "✅", "file": "dashboard/07-quality.html", "api": "/api/dashboard_quality", "filters": [], "description": "完播率/完成度/首帧/卡顿 · 内容质量榜"},
+    {"id": "lifecycle", "title": "用户生命周期", "icon": "🌱", "file": "dashboard/08-lifecycle.html", "api": "/api/dashboard_lifecycle", "filters": ["month"], "description": "开户/激活/沉默/流失/净增"},
+    {"id": "retention", "title": "用户留存", "icon": "🔄", "file": "dashboard/09-retention.html", "api": "/api/dashboard_retention", "filters": ["month"], "description": "次留/7留/30留 · 同期群矩阵"},
+    {"id": "device", "title": "设备流转", "icon": "🔀", "file": "dashboard/10-device.html", "api": "/api/dashboard_device", "filters": ["month"], "description": "STB↔Speaker · 型号/固件 · 双端用户"},
+    {"id": "funnel", "title": "商业化漏斗", "icon": "🔻", "file": "dashboard/11-funnel.html", "api": "/api/dashboard_funnel", "filters": ["month"], "description": "曝光→点击→验证→确认 · 误触监控"},
+    {"id": "order", "title": "订购与分成", "icon": "💎", "file": "dashboard/12-order.html", "api": "/api/dashboard_order", "filters": ["month"], "description": "订购/退订 · 收费结构 · MAU结算(演示)+CP分成(演示30%)"},
+    {"id": "path", "title": "用户行为路径", "icon": "🗺️", "file": "dashboard/13-path.html", "api": "/api/dashboard_path", "filters": ["month"], "description": "Sankey路径图 · 页面流转 · 步骤流失 · 转化链路"},
+    {"id": "revenue", "title": "收入结构深度分析", "icon": "💰", "file": "dashboard/14-revenue.html", "api": "/api/dashboard_revenue", "filters": ["month"], "description": "套餐LTV · ARPU/ARPPU · 退订/续费率 · 收入结构"},
+    {"id": "activity", "title": "营销活动复盘", "icon": "🎯", "file": "dashboard/15-activity.html", "api": "/api/dashboard_activity", "filters": [], "description": "活动ROI · 触达→参与→转化 · 全周期效果"},
+    {"id": "health", "title": "业务健康度", "icon": "❤️", "file": "dashboard/16-health.html", "api": "/api/dashboard_health", "filters": [], "description": "红黄绿灯 · 综合健康分 · 基线对比 · 一页纸"},
+    {"id": "tags", "title": "用户标签画像", "icon": "🏷️", "file": "dashboard/17-tags.html", "api": "/api/dashboard_tags", "filters": [], "description": "5类标签体系 · 人群覆盖 · 画像分析 · 规则来源"}
+  ]
+}

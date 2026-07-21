@@ -1,0 +1,14 @@
+<section class="dashboard-page" data-dashboard="cost">
+  <h2 class="dashboard-page-title">成本分析</h2>
+  <p class="dashboard-page-desc">总成本 · 单位成本 · 成本结构 · 产品成本明细（含原生产成本财务，支持工厂筛选）</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>成本趋势</h3><div id="db-chart-cost-trend" class="chart"></div></div>
+  <div class="chart-box"><h3>成本结构</h3><div id="db-chart-cost-structure" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>产品成本明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-cost-product" data-export-name="产品成本.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>产品</th><th class="num">产量</th><th class="num">单位成本</th><th class="num">材料成本</th><th class="num">人工成本</th><th class="num">制造费用</th></tr></thead><tbody id="db-table-cost-product"></tbody></table></div>
+  </div>
+</section>

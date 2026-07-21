@@ -1,0 +1,13 @@
+<section class="dashboard-page" data-dashboard="inventory">
+  <h2 class="dashboard-page-title">📦 库存分析</h2>
+  <p class="dashboard-page-desc">库存KPI · 库龄结构 · 品牌周转对比 · 滞销SKU · 数据源：dws_inventory_daily</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>库龄结构</h3><div id="db-chart-age" class="chart"></div></div>
+    <div class="chart-box"><h3>各品牌周转对比</h3><div id="db-chart-turnover" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <h3>滞销 SKU（周转≥75天）</h3>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>品牌</th><th>品类</th><th class="num">周转天</th><th class="num">库存成本</th></tr></thead><tbody id="db-slow-sku"></tbody></table></div>
+  </div>
+</section>

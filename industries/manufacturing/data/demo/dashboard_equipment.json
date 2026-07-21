@@ -1,0 +1,82 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "oee_pct": 78.5,
+      "downtime_hours": 126,
+      "failure_count": 18
+    },
+    "oee_rank": [
+      {
+        "equipment_code": "EQ-1",
+        "oee_pct": 85
+      },
+      {
+        "equipment_code": "EQ-2",
+        "oee_pct": 82
+      },
+      {
+        "equipment_code": "EQ-3",
+        "oee_pct": 78
+      },
+      {
+        "equipment_code": "EQ-4",
+        "oee_pct": 75
+      },
+      {
+        "equipment_code": "EQ-5",
+        "oee_pct": 70
+      }
+    ],
+    "downtime": [
+      {
+        "downtime_reason": "故障",
+        "hours": 60
+      },
+      {
+        "downtime_reason": "换型",
+        "hours": 35
+      },
+      {
+        "downtime_reason": "待料",
+        "hours": 20
+      },
+      {
+        "downtime_reason": "计划保养",
+        "hours": 11
+      }
+    ],
+    "detail": [
+      {
+        "equipment_name": "设备1",
+        "line_code": "L1",
+        "factory_name": "华南工厂",
+        "oee_pct": 85,
+        "availability_pct": 92,
+        "downtime_hours": 12,
+        "failure_count": 2,
+        "alert_level": "正常"
+      },
+      {
+        "equipment_name": "设备2",
+        "line_code": "L2",
+        "factory_name": "华南工厂",
+        "oee_pct": 78,
+        "availability_pct": 88,
+        "downtime_hours": 28,
+        "failure_count": 5,
+        "alert_level": "正常"
+      },
+      {
+        "equipment_name": "设备3",
+        "line_code": "L3",
+        "factory_name": "华南工厂",
+        "oee_pct": 70,
+        "availability_pct": 80,
+        "downtime_hours": 40,
+        "failure_count": 8,
+        "alert_level": "正常"
+      }
+    ]
+  }
+}

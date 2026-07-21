@@ -1,0 +1,116 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "new_register": 85000,
+      "new_activate": 62000,
+      "silent_cnt": 210000,
+      "churn_cnt": 45000,
+      "avg_active": 420000
+    },
+    "trend": [
+      {
+        "snapshot_date": "2026-06-01",
+        "new_register": 5000,
+        "new_activate": 3800,
+        "active_users": 400000
+      },
+      {
+        "snapshot_date": "2026-06-02",
+        "new_register": 5050,
+        "new_activate": 3840,
+        "active_users": 401000
+      },
+      {
+        "snapshot_date": "2026-06-03",
+        "new_register": 5100,
+        "new_activate": 3880,
+        "active_users": 402000
+      },
+      {
+        "snapshot_date": "2026-06-04",
+        "new_register": 5150,
+        "new_activate": 3920,
+        "active_users": 403000
+      },
+      {
+        "snapshot_date": "2026-06-05",
+        "new_register": 5200,
+        "new_activate": 3960,
+        "active_users": 404000
+      },
+      {
+        "snapshot_date": "2026-06-06",
+        "new_register": 5250,
+        "new_activate": 4000,
+        "active_users": 405000
+      },
+      {
+        "snapshot_date": "2026-06-07",
+        "new_register": 5300,
+        "new_activate": 4040,
+        "active_users": 406000
+      },
+      {
+        "snapshot_date": "2026-06-08",
+        "new_register": 5350,
+        "new_activate": 4080,
+        "active_users": 407000
+      },
+      {
+        "snapshot_date": "2026-06-09",
+        "new_register": 5400,
+        "new_activate": 4120,
+        "active_users": 408000
+      },
+      {
+        "snapshot_date": "2026-06-10",
+        "new_register": 5450,
+        "new_activate": 4160,
+        "active_users": 409000
+      },
+      {
+        "snapshot_date": "2026-06-11",
+        "new_register": 5500,
+        "new_activate": 4200,
+        "active_users": 410000
+      },
+      {
+        "snapshot_date": "2026-06-12",
+        "new_register": 5550,
+        "new_activate": 4240,
+        "active_users": 411000
+      },
+      {
+        "snapshot_date": "2026-06-13",
+        "new_register": 5600,
+        "new_activate": 4280,
+        "active_users": 412000
+      },
+      {
+        "snapshot_date": "2026-06-14",
+        "new_register": 5650,
+        "new_activate": 4320,
+        "active_users": 413000
+      }
+    ],
+    "status": [
+      {
+        "user_status": "活跃",
+        "cnt": 620000
+      },
+      {
+        "user_status": "沉默",
+        "cnt": 210000
+      },
+      {
+        "user_status": "流失",
+        "cnt": 45000
+      },
+      {
+        "user_status": "新增",
+        "cnt": 85000
+      }
+    ]
+  }
+}

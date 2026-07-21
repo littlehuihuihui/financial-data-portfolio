@@ -1,0 +1,59 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "process_yield_pct": 96.8,
+      "process_defect_pct": 3.2,
+      "input_qty": 130000,
+      "good_qty": 125840
+    },
+    "by_step": [
+      {
+        "process_step": "冲压",
+        "input_qty": 130000,
+        "good_qty": 128000,
+        "defect_qty": 2000,
+        "yield_pct": 98.5,
+        "alert_level": "正常"
+      },
+      {
+        "process_step": "焊接",
+        "input_qty": 128000,
+        "good_qty": 126000,
+        "defect_qty": 2000,
+        "yield_pct": 98.4,
+        "alert_level": "正常"
+      },
+      {
+        "process_step": "装配",
+        "input_qty": 126000,
+        "good_qty": 123500,
+        "defect_qty": 2500,
+        "yield_pct": 98.0,
+        "alert_level": "正常"
+      },
+      {
+        "process_step": "检测",
+        "input_qty": 123500,
+        "good_qty": 125840,
+        "defect_qty": -2340,
+        "yield_pct": 101.9,
+        "alert_level": "正常"
+      }
+    ],
+    "by_line": [
+      {
+        "line_code": "L1",
+        "yield_pct": 97.5
+      },
+      {
+        "line_code": "L2",
+        "yield_pct": 96.8
+      },
+      {
+        "line_code": "L3",
+        "yield_pct": 96.2
+      }
+    ]
+  }
+}

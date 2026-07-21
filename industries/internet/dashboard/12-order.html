@@ -1,0 +1,12 @@
+<section class="dashboard-page" data-dashboard="order">
+  <h2 class="dashboard-page-title">订购与分成</h2>
+  <p class="dashboard-page-desc">订购/退订/净订购 · 收费结构(连续包月/单月/包年) · 订购来源 · MAU结算收入(演示)+CP分成(演示30%)</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>收费方式 订购数/分成</h3><div id="db-chart-paytype" class="chart"></div></div>
+  <div class="chart-box"><h3>订购来源占比（视频跳转/launcher订购页）</h3><div id="db-chart-ordersrc" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>收费方式明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-paytype" data-export-name="收费方式.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>收费方式</th><th class="num">订购数</th><th class="num">退订数</th><th class="num">订购金额</th><th class="num">分成</th></tr></thead><tbody id="db-table-paytype"></tbody></table></div>
+  </div>
+</section>

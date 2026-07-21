@@ -1,0 +1,20 @@
+<section class="dashboard-page" data-dashboard="path">
+  <h2 class="dashboard-page-title">用户行为路径</h2>
+  <p class="dashboard-page-desc">页面流转 · Sankey 路径图 · 步骤流失 · 转化链路</p>
+  <div class="kpi-grid" id="db-kpi"></div>
+  <div class="chart-box"><h3>用户行为路径（Sankey）</h3><div id="db-chart-sankey" class="chart chart-sankey"></div></div>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>页面转移 Top 15</h3><div id="db-chart-path-bar" class="chart chart-path-tall"></div></div>
+    <div class="chart-box"><h3>步骤流失会话数</h3><div id="db-chart-dropoff" class="chart chart-path-tall"></div></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>页面转移明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-path" data-export-name="路径转移.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>上一页面</th><th>下一页面</th><th>产品线</th><th class="num">用户数</th><th class="num">转移次数</th><th class="num">会话数</th></tr></thead><tbody id="db-table-path"></tbody></table></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>步骤流失</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-drop" data-export-name="步骤流失.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>页面</th><th class="num">用户数</th><th class="num">会话数</th></tr></thead><tbody id="db-table-drop"></tbody></table></div>
+  </div>
+</section>

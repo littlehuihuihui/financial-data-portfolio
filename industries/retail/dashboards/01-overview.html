@@ -1,0 +1,25 @@
+<section class="dashboard-page" data-dashboard="overview">
+  <h2 class="dashboard-page-title">📊 经营总览</h2>
+  <p class="dashboard-page-desc">8个核心KPI · 月度趋势 · 渠道占比 · 品牌排名 · 门店Top5 · 数据源：dws_sales_daily / dws_inventory_daily</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>收入趋势</h3><div id="db-chart-trend" class="chart"></div></div>
+  </div>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>渠道收入结构（点击下钻渠道分析）</h3><div id="db-chart-channel" class="chart"></div></div>
+    <div class="chart-box">
+      <div class="table-toolbar">
+        <h3>品牌收入排名（点击行下钻）</h3>
+        <button type="button" class="btn-dash btn-sm" data-export-table="db-brand-rank" data-export-name="品牌排名.csv">导出 CSV</button>
+      </div>
+      <div class="table-scroll"><table class="data-table"><thead><tr><th>品牌</th><th class="num">净收入</th><th class="num">毛利率</th><th class="num">同比</th></tr></thead><tbody id="db-brand-rank"></tbody></table></div>
+    </div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>直营门店 Top5</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-store-top" data-export-name="门店Top5.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>门店</th><th>区域</th><th class="num">收入</th><th class="num">坪效</th><th class="num">利润</th></tr></thead><tbody id="db-store-top"></tbody></table></div>
+  </div>
+</section>

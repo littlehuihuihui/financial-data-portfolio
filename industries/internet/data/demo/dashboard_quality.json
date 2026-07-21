@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "avg_complete_rate": 68.5,
+      "finish_rate": 42.0,
+      "avg_first_frame_ms": 820,
+      "stall_rate": 3.2
+    },
+    "by_type": [
+      {
+        "device_type": "STB",
+        "avg_complete_rate": 70,
+        "avg_first_frame_ms": 750
+      },
+      {
+        "device_type": "Speaker",
+        "avg_complete_rate": 62,
+        "avg_first_frame_ms": 980
+      }
+    ],
+    "series": [
+      {
+        "series_name": "热播剧1",
+        "plays": 2500000.0,
+        "avg_complete_rate": 72,
+        "finish_rate": 45,
+        "avg_first_frame_ms": 780
+      }
+    ]
+  }
+}

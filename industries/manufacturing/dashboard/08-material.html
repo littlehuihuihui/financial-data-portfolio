@@ -1,0 +1,14 @@
+<section class="dashboard-page" data-dashboard="material">
+  <h2 class="dashboard-page-title">物料周转</h2>
+  <p class="dashboard-page-desc">物料周转天数 · 领料Top · 呆滞物料清单 · 数据源：v_material_turnover / fact_material_consumption</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>物料周转天数</h3><div id="db-chart-turnover" class="chart"></div></div>
+  <div class="chart-box"><h3>领料金额 Top10</h3><div id="db-chart-consumption" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>呆滞物料清单（周转 &gt; 45 天）</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-slow" data-export-name="呆滞物料.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>物料编码</th><th>物料名称</th><th class="num">周转天数</th><th class="num">安全库存</th><th>预警</th></tr></thead><tbody id="db-table-slow"></tbody></table></div>
+  </div>
+</section>

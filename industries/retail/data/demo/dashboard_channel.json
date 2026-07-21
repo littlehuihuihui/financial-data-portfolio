@@ -1,0 +1,370 @@
+{
+  "ok": true,
+  "data": {
+    "channel_kpi": [
+      {
+        "channel_name": "天猫",
+        "net_revenue": 4200000.0,
+        "gross_margin_pct": 36.5,
+        "return_rate_pct": 5.1
+      },
+      {
+        "channel_name": "京东",
+        "net_revenue": 3500000.0,
+        "gross_margin_pct": 38.0,
+        "return_rate_pct": 3.8
+      },
+      {
+        "channel_name": "门店",
+        "net_revenue": 3100000.0,
+        "gross_margin_pct": 40.2,
+        "return_rate_pct": 2.5
+      },
+      {
+        "channel_name": "抖音",
+        "net_revenue": 2000000.0,
+        "gross_margin_pct": 32.0,
+        "return_rate_pct": 6.2
+      }
+    ],
+    "daily_trend": [
+      {
+        "order_date": "2026-06-01",
+        "channel_name": "天猫",
+        "net_revenue": 122000
+      },
+      {
+        "order_date": "2026-06-01",
+        "channel_name": "京东",
+        "net_revenue": 102000
+      },
+      {
+        "order_date": "2026-06-01",
+        "channel_name": "门店",
+        "net_revenue": 92000
+      },
+      {
+        "order_date": "2026-06-01",
+        "channel_name": "抖音",
+        "net_revenue": 62000
+      },
+      {
+        "order_date": "2026-06-02",
+        "channel_name": "天猫",
+        "net_revenue": 124000
+      },
+      {
+        "order_date": "2026-06-02",
+        "channel_name": "京东",
+        "net_revenue": 104000
+      },
+      {
+        "order_date": "2026-06-02",
+        "channel_name": "门店",
+        "net_revenue": 94000
+      },
+      {
+        "order_date": "2026-06-02",
+        "channel_name": "抖音",
+        "net_revenue": 64000
+      },
+      {
+        "order_date": "2026-06-03",
+        "channel_name": "天猫",
+        "net_revenue": 126000
+      },
+      {
+        "order_date": "2026-06-03",
+        "channel_name": "京东",
+        "net_revenue": 106000
+      },
+      {
+        "order_date": "2026-06-03",
+        "channel_name": "门店",
+        "net_revenue": 96000
+      },
+      {
+        "order_date": "2026-06-03",
+        "channel_name": "抖音",
+        "net_revenue": 66000
+      },
+      {
+        "order_date": "2026-06-04",
+        "channel_name": "天猫",
+        "net_revenue": 128000
+      },
+      {
+        "order_date": "2026-06-04",
+        "channel_name": "京东",
+        "net_revenue": 108000
+      },
+      {
+        "order_date": "2026-06-04",
+        "channel_name": "门店",
+        "net_revenue": 98000
+      },
+      {
+        "order_date": "2026-06-04",
+        "channel_name": "抖音",
+        "net_revenue": 68000
+      },
+      {
+        "order_date": "2026-06-05",
+        "channel_name": "天猫",
+        "net_revenue": 130000
+      },
+      {
+        "order_date": "2026-06-05",
+        "channel_name": "京东",
+        "net_revenue": 110000
+      },
+      {
+        "order_date": "2026-06-05",
+        "channel_name": "门店",
+        "net_revenue": 100000
+      },
+      {
+        "order_date": "2026-06-05",
+        "channel_name": "抖音",
+        "net_revenue": 70000
+      },
+      {
+        "order_date": "2026-06-06",
+        "channel_name": "天猫",
+        "net_revenue": 132000
+      },
+      {
+        "order_date": "2026-06-06",
+        "channel_name": "京东",
+        "net_revenue": 112000
+      },
+      {
+        "order_date": "2026-06-06",
+        "channel_name": "门店",
+        "net_revenue": 102000
+      },
+      {
+        "order_date": "2026-06-06",
+        "channel_name": "抖音",
+        "net_revenue": 72000
+      },
+      {
+        "order_date": "2026-06-07",
+        "channel_name": "天猫",
+        "net_revenue": 134000
+      },
+      {
+        "order_date": "2026-06-07",
+        "channel_name": "京东",
+        "net_revenue": 114000
+      },
+      {
+        "order_date": "2026-06-07",
+        "channel_name": "门店",
+        "net_revenue": 104000
+      },
+      {
+        "order_date": "2026-06-07",
+        "channel_name": "抖音",
+        "net_revenue": 74000
+      },
+      {
+        "order_date": "2026-06-08",
+        "channel_name": "天猫",
+        "net_revenue": 136000
+      },
+      {
+        "order_date": "2026-06-08",
+        "channel_name": "京东",
+        "net_revenue": 116000
+      },
+      {
+        "order_date": "2026-06-08",
+        "channel_name": "门店",
+        "net_revenue": 106000
+      },
+      {
+        "order_date": "2026-06-08",
+        "channel_name": "抖音",
+        "net_revenue": 76000
+      },
+      {
+        "order_date": "2026-06-09",
+        "channel_name": "天猫",
+        "net_revenue": 138000
+      },
+      {
+        "order_date": "2026-06-09",
+        "channel_name": "京东",
+        "net_revenue": 118000
+      },
+      {
+        "order_date": "2026-06-09",
+        "channel_name": "门店",
+        "net_revenue": 108000
+      },
+      {
+        "order_date": "2026-06-09",
+        "channel_name": "抖音",
+        "net_revenue": 78000
+      },
+      {
+        "order_date": "2026-06-10",
+        "channel_name": "天猫",
+        "net_revenue": 140000
+      },
+      {
+        "order_date": "2026-06-10",
+        "channel_name": "京东",
+        "net_revenue": 120000
+      },
+      {
+        "order_date": "2026-06-10",
+        "channel_name": "门店",
+        "net_revenue": 110000
+      },
+      {
+        "order_date": "2026-06-10",
+        "channel_name": "抖音",
+        "net_revenue": 80000
+      },
+      {
+        "order_date": "2026-06-11",
+        "channel_name": "天猫",
+        "net_revenue": 142000
+      },
+      {
+        "order_date": "2026-06-11",
+        "channel_name": "京东",
+        "net_revenue": 122000
+      },
+      {
+        "order_date": "2026-06-11",
+        "channel_name": "门店",
+        "net_revenue": 112000
+      },
+      {
+        "order_date": "2026-06-11",
+        "channel_name": "抖音",
+        "net_revenue": 82000
+      },
+      {
+        "order_date": "2026-06-12",
+        "channel_name": "天猫",
+        "net_revenue": 144000
+      },
+      {
+        "order_date": "2026-06-12",
+        "channel_name": "京东",
+        "net_revenue": 124000
+      },
+      {
+        "order_date": "2026-06-12",
+        "channel_name": "门店",
+        "net_revenue": 114000
+      },
+      {
+        "order_date": "2026-06-12",
+        "channel_name": "抖音",
+        "net_revenue": 84000
+      },
+      {
+        "order_date": "2026-06-13",
+        "channel_name": "天猫",
+        "net_revenue": 146000
+      },
+      {
+        "order_date": "2026-06-13",
+        "channel_name": "京东",
+        "net_revenue": 126000
+      },
+      {
+        "order_date": "2026-06-13",
+        "channel_name": "门店",
+        "net_revenue": 116000
+      },
+      {
+        "order_date": "2026-06-13",
+        "channel_name": "抖音",
+        "net_revenue": 86000
+      },
+      {
+        "order_date": "2026-06-14",
+        "channel_name": "天猫",
+        "net_revenue": 148000
+      },
+      {
+        "order_date": "2026-06-14",
+        "channel_name": "京东",
+        "net_revenue": 128000
+      },
+      {
+        "order_date": "2026-06-14",
+        "channel_name": "门店",
+        "net_revenue": 118000
+      },
+      {
+        "order_date": "2026-06-14",
+        "channel_name": "抖音",
+        "net_revenue": 88000
+      }
+    ],
+    "channel_scatter": [
+      {
+        "channel_name": "天猫",
+        "net_revenue": 4200000.0,
+        "gross_profit": 1500000.0
+      },
+      {
+        "channel_name": "京东",
+        "net_revenue": 3500000.0,
+        "gross_profit": 1300000.0
+      },
+      {
+        "channel_name": "门店",
+        "net_revenue": 3100000.0,
+        "gross_profit": 1200000.0
+      },
+      {
+        "channel_name": "抖音",
+        "net_revenue": 2000000.0,
+        "gross_profit": 600000.0
+      }
+    ],
+    "expense_breakdown": [
+      {
+        "expense_type": "人力",
+        "expense_amount": 800000.0
+      },
+      {
+        "expense_type": "租金",
+        "expense_amount": 500000.0
+      },
+      {
+        "expense_type": "广告",
+        "expense_amount": 600000.0
+      },
+      {
+        "expense_type": "物流",
+        "expense_amount": 300000.0
+      }
+    ],
+    "ad_efficiency": [
+      {
+        "channel_name": "天猫",
+        "ad_expense": 200000.0,
+        "roas": 3.2
+      },
+      {
+        "channel_name": "京东",
+        "ad_expense": 150000.0,
+        "roas": 4.1
+      },
+      {
+        "channel_name": "门店",
+        "ad_expense": 180000.0,
+        "roas": 2.8
+      }
+    ]
+  }
+}

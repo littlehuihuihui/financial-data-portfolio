@@ -1,0 +1,85 @@
+{
+  "ok": true,
+  "data": {
+    "structure": [
+      {
+        "plan_type": "包月",
+        "order_amount": 1500000.0,
+        "order_cnt": 100000.0
+      }
+    ],
+    "plan_analysis": [
+      {
+        "plan_type": "包月",
+        "order_cnt": 100000.0,
+        "unsub_cnt": 10000.0,
+        "order_amount": 1500000.0,
+        "revenue_share": 450000.0,
+        "new_user_cnt": 30000.0,
+        "renewal_cnt": 70000.0,
+        "unsub_rate": 10,
+        "avg_order_price": 15
+      },
+      {
+        "plan_type": "包季",
+        "order_cnt": 50000.0,
+        "unsub_cnt": 7000.0,
+        "order_amount": 1200000.0,
+        "revenue_share": 360000.0,
+        "new_user_cnt": 15000.0,
+        "renewal_cnt": 35000.0,
+        "unsub_rate": 14,
+        "avg_order_price": 24
+      },
+      {
+        "plan_type": "包年",
+        "order_cnt": 30000.0,
+        "unsub_cnt": 5000.0,
+        "order_amount": 1800000.0,
+        "revenue_share": 540000.0,
+        "new_user_cnt": 8000.0,
+        "renewal_cnt": 22000.0,
+        "unsub_rate": 16.7,
+        "avg_order_price": 60
+      }
+    ],
+    "arpu_trend": [
+      {
+        "snapshot_month": "2026-01",
+        "arpu": 3.2,
+        "arppu": 12,
+        "total_active_users": 1100000.0
+      },
+      {
+        "snapshot_month": "2026-02",
+        "arpu": 3.3,
+        "arppu": 12.2,
+        "total_active_users": 1120000.0
+      },
+      {
+        "snapshot_month": "2026-03",
+        "arpu": 3.4,
+        "arppu": 12.5,
+        "total_active_users": 1150000.0
+      },
+      {
+        "snapshot_month": "2026-04",
+        "arpu": 3.5,
+        "arppu": 12.8,
+        "total_active_users": 1200000.0
+      },
+      {
+        "snapshot_month": "2026-05",
+        "arpu": 3.6,
+        "arppu": 13,
+        "total_active_users": 1250000.0
+      },
+      {
+        "snapshot_month": "2026-06",
+        "arpu": 3.8,
+        "arppu": 13.5,
+        "total_active_users": 1280000.0
+      }
+    ]
+  }
+}

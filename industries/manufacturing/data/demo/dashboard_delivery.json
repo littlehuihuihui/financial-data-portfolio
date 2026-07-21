@@ -1,0 +1,75 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "otd_pct": 94.0,
+      "late_count": 8,
+      "plan_achieve_pct": 96.5,
+      "avg_lead_days": 12.5,
+      "order_count": 320
+    },
+    "trend": [
+      {
+        "month_label": "2026-01",
+        "otd_pct": 91,
+        "plan_achieve_pct": 94
+      },
+      {
+        "month_label": "2026-02",
+        "otd_pct": 92,
+        "plan_achieve_pct": 95
+      },
+      {
+        "month_label": "2026-03",
+        "otd_pct": 93,
+        "plan_achieve_pct": 95
+      },
+      {
+        "month_label": "2026-04",
+        "otd_pct": 93,
+        "plan_achieve_pct": 96
+      },
+      {
+        "month_label": "2026-05",
+        "otd_pct": 94,
+        "plan_achieve_pct": 96
+      },
+      {
+        "month_label": "2026-06",
+        "otd_pct": 94,
+        "plan_achieve_pct": 96.5
+      }
+    ],
+    "wip": [
+      {
+        "process_step": "冲压",
+        "wip_qty": 1200
+      },
+      {
+        "process_step": "焊接",
+        "wip_qty": 800
+      },
+      {
+        "process_step": "装配",
+        "wip_qty": 1500
+      },
+      {
+        "process_step": "检测",
+        "wip_qty": 400
+      }
+    ],
+    "late_orders": [
+      {
+        "order_id": "WO-1001",
+        "product_name": "电机A",
+        "line_name": "产线1",
+        "due_date": "2026-06-20",
+        "overdue_days": 3,
+        "plan_qty": 500,
+        "actual_qty": 420,
+        "shortage_qty": 80,
+        "alert_level": "高"
+      }
+    ]
+  }
+}

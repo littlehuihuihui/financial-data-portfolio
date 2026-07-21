@@ -1,0 +1,16 @@
+<section class="dashboard-page" data-dashboard="scrap-rework">
+  <h2 class="dashboard-page-title">报废与返工</h2>
+  <p class="dashboard-page-desc">报废率 · 返工率 · 缺陷类型 · 产线对比 · 数据源：dwd_quality_wide / dim_defect_type</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>产线报废 / 返工</h3><div id="db-chart-scrap-line" class="chart"></div></div>
+    <div class="chart-box"><h3>报废缺陷类型</h3><div id="db-chart-scrap-defect" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>产线报废明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-scrap-line" data-export-name="报废返工.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>产线</th><th class="num">报废数</th><th class="num">返工数</th><th class="num">报废率%</th><th>预警</th></tr></thead><tbody id="db-table-scrap-line"></tbody></table></div>
+  </div>
+</section>

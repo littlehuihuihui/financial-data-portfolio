@@ -1,0 +1,16 @@
+<section class="dashboard-page" data-dashboard="budget">
+  <h2 class="dashboard-page-title">🎯 预算执行</h2>
+  <p class="dashboard-page-desc">渠道/品牌预算达成 · 超预算预警 · 费用科目明细 · 数据源：dws_budget_execution_monthly / v_budget_execution</p>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>各渠道预算 vs 实际</h3><div id="db-chart-budget-ch" class="chart"></div></div>
+    <div class="chart-box"><h3>各品牌达成率</h3><div id="db-chart-budget-br" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <h3>超预算预警</h3>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>品牌</th><th>渠道</th><th>费用科目</th><th class="num">偏差率</th><th>预警</th></tr></thead><tbody id="db-budget-alerts"></tbody></table></div>
+  </div>
+  <div class="chart-box">
+    <h3>费用科目明细</h3>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>品牌</th><th>渠道</th><th>科目</th><th class="num">预算</th><th class="num">实际</th><th class="num">达成率</th></tr></thead><tbody id="db-budget-detail"></tbody></table></div>
+  </div>
+</section>

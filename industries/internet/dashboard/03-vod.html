@@ -1,0 +1,12 @@
+<section class="dashboard-page" data-dashboard="vod">
+  <h2 class="dashboard-page-title">点播活跃</h2>
+  <p class="dashboard-page-desc">VV/UV/播放时长 · 人均VV/人均时长 · 端对比 · 多时间维度</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>点播趋势（近30天）</h3><div id="db-chart-vod-trend" class="chart"></div></div>
+  <div class="chart-box"><h3>分端点播 VV/UV</h3><div id="db-chart-vod-type" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>多时间窗点播</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-window" data-export-name="点播多窗口.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>时间窗</th><th class="num">UV</th><th class="num">VV</th><th class="num">播放时长(时)</th></tr></thead><tbody id="db-table-window"></tbody></table></div>
+  </div>
+</section>

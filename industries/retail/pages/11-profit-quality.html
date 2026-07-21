@@ -1,0 +1,13 @@
+<section class="dashboard-page" data-dashboard="profit-quality">
+  <h2 class="dashboard-page-title">✨ 利润质量</h2>
+  <p class="dashboard-page-desc">净现比 · 净利润(毛利−费用) vs 经营现金流 · 行业对标读 cfg_industry_benchmark · 数据源：dws_cashflow_monthly</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>净利润 vs 经营现金流</h3><div id="db-chart-pq-trend" class="chart"></div></div>
+    <div class="chart-box"><h3>行业净现比对标</h3><div id="db-chart-pq-bench" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <h3>各品牌利润质量</h3>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>品牌</th><th class="num">净现比</th><th>状态</th><th>差异原因</th></tr></thead><tbody id="db-pq-brand"></tbody></table></div>
+  </div>
+</section>

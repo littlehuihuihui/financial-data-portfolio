@@ -1,0 +1,13 @@
+<section class="dashboard-page" data-dashboard="device">
+  <h2 class="dashboard-page-title">设备流转</h2>
+  <p class="dashboard-page-desc">STB↔Speaker · 型号/固件分布 · 双端用户 · 分地市活跃</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>端类型分布</h3><div id="db-chart-devtype" class="chart"></div></div>
+  <div class="chart-box"><h3>设备型号分布</h3><div id="db-chart-model" class="chart"></div></div>
+  <div class="chart-box"><h3>固件版本分布</h3><div id="db-chart-fw" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>分地市活跃设备</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-region" data-export-name="分地市活跃.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>地市</th><th class="num">活跃设备数</th></tr></thead><tbody id="db-table-region"></tbody></table></div>
+  </div>
+</section>

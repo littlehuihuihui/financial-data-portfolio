@@ -1,0 +1,16 @@
+<section class="dashboard-page" data-dashboard="process-yield">
+  <h2 class="dashboard-page-title">工序良率</h2>
+  <p class="dashboard-page-desc">工序加权良率 · 产线对比 · 数据源：fact_process_operation</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>工序良率</h3><div id="db-chart-process-step" class="chart"></div></div>
+    <div class="chart-box"><h3>产线工序良率</h3><div id="db-chart-process-line" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>工序明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-process-step" data-export-name="工序良率.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>工序</th><th class="num">投入</th><th class="num">合格</th><th class="num">不良</th><th class="num">良率%</th><th>预警</th></tr></thead><tbody id="db-table-process-step"></tbody></table></div>
+  </div>
+</section>
