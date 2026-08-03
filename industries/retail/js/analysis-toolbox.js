@@ -216,19 +216,13 @@
 
 
     if (type === "dupont") {
-
+      const L = d.labels || { total: "ROE", a: "净利率", b: "周转", c: "杠杆" };
       wrap.innerHTML = `
-
         <div class="toolbox-dupont">
-
-          <p class="toolbox-dupont-formula">ROE ${d.roe}% = 净利率 ${d.margin}% × 周转 ${d.turnover} × 杠杆 ${d.leverage}</p>
-
+          <p class="toolbox-dupont-formula">${esc(L.total)} ${d.roe}% = ${esc(L.a)} ${d.margin}% × ${esc(L.b)} ${d.turnover}${d.turnoverSuffix || ""} × ${esc(L.c)} ${d.leverage}${d.leverageSuffix || ""}</p>
           <p class="toolbox-dupont-drag">主要拖累：${esc(d.drag)}</p>
-
         </div>`;
-
       return;
-
     }
 
 
@@ -552,26 +546,29 @@
         ...anim,
       });
     } else if (type === "scatter") {
+      const xName = d.xName || "广告费(万)";
+      const yName = d.yName || "收入(万)";
       ch.setOption({
         backgroundColor: "transparent",
         grid: { left: 56, right: 28, top: 44, bottom: 48 },
         title: {
-          text: `相关系数 r = ${d.r}`, left: "center", top: 8,
+          text: d.r != null ? `相关系数 r = ${d.r}` : (d.title || ""),
+          left: "center", top: 8,
           textStyle: { color: "#94a3b8", fontSize: 12, fontWeight: 500 },
         },
         tooltip: {
           ...tipBase, trigger: "item",
           formatter: (p) => {
-            const [ad, rev, chn] = p.data;
-            return `<b>${chn}</b><br/>广告 ${ad} 万 · 收入 ${rev} 万`;
+            const [x, y, name] = p.data;
+            return `<b>${name}</b><br/>${xName} ${x} · ${yName} ${y}`;
           },
         },
         xAxis: {
-          name: "广告费(万)", nameLocation: "middle", nameGap: 28, nameTextStyle: nameMuted,
+          name: xName, nameLocation: "middle", nameGap: 28, nameTextStyle: nameMuted,
           type: "value", splitLine: splitDash, axisLabel: nameMuted, axisLine: axisLineSoft,
         },
         yAxis: {
-          name: "收入(万)", nameTextStyle: nameMuted,
+          name: yName, nameTextStyle: nameMuted,
           type: "value", splitLine: splitDash, axisLabel: nameMuted, axisLine: { show: false },
         },
         series: [{
@@ -597,6 +594,9 @@
         ...anim,
       });
     } else if (type === "roi-bar") {
+      const barName = d.barName || "ROI";
+      const lineName = d.lineName || "行业基准";
+      const yName = d.yName || "ROI";
       ch.setOption({
         backgroundColor: "transparent",
         grid: gridPad,
@@ -607,8 +607,8 @@
         legend: {
           ...legendSoft,
           data: [
-            { name: "ROI", icon: "roundRect" },
-            { name: "行业基准", icon: "circle" },
+            { name: barName, icon: "roundRect" },
+            { name: lineName, icon: "circle" },
           ],
         },
         xAxis: {
@@ -616,12 +616,12 @@
           axisTick: { show: false }, axisLine: axisLineSoft, axisLabel: labelMuted,
         },
         yAxis: {
-          type: "value", name: "ROI", nameTextStyle: nameMuted,
+          type: "value", name: yName, nameTextStyle: nameMuted,
           splitLine: splitDash, axisLabel: nameMuted, axisLine: { show: false },
         },
         series: [
           {
-            name: "ROI", type: "bar", data: d.items.map((i) => i.roi), barMaxWidth: 36,
+            name: barName, type: "bar", data: d.items.map((i) => i.roi), barMaxWidth: 36,
             itemStyle: {
               borderRadius: [6, 6, 0, 0],
               color: barGrad("#60a5fa", "#1d4ed8"),
@@ -629,7 +629,7 @@
             },
           },
           {
-            name: "行业基准", type: "line", data: d.items.map((i) => i.bench),
+            name: lineName, type: "line", data: d.items.map((i) => i.bench),
             smooth: 0.2, symbol: "circle", symbolSize: 8,
             lineStyle: { width: 2.5, type: [5, 4], color: "#fbbf24" },
             itemStyle: { color: "#fde68a", borderColor: "#b45309", borderWidth: 2 },
