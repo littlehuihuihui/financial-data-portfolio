@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>制造业 · 数据仓库与管道架构</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/platform-features.css">
+</head>
+<body class="page-architecture">
+  <header class="top-nav">
+    <div class="nav-inner nav-inner-with-search">
+      <div class="brand-title">制造业</div>
+      <div id="global-search-slot"></div>
+      <nav class="nav-tabs">
+        <a href="../manufacturing_dashboard.html" class="nav-tab">数据展示</a>
+        <a href="methodology.html" class="nav-tab">分析方法论</a>
+        <a href="architecture.html" class="nav-tab active">数仓架构</a>
+        <a href="../pdf/report.html" class="nav-tab nav-export" target="_blank">导出 PDF</a>
+      </nav>
+    </div>
+  </header>
+  <main class="main-content">
+    <h1 class="section-title">⚙️ 制造业数据仓库架构</h1>
+    <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>database/</code>）；宽表优先、主题聚合，14 个 Web 看板与 Tableau SQL 直接消费 DWS/ADS。<span class="arch-scale-badge">作品集版 · 宽表 + DWS + 14 看板 API</span></p>
+
+    <aside class="layer-glossary" aria-label="数仓分层名词解释">
+      <h3 class="layer-glossary-title">分层是什么？每一层存什么粒度的数据？</h3>
+      <dl class="layer-glossary-list">
+        <dt>ODS · 操作数据层</dt>
+        <dd><strong>颗粒度：业务系统原始单据/记录级（一行一条业务事实）。</strong>贴近 MES/ERP/WMS 的原始落地，8 张表：生产工单（<code>ods_production_order</code>，一行一工单）、质检记录（一行一检验批次）、物料库存快照（一行一物料一日）、设备状态、工时记录等。保留源系统主键，不做复杂聚合。</dd>
+        <dt>DIM · 维度层</dt>
+        <dd><strong>颗粒度：描述性主数据（一行一个维度实体）。</strong>5 张表：产品（<code>dim_product</code>，一行一 SKU）、产线（一行一产线）、供应商（一行一供应商）、物料（一行一物料编码）、日期（一行一天）。用于统一口径与名称映射。</dd>
+        <dt>DWD · 明细宽表层</dt>
+        <dd><strong>颗粒度：清洗后的明细宽表（一行一条业务事实 + 冗余维度）。</strong>3 张宽表：生产宽表（一行一工单，冗余产线/产品/工时/成本）、质量宽表（一行一质检批次）、供应链宽表（一行一采购/库存事务）。查询时最多关联 1–2 张表。</dd>
+        <dt>DWS · 汇总数据层</dt>
+        <dd><strong>颗粒度：按时间 × 主题预聚合（一行一个汇总单元）。</strong>5 张表：日生产汇总（一行 = 某日×某产线，产量/产能利用率/工时）、日质量汇总（良品率/不良率）、日供应链汇总（采购额/周转天数）、日设备汇总（OEE/故障率）、<strong>月</strong>成本汇总（一行 = 某月×某工厂，总成本/单位成本/成本结构）。</dd>
+        <dt>ADS · 应用数据层</dt>
+        <dd><strong>颗粒度：面向看板/API 的主题视图与查询（封装指标口径，可跨 DWS 关联）。</strong>14 个主题看板 API（含报废返工/工序良率/停机/BOM/供应商评分等扩展），一行对应看板图表所需的一个分析切片（如日趋势一点、产线对比一行）。</dd>
+      </dl>
+      <p class="layer-glossary-foot">记忆口诀：<strong>ODS 存原始 → DIM 定口径 → DWD 宽表洗 → DWS 先算好 → ADS 给业务用</strong>。</p>
+    </aside>
+
+    <section class="arch-section" id="source-stack">
+      <h3>数据源与数据库选型</h3>
+      <p class="star-schema-desc">制造业同时对接 <strong>ERP（工单/BOM/成本）</strong> 与 <strong>MES/SCADA（报工/设备实时）</strong>；离线 Hive 承载日结，时序/实时库服务产线监控，ClickHouse/Hologres 做 OEE 与质量多维分析。规范见制造业 <code>docs/03_技术栈选型说明.md</code>。</p>
+
+      <h4 class="source-stack-subtitle">业务数据源</h4>
+      <div class="source-stack-grid">
+        <article class="source-card"><h5>SAP / ERP</h5><p>工单、BOM、物料、采购、财务成本 · Oracle/SAP</p><span class="source-tag">T+1 主链路</span></article>
+        <article class="source-card"><h5>MES</h5><p>工序报工、质检、人员工时 · SQL Server CDC</p><span class="source-tag">准实时 5min</span></article>
+        <article class="source-card"><h5>SCADA / 设备</h5><p>传感器、停机、运行参数 · MQTT 时序流</p><span class="source-tag">实时 · 秒级</span></article>
+        <article class="source-card"><h5>WMS</h5><p>库存、出入库、库位</p><span class="source-tag">T+1</span></article>
+        <article class="source-card"><h5>QMS</h5><p>不良代码、客诉、质量分析</p><span class="source-tag">T+1</span></article>
+        <article class="source-card"><h5>HR / 班组</h5><p>人员、组织、班次 · 人工效率口径</p><span class="source-tag">周更</span></article>
+      </div>
+
+      <h4 class="source-stack-subtitle">数据库与计算引擎</h4>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>层级</th><th>本地作品集</th><th>中小企业</th><th>中大型 / 集团</th><th>选型理由</th></tr></thead>
+        <tbody>
+          <tr><td>ERP / 业务库</td><td>MySQL 模拟</td><td>Oracle / MySQL</td><td>SAP + PolarDB</td><td>工单与成本权威源</td></tr>
+          <tr><td>离线数仓</td><td><strong>MySQL 8.0</strong></td><td>MySQL / Hive</td><td>Hive · MaxCompute</td><td>日生产/质量/成本汇总</td></tr>
+          <tr><td>OLAP 分析</td><td>MySQL 视图</td><td>ClickHouse</td><td>Hologres / Presto</td><td>OEE、不良、产能多维分析</td></tr>
+          <tr><td>实时 / 时序</td><td>—</td><td>Kafka + Flink · 时序库</td><td>Realtime Compute + TSDB</td><td>产线看板秒级监控</td></tr>
+          <tr><td>集成 / 调度</td><td>Python 灌数</td><td>DataX + DolphinScheduler</td><td>DataWorks / Airflow</td><td>ERP 日结 + MES CDC 并存</td></tr>
+        </tbody>
+      </table></div>
+      <ul class="fpb-reconcile-list">
+        <li><strong>双速架构：</strong>成本与财务跟 ERP T+1；设备 OEE 跟 SCADA 实时流，避免混用口径。</li>
+        <li><strong>本作品集落点：</strong>制造业 MySQL 五层 = 生产 Hive + 实时侧的可演示原型。</li>
+      </ul>
+    </section>
+
+    <section class="arch-section">
+      <h3>数据来源（5 大业务域）</h3>
+      <p class="star-schema-desc">生产域（工单/产线/工时）· 质量域（质检/不良/返工）· 供应链域（采购/库存/供应商）· 设备域（OEE/故障/维护）· 成本域（材料/人工/制造费用）。样例灌入见 <code>database/seed_manufacturing_data.py</code>。</p>
+      <div class="table-wrap"><table class="data-table"><thead><tr><th>业务域</th><th>ODS 源表</th><th>典型颗粒度</th></tr></thead><tbody>
+        <tr><td>生产域</td><td>ods_production_order, ods_production_line, ods_labor</td><td>工单级 / 产线级 / 工时记录级</td></tr>
+        <tr><td>质量域</td><td>ods_quality_inspection</td><td>检验批次级（每工单一次或多次质检）</td></tr>
+        <tr><td>供应链域</td><td>ods_material, ods_inventory_material, ods_supplier</td><td>物料主数据 / 日库存快照 / 供应商主数据</td></tr>
+        <tr><td>设备域</td><td>ods_equipment</td><td>设备级日状态（OEE 三要素、停机原因）</td></tr>
+        <tr><td>成本域</td><td>（由 DWD 生产宽表拆解）</td><td>工单级成本 → 聚合为月/产品/产线</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section class="arch-section">
+      <h3>数仓分层速览</h3>
+      <div class="table-wrap"><table class="data-table"><thead><tr><th>层级</th><th>对象数</th><th>存储粒度</th><th>典型用途</th></tr></thead><tbody>
+        <tr><td>ODS</td><td>8 表</td><td>原始单据/记录</td><td>对接 MES/ERP，保留审计</td></tr>
+        <tr><td>DIM</td><td>5 表</td><td>主数据实体</td><td>产品/产线/供应商口径统一</td></tr>
+        <tr><td>DWD</td><td>3 表</td><td>明细宽表</td><td>跨域关联分析、根因下钻</td></tr>
+        <tr><td>DWS</td><td>5 表</td><td>日/月预聚合</td><td>看板 KPI、趋势图加速</td></tr>
+        <tr><td>ADS</td><td>10 视图</td><td>主题指标切片</td><td>Web API / Tableau 直接消费</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section class="arch-section">
+      <h3>14 看板与 ADS / API 映射</h3>
+      <div class="table-wrap"><table class="data-table"><thead><tr><th>看板</th><th>ADS视图 / 主表</th><th>API</th><th>主要粒度</th></tr></thead><tbody>
+        <tr><td>生产总览</td><td>v_production_overview / dws_production_daily</td><td>/api/dashboard_production</td><td>日 / 产线</td></tr>
+        <tr><td>交付分析</td><td>dwd_production_wide</td><td>/api/dashboard_delivery</td><td>工单 / 日</td></tr>
+        <tr><td>质量分析</td><td>v_quality_analysis / dwd_quality_wide</td><td>/api/dashboard_quality</td><td>日 / 产线 / 不良类型</td></tr>
+        <tr><td>报废与返工</td><td>dwd_quality_wide + dim_defect_type</td><td>/api/dashboard_scrap_rework</td><td>产线 / 缺陷</td></tr>
+        <tr><td>工序良率</td><td>fact_process_operation</td><td>/api/dashboard_process_yield</td><td>工序 / 产线</td></tr>
+        <tr><td>设备OEE</td><td>v_equipment_oee / dwd_equipment_run</td><td>/api/dashboard_equipment</td><td>日 / 设备</td></tr>
+        <tr><td>停机损失</td><td>dwd_equipment_run</td><td>/api/dashboard_downtime</td><td>设备 / 原因</td></tr>
+        <tr><td>产能负荷</td><td>v_capacity_utilization</td><td>/api/dashboard_capacity</td><td>日 / 产线（加权）</td></tr>
+        <tr><td>成本分析</td><td>v_cost_analysis</td><td>/api/dashboard_cost</td><td>月 / 工厂</td></tr>
+        <tr><td>供应链分析</td><td>v_supply_chain / dws_supply_daily</td><td>/api/dashboard_supply</td><td>日 / 供应商</td></tr>
+        <tr><td>供应商评分</td><td>dws_supply_daily（OTD 加权）</td><td>/api/dashboard_supplier_score</td><td>供应商 / 月</td></tr>
+        <tr><td>物料周转</td><td>v_material_turnover</td><td>/api/dashboard_material</td><td>物料 / 日</td></tr>
+        <tr><td>领料差异</td><td>fact_material_consumption</td><td>/api/dashboard_bom_variance</td><td>物料 / 产线</td></tr>
+        <tr><td>人工效率</td><td>v_labor_efficiency</td><td>/api/dashboard_labor</td><td>日 / 产线</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section class="arch-section" id="er-diagram-section">
+      <h3>实体关系图（ER）</h3>
+      <p class="star-schema-desc">基于 <code>database/</code> 权威 DDL 绘制的生产/质量/供应链雪花+宽表关系图；展示 DIM 主数据、三主题 DWD 宽表与 DWS→ADS 看板出口。</p>
+      <div id="er-diagram-root" class="er-diagram-wrap"></div>
+    </section>
+
+    <section class="arch-section" id="data-dictionary-section">
+      <h3>数据字典</h3>
+      <p class="star-schema-desc">DDL 见 <code>database/01_ods.sql</code> … <code>05_ads.sql</code> · 灌数 <code>seed_manufacturing_data.py</code></p>
+      <div id="data-dictionary-root" class="data-dictionary"></div>
+    </section>
+
+    <section class="arch-section">
+      <h3>作品集落地技术栈</h3>
+      <ul class="arch-tech-list">
+        <li>Python 3.9+ / Flask</li>
+        <li>MySQL 8.0 数仓</li>
+        <li>SQL 脚本 ETL + ADS 视图</li>
+        <li>Tableau / ECharts 可视化</li>
+        <li>HTML / CSS / JS 前端</li>
+      </ul>
+      <p class="star-schema-desc" style="margin-top:12px">生产选型（Hive / ClickHouse / 时序库 / Flink）见上方「数据源与数据库选型」。</p>
+    </section>
+  </main>
+  <script src="../js/er-diagram-data.js"></script>
+  <script src="../js/er-diagram.js"></script>
+  <script src="../js/data-dictionary-data.js"></script>
+  <script src="../js/methodology-playbook-data.js"></script>
+  <script src="../js/search-index-data.js"></script>
+  <script src="../js/data-dictionary.js"></script>
+  <script src="../js/global-search.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      window.ERDiagramUI?.render("er-diagram-root");
+      const ui = window.DataDictionaryUI.render("data-dictionary-root");
+      window.DataDictionaryUI = Object.assign(window.DataDictionaryUI || {}, ui);
+    });
+  </script>
+</body>
+</html>

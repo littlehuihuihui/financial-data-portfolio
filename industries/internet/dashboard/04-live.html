@@ -1,0 +1,12 @@
+<section class="dashboard-page" data-dashboard="live">
+  <h2 class="dashboard-page-title">直播活跃</h2>
+  <p class="dashboard-page-desc">观看次数/人数/时长 · 频道分布 · 数据源：dws_content_live_play_1d</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>频道 VV Top10</h3><div id="db-chart-channel" class="chart"></div></div>
+  <div class="chart-box"><h3>频道 UV 占比</h3><div id="db-chart-channel-cat" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>频道明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-channel" data-export-name="频道明细.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>频道</th><th>大类</th><th class="num">VV</th><th class="num">UV</th><th class="num">时长(时)</th></tr></thead><tbody id="db-table-channel"></tbody></table></div>
+  </div>
+</section>

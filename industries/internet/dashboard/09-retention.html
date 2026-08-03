@@ -1,0 +1,11 @@
+<section class="dashboard-page" data-dashboard="retention">
+  <h2 class="dashboard-page-title">用户留存</h2>
+  <p class="dashboard-page-desc">次留/7留/30留 · 同期群矩阵 · 数据源：dws_user_retention_1d</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>留存曲线（D1/D3/D7/D14/D30）</h3><div id="db-chart-retention" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>同期群留存矩阵</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-retention" data-export-name="留存矩阵.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>同期群日期</th><th class="num">Day偏移</th><th class="num">群体数</th><th class="num">留存率%</th></tr></thead><tbody id="db-table-retention"></tbody></table></div>
+  </div>
+</section>

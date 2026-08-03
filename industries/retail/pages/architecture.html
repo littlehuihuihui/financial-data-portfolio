@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="跃动体育财务分析项目数据仓库与管道架构">
+  <title>跃动体育 · 数据仓库与管道架构</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="shared/platform-features.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body class="page-architecture">
+
+  <header class="top-nav">
+    <div class="nav-inner nav-inner-with-search">
+      <div class="brand-title">跃动体育</div>
+      <div id="global-search-slot"></div>
+      <nav class="nav-tabs" aria-label="页面导航">
+        <a href="shell.html" class="nav-tab">数据展示</a>
+        <a href="anomaly.html" class="nav-tab">分析方法论</a>
+        <a href="architecture.html" class="nav-tab active">数仓架构</a>
+        <a href="report.html" class="nav-tab nav-export" target="_blank">导出 PDF</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <h1 class="section-title">⚙️ 数据仓库与管道架构</h1>
+    <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>sql6_portfolio_model/</code>）；含 ERP 数据源映射/对账、数据源与数据库选型，看板与对账 API 直接消费 DWS/ADS。<span class="arch-scale-badge" id="recon-status">作品集版 · 21 表 + 8 视图 = 29 对象</span></p>
+
+    <aside class="layer-glossary" aria-label="数仓分层名词解释">
+      <h3 class="layer-glossary-title">分层是什么？（一句话）</h3>
+      <dl class="layer-glossary-list">
+        <dt>ODS · 操作数据层</dt>
+        <dd>Operational Data Store。贴近 ERP/CSV 的<strong>原始数据</strong>落地（8 张表：<code>ods_orders</code>、<code>ods_payment</code> 等），保留业务主键与审计字段，不做复杂加工。</dd>
+        <dt>DIM · 维度层</dt>
+        <dd>品牌 / 渠道 / 品类 / 门店 / 日期五张维度表（<code>dim_*</code>），供 ODS→DWD ETL 做编码映射与名称冗余。</dd>
+        <dt>DWD · 明细宽表层</dt>
+        <dd>Data Warehouse Detail。清洗后的<strong>宽表</strong>（<code>dwd_sales_wide</code>、<code>dwd_expense_wide</code>、<code>dwd_inventory_wide</code>），维度名称冗余进事实，查询最多 1–2 张表。</dd>
+        <dt>DWS · 汇总数据层</dt>
+        <dd>Data Warehouse Summary。按「日/月 × 品牌 × 渠道 × 品类」等粒度<strong>预聚合</strong>（<code>dws_sales_daily</code> 等 5 张表），看板查询更快。</dd>
+        <dt>ADS · 应用数据层</dt>
+        <dd>Application Data Service。面向报表 / Tableau / Web API 的<strong>8 个业务视图</strong>（<code>v_overview</code>、<code>v_dupont</code> 等），封装指标口径。</dd>
+      </dl>
+      <p class="layer-glossary-foot">记忆口诀：<strong>ODS 存原始 → DIM 定口径 → DWD 宽表洗 → DWS 先算好 → ADS 给业务用</strong>。</p>
+    </aside>
+
+    <!-- 区块0a：数据源与数据库选型（零售财务） -->
+    <section class="arch-section" id="source-stack">
+      <h3>数据源与数据库选型</h3>
+      <p class="star-schema-desc">零售财务以<strong>准确性、可审计、T+1 日结</strong>为第一原则；本地作品集用 MySQL，生产按规模升级 Hive / ClickHouse / 实时链路。详细规范见 <code>docs/03_技术栈选型说明.md</code>。</p>
+
+      <h4 class="source-stack-subtitle">业务数据源</h4>
+      <div class="source-stack-grid">
+        <article class="source-card"><h5>ERP / 财务</h5><p>用友·金蝶 / SAP S/4 · 凭证、总账、往来、科目余额</p><span class="source-tag">T+1 主链路</span></article>
+        <article class="source-card"><h5>POS / 收银</h5><p>门店流水、退款、折扣 · 经营日报准实时参考</p><span class="source-tag">T+1 + 小时级</span></article>
+        <article class="source-card"><h5>OMS 订单</h5><p>电商订单、发货、售后 · Canal CDC 准实时</p><span class="source-tag">T+1 + CDC</span></article>
+        <article class="source-card"><h5>WMS / 采购</h5><p>出入库、盘点、采购订单 · 库存与成本口径</p><span class="source-tag">T+1</span></article>
+        <article class="source-card"><h5>费用 / 预算 / 广告</h5><p>报销、预算计划、投放成本 · 对标费用率与 ROAS</p><span class="source-tag">日/月</span></article>
+        <article class="source-card"><h5>银行流水</h5><p>银企直连 / 导入 · 资金与现金流量勾稽</p><span class="source-tag">每日</span></article>
+      </div>
+
+      <h4 class="source-stack-subtitle">数据库与计算引擎</h4>
+      <div class="table-wrap table-scroll-wrap">
+        <table class="data-table">
+          <thead><tr><th>层级</th><th>本地作品集</th><th>中小企业</th><th>中大型 / 集团</th><th>选型理由</th></tr></thead>
+          <tbody>
+            <tr><td>业务库 / ERP</td><td>MySQL 模拟</td><td>用友/金蝶 MySQL·Oracle</td><td>SAP + Oracle / PolarDB</td><td>财务主数据与凭证权威源</td></tr>
+            <tr><td>离线数仓</td><td><strong>MySQL 8.0</strong></td><td>MySQL / Hive</td><td>Hive 3.x · MaxCompute</td><td>日结后批量装载，审计友好</td></tr>
+            <tr><td>OLAP / 看板</td><td>MySQL 视图 + ADS</td><td>ClickHouse</td><td>Hologres / Presto</td><td>多维下钻秒级响应</td></tr>
+            <tr><td>实时（可选）</td><td>—</td><td>Canal 小时级</td><td>Flink + Kafka</td><td>仅经营看板；正式财务仍以 T+1 为准</td></tr>
+            <tr><td>集成 / 调度</td><td>Python / 存储过程</td><td>DataX + DolphinScheduler</td><td>DataWorks / Airflow</td><td>日结后对账闸门再入仓</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="fpb-reconcile-list">
+        <li><strong>为何不以实时库做财务主存：</strong>凭证需日结与借贷平衡校验，实时流适合营收监控，不适合审计口径。</li>
+        <li><strong>本作品集落点：</strong><code>retail_finance</code> MySQL 五层模型 = 生产 Hive/MaxCompute 的 SQL 可迁移原型。</li>
+      </ul>
+    </section>
+
+    <!-- 区块0b：ERP 数据源（原独立页并入） -->
+    <section class="arch-section" id="erp-datasource">
+      <h3>ERP 数据源 · 全链路映射与对账</h3>
+      <p class="star-schema-desc">ERP 8 大模块每日增量同步至 ODS，经 ETL 进入 DWD 宽表与 DWS 汇总，最终由 ADS / Web 看板消费。需启动零售 API（:5000）以加载行数与对账结果。</p>
+
+      <div class="dw-flow-panorama" style="margin-bottom:1rem">
+        <div class="dw-flow-chain">
+          <span class="dw-node">ERP 销售/采购/库存</span><span class="dw-arrow">→</span>
+          <span class="dw-node">ODS 层</span><span class="dw-arrow">→</span>
+          <span class="dw-node dw-etl">Python ETL</span><span class="dw-arrow">→</span>
+          <span class="dw-node">DWD 宽表层</span><span class="dw-arrow">→</span>
+          <span class="dw-node dw-etl">聚合</span><span class="dw-arrow">→</span>
+          <span class="dw-node">DWS 汇总</span><span class="dw-arrow">→</span>
+          <span class="dw-node dw-end">ADS / 看板</span>
+        </div>
+      </div>
+
+      <h4 class="source-stack-subtitle">ERP → 数仓映射</h4>
+      <div class="table-wrap table-scroll-wrap">
+        <table class="data-table" id="mapping-table">
+          <thead><tr><th>ERP模块</th><th>ERP源表</th><th>ODS表</th><th>DWD/DWS</th><th>同步频率</th><th>ODS行数</th></tr></thead>
+          <tbody>
+            <tr><td>销售</td><td>so_sales_order</td><td>ods_orders</td><td>dwd_sales_wide</td><td>每日</td><td>—</td></tr>
+            <tr><td>销售</td><td>so_payment_receipt</td><td>ods_payment</td><td>dwd_sales_wide</td><td>每日</td><td>—</td></tr>
+            <tr><td>采购</td><td>po_purchase_order</td><td>ods_purchase</td><td>dwd_inventory_wide</td><td>每日</td><td>—</td></tr>
+            <tr><td>库存</td><td>inv_movement</td><td>ods_inventory</td><td>dwd_inventory_wide</td><td>每日</td><td>—</td></tr>
+            <tr><td>费用</td><td>er_expense_report</td><td>ods_expense</td><td>dwd_expense_wide</td><td>每日</td><td>—</td></tr>
+            <tr><td>门店</td><td>store_pnl</td><td>ods_store_pnl</td><td>dws_store_daily</td><td>月度</td><td>—</td></tr>
+            <tr><td>广告</td><td>ad_campaign_cost</td><td>ods_ad_cost</td><td>dws_expense_monthly</td><td>每日</td><td>—</td></tr>
+            <tr><td>预算</td><td>budget_plan</td><td>ods_budget</td><td>dws_expense_monthly</td><td>月度</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="source-stack-subtitle">ERP 总账对账看板</h4>
+      <div class="erp-controls">
+        <label>对账月份 <input type="month" id="recon-month" value="2026-06"></label>
+        <button type="button" class="btn-primary" id="btn-refresh-recon">刷新对账</button>
+      </div>
+      <div class="chart-grid">
+        <div id="chart-recon-bar" class="chart-box"></div>
+        <div id="chart-recon-trend" class="chart-box"></div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="recon-table">
+          <thead><tr><th>科目</th><th>ERP金额</th><th>数仓金额</th><th>差异率%</th><th>状态</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h4 class="source-stack-subtitle">ERP 原始数据导出</h4>
+      <p class="star-schema-desc">总账凭证与科目余额可从 ODS 层导出 CSV（需 Flask API）。</p>
+      <div class="erp-export-btns">
+        <a class="btn-primary" id="export-gl" href="/api/erp/export_gl?date_from=2026-06-01&date_to=2026-06-30">导出 ods_gl_entries</a>
+        <a class="btn-primary" id="export-balance" href="/api/erp/export_balance?month=202606">导出 ods_account_balance</a>
+      </div>
+      <ul class="fpb-reconcile-list" style="margin-top:1rem">
+        <li><strong>对账机制：</strong>ERP ODS 与 DWD/DWS 月度比对，差异 ≤2% 正常（<code>/api/erp/reconciliation</code>）</li>
+        <li><strong>ETL：</strong><code>scripts/seed_sql6_from_csv.py</code> → ODS→DWD→DWS 链式装载</li>
+      </ul>
+    </section>
+
+    <!-- 区块1：数据流全景图 -->
+    <section class="arch-section">
+      <h3>数据流全景图</h3>
+      <div class="dw-flow-panorama">
+        <div class="dw-flow-chain">
+          <span class="dw-node">CSV 原始数据</span><span class="dw-arrow">→</span>
+          <span class="dw-node">ODS 层</span><span class="dw-arrow">→</span>
+          <span class="dw-node dw-etl">ETL 清洗</span><span class="dw-arrow">→</span>
+          <span class="dw-node">DWD 层</span><span class="dw-arrow">→</span>
+          <span class="dw-node dw-etl">ETL 汇总</span><span class="dw-arrow">→</span>
+          <span class="dw-node">DWS 层</span><span class="dw-arrow">→</span>
+          <span class="dw-node">ADS 视图</span><span class="dw-arrow">→</span>
+          <span class="dw-node dw-end">Tableau 看板</span>
+        </div>
+        <p class="dw-flow-note"><strong>核心事实表均为日粒度</strong>（<code>dws_sales_daily</code>、<code>dws_store_daily</code>）· <strong>看板层支持日/周/月切换</strong></p>
+        <p class="dw-flow-tech">技术链路：Python（数据生成）→ MySQL（存储 / 存储过程 ETL）→ Tableau（可视化）</p>
+      </div>
+    </section>
+
+    <!-- 区块1b：三大报表 + 杜邦分析 -->
+    <section class="arch-section">
+      <h3>三大报表 + 杜邦分析</h3>
+      <p class="star-schema-desc">在 DWS 汇总之上，Flask API 从 <code>dws_sales_monthly</code>、<code>ods_payment</code>、<code>ods_expense</code> 实时推导三表与杜邦；ADS 视图见 <code>sql6_portfolio_model/05_ads.sql</code>。</p>
+      <div class="fpb-arch-diagram">
+        <pre>                    ┌─────────────────────────────────────────┐
+                    │           DWS 经营汇总层                 │
+                    │  dws_sales_monthly / dws_expense_monthly  │
+                    └─────────────────┬───────────────────────┘
+                                      │ API / ADS 视图
+          ┌───────────────────────────┼───────────────────────────┐
+          ▼                           ▼                           ▼
+ ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
+ │ v_income_       │       │ dws_inventory_  │       │ v_cashflow      │
+ │ statement       │       │ daily + ods_pay │       │ （支付-费用）    │
+ └────────┬────────┘       └────────┬────────┘       └────────┬────────┘
+          └────────────┬────────────┴────────────┬────────────┘
+                       ▼                         ▼
+              dashboard_queries 三表勾稽      v_dupont（ROE 分解）</pre>
+      </div>
+      <ul class="fpb-reconcile-list">
+        <li><strong>利润表：</strong><code>/api/dashboard_financial</code> · 收入/毛利/费用/净利</li>
+        <li><strong>现金流量：</strong><code>v_cashflow</code> · 经营现金流 vs 净利润（净现比）</li>
+        <li><strong>杜邦：</strong><code>v_dupont</code> · ROE = 净利润 / 所有者权益（dws_asset_monthly）</li>
+      </ul>
+    </section>
+
+    <!-- 区块1c：实体关系图 -->
+    <section class="arch-section" id="er-diagram-section">
+      <h3>实体关系图（ER）</h3>
+      <p class="star-schema-desc">基于 <code>sql6_portfolio_model/</code> 权威 DDL 绘制的星型+宽表关系图；展示维度、事实宽表、汇总层与 ADS 视图之间的编码关联与 ETL 流向。</p>
+      <div id="er-diagram-root" class="er-diagram-wrap"></div>
+    </section>
+
+    <!-- 区块2：数据字典（可折叠 · 字段血缘 · 字段统计总览） -->
+    <section class="arch-section" id="data-dictionary-section">
+      <h3>数据字典</h3>
+      <p class="star-schema-desc">sql6 权威模型字段定义（<code>sql6_portfolio_model/</code>）；每张表默认折叠，展开可查看字段角色与 ODS→ADS<strong>字段血缘</strong>。运行 <code>python scripts/generate_sql6_dictionary_js.py</code> 可重新生成。</p>
+      <div id="data-dictionary-root" class="data-dictionary"></div>
+    </section>
+
+    <!-- 区块2b：数仓分层速览 -->
+    <section class="arch-section">
+      <h3>数仓分层速览</h3>
+      <div class="table-wrap">
+        <table class="data-table dw-layer-table">
+          <thead>
+            <tr><th>层级</th><th>表名</th><th>说明</th><th>更新频率</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ODS</strong></td>
+              <td>ods_orders, ods_payment, ods_purchase, ods_inventory, ods_expense, ods_store_pnl, ods_ad_cost, ods_budget（8 表）</td>
+              <td>ERP/CSV 原始数据落地</td>
+              <td>每日增量同步</td>
+            </tr>
+            <tr>
+              <td><strong>DIM</strong></td>
+              <td>dim_brand, dim_channel, dim_category, dim_store, dim_date（5 表）</td>
+              <td>维度编码与名称映射</td>
+              <td>随 ETL 刷新</td>
+            </tr>
+            <tr>
+              <td><strong>DWD</strong></td>
+              <td>dwd_sales_wide, dwd_expense_wide, dwd_inventory_wide（3 宽表）</td>
+              <td>宽表优先 · 维度冗余 · 单表查询</td>
+              <td>每日 ETL</td>
+            </tr>
+            <tr>
+              <td><strong>DWS</strong></td>
+              <td>dws_sales_daily, dws_sales_monthly, dws_expense_monthly, dws_inventory_daily, dws_store_daily（5 表）</td>
+              <td>日/月 × 品牌 × 渠道 × 品类预聚合</td>
+              <td>每日 ETL 汇总</td>
+            </tr>
+            <tr>
+              <td><strong>ADS</strong></td>
+              <td>v_overview, v_brand, v_channel, v_income_statement, v_dupont, v_cashflow, v_budget, v_inventory（8 视图）</td>
+              <td>面向 Tableau / Web API</td>
+              <td>实时（视图）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 区块3：宽表建模 -->
+    <section class="arch-section">
+      <h3>宽表建模关系</h3>
+      <p class="star-schema-desc">
+        sql6 采用<strong>宽表优先</strong>：维度名称冗余进 <code>dwd_sales_wide</code>，看板查询无需 JOIN 维度表。
+      </p>
+      <ul class="star-schema-list">
+        <li><code>brand_code</code> → <strong>dim_brand</strong>（跃动Pro / Life / Go）</li>
+        <li><code>channel_code</code> → <strong>dim_channel</strong>（抖音 / 天猫 / 京东 / 线下直营 等）</li>
+        <li><code>category_code</code> → <strong>dim_category</strong>（鞋类 / 服装 / 配件）</li>
+        <li><code>order_date</code> → <strong>dim_date</strong>（年 / 季 / 月 / 日下钻）</li>
+      </ul>
+    </section>
+
+    <!-- 区块4：ETL 调度策略 -->
+    <section class="arch-section">
+      <h3>ETL 调度策略</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>任务</th><th>执行频率</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>dim_date 初始化</td><td>重建时</td><td><code>02_dim.sql</code> 生成 2020–2030 日期维</td></tr>
+            <tr><td>CSV → ODS 灌入</td><td>按需</td><td><code>scripts/seed_sql6_from_csv.py</code></td></tr>
+            <tr><td>ODS → DWD 宽表</td><td>灌入后</td><td>JOIN dim_* 冗余品牌/渠道名称</td></tr>
+            <tr><td>DWD → DWS 汇总</td><td>灌入后</td><td>按日/月 × 品牌 × 渠道 × 品类聚合</td></tr>
+            <tr><td>ADS 视图</td><td>实时</td><td><code>05_ads.sql</code> 视图自动反映 DWS</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="etl-impl-note">重建命令：<code>python scripts/rebuild_retail_finance.py</code> → <code>python scripts/seed_sql6_from_csv.py</code></p>
+    </section>
+
+    <!-- 区块5：监控视图映射 -->
+    <section class="arch-section">
+      <h3>监控视图与业务场景映射</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>监控视图</th><th>解决什么业务问题</th><th>粒度</th><th>刷新频率</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>v_overview</td><td>月度经营会核心 KPI（GMV/收入/毛利/退货率）</td><td>月</td><td>实时</td></tr>
+            <tr><td>v_brand</td><td>哪个品牌贡献最大？毛利率如何？</td><td>月×品牌</td><td>实时</td></tr>
+            <tr><td>v_channel</td><td>哪个渠道在亏钱？</td><td>月×渠道</td><td>实时</td></tr>
+            <tr><td>v_income_statement</td><td>利润表口径收入与毛利</td><td>月</td><td>实时</td></tr>
+            <tr><td>v_dupont</td><td>ROE 下滑是哪个因子拖累？</td><td>月×品牌</td><td>实时</td></tr>
+            <tr><td>v_cashflow</td><td>利润有没有变成现金？（净现比）</td><td>月</td><td>实时</td></tr>
+            <tr><td>v_budget</td><td>费用有没有超预算？</td><td>月×品牌×渠道</td><td>实时</td></tr>
+            <tr><td>v_inventory</td><td>库存积压会不会拖死现金流？</td><td>月×品牌×品类</td><td>实时</td></tr>
+            <tr><td>dws_store_daily</td><td>门店日排名与坪效</td><td>日×门店</td><td>T+1</td></tr>
+            <tr><td>dwd_sales_wide</td><td>订单明细导出 / 下钻</td><td>订单级</td><td>T+1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 区块6：血缘应用说明（表级血缘已并入数据字典） -->
+    <section class="arch-section">
+      <h3>血缘应用：问题溯源与变更影响</h3>
+      <p class="lineage-usage"><strong>问题溯源（自下而上）</strong>：看板异常时，从 ADS 定位 → DWS 下钻 → DWD 订单抽样 → ODS 对比源数据，逐层锁定根因。</p>
+      <p class="lineage-usage"><strong>变更影响（自上而下）</strong>：改 ETL 或口径前查下游依赖，评估需回归的 ADS 与 Tableau 工作表；变更后重跑 ETL 并对账。</p>
+    </section>
+
+    <!-- 区块8：技术栈（作品集落地） -->
+    <section class="arch-section">
+      <h3>作品集落地技术栈</h3>
+      <ul class="arch-tech-list">
+        <li>Python 3.9+ / Pandas</li>
+        <li>MySQL 8.0 数仓（retail_finance）</li>
+        <li>SQL 脚本 + Python ETL</li>
+        <li>Tableau / Superset / ECharts</li>
+        <li>HTML / CSS / JS 前端</li>
+        <li>GitHub 版本控制</li>
+      </ul>
+      <p class="star-schema-desc" style="margin-top:12px">生产选型（Hive / ClickHouse / Flink 等）见上方「数据源与数据库选型」。</p>
+    </section>
+
+    <!-- 区块9：明细导出 -->
+    <section class="arch-section export-arch-note">
+      <h3>📥 明细数据导出</h3>
+      <p class="export-arch-desc">
+        宽表 <code>dwd_sales_wide</code> 承载订单明细，API <code>/api/query_detail</code> 按日期/品牌/渠道筛选后导出 CSV。
+        前端预览见 <a href="shell.html">数据展示页</a> 或
+        <a href="report.html#page-p1">PDF 报告 P1</a>「明细数据导出」模块。
+      </p>
+    </section>
+  </main>
+
+  <script src="shared/er-diagram-data.js"></script>
+  <script src="shared/er-diagram.js"></script>
+  <script src="shared/data-dictionary-data.js"></script>
+  <script src="shared/search-index-data.js"></script>
+  <script src="shared/data-dictionary.js"></script>
+  <script src="shared/global-search.js"></script>
+  <script src="script.js"></script>
+  <script src="erp.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      window.ERDiagramUI?.render("er-diagram-root");
+      const ui = window.DataDictionaryUI.render("data-dictionary-root");
+      window.DataDictionaryUI = Object.assign(window.DataDictionaryUI || {}, ui);
+      const hash = location.hash.replace("#", "");
+      if (hash.startsWith("dd-")) {
+        const name = hash.slice(3);
+        ui.openTable?.(name);
+      } else if (hash === "erp-datasource" || hash === "source-stack" || hash === "erp") {
+        document.getElementById(hash === "erp" ? "erp-datasource" : hash)?.scrollIntoView({ behavior: "smooth" });
+      }
+      const fk = sessionStorage.getItem("highlightFieldKey");
+      if (fk) { ui.highlightField?.(fk); sessionStorage.removeItem("highlightFieldKey"); }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "yield_rate_pct": 97.2,
+      "defect_rate_pct": 2.1,
+      "scrap_rate_pct": 0.7,
+      "first_pass_pct": 94.5
+    },
+    "trend": [
+      {
+        "snapshot_date": "2026-06-01",
+        "yield_rate_pct": 96.5
+      },
+      {
+        "snapshot_date": "2026-06-02",
+        "yield_rate_pct": 96.55
+      },
+      {
+        "snapshot_date": "2026-06-03",
+        "yield_rate_pct": 96.6
+      },
+      {
+        "snapshot_date": "2026-06-04",
+        "yield_rate_pct": 96.65
+      },
+      {
+        "snapshot_date": "2026-06-05",
+        "yield_rate_pct": 96.7
+      },
+      {
+        "snapshot_date": "2026-06-06",
+        "yield_rate_pct": 96.75
+      },
+      {
+        "snapshot_date": "2026-06-07",
+        "yield_rate_pct": 96.8
+      },
+      {
+        "snapshot_date": "2026-06-08",
+        "yield_rate_pct": 96.85
+      },
+      {
+        "snapshot_date": "2026-06-09",
+        "yield_rate_pct": 96.9
+      },
+      {
+        "snapshot_date": "2026-06-10",
+        "yield_rate_pct": 96.95
+      },
+      {
+        "snapshot_date": "2026-06-11",
+        "yield_rate_pct": 97.0
+      },
+      {
+        "snapshot_date": "2026-06-12",
+        "yield_rate_pct": 97.05
+      },
+      {
+        "snapshot_date": "2026-06-13",
+        "yield_rate_pct": 97.1
+      },
+      {
+        "snapshot_date": "2026-06-14",
+        "yield_rate_pct": 97.15
+      }
+    ],
+    "pareto": [
+      {
+        "defect_type": "尺寸偏差",
+        "defect_qty": 420
+      },
+      {
+        "defect_type": "表面瑕疵",
+        "defect_qty": 280
+      },
+      {
+        "defect_type": "装配不良",
+        "defect_qty": 150
+      },
+      {
+        "defect_type": "其他",
+        "defect_qty": 90
+      }
+    ],
+    "defect_category": [
+      {
+        "defect_category": "工艺",
+        "defect_qty": 500
+      },
+      {
+        "defect_category": "材料",
+        "defect_qty": 280
+      },
+      {
+        "defect_category": "设备",
+        "defect_qty": 160
+      }
+    ],
+    "line_detail": [
+      {
+        "line_name": "产线1",
+        "yield_rate_pct": 97.5,
+        "defect_rate_pct": 1.8,
+        "scrap_rate_pct": 0.7,
+        "first_pass_pct": 95,
+        "alert_level": "正常"
+      },
+      {
+        "line_name": "产线2",
+        "yield_rate_pct": 96.8,
+        "defect_rate_pct": 2.3,
+        "scrap_rate_pct": 0.9,
+        "first_pass_pct": 93,
+        "alert_level": "正常"
+      },
+      {
+        "line_name": "产线3",
+        "yield_rate_pct": 97.0,
+        "defect_rate_pct": 2.0,
+        "scrap_rate_pct": 1.0,
+        "first_pass_pct": 94,
+        "alert_level": "正常"
+      }
+    ]
+  }
+}

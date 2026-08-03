@@ -1,0 +1,52 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "downtime_hours": 126,
+      "failure_count": 18,
+      "availability_pct": 88.5,
+      "equipment_count": 24
+    },
+    "by_reason": [
+      {
+        "downtime_reason": "故障",
+        "hours": 60
+      },
+      {
+        "downtime_reason": "换型",
+        "hours": 35
+      },
+      {
+        "downtime_reason": "待料",
+        "hours": 20
+      },
+      {
+        "downtime_reason": "计划保养",
+        "hours": 11
+      }
+    ],
+    "by_equip": [
+      {
+        "equipment_name": "设备1",
+        "downtime_hours": 40,
+        "failure_count": 8,
+        "oee_pct": 70,
+        "alert_level": "正常"
+      },
+      {
+        "equipment_name": "设备2",
+        "downtime_hours": 28,
+        "failure_count": 5,
+        "oee_pct": 78,
+        "alert_level": "正常"
+      },
+      {
+        "equipment_name": "设备3",
+        "downtime_hours": 12,
+        "failure_count": 2,
+        "oee_pct": 85,
+        "alert_level": "正常"
+      }
+    ]
+  }
+}

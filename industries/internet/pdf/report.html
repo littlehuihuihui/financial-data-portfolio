@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>广东移动 OTT · 视频活跃分析体系报告</title>
+  <link rel="stylesheet" href="../css/report.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="page-report">
+  <header class="report-toolbar no-print">
+    <div class="toolbar-title">广东移动 OTT · 视频活跃分析（P0–P3 报告）</div>
+    <div class="toolbar-actions">
+      <button type="button" class="btn-export primary" id="btn-download-pdf">下载 PDF</button>
+      <button type="button" class="btn-export" id="btn-print">打印 / 另存为 PDF</button>
+      <a href="../internet_dashboard.html" class="btn-export">返回看板</a>
+    </div>
+    <p class="toolbar-hint">P0 体系总览 · P1 监控看板 · P2 方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓 · 也可运行 <code>export_internet.py</code></p>
+  </header>
+
+  <div id="report-content">
+
+    <section class="pdf-page pdf-page-overview" id="page-p0">
+      <header class="overview-hero">
+        <h1 class="overview-title">广东移动 OTT · 视频活跃分析体系</h1>
+        <p class="overview-subtitle">设备操作日志 · ODS → DIM → DWD → DWS → ADS → Web 看板</p>
+      </header>
+      <div class="overview-modules">
+        <a href="#page-p1" class="overview-card">
+          <div class="overview-card-icon">📺</div>
+          <h2 class="overview-card-title">活跃与商业化监控看板</h2>
+          <ul class="overview-card-list">
+            <li>17 个主题看板：总览 · 开机 · 点播 · 直播 · 剧集 · 单集 · QoS · 生命周期 · 留存 · 设备 · 漏斗 · 订购 · 路径 · 收入 · 活动 · 健康度 · 标签</li>
+            <li>4 类角色：运营负责人 / 内容运营 / 用户增长 / 商业化运营</li>
+            <li>核心指标：有效 MAU · DAU · VV/UV · 完播 · 收银台漏斗 · 订购分成 · ARPU · 健康分</li>
+            <li>底座：ods_log_*_di（Launcher / 点播 / 直播 / 收银台）→ dws_act_user_active_1d</li>
+          </ul>
+          <span class="overview-card-tag">运营周会 · T+1 刷新</span>
+        </a>
+        <a href="#page-p2" class="overview-card">
+          <div class="overview-card-icon">📐</div>
+          <h2 class="overview-card-title">用户增长分析方法论</h2>
+          <ul class="overview-card-list">
+            <li>六层框架：描述 → 诊断 → 预测 → 评估 → 优化 + 工具箱</li>
+            <li>28 个分析问题 · 15 种可复用分析方法</li>
+            <li>诊断层含 DAU 下滑、留存恶化、漏斗转化、完播异常等</li>
+          </ul>
+          <span class="overview-card-tag">增长 BP 核心能力</span>
+        </a>
+        <a href="#page-p3" class="overview-card">
+          <div class="overview-card-icon">⚙️</div>
+          <h2 class="overview-card-title">数据仓库与管道架构</h2>
+          <ul class="overview-card-list">
+            <li>ODS → DIM → DWD → DWS → ADS（OTT 雪花模型）</li>
+            <li>关键汇总：dws_act_user_active_1d · dws_trade_* · dws_user_* · dws_content_*</li>
+            <li>ADS：v_dau_overview · v_lifecycle · v_retention_decomposition · v_ab_experiment 等</li>
+          </ul>
+          <span class="overview-card-tag">全链路自建 · 工程化</span>
+        </a>
+      </div>
+      <footer class="overview-footer">
+        <p class="overview-path">📌 阅读路径：P1 看板 → P2 方法论 → P3 数仓 · DDL 见 <code>database/ott_ddl.sql</code> + <code>04_ott_ads_views.sql</code></p>
+        <p class="overview-closing" id="report-meta">数据区间 2026-04-16 ~ 2026-07-15 · 数据库 internet_analytics</p>
+      </footer>
+    </section>
+
+    <section class="pdf-page pdf-page-p1" id="page-p1">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">OTT · 视频活跃监控体系</h1>
+          <p class="page-subtitle">数据链路：设备日志 → MySQL 数仓 → Flask API(:5001) → Web 看板</p>
+        </div>
+        <nav class="module-nav module-nav-three" aria-label="模块导航">
+          <a href="#page-p1" class="active">📺 监控看板</a>
+          <a href="#page-p2">📐 分析方法论</a>
+          <a href="#page-p3">⚙️ 数仓架构</a>
+        </nav>
+      </header>
+
+      <section class="p1-section" aria-label="核心KPI">
+        <h2 class="p1-section-title">核心活跃与商业化指标</h2>
+        <div class="kpi-rows" id="kpi-rows">
+          <div class="kpi-row" id="kpi-row-1"></div>
+          <div class="kpi-row" id="kpi-row-2"></div>
+        </div>
+      </section>
+
+      <section class="p1-section" aria-label="趋势与结构">
+        <div class="charts-row charts-row-p1">
+          <div class="chart-box chart-box-wide">
+            <div class="chart-box-title">DAU 趋势（近 30 日 · STB/Speaker）</div>
+            <canvas id="trendChart" height="210"></canvas>
+            <p class="chart-legend-hint">折线图 · 数据源 dws_act_user_active_1d / v_dau_overview</p>
+          </div>
+          <div class="chart-box chart-box-narrow">
+            <div class="chart-box-title">活跃结构（点播/直播/只开机）</div>
+            <canvas id="composeChart" height="210"></canvas>
+            <p class="chart-legend-hint">环形图 · 当日活跃构成</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="p1-section" aria-label="漏斗与订购">
+        <div class="charts-row charts-row-p1">
+          <div class="chart-box chart-box-wide">
+            <div class="chart-box-title">商业化漏斗（曝光→确认订购）</div>
+            <canvas id="funnelChart" height="200"></canvas>
+            <p class="chart-legend-hint">柱状图 · dws_trade_cashier_funnel_1d / v_funnel</p>
+          </div>
+          <div class="chart-box chart-box-narrow">
+            <div class="chart-box-title">订购收费结构</div>
+            <canvas id="orderChart" height="200"></canvas>
+            <p class="chart-legend-hint">环形图 · dws_trade_order_1d</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="p1-section" aria-label="数据表">
+        <div class="tables-row tables-row-p1">
+          <div>
+            <div class="table-block-title">多时间窗活跃</div>
+            <table class="data-table">
+              <thead><tr><th>窗口</th><th class="num">活跃用户</th></tr></thead>
+              <tbody id="tbl-windows"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">留存矩阵（D1/D7/D30）</div>
+            <table class="data-table">
+              <thead><tr><th>同期群</th><th class="num">D1%</th><th class="num">D7%</th><th class="num">D30%</th></tr></thead>
+              <tbody id="tbl-retention"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">点播端型对比</div>
+            <table class="data-table">
+              <thead><tr><th>端型</th><th class="num">UV</th><th class="num">VV</th></tr></thead>
+              <tbody id="tbl-vod"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">剧集完播 Top</div>
+            <table class="data-table">
+              <thead><tr><th>剧集</th><th class="num">VV</th><th class="num">UV</th><th class="num">完播%</th></tr></thead>
+              <tbody id="tbl-series"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">订购与分成</div>
+            <table class="data-table">
+              <thead><tr><th>收费类型</th><th class="num">订购数</th><th class="num">金额</th><th class="num">分成</th></tr></thead>
+              <tbody id="tbl-order"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">开机端型</div>
+            <table class="data-table">
+              <thead><tr><th>端型</th><th class="num">开机设备</th><th class="num">开机次数</th></tr></thead>
+              <tbody id="tbl-launcher"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">直播频道 Top</div>
+            <table class="data-table">
+              <thead><tr><th>频道</th><th class="num">观看人数</th><th class="num">观看次数</th></tr></thead>
+              <tbody id="tbl-live"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">单集播放 Top</div>
+            <table class="data-table">
+              <thead><tr><th>单集</th><th class="num">VV</th><th class="num">UV</th><th class="num">完播%</th></tr></thead>
+              <tbody id="tbl-episode"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">设备类型 / 双端</div>
+            <table class="data-table">
+              <thead><tr><th>端型</th><th class="num">设备数</th><th class="num">占比%</th></tr></thead>
+              <tbody id="tbl-device"></tbody>
+            </table>
+            <p class="chart-legend-hint" id="device-dual-hint">双端用户：—</p>
+          </div>
+          <div>
+            <div class="table-block-title">行为路径流失 Top</div>
+            <table class="data-table">
+              <thead><tr><th>步骤</th><th class="num">进入</th><th class="num">流失</th><th class="num">流失率%</th></tr></thead>
+              <tbody id="tbl-path"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">收入结构 / 套餐</div>
+            <table class="data-table">
+              <thead><tr><th>套餐/结构</th><th class="num">订购</th><th class="num">收入</th><th class="num">ARPU</th></tr></thead>
+              <tbody id="tbl-revenue"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">营销活动复盘</div>
+            <table class="data-table">
+              <thead><tr><th>活动</th><th class="num">触达</th><th class="num">转化</th><th class="num">ROI</th></tr></thead>
+              <tbody id="tbl-activity"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-row tables-row-p1" style="margin-top:16px">
+          <div>
+            <div class="table-block-title">业务健康度</div>
+            <table class="data-table">
+              <thead><tr><th>指标</th><th class="num">当前值</th><th>灯色</th><th class="num">健康分</th></tr></thead>
+              <tbody id="tbl-health"></tbody>
+            </table>
+          </div>
+          <div>
+            <div class="table-block-title">用户标签覆盖</div>
+            <table class="data-table">
+              <thead><tr><th>标签类</th><th>标签</th><th class="num">覆盖用户</th><th class="num">占比%</th></tr></thead>
+              <tbody id="tbl-tags"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="p1-section" aria-label="异常诊断">
+        <h2 class="p1-section-title">异常诊断摘要</h2>
+        <ul class="overview-card-list" id="diagnosis-list"></ul>
+      </section>
+
+      <section class="p1-section" aria-label="主题看板清单">
+        <h2 class="p1-section-title">17 个主题看板说明</h2>
+        <table class="data-table dashboard-catalog-table">
+          <thead><tr><th>#</th><th>看板</th><th>核心内容</th><th>主要角色</th><th>数据来源</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>活跃总览</td><td>有效MAU · DAU趋势 · 活跃构成 · 多时间窗</td><td>运营负责人</td><td>dws_act_user_active_1d / v_dau_overview</td></tr>
+            <tr><td>2</td><td>开机活跃</td><td>开机次数/设备 · 只开机占比 · 端对比</td><td>用户增长</td><td>dwd_act_launcher_di → DWS 活跃</td></tr>
+            <tr><td>3</td><td>点播活跃</td><td>VV/UV/时长 · 人均VV · 多时间窗</td><td>内容运营</td><td>dws（点播聚合）/ dwd_vod_play_di</td></tr>
+            <tr><td>4</td><td>直播活跃</td><td>观看次数/人数/时长 · 频道分布</td><td>内容运营</td><td>dws_content_live_play_1d</td></tr>
+            <tr><td>5</td><td>内容·剧集</td><td>剧集VV/UV/完播 · 题材渗透</td><td>内容运营</td><td>dws_content_series_play_1d</td></tr>
+            <tr><td>6</td><td>内容·单集与行为</td><td>单集排名 · action/完成度分布</td><td>内容运营</td><td>dws_content_episode_play_1d</td></tr>
+            <tr><td>7</td><td>完播与QoS</td><td>完播率/完成度/首帧/卡顿</td><td>内容运营</td><td>点播事实 + 质量指标</td></tr>
+            <tr><td>8</td><td>用户生命周期</td><td>开户/激活/沉默/流失/净增</td><td>用户增长</td><td>dws_user_lifecycle_1d / v_lifecycle</td></tr>
+            <tr><td>9</td><td>用户留存</td><td>次留/7留/30留 · 同期群矩阵</td><td>用户增长</td><td>dws_user_retention_1d / v_retention_decomposition</td></tr>
+            <tr><td>10</td><td>设备流转</td><td>STB↔Speaker · 型号/固件 · 双端</td><td>用户增长</td><td>dim_device · dws 活跃</td></tr>
+            <tr><td>11</td><td>商业化漏斗</td><td>曝光→点击→验证→确认 · 入口对比</td><td>商业化运营</td><td>dws_trade_cashier_funnel_1d / v_ab_experiment</td></tr>
+            <tr><td>12</td><td>订购与分成</td><td>订购/退订 · 收费结构 · MAU结算+分成</td><td>商业化运营</td><td>dws_trade_order_1d / v_ltv / v_channel_attribution</td></tr>
+            <tr><td>13</td><td>用户行为路径</td><td>Sankey路径 · 页面流转 · 步骤流失</td><td>用户增长 / 内容</td><td>路径概览 / drop_off</td></tr>
+            <tr><td>14</td><td>收入结构深度分析</td><td>套餐LTV · ARPU/ARPPU · 退订续费</td><td>商业化运营</td><td>收入结构 / 套餐分析</td></tr>
+            <tr><td>15</td><td>营销活动复盘</td><td>活动ROI · 触达→参与→转化</td><td>商业化运营</td><td>活动列表 / 明细</td></tr>
+            <tr><td>16</td><td>业务健康度</td><td>红黄绿灯 · 综合健康分 · 基线对比</td><td>运营负责人</td><td>健康度仪表盘</td></tr>
+            <tr><td>17</td><td>用户标签画像</td><td>5类标签体系 · 人群覆盖 · 规则来源</td><td>用户增长</td><td>标签概览 / 分类</td></tr>
+          </tbody>
+        </table>
+        <p class="page-footnote">Web 看板：<code>../internet_dashboard.html</code> · API :5001 · 配置 <code>../config/dashboards.json</code>（17）</p>
+      </section>
+
+      <p class="page-footnote" id="p1-footnote">分析月份：— · 数据来源：MySQL API · internet_analytics</p>
+    </section>
+
+    <section class="pdf-page pdf-page-p2" id="page-p2">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">📐 用户增长分析方法论</h1>
+          <p class="page-subtitle">六层分析框架 · 先判断层级再展开方法（对齐零售财务作品集）</p>
+        </div>
+      </header>
+      <div class="framework-stack framework-stack-pdf">
+        <section class="framework-layer-pdf layer-1">
+          <h3 class="fw-layer-title"><span class="fw-num">1</span> 描述性分析 — 「现在是什么状况？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>目的：</strong>掌握 MAU/DAU、端型/地市、入口与内容现状 · <strong>方法：</strong>KPI → 趋势 → 结构 → 排名</p>
+            <p><strong>数据：</strong><code>v_dau_overview</code>、<code>dws_act_user_active_1d</code>、<code>v_user_portrait</code></p>
+            <p><strong>看板：</strong>活跃总览 · 开机 · 点播 · 直播 · 剧集</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-2">
+          <h3 class="fw-layer-title"><span class="fw-num">2</span> 诊断性分析 — 「为什么会这样？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>目的：</strong>定位 DAU 下滑、留存恶化、漏斗转化、完播异常根因 · <strong>路径：</strong>端型→入口→内容→同期群</p>
+            <p><strong>数据：</strong><code>v_retention_decomposition</code>、<code>v_funnel</code>、<code>dws_content_series_play_1d</code></p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-3">
+          <h3 class="fw-layer-title"><span class="fw-num">3</span> 预测性分析 — 「接下来会怎样？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>方法：</strong>趋势外推 / 移动平均 · DAU、订购客单(LTV)、入口效果、流失与分成三情景</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-4">
+          <h3 class="fw-layer-title"><span class="fw-num">4</span> 评估性分析 — 「做得怎么样？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>方法：</strong>入口 ROI · A/B（v_ab_experiment）· 内容完播/QoS · 订购分成 vs 目标</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-5">
+          <h3 class="fw-layer-title"><span class="fw-num">5</span> 优化性分析 — 「应该怎么做？」</h3>
+          <div class="fw-layer-body">
+            <p><strong>方法：</strong>入口流量再分配 · 沉默挽回 · 内容优先级 · 渠道组合 · 套餐定价</p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf" style="border-left-color:#f472b6">
+          <h3 class="fw-layer-title"><span class="fw-num">6</span> 分析方法工具箱（15 法）</h3>
+          <div class="fw-layer-body">
+            <p>画像 · 生命周期 · 留存/同期群 · RFM · 漏斗 · LTV/CAC · 归因 · 流失预警 · A/B · 边际ROI · 分群 · 路径 · 实验设计 · 渠道评分卡 · 北极星拆解</p>
+            <p>详情见下页表 · 交互版 <code>../pages/methodology.html</code></p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="pdf-page pdf-page-p2b" id="page-p2b">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">📋 增长分析 · 典型问题清单（28）</h1>
+          <p class="page-subtitle">六层框架覆盖 · Web 版可展开分析路径与 SQL</p>
+        </div>
+      </header>
+      <table class="data-table" id="playbook-table">
+        <thead><tr><th>#</th><th>层级</th><th>分析问题</th><th>业务问法</th><th>关联看板</th></tr></thead>
+        <tbody id="playbook-body"></tbody>
+      </table>
+    </section>
+
+    <section class="pdf-page pdf-page-p2c" id="page-p2c">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">🧰 第六层 · 分析方法工具箱（15）</h1>
+          <p class="page-subtitle">人话解释 · 业务问题 · 作品集应用示例见方法论页</p>
+        </div>
+      </header>
+      <table class="data-table">
+        <thead><tr><th>方法</th><th>别名</th><th>定义</th><th>适用/不适用</th><th>目的</th><th>与其他方法区别</th><th>边界与失效</th><th>业务问题</th></tr></thead>
+        <tbody id="toolbox-summary"></tbody>
+      </table>
+    </section>
+
+    <section class="pdf-page pdf-page-p3" id="page-p3">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">⚙️ 数据仓库与管道架构</h1>
+          <p class="page-subtitle">internet_analytics · OTT 雪花模型 · ADS 视图对齐看板</p>
+        </div>
+      </header>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">五层数仓概览</h3>
+        <table class="data-table">
+          <thead><tr><th>层级</th><th>代表对象</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>ODS</td><td>ods_log_launcher_di / vod / live / cashier</td><td>设备操作与订购日志</td></tr>
+            <tr><td>DIM</td><td>dim_device · dim_user · dim_content_* · dim_region</td><td>雪花维度</td></tr>
+            <tr><td>DWD</td><td>dwd_vod_play_di · dwd_trade_* · dwd_user_status_di</td><td>业务过程事实</td></tr>
+            <tr><td>DWS</td><td>dws_act_user_active_1d · dws_trade_* · dws_user_*</td><td>日汇总</td></tr>
+            <tr><td>ADS</td><td>v_dau_overview · v_lifecycle · v_retention_decomposition · v_ab_experiment · v_channel_attribution · v_user_segment · v_ltv · v_funnel</td><td>看板/方法论视图</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">技术栈</h3>
+        <div class="tech-badges">
+          <span class="tech-badge"><strong>样例数据</strong>seed_ott.py</span>
+          <span class="tech-badge"><strong>数仓</strong>MySQL 8.0</span>
+          <span class="tech-badge"><strong>API</strong>Flask :5001</span>
+          <span class="tech-badge"><strong>可视化</strong>ECharts Web 看板</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="../js/methodology-playbook-data.js"></script>
+  <script src="report.js"></script>
+</body>
+</html>

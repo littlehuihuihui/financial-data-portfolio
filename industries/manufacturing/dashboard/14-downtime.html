@@ -1,0 +1,16 @@
+<section class="dashboard-page" data-dashboard="downtime">
+  <h2 class="dashboard-page-title">停机损失</h2>
+  <p class="dashboard-page-desc">停机时长 · 原因分布 · 设备停机排名 · 数据源：dwd_equipment_run</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>停机原因构成</h3><div id="db-chart-downtime-reason" class="chart"></div></div>
+    <div class="chart-box"><h3>设备停机时长</h3><div id="db-chart-downtime-equip" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>设备停机明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-downtime" data-export-name="停机损失.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>设备</th><th class="num">停机小时</th><th class="num">故障次数</th><th class="num">OEE%</th><th>预警</th></tr></thead><tbody id="db-table-downtime"></tbody></table></div>
+  </div>
+</section>

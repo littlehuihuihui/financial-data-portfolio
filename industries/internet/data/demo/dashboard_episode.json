@@ -1,0 +1,99 @@
+{
+  "ok": true,
+  "data": {
+    "top": [
+      {
+        "series_name": "热播剧1",
+        "episode_no": 1,
+        "episode_name": "第1集",
+        "vv": 195000.0,
+        "uv": 29500.0,
+        "finish_cnt": 12000.0
+      },
+      {
+        "series_name": "热播剧1",
+        "episode_no": 2,
+        "episode_name": "第2集",
+        "vv": 190000.0,
+        "uv": 29000.0,
+        "finish_cnt": 12000.0
+      },
+      {
+        "series_name": "热播剧1",
+        "episode_no": 3,
+        "episode_name": "第3集",
+        "vv": 185000.0,
+        "uv": 28500.0,
+        "finish_cnt": 12000.0
+      },
+      {
+        "series_name": "热播剧1",
+        "episode_no": 4,
+        "episode_name": "第4集",
+        "vv": 180000.0,
+        "uv": 28000.0,
+        "finish_cnt": 12000.0
+      },
+      {
+        "series_name": "热播剧1",
+        "episode_no": 5,
+        "episode_name": "第5集",
+        "vv": 175000.0,
+        "uv": 27500.0,
+        "finish_cnt": 12000.0
+      },
+      {
+        "series_name": "热播剧1",
+        "episode_no": 6,
+        "episode_name": "第6集",
+        "vv": 170000.0,
+        "uv": 27000.0,
+        "finish_cnt": 12000.0
+      },
+      {
+        "series_name": "热播剧1",
+        "episode_no": 7,
+        "episode_name": "第7集",
+        "vv": 165000.0,
+        "uv": 26500.0,
+        "finish_cnt": 12000.0
+      }
+    ],
+    "action_dist": [
+      {
+        "action": "播放",
+        "cnt": 5000000.0
+      },
+      {
+        "action": "暂停",
+        "cnt": 800000.0
+      },
+      {
+        "action": "快进",
+        "cnt": 300000.0
+      },
+      {
+        "action": "收藏",
+        "cnt": 120000.0
+      }
+    ],
+    "complete_dist": [
+      {
+        "bucket": "0-25%",
+        "cnt": 1200000.0
+      },
+      {
+        "bucket": "25-50%",
+        "cnt": 900000.0
+      },
+      {
+        "bucket": "50-75%",
+        "cnt": 1100000.0
+      },
+      {
+        "bucket": "75-100%",
+        "cnt": 2200000.0
+      }
+    ]
+  }
+}

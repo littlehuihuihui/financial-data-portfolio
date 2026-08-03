@@ -1,0 +1,97 @@
+{
+  "ok": true,
+  "data": {
+    "latest_score": 96,
+    "pass_rate": 98.5,
+    "open_count": 2,
+    "last_check": "2026-06-30",
+    "summary": [
+      {
+        "check_date": "2026-06-01",
+        "quality_score": 95
+      },
+      {
+        "check_date": "2026-06-02",
+        "quality_score": 96
+      },
+      {
+        "check_date": "2026-06-03",
+        "quality_score": 97
+      },
+      {
+        "check_date": "2026-06-04",
+        "quality_score": 94
+      },
+      {
+        "check_date": "2026-06-05",
+        "quality_score": 95
+      },
+      {
+        "check_date": "2026-06-06",
+        "quality_score": 96
+      },
+      {
+        "check_date": "2026-06-07",
+        "quality_score": 97
+      },
+      {
+        "check_date": "2026-06-08",
+        "quality_score": 94
+      },
+      {
+        "check_date": "2026-06-09",
+        "quality_score": 95
+      },
+      {
+        "check_date": "2026-06-10",
+        "quality_score": 96
+      },
+      {
+        "check_date": "2026-06-11",
+        "quality_score": 97
+      },
+      {
+        "check_date": "2026-06-12",
+        "quality_score": 94
+      },
+      {
+        "check_date": "2026-06-13",
+        "quality_score": 95
+      },
+      {
+        "check_date": "2026-06-14",
+        "quality_score": 96
+      }
+    ],
+    "reconciliation": [
+      {
+        "table_name": "dwd_fact_orders",
+        "check_type": "行数对账",
+        "expected_value": "125000",
+        "actual_value": "125000",
+        "status": "PASS"
+      },
+      {
+        "table_name": "dws_sales_monthly",
+        "check_type": "金额对账",
+        "expected_value": "12850000",
+        "actual_value": "12850000",
+        "status": "PASS"
+      }
+    ],
+    "open_issues": [
+      {
+        "log_date": "2026-06-28",
+        "source_table": "ods_inventory",
+        "error_type": "空值",
+        "severity": "低"
+      },
+      {
+        "log_date": "2026-06-29",
+        "source_table": "ods_ad_cost",
+        "error_type": "延迟",
+        "severity": "中"
+      }
+    ]
+  }
+}

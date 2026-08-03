@@ -1,0 +1,20 @@
+<section class="dashboard-page" data-dashboard="revenue">
+  <h2 class="dashboard-page-title">收入结构深度分析</h2>
+  <p class="dashboard-page-desc">套餐结构 · ARPU/ARPPU趋势 · 退订率</p>
+  <div class="kpi-grid" id="db-kpi"></div>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>套餐结构（订购金额占比）</h3><div id="db-chart-plan-struct" class="chart"></div></div>
+    <div class="chart-box"><h3>退订率&续费率</h3><div id="db-chart-unsub" class="chart"></div></div>
+  </div>
+  <div class="chart-box"><h3>ARPU/ARPPU 趋势</h3><div id="db-chart-arpu" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>套餐明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-plan" data-export-name="套餐分析.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>套餐</th><th class="num">订购数</th><th class="num">退订数</th><th class="num">金额</th><th class="num">分成</th><th class="num">新用户</th><th class="num">续费</th><th class="num">退订率%</th><th class="num">客单价</th></tr></thead><tbody id="db-table-plan"></tbody></table></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>ARPU/ARPPU 月度明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-arpu" data-export-name="ARPU趋势.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>月份</th><th class="num">ARPPU</th><th class="num">活跃用户</th><th class="num">ARPU</th></tr></thead><tbody id="db-table-arpu"></tbody></table></div>
+  </div>
+</section>

@@ -1,0 +1,52 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "scrap_rate_pct": 0.7,
+      "rework_rate_pct": 1.5,
+      "scrap_qty": 875,
+      "rework_qty": 1875
+    },
+    "by_line": [
+      {
+        "line_name": "产线1",
+        "scrap_qty": 300,
+        "rework_qty": 600,
+        "scrap_rate_pct": 0.6,
+        "alert_level": "正常"
+      },
+      {
+        "line_name": "产线2",
+        "scrap_qty": 280,
+        "rework_qty": 650,
+        "scrap_rate_pct": 0.7,
+        "alert_level": "正常"
+      },
+      {
+        "line_name": "产线3",
+        "scrap_qty": 295,
+        "rework_qty": 625,
+        "scrap_rate_pct": 0.8,
+        "alert_level": "正常"
+      }
+    ],
+    "by_defect": [
+      {
+        "defect_type": "尺寸",
+        "scrap_qty": 320
+      },
+      {
+        "defect_type": "表面",
+        "scrap_qty": 250
+      },
+      {
+        "defect_type": "焊接",
+        "scrap_qty": 180
+      },
+      {
+        "defect_type": "其他",
+        "scrap_qty": 125
+      }
+    ]
+  }
+}

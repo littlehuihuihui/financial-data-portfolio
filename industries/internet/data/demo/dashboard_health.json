@@ -1,0 +1,69 @@
+{
+  "ok": true,
+  "data": {
+    "metrics": [
+      {
+        "metric_group": "活跃",
+        "metric_name": "DAU",
+        "metric_value": 420000,
+        "metric_unit": "人",
+        "baseline_value": 400000,
+        "status": "green",
+        "status_icon": "OK"
+      },
+      {
+        "metric_group": "活跃",
+        "metric_name": "MAU",
+        "metric_value": 1280000,
+        "metric_unit": "人",
+        "baseline_value": 1200000,
+        "status": "green",
+        "status_icon": "OK"
+      },
+      {
+        "metric_group": "变现",
+        "metric_name": "订购转化率",
+        "metric_value": 3.6,
+        "metric_unit": "%",
+        "baseline_value": 4.0,
+        "status": "yellow",
+        "status_icon": "WARN"
+      },
+      {
+        "metric_group": "体验",
+        "metric_name": "卡顿率",
+        "metric_value": 3.2,
+        "metric_unit": "%",
+        "baseline_value": 2.5,
+        "status": "red",
+        "status_icon": "ALERT"
+      }
+    ],
+    "summary": [
+      {
+        "metric_group": "活跃",
+        "metric_count": 2,
+        "green_count": 2,
+        "yellow_count": 0,
+        "red_count": 0,
+        "health_score_pct": 100
+      },
+      {
+        "metric_group": "变现",
+        "metric_count": 1,
+        "green_count": 0,
+        "yellow_count": 1,
+        "red_count": 0,
+        "health_score_pct": 70
+      },
+      {
+        "metric_group": "体验",
+        "metric_count": 1,
+        "green_count": 0,
+        "yellow_count": 0,
+        "red_count": 1,
+        "health_score_pct": 40
+      }
+    ]
+  }
+}

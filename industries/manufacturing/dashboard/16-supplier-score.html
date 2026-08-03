@@ -1,0 +1,16 @@
+<section class="dashboard-page" data-dashboard="supplier-score">
+  <h2 class="dashboard-page-title">供应商评分</h2>
+  <p class="dashboard-page-desc">OTD加权评分 · 采购额 · 预警分级 · 数据源：dws_supply_daily / dwd_supply_wide</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>综合评分 / OTD</h3><div id="db-chart-supplier-score" class="chart"></div></div>
+    <div class="chart-box"><h3>明细层准时率（dwd_supply_wide）</h3><div id="db-chart-supplier-wide" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>供应商评分明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-supplier-score" data-export-name="供应商评分.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>供应商</th><th>等级</th><th class="num">OTD%</th><th class="num">评分</th><th class="num">采购额</th><th class="num">周转天</th><th>预警</th></tr></thead><tbody id="db-table-supplier-score"></tbody></table></div>
+  </div>
+</section>

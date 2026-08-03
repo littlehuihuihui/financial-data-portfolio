@@ -1,0 +1,61 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "total_inventory_cost": 8600000,
+      "avg_turnover_days": 68,
+      "total_qty": 125000,
+      "sku_count": 3200
+    },
+    "age_structure": [
+      {
+        "age_bucket": "0-30天",
+        "inventory_cost": 3200000.0
+      },
+      {
+        "age_bucket": "31-60天",
+        "inventory_cost": 2500000.0
+      },
+      {
+        "age_bucket": "61-90天",
+        "inventory_cost": 1800000.0
+      },
+      {
+        "age_bucket": "90天+",
+        "inventory_cost": 1100000.0
+      }
+    ],
+    "brand_turnover": [
+      {
+        "brand_name": "耐克",
+        "avg_turnover_days": 55
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "avg_turnover_days": 62
+      },
+      {
+        "brand_name": "李宁",
+        "avg_turnover_days": 70
+      },
+      {
+        "brand_name": "安踏",
+        "avg_turnover_days": 78
+      }
+    ],
+    "slow_sku": [
+      {
+        "brand_name": "耐克",
+        "category_name": "鞋类",
+        "turnover_days": 120,
+        "inventory_cost": 180000
+      },
+      {
+        "brand_name": "安踏",
+        "category_name": "服装",
+        "turnover_days": 95,
+        "inventory_cost": 95000
+      }
+    ]
+  }
+}

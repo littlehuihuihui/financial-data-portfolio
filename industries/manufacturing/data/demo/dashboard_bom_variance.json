@@ -1,0 +1,54 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "variance_qty": 3200,
+      "variance_amount": 86000,
+      "consume_vs_plan_pct": 104.5,
+      "consume_amount": 1950000.0
+    },
+    "by_material": [
+      {
+        "material_code": "M-1",
+        "material_name": "物料1",
+        "plan_qty": 10000,
+        "actual_qty": 10500,
+        "variance_qty": 500,
+        "variance_amount": 15000,
+        "alert_level": "关注"
+      },
+      {
+        "material_code": "M-2",
+        "material_name": "物料2",
+        "plan_qty": 8000,
+        "actual_qty": 8200,
+        "variance_qty": 200,
+        "variance_amount": 8000,
+        "alert_level": "关注"
+      },
+      {
+        "material_code": "M-3",
+        "material_name": "物料3",
+        "plan_qty": 6000,
+        "actual_qty": 6500,
+        "variance_qty": 500,
+        "variance_amount": 22000,
+        "alert_level": "关注"
+      }
+    ],
+    "by_line": [
+      {
+        "line_code": "L1",
+        "variance_amount": 35000
+      },
+      {
+        "line_code": "L2",
+        "variance_amount": 28000
+      },
+      {
+        "line_code": "L3",
+        "variance_amount": 23000
+      }
+    ]
+  }
+}

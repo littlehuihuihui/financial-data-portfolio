@@ -1,0 +1,66 @@
+{
+  "ok": true,
+  "data": {
+    "top": [
+      {
+        "series_name": "热播剧1",
+        "category_name": "电视剧",
+        "genre_name": "都市",
+        "vv": 2500000.0,
+        "uv": 180000.0,
+        "play_hours": 400000.0,
+        "finish_rate": 62
+      },
+      {
+        "series_name": "热播剧2",
+        "category_name": "电视剧",
+        "genre_name": "古装",
+        "vv": 2100000.0,
+        "uv": 150000.0,
+        "play_hours": 350000.0,
+        "finish_rate": 58
+      },
+      {
+        "series_name": "热播剧3",
+        "category_name": "电视剧",
+        "genre_name": "悬疑",
+        "vv": 1800000.0,
+        "uv": 120000.0,
+        "play_hours": 300000.0,
+        "finish_rate": 55
+      }
+    ],
+    "by_category": [
+      {
+        "category_name": "电视剧",
+        "vv": 6000000.0
+      },
+      {
+        "category_name": "电影",
+        "vv": 2000000.0
+      },
+      {
+        "category_name": "综艺",
+        "vv": 1500000.0
+      }
+    ],
+    "by_genre": [
+      {
+        "genre_name": "都市",
+        "penetration_pct": 28
+      },
+      {
+        "genre_name": "古装",
+        "penetration_pct": 22
+      },
+      {
+        "genre_name": "悬疑",
+        "penetration_pct": 18
+      },
+      {
+        "genre_name": "喜剧",
+        "penetration_pct": 15
+      }
+    ]
+  }
+}

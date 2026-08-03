@@ -1,0 +1,47 @@
+{
+  "ok": true,
+  "data": {
+    "trend": [
+      {
+        "day_offset": 1,
+        "retention_rate": 45
+      },
+      {
+        "day_offset": 3,
+        "retention_rate": 32
+      },
+      {
+        "day_offset": 7,
+        "retention_rate": 22
+      },
+      {
+        "day_offset": 14,
+        "retention_rate": 15
+      },
+      {
+        "day_offset": 30,
+        "retention_rate": 10
+      }
+    ],
+    "matrix": [
+      {
+        "cohort_date": "2026-06-01",
+        "day_offset": 1,
+        "cohort_users": 10000,
+        "retention_rate": 45
+      },
+      {
+        "cohort_date": "2026-06-01",
+        "day_offset": 7,
+        "cohort_users": 10000,
+        "retention_rate": 22
+      },
+      {
+        "cohort_date": "2026-06-01",
+        "day_offset": 30,
+        "cohort_users": 10000,
+        "retention_rate": 10
+      }
+    ]
+  }
+}

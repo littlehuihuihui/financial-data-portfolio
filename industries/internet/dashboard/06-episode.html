@@ -1,0 +1,12 @@
+<section class="dashboard-page" data-dashboard="episode">
+  <h2 class="dashboard-page-title">内容消费·单集与行为</h2>
+  <p class="dashboard-page-desc">单集排名 · 播放行为分布(play/pause/ff/rewind) · 完成度区间 · 近3天日志</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>播放行为分布（action）</h3><div id="db-chart-action" class="chart"></div></div>
+  <div class="chart-box"><h3>播放完成度区间分布</h3><div id="db-chart-complete" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar"><h3>单集 Top15</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-episode" data-export-name="单集Top.csv">导出 CSV</button></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>剧集</th><th>集</th><th>单集</th><th class="num">VV</th><th class="num">UV</th><th class="num">完播数</th></tr></thead><tbody id="db-table-episode"></tbody></table></div>
+  </div>
+</section>

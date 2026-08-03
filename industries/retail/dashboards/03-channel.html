@@ -1,0 +1,18 @@
+<section class="dashboard-page" data-dashboard="channel">
+  <h2 class="dashboard-page-title">📡 渠道分析</h2>
+  <p class="dashboard-page-desc">渠道KPI · 日维度趋势 · 收入vs利润 · 费用结构 · 广告ROAS · 数据源：dws_sales_daily / dws_expense_monthly</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row"><div class="chart-box"><h3>渠道日收入趋势</h3><div id="db-chart-daily" class="chart chart-tall"></div></div></div>
+  <div class="chart-row two-col">
+    <div class="chart-box"><h3>收入 vs 利润贡献</h3><div id="db-chart-scatter" class="chart"></div></div>
+    <div class="chart-box"><h3>费用构成</h3><div id="db-chart-expense" class="chart"></div></div>
+  </div>
+  <div class="chart-box"><h3>广告效率 ROAS</h3><div id="db-chart-roas" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>渠道明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-channel-kpi" data-export-name="渠道明细.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>渠道</th><th class="num">净收入</th><th class="num">毛利率</th><th class="num">退货率</th></tr></thead><tbody id="db-channel-kpi"></tbody></table></div>
+  </div>
+</section>

@@ -1,0 +1,218 @@
+{
+  "ok": true,
+  "data": {
+    "kpi_cards": [
+      {
+        "name": "净收入",
+        "value": 12850000,
+        "unit": "元",
+        "mom_pct": 3.2,
+        "yoy_pct": 12.5
+      },
+      {
+        "name": "GMV",
+        "value": 15200000,
+        "unit": "元",
+        "mom_pct": 2.8,
+        "yoy_pct": 11.0
+      },
+      {
+        "name": "毛利",
+        "value": 4820000,
+        "unit": "元",
+        "mom_pct": 1.5,
+        "yoy_pct": 8.2
+      },
+      {
+        "name": "毛利率",
+        "value": 37.5,
+        "unit": "%",
+        "mom_pct": -0.3,
+        "yoy_pct": 0.8
+      },
+      {
+        "name": "订单数",
+        "value": 86500,
+        "unit": "单",
+        "mom_pct": 4.1,
+        "yoy_pct": 15.0
+      },
+      {
+        "name": "客单价",
+        "value": 148.6,
+        "unit": "元",
+        "mom_pct": -0.8,
+        "yoy_pct": -1.2
+      },
+      {
+        "name": "退货率",
+        "value": 4.2,
+        "unit": "%",
+        "mom_pct": 0.2,
+        "yoy_pct": -0.5
+      },
+      {
+        "name": "门店坪效",
+        "value": 2860,
+        "unit": "元",
+        "mom_pct": 1.1,
+        "yoy_pct": 6.4
+      }
+    ],
+    "monthly_trend": [
+      {
+        "order_month": "2025-01",
+        "net_revenue": 8200000.0,
+        "gmv": 9500000.0,
+        "gross_profit": 3100000.0
+      },
+      {
+        "order_month": "2025-02",
+        "net_revenue": 8550000.0,
+        "gmv": 9900000.0,
+        "gross_profit": 3220000.0
+      },
+      {
+        "order_month": "2025-03",
+        "net_revenue": 8900000.0,
+        "gmv": 10300000.0,
+        "gross_profit": 3340000.0
+      },
+      {
+        "order_month": "2025-04",
+        "net_revenue": 9250000.0,
+        "gmv": 10700000.0,
+        "gross_profit": 3460000.0
+      },
+      {
+        "order_month": "2025-05",
+        "net_revenue": 9600000.0,
+        "gmv": 11100000.0,
+        "gross_profit": 3580000.0
+      },
+      {
+        "order_month": "2025-06",
+        "net_revenue": 9950000.0,
+        "gmv": 11500000.0,
+        "gross_profit": 3700000.0
+      },
+      {
+        "order_month": "2026-01",
+        "net_revenue": 10300000.0,
+        "gmv": 11900000.0,
+        "gross_profit": 3820000.0
+      },
+      {
+        "order_month": "2026-02",
+        "net_revenue": 10650000.0,
+        "gmv": 12300000.0,
+        "gross_profit": 3940000.0
+      },
+      {
+        "order_month": "2026-03",
+        "net_revenue": 11000000.0,
+        "gmv": 12700000.0,
+        "gross_profit": 4060000.0
+      },
+      {
+        "order_month": "2026-04",
+        "net_revenue": 11350000.0,
+        "gmv": 13100000.0,
+        "gross_profit": 4180000.0
+      },
+      {
+        "order_month": "2026-05",
+        "net_revenue": 11700000.0,
+        "gmv": 13500000.0,
+        "gross_profit": 4300000.0
+      },
+      {
+        "order_month": "2026-06",
+        "net_revenue": 12050000.0,
+        "gmv": 13900000.0,
+        "gross_profit": 4420000.0
+      }
+    ],
+    "channel_structure": [
+      {
+        "channel_name": "天猫",
+        "net_revenue": 4200000.0
+      },
+      {
+        "channel_name": "京东",
+        "net_revenue": 3500000.0
+      },
+      {
+        "channel_name": "门店",
+        "net_revenue": 3100000.0
+      },
+      {
+        "channel_name": "抖音",
+        "net_revenue": 2000000.0
+      }
+    ],
+    "brand_ranking": [
+      {
+        "brand_name": "耐克",
+        "net_revenue": 4200000,
+        "gross_margin_pct": 38.2,
+        "yoy_growth_pct": 14.0
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "net_revenue": 3500000,
+        "gross_margin_pct": 36.5,
+        "yoy_growth_pct": 9.5
+      },
+      {
+        "brand_name": "李宁",
+        "net_revenue": 2800000,
+        "gross_margin_pct": 39.1,
+        "yoy_growth_pct": 18.2
+      },
+      {
+        "brand_name": "安踏",
+        "net_revenue": 2350000,
+        "gross_margin_pct": 35.8,
+        "yoy_growth_pct": 7.0
+      }
+    ],
+    "store_top5": [
+      {
+        "store_name": "上海静安店",
+        "region": "华东",
+        "revenue": 520000,
+        "pingxiao": 3200,
+        "profit": 78000
+      },
+      {
+        "store_name": "北京朝阳店",
+        "region": "华北",
+        "revenue": 480000,
+        "pingxiao": 2980,
+        "profit": 65000
+      },
+      {
+        "store_name": "深圳南山店",
+        "region": "华南",
+        "revenue": 450000,
+        "pingxiao": 3100,
+        "profit": 72000
+      },
+      {
+        "store_name": "杭州西湖店",
+        "region": "华东",
+        "revenue": 410000,
+        "pingxiao": 2750,
+        "profit": 58000
+      },
+      {
+        "store_name": "成都春熙店",
+        "region": "西南",
+        "revenue": 390000,
+        "pingxiao": 2600,
+        "profit": 52000
+      }
+    ]
+  }
+}

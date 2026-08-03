@@ -1,0 +1,77 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "avg_contribution_margin_rate": 42.5,
+      "avg_breakeven_revenue": 6800000,
+      "avg_safety_margin": 28.5,
+      "total_revenue": 12850000
+    },
+    "by_brand": [
+      {
+        "brand_name": "耐克",
+        "safety_margin": 32
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "safety_margin": 28
+      },
+      {
+        "brand_name": "李宁",
+        "safety_margin": 30
+      },
+      {
+        "brand_name": "安踏",
+        "safety_margin": 22
+      }
+    ],
+    "by_channel": [
+      {
+        "channel_name": "天猫",
+        "contribution_margin_rate": 40
+      },
+      {
+        "channel_name": "京东",
+        "contribution_margin_rate": 43
+      },
+      {
+        "channel_name": "门店",
+        "contribution_margin_rate": 48
+      },
+      {
+        "channel_name": "抖音",
+        "contribution_margin_rate": 35
+      }
+    ],
+    "sensitivity": [
+      {
+        "brand_name": "耐克",
+        "channel_name": "天猫",
+        "revenue": 1500000.0,
+        "breakeven_revenue": 1000000.0,
+        "current_safety_margin": 33
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "channel_name": "天猫",
+        "revenue": 1200000.0,
+        "breakeven_revenue": 900000.0,
+        "current_safety_margin": 25
+      },
+      {
+        "brand_name": "李宁",
+        "channel_name": "天猫",
+        "revenue": 1000000.0,
+        "breakeven_revenue": 750000.0,
+        "current_safety_margin": 25
+      },
+      {
+        "brand_name": "安踏",
+        "channel_name": "天猫",
+        "revenue": 800000.0,
+        "breakeven_revenue": 700000.0,
+        "current_safety_margin": 12
+      }
+    ]
+  }
+}

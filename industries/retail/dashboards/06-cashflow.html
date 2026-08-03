@@ -1,0 +1,20 @@
+<section class="dashboard-page" data-dashboard="cashflow">
+  <h2 class="dashboard-page-title">💧 现金流分析</h2>
+  <p class="dashboard-page-desc">三类型现金流 · 净现比 · 利润vs现金差异 · 资金缺口预测 · 账户余额 · 数据源：ods_payment / ods_expense / dws_sales_monthly</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>净利润 vs 经营现金流趋势</h3><div id="db-chart-cf-trend" class="chart"></div></div>
+  <div class="chart-row two-col">
+    <div class="chart-box">
+      <h3>利润现金差异拆解</h3>
+      <div class="table-scroll"><table class="data-table"><thead><tr><th>品牌</th><th class="num">净利润</th><th class="num">经营现金流</th><th>原因</th></tr></thead><tbody id="db-gap"></tbody></table></div>
+    </div>
+    <div class="chart-box">
+      <h3>银行余额</h3>
+      <div class="table-scroll"><table class="data-table"><thead><tr><th>账户</th><th class="num">余额</th><th class="num">可用天数</th><th>状态</th></tr></thead><tbody id="db-bank"></tbody></table></div>
+    </div>
+  </div>
+  <div class="chart-box">
+    <h3>资金缺口预测（30日）</h3>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>日期</th><th class="num">预计余额</th><th class="num">缺口</th><th>状态</th></tr></thead><tbody id="db-forecast"></tbody></table></div>
+  </div>
+</section>

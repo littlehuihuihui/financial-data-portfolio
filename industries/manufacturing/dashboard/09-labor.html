@@ -1,0 +1,14 @@
+<section class="dashboard-page" data-dashboard="labor">
+  <h2 class="dashboard-page-title">人工效率</h2>
+  <p class="dashboard-page-desc">工时达成率 · 分产线人工成本 · 数据源：dwd_labor_wide / v_labor_efficiency</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-box"><h3>工时达成率趋势</h3><div id="db-chart-labor-efficiency" class="chart"></div></div>
+  <div class="chart-box"><h3>分产线人工成本</h3><div id="db-chart-labor-line" class="chart"></div></div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>分产线人工明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-labor-line" data-export-name="产线人工.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>产线</th><th class="num">实际工时</th><th class="num">工时达成率%</th><th class="num">人工成本</th></tr></thead><tbody id="db-table-labor-line"></tbody></table></div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+<section class="dashboard-page" data-dashboard="store">
+  <h2 class="dashboard-page-title">🏪 门店分析</h2>
+  <p class="dashboard-page-desc">门店大盘KPI · Top10排名 · 健康度散点 · 异常预警 · 数据源：dws_store_daily</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row two-col store-top-row">
+    <div class="chart-box store-top-box">
+      <h3>门店收入 Top10</h3>
+      <div class="table-scroll table-scroll-store"><table class="data-table"><thead><tr><th class="num">排名</th><th>门店</th><th>区域</th><th class="num">收入</th><th class="num">利润</th><th class="num">坪效</th></tr></thead><tbody id="db-store-top"></tbody></table></div>
+    </div>
+    <div class="chart-box"><h3>健康度散点（坪效 vs 利润）</h3><div id="db-chart-store-health" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <h3>异常预警门店</h3>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>门店</th><th>区域</th><th class="num">收入</th><th class="num">利润</th><th>预警</th></tr></thead><tbody id="db-store-alerts"></tbody></table></div>
+  </div>
+</section>

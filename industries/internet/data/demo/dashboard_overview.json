@@ -1,0 +1,177 @@
+{
+  "ok": true,
+  "data": {
+    "mau": {
+      "total": 1280000,
+      "stb": 980000,
+      "speaker": 300000
+    },
+    "windows": [
+      {
+        "name": "本日",
+        "users": 420000
+      },
+      {
+        "name": "近7天",
+        "users": 780000
+      },
+      {
+        "name": "近30天",
+        "users": 1280000
+      }
+    ],
+    "compose": {
+      "vod_active": 620000,
+      "live_active": 410000,
+      "only_launcher": 250000
+    },
+    "dau_trend": [
+      {
+        "snapshot_date": "2026-06-01",
+        "dau": 380000,
+        "dau_stb": 300000,
+        "dau_speaker": 80000
+      },
+      {
+        "snapshot_date": "2026-06-02",
+        "dau": 382000,
+        "dau_stb": 301500,
+        "dau_speaker": 80500
+      },
+      {
+        "snapshot_date": "2026-06-03",
+        "dau": 384000,
+        "dau_stb": 303000,
+        "dau_speaker": 81000
+      },
+      {
+        "snapshot_date": "2026-06-04",
+        "dau": 386000,
+        "dau_stb": 304500,
+        "dau_speaker": 81500
+      },
+      {
+        "snapshot_date": "2026-06-05",
+        "dau": 388000,
+        "dau_stb": 306000,
+        "dau_speaker": 82000
+      },
+      {
+        "snapshot_date": "2026-06-06",
+        "dau": 390000,
+        "dau_stb": 307500,
+        "dau_speaker": 82500
+      },
+      {
+        "snapshot_date": "2026-06-07",
+        "dau": 392000,
+        "dau_stb": 309000,
+        "dau_speaker": 83000
+      },
+      {
+        "snapshot_date": "2026-06-08",
+        "dau": 394000,
+        "dau_stb": 310500,
+        "dau_speaker": 83500
+      },
+      {
+        "snapshot_date": "2026-06-09",
+        "dau": 396000,
+        "dau_stb": 312000,
+        "dau_speaker": 84000
+      },
+      {
+        "snapshot_date": "2026-06-10",
+        "dau": 398000,
+        "dau_stb": 313500,
+        "dau_speaker": 84500
+      },
+      {
+        "snapshot_date": "2026-06-11",
+        "dau": 400000,
+        "dau_stb": 315000,
+        "dau_speaker": 85000
+      },
+      {
+        "snapshot_date": "2026-06-12",
+        "dau": 402000,
+        "dau_stb": 316500,
+        "dau_speaker": 85500
+      },
+      {
+        "snapshot_date": "2026-06-13",
+        "dau": 404000,
+        "dau_stb": 318000,
+        "dau_speaker": 86000
+      },
+      {
+        "snapshot_date": "2026-06-14",
+        "dau": 406000,
+        "dau_stb": 319500,
+        "dau_speaker": 86500
+      }
+    ],
+    "mau_trend": [
+      {
+        "month_label": "2026-01",
+        "device_type": "STB",
+        "mau": 900000
+      },
+      {
+        "month_label": "2026-01",
+        "device_type": "Speaker",
+        "mau": 250000
+      },
+      {
+        "month_label": "2026-02",
+        "device_type": "STB",
+        "mau": 920000
+      },
+      {
+        "month_label": "2026-02",
+        "device_type": "Speaker",
+        "mau": 260000
+      },
+      {
+        "month_label": "2026-03",
+        "device_type": "STB",
+        "mau": 950000
+      },
+      {
+        "month_label": "2026-03",
+        "device_type": "Speaker",
+        "mau": 270000
+      },
+      {
+        "month_label": "2026-04",
+        "device_type": "STB",
+        "mau": 960000
+      },
+      {
+        "month_label": "2026-04",
+        "device_type": "Speaker",
+        "mau": 280000
+      },
+      {
+        "month_label": "2026-05",
+        "device_type": "STB",
+        "mau": 970000
+      },
+      {
+        "month_label": "2026-05",
+        "device_type": "Speaker",
+        "mau": 290000
+      },
+      {
+        "month_label": "2026-06",
+        "device_type": "STB",
+        "mau": 980000
+      },
+      {
+        "month_label": "2026-06",
+        "device_type": "Speaker",
+        "mau": 300000
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+<section class="dashboard-page" data-dashboard="bom-variance">
+  <h2 class="dashboard-page-title">领料差异</h2>
+  <p class="dashboard-page-desc">BOM应领 vs 实领 · 超领金额 · 产线差异 · 数据源：fact_material_consumption</p>
+  <div id="db-kpi" class="kpi-grid"></div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>物料超领金额 Top</h3><div id="db-chart-bom-material" class="chart"></div></div>
+    <div class="chart-box"><h3>产线超领金额</h3><div id="db-chart-bom-line" class="chart"></div></div>
+  </div>
+  <div class="chart-box">
+    <div class="table-toolbar">
+      <h3>物料领料差异明细</h3>
+      <button type="button" class="btn-dash btn-sm" data-export-table="db-table-bom" data-export-name="领料差异.csv">导出 CSV</button>
+    </div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>物料编码</th><th>物料名称</th><th class="num">应领</th><th class="num">实领</th><th class="num">超领量</th><th class="num">超领金额</th><th>预警</th></tr></thead><tbody id="db-table-bom"></tbody></table></div>
+  </div>
+</section>

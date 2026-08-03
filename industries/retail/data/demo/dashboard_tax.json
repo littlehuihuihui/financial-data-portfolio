@@ -1,0 +1,61 @@
+{
+  "ok": true,
+  "data": {
+    "items": [
+      {
+        "brand_name": "耐克",
+        "tax_type": "增值税",
+        "effective_tax_rate": 3.2,
+        "industry_avg_tax_rate": 3.5,
+        "tax_burden_status": "正常"
+      },
+      {
+        "brand_name": "阿迪达斯",
+        "tax_type": "增值税",
+        "effective_tax_rate": 3.6,
+        "industry_avg_tax_rate": 3.5,
+        "tax_burden_status": "偏高"
+      },
+      {
+        "brand_name": "李宁",
+        "tax_type": "增值税",
+        "effective_tax_rate": 3.1,
+        "industry_avg_tax_rate": 3.5,
+        "tax_burden_status": "正常"
+      },
+      {
+        "brand_name": "安踏",
+        "tax_type": "增值税",
+        "effective_tax_rate": 3.8,
+        "industry_avg_tax_rate": 3.5,
+        "tax_burden_status": "偏高"
+      }
+    ],
+    "trend": [
+      {
+        "month_id": "202601",
+        "effective_tax_rate": 3.2
+      },
+      {
+        "month_id": "202602",
+        "effective_tax_rate": 3.25
+      },
+      {
+        "month_id": "202603",
+        "effective_tax_rate": 3.3000000000000003
+      },
+      {
+        "month_id": "202604",
+        "effective_tax_rate": 3.35
+      },
+      {
+        "month_id": "202605",
+        "effective_tax_rate": 3.4000000000000004
+      },
+      {
+        "month_id": "202606",
+        "effective_tax_rate": 3.45
+      }
+    ]
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "ok": true,
+  "data": {
+    "kpi": {
+      "boot_users": 1100000,
+      "boot_cnt": 4200000,
+      "only_launcher_pct": 18.5,
+      "online_hours": 8600000
+    },
+    "trend": [
+      {
+        "snapshot_date": "2026-06-01",
+        "boot_cnt": 280000,
+        "boot_users": 90000
+      },
+      {
+        "snapshot_date": "2026-06-02",
+        "boot_cnt": 281000,
+        "boot_users": 90200
+      },
+      {
+        "snapshot_date": "2026-06-03",
+        "boot_cnt": 282000,
+        "boot_users": 90400
+      },
+      {
+        "snapshot_date": "2026-06-04",
+        "boot_cnt": 283000,
+        "boot_users": 90600
+      },
+      {
+        "snapshot_date": "2026-06-05",
+        "boot_cnt": 284000,
+        "boot_users": 90800
+      },
+      {
+        "snapshot_date": "2026-06-06",
+        "boot_cnt": 285000,
+        "boot_users": 91000
+      },
+      {
+        "snapshot_date": "2026-06-07",
+        "boot_cnt": 286000,
+        "boot_users": 91200
+      },
+      {
+        "snapshot_date": "2026-06-08",
+        "boot_cnt": 287000,
+        "boot_users": 91400
+      },
+      {
+        "snapshot_date": "2026-06-09",
+        "boot_cnt": 288000,
+        "boot_users": 91600
+      },
+      {
+        "snapshot_date": "2026-06-10",
+        "boot_cnt": 289000,
+        "boot_users": 91800
+      },
+      {
+        "snapshot_date": "2026-06-11",
+        "boot_cnt": 290000,
+        "boot_users": 92000
+      },
+      {
+        "snapshot_date": "2026-06-12",
+        "boot_cnt": 291000,
+        "boot_users": 92200
+      },
+      {
+        "snapshot_date": "2026-06-13",
+        "boot_cnt": 292000,
+        "boot_users": 92400
+      },
+      {
+        "snapshot_date": "2026-06-14",
+        "boot_cnt": 293000,
+        "boot_users": 92600
+      }
+    ],
+    "by_type": [
+      {
+        "device_type": "STB",
+        "boot_users": 850000
+      },
+      {
+        "device_type": "Speaker",
+        "boot_users": 250000
+      }
+    ],
+    "windows": [
+      {
+        "name": "本日",
+        "boot_users": 420000,
+        "boot_cnt": 980000
+      },
+      {
+        "name": "近7天",
+        "boot_users": 780000,
+        "boot_cnt": 2800000
+      }
+    ]
+  }
+}

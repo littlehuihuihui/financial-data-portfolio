@@ -1,0 +1,37 @@
+{
+  "ok": true,
+  "data": {
+    "funnel": {
+      "expose": 5000000.0,
+      "click": 1200000.0,
+      "verify": 450000.0,
+      "confirm": 180000.0
+    },
+    "by_src": [
+      {
+        "src_type": "信息流",
+        "expose": 2000000.0,
+        "click": 500000.0,
+        "verify": 180000.0,
+        "confirm": 70000.0,
+        "click2verify_pct": 36
+      },
+      {
+        "src_type": "应用商店",
+        "expose": 1500000.0,
+        "click": 400000.0,
+        "verify": 150000.0,
+        "confirm": 60000.0,
+        "click2verify_pct": 37.5
+      },
+      {
+        "src_type": "自然搜索",
+        "expose": 1500000.0,
+        "click": 300000.0,
+        "verify": 120000.0,
+        "confirm": 50000.0,
+        "click2verify_pct": 40
+      }
+    ]
+  }
+}
