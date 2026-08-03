@@ -54,8 +54,14 @@
 
     return `
       <article class="toolbox-card" id="toolbox-${esc(item.id)}">
-        <header class="toolbox-card-head">
+        <header class="toolbox-card-head toolbox-card-head-title">
           <h3>${esc(item.title)}${alias}</h3>
+          <p class="toolbox-chart-caption">演示图表（作品集示例数据）</p>
+        </header>
+        <div class="toolbox-chart-body" id="${chartId}-wrap">
+          <div class="toolbox-chart" id="${chartId}"></div>
+        </div>
+        <div class="toolbox-card-head">
           <dl class="toolbox-meta">
             ${metaBlock("1. 定义与别名：", definition)}
             ${metaBlock("2. 核心思想与原理：", principle)}
@@ -68,9 +74,6 @@
             ${metaBlock("业务问题：", item.businessQuestion || "—")}
             ${metaBlock("作品集应用示例：", item.portfolio || "—")}
           </dl>
-        </header>
-        <div class="toolbox-chart-body" id="${chartId}-wrap">
-          <div class="toolbox-chart" id="${chartId}"></div>
         </div>
       </article>`;
   }
