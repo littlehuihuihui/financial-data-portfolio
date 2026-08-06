@@ -2,11 +2,15 @@
 
 静态作品集入口：打开本仓库 Pages 根路径的 `index.html`。
 
+本地工程目录已统一为：`D:\cursor\多行业数据平台\portfolio`（原「财务数据分析」）。
+
 ## 在线地址
 
 配置 Pages（Settings → Pages → Deploy from branch → `main` / `/`）后访问：
 
 `https://littlehuihuihui.github.io/financial-data-portfolio/`
+
+> 仓库若仍为 `financial-data-portfolio`，可在 GitHub 设置中重命名为 `multi-industry-data-platform`，并同步更新 Pages 地址与本地 `push-ssh.ps1`。
 
 ## 演示模式说明
 

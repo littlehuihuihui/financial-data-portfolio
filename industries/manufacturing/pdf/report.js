@@ -95,8 +95,8 @@
                 <p><b>6. 输出物与常见误区：</b>${esc(m.outputsAndPitfalls || "—")}</p>
                 <p><b>7. 和其他方法的区别：</b>${esc(m.vsOtherMethods || "—")}</p>
                 <p><b>8. 边界条件与失效情形：</b>${esc(m.boundaries || "—")}</p>
-                <p><b>业务问题：</b>${esc(m.businessQuestion || "—")}</p>
-                <p><b>作品集：</b>${esc(m.portfolio || "—")}</p>
+                <p><b>常问什么：</b>${esc(m.businessQuestion || "—")}</p>
+                <p><b>落地例子：</b>${esc(m.portfolio || "—")}</p>
               </div>`
           )
           .join("");

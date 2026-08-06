@@ -520,7 +520,7 @@
       <header class="page-header">
         <div class="page-header-left">
           <h1 class="page-title">第六层：分析方法工具箱 —— "用什么方法？"</h1>
-          <p class="page-subtitle">6 个小类 · 19 种方法 · 是什么 / 何时用 / 目的 / 怎么用 + 业务问题与作品集示例</p>
+          <p class="page-subtitle">6 个小类 · 19 种方法 · 是什么 / 何时用 / 目的 / 怎么用 + 常问什么与落地例子</p>
         </div>
       </header>
       <div id="toolbox-pdf-root"></div>
@@ -846,8 +846,8 @@
               <p><b>6. 输出物与常见误区：</b>${esc(m.outputsAndPitfalls || "—")}</p>
               <p><b>7. 和其他方法的区别：</b>${esc(m.vsOtherMethods || "—")}</p>
               <p><b>8. 边界条件与失效情形：</b>${esc(m.boundaries || "—")}</p>
-              <p><b>业务问题：</b>${esc(m.businessQuestion || "—")}</p>
-              <p><b>作品集：</b>${esc(m.portfolio || "—")}</p>
+              <p><b>常问什么：</b>${esc(m.businessQuestion || "—")}</p>
+              <p><b>落地例子：</b>${esc(m.portfolio || "—")}</p>
             </div>`).join("");
           return `<h3 class="pdf-toolbox-cat">${esc(cat.name)}</h3><div class="pdf-toolbox-grid">${items}</div>`;
         }).join("");

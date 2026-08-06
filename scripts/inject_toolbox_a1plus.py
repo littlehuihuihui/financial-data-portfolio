@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Inject A1+ long-form fields into ANALYSIS_TOOLBOX method objects."""
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path(r"d:\cursor\财务数据分析")
+ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "portfolio" / "scripts"))
 from toolbox_a1plus_catalog import fields_for  # noqa: E402
 

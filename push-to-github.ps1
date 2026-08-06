@@ -4,6 +4,8 @@
 
 $ErrorActionPreference = "Stop"
 $publish = "d:\cursor\financial-data-portfolio-publish"
+# 源工程：D:\cursor\多行业数据平台\portfolio
+
 if (-not (Test-Path $publish)) {
   Write-Error "Publish dir not found: $publish"
 }

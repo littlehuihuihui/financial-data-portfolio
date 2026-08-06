@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Enrich ANALYSIS_TOOLBOX methods with what/when/purpose/how fields."""
 from __future__ import annotations
 
 import re
 from pathlib import Path
 
-ROOT = Path(r"d:\cursor\财务数据分析")
+ROOT = Path(__file__).resolve().parents[2]
 
 CATALOG: dict[str, dict[str, str]] = {
     "pareto": {

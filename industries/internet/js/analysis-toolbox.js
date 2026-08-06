@@ -71,8 +71,8 @@
             ${metaBlock("6. 输出物与常见误区：", outputs)}
             ${metaBlock("7. 和其他方法的区别：", vsOther)}
             ${metaBlock("8. 边界条件与失效情形：", boundaries)}
-            ${metaBlock("业务问题：", item.businessQuestion || "—")}
-            ${metaBlock("作品集应用示例：", item.portfolio || "—")}
+            ${metaBlock("常问什么：", item.businessQuestion || "—")}
+            ${metaBlock("落地例子（本站怎么用）：", item.portfolio || "—")}
           </dl>
         </div>
       </article>`;
