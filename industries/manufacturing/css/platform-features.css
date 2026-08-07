@@ -411,6 +411,13 @@
   border-radius: 10px;
   background: rgba(15, 23, 42, 0.45);
 }
+/* ER 区突破主栏宽度，便于看清表名 */
+#er-diagram-section {
+  width: min(96vw, 1680px);
+  max-width: none;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
 .er-diagram-desc {
   font-size: 13px;
   line-height: 1.65;
@@ -458,25 +465,79 @@
   border-color: #38bdf8;
   color: #e0f2fe;
 }
+.er-diagram-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 10px;
+}
 .er-diagram-tip {
   font-size: 12px;
   color: #94a3b8;
-  margin: 0 0 10px;
+  margin: 0;
+  flex: 1;
+  min-width: 220px;
 }
-.er-diagram-mermaid {
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 12px 8px 8px;
+.er-zoom-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.er-zoom-btn {
+  appearance: none;
+  min-width: 32px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(15, 23, 42, 0.75);
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.er-zoom-btn:hover {
+  border-color: #38bdf8;
+  color: #fff;
+}
+.er-zoom-reset {
+  font-size: 12px;
+  font-weight: 600;
+}
+.er-zoom-label {
+  min-width: 48px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7dd3fc;
+  font-variant-numeric: tabular-nums;
+}
+.er-diagram-viewport {
+  overflow: auto;
+  max-height: min(78vh, 920px);
+  padding: 12px;
   border-radius: 8px;
   background: rgba(2, 6, 23, 0.35);
   -webkit-overflow-scrolling: touch;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+.er-diagram-stage {
+  transform-origin: top left;
+  display: inline-block;
+  min-width: 100%;
+}
+.er-diagram-mermaid {
+  overflow: visible;
+  padding: 4px;
 }
 .er-diagram-mermaid svg {
   display: block;
-  margin: 0 auto;
+  margin: 0;
   max-width: none !important;
-  min-width: 1080px;
-  height: auto;
+  height: auto !important;
 }
 .er-diagram-mermaid svg text {
   font-family: "JetBrains Mono", Consolas, "Microsoft YaHei", monospace !important;
@@ -492,6 +553,14 @@
   color: #94a3b8;
   white-space: pre-wrap;
   word-break: break-all;
+}
+
+@media (max-width: 900px) {
+  #er-diagram-section {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
 }
 
 /* ---------- 数据源选型卡片（数仓架构页） ---------- */

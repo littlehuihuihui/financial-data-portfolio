@@ -1,7 +1,7 @@
 window.ER_DIAGRAM = {
   title: "OTT 大屏视频 · 实体关系图",
   description:
-    "OTT 雪花模型（<code>database/ott_ddl.sql</code>）：按层拆成三张图，避免一张图实体过多导致表名挤在一起。可切换「维度雪花 / ODS→DWD / DWS→ADS」。",
+    "OTT 雪花模型（<code>database/ott_ddl.sql</code>）：按层拆成三张图，避免一张图实体过多导致表名挤在一起。可切换「维度雪花 / ODS→DWD / DWS→ADS」；支持缩放与滚动查看完整表名。",
   legend: [
     "<strong>雪花维度</strong>：上级 dim → 下级 dim",
     "<strong>事实关联</strong>：dim → dwd_*_di",
