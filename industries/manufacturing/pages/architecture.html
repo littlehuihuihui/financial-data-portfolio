@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>制造业 · 数据仓库与管道架构</title>
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/platform-features.css?v=1.12">
+  <link rel="stylesheet" href="../css/platform-features.css?v=1.13">
 </head>
 <body class="page-architecture">
   <header class="top-nav">
@@ -23,6 +23,10 @@
   <main class="main-content">
     <h1 class="section-title">⚙️ 制造业数据仓库架构</h1>
     <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>database/</code>）；宽表优先、主题聚合，14 个 Web 看板与 Tableau SQL 直接消费 DWS/ADS。<span class="arch-scale-badge">作品集版 · 宽表 + DWS + 14 看板 API</span></p>
+    <nav class="arch-toc" aria-label="页内导航">
+      <a class="arch-toc-er" href="#er-diagram-section">实体关系图（ER）</a>
+      <a href="#data-dictionary-section">数据字典</a>
+    </nav>
 
     <aside class="layer-glossary" aria-label="数仓分层名词解释">
       <h3 class="layer-glossary-title">分层是什么？每一层存什么粒度的数据？</h3>
@@ -139,8 +143,8 @@
       <p class="star-schema-desc" style="margin-top:12px">生产选型（Hive / ClickHouse / 时序库 / Flink）见上方「数据源与数据库选型」。</p>
     </section>
   </main>
-  <script src="../js/er-diagram-data.js?v=1.12"></script>
-  <script src="../js/er-diagram.js?v=1.12"></script>
+  <script src="../js/er-diagram-data.js?v=1.13"></script>
+  <script src="../js/er-diagram.js?v=1.13"></script>
   <script src="../js/data-dictionary-data.js"></script>
   <script src="../js/methodology-playbook-data.js"></script>
   <script src="../js/search-index-data.js"></script>

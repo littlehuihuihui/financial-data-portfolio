@@ -6,7 +6,7 @@
   <meta name="description" content="互联网通用用户增长分析项目数据仓库与管道架构">
   <title>互联网通用 · 数据仓库与管道架构</title>
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/platform-features.css?v=2.12">
+  <link rel="stylesheet" href="../css/platform-features.css?v=2.13">
 </head>
 <body class="page-architecture">
 
@@ -26,6 +26,10 @@
   <main class="main-content">
     <h1 class="section-title">⚙️ 数据仓库与管道架构</h1>
     <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>database/ott_ddl.sql</code> + <code>04_ott_ads_views.sql</code>）；以<strong>设备操作日志</strong>为底座，覆盖 Launcher / 点播 / 直播 / 收银台。17 个 Web 看板与方法论视图直接消费 DWS/ADS。<span class="arch-scale-badge">作品集版 · OTT 雪花模型 + ADS 视图</span></p>
+    <nav class="arch-toc" aria-label="页内导航">
+      <a class="arch-toc-er" href="#er-diagram-section">实体关系图（ER）</a>
+      <a href="#data-dictionary-section">数据字典</a>
+    </nav>
 
     <aside class="layer-glossary" aria-label="数仓分层名词解释">
       <h3 class="layer-glossary-title">分层是什么？每一层存什么粒度的数据？</h3>
@@ -285,8 +289,8 @@
     </section>
   </main>
 
-  <script src="../js/er-diagram-data.js?v=2.12"></script>
-  <script src="../js/er-diagram.js?v=2.12"></script>
+  <script src="../js/er-diagram-data.js?v=2.13"></script>
+  <script src="../js/er-diagram.js?v=2.13"></script>
   <script src="../js/data-dictionary-data.js"></script>
   <script src="../js/methodology-playbook-data.js"></script>
   <script src="../js/search-index-data.js"></script>

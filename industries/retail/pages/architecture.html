@@ -7,7 +7,7 @@
   <title>跃动体育 · 数据仓库与管道架构</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/platform-features.css?v=3.16">
+  <link rel="stylesheet" href="../css/platform-features.css?v=3.17">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 </head>
 <body class="page-architecture">
@@ -28,6 +28,12 @@
   <main class="main-content">
     <h1 class="section-title">⚙️ 数据仓库与管道架构</h1>
     <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>sql6_portfolio_model/</code>）；含 ERP 数据源映射/对账、数据源与数据库选型，看板与对账 API 直接消费 DWS/ADS。<span class="arch-scale-badge" id="recon-status">作品集版 · 21 表 + 8 视图 = 29 对象</span></p>
+    <nav class="arch-toc" aria-label="页内导航">
+      <a class="arch-toc-er" href="#er-diagram-section">实体关系图（ER）</a>
+      <a href="#source-stack">数据源选型</a>
+      <a href="#erp-datasource">ERP 对账</a>
+      <a href="#data-dictionary-section">数据字典</a>
+    </nav>
 
     <aside class="layer-glossary" aria-label="数仓分层名词解释">
       <h3 class="layer-glossary-title">分层是什么？每一层存什么粒度的数据？</h3>
@@ -336,8 +342,8 @@
     </section>
   </main>
 
-  <script src="../js/er-diagram-data.js?v=3.16"></script>
-  <script src="../js/er-diagram.js?v=3.16"></script>
+  <script src="../js/er-diagram-data.js?v=3.17"></script>
+  <script src="../js/er-diagram.js?v=3.17"></script>
   <script src="../js/data-dictionary-data.js"></script>
   <script src="../js/search-index-data.js"></script>
   <script src="../js/data-dictionary.js"></script>
