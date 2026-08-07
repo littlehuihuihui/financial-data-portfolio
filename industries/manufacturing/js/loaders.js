@@ -14,13 +14,23 @@ window.DashLoaders = (function () {
   async function production(state) {
     const d = await api("/api/dashboard_production", params(state));
     const k = d.kpi || {};
-    renderKpiGrid("db-kpi", [
-      { name: "月产量", value: k.output_qty },
-      { name: "产能利用率", value: k.capacity_util_pct, unit: "%" },
-      { name: "良品率", value: k.yield_rate_pct, unit: "%" },
-      { name: "单位成本", value: k.unit_cost },
-      { name: "准时交付率", value: k.on_time_delivery_pct, unit: "%" },
-    ]);
+    const kpis = [
+      { name: "月产量", value: k.output_qty, role: "core" },
+      { name: "产能利用率", value: k.capacity_util_pct, unit: "%", role: "core" },
+      { name: "良品率", value: k.yield_rate_pct, unit: "%", role: "guardrail", sub: "围栏：冲产能不得牺牲良品率" },
+      { name: "单位成本", value: k.unit_cost, role: "guardrail", sub: "围栏：成本失控不认假好 CMEI" },
+      { name: "准时交付率", value: k.on_time_delivery_pct, unit: "%", role: "core" },
+    ];
+    if (k.cmei_pct != null && k.cmei_pct !== "") {
+      kpis.unshift({
+        name: "CMEI",
+        value: k.cmei_pct,
+        unit: "%",
+        role: "northstar",
+        sub: "FPY×40% + OEE×35% + OTD×25%",
+      });
+    }
+    renderKpiGrid("db-kpi", kpis);
     setLineChart(initChart("db-chart-output-trend"), d.trend?.map((r) => r.snapshot_date) || [],
       [{ name: "产量", data: d.trend?.map((r) => r.output_qty) || [] },
        { name: "产能利用率%", data: d.trend?.map((r) => r.capacity_util_pct) || [] }]);

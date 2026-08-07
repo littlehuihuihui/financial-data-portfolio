@@ -32,7 +32,7 @@ INDUSTRY_META = {
         "dashboard_count_expected": 14,  # 13 主题 + PDF
         "theme_dashboard_count": 13,
         "report_file": "pages/report.html",
-        "report_core_content": "体系总览 + 13 主题看板摘要 + 六层方法论 + 31 问清单 + sql6 数仓架构 PDF 一键导出",
+        "report_core_content": "体系总览 + P0b监控五层(北极星/围栏) + 13 主题看板摘要 + 六层方法论 + 31 问清单 + sql6 数仓架构 PDF",
         "nav_tabs": [
             {"id": "dashboard", "label": "数据展示", "path": "retail_dashboard.html", "description": "13 个主题看板 + 角色切换"},
             {"id": "methodology", "label": "分析方法论", "path": "pages/anomaly.html", "description": "六层分析框架 · 31 问 · 第六层工具箱（右侧详情）"},
@@ -58,7 +58,7 @@ INDUSTRY_META = {
         "dashboard_count_expected": 15,  # 14 主题 + PDF
         "theme_dashboard_count": 14,
         "report_file": "pdf/report.html",
-        "report_core_content": "体系总览 + 14 主题看板摘要（含报废/工序/停机/BOM/供应商评分）+ 六层方法论 + 工具箱 + 数仓架构 PDF",
+        "report_core_content": "体系总览 + P0b监控五层(CMEI/围栏) + 14 主题看板摘要 + 六层方法论 + 工具箱 + 数仓架构 PDF",
         "nav_tabs": [
             {"id": "dashboard", "label": "数据展示", "path": "manufacturing_dashboard.html", "description": "14 个主题看板 + 角色切换"},
             {"id": "methodology", "label": "分析方法论", "path": "pages/methodology.html", "description": "六层分析框架 · 制造场景 · 第六层工具箱"},
@@ -84,7 +84,7 @@ INDUSTRY_META = {
         "dashboard_count_expected": 18,  # 17 主题 + PDF
         "theme_dashboard_count": 17,
         "report_file": "pdf/report.html",
-        "report_core_content": "体系总览 + 17 主题看板摘要（含路径/收入/活动/健康度/标签）+ 六层方法论 + 工具箱 + 数仓架构 PDF",
+        "report_core_content": "体系总览 + P0b监控五层(有效MAU/围栏) + 17 主题看板摘要 + 六层方法论 + 工具箱 + 数仓架构 PDF",
         "nav_tabs": [
             {"id": "dashboard", "label": "数据展示", "path": "internet_dashboard.html", "description": "17 个主题看板 + 角色切换"},
             {"id": "methodology", "label": "分析方法论", "path": "pages/methodology.html", "description": "六层分析框架 · OTT 场景 · 第六层工具箱"},

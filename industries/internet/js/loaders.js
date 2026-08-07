@@ -10,11 +10,11 @@ window.DashLoaders = (function () {
     const mau = d.mau || {}, w = d.windows || [], cp = d.compose || {};
     const findW = (n) => (w.find((x) => x.name === n) || {}).users || 0;
     renderKpiGrid("db-kpi", [
-      { name: "有效MAU(合计)", value: mau.total },
-      { name: "STB MAU", value: mau.stb },
-      { name: "Speaker MAU", value: mau.speaker },
-      { name: "本日DAU", value: findW("本日") },
-      { name: "近30天活跃", value: findW("近30天") },
+      { name: "有效MAU(合计)", value: mau.total, role: "northstar", sub: "冲量时须守住留存/完播/LTV/CAC 围栏" },
+      { name: "STB MAU", value: mau.stb, role: "core" },
+      { name: "Speaker MAU", value: mau.speaker, role: "core" },
+      { name: "本日DAU", value: findW("本日"), role: "core" },
+      { name: "近30天活跃", value: findW("近30天"), role: "leading" },
     ]);
     setLineChart(initChart("db-chart-dau"), d.dau_trend?.map((r) => r.snapshot_date) || [],
       [{ name: "DAU", data: d.dau_trend?.map((r) => r.dau) || [] },

@@ -18,7 +18,7 @@
       <a href="../retail_dashboard.html" class="btn-export">返回看板</a>
       <a href="../../../index.html" class="btn-export nav-home">返回平台</a>
 </div>
-    <p class="toolbar-hint">P0 体系总览 · P1 经营监控看板 · P2 分析方法论 · P2b 31问清单 · P3 数据管道 · 也可运行 <code>run_export.bat</code></p>
+    <p class="toolbar-hint">P0 体系总览 · P0b 监控五层 · P1 经营监控看板 · P2 分析方法论 · P2b 31问清单 · P3 数据管道 · 也可运行 <code>run_export.bat</code></p>
   </header>
 
   <div id="report-content">
@@ -37,8 +37,8 @@
           <ul class="overview-card-list">
             <li>13 个主题看板：经营总览 · 品牌 · 渠道 · 三大报表 · 杜邦 · 现金流 · 税务 · 库存 · 预算执行 · 门店 · 利润质量 · 本量利 · 数据质量</li>
             <li>8 类角色视图：CEO / CFO / 财务 BP / 品牌经理 / 渠道运营 / 门店运营 / 供应链 / 运维（全量看板）</li>
-            <li>核心指标 8+ 项 · 收入趋势（日/周/月切换，默认日维度）· 品牌排名 · 门店 Top10</li>
-            <li>支持日/周/月粒度切换 · 底层 dws_sales_daily / dws_store_daily 日粒度存储</li>
+            <li>北极星：净利率 · 围栏：退货率 / 库存周转 / 净现比 · 总览 KPI 已打标签</li>
+            <li>核心指标 8+ 项 · 收入趋势 · 品牌排名 · 门店 Top · 见 <a href="#page-p0b">P0b 监控五层</a></li>
           </ul>
           <span class="overview-card-tag">高层经营会 · T+1 刷新</span>
         </a>
@@ -67,9 +67,50 @@
       </div>
 
       <footer class="overview-footer">
-        <p class="overview-path">📌 阅读路径：P1 经营总览 → P2 分析方法论 → P3 数仓架构 · DDL/SQL 见 <code>sql6_portfolio_model/</code></p>
+        <p class="overview-path">📌 阅读路径：<a href="#page-p0b">P0b 监控五层</a> → P1 经营总览 → P2 分析方法论 → P3 数仓架构 · DDL 见 <code>sql6_portfolio_model/</code></p>
         <p class="overview-closing">从数据到决策的完整闭环</p>
       </footer>
+    </section>
+
+    <!-- ==================== P0b · 监控五层指标体系 ==================== -->
+    <section class="pdf-page" id="page-p0b">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">📡 监控五层指标体系</h1>
+          <p class="page-subtitle">北极星 → 核心 → 先导 → 诊断 → 警戒线 · 围栏=优化时不得恶化的底线 · 详情 <code>docs/monitoring_framework_retail.md</code></p>
+        </div>
+        <nav class="module-nav">
+          <a href="#page-p0">📋 体系总览</a>
+          <a href="#page-p0b" class="active">📡 监控五层</a>
+          <a href="#page-p1">📊 经营看板</a>
+        </nav>
+      </header>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">角色定义</h3>
+        <table class="data-table">
+          <thead><tr><th>标签</th><th>含义</th><th>本行业选定</th></tr></thead>
+          <tbody>
+            <tr><td><strong>北极星</strong></td><td>公司级唯一主优化目标</td><td>净利率（月度辅看 ROE / 经营现金流）</td></tr>
+            <tr><td><strong>围栏</strong></td><td>冲北极星时不得恶化</td><td>退货率 · 库存周转天数 · 经营净现比</td></tr>
+            <tr><td>核心</td><td>周/月必看</td><td>净收入 · 毛利率 · 费用率 · ROE</td></tr>
+            <tr><td>先导</td><td>更早预判</td><td>客单价 · 退货率 · ROAS · 周转</td></tr>
+            <tr><td>诊断</td><td>异常下钻</td><td>品牌/渠道毛利率 · 渠道退货 · 品类周转等</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">警戒线（节选）</h3>
+        <table class="data-table">
+          <thead><tr><th>指标</th><th>正常</th><th>关注</th><th>异常</th><th>依据</th></tr></thead>
+          <tbody>
+            <tr><td>净利率</td><td>基准±1pp</td><td>环比↓1–2pp</td><td>环比↓&gt;2pp 或 &lt;5%</td><td>环比/绝对值</td></tr>
+            <tr><td>毛利率</td><td>≥35%</td><td>同比↓1–2pp</td><td>同比↓&gt;2pp</td><td>同比</td></tr>
+            <tr><td>退货率（围栏）</td><td>≤12%</td><td>12–15%</td><td>&gt;15% 或环比↑&gt;3pp</td><td>绝对值/环比</td></tr>
+            <tr><td>净现比（围栏）</td><td>≥0.8</td><td>0.5–0.8</td><td>&lt;0.5</td><td>绝对值</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="page-footnote">总览 KPI 已标注核心/围栏；北极星净利率完整展示见杜邦 / 利润质量看板。跨行业对照见 <code>portfolio/docs/monitoring_framework_cross_industry.md</code>。</p>
     </section>
 
     <!-- ==================== P1 · 经营监控看板 ==================== -->

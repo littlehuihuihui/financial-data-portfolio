@@ -17,7 +17,7 @@
       <a href="../manufacturing_dashboard.html" class="btn-export">返回看板</a>
       <a href="../../../index.html" class="btn-export nav-home">返回平台</a>
 </div>
-    <p class="toolbar-hint">P0 体系总览 · P1 生产监控看板 · P2 分析方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓架构 · 也可运行 <code>run_export.bat</code></p>
+    <p class="toolbar-hint">P0 体系总览 · P0b 监控五层 · P1 生产监控看板 · P2 分析方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓架构 · 也可运行 <code>run_export.bat</code></p>
   </header>
 
   <div id="report-content">
@@ -34,7 +34,8 @@
           <ul class="overview-card-list">
             <li>14 个主题看板：生产总览 · 交付 · 质量 · 报废返工 · 工序良率 · 设备OEE · 停机 · 产能 · 成本 · 供应链 · 供应商评分 · 物料 · 领料差异 · 人工</li>
             <li>4 类角色视图：厂长 / 质量经理 / 供应链经理 / 财务BP</li>
-            <li>核心指标：产量 · 良品率/FPY · OEE · 加权产能利用率 · 单位成本 · 准时交付 · 报废返工 · BOM超领</li>
+            <li>北极星：CMEI · 围栏：良品率 / 单位成本 / 来料PPM · 总览 KPI 已打标签</li>
+            <li>核心：产量 · FPY · OEE · OTD · 见 <a href="#page-p0b">P0b 监控五层</a></li>
           </ul>
           <span class="overview-card-tag">生产月会 · T+1 刷新</span>
         </a>
@@ -60,9 +61,49 @@
         </a>
       </div>
       <footer class="overview-footer">
-        <p class="overview-path">📌 阅读路径：P1 生产总览 → P2 分析方法论 → P2c 工具箱 → P3 数仓架构</p>
+        <p class="overview-path">📌 阅读路径：<a href="#page-p0b">P0b 监控五层</a> → P1 生产总览 → P2 方法论 → P2c 工具箱 → P3 数仓</p>
         <p class="overview-closing" id="report-meta">数据区间 2024-01 ~ 2026-07 · 数据库 manufacturing_analytics</p>
       </footer>
+    </section>
+
+    <section class="pdf-page" id="page-p0b">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">📡 监控五层指标体系</h1>
+          <p class="page-subtitle">北极星 → 核心 → 先导 → 诊断 → 警戒线 · 详情 <code>docs/monitoring_framework_manufacturing.md</code></p>
+        </div>
+        <nav class="module-nav">
+          <a href="#page-p0">📋 体系总览</a>
+          <a href="#page-p0b" class="active">📡 监控五层</a>
+          <a href="#page-p1">🏭 生产看板</a>
+        </nav>
+      </header>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">角色定义</h3>
+        <table class="data-table">
+          <thead><tr><th>标签</th><th>含义</th><th>本行业选定</th></tr></thead>
+          <tbody>
+            <tr><td><strong>北极星</strong></td><td>唯一主优化目标</td><td>CMEI = FPY×40% + OEE×35% + OTD×25%</td></tr>
+            <tr><td><strong>围栏</strong></td><td>冲 CMEI 时不得恶化</td><td>良品率/FPY · 单位成本 · 来料 PPM</td></tr>
+            <tr><td>核心</td><td>周/月必看</td><td>产量 · FPY · OEE · OTD</td></tr>
+            <tr><td>先导</td><td>更早预判</td><td>WIP · 故障/停机 · 来料不良 · 换型时长</td></tr>
+            <tr><td>诊断</td><td>异常下钻</td><td>产线良率 · 不良柏拉图 · OEE 三因子 · 供应评分</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">警戒线（节选，与看板 alert_level 对齐）</h3>
+        <table class="data-table">
+          <thead><tr><th>指标</th><th>正常</th><th>关注</th><th>异常</th><th>依据</th></tr></thead>
+          <tbody>
+            <tr><td>良品率（围栏）</td><td>≥95%</td><td>92–95%</td><td>&lt;92%</td><td>绝对值</td></tr>
+            <tr><td>OEE</td><td>≥80%</td><td>75–80%</td><td>&lt;75%</td><td>绝对值</td></tr>
+            <tr><td>OTD</td><td>≥95%</td><td>90–95%</td><td>&lt;90%</td><td>绝对值</td></tr>
+            <tr><td>单位成本（围栏）</td><td>环比≤+3%</td><td>+3–5%</td><td>+&gt;5%</td><td>环比</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="page-footnote">生产总览已标围栏（良品率/单位成本）；CMEI 有 API 数值时展示北极星卡（ADS <code>v_cmei_daily</code>）。对照见 <code>portfolio/docs/monitoring_framework_cross_industry.md</code>。</p>
     </section>
 
     <section class="pdf-page pdf-page-p1" id="page-p1">

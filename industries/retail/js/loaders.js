@@ -12,9 +12,27 @@ window.DashLoaders = (function () {
     return p;
   }
 
+  function tagRetailOverviewRoles(cards) {
+    const map = {
+      净利率: "northstar",
+      净利润率: "northstar",
+      净收入: "core",
+      毛利率: "core",
+      GMV: "core",
+      退货率: "guardrail",
+      库存周转天数: "guardrail",
+      周转天数: "guardrail",
+    };
+    return (cards || []).map((c) => {
+      const name = c.name || c.kpi_name || "";
+      const role = map[name] || c.role;
+      return role ? { ...c, role } : { ...c };
+    });
+  }
+
   async function overview(state) {
     const d = await api("/api/dashboard_overview", params(state));
-    renderKpiGrid("db-kpi", d.kpi_cards);
+    renderKpiGrid("db-kpi", tagRetailOverviewRoles(d.kpi_cards));
     const trend = initChart("db-chart-trend");
     if (trend && d.monthly_trend?.length) {
       setLineChart(trend, d.monthly_trend.map((r) => r.order_month), [

@@ -109,15 +109,28 @@ window.DashCore = (function () {
       el.innerHTML = '<div class="empty-hint">暂无数据</div>';
       return;
     }
+    const ROLE_LABEL = {
+      northstar: "北极星",
+      guardrail: "围栏",
+      core: "核心",
+      leading: "先导",
+    };
     el.innerHTML = items.map((c) => {
       const raw = c.value ?? c.kpi_value;
-      const val = c.unit === "%"
-        ? Number(raw ?? 0).toFixed(2) + "%"
-        : fmtNum(raw);
+      const val = (raw == null || raw === "")
+        ? "—"
+        : (c.unit === "%"
+          ? Number(raw).toFixed(2) + "%"
+          : fmtNum(raw));
       const mom = c.mom_pct != null ? `环比 ${fmtPctDelta(c.mom_pct)}` : "";
       const yoy = c.yoy_pct != null ? `同比 ${fmtPctDelta(c.yoy_pct)}` : "";
       const sub = c.sub ? `<div class="kpi-sub">${c.sub}</div>` : "";
-      return `<div class="kpi-card"><div class="name">${c.name ?? c.kpi_name}</div><div class="value">${val}</div><div class="kpi-delta">${mom} ${yoy}</div>${sub}</div>`;
+      const role = c.role || "";
+      const roleTag = ROLE_LABEL[role]
+        ? `<span class="kpi-role kpi-role-${role}">${ROLE_LABEL[role]}</span>`
+        : "";
+      const roleClass = role ? ` kpi-card-${role}` : "";
+      return `<div class="kpi-card${roleClass}"><div class="name">${roleTag}${c.name ?? c.kpi_name}</div><div class="value">${val}</div><div class="kpi-delta">${mom} ${yoy}</div>${sub}</div>`;
     }).join("");
   }
 

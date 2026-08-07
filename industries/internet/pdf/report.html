@@ -17,7 +17,7 @@
       <a href="../internet_dashboard.html" class="btn-export">返回看板</a>
       <a href="../../../index.html" class="btn-export nav-home">返回平台</a>
 </div>
-    <p class="toolbar-hint">P0 体系总览 · P1 监控看板 · P2 方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓 · 也可运行 <code>export_internet.py</code></p>
+    <p class="toolbar-hint">P0 体系总览 · P0b 监控五层 · P1 监控看板 · P2 方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓 · 也可运行 <code>export_internet.py</code></p>
   </header>
 
   <div id="report-content">
@@ -34,8 +34,8 @@
           <ul class="overview-card-list">
             <li>17 个主题看板：总览 · 开机 · 点播 · 直播 · 剧集 · 单集 · QoS · 生命周期 · 留存 · 设备 · 漏斗 · 订购 · 路径 · 收入 · 活动 · 健康度 · 标签</li>
             <li>4 类角色：运营负责人 / 内容运营 / 用户增长 / 商业化运营</li>
-            <li>核心指标：有效 MAU · DAU · VV/UV · 完播 · 收银台漏斗 · 订购分成 · ARPU · 健康分</li>
-            <li>底座：ods_log_*_di（Launcher / 点播 / 直播 / 收银台）→ dws_act_user_active_1d</li>
+            <li>北极星：有效 MAU · 围栏：D7留存 / 完播率 / LTV/CAC · 总览 KPI 已打标签</li>
+            <li>核心：DAU · VV/UV · 漏斗 · ARPU · 健康分 · 见 <a href="#page-p0b">P0b 监控五层</a></li>
           </ul>
           <span class="overview-card-tag">运营周会 · T+1 刷新</span>
         </a>
@@ -61,9 +61,49 @@
         </a>
       </div>
       <footer class="overview-footer">
-        <p class="overview-path">📌 阅读路径：P1 看板 → P2 方法论 → P3 数仓 · DDL 见 <code>database/ott_ddl.sql</code> + <code>04_ott_ads_views.sql</code></p>
+        <p class="overview-path">📌 阅读路径：<a href="#page-p0b">P0b 监控五层</a> → P1 看板 → P2 方法论 → P3 数仓 · DDL 见 <code>database/ott_ddl.sql</code></p>
         <p class="overview-closing" id="report-meta">数据区间 2026-04-16 ~ 2026-07-15 · 数据库 internet_analytics</p>
       </footer>
+    </section>
+
+    <section class="pdf-page" id="page-p0b">
+      <header class="page-header">
+        <div class="page-header-left">
+          <h1 class="page-title">📡 监控五层指标体系</h1>
+          <p class="page-subtitle">北极星 → 核心 → 先导 → 诊断 → 警戒线 · 详情 <code>docs/monitoring_framework_internet.md</code></p>
+        </div>
+        <nav class="module-nav">
+          <a href="#page-p0">📋 体系总览</a>
+          <a href="#page-p0b" class="active">📡 监控五层</a>
+          <a href="#page-p1">📺 监控看板</a>
+        </nav>
+      </header>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">角色定义</h3>
+        <table class="data-table">
+          <thead><tr><th>标签</th><th>含义</th><th>本行业选定</th></tr></thead>
+          <tbody>
+            <tr><td><strong>北极星</strong></td><td>唯一主优化目标</td><td>有效 MAU（STB+Speaker）</td></tr>
+            <tr><td><strong>围栏</strong></td><td>冲 MAU 时不得恶化</td><td>D7 留存 · 点播完播率 · LTV/CAC</td></tr>
+            <tr><td>核心</td><td>周/月必看</td><td>DAU · 留存 · ARPU/订购 · 收银台转化</td></tr>
+            <tr><td>先导</td><td>更早预判</td><td>新增激活 · 只开机占比 · CAC · 使用深度</td></tr>
+            <tr><td>诊断</td><td>异常下钻</td><td>端型/渠道/内容/漏斗/健康度 RYG</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-block section-compact">
+        <h3 class="section-block-title">警戒线（节选）</h3>
+        <table class="data-table">
+          <thead><tr><th>指标</th><th>正常</th><th>关注</th><th>异常</th><th>依据</th></tr></thead>
+          <tbody>
+            <tr><td>有效 MAU</td><td>环比≥-2%</td><td>环比↓2–5%</td><td>环比↓&gt;5%</td><td>环比</td></tr>
+            <tr><td>D7 留存（围栏）</td><td>≥基线</td><td>环比↓2–5pp</td><td>环比↓&gt;5pp</td><td>环比</td></tr>
+            <tr><td>LTV/CAC（围栏）</td><td>≥2</td><td>1–2</td><td>&lt;1</td><td>绝对值</td></tr>
+            <tr><td>CAC</td><td>环比≤+10%</td><td>+10–20%</td><td>+&gt;20%</td><td>环比</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="page-footnote">活跃总览 KPI 已标北极星/核心/先导；完整围栏见留存 · 完播 · LTV 看板。对照表见 <code>portfolio/docs/monitoring_framework_cross_industry.md</code>。</p>
     </section>
 
     <section class="pdf-page pdf-page-p1" id="page-p1">
