@@ -61,13 +61,7 @@
       subtitle: "站点 · 架构页 #erp-datasource",
       keywords: "ERP 数据源 ODS 对账 ods_orders ods_payment 原始数据",
       pathKey: "erp",
-    },
-    {
-      title: "导出 PDF 报告",
-      subtitle: "站点 · P0-P3 完整经营监控报告",
-      keywords: "PDF 报告 report P0 P1 P2 P3 导出",
-      pathKey: "report",
-    },
+    }
   ];
 
   const SQL6_HIGHLIGHTS = [

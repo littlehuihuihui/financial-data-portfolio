@@ -9,57 +9,97 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="page-report">
-  <header class="report-toolbar no-print">
-    <div class="toolbar-title">制造业 · 生产运营监控体系（P0–P3 报告）</div>
+    <header class="report-toolbar no-print">
+    <div class="toolbar-brand">
+      <div class="toolbar-title">制造业 · 生产运营监控体系（P0–P3 报告）</div>
+      <p class="toolbar-hint">P0 体系总览 · P0b 监控五层 · P1 生产监控看板 · P2 方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓</p>
+    </div>
+    <nav class="toolbar-toc" aria-label="报告章节">
+      <a href="#page-p0">P0</a>
+      <a href="#page-p0b">P0b</a>
+      <a href="#page-p1">P1</a>
+      <a href="#page-p2">P2</a>
+      <a href="#page-p2b">P2b</a>
+      <a href="#page-p2c">P2c</a>
+      <a href="#page-p3">P3</a>
+    </nav>
     <div class="toolbar-actions">
       <button type="button" class="btn-export primary" id="btn-download-pdf">下载 PDF</button>
       <button type="button" class="btn-export" id="btn-print">打印 / 另存为 PDF</button>
       <a href="../manufacturing_dashboard.html" class="btn-export">返回看板</a>
       <a href="../../../index.html" class="btn-export nav-home">返回平台</a>
-</div>
-    <p class="toolbar-hint">P0 体系总览 · P0b 监控五层 · P1 生产监控看板 · P2 分析方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓架构 · 也可运行 <code>run_export.bat</code></p>
+    </div>
   </header>
 
   <div id="report-content">
 
     <section class="pdf-page pdf-page-overview" id="page-p0">
-      <header class="overview-hero">
-        <h1 class="overview-title">制造业生产运营监控体系</h1>
-        <p class="overview-subtitle">保质量 · 降成本 · 提效率 · 稳交付</p>
-      </header>
-      <div class="overview-modules">
+            <div class="overview-top">
+        <div class="overview-top-main">
+          <div class="overview-eyebrow">制造业 · Portfolio Report</div>
+          <h1 class="overview-title">制造业生产运营监控体系</h1>
+          <p class="overview-subtitle">保质量 · 降成本 · 提效率 · 稳交付 · 看板 / 方法论 / 数仓一体交付</p>
+          <div class="overview-highlights">
+            <div class="overview-hi"><strong>14</strong><span>主题看板</span></div>
+            <div class="overview-hi"><strong>4</strong><span>角色视图</span></div>
+            <div class="overview-hi"><strong>26</strong><span>分析问题</span></div>
+            <div class="overview-hi"><strong>5</strong><span>数仓分层</span></div>
+          </div>
+        </div>
+        <aside class="overview-toc-panel" aria-label="报告目录">
+          <div class="overview-toc-title">本报告结构</div>
+          <ol class="overview-toc-list">
+            <li><a href="#page-p0b"><b>P0b</b> 监控五层 · 北极星/围栏</a></li>
+            <li><a href="#page-p1"><b>P1</b> 生产运营监控看板</a></li>
+            <li><a href="#page-p2"><b>P2</b> 生产运营分析方法论</a></li>
+            <li><a href="#page-p2b"><b>P2b</b> 分析问题清单</a></li>
+            <li><a href="#page-p2c"><b>P2c</b> 分析方法工具箱</a></li>
+            <li><a href="#page-p3"><b>P3</b> 数仓与管道架构</a></li>
+          </ol>
+        </aside>
+      </div>
+            <div class="overview-modules">
         <a href="#page-p1" class="overview-card">
-          <div class="overview-card-icon">🏭</div>
-          <h2 class="overview-card-title">生产运营监控看板</h2>
+          <div class="overview-card-head">
+            <div class="overview-card-icon">🏭</div>
+            <h2 class="overview-card-title">生产运营监控看板</h2>
+            <span class="overview-card-tag">生产月会 · T+1</span>
+          </div>
           <ul class="overview-card-list">
-            <li>14 个主题看板：生产总览 · 交付 · 质量 · 报废返工 · 工序良率 · 设备OEE · 停机 · 产能 · 成本 · 供应链 · 供应商评分 · 物料 · 领料差异 · 人工</li>
-            <li>4 类角色视图：厂长 / 质量经理 / 供应链经理 / 财务BP</li>
-            <li>北极星：CMEI · 围栏：良品率 / 单位成本 / 来料PPM · 总览 KPI 已打标签</li>
-            <li>核心：产量 · FPY · OEE · OTD · 见 <a href="#page-p0b">P0b 监控五层</a></li>
+            <li>14 主题看板：总览 / 交付 / 质量 / OEE / 产能 / 成本 / 供应链等</li>
+            <li>4 角色：厂长 · 质量经理 · 供应链 · 财务BP</li>
+            <li>北极星 CMEI · 围栏：良品率 / 单位成本 / 来料PPM</li>
+            <li>详见 <a href="#page-p0b">P0b</a> / <a href="#page-p1">P1</a></li>
           </ul>
-          <span class="overview-card-tag">生产月会 · T+1 刷新</span>
         </a>
         <a href="#page-p2" class="overview-card">
-          <div class="overview-card-icon">📐</div>
-          <h2 class="overview-card-title">生产运营分析方法论</h2>
+          <div class="overview-card-head">
+            <div class="overview-card-icon">📐</div>
+            <h2 class="overview-card-title">生产运营分析方法论</h2>
+            <span class="overview-card-tag">精益改善核心能力</span>
+          </div>
           <ul class="overview-card-list">
-            <li>六层分析框架：描述 → 诊断 → 预测 → 评估 → 优化 + 工具箱</li>
-            <li>26 个典型分析问题 · 18 种方法（含 VSM/TPM/安灯/BOM/防错等）</li>
-            <li>内置异常点：2025-04 华东良品率 · EQ-F02-L02 OEE 下滑</li>
+            <li>六层框架：描述 → 诊断 → 预测 → 评估 → 优化 + 工具箱</li>
+            <li>26 分析问题 · 18 种方法（VSM/TPM/安灯/BOM 等）</li>
+            <li>异常点：华东良品率 · EQ-F02-L02 OEE</li>
+            <li>详见 <a href="#page-p2">P2</a> · <a href="#page-p2b">P2b</a> · <a href="#page-p2c">P2c</a></li>
           </ul>
-          <span class="overview-card-tag">精益改善核心能力</span>
         </a>
         <a href="#page-p3" class="overview-card">
-          <div class="overview-card-icon">⚙️</div>
-          <h2 class="overview-card-title">数据仓库与管道架构</h2>
+          <div class="overview-card-head">
+            <div class="overview-card-icon">⚙️</div>
+            <h2 class="overview-card-title">数据仓库与管道架构</h2>
+            <span class="overview-card-tag">全链路自建</span>
+          </div>
           <ul class="overview-card-list">
-            <li>ODS → DIM → DWD → DWS → ADS 五层数仓（31 对象）</li>
-            <li>宽表 dwd_production_wide + 日/月预聚合 DWS</li>
-            <li>每日 T+1 ETL：工单/质检/库存清洗与汇总</li>
+            <li>ODS → DIM → DWD → DWS → ADS（31 对象）</li>
+            <li>宽表 dwd_production_wide + 日/月 DWS</li>
+            <li>每日 T+1：工单 / 质检 / 库存清洗汇总</li>
+            <li>详见 <a href="#page-p3">P3</a></li>
           </ul>
-          <span class="overview-card-tag">全链路自建 · 工程化</span>
         </a>
       </div>
+
       <footer class="overview-footer">
         <p class="overview-path">📌 阅读路径：<a href="#page-p0b">P0b 监控五层</a> → P1 生产总览 → P2 方法论 → P2c 工具箱 → P3 数仓</p>
         <p class="overview-closing" id="report-meta">数据区间 2024-01 ~ 2026-07 · 数据库 manufacturing_analytics</p>
@@ -69,6 +109,7 @@
     <section class="pdf-page" id="page-p0b">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📡 监控五层指标体系</h1>
           <p class="page-subtitle">北极星 → 核心 → 先导 → 诊断 → 警戒线 · 详情 <code>docs/monitoring_framework_manufacturing.md</code></p>
         </div>
@@ -109,6 +150,7 @@
     <section class="pdf-page pdf-page-p1" id="page-p1">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">制造业 · 生产运营监控体系</h1>
           <p class="page-subtitle">数据链路：MES/ERP → MySQL 数仓 → Flask API → Web 看板</p>
         </div>
@@ -333,6 +375,7 @@
     <section class="pdf-page pdf-page-p2" id="page-p2">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📐 生产运营分析方法论</h1>
           <p class="page-subtitle">六层分析框架 · 制造场景专用诊断路径</p>
         </div>
@@ -387,7 +430,8 @@
 
     <section class="pdf-page pdf-page-p2b" id="page-p2b">
       <header class="page-header">
-        <h1 class="page-title">📋 生产分析 · 典型问题清单</h1>
+        <div class="page-kicker">Portfolio Report</div>
+          <h1 class="page-title">📋 生产分析 · 典型问题清单</h1>
         <p class="page-subtitle">26 个制造场景分析问题 · 交互版见 methodology.html</p>
       </header>
       <table class="data-table">
@@ -426,6 +470,7 @@
     <section class="pdf-page pdf-page-p2c" id="page-p2c">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">🧰 第六层 · 制造业分析工具箱（18）</h1>
           <p class="page-subtitle">质量 / 设备与产能 / 成本与供应链 · 人话解释 + 常问什么 + 落地例子</p>
         </div>
@@ -444,7 +489,8 @@
 
     <section class="pdf-page pdf-page-p3" id="page-p3">
       <header class="page-header">
-        <h1 class="page-title">⚙️ 数据仓库与管道架构</h1>
+        <div class="page-kicker">Portfolio Report</div>
+          <h1 class="page-title">⚙️ 数据仓库与管道架构</h1>
         <p class="page-subtitle">manufacturing_analytics · 31 对象</p>
         <nav class="module-nav">
           <a href="#page-p3" class="active">⚙️ 数仓架构</a>

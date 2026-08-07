@@ -62,8 +62,7 @@
   const pages = [
     { category: "page", title: "数据展示", subtitle: "17 主题看板", keywords: "看板 数据展示 dashboard", url: "../internet_dashboard.html" },
     { category: "page", title: "分析方法论", subtitle: "六层框架", keywords: "方法论 六层 playbook", url: base.methodology },
-    { category: "page", title: "数仓架构", subtitle: "OTT 雪花模型", keywords: "数仓 ODS DWD DWS ADS 架构", url: "architecture.html" },
-    { category: "page", title: "导出 PDF", subtitle: "17看板报告", keywords: "PDF 报告", url: "../pdf/report.html" },
+    { category: "page", title: "数仓架构", subtitle: "OTT 雪花模型", keywords: "数仓 ODS DWD DWS ADS 架构", url: "architecture.html" }
   ];
 
   window.SEARCH_INDEX = [

@@ -37,8 +37,9 @@ INDUSTRY_META = {
             {"id": "dashboard", "label": "数据展示", "path": "retail_dashboard.html", "description": "13 个主题看板 + 角色切换"},
             {"id": "methodology", "label": "分析方法论", "path": "pages/anomaly.html", "description": "六层分析框架 · 31 问 · 第六层工具箱（右侧详情）"},
             {"id": "architecture", "label": "数仓架构", "path": "pages/architecture.html", "description": "数据源选型 · ERP 映射对账 · sql6 字典与血缘"},
-            {"id": "report", "label": "导出 PDF", "path": "pages/report.html", "description": "P0-P3 完整报告"},
         ],
+        # PDF 入口已对用户隐藏（页面仍保留，直链可访问）
+        "report_nav_hidden": True,
         "docs_playbook": ROOT.parent / "retail-finance-analysis" / "docs" / "shared" / "methodology-playbook-data.js",
         "docs_toolbox": ROOT.parent / "retail-finance-analysis" / "docs" / "shared" / "analysis-toolbox-data.js",
         "local_playbook": ROOT / "industries" / "retail" / "js" / "methodology-playbook-data.js",
@@ -63,8 +64,8 @@ INDUSTRY_META = {
             {"id": "dashboard", "label": "数据展示", "path": "manufacturing_dashboard.html", "description": "14 个主题看板 + 角色切换"},
             {"id": "methodology", "label": "分析方法论", "path": "pages/methodology.html", "description": "六层分析框架 · 制造场景 · 第六层工具箱"},
             {"id": "architecture", "label": "数仓架构", "path": "pages/architecture.html", "description": "ODS→ADS · 数据字典与血缘"},
-            {"id": "report", "label": "导出 PDF", "path": "pdf/report.html", "description": "P0-P3 完整报告（14 看板）"},
         ],
+        "report_nav_hidden": True,
         "docs_playbook": None,
         "docs_toolbox": None,
         "local_playbook": ROOT / "industries" / "manufacturing" / "js" / "methodology-playbook-data.js",
@@ -89,8 +90,8 @@ INDUSTRY_META = {
             {"id": "dashboard", "label": "数据展示", "path": "internet_dashboard.html", "description": "17 个主题看板 + 角色切换"},
             {"id": "methodology", "label": "分析方法论", "path": "pages/methodology.html", "description": "六层分析框架 · OTT 场景 · 第六层工具箱"},
             {"id": "architecture", "label": "数仓架构", "path": "pages/architecture.html", "description": "OTT 雪花模型 · 数据字典"},
-            {"id": "report", "label": "导出 PDF", "path": "pdf/report.html", "description": "P0-P3 完整报告（17 看板）"},
         ],
+        "report_nav_hidden": True,
         "docs_playbook": None,
         "docs_toolbox": None,
         "local_playbook": ROOT / "industries" / "internet" / "js" / "methodology-playbook-data.js",
@@ -224,6 +225,7 @@ def build_dashboards(dashboards_cfg: dict, roles_cfg: dict, meta: dict) -> list:
         "api": None,
         "filters": [],
         "file": meta["report_file"],
+        "nav_visible": not meta.get("report_nav_hidden", False),
     })
     return dashboards
 
@@ -237,6 +239,7 @@ def build_navigation(meta: dict) -> dict:
         f"{meta['industry_code']}_tabs": meta["nav_tabs"],
         "methodology_sidebar_layers": ["l1", "l2", "l3", "l4", "l5"],
         "global_search": True,
+        "report_nav_hidden": bool(meta.get("report_nav_hidden", False)),
     }
 
 

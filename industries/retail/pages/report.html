@@ -4,70 +4,107 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>跃动体育 · 财务数据监控体系报告</title>
-  <link rel="stylesheet" href="report.css">
+  <link rel="stylesheet" href="../css/report.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="page-report">
 
-  <header class="report-toolbar no-print">
-    <div class="toolbar-title">跃动体育 · 财务数据监控体系（P0–P3 报告）</div>
+    <header class="report-toolbar no-print">
+    <div class="toolbar-brand">
+      <div class="toolbar-title">跃动体育 · 财务数据监控体系（P0–P3 报告）</div>
+      <p class="toolbar-hint">P0 体系总览 · P0b 监控五层 · P1 经营监控看板 · P2 方法论 · P2b 31问 · P2c 工具箱 · P3 数仓</p>
+    </div>
+    <nav class="toolbar-toc" aria-label="报告章节">
+      <a href="#page-p0">P0</a>
+      <a href="#page-p0b">P0b</a>
+      <a href="#page-p1">P1</a>
+      <a href="#page-p2">P2</a>
+      <a href="#page-p2b">P2b</a>
+      <a href="#page-p2-toolbox">P2c</a>
+      <a href="#page-p3">P3</a>
+    </nav>
     <div class="toolbar-actions">
       <button type="button" class="btn-export primary" id="btn-download-pdf">下载 PDF</button>
       <button type="button" class="btn-export" id="btn-print">打印 / 另存为 PDF</button>
       <a href="../retail_dashboard.html" class="btn-export">返回看板</a>
       <a href="../../../index.html" class="btn-export nav-home">返回平台</a>
-</div>
-    <p class="toolbar-hint">P0 体系总览 · P0b 监控五层 · P1 经营监控看板 · P2 分析方法论 · P2b 31问清单 · P3 数据管道 · 也可运行 <code>run_export.bat</code></p>
+    </div>
   </header>
 
   <div id="report-content">
 
     <!-- ==================== P0 · 体系总览 ==================== -->
     <section class="pdf-page pdf-page-overview" id="page-p0">
-      <header class="overview-hero">
-        <h1 class="overview-title">跃动体育 · 财务数据监控体系</h1>
-        <p class="overview-subtitle">从 0 到 1 搭建 · CSV → MySQL → Tableau 全链路</p>
-      </header>
+      <div class="overview-top">
+        <div class="overview-top-main">
+          <div class="overview-eyebrow">零售财务 · Portfolio Report</div>
+          <h1 class="overview-title">跃动体育 · 财务数据监控体系</h1>
+          <p class="overview-subtitle">从 0 到 1 搭建 · CSV → MySQL → Tableau 全链路 · 看板 / 方法论 / 数仓一体交付</p>
+          <div class="overview-highlights">
+            <div class="overview-hi"><strong>13</strong><span>主题看板</span></div>
+            <div class="overview-hi"><strong>8</strong><span>角色视图</span></div>
+            <div class="overview-hi"><strong>31</strong><span>分析问题</span></div>
+            <div class="overview-hi"><strong>5</strong><span>数仓分层</span></div>
+          </div>
+        </div>
+        <aside class="overview-toc-panel" aria-label="报告目录">
+          <div class="overview-toc-title">本报告结构</div>
+          <ol class="overview-toc-list">
+            <li><a href="#page-p0b"><b>P0b</b> 监控五层 · 北极星/围栏</a></li>
+            <li><a href="#page-p1"><b>P1</b> 经营监控看板与明细导出</a></li>
+            <li><a href="#page-p2"><b>P2</b> 六层分析方法论</a></li>
+            <li><a href="#page-p2b"><b>P2b</b> 31 问清单</a></li>
+            <li><a href="#page-p2-toolbox"><b>P2c</b> 分析方法工具箱</a></li>
+            <li><a href="#page-p3"><b>P3</b> 数仓与管道架构</a></li>
+          </ol>
+        </aside>
+      </div>
 
-      <div class="overview-modules">
+            <div class="overview-modules">
         <a href="#page-p1" class="overview-card">
-          <div class="overview-card-icon">📊</div>
-          <h2 class="overview-card-title">经营监控看板</h2>
+          <div class="overview-card-head">
+            <div class="overview-card-icon">📊</div>
+            <h2 class="overview-card-title">经营监控看板</h2>
+            <span class="overview-card-tag">高层经营会 · T+1</span>
+          </div>
           <ul class="overview-card-list">
-            <li>13 个主题看板：经营总览 · 品牌 · 渠道 · 三大报表 · 杜邦 · 现金流 · 税务 · 库存 · 预算执行 · 门店 · 利润质量 · 本量利 · 数据质量</li>
-            <li>8 类角色视图：CEO / CFO / 财务 BP / 品牌经理 / 渠道运营 / 门店运营 / 供应链 / 运维（全量看板）</li>
-            <li>北极星：净利率 · 围栏：退货率 / 库存周转 / 净现比 · 总览 KPI 已打标签</li>
-            <li>核心指标 8+ 项 · 收入趋势 · 品牌排名 · 门店 Top · 见 <a href="#page-p0b">P0b 监控五层</a></li>
+            <li>13 主题看板：总览 / 品牌 / 渠道 / 三大报表 / 杜邦 / 现金流等</li>
+            <li>8 角色视图：CEO · CFO · 财务BP · 品牌 · 渠道 · 门店 · 供应链 · 运维</li>
+            <li>北极星净利率 · 围栏：退货率 / 库存周转 / 净现比</li>
+            <li>明细导出 + 趋势下钻 · 详见 <a href="#page-p0b">P0b</a> / <a href="#page-p1">P1</a></li>
           </ul>
-          <span class="overview-card-tag">高层经营会 · T+1 刷新</span>
         </a>
-
         <a href="#page-p2" class="overview-card">
-          <div class="overview-card-icon">📐</div>
-          <h2 class="overview-card-title">财务数据分析方法论</h2>
+          <div class="overview-card-head">
+            <div class="overview-card-icon">📐</div>
+            <h2 class="overview-card-title">财务数据分析方法论</h2>
+            <span class="overview-card-tag">财务 BP 核心能力</span>
+          </div>
           <ul class="overview-card-list">
-            <li>六层分析框架：描述 → 诊断 → 预测 → 评估 → 优化 + 分析方法工具箱</li>
-            <li>31 个分析问题 · 交互式分析路径（含 SQL 与判断标准）</li>
-            <li>诊断层含 3 个真实经营案例（毛利率/退货/ROAS）</li>
+            <li>六层框架：描述 → 诊断 → 预测 → 评估 → 优化 + 工具箱</li>
+            <li>31 个分析问题 · 含 SQL 与判断标准</li>
+            <li>诊断案例：毛利率 / 退货 / ROAS</li>
+            <li>详见 <a href="#page-p2">P2</a> · <a href="#page-p2b">P2b</a> · <a href="#page-p2-toolbox">P2c</a></li>
           </ul>
-          <span class="overview-card-tag">系统化分析思维 · 财务 BP 核心能力</span>
         </a>
-
         <a href="#page-p3" class="overview-card">
-          <div class="overview-card-icon">⚙️</div>
-          <h2 class="overview-card-title">数据仓库与管道架构</h2>
+          <div class="overview-card-head">
+            <div class="overview-card-icon">⚙️</div>
+            <h2 class="overview-card-title">数据仓库与管道架构</h2>
+            <span class="overview-card-tag">全链路自建</span>
+          </div>
           <ul class="overview-card-list">
-            <li>ODS → DIM → DWD → DWS → ADS 五层数仓（sql6）</li>
-            <li>宽表 <code>dwd_sales_wide</code> + 5 张 DWS 汇总</li>
+            <li>ODS → DIM → DWD → DWS → ADS（sql6）</li>
+            <li>宽表 dwd_sales_wide + 5 张 DWS 汇总</li>
             <li>每日 T+1 ETL 清洗与汇总</li>
+            <li>详见 <a href="#page-p3">P3</a> · <code>sql6_portfolio_model/</code></li>
           </ul>
-          <span class="overview-card-tag">全链路自建 · 工程化</span>
         </a>
       </div>
 
       <footer class="overview-footer">
-        <p class="overview-path">📌 阅读路径：<a href="#page-p0b">P0b 监控五层</a> → P1 经营总览 → P2 分析方法论 → P3 数仓架构 · DDL 见 <code>sql6_portfolio_model/</code></p>
+        <p class="overview-path">阅读路径：<a href="#page-p0b">P0b 监控五层</a> → P1 经营总览 → P2 分析方法论 → P3 数仓架构 · DDL 见 <code>sql6_portfolio_model/</code></p>
         <p class="overview-closing">从数据到决策的完整闭环</p>
       </footer>
     </section>
@@ -76,6 +113,7 @@
     <section class="pdf-page" id="page-p0b">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📡 监控五层指标体系</h1>
           <p class="page-subtitle">北极星 → 核心 → 先导 → 诊断 → 警戒线 · 围栏=优化时不得恶化的底线 · 详情 <code>docs/monitoring_framework_retail.md</code></p>
         </div>
@@ -117,6 +155,7 @@
     <section class="pdf-page pdf-page-p1" id="page-p1">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">跃动体育 · 财务数据监控体系</h1>
           <p class="page-subtitle">数据链路：CSV → MySQL → Tableau 可视化看板</p>
         </div>
@@ -313,6 +352,7 @@
     <section class="pdf-page pdf-page-tableau-ref" id="page-p1-tableau">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">附录 · Tableau P1 看板实现操作参考</h1>
           <p class="page-subtitle">在 Tableau 中复现「经营监控看板」的完整步骤</p>
         </div>
@@ -393,6 +433,7 @@
     <section class="pdf-page pdf-page-tableau-ref" id="page-tableau-p23">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">附录 · 13 个主题看板说明</h1>
           <p class="page-subtitle">与 Web 看板（retail_dashboard.html）一一对应 · SQL 见 <code>sql6_portfolio_model/</code></p>
         </div>
@@ -463,6 +504,7 @@
     <section class="pdf-page pdf-page-p2" id="page-p2">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📐 财务数据分析方法论</h1>
           <p class="page-subtitle">六层分析框架 · 遇到业务问题先判断层级，再按对应方法展开</p>
           <p class="page-note">描述（现状）→ 诊断（根因）→ 预测（未来）→ 评估（效果）→ 优化（决策）</p>
@@ -561,6 +603,7 @@
     <section class="pdf-page pdf-page-p2-toolbox" id="page-p2-toolbox">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">第六层：分析方法工具箱 —— "用什么方法？"</h1>
           <p class="page-subtitle">6 个小类 · 19 种方法 · 是什么 / 何时用 / 目的 / 怎么用 + 常问什么与落地例子</p>
         </div>
@@ -572,6 +615,7 @@
     <section class="pdf-page pdf-page-p2b" id="page-p2b">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📋 财务分析 · 31 个问题清单</h1>
           <p class="page-subtitle">六层框架完整覆盖（l1–l5 共 31 问 + l6 工具箱 19 法）· Web 版可点击展开分析路径</p>
         </div>
@@ -634,6 +678,7 @@
     <section class="pdf-page pdf-page-p3" id="page-p3">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">⚙️ 数据仓库与管道架构</h1>
           <p class="page-subtitle">ODS → DIM → DWD → DWS → ADS 五层数仓 · sql6_portfolio_model <span class="arch-scale-badge">作品集版 · 21 表 + 8 视图 = 29 对象</span></p>
         </div>

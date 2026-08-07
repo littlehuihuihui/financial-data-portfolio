@@ -9,57 +9,97 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="page-report">
-  <header class="report-toolbar no-print">
-    <div class="toolbar-title">广东移动 OTT · 视频活跃分析（P0–P3 报告）</div>
+    <header class="report-toolbar no-print">
+    <div class="toolbar-brand">
+      <div class="toolbar-title">广东移动 OTT · 视频活跃分析（P0–P3 报告）</div>
+      <p class="toolbar-hint">P0 体系总览 · P0b 监控五层 · P1 监控看板 · P2 方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓</p>
+    </div>
+    <nav class="toolbar-toc" aria-label="报告章节">
+      <a href="#page-p0">P0</a>
+      <a href="#page-p0b">P0b</a>
+      <a href="#page-p1">P1</a>
+      <a href="#page-p2">P2</a>
+      <a href="#page-p2b">P2b</a>
+      <a href="#page-p2c">P2c</a>
+      <a href="#page-p3">P3</a>
+    </nav>
     <div class="toolbar-actions">
       <button type="button" class="btn-export primary" id="btn-download-pdf">下载 PDF</button>
       <button type="button" class="btn-export" id="btn-print">打印 / 另存为 PDF</button>
       <a href="../internet_dashboard.html" class="btn-export">返回看板</a>
       <a href="../../../index.html" class="btn-export nav-home">返回平台</a>
-</div>
-    <p class="toolbar-hint">P0 体系总览 · P0b 监控五层 · P1 监控看板 · P2 方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓 · 也可运行 <code>export_internet.py</code></p>
+    </div>
   </header>
 
   <div id="report-content">
 
     <section class="pdf-page pdf-page-overview" id="page-p0">
-      <header class="overview-hero">
-        <h1 class="overview-title">广东移动 OTT · 视频活跃分析体系</h1>
-        <p class="overview-subtitle">设备操作日志 · ODS → DIM → DWD → DWS → ADS → Web 看板</p>
-      </header>
-      <div class="overview-modules">
+            <div class="overview-top">
+        <div class="overview-top-main">
+          <div class="overview-eyebrow">互联网 OTT · Portfolio Report</div>
+          <h1 class="overview-title">广东移动 OTT · 视频活跃分析体系</h1>
+          <p class="overview-subtitle">设备操作日志 · ODS → DIM → DWD → DWS → ADS → Web 看板 · 活跃 / 增长 / 商业化一体交付</p>
+          <div class="overview-highlights">
+            <div class="overview-hi"><strong>17</strong><span>主题看板</span></div>
+            <div class="overview-hi"><strong>4</strong><span>角色视图</span></div>
+            <div class="overview-hi"><strong>28</strong><span>分析问题</span></div>
+            <div class="overview-hi"><strong>5</strong><span>数仓分层</span></div>
+          </div>
+        </div>
+        <aside class="overview-toc-panel" aria-label="报告目录">
+          <div class="overview-toc-title">本报告结构</div>
+          <ol class="overview-toc-list">
+            <li><a href="#page-p0b"><b>P0b</b> 监控五层 · 北极星/围栏</a></li>
+            <li><a href="#page-p1"><b>P1</b> 活跃与商业化监控看板</a></li>
+            <li><a href="#page-p2"><b>P2</b> 用户增长分析方法论</a></li>
+            <li><a href="#page-p2b"><b>P2b</b> 分析问题清单</a></li>
+            <li><a href="#page-p2c"><b>P2c</b> 分析方法工具箱</a></li>
+            <li><a href="#page-p3"><b>P3</b> 数仓与管道架构</a></li>
+          </ol>
+        </aside>
+      </div>
+            <div class="overview-modules">
         <a href="#page-p1" class="overview-card">
-          <div class="overview-card-icon">📺</div>
-          <h2 class="overview-card-title">活跃与商业化监控看板</h2>
+          <div class="overview-card-head">
+            <div class="overview-card-icon">📺</div>
+            <h2 class="overview-card-title">活跃与商业化监控看板</h2>
+            <span class="overview-card-tag">运营周会 · T+1</span>
+          </div>
           <ul class="overview-card-list">
-            <li>17 个主题看板：总览 · 开机 · 点播 · 直播 · 剧集 · 单集 · QoS · 生命周期 · 留存 · 设备 · 漏斗 · 订购 · 路径 · 收入 · 活动 · 健康度 · 标签</li>
-            <li>4 类角色：运营负责人 / 内容运营 / 用户增长 / 商业化运营</li>
-            <li>北极星：有效 MAU · 围栏：D7留存 / 完播率 / LTV/CAC · 总览 KPI 已打标签</li>
-            <li>核心：DAU · VV/UV · 漏斗 · ARPU · 健康分 · 见 <a href="#page-p0b">P0b 监控五层</a></li>
+            <li>17 主题看板：总览 / 开机 / 点播 / 直播 / 留存 / 漏斗 / 订购等</li>
+            <li>4 角色：运营负责人 · 内容 · 增长 · 商业化</li>
+            <li>北极星有效 MAU · 围栏：D7 / 完播 / LTV/CAC</li>
+            <li>详见 <a href="#page-p0b">P0b</a> / <a href="#page-p1">P1</a></li>
           </ul>
-          <span class="overview-card-tag">运营周会 · T+1 刷新</span>
         </a>
         <a href="#page-p2" class="overview-card">
-          <div class="overview-card-icon">📐</div>
-          <h2 class="overview-card-title">用户增长分析方法论</h2>
+          <div class="overview-card-head">
+            <div class="overview-card-icon">📐</div>
+            <h2 class="overview-card-title">用户增长分析方法论</h2>
+            <span class="overview-card-tag">增长 BP 核心能力</span>
+          </div>
           <ul class="overview-card-list">
             <li>六层框架：描述 → 诊断 → 预测 → 评估 → 优化 + 工具箱</li>
-            <li>28 个分析问题 · 15 种可复用分析方法</li>
-            <li>诊断层含 DAU 下滑、留存恶化、漏斗转化、完播异常等</li>
+            <li>28 分析问题 · 15 种可复用方法</li>
+            <li>诊断：DAU 下滑 · 留存恶化 · 漏斗 / 完播异常</li>
+            <li>详见 <a href="#page-p2">P2</a> · <a href="#page-p2b">P2b</a> · <a href="#page-p2c">P2c</a></li>
           </ul>
-          <span class="overview-card-tag">增长 BP 核心能力</span>
         </a>
         <a href="#page-p3" class="overview-card">
-          <div class="overview-card-icon">⚙️</div>
-          <h2 class="overview-card-title">数据仓库与管道架构</h2>
+          <div class="overview-card-head">
+            <div class="overview-card-icon">⚙️</div>
+            <h2 class="overview-card-title">数据仓库与管道架构</h2>
+            <span class="overview-card-tag">全链路自建</span>
+          </div>
           <ul class="overview-card-list">
-            <li>ODS → DIM → DWD → DWS → ADS（OTT 雪花模型）</li>
-            <li>关键汇总：dws_act_user_active_1d · dws_trade_* · dws_user_* · dws_content_*</li>
-            <li>ADS：v_dau_overview · v_lifecycle · v_retention_decomposition · v_ab_experiment 等</li>
+            <li>ODS → DIM → DWD → DWS → ADS（OTT 雪花）</li>
+            <li>关键汇总：dws_act_user_active_1d · dws_trade_* · dws_user_*</li>
+            <li>ADS：v_dau_overview · v_lifecycle · v_retention 等</li>
+            <li>详见 <a href="#page-p3">P3</a> · <code>database/ott_ddl.sql</code></li>
           </ul>
-          <span class="overview-card-tag">全链路自建 · 工程化</span>
         </a>
       </div>
+
       <footer class="overview-footer">
         <p class="overview-path">📌 阅读路径：<a href="#page-p0b">P0b 监控五层</a> → P1 看板 → P2 方法论 → P3 数仓 · DDL 见 <code>database/ott_ddl.sql</code></p>
         <p class="overview-closing" id="report-meta">数据区间 2026-04-16 ~ 2026-07-15 · 数据库 internet_analytics</p>
@@ -69,6 +109,7 @@
     <section class="pdf-page" id="page-p0b">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📡 监控五层指标体系</h1>
           <p class="page-subtitle">北极星 → 核心 → 先导 → 诊断 → 警戒线 · 详情 <code>docs/monitoring_framework_internet.md</code></p>
         </div>
@@ -109,6 +150,7 @@
     <section class="pdf-page pdf-page-p1" id="page-p1">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">OTT · 视频活跃监控体系</h1>
           <p class="page-subtitle">数据链路：设备日志 → MySQL 数仓 → Flask API(:5001) → Web 看板</p>
         </div>
@@ -311,6 +353,7 @@
     <section class="pdf-page pdf-page-p2" id="page-p2">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📐 用户增长分析方法论</h1>
           <p class="page-subtitle">六层分析框架 · 先判断层级再展开方法（对齐零售财务作品集）</p>
         </div>
@@ -367,6 +410,7 @@
     <section class="pdf-page pdf-page-p2b" id="page-p2b">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📋 增长分析 · 典型问题清单（28）</h1>
           <p class="page-subtitle">六层框架覆盖 · Web 版可展开分析路径与 SQL</p>
         </div>
@@ -380,6 +424,7 @@
     <section class="pdf-page pdf-page-p2c" id="page-p2c">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">🧰 第六层 · 分析方法工具箱（15）</h1>
           <p class="page-subtitle">人话解释 · 常问什么 · 落地例子见方法论页</p>
         </div>
@@ -393,6 +438,7 @@
     <section class="pdf-page pdf-page-p3" id="page-p3">
       <header class="page-header">
         <div class="page-header-left">
+          <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">⚙️ 数据仓库与管道架构</h1>
           <p class="page-subtitle">internet_analytics · OTT 雪花模型 · ADS 视图对齐看板</p>
         </div>

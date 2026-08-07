@@ -13,8 +13,7 @@
   window.SEARCH_INDEX = [
     { category: "page", title: "数据展示", subtitle: "14主题看板", keywords: "看板", url: "../manufacturing_dashboard.html" },
     { category: "page", title: "分析方法论", subtitle: "六层框架", keywords: "方法论", url: "methodology.html" },
-    { category: "page", title: "数仓架构", subtitle: "31对象", keywords: "数仓 ODS ADS", url: "architecture.html" },
-    { category: "page", title: "导出 PDF", subtitle: "14看板报告", keywords: "PDF 报告", url: "../pdf/report.html" },
+    { category: "page", title: "数仓架构", subtitle: "31对象", keywords: "数仓 ODS ADS", url: "architecture.html" }
     ...dashboards.map(([id,t,kw]) => ({ category: "dashboard", title: t, subtitle: "制造业看板", keywords: `${t} ${kw}`, url: base.dashboard + id })),
     ...(window.DATA_DICTIONARY || []).map((t) => ({ category: "table", title: t.name, subtitle: t.layer, keywords: `${t.name} ${t.layer} 数仓`, url: base.architecture + t.name })),
     ...(window.PLAYBOOKS || []).map((p) => ({ category: "playbook", title: p.title, subtitle: p.desc, keywords: `${p.title} ${(p.keywords||[]).join(' ')}`, url: base.methodology, anchor: p.id })),
