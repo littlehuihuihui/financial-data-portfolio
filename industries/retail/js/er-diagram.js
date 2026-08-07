@@ -82,9 +82,15 @@
     });
   }
 
-  function attachZoom(viewport, stage) {
+  function attachPanZoom(viewport, stage) {
     let zoom = 1.25;
     const label = viewport.parentElement.querySelector("[data-er-zoom-label]");
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let startLeft = 0;
+    let startTop = 0;
+    let moved = false;
 
     function apply() {
       stage.style.transform = `scale(${zoom})`;
@@ -93,7 +99,6 @@
 
     function setZoom(next) {
       const clamped = Math.min(ZOOM_STEPS[ZOOM_STEPS.length - 1], Math.max(ZOOM_STEPS[0], next));
-      // snap to nearest step
       zoom = ZOOM_STEPS.reduce((best, step) =>
         Math.abs(step - clamped) < Math.abs(best - clamped) ? step : best
       );
@@ -121,6 +126,57 @@
       },
       { passive: false }
     );
+
+    // 按住左键拖动画布（平移滚动）
+    viewport.addEventListener("pointerdown", (e) => {
+      if (e.button !== 0) return;
+      if (e.target.closest("a, button, input, textarea, select")) return;
+      dragging = true;
+      moved = false;
+      startX = e.clientX;
+      startY = e.clientY;
+      startLeft = viewport.scrollLeft;
+      startTop = viewport.scrollTop;
+      viewport.classList.add("is-panning");
+      try {
+        viewport.setPointerCapture(e.pointerId);
+      } catch (_) {}
+      e.preventDefault();
+    });
+
+    viewport.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+      viewport.scrollLeft = startLeft - dx;
+      viewport.scrollTop = startTop - dy;
+    });
+
+    function endPan(e) {
+      if (!dragging) return;
+      dragging = false;
+      viewport.classList.remove("is-panning");
+      try {
+        if (e && e.pointerId != null) viewport.releasePointerCapture(e.pointerId);
+      } catch (_) {}
+    }
+
+    viewport.addEventListener("pointerup", endPan);
+    viewport.addEventListener("pointercancel", endPan);
+    viewport.addEventListener("pointerleave", (e) => {
+      if (dragging && e.buttons === 0) endPan(e);
+    });
+
+    // 拖动时避免误选中文字
+    viewport.addEventListener("dragstart", (e) => e.preventDefault());
+    viewport.addEventListener("click", (e) => {
+      if (moved) {
+        e.preventDefault();
+        e.stopPropagation();
+        moved = false;
+      }
+    }, true);
 
     apply();
     return { setZoom };
@@ -174,7 +230,7 @@
       ${legendHtml ? `<div class="er-diagram-legend">${legendHtml}</div>` : ""}
       ${tabsHtml}
       <div class="er-diagram-toolbar">
-        <p class="er-diagram-tip">提示：可拖动滚动条查看完整表名；Ctrl + 滚轮缩放；多视图时切换上方标签可降低图密度。</p>
+        <p class="er-diagram-tip">提示：按住鼠标左键拖动查看完整表名；+/− 或 Ctrl + 滚轮缩放；多视图时切换上方标签可降低图密度。</p>
         <div class="er-zoom-controls" role="group" aria-label="ER 图缩放">
           <button type="button" class="er-zoom-btn" data-er-zoom="out" title="缩小">−</button>
           <span class="er-zoom-label" data-er-zoom-label>125%</span>
@@ -193,7 +249,7 @@
     const stage = document.getElementById("er-mermaid-stage");
     const mermaidRoot = document.getElementById("er-mermaid-svg-root");
     const byId = Object.fromEntries(views.map((v) => [v.id, v]));
-    attachZoom(viewport, stage);
+    attachPanZoom(viewport, stage);
 
     async function show(viewId) {
       const view = byId[viewId] || views[0];

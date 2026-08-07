@@ -523,6 +523,15 @@
   background: rgba(2, 6, 23, 0.35);
   -webkit-overflow-scrolling: touch;
   border: 1px solid rgba(148, 163, 184, 0.12);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+.er-diagram-viewport.is-panning {
+  cursor: grabbing;
+}
+.er-diagram-viewport.is-panning * {
+  cursor: grabbing !important;
 }
 .er-diagram-stage {
   transform-origin: top left;
