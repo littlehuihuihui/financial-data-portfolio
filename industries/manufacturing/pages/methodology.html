@@ -55,6 +55,12 @@
     .nav-tab:hover { color: var(--text); background: var(--surface2); }
     .nav-tab.active { color: #fff; background: var(--l1); }
     .nav-export { border: 1px solid var(--border); }
+    .nav-tab.nav-home {
+      margin-left: auto;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+    }
+    .nav-tab.nav-home:hover { color: #e0f2fe; background: rgba(56, 189, 248, 0.12); }
     .nav-inner-with-search { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
     .nav-inner-with-search .nav-tabs { flex-shrink: 0; }
 
@@ -257,7 +263,7 @@
       .detail-inner { padding: 16px; }
     }
   </style>
-  <link rel="stylesheet" href="../css/platform-features.css?v=1.6">
+  <link rel="stylesheet" href="../css/platform-features.css?v=1.8">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
 <body>
@@ -267,10 +273,11 @@
     <div class="brand">制造业</div>
     <div id="global-search-slot"></div>
     <nav class="nav-tabs" aria-label="页面导航">
-      <a href="../manufacturing_dashboard.html" class="nav-tab">数据展示</a>
+<a href="../manufacturing_dashboard.html" class="nav-tab">数据展示</a>
       <a href="methodology.html" class="nav-tab active">分析方法论</a>
       <a href="architecture.html" class="nav-tab">数仓架构</a>
       <a href="../pdf/report.html" class="nav-tab nav-export" target="_blank">导出 PDF</a>
+      <a href="../../../index.html" class="nav-tab nav-home">返回平台</a>
     </nav>
   </div>
 </header>
@@ -282,7 +289,7 @@
 
 <div class="search-bar">
   <input type="search" id="search-input" placeholder="搜索问题关键词，如「良品率」「OEE」「产能」「成本」「供应商」…" autocomplete="off">
-  <div class="search-meta" id="search-meta">共 10 个分析问题 · 默认展示「生产总览」</div>
+  <div class="search-meta" id="search-meta">共 26 个分析问题 + 18 种方法 · 默认展示「生产总览」</div>
 </div>
 
 <div class="layout">
@@ -295,10 +302,10 @@
 <button class="mobile-toggle" id="mobile-toggle" aria-label="打开问题列表">☰</button>
 
 <script src="../js/data-dictionary-data.js"></script>
-<script src="../js/methodology-playbook-data.js?v=1.6"></script>
+<script src="../js/methodology-playbook-data.js?v=1.8"></script>
 <script src="../js/search-index-data.js"></script>
-<script src="../js/analysis-toolbox.js?v=1.6"></script>
+<script src="../js/analysis-toolbox.js?v=1.8"></script>
 <script src="../js/global-search.js"></script>
-<script src="../js/methodology-ui.js?v=1.6"></script>
+<script src="../js/methodology-ui.js?v=1.8"></script>
 </body>
 </html>

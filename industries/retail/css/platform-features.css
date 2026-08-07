@@ -431,17 +431,55 @@
   border: 1px solid rgba(77, 163, 255, 0.22);
   color: #cbd5e1;
 }
+.er-view-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.er-view-tab {
+  appearance: none;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(15, 23, 42, 0.65);
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.er-view-tab:hover {
+  border-color: rgba(56, 189, 248, 0.65);
+  color: #f8fafc;
+}
+.er-view-tab.active {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: #38bdf8;
+  color: #e0f2fe;
+}
+.er-diagram-tip {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0 0 10px;
+}
 .er-diagram-mermaid {
   overflow-x: auto;
-  padding: 8px 4px 4px;
+  overflow-y: hidden;
+  padding: 12px 8px 8px;
   border-radius: 8px;
   background: rgba(2, 6, 23, 0.35);
+  -webkit-overflow-scrolling: touch;
 }
 .er-diagram-mermaid svg {
   display: block;
   margin: 0 auto;
-  max-width: 100%;
+  max-width: none !important;
+  min-width: 1080px;
   height: auto;
+}
+.er-diagram-mermaid svg text {
+  font-family: "JetBrains Mono", Consolas, "Microsoft YaHei", monospace !important;
 }
 .er-diagram-fallback {
   font-size: 13px;

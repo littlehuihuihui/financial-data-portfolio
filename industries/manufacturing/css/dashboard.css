@@ -133,6 +133,15 @@
   border-color: rgba(255, 255, 255, 0.15);
   font-weight: 600;
 }
+.page-dashboard .site-nav .nav-tab.nav-home {
+  margin-left: auto;
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #7dd3fc;
+}
+.page-dashboard .site-nav .nav-tab.nav-home:hover {
+  color: #e0f2fe;
+  background: rgba(56, 189, 248, 0.12);
+}
 
 .page-dashboard .kpi-grid {
   display: grid;

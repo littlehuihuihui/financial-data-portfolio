@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -15,7 +15,8 @@
       <button type="button" class="btn-export primary" id="btn-download-pdf">下载 PDF</button>
       <button type="button" class="btn-export" id="btn-print">打印 / 另存为 PDF</button>
       <a href="../manufacturing_dashboard.html" class="btn-export">返回看板</a>
-    </div>
+      <a href="../../../index.html" class="btn-export nav-home">返回平台</a>
+</div>
     <p class="toolbar-hint">P0 体系总览 · P1 生产监控看板 · P2 分析方法论 · P2b 问题清单 · P2c 工具箱 · P3 数仓架构 · 也可运行 <code>run_export.bat</code></p>
   </header>
 
@@ -42,7 +43,7 @@
           <h2 class="overview-card-title">生产运营分析方法论</h2>
           <ul class="overview-card-list">
             <li>六层分析框架：描述 → 诊断 → 预测 → 评估 → 优化 + 工具箱</li>
-            <li>10 个典型分析问题 · 含柏拉图/OEE/5Why 等制造场景</li>
+            <li>26 个典型分析问题 · 18 种方法（含 VSM/TPM/安灯/BOM/防错等）</li>
             <li>内置异常点：2025-04 华东良品率 · EQ-F02-L02 OEE 下滑</li>
           </ul>
           <span class="overview-card-tag">精益改善核心能力</span>
@@ -334,7 +335,7 @@
         </section>
         <div class="fw-arrow-pdf">↓</div>
         <section class="framework-layer-pdf" style="border-left-color:#f472b6">
-          <h3 class="fw-layer-title"><span class="fw-num">6</span> 制造业分析工具箱（8 法）</h3>
+          <h3 class="fw-layer-title"><span class="fw-num">6</span> 制造业分析工具箱（18 法）</h3>
           <div class="fw-layer-body">
             <p>柏拉图 · 鱼骨图 · SPC · 5Why · OEE · 产能瓶颈 · 单位成本趋势 · 供应商评分卡</p>
             <p>详情见 P2c 页 · 交互版 <code>../pages/methodology.html</code></p>
@@ -346,21 +347,37 @@
     <section class="pdf-page pdf-page-p2b" id="page-p2b">
       <header class="page-header">
         <h1 class="page-title">📋 生产分析 · 典型问题清单</h1>
-        <p class="page-subtitle">10 个制造场景分析问题 · 交互版见 methodology.html</p>
+        <p class="page-subtitle">26 个制造场景分析问题 · 交互版见 methodology.html</p>
       </header>
       <table class="data-table">
         <thead><tr><th>#</th><th>层级</th><th>问题</th><th>关联看板</th></tr></thead>
         <tbody>
           <tr><td>1</td><td>描述</td><td>本月生产运营怎么样？</td><td>生产总览</td></tr>
           <tr><td>2</td><td>描述</td><td>哪条产线表现最好？</td><td>产能负荷</td></tr>
-          <tr><td>3</td><td>诊断</td><td>为什么良品率下降了？</td><td>质量分析 / 报废与返工 / 工序良率</td></tr>
-          <tr><td>4</td><td>诊断</td><td>为什么单位成本涨了？</td><td>成本分析 / 领料差异</td></tr>
-          <tr><td>5</td><td>诊断</td><td>为什么设备老出问题？</td><td>设备OEE / 停机损失</td></tr>
-          <tr><td>6</td><td>预测</td><td>下月能产多少？</td><td>生产总览 / 交付分析</td></tr>
-          <tr><td>7</td><td>评估</td><td>哪些设备最该优先改善？</td><td>设备OEE / 停机损失</td></tr>
-          <tr><td>8</td><td>评估</td><td>哪家供应商最可靠？</td><td>供应链分析 / 供应商评分</td></tr>
-          <tr><td>9</td><td>优化</td><td>先改哪个不良？</td><td>报废与返工 / 工序良率</td></tr>
-          <tr><td>10</td><td>优化</td><td>如何提升产能利用率？</td><td>产能负荷 / 停机损失</td></tr>
+          <tr><td>3</td><td>描述</td><td>本月质量状况怎么样？</td><td>质量分析 / 报废与返工</td></tr>
+          <tr><td>4</td><td>描述</td><td>客户订单交付稳不稳？</td><td>交付分析</td></tr>
+          <tr><td>5</td><td>描述</td><td>本月设备运行状态怎么样？</td><td>设备OEE / 停机损失</td></tr>
+          <tr><td>6</td><td>描述</td><td>本月制造成本处在什么水平？</td><td>成本分析</td></tr>
+          <tr><td>7</td><td>诊断</td><td>为什么良品率下降了？</td><td>质量分析 / 报废与返工</td></tr>
+          <tr><td>8</td><td>诊断</td><td>为什么报废/返工突然变多？</td><td>报废与返工 / 工序良率</td></tr>
+          <tr><td>9</td><td>诊断</td><td>为什么单位成本涨了？</td><td>成本分析 / 领料差异</td></tr>
+          <tr><td>10</td><td>诊断</td><td>为什么设备老出问题？</td><td>设备OEE / 停机损失</td></tr>
+          <tr><td>11</td><td>诊断</td><td>为什么产能跟不上订单？</td><td>产能负荷 / 停机损失</td></tr>
+          <tr><td>12</td><td>诊断</td><td>为什么交期延误变多了？</td><td>供应链分析 / 物料分析</td></tr>
+          <tr><td>13</td><td>诊断</td><td>为什么在制品堆这么多？</td><td>产能负荷 / 生产总览</td></tr>
+          <tr><td>14</td><td>预测</td><td>下月能产多少？</td><td>生产总览 / 交付分析</td></tr>
+          <tr><td>15</td><td>预测</td><td>下月关键物料要备多少？</td><td>物料分析</td></tr>
+          <tr><td>16</td><td>预测</td><td>哪些设备下月最可能出问题？</td><td>设备OEE</td></tr>
+          <tr><td>17</td><td>预测</td><td>哪些订单下周可能延期？</td><td>交付分析 / 产能负荷</td></tr>
+          <tr><td>18</td><td>评估</td><td>哪些设备最该优先改善？</td><td>设备OEE</td></tr>
+          <tr><td>19</td><td>评估</td><td>哪家供应商最可靠？</td><td>供应商评分</td></tr>
+          <tr><td>20</td><td>评估</td><td>这款新品导入达标了吗？</td><td>质量分析 / 成本分析</td></tr>
+          <tr><td>21</td><td>评估</td><td>人员效率达标了吗？</td><td>人工效率</td></tr>
+          <tr><td>22</td><td>优化</td><td>先改哪个不良？</td><td>报废与返工</td></tr>
+          <tr><td>23</td><td>优化</td><td>如何提升产能利用率？</td><td>产能负荷</td></tr>
+          <tr><td>24</td><td>优化</td><td>采购份额怎么调更稳？</td><td>供应商评分</td></tr>
+          <tr><td>25</td><td>优化</td><td>库存怎么压又不缺料？</td><td>物料分析</td></tr>
+          <tr><td>26</td><td>优化</td><td>这起客诉怎么闭环不再发？</td><td>质量分析</td></tr>
         </tbody>
       </table>
     </section>
@@ -368,7 +385,7 @@
     <section class="pdf-page pdf-page-p2c" id="page-p2c">
       <header class="page-header">
         <div class="page-header-left">
-          <h1 class="page-title">🧰 第六层 · 制造业分析工具箱（8）</h1>
+          <h1 class="page-title">🧰 第六层 · 制造业分析工具箱（18）</h1>
           <p class="page-subtitle">质量 / 设备与产能 / 成本与供应链 · 人话解释 + 常问什么 + 落地例子</p>
         </div>
         <nav class="module-nav">
@@ -426,7 +443,7 @@
     </section>
   </div>
 
-  <script src="../js/methodology-playbook-data.js"></script>
+  <script src="../js/methodology-playbook-data.js?v=1.8"></script>
   <script src="report.js"></script>
 </body>
 </html>

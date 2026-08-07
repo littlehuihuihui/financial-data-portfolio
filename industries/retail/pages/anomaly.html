@@ -55,6 +55,12 @@
     .nav-tab:hover { color: var(--text); background: var(--surface2); }
     .nav-tab.active { color: #fff; background: var(--l1); }
     .nav-export { border: 1px solid var(--border); }
+    .nav-tab.nav-home {
+      margin-left: auto;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+    }
+    .nav-tab.nav-home:hover { color: #e0f2fe; background: rgba(56, 189, 248, 0.12); }
     .nav-inner-with-search { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
     .nav-inner-with-search .nav-tabs { flex-shrink: 0; }
 
@@ -267,10 +273,11 @@
     <div class="brand">跃动体育</div>
     <div id="global-search-slot"></div>
     <nav class="nav-tabs" aria-label="页面导航">
-      <a href="../retail_dashboard.html" class="nav-tab">数据展示</a>
+<a href="../retail_dashboard.html" class="nav-tab">数据展示</a>
       <a href="anomaly.html" class="nav-tab active">分析方法论</a>
       <a href="architecture.html" class="nav-tab">数仓架构</a>
       <a href="report.html" class="nav-tab nav-export" target="_blank">导出 PDF</a>
+      <a href="../../../index.html" class="nav-tab nav-home">返回平台</a>
     </nav>
   </div>
 </header>

@@ -132,6 +132,17 @@ code {
   font-weight: 600;
 }
 
+.nav-tab.nav-home {
+  margin-left: auto;
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #7dd3fc;
+}
+.nav-tab.nav-home:hover {
+  color: #e0f2fe;
+  border-color: rgba(56, 189, 248, 0.65);
+  background: rgba(56, 189, 248, 0.12);
+}
+
 .nav-tab.nav-export {
   border-color: rgba(255, 255, 255, 0.12);
   color: #c5cdd8;

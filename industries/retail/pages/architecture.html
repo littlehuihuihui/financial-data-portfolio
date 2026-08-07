@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="跃动体育财务分析项目数据仓库与管道架构">
   <title>跃动体育 · 数据仓库与管道架构</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="dashboard.css">
-  <link rel="stylesheet" href="shared/platform-features.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/platform-features.css?v=3.12">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 </head>
 <body class="page-architecture">
@@ -17,11 +17,12 @@
       <div class="brand-title">跃动体育</div>
       <div id="global-search-slot"></div>
       <nav class="nav-tabs" aria-label="页面导航">
-        <a href="shell.html" class="nav-tab">数据展示</a>
+<a href="../retail_dashboard.html" class="nav-tab">数据展示</a>
         <a href="anomaly.html" class="nav-tab">分析方法论</a>
         <a href="architecture.html" class="nav-tab active">数仓架构</a>
         <a href="report.html" class="nav-tab nav-export" target="_blank">导出 PDF</a>
-      </nav>
+      <a href="../../../index.html" class="nav-tab nav-home">返回平台</a>
+    </nav>
     </div>
   </header>
 
@@ -30,18 +31,18 @@
     <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>sql6_portfolio_model/</code>）；含 ERP 数据源映射/对账、数据源与数据库选型，看板与对账 API 直接消费 DWS/ADS。<span class="arch-scale-badge" id="recon-status">作品集版 · 21 表 + 8 视图 = 29 对象</span></p>
 
     <aside class="layer-glossary" aria-label="数仓分层名词解释">
-      <h3 class="layer-glossary-title">分层是什么？（一句话）</h3>
+      <h3 class="layer-glossary-title">分层是什么？每一层存什么粒度的数据？</h3>
       <dl class="layer-glossary-list">
         <dt>ODS · 操作数据层</dt>
-        <dd>Operational Data Store。贴近 ERP/CSV 的<strong>原始数据</strong>落地（8 张表：<code>ods_orders</code>、<code>ods_payment</code> 等），保留业务主键与审计字段，不做复杂加工。</dd>
+        <dd><strong>颗粒度：原始单据级（一行一订单/一笔支付等）。</strong>Operational Data Store。贴近 ERP/CSV 的原始数据落地（8 张表：<code>ods_orders</code>、<code>ods_payment</code> 等），保留业务主键与审计字段，不做复杂加工。</dd>
         <dt>DIM · 维度层</dt>
-        <dd>品牌 / 渠道 / 品类 / 门店 / 日期五张维度表（<code>dim_*</code>），供 ODS→DWD ETL 做编码映射与名称冗余。</dd>
+        <dd><strong>颗粒度：主数据实体（一行一品牌/渠道/品类/门店/日期）。</strong>五张维度表（<code>dim_*</code>），供 ODS→DWD ETL 做编码映射与名称冗余。</dd>
         <dt>DWD · 明细宽表层</dt>
-        <dd>Data Warehouse Detail。清洗后的<strong>宽表</strong>（<code>dwd_sales_wide</code>、<code>dwd_expense_wide</code>、<code>dwd_inventory_wide</code>），维度名称冗余进事实，查询最多 1–2 张表。</dd>
+        <dd><strong>颗粒度：清洗后的明细宽表（一行一事实 + 冗余维度名）。</strong><code>dwd_sales_wide</code>、<code>dwd_expense_wide</code>、<code>dwd_inventory_wide</code>，查询最多 1–2 张表。</dd>
         <dt>DWS · 汇总数据层</dt>
-        <dd>Data Warehouse Summary。按「日/月 × 品牌 × 渠道 × 品类」等粒度<strong>预聚合</strong>（<code>dws_sales_daily</code> 等 5 张表），看板查询更快。</dd>
+        <dd><strong>颗粒度：按日/月 × 品牌 × 渠道 × 品类预聚合。</strong><code>dws_sales_daily</code> 等 5 张表，看板查询更快。</dd>
         <dt>ADS · 应用数据层</dt>
-        <dd>Application Data Service。面向报表 / Tableau / Web API 的<strong>8 个业务视图</strong>（<code>v_overview</code>、<code>v_dupont</code> 等），封装指标口径。</dd>
+        <dd><strong>颗粒度：看板/API 指标切片。</strong>面向报表 / Tableau / Web API 的 8 个业务视图（<code>v_overview</code>、<code>v_dupont</code> 等），封装指标口径。</dd>
       </dl>
       <p class="layer-glossary-foot">记忆口诀：<strong>ODS 存原始 → DIM 定口径 → DWD 宽表洗 → DWS 先算好 → ADS 给业务用</strong>。</p>
     </aside>
@@ -330,19 +331,19 @@
       <h3>📥 明细数据导出</h3>
       <p class="export-arch-desc">
         宽表 <code>dwd_sales_wide</code> 承载订单明细，API <code>/api/query_detail</code> 按日期/品牌/渠道筛选后导出 CSV。
-        前端预览见 <a href="shell.html">数据展示页</a> 或
+        前端预览见 <a href="../retail_dashboard.html">数据展示页</a> 或
         <a href="report.html#page-p1">PDF 报告 P1</a>「明细数据导出」模块。
       </p>
     </section>
   </main>
 
-  <script src="shared/er-diagram-data.js"></script>
-  <script src="shared/er-diagram.js"></script>
-  <script src="shared/data-dictionary-data.js"></script>
-  <script src="shared/search-index-data.js"></script>
-  <script src="shared/data-dictionary.js"></script>
-  <script src="shared/global-search.js"></script>
-  <script src="script.js"></script>
+  <script src="../js/er-diagram-data.js"></script>
+  <script src="../js/er-diagram.js?v=3.12"></script>
+  <script src="../js/data-dictionary-data.js"></script>
+  <script src="../js/search-index-data.js"></script>
+  <script src="../js/data-dictionary.js"></script>
+  <script src="../js/global-search.js"></script>
+  <script src="../js/script.js"></script>
   <script src="erp.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
