@@ -11,7 +11,13 @@
  * - 实体类型标签（左上角小徽章）
  */
 (function (global) {
-  const MERMAID_CDN = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";
+  // jsDelivr 在部分网络会失败；按序回退国内/备用 CDN
+  const MERMAID_CDNS = [
+    "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js",
+    "https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js",
+    "https://cdn.bootcdn.net/ajax/libs/mermaid/10.9.1/mermaid.min.js",
+  ];
   const ZOOM_STEPS = [0.75, 1, 1.25, 1.5, 1.75, 2];
   // 字号档位：标签 + 缩放比例
   const FONT_SCALES = [
@@ -107,19 +113,35 @@
     return LAYER_COLORS[detectLayer(tableName)] || LAYER_COLORS.default;
   }
 
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = src;
+      s.async = true;
+      s.onload = () => resolve(src);
+      s.onerror = () => reject(new Error("script load failed: " + src));
+      document.head.appendChild(s);
+    });
+  }
+
   function loadMermaid() {
     if (!mermaidReady) {
-      mermaidReady = new Promise((resolve, reject) => {
-        if (global.mermaid) {
-          resolve(global.mermaid);
-          return;
+      mermaidReady = (async () => {
+        if (!global.mermaid) {
+          let lastErr = null;
+          for (const src of MERMAID_CDNS) {
+            try {
+              await loadScript(src);
+              if (global.mermaid) break;
+            } catch (err) {
+              lastErr = err;
+            }
+          }
+          if (!global.mermaid) {
+            throw lastErr || new Error("Mermaid CDN load failed (all mirrors)");
+          }
         }
-        const s = document.createElement("script");
-        s.src = MERMAID_CDN;
-        s.onload = () => resolve(global.mermaid);
-        s.onerror = () => reject(new Error("Mermaid CDN load failed"));
-        document.head.appendChild(s);
-      }).then((mermaid) => {
+        const mermaid = global.mermaid;
         mermaid.initialize({
           startOnLoad: false,
           theme: "dark",
@@ -144,7 +166,7 @@
           },
         });
         return mermaid;
-      });
+      })();
     }
     return mermaidReady;
   }
@@ -206,16 +228,20 @@
       const texts = parent.querySelectorAll("text");
       if (texts.length === 0) return;
 
-      // 获取实体名称（第一个文本通常是表名）
+      // 获取实体名称（优先匹配 dim_/ods_/dwd_/dws_/v_ 等表名；跳过 Mermaid 默认的 TABLE 标签）
+      const SKIP_LABELS = new Set(["TABLE", "PK", "FK", "UK", "DIM", "ODS", "DWD", "DWS", "ADS", "FACT"]);
       let tableName = "";
       texts.forEach((t) => {
-        const content = t.textContent.trim();
-        if (content && content.length > 2 && !content.includes(":")) {
+        const content = (t.textContent || "").trim();
+        if (!content || content.includes(":") || SKIP_LABELS.has(content)) return;
+        if (/^(dim_|ods_|dwd_|dws_|ads_|fact_|v_)/i.test(content) || content.includes("_")) {
+          tableName = content;
+        } else if (!tableName) {
           tableName = content;
         }
       });
 
-      if (!tableName) return;
+      if (!tableName || SKIP_LABELS.has(tableName)) return;
       processed.add(parent);
 
       const colors = getLayerColor(tableName);
@@ -313,9 +339,13 @@
     svgEl.style.height = "auto";
     svgEl.setAttribute("width", String(targetW));
 
-    // 美化实体和关系
-    beautifyEntities(svgEl);
-    beautifyRelations(svgEl);
+    // 美化实体和关系（失败不影响主图显示）
+    try {
+      beautifyEntities(svgEl);
+      beautifyRelations(svgEl);
+    } catch (err) {
+      console.warn("ER beautify skipped", err);
+    }
 
     // 当前字号缩放比例
     const fontScale = FONT_SCALES[currentFontIdx].scale;
@@ -495,8 +525,10 @@
         enhanceSvgReadability(svgEl);
       }
     } catch (err) {
+      const msg = (err && err.message) ? String(err.message) : String(err);
       mermaidRoot.innerHTML =
-        `<p class="er-diagram-fallback">ER 图加载失败，请检查网络后刷新。` +
+        `<p class="er-diagram-fallback">ER 图加载失败：${msg}<br>` +
+        `若提示 CDN / network，请换网络或关闭拦截后刷新（已自动尝试多个镜像）。` +
         `<details><summary>查看 Mermaid 源码</summary><pre>${source}</pre></details></p>`;
       console.error("ER diagram render failed", err);
     }
