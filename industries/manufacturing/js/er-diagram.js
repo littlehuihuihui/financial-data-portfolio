@@ -19,6 +19,7 @@
     "https://cdn.bootcdn.net/ajax/libs/mermaid/10.9.1/mermaid.min.js",
   ];
   const ZOOM_STEPS = [0.75, 1, 1.25, 1.5, 1.75, 2];
+  const DEFAULT_ZOOM = 0.75; // 默认 75%，便于一眼看清分层结构
   // 字号档位：标签 + 缩放比例
   const FONT_SCALES = [
     { label: "小", scale: 0.85 },
@@ -164,6 +165,14 @@
             entityPadding: 24,
             useMaxWidth: false,
           },
+          flowchart: {
+            htmlLabels: false,
+            curve: "basis",
+            padding: 24,
+            nodeSpacing: 36,
+            rankSpacing: 64,
+            useMaxWidth: false,
+          },
         });
         return mermaid;
       })();
@@ -209,63 +218,69 @@
     return defs;
   }
 
-  // ===== 美化实体框 =====
+  function extractTableName(node) {
+    const SKIP = new Set([
+      "TABLE", "PK", "FK", "UK", "DIM", "ODS", "DWD", "DWS", "ADS", "FACT",
+    ]);
+    const fromId = (node.getAttribute("id") || "")
+      .replace(/^flowchart-/, "")
+      .replace(/-\d+$/, "");
+    if (/^(dim_|ods_|dwd_|dws_|ads_|fact_|v_)/i.test(fromId)) return fromId;
+
+    const texts = node.querySelectorAll("text, .nodeLabel, span");
+    let tableName = "";
+    texts.forEach((t) => {
+      const content = (t.textContent || "").trim();
+      if (!content || content.includes(":") || SKIP.has(content)) return;
+      if (/层$/.test(content) || content.includes(" ")) return; // 跳过 subgraph 标题
+      if (/^(dim_|ods_|dwd_|dws_|ads_|fact_|v_)/i.test(content) || content.includes("_")) {
+        tableName = content;
+      } else if (!tableName) {
+        tableName = content;
+      }
+    });
+    if (!tableName || SKIP.has(tableName)) return "";
+    return tableName;
+  }
+
+  // ===== 美化实体框（兼容 erDiagram + flowchart） =====
   function beautifyEntities(svgEl) {
     ensureSvgDefs(svgEl);
-
-    // Mermaid erDiagram 中，实体通常是包含 rect 和 text 的 g 元素
-    // 我们需要找到所有实体组并美化它们
-
-    // 方法：找到所有 rect 元素，然后找到它们的父级 g 元素
-    const rects = svgEl.querySelectorAll("rect");
     const processed = new Set();
+    const candidates = svgEl.querySelectorAll("g.node, g.er.entityBox, g[id^='entity-']");
+    const nodes = candidates.length ? candidates : svgEl.querySelectorAll("g");
 
-    rects.forEach((rect) => {
-      const parent = rect.parentElement;
+    nodes.forEach((parent) => {
       if (!parent || processed.has(parent)) return;
+      if (parent.classList && parent.classList.contains("cluster")) return;
+      const shape = parent.querySelector("rect") || parent.querySelector("polygon");
+      if (!shape) return;
 
-      // 找到实体名称文本
-      const texts = parent.querySelectorAll("text");
-      if (texts.length === 0) return;
-
-      // 获取实体名称（优先匹配 dim_/ods_/dwd_/dws_/v_ 等表名；跳过 Mermaid 默认的 TABLE 标签）
-      const SKIP_LABELS = new Set(["TABLE", "PK", "FK", "UK", "DIM", "ODS", "DWD", "DWS", "ADS", "FACT"]);
-      let tableName = "";
-      texts.forEach((t) => {
-        const content = (t.textContent || "").trim();
-        if (!content || content.includes(":") || SKIP_LABELS.has(content)) return;
-        if (/^(dim_|ods_|dwd_|dws_|ads_|fact_|v_)/i.test(content) || content.includes("_")) {
-          tableName = content;
-        } else if (!tableName) {
-          tableName = content;
-        }
-      });
-
-      if (!tableName || SKIP_LABELS.has(tableName)) return;
+      const tableName = extractTableName(parent);
+      if (!tableName) return;
       processed.add(parent);
 
       const colors = getLayerColor(tableName);
+      const texts = parent.querySelectorAll("text");
 
-      // 美化矩形
-      rect.setAttribute("fill", colors.fill);
-      rect.setAttribute("stroke", colors.stroke);
-      rect.setAttribute("stroke-width", "2");
-      rect.setAttribute("rx", "10");
-      rect.setAttribute("ry", "10");
-      rect.style.filter = `drop-shadow(0 0 8px ${colors.glow})`;
+      shape.setAttribute("fill", colors.fill);
+      shape.setAttribute("stroke", colors.stroke);
+      shape.setAttribute("stroke-width", "2");
+      if (shape.tagName.toLowerCase() === "rect") {
+        shape.setAttribute("rx", "10");
+        shape.setAttribute("ry", "10");
+      }
+      shape.style.filter = `drop-shadow(0 0 8px ${colors.glow})`;
 
-      // 美化文本
       texts.forEach((t) => {
         t.setAttribute("fill", colors.text);
         t.style.fontWeight = "600";
       });
 
-      // 添加类型徽章（在实体左上角）
-      const x = parseFloat(rect.getAttribute("x") || "0");
-      const y = parseFloat(rect.getAttribute("y") || "0");
-      const width = parseFloat(rect.getAttribute("width") || "100");
+      const x = parseFloat(shape.getAttribute("x") || "0");
+      const y = parseFloat(shape.getAttribute("y") || "0");
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return;
 
-      // 徽章背景
       const badgeRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
       badgeRect.setAttribute("x", x + 8);
       badgeRect.setAttribute("y", y - 10);
@@ -276,7 +291,6 @@
       badgeRect.setAttribute("fill", colors.badgeBg);
       badgeRect.style.filter = `drop-shadow(0 1px 3px ${colors.glow})`;
 
-      // 徽章文字
       const badgeText = document.createElementNS("http://www.w3.org/2000/svg", "text");
       badgeText.setAttribute("x", x + 32);
       badgeText.setAttribute("y", y + 4);
@@ -287,8 +301,7 @@
       badgeText.setAttribute("font-family", '"JetBrains Mono", Consolas, monospace');
       badgeText.textContent = colors.label;
 
-      // 插入到父组中（在 rect 之后，text 之前）
-      parent.insertBefore(badgeRect, rect.nextSibling);
+      parent.insertBefore(badgeRect, shape.nextSibling);
       parent.insertBefore(badgeText, badgeRect.nextSibling);
     });
   }
@@ -385,7 +398,7 @@
   }
 
   function attachPanZoom(viewport, stage) {
-    let zoom = 1.25;
+    let zoom = DEFAULT_ZOOM;
     const label = viewport.parentElement.querySelector("[data-er-zoom-label]");
     let dragging = false;
     let startX = 0;
@@ -413,7 +426,7 @@
         const idx = ZOOM_STEPS.indexOf(zoom);
         if (action === "in") setZoom(ZOOM_STEPS[Math.min(ZOOM_STEPS.length - 1, idx + 1)]);
         else if (action === "out") setZoom(ZOOM_STEPS[Math.max(0, idx - 1)]);
-        else if (action === "reset") setZoom(1.25);
+        else if (action === "reset") setZoom(DEFAULT_ZOOM);
       });
     });
 
@@ -589,7 +602,7 @@
       ${legendHtml ? `<div class="er-diagram-legend">${legendHtml}</div>` : ""}
       ${tabsHtml}
       <div class="er-diagram-toolbar">
-        <p class="er-diagram-tip">💡 提示：按住鼠标左键拖动查看完整表名；+/− 或 Ctrl + 滚轮缩放；A−/A+ 调节字号；多视图时切换上方标签可降低图密度。</p>
+        <p class="er-diagram-tip">💡 提示：按数仓分层自上而下排布（ODS/DIM → DWD → DWS → ADS）；按住拖动平移；+/− 或 Ctrl + 滚轮缩放；A−/A+ 调节字号。</p>
         <div class="er-toolbar-right">
           <div class="er-font-controls" role="group" aria-label="字号调节">
             <button type="button" class="er-font-btn" data-er-font="out" title="减小字号">A−</button>
@@ -598,7 +611,7 @@
           </div>
           <div class="er-zoom-controls" role="group" aria-label="ER 图缩放">
             <button type="button" class="er-zoom-btn" data-er-zoom="out" title="缩小">−</button>
-            <span class="er-zoom-label" data-er-zoom-label>125%</span>
+            <span class="er-zoom-label" data-er-zoom-label>75%</span>
             <button type="button" class="er-zoom-btn" data-er-zoom="in" title="放大">+</button>
             <button type="button" class="er-zoom-btn er-zoom-reset" data-er-zoom="reset" title="重置">重置</button>
           </div>

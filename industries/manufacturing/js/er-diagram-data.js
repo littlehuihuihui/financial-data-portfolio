@@ -1,10 +1,10 @@
 window.ER_DIAGRAM = {
   title: "制造业 · 实体关系图",
   description:
-    "雪花+宽表模型（<code>database/01_ods.sql</code>～<code>05_ads.sql</code>）：按主题拆成三张图，避免一张图实体过多导致表名挤在一起。可切换「生产质量 / ODS→DIM·DWD / DWS→ADS」。",
+    "雪花+宽表模型（<code>database/01_ods.sql</code>～<code>05_ads.sql</code>）：按数仓分层<strong>自上而下</strong>排布，拆成「生产质量 / ODS→DIM·DWD / DWS→ADS」三张图。",
   legend: [
+    "<strong>布局</strong>：上层维度/原始 → 中层宽表 → 下层汇总/看板",
     "<strong>主题宽表</strong>：dim → dwd_*_wide",
-    "<strong>工单质检</strong>：dwd_production → dwd_quality",
     "<strong>看板出口</strong>：dws → v_*",
   ],
   views: [
@@ -12,53 +12,118 @@ window.ER_DIAGRAM = {
       id: "prod_quality",
       name: "① 生产·质量·供应",
       mermaid: `
-erDiagram
-    dim_date ||--o{ dwd_production_wide : order_date
-    dim_production_line ||--o{ dwd_production_wide : line_code
-    dim_product ||--o{ dwd_production_wide : product_code
-    dim_date ||--o{ dwd_quality_wide : inspect_date
-    dim_production_line ||--o{ dwd_quality_wide : line_code
-    dim_product ||--o{ dwd_quality_wide : product_code
-    dwd_production_wide ||--o{ dwd_quality_wide : order_id
-    dim_material ||--o{ dwd_supply_wide : material_code
-    dim_supplier ||--o{ dwd_supply_wide : supplier_code
-    dim_date ||--o{ dwd_supply_wide : snapshot_date
+flowchart TB
+  subgraph DIM["DIM 维度层"]
+    direction LR
+    dim_date["dim_date"]
+    dim_production_line["dim_production_line"]
+    dim_product["dim_product"]
+    dim_material["dim_material"]
+    dim_supplier["dim_supplier"]
+  end
+  subgraph DWD["DWD 主题宽表"]
+    direction LR
+    dwd_production_wide["dwd_production_wide"]
+    dwd_quality_wide["dwd_quality_wide"]
+    dwd_supply_wide["dwd_supply_wide"]
+  end
+  dim_date -->|order_date| dwd_production_wide
+  dim_production_line -->|line_code| dwd_production_wide
+  dim_product -->|product_code| dwd_production_wide
+  dim_date -->|inspect_date| dwd_quality_wide
+  dim_production_line -->|line_code| dwd_quality_wide
+  dim_product -->|product_code| dwd_quality_wide
+  dwd_production_wide -->|order_id| dwd_quality_wide
+  dim_material -->|material_code| dwd_supply_wide
+  dim_supplier -->|supplier_code| dwd_supply_wide
+  dim_date -->|snapshot_date| dwd_supply_wide
 `,
     },
     {
       id: "ods_dwd",
       name: "② ODS→DIM·DWD",
       mermaid: `
-erDiagram
-    ods_production_order ||--o{ dwd_production_wide : ETL
-    ods_quality_inspection ||--o{ dwd_quality_wide : ETL
-    ods_inventory_material ||--o{ dwd_supply_wide : ETL
-    ods_material ||--o{ dim_material : master
-    ods_supplier ||--o{ dim_supplier : master
-    ods_production_line ||--o{ dim_production_line : master
+flowchart TB
+  subgraph ODS["ODS 原始层"]
+    direction LR
+    ods_production_order["ods_production_order"]
+    ods_quality_inspection["ods_quality_inspection"]
+    ods_inventory_material["ods_inventory_material"]
+    ods_material["ods_material"]
+    ods_supplier["ods_supplier"]
+    ods_production_line["ods_production_line"]
+  end
+  subgraph DIM["DIM 主数据"]
+    direction LR
+    dim_material["dim_material"]
+    dim_supplier["dim_supplier"]
+    dim_production_line["dim_production_line"]
+  end
+  subgraph DWD["DWD 主题宽表"]
+    direction LR
+    dwd_production_wide["dwd_production_wide"]
+    dwd_quality_wide["dwd_quality_wide"]
+    dwd_supply_wide["dwd_supply_wide"]
+  end
+  ods_production_order -->|ETL| dwd_production_wide
+  ods_quality_inspection -->|ETL| dwd_quality_wide
+  ods_inventory_material -->|ETL| dwd_supply_wide
+  ods_material -->|master| dim_material
+  ods_supplier -->|master| dim_supplier
+  ods_production_line -->|master| dim_production_line
 `,
     },
     {
       id: "dws_ads",
       name: "③ DWS→ADS",
       mermaid: `
-erDiagram
-    dwd_production_wide ||--o{ dws_production_daily : aggregate
-    dwd_quality_wide ||--o{ dws_quality_daily : aggregate
-    dwd_supply_wide ||--o{ dws_supply_daily : aggregate
-    dwd_production_wide ||--o{ dws_cost_monthly : aggregate
-    dws_production_daily ||--o{ v_production_overview : ADS
-    dws_quality_daily ||--o{ v_quality_analysis : ADS
-    dws_supply_daily ||--o{ v_supply_chain : ADS
-    dws_production_daily ||--o{ v_capacity_utilization : ADS
-    dws_quality_daily ||--o{ v_defect_analysis : ADS
+flowchart TB
+  subgraph DWD["DWD 主题宽表"]
+    direction LR
+    dwd_production_wide["dwd_production_wide"]
+    dwd_quality_wide["dwd_quality_wide"]
+    dwd_supply_wide["dwd_supply_wide"]
+  end
+  subgraph DWS["DWS 汇总层"]
+    direction LR
+    dws_production_daily["dws_production_daily"]
+    dws_quality_daily["dws_quality_daily"]
+    dws_supply_daily["dws_supply_daily"]
+    dws_cost_monthly["dws_cost_monthly"]
+  end
+  subgraph ADS["ADS 应用层"]
+    direction LR
+    v_production_overview["v_production_overview"]
+    v_quality_analysis["v_quality_analysis"]
+    v_supply_chain["v_supply_chain"]
+    v_capacity_utilization["v_capacity_utilization"]
+    v_defect_analysis["v_defect_analysis"]
+  end
+  dwd_production_wide -->|aggregate| dws_production_daily
+  dwd_quality_wide -->|aggregate| dws_quality_daily
+  dwd_supply_wide -->|aggregate| dws_supply_daily
+  dwd_production_wide -->|aggregate| dws_cost_monthly
+  dws_production_daily -->|ADS| v_production_overview
+  dws_quality_daily -->|ADS| v_quality_analysis
+  dws_supply_daily -->|ADS| v_supply_chain
+  dws_production_daily -->|ADS| v_capacity_utilization
+  dws_quality_daily -->|ADS| v_defect_analysis
 `,
     },
   ],
   mermaid: `
-erDiagram
-    dim_date ||--o{ dwd_production_wide : order_date
-    dim_production_line ||--o{ dwd_production_wide : line_code
-    dim_product ||--o{ dwd_production_wide : product_code
+flowchart TB
+  subgraph DIM["DIM 维度层"]
+    direction LR
+    dim_date["dim_date"]
+    dim_production_line["dim_production_line"]
+    dim_product["dim_product"]
+  end
+  subgraph DWD["DWD 主题宽表"]
+    dwd_production_wide["dwd_production_wide"]
+  end
+  dim_date --> dwd_production_wide
+  dim_production_line --> dwd_production_wide
+  dim_product --> dwd_production_wide
 `,
 };
