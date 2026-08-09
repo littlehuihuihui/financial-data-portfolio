@@ -6,6 +6,8 @@
   <title>制造业 · 数据仓库与管道架构</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/platform-features.css?v=1.16">
+  <link rel="stylesheet" href="../css/dw-architecture.css">
+  <link rel="stylesheet" href="../css/dw-knowledge-graph.css">
 </head>
 <body class="page-architecture">
   <header class="top-nav">
@@ -24,6 +26,8 @@
     <h1 class="section-title">⚙️ 制造业数据仓库架构</h1>
     <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>database/</code>）；宽表优先、主题聚合，14 个 Web 看板与 Tableau SQL 直接消费 DWS/ADS。<span class="arch-scale-badge">作品集版 · 宽表 + DWS + 14 看板 API</span></p>
     <nav class="arch-toc" aria-label="页内导航">
+      <a href="#dw-architecture-section">分层全景图</a>
+      <a href="#dw-graph-section">知识图谱</a>
       <a class="arch-toc-er" href="#er-diagram-section">实体关系图（ER）</a>
       <a href="#data-dictionary-section">数据字典</a>
     </nav>
@@ -88,6 +92,24 @@
       </tbody></table></div>
     </section>
 
+    <!-- 交互式分层全景图 -->
+    <section class="arch-section" id="dw-architecture-section">
+      <h3>数仓分层全景图 · 交互式</h3>
+      <p class="star-schema-desc">
+        横向五层泳道展示 ODS → DIM → DWD → DWS → ADS 完整数据流向；点击任意表卡片可查看详情、上下游血缘与关联看板；支持行业切换、搜索定位、缩放拖拽与分层筛选。
+      </p>
+      <div id="dw-architecture-root"></div>
+    </section>
+
+    <!-- 数仓知识图谱 -->
+    <section class="arch-section" id="dw-graph-section">
+      <h3>数仓知识图谱 · 力导向关系图</h3>
+      <p class="star-schema-desc">
+        力导向布局展示表与表之间的血缘关系网络；拖拽节点调整位置，滚轮缩放，点击节点高亮所有上下游链路；支持分层筛选与搜索定位，直观理解数据流转脉络。
+      </p>
+      <div id="dw-graph-root"></div>
+    </section>
+
     <section class="arch-section">
       <h3>数仓分层速览</h3>
       <div class="table-wrap"><table class="data-table"><thead><tr><th>层级</th><th>对象数</th><th>存储粒度</th><th>典型用途</th></tr></thead><tbody>
@@ -150,12 +172,29 @@
   <script src="../js/search-index-data.js"></script>
   <script src="../js/data-dictionary.js"></script>
   <script src="../js/global-search.js"></script>
+  <script src="../js/dw-architecture-data.js"></script>
+  <script src="../js/dw-architecture.js"></script>`n  <script src="../js/echarts.min.js"></script>`n  <script src="../js/dw-knowledge-graph.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       window.ERDiagramUI?.render("er-diagram-root");
       const ui = window.DataDictionaryUI.render("data-dictionary-root");
       window.DataDictionaryUI = Object.assign(window.DataDictionaryUI || {}, ui);
+
+      // 初始化数仓分层全景图
+      if (window.DWArchitecture) {
+        new DWArchitecture("dw-architecture-root", {
+          defaultIndustry: "manufacturing"
+        });
+      }
+
+      // 初始化数仓知识图谱
+      if (window.DWKnowledgeGraph) {
+        new DWKnowledgeGraph("dw-graph-root", {
+          defaultIndustry: "manufacturing"
+        });
+      }
     });
   </script>
 </body>
 </html>
+

@@ -7,6 +7,8 @@
   <title>互联网通用 · 数据仓库与管道架构</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/platform-features.css?v=2.16">
+  <link rel="stylesheet" href="../css/dw-architecture.css">
+  <link rel="stylesheet" href="../css/dw-knowledge-graph.css">
 </head>
 <body class="page-architecture">
 
@@ -26,106 +28,55 @@
   <main class="main-content">
     <h1 class="section-title">⚙️ 数据仓库与管道架构</h1>
     <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>database/ott_ddl.sql</code> + <code>04_ott_ads_views.sql</code>）；以<strong>设备操作日志</strong>为底座，覆盖 Launcher / 点播 / 直播 / 收银台。17 个 Web 看板与方法论视图直接消费 DWS/ADS。<span class="arch-scale-badge">作品集版 · OTT 雪花模型 + ADS 视图</span></p>
-    <nav class="arch-toc" aria-label="页内导航">
-      <a class="arch-toc-er" href="#er-diagram-section">实体关系图（ER）</a>
+        <nav class="arch-toc" aria-label="页内导航">
+      <a href="#dw-architecture-section">分层全景图</a>
+      <a href="#dw-graph-section">知识图谱</a>
+      <a href="#er-diagram-section">实体关系图</a>
       <a href="#data-dictionary-section">数据字典</a>
+      <a href="#ads-application-section">应用层</a>
+      <a href="#layer-details-section">分层详解</a>
+      <a href="#source-tech-section">数据源与技术栈</a>
+      <a href="#etl-lineage-section">ETL与血缘</a>
     </nav>
 
-    <aside class="layer-glossary" aria-label="数仓分层名词解释">
-      <h3 class="layer-glossary-title">分层是什么？每一层存什么粒度的数据？</h3>
-      <dl class="layer-glossary-list">
-        <dt>ODS · 操作数据层</dt>
-        <dd><strong>颗粒度：原始日志/单据级（一行一次操作或一条主数据）。</strong>8 张表，核心是 <code>ods_device_operation_log</code>（一行 = 设备上一次操作：开机/点击/播放/支付），另含设备档案、用户档案、内容目录、渠道投放、订单、留存同期群、运营活动。</dd>
-        <dt>DIM · 维度层</dt>
-        <dd><strong>颗粒度：主数据实体（一行一个设备/用户/产品线/渠道/操作类型/日期）。</strong>6 张表：<code>dim_product_line</code> 定义 launcher/vod/live/cashier 四产品线；<code>dim_event_action</code> 定义各产品线下的操作类型与漏斗映射。</dd>
-        <dt>DWD · 明细宽表层</dt>
-        <dd><strong>颗粒度：清洗后的明细（一行一次操作或一行一用户/一会话）。</strong>3 张宽表：<code>dwd_device_operation_wide</code>（操作日志 + 冗余设备/用户/内容/渠道）、<code>dwd_user_wide</code>（用户行为与付费汇总）、<code>dwd_session_wide</code>（一行一会话）。</dd>
-        <dt>DWS · 汇总数据层</dt>
-        <dd><strong>颗粒度：按日×主题预聚合。</strong>5 张表：用户日汇总（日×渠道）、<strong>产品线日汇总</strong>（日×launcher/vod/live/cashier）、留存日汇总、渠道日汇总、付费日汇总（日×渠道×产品线）。</dd>
-        <dt>ADS · 应用数据层</dt>
-        <dd><strong>颗粒度：看板指标切片。</strong>8 个视图 + <code>v_product_line_analysis</code> 产品线分析，封装 DAU、留存、漏斗、LTV、RFM 等指标口径。</dd>
-      </dl>
-      <p class="layer-glossary-foot">记忆口诀：<strong>ODS 存原始 → DIM 定口径 → DWD 宽表洗 → DWS 先算好 → ADS 给业务用</strong>。</p>
-    </aside>
-
-    <!-- 区块0：数据源与数据库选型（互联网） -->
-    <section class="arch-section" id="source-stack">
-      <h3>数据源与数据库选型</h3>
-      <p class="star-schema-desc">互联网增长以<strong>海量埋点 + 准实时行为分析</strong>为主；本地作品集用 MySQL，生产典型组合为 Hive/MaxCompute（离线）+ ClickHouse（行为 OLAP）+ Kafka/Flink（实时）。规范见 <code>docs/03_技术栈选型说明.md</code>。</p>
-
-      <h4 class="source-stack-subtitle">业务数据源</h4>
-      <div class="source-stack-grid">
-        <article class="source-card"><h5>埋点 SDK</h5><p>开机/点击/播放/支付等设备操作日志 · 行为分析底座</p><span class="source-tag">实时 · 分钟级</span></article>
-        <article class="source-card"><h5>业务库</h5><p>用户档案、订购订单、支付、会员 · MySQL/PolarDB</p><span class="source-tag">T+1 + CDC</span></article>
-        <article class="source-card"><h5>广告投放平台</h5><p>渠道消耗、点击、展示、转化 · API 拉取</p><span class="source-tag">T+1</span></article>
-        <article class="source-card"><h5>CRM / 运营</h5><p>用户标签、触达、活动效果</p><span class="source-tag">T+1</span></article>
-        <article class="source-card"><h5>服务端日志</h5><p>接口请求、错误、性能 · Filebeat → Kafka</p><span class="source-tag">实时</span></article>
-        <article class="source-card"><h5>内容目录</h5><p>剧集/单集/直播频道主数据</p><span class="source-tag">日更</span></article>
-      </div>
-
-      <h4 class="source-stack-subtitle">数据库与计算引擎</h4>
-      <div class="table-wrap table-scroll-wrap">
-        <table class="data-table">
-          <thead><tr><th>层级</th><th>本地作品集</th><th>中小企业</th><th>中大型 / 集团</th><th>选型理由</th></tr></thead>
-          <tbody>
-            <tr><td>业务库</td><td>MySQL</td><td>MySQL / PostgreSQL</td><td>PolarDB</td><td>订单与用户权威事务库</td></tr>
-            <tr><td>离线数仓</td><td><strong>MySQL 8.0</strong></td><td>Hive 3.x</td><td>MaxCompute (ODPS)</td><td>日分区明细与留存同期群</td></tr>
-            <tr><td>行为 OLAP</td><td>MySQL 视图</td><td><strong>ClickHouse</strong></td><td>ClickHouse + Hologres</td><td>亿级事件秒级多维分析</td></tr>
-            <tr><td>实时流</td><td>—</td><td>Kafka + Flink</td><td>DataHub + Realtime Compute</td><td>DAU/漏斗分钟级看板</td></tr>
-            <tr><td>画像缓存</td><td>—</td><td>Redis + ClickHouse</td><td>HBase + Hologres</td><td>标签检索与实时圈人</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <ul class="fpb-reconcile-list">
-        <li><strong>为何强调 ClickHouse：</strong>写入吞吐高、列存宽表适合用户行为与漏斗下钻。</li>
-        <li><strong>本作品集落点：</strong><code>internet_analytics</code> MySQL = 生产 Hive/ClickHouse 分层的 SQL 原型。</li>
-      </ul>
+<!-- 区块1：交互式分层全景图 -->
+    <section class="arch-section" id="dw-architecture-section">
+      <h3>数仓分层全景图 · 交互式</h3>
+      <p class="star-schema-desc">
+        横向五层泳道展示 ODS → DIM → DWD → DWS → ADS 完整数据流向；点击任意表卡片可查看详情、上下游血缘与关联看板；支持行业切换、搜索定位、缩放拖拽与分层筛选。
+      </p>
+      <div id="dw-architecture-root"></div>
     </section>
 
-    <!-- 区块0b：数据来源 -->
-    <section class="arch-section">
-      <h3>数据来源 · 设备操作日志 + 多产品线</h3>
-      <p class="star-schema-desc">数仓底座为机顶盒/OTT <strong>设备操作日志</strong>（开机 boot、点击 click、播放 play_start/play_end、频道进入 channel_enter、下单 order_submit、支付 pay_success），按产品线分流。样例灌入见 <code>database/seed_internet_data.py</code>。</p>
-      <div class="table-wrap table-scroll-wrap">
-        <table class="data-table">
-          <thead><tr><th>产品线</th><th>典型操作</th><th>ODS 落表</th><th>分析用途</th></tr></thead>
-          <tbody>
-            <tr><td><code>launcher</code> 桌面</td><td>开机、首页点击、退出</td><td>ods_device_operation_log</td><td>DAU、开机率、桌面渗透</td></tr>
-            <tr><td><code>vod</code> 点播</td><td>选片、播放、暂停、完播</td><td>ods_device_operation_log + ods_content_catalog</td><td>播放时长、内容偏好、完播率</td></tr>
-            <tr><td><code>live</code> 直播</td><td>进入频道、观看直播</td><td>ods_device_operation_log</td><td>频道收视、直播时长</td></tr>
-            <tr><td><code>cashier</code> 收银台</td><td>提交订单、支付成功</td><td>ods_subscription_order</td><td>付费转化、ARPU、续费</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <ul class="fpb-reconcile-list">
-        <li><strong>样例区间：</strong>2024-01 ~ 2026-07 · 约 6000 用户 / 6000 设备 · 5 渠道 · 百万级操作日志</li>
-        <li><strong>ETL：</strong>操作日志 ODS → <code>dwd_device_operation_wide</code> → 用户/产品线/渠道 DWS → ADS 视图</li>
-      </ul>
+<!-- 区块1b：数仓知识图谱 -->
+    <section class="arch-section" id="dw-graph-section">
+      <h3>数仓知识图谱 · 力导向关系图</h3>
+      <p class="star-schema-desc">
+        力导向布局展示表与表之间的血缘关系网络；拖拽节点调整位置，滚轮缩放，点击节点高亮所有上下游链路；支持分层筛选与搜索定位，直观理解数据流转脉络。
+      </p>
+      <div id="dw-graph-root"></div>
     </section>
 
-    <!-- 区块1：数据流全景图 -->
-    <section class="arch-section">
-      <h3>数据流全景图</h3>
-      <div class="dw-flow-panorama">
-        <div class="dw-flow-chain">
-          <span class="dw-node">埋点 / 业务库</span><span class="dw-arrow">→</span>
-          <span class="dw-node">ODS 层</span><span class="dw-arrow">→</span>
-          <span class="dw-node dw-etl">ETL 清洗</span><span class="dw-arrow">→</span>
-          <span class="dw-node">DWD 层</span><span class="dw-arrow">→</span>
-          <span class="dw-node dw-etl">ETL 汇总</span><span class="dw-arrow">→</span>
-          <span class="dw-node">DWS 层</span><span class="dw-arrow">→</span>
-          <span class="dw-node">ADS 视图</span><span class="dw-arrow">→</span>
-          <span class="dw-node dw-end">Web 看板 / Tableau</span>
-        </div>
-        <p class="dw-flow-note"><strong>核心事实表均为日粒度</strong>（<code>dws_user_daily</code>、<code>dws_channel_daily</code>）· <strong>看板层支持日/周/月切换</strong></p>
-        <p class="dw-flow-tech">技术链路：Python（样例灌入）→ MySQL（存储 / 视图 ADS）→ Flask API（5001）→ ECharts 看板</p>
-      </div>
+<!-- 区块1d：实体关系图 -->
+    <section class="arch-section" id="er-diagram-section">
+      <h3>实体关系图（ER）</h3>
+      <p class="star-schema-desc">基于 <code>database/ott_ddl.sql</code> 绘制的 OTT 雪花模型关系图；展示内容/设备/地域维度层级、DWD 事实关联与日汇总 DWS→ADS 出口。</p>
+      <div id="er-diagram-root" class="er-diagram-wrap"></div>
     </section>
 
-    <!-- 区块1b：ADS 视图与看板映射 -->
-    <section class="arch-section">
-      <h3>ADS 视图与 17 主题看板</h3>
-      <p class="star-schema-desc">Flask API（<code>internet-analytics/app.py</code>）直接查询 DWS/ADS；方法论视图见 <code>database/04_ott_ads_views.sql</code>。</p>
+<!-- 区块2：数据字典（可折叠 · 字段血缘 · 字段统计总览） -->
+    <section class="arch-section" id="data-dictionary-section">
+      <h3>数据字典</h3>
+      <p class="star-schema-desc">internet_analytics 权威模型字段定义（<code>database/01_ddl.sql</code>、<code>02_ads.sql</code>）；每张表默认折叠，展开可查看字段角色与 ODS→ADS<strong>字段血缘</strong>。</p>
+      <div id="data-dictionary-root" class="data-dictionary"></div>
+    </section>
+
+    <!-- 区块：应用层 · ADS视图与业务场景 -->
+    <section class="arch-section" id="ads-application-section">
+      <h3>应用层 · ADS视图与业务场景</h3>
+      <p class="star-schema-desc">ADS 层视图直接支撑 17 个业务看板与分析场景，每个视图对应明确的业务问题。</p>
+<!-- 区块1c：ADS 视图与看板映射 -->
+    <p class="star-schema-desc">Flask API（<code>internet-analytics/app.py</code>）直接查询 DWS/ADS；方法论视图见 <code>database/04_ott_ads_views.sql</code>。</p>
       <div class="table-wrap table-scroll-wrap">
         <table class="data-table">
           <thead><tr><th>看板</th><th>API 端点</th><th>主要数据对象</th><th>核心指标</th></tr></thead>
@@ -150,26 +101,53 @@
           </tbody>
         </table>
       </div>
+    
+<!-- 区块5：监控视图映射 -->
+    <h4>视图与业务场景映射</h4>
+<div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>监控视图</th><th>解决什么业务问题</th><th>粒度</th><th>刷新频率</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>v_dau_overview</td><td>日活水位是否正常？新增来自哪里？</td><td>日</td><td>实时</td></tr>
+            <tr><td>v_user_portrait</td><td>核心用户画像是什么？</td><td>用户</td><td>实时</td></tr>
+            <tr><td>v_user_retention</td><td>新用户留得住吗？</td><td>同期群×日</td><td>实时</td></tr>
+            <tr><td>v_user_lifecycle</td><td>沉默/流失用户占比多少？</td><td>用户</td><td>实时</td></tr>
+            <tr><td>v_channel_analysis</td><td>哪个渠道 ROI 最高？</td><td>日×渠道</td><td>实时</td></tr>
+            <tr><td>v_funnel</td><td>转化卡在哪一步？</td><td>月</td><td>实时</td></tr>
+            <tr><td>v_ltv</td><td>用户长期价值多少？</td><td>渠道</td><td>实时</td></tr>
+            <tr><td>v_rfm</td><td>谁值得重点运营/挽回？</td><td>用户</td><td>实时</td></tr>
+            <tr><td>dwd_event_wide</td><td>功能使用明细下钻</td><td>事件级</td><td>T+1</td></tr>
+            <tr><td>dwd_user_wide</td><td>用户明细导出 / 下钻</td><td>用户级</td><td>T+1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    
     </section>
 
-    <!-- 区块1c：实体关系图 -->
-    <section class="arch-section" id="er-diagram-section">
-      <h3>实体关系图（ER）</h3>
-      <p class="star-schema-desc">基于 <code>database/ott_ddl.sql</code> 绘制的 OTT 雪花模型关系图；展示内容/设备/地域维度层级、DWD 事实关联与日汇总 DWS→ADS 出口。</p>
-      <div id="er-diagram-root" class="er-diagram-wrap"></div>
-    </section>
-
-    <!-- 区块2：数据字典（可折叠 · 字段血缘 · 字段统计总览） -->
-    <section class="arch-section" id="data-dictionary-section">
-      <h3>数据字典</h3>
-      <p class="star-schema-desc">internet_analytics 权威模型字段定义（<code>database/01_ddl.sql</code>、<code>02_ads.sql</code>）；每张表默认折叠，展开可查看字段角色与 ODS→ADS<strong>字段血缘</strong>。</p>
-      <div id="data-dictionary-root" class="data-dictionary"></div>
-    </section>
-
-    <!-- 区块2b：数仓分层速览 -->
-    <section class="arch-section">
-      <h3>数仓分层速览</h3>
-      <div class="table-wrap">
+    <!-- 区块：数仓分层详解 -->
+    <section class="arch-section" id="layer-details-section">
+      <h3>数仓分层详解</h3>
+      <p class="star-schema-desc">ODS → DIM → DWD → DWS → ADS 五层架构，每一层有明确的定位和数据粒度。</p>
+<h4>分层定义与数据粒度</h4>
+<dl class="layer-glossary-list">
+        <dt>ODS · 操作数据层</dt>
+        <dd><strong>颗粒度：原始日志/单据级（一行一次操作或一条主数据）。</strong>8 张表，核心是 <code>ods_device_operation_log</code>（一行 = 设备上一次操作：开机/点击/播放/支付），另含设备档案、用户档案、内容目录、渠道投放、订单、留存同期群、运营活动。</dd>
+        <dt>DIM · 维度层</dt>
+        <dd><strong>颗粒度：主数据实体（一行一个设备/用户/产品线/渠道/操作类型/日期）。</strong>6 张表：<code>dim_product_line</code> 定义 launcher/vod/live/cashier 四产品线；<code>dim_event_action</code> 定义各产品线下的操作类型与漏斗映射。</dd>
+        <dt>DWD · 明细宽表层</dt>
+        <dd><strong>颗粒度：清洗后的明细（一行一次操作或一行一用户/一会话）。</strong>3 张宽表：<code>dwd_device_operation_wide</code>（操作日志 + 冗余设备/用户/内容/渠道）、<code>dwd_user_wide</code>（用户行为与付费汇总）、<code>dwd_session_wide</code>（一行一会话）。</dd>
+        <dt>DWS · 汇总数据层</dt>
+        <dd><strong>颗粒度：按日×主题预聚合。</strong>5 张表：用户日汇总（日×渠道）、<strong>产品线日汇总</strong>（日×launcher/vod/live/cashier）、留存日汇总、渠道日汇总、付费日汇总（日×渠道×产品线）。</dd>
+        <dt>ADS · 应用数据层</dt>
+        <dd><strong>颗粒度：看板指标切片。</strong>8 个视图 + <code>v_product_line_analysis</code> 产品线分析，封装 DAU、留存、漏斗、LTV、RFM 等指标口径。</dd>
+      </dl>
+      <p class="layer-glossary-foot">记忆口诀：<strong>ODS 存原始 → DIM 定口径 → DWD 宽表洗 → DWS 先算好 → ADS 给业务用</strong>。</p>
+    
+<!-- 区块2b：数仓分层速览 -->
+    <h4>分层表清单速览</h4>
+<div class="table-wrap">
         <table class="data-table dw-layer-table">
           <thead>
             <tr><th>层级</th><th>表名</th><th>说明</th><th>更新频率</th></tr>
@@ -208,12 +186,10 @@
           </tbody>
         </table>
       </div>
-    </section>
-
-    <!-- 区块3：宽表建模 -->
-    <section class="arch-section">
-      <h3>宽表建模关系</h3>
-      <p class="star-schema-desc">
+    
+<!-- 区块3：宽表建模 -->
+    <h4>宽表建模思路</h4>
+<p class="star-schema-desc">
         internet_analytics 采用<strong>宽表优先</strong>：渠道名称、用户标签冗余进 <code>dwd_user_wide</code> / <code>dwd_event_wide</code>，看板查询无需 JOIN 多张维度表。
       </p>
       <ul class="star-schema-list">
@@ -222,12 +198,82 @@
         <li><code>event_type</code> → <strong>dim_event_type</strong>（浏览 / 注册 / 激活 / 付费）</li>
         <li><code>event_date</code> → <strong>dim_date</strong>（年 / 月 / 日下钻）</li>
       </ul>
+    
     </section>
 
-    <!-- 区块4：ETL 调度策略 -->
-    <section class="arch-section">
-      <h3>ETL 调度策略</h3>
-      <div class="table-wrap">
+    <!-- 区块：数据源与技术栈 -->
+    <section class="arch-section" id="source-tech-section">
+      <h3>数据源与技术栈</h3>
+<!-- 区块0b：数据来源 -->
+    <h4>业务数据来源</h4>
+<p class="star-schema-desc">数仓底座为机顶盒/OTT <strong>设备操作日志</strong>（开机 boot、点击 click、播放 play_start/play_end、频道进入 channel_enter、下单 order_submit、支付 pay_success），按产品线分流。样例灌入见 <code>database/seed_internet_data.py</code>。</p>
+      <div class="table-wrap table-scroll-wrap">
+        <table class="data-table">
+          <thead><tr><th>产品线</th><th>典型操作</th><th>ODS 落表</th><th>分析用途</th></tr></thead>
+          <tbody>
+            <tr><td><code>launcher</code> 桌面</td><td>开机、首页点击、退出</td><td>ods_device_operation_log</td><td>DAU、开机率、桌面渗透</td></tr>
+            <tr><td><code>vod</code> 点播</td><td>选片、播放、暂停、完播</td><td>ods_device_operation_log + ods_content_catalog</td><td>播放时长、内容偏好、完播率</td></tr>
+            <tr><td><code>live</code> 直播</td><td>进入频道、观看直播</td><td>ods_device_operation_log</td><td>频道收视、直播时长</td></tr>
+            <tr><td><code>cashier</code> 收银台</td><td>提交订单、支付成功</td><td>ods_subscription_order</td><td>付费转化、ARPU、续费</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="fpb-reconcile-list">
+        <li><strong>样例区间：</strong>2024-01 ~ 2026-07 · 约 6000 用户 / 6000 设备 · 5 渠道 · 百万级操作日志</li>
+        <li><strong>ETL：</strong>操作日志 ODS → <code>dwd_device_operation_wide</code> → 用户/产品线/渠道 DWS → ADS 视图</li>
+      </ul>
+    
+<!-- 区块0：数据源与数据库选型（互联网） -->
+    <h4>数据库与计算引擎选型</h4>
+<p class="star-schema-desc">互联网增长以<strong>海量埋点 + 准实时行为分析</strong>为主；本地作品集用 MySQL，生产典型组合为 Hive/MaxCompute（离线）+ ClickHouse（行为 OLAP）+ Kafka/Flink（实时）。规范见 <code>docs/03_技术栈选型说明.md</code>。</p>
+
+      <h4 class="source-stack-subtitle">业务数据源</h4>
+      <div class="source-stack-grid">
+        <article class="source-card"><h5>埋点 SDK</h5><p>开机/点击/播放/支付等设备操作日志 · 行为分析底座</p><span class="source-tag">实时 · 分钟级</span></article>
+        <article class="source-card"><h5>业务库</h5><p>用户档案、订购订单、支付、会员 · MySQL/PolarDB</p><span class="source-tag">T+1 + CDC</span></article>
+        <article class="source-card"><h5>广告投放平台</h5><p>渠道消耗、点击、展示、转化 · API 拉取</p><span class="source-tag">T+1</span></article>
+        <article class="source-card"><h5>CRM / 运营</h5><p>用户标签、触达、活动效果</p><span class="source-tag">T+1</span></article>
+        <article class="source-card"><h5>服务端日志</h5><p>接口请求、错误、性能 · Filebeat → Kafka</p><span class="source-tag">实时</span></article>
+        <article class="source-card"><h5>内容目录</h5><p>剧集/单集/直播频道主数据</p><span class="source-tag">日更</span></article>
+      </div>
+
+      <h4 class="source-stack-subtitle">数据库与计算引擎</h4>
+      <div class="table-wrap table-scroll-wrap">
+        <table class="data-table">
+          <thead><tr><th>层级</th><th>本地作品集</th><th>中小企业</th><th>中大型 / 集团</th><th>选型理由</th></tr></thead>
+          <tbody>
+            <tr><td>业务库</td><td>MySQL</td><td>MySQL / PostgreSQL</td><td>PolarDB</td><td>订单与用户权威事务库</td></tr>
+            <tr><td>离线数仓</td><td><strong>MySQL 8.0</strong></td><td>Hive 3.x</td><td>MaxCompute (ODPS)</td><td>日分区明细与留存同期群</td></tr>
+            <tr><td>行为 OLAP</td><td>MySQL 视图</td><td><strong>ClickHouse</strong></td><td>ClickHouse + Hologres</td><td>亿级事件秒级多维分析</td></tr>
+            <tr><td>实时流</td><td>—</td><td>Kafka + Flink</td><td>DataHub + Realtime Compute</td><td>DAU/漏斗分钟级看板</td></tr>
+            <tr><td>画像缓存</td><td>—</td><td>Redis + ClickHouse</td><td>HBase + Hologres</td><td>标签检索与实时圈人</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="fpb-reconcile-list">
+        <li><strong>为何强调 ClickHouse：</strong>写入吞吐高、列存宽表适合用户行为与漏斗下钻。</li>
+        <li><strong>本作品集落点：</strong><code>internet_analytics</code> MySQL = 生产 Hive/ClickHouse 分层的 SQL 原型。</li>
+      </ul>
+    
+<!-- 区块8：技术栈 -->
+    <h4>作品集落地技术栈</h4>
+<ul class="arch-tech-list">
+        <li>Python 3.9+ / Flask</li>
+        <li>MySQL 8.0 数仓（internet_analytics）</li>
+        <li>SQL 脚本 ETL + ADS 视图</li>
+        <li>Tableau / ECharts 可视化</li>
+        <li>HTML / CSS / JS 前端</li>
+      </ul>
+      <p class="star-schema-desc" style="margin-top:12px">生产选型（Hive / ClickHouse / Kafka / Flink）见上方「数据源与数据库选型」。</p>
+    
+    </section>
+
+    <!-- 区块：ETL与数据血缘 -->
+    <section class="arch-section" id="etl-lineage-section">
+      <h3>ETL调度与数据血缘</h3>
+<!-- 区块4：ETL 调度策略 -->
+    <h4>ETL调度策略</h4>
+<div class="table-wrap">
         <table class="data-table">
           <thead>
             <tr><th>任务</th><th>执行频率</th><th>说明</th></tr>
@@ -242,52 +288,15 @@
         </table>
       </div>
       <p class="etl-impl-note">重建命令：<code>cd database && python seed_internet_data.py</code>（需 MySQL <code>internet_analytics</code> 已建库）</p>
-    </section>
-
-    <!-- 区块5：监控视图映射 -->
-    <section class="arch-section">
-      <h3>监控视图与业务场景映射</h3>
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead>
-            <tr><th>监控视图</th><th>解决什么业务问题</th><th>粒度</th><th>刷新频率</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>v_dau_overview</td><td>日活水位是否正常？新增来自哪里？</td><td>日</td><td>实时</td></tr>
-            <tr><td>v_user_portrait</td><td>核心用户画像是什么？</td><td>用户</td><td>实时</td></tr>
-            <tr><td>v_user_retention</td><td>新用户留得住吗？</td><td>同期群×日</td><td>实时</td></tr>
-            <tr><td>v_user_lifecycle</td><td>沉默/流失用户占比多少？</td><td>用户</td><td>实时</td></tr>
-            <tr><td>v_channel_analysis</td><td>哪个渠道 ROI 最高？</td><td>日×渠道</td><td>实时</td></tr>
-            <tr><td>v_funnel</td><td>转化卡在哪一步？</td><td>月</td><td>实时</td></tr>
-            <tr><td>v_ltv</td><td>用户长期价值多少？</td><td>渠道</td><td>实时</td></tr>
-            <tr><td>v_rfm</td><td>谁值得重点运营/挽回？</td><td>用户</td><td>实时</td></tr>
-            <tr><td>dwd_event_wide</td><td>功能使用明细下钻</td><td>事件级</td><td>T+1</td></tr>
-            <tr><td>dwd_user_wide</td><td>用户明细导出 / 下钻</td><td>用户级</td><td>T+1</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- 区块6：血缘应用说明（表级血缘已并入数据字典） -->
-    <section class="arch-section">
-      <h3>血缘应用：问题溯源与变更影响</h3>
-      <p class="lineage-usage"><strong>问题溯源（自下而上）</strong>：看板 DAU 异常时，从 ADS 定位 → DWS 下钻渠道 → DWD 用户/事件抽样 → ODS 对比埋点源，逐层锁定根因。</p>
+    
+<!-- 区块6：血缘应用说明（表级血缘已并入数据字典） -->
+    <h4>血缘应用：问题溯源与变更影响</h4>
+<p class="lineage-usage"><strong>问题溯源（自下而上）</strong>：看板 DAU 异常时，从 ADS 定位 → DWS 下钻渠道 → DWD 用户/事件抽样 → ODS 对比埋点源，逐层锁定根因。</p>
       <p class="lineage-usage"><strong>变更影响（自上而下）</strong>：改 ETL 或指标口径前查下游 ADS 与 17 个 Web 看板；变更后重跑 seed_ott 并回归 API(:5001)。</p>
+    
     </section>
 
-    <!-- 区块8：技术栈 -->
-    <section class="arch-section">
-      <h3>作品集落地技术栈</h3>
-      <ul class="arch-tech-list">
-        <li>Python 3.9+ / Flask</li>
-        <li>MySQL 8.0 数仓（internet_analytics）</li>
-        <li>SQL 脚本 ETL + ADS 视图</li>
-        <li>Tableau / ECharts 可视化</li>
-        <li>HTML / CSS / JS 前端</li>
-      </ul>
-      <p class="star-schema-desc" style="margin-top:12px">生产选型（Hive / ClickHouse / Kafka / Flink）见上方「数据源与数据库选型」。</p>
-    </section>
-  </main>
+</main>
 
   <script src="../js/er-diagram-data.js?v=2.16"></script>
   <script src="../js/er-diagram.js?v=2.16"></script>
@@ -296,11 +305,30 @@
   <script src="../js/search-index-data.js"></script>
   <script src="../js/data-dictionary.js"></script>
   <script src="../js/global-search.js"></script>
+  <script src="../js/dw-architecture-data.js"></script>
+  <script src="../js/dw-architecture.js"></script>
+    <script src="../js/echarts.min.js"></script>
+    <script src="../js/dw-knowledge-graph.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       window.ERDiagramUI?.render("er-diagram-root");
       const ui = window.DataDictionaryUI.render("data-dictionary-root");
       window.DataDictionaryUI = Object.assign(window.DataDictionaryUI || {}, ui);
+
+      // 初始化数仓分层全景图
+      if (window.DWArchitecture) {
+        new DWArchitecture("dw-architecture-root", {
+          defaultIndustry: "internet"
+        });
+      }
+
+      // 初始化数仓知识图谱
+      if (window.DWKnowledgeGraph) {
+        new DWKnowledgeGraph("dw-graph-root", {
+          defaultIndustry: "internet"
+        });
+      }
+
       const hash = location.hash.replace("#", "");
       if (hash.startsWith("dd-")) {
         const name = hash.slice(3);
@@ -312,3 +340,5 @@
   </script>
 </body>
 </html>
+
+

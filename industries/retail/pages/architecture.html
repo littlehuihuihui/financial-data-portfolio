@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/platform-features.css?v=3.20">
+  <link rel="stylesheet" href="../css/dw-architecture.css">
+  <link rel="stylesheet" href="../css/dw-knowledge-graph.css">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 </head>
 <body class="page-architecture">
@@ -29,6 +31,8 @@
     <h1 class="section-title">⚙️ 数据仓库与管道架构</h1>
     <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>sql6_portfolio_model/</code>）；含 ERP 数据源映射/对账、数据源与数据库选型，看板与对账 API 直接消费 DWS/ADS。<span class="arch-scale-badge" id="recon-status">作品集版 · 21 表 + 8 视图 = 29 对象</span></p>
     <nav class="arch-toc" aria-label="页内导航">
+      <a href="#dw-architecture-section">分层全景图</a>
+      <a href="#dw-graph-section">知识图谱</a>
       <a class="arch-toc-er" href="#er-diagram-section">实体关系图（ER）</a>
       <a href="#source-stack">数据源选型</a>
       <a href="#erp-datasource">ERP 对账</a>
@@ -91,18 +95,6 @@
       <h3>ERP 数据源 · 全链路映射与对账</h3>
       <p class="star-schema-desc">ERP 8 大模块每日增量同步至 ODS，经 ETL 进入 DWD 宽表与 DWS 汇总，最终由 ADS / Web 看板消费。需启动零售 API（:5000）以加载行数与对账结果。</p>
 
-      <div class="dw-flow-panorama" style="margin-bottom:1rem">
-        <div class="dw-flow-chain">
-          <span class="dw-node">ERP 销售/采购/库存</span><span class="dw-arrow">→</span>
-          <span class="dw-node">ODS 层</span><span class="dw-arrow">→</span>
-          <span class="dw-node dw-etl">Python ETL</span><span class="dw-arrow">→</span>
-          <span class="dw-node">DWD 宽表层</span><span class="dw-arrow">→</span>
-          <span class="dw-node dw-etl">聚合</span><span class="dw-arrow">→</span>
-          <span class="dw-node">DWS 汇总</span><span class="dw-arrow">→</span>
-          <span class="dw-node dw-end">ADS / 看板</span>
-        </div>
-      </div>
-
       <h4 class="source-stack-subtitle">ERP → 数仓映射</h4>
       <div class="table-wrap table-scroll-wrap">
         <table class="data-table" id="mapping-table">
@@ -148,26 +140,25 @@
       </ul>
     </section>
 
-    <!-- 区块1：数据流全景图 -->
-    <section class="arch-section">
-      <h3>数据流全景图</h3>
-      <div class="dw-flow-panorama">
-        <div class="dw-flow-chain">
-          <span class="dw-node">CSV 原始数据</span><span class="dw-arrow">→</span>
-          <span class="dw-node">ODS 层</span><span class="dw-arrow">→</span>
-          <span class="dw-node dw-etl">ETL 清洗</span><span class="dw-arrow">→</span>
-          <span class="dw-node">DWD 层</span><span class="dw-arrow">→</span>
-          <span class="dw-node dw-etl">ETL 汇总</span><span class="dw-arrow">→</span>
-          <span class="dw-node">DWS 层</span><span class="dw-arrow">→</span>
-          <span class="dw-node">ADS 视图</span><span class="dw-arrow">→</span>
-          <span class="dw-node dw-end">Tableau 看板</span>
-        </div>
-        <p class="dw-flow-note"><strong>核心事实表均为日粒度</strong>（<code>dws_sales_daily</code>、<code>dws_store_daily</code>）· <strong>看板层支持日/周/月切换</strong></p>
-        <p class="dw-flow-tech">技术链路：Python（数据生成）→ MySQL（存储 / 存储过程 ETL）→ Tableau（可视化）</p>
-      </div>
+    <!-- 区块1：交互式分层全景图 -->
+    <section class="arch-section" id="dw-architecture-section">
+      <h3>数仓分层全景图 · 交互式</h3>
+      <p class="star-schema-desc">
+        横向五层泳道展示 ODS → DIM → DWD → DWS → ADS 完整数据流向；点击任意表卡片可查看详情、上下游血缘与关联看板；支持行业切换、搜索定位、缩放拖拽与分层筛选。
+      </p>
+      <div id="dw-architecture-root"></div>
     </section>
 
-    <!-- 区块1b：三大报表 + 杜邦分析 -->
+    <!-- 区块1b：数仓知识图谱 -->
+    <section class="arch-section" id="dw-graph-section">
+      <h3>数仓知识图谱 · 力导向关系图</h3>
+      <p class="star-schema-desc">
+        力导向布局展示表与表之间的血缘关系网络；拖拽节点调整位置，滚轮缩放，点击节点高亮所有上下游链路；支持分层筛选与搜索定位，直观理解数据流转脉络。
+      </p>
+      <div id="dw-graph-root"></div>
+    </section>
+
+    <!-- 区块1c：三大报表 + 杜邦分析 -->
     <section class="arch-section">
       <h3>三大报表 + 杜邦分析</h3>
       <p class="star-schema-desc">在 DWS 汇总之上，Flask API 从 <code>dws_sales_monthly</code>、<code>ods_payment</code>、<code>ods_expense</code> 实时推导三表与杜邦；ADS 视图见 <code>sql6_portfolio_model/05_ads.sql</code>。</p>
@@ -194,7 +185,7 @@
       </ul>
     </section>
 
-    <!-- 区块1c：实体关系图 -->
+    <!-- 区块1d：实体关系图 -->
     <section class="arch-section" id="er-diagram-section">
       <h3>实体关系图（ER）</h3>
       <p class="star-schema-desc">基于 <code>sql6_portfolio_model/</code> 权威 DDL 绘制的星型+宽表关系图；展示维度、事实宽表、汇总层与 ADS 视图之间的编码关联与 ETL 流向。</p>
@@ -350,11 +341,29 @@
   <script src="../js/global-search.js"></script>
   <script src="../js/script.js"></script>
   <script src="erp.js"></script>
+  <script src="../js/dw-architecture-data.js"></script>
+  <script src="../js/dw-architecture.js"></script>
+  <script src="../js/dw-knowledge-graph.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       window.ERDiagramUI?.render("er-diagram-root");
       const ui = window.DataDictionaryUI.render("data-dictionary-root");
       window.DataDictionaryUI = Object.assign(window.DataDictionaryUI || {}, ui);
+
+      // 初始化数仓分层全景图
+      if (window.DWArchitecture) {
+        new DWArchitecture("dw-architecture-root", {
+          defaultIndustry: "retail"
+        });
+      }
+
+      // 初始化数仓知识图谱
+      if (window.DWKnowledgeGraph) {
+        new DWKnowledgeGraph("dw-graph-root", {
+          defaultIndustry: "retail"
+        });
+      }
+
       const hash = location.hash.replace("#", "");
       if (hash.startsWith("dd-")) {
         const name = hash.slice(3);
