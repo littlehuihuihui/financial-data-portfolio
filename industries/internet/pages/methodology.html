@@ -1,272 +1,21 @@
 ﻿<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-industry="internet">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="互联网通用 · 用户增长数据分析方法论 · 六层框架 · 交互式分析路径">
   <title>互联网通用 · 用户增长数据分析方法论</title>
-  <style>
-    :root {
-      --bg: #0f1419;
-      --surface: #1a2332;
-      --surface2: #243044;
-      --border: #2d3a4f;
-      --text: #e8edf4;
-      --text2: #94a3b8;
-      --text3: #64748b;
-      --l1: #3b82f6;
-      --l2: #8b5cf6;
-      --l3: #06b6d4;
-      --l4: #f59e0b;
-      --l5: #22c55e;
-      --ok: #22c55e;
-      --warn: #eab308;
-      --bad: #ef4444;
-      --sql-bg: #111827;
-      --radius: 10px;
-      --sidebar-w: 340px;
-    }
-    *, *::before, *::after { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-      min-height: 100vh;
-    }
-    .top-nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(15,20,25,.95);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
-      max-width: 1600px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 20px; height: 52px; gap: 16px;
-    }
-    .brand { font-weight: 700; font-size: 15px; white-space: nowrap; }
-    .nav-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
-    .nav-tab {
-      color: var(--text2); text-decoration: none; font-size: 13px;
-      padding: 6px 12px; border-radius: 6px; transition: .15s;
-    }
-    .nav-tab:hover { color: var(--text); background: var(--surface2); }
-    .nav-tab.active { color: #fff; background: var(--l1); }
-    .nav-export { border: 1px solid var(--border); }
-    .nav-tab.nav-home {
-      margin-left: auto;
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: #7dd3fc;
-    }
-    .nav-tab.nav-home:hover { color: #e0f2fe; background: rgba(56, 189, 248, 0.12); }
-    .nav-inner-with-search { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .nav-inner-with-search .nav-tabs { flex-shrink: 0; }
+  <link rel="stylesheet" href="../../../css/design-tokens.css">
+  <link rel="stylesheet" href="../../../css/platform-shell.css">
+  <link rel="stylesheet" href="../../../css/methodology-shell.css">
+  <link rel="stylesheet" href="../css/platform-features.css">
+  <link rel="stylesheet" href="../css/industry-overrides.css">
 
-    .hero {
-      max-width: 1600px; margin: 0 auto;
-      padding: 20px 20px 0;
-    }
-    .hero h1 { font-size: 22px; margin: 0 0 6px; }
-    .hero p { margin: 0; color: var(--text2); font-size: 14px; }
 
-    .search-bar {
-      max-width: 1600px; margin: 16px auto 0;
-      padding: 0 20px;
-    }
-    .search-bar input {
-      width: 100%; max-width: 420px;
-      padding: 10px 14px 10px 38px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E") 12px center no-repeat;
-      color: var(--text); font-size: 14px;
-    }
-    .search-bar input:focus { outline: none; border-color: var(--l1); }
-    .search-meta { font-size: 12px; color: var(--text3); margin-top: 6px; }
 
-    .layout {
-      max-width: 1600px; margin: 16px auto 40px;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: var(--sidebar-w) 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      position: sticky; top: 68px;
-      max-height: calc(100vh - 80px);
-      overflow-y: auto;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 8px;
-    }
-    .sidebar::-webkit-scrollbar { width: 6px; }
-    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-    .layer-block { margin-bottom: 4px; }
-    .layer-header {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      user-select: none;
-      font-size: 13px; font-weight: 600;
-      transition: background .15s;
-    }
-    .layer-header:hover { background: var(--surface2); }
-    .layer-dot {
-      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-    }
-    .layer-header .chevron {
-      margin-left: auto; font-size: 10px; color: var(--text3);
-      transition: transform .2s;
-    }
-    .layer-count { font-style: normal; font-weight: 400; color: var(--text3); font-size: 11px; }
-    .layer-block.collapsed .chevron { transform: rotate(-90deg); }
-    .layer-block.collapsed .layer-items { display: none; }
-    .toolbox-card-highlight {
-      box-shadow: 0 0 0 2px #ec4899;
-      border-radius: var(--radius);
-    }
-    .toolbox-nav-card .q-desc { font-size: 11px; }
-    .toolbox-detail-body .toolbox-card { border: none; background: transparent; }
-    .toolbox-detail-body .toolbox-card-head { padding: 0; border: none; }
-
-    .layer-items { padding: 0 4px 8px 22px; }
-    .cat-label {
-      font-size: 11px; color: var(--text3);
-      text-transform: uppercase; letter-spacing: .04em;
-      padding: 8px 8px 4px;
-    }
-    .q-card {
-      display: block; width: 100%; text-align: left;
-      background: transparent; border: 1px solid transparent;
-      border-radius: 8px; padding: 8px 10px;
-      cursor: pointer; color: var(--text2);
-      font-size: 13px; transition: .15s;
-      margin-bottom: 2px;
-    }
-    .q-card:hover { background: var(--surface2); color: var(--text); }
-    .q-card.active {
-      background: var(--surface2);
-      border-color: var(--border);
-      color: var(--text);
-    }
-    .q-card .q-title { font-weight: 600; display: block; margin-bottom: 2px; }
-    .q-card .q-desc { font-size: 11px; color: var(--text3); display: block; line-height: 1.4; }
-    .q-card.hidden { display: none; }
-
-    /* Detail panel */
-    .detail {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      min-height: 500px;
-      overflow: hidden;
-    }
-    .detail-empty {
-      display: flex; align-items: center; justify-content: center;
-      min-height: 400px; color: var(--text3); font-size: 14px;
-      padding: 40px; text-align: center;
-    }
-    .detail-inner { padding: 24px 28px 32px; }
-    .detail-head {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 16px; margin-bottom: 20px;
-    }
-    .detail-badge {
-      display: inline-block; font-size: 11px; font-weight: 600;
-      padding: 3px 10px; border-radius: 20px; margin-bottom: 8px;
-    }
-    .detail-head h2 { margin: 0 0 6px; font-size: 20px; }
-    .detail-head .biz-q { margin: 0; color: var(--text2); font-size: 14px; font-style: italic; }
-
-    .section { margin-bottom: 24px; }
-    .section-title {
-      font-size: 14px; font-weight: 700; margin: 0 0 10px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .section-title::before {
-      content: ""; width: 3px; height: 14px; border-radius: 2px;
-      background: var(--accent, var(--l1));
-    }
-    .trigger-list, .output-list, .next-list {
-      margin: 0; padding-left: 20px; color: var(--text2); font-size: 13px;
-    }
-    .trigger-list li, .output-list li, .next-list li { margin-bottom: 6px; }
-
-    .step-block {
-      border: 1px solid var(--border);
-      border-radius: 8px; margin-bottom: 12px; overflow: hidden;
-    }
-    .step-head {
-      background: var(--surface2);
-      padding: 10px 14px; font-size: 13px; font-weight: 600;
-    }
-    .step-body { padding: 12px 14px; font-size: 13px; color: var(--text2); }
-    .step-body p { margin: 0 0 8px; }
-    .step-label { color: var(--text3); font-size: 12px; margin-top: 8px; }
-    pre.sql-block {
-      margin: 8px 0 0; padding: 12px 14px;
-      background: var(--sql-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      overflow-x: auto;
-      font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
-      font-size: 12px; line-height: 1.5; color: #cbd5e1;
-      white-space: pre;
-    }
-
-    .criteria-table {
-      width: 100%; border-collapse: collapse; font-size: 12px;
-    }
-    .criteria-table th, .criteria-table td {
-      border: 1px solid var(--border); padding: 8px 10px; text-align: center;
-    }
-    .criteria-table th { background: var(--surface2); font-weight: 600; }
-    .criteria-table td:first-child { text-align: left; font-weight: 500; }
-    .cell-ok { background: rgba(34,197,94,.12); color: #86efac; }
-    .cell-warn { background: rgba(234,179,8,.12); color: #fde047; }
-    .cell-bad { background: rgba(239,68,68,.12); color: #fca5a5; }
-
-    .dash-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .dash-tag {
-      font-size: 12px; padding: 4px 10px;
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 20px; color: var(--text2);
-    }
-
-    .mobile-toggle {
-      display: none;
-      position: fixed; bottom: 20px; right: 20px; z-index: 200;
-      background: var(--l1); color: #fff; border: none;
-      border-radius: 50%; width: 48px; height: 48px;
-      font-size: 20px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,.4);
-    }
-
-    @media (max-width: 960px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar {
-        position: fixed; top: 52px; left: 0; bottom: 0;
-        width: min(320px, 88vw); z-index: 150;
-        transform: translateX(-105%);
-        transition: transform .25s;
-        border-radius: 0; max-height: none;
-      }
-      .sidebar.open { transform: translateX(0); }
-      .mobile-toggle { display: block; }
-      .detail-inner { padding: 16px; }
-    }
-  </style>
-  <link rel="stylesheet" href="../css/platform-features.css?v=2.5">
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
-<body>
+<body data-industry="internet">
 
 <header class="top-nav">
   <div class="nav-inner nav-inner-with-search">
@@ -276,6 +25,7 @@
 <a href="../internet_dashboard.html" class="nav-tab">数据展示</a>
       <a href="methodology.html" class="nav-tab active">分析方法论</a>
       <a href="architecture.html" class="nav-tab">数仓架构</a>
+      <a href="dictionary.html" class="nav-tab">数据字典</a>
 <a href="../../../index.html" class="nav-tab nav-home">返回平台</a>
     </nav>
   </div>
@@ -304,7 +54,7 @@
 <script src="../js/methodology-playbook-data.js?v=2.5"></script>
 <script src="../js/search-index-data.js"></script>
 <script src="../js/analysis-toolbox.js?v=2.5"></script>
-<script src="../js/global-search.js"></script>
+<script src="../../../js/global-search.js"></script>
 <script src="../js/methodology-ui.js?v=2.5"></script>
 </body>
 </html>

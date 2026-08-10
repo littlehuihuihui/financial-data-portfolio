@@ -1,16 +1,20 @@
 ﻿<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-industry="retail">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="跃动体育财务数据展示系统 · 13 主题看板 · 角色化组合">
-  <title>跃动体育 · 财务数据展示系统</title>
+  <meta name="description" content="零售财务数据展示系统 · 13 主题看板 · 角色化组合">
+  <title>零售财务 · 财务数据展示系统</title>
+  <link rel="stylesheet" href="../../css/design-tokens.css">
+  <link rel="stylesheet" href="../../css/platform-shell.css">
+  <link rel="stylesheet" href="../../css/dashboard-base.css">
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="css/shell.css">
   <link rel="stylesheet" href="css/platform-features.css">
+  <link rel="stylesheet" href="css/industry-overrides.css">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
-<body class="page-dashboard page-shell">
+<body class="page-dashboard page-shell" data-industry="retail">
 
   <header class="dashboard-header">
     <div class="header-brand">
@@ -22,6 +26,7 @@
       <a href="retail_dashboard.html" class="nav-tab active">数据展示</a>
       <a href="pages/anomaly.html" class="nav-tab">分析方法论</a>
       <a href="pages/architecture.html" class="nav-tab">数仓架构</a>
+      <a href="pages/dictionary.html" class="nav-tab">数据字典</a>
 <a href="../../index.html" class="nav-tab nav-home">返回平台</a>
     </nav>
   </header>
@@ -47,7 +52,7 @@
   </script>
   <script src="js/data-dictionary-data.js"></script>
   <script src="js/search-index-data.js"></script>
-  <script src="js/global-search.js"></script>
+  <script src="../../js/global-search.js"></script>
   <script src="js/state.js"></script>
   <script src="js/dashboard-core.js"></script>
   <script src="js/loaders.js"></script>

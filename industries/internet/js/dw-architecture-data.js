@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 数仓分层全景图 · 数据配置
  * 三个行业共用一套组件，数据分开维护
  */
@@ -8,11 +8,11 @@ window.DW_ARCHITECTURE_DATA = {
     name: "互联网 · OTT大屏视频",
     description: "设备操作日志为底座，覆盖 Launcher / 点播 / 直播 / 收银台四大产品线",
     layers: [
-      { id: "ods", name: "ODS", fullName: "操作数据层", color: "#6b7280", desc: "原始日志/单据级，一行一次操作或一条主数据" },
-      { id: "dim", name: "DIM", fullName: "维度层", color: "#3b82f6", desc: "主数据实体，一行一个设备/用户/产品线/渠道/日期" },
-      { id: "dwd", name: "DWD", fullName: "明细宽表层", color: "#10b981", desc: "清洗后的明细，一行一次操作或一行一用户/一会话" },
+      { id: "ods", name: "ODS", fullName: "操作数据层", color: "#64748b", desc: "原始日志/单据级，一行一次操作或一条主数据" },
+      { id: "dim", name: "DIM", fullName: "维度层", color: "#6366f1", desc: "主数据实体，一行一个设备/用户/产品线/渠道/日期" },
+      { id: "dwd", name: "DWD", fullName: "明细宽表层", color: "#14b8a6", desc: "清洗后的明细，一行一次操作或一行一用户/一会话" },
       { id: "dws", name: "DWS", fullName: "汇总数据层", color: "#f59e0b", desc: "按日×主题预聚合，日汇总表" },
-      { id: "ads", name: "ADS", fullName: "应用数据层", color: "#ef4444", desc: "看板指标切片，视图封装指标口径" }
+      { id: "ads", name: "ADS", fullName: "应用数据层", color: "#8b5cf6", desc: "看板指标切片，视图封装指标口径" }
     ],
     tables: [
       // ODS
@@ -141,11 +141,11 @@ window.DW_ARCHITECTURE_DATA = {
     name: "制造业 · 智能工厂",
     description: "生产/质量/设备/供应链/成本五大主题，MES/QMS/ERP/WMS多系统融合",
     layers: [
-      { id: "ods", name: "ODS", fullName: "操作数据层", color: "#6b7280", desc: "贴源层，MES/QMS/ERP/WMS原始数据" },
-      { id: "dim", name: "DIM", fullName: "维度层", color: "#3b82f6", desc: "一致性维度，产品/产线/供应商/物料/日期" },
-      { id: "dwd", name: "DWD", fullName: "明细宽表层", color: "#10b981", desc: "事实宽表，生产/质量/供应链明细" },
+      { id: "ods", name: "ODS", fullName: "操作数据层", color: "#64748b", desc: "贴源层，MES/QMS/ERP/WMS原始数据" },
+      { id: "dim", name: "DIM", fullName: "维度层", color: "#6366f1", desc: "一致性维度，产品/产线/供应商/物料/日期" },
+      { id: "dwd", name: "DWD", fullName: "明细宽表层", color: "#14b8a6", desc: "事实宽表，生产/质量/供应链明细" },
       { id: "dws", name: "DWS", fullName: "汇总数据层", color: "#f59e0b", desc: "日/月汇总，生产/质量/设备/成本" },
-      { id: "ads", name: "ADS", fullName: "应用数据层", color: "#ef4444", desc: "看板视图，CMEI综合指数等应用指标" }
+      { id: "ads", name: "ADS", fullName: "应用数据层", color: "#8b5cf6", desc: "看板视图，CMEI综合指数等应用指标" }
     ],
     tables: [
       // ODS
@@ -248,11 +248,11 @@ window.DW_ARCHITECTURE_DATA = {
     name: "零售 · 财务分析",
     description: "销售/支付/会员/库存/费用/预算七大主题，Kimball维度建模",
     layers: [
-      { id: "ods", name: "ODS", fullName: "数据引入层", color: "#6b7280", desc: "贴源层，OMS/支付/CRM/ERP/WMS原始数据" },
-      { id: "dim", name: "DIM", fullName: "公共维度层", color: "#3b82f6", desc: "一致性维度，日期/地区/渠道/会员/商品/门店" },
-      { id: "dwd", name: "DWD", fullName: "明细事实层", color: "#10b981", desc: "事实表，订单/支付/退货/注册/库存/费用/预算" },
+      { id: "ods", name: "ODS", fullName: "数据引入层", color: "#64748b", desc: "贴源层，OMS/支付/CRM/ERP/WMS原始数据" },
+      { id: "dim", name: "DIM", fullName: "公共维度层", color: "#6366f1", desc: "一致性维度，日期/地区/渠道/会员/商品/门店" },
+      { id: "dwd", name: "DWD", fullName: "明细事实层", color: "#14b8a6", desc: "事实表，订单/支付/退货/注册/库存/费用/预算" },
       { id: "dws", name: "DWS", fullName: "汇总数据层", color: "#f59e0b", desc: "日/月汇总，销售/支付/会员/库存/费用" },
-      { id: "ads", name: "ADS", fullName: "应用数据层", color: "#ef4444", desc: "看板视图，经营总览/渠道分析/财务分析" }
+      { id: "ads", name: "ADS", fullName: "应用数据层", color: "#8b5cf6", desc: "看板视图，经营总览/渠道分析/财务分析" }
     ],
     tables: [
       // ODS

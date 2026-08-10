@@ -1,0 +1,11 @@
+/* 零售 · 行业覆盖（accent / 品牌微调）· Step 7 */
+/* Token 已在 design-tokens.css 的 [data-industry="retail"] 定义 */
+
+[data-industry="retail"] .brand-title,
+[data-industry="retail"] .header-brand h1 {
+  letter-spacing: 0.02em;
+}
+
+[data-industry="retail"] .nav-tab.active {
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent, #34d399) 35%, transparent);
+}

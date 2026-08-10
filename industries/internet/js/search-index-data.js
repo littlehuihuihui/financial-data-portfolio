@@ -3,7 +3,7 @@
   const base = {
     dashboard: "../internet_dashboard.html#",
     methodology: "methodology.html",
-    architecture: "architecture.html#dd-",
+    architecture: "architecture.html",
   };
 
   const dashboards = [
@@ -31,8 +31,8 @@
     title: t.name,
     subtitle: `${t.layer} · ${t.purpose || ""}`,
     keywords: `${t.name} ${t.layer} ${t.purpose} ${(t.fields || []).map((f) => f.name).join(" ")} 数仓 internet_analytics`,
-    url: base.architecture + t.name,
-    anchor: `dd-${t.name}`,
+    url: base.architecture,
+    anchor: `dict/${t.name}`,
   }));
 
   const playbooks = (window.PLAYBOOKS || []).map((p) => ({

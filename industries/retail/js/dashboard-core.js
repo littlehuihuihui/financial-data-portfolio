@@ -1,15 +1,42 @@
 /**
- * 跃动体育 · 看板核心工具（API / 格式化 / 图表）
+ * 零售财务 · 看板核心工具（API / 格式化 / 图表）
+ * Step 3：THEME 从 design-tokens CSS 变量读取
  */
 window.DashCore = (function () {
   "use strict";
 
-  const THEME = {
-    accent: "#1a5276",
-    palette: ["#1a5276", "#2874a6", "#5499c7", "#27ae60", "#e67e22", "#7f8c8d"],
-    muted: "#8b95a8",
-    text: "#e8edf5",
-  };
+  function cssVar(name, fallback) {
+    try {
+      const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      return v || fallback;
+    } catch (_) {
+      return fallback;
+    }
+  }
+
+  function readTheme() {
+    const palette = [
+      cssVar("--chart-1", "#1a5276"),
+      cssVar("--chart-2", "#2874a6"),
+      cssVar("--chart-3", "#5499c7"),
+      cssVar("--chart-4", "#27ae60"),
+      cssVar("--chart-5", "#e67e22"),
+      cssVar("--chart-6", "#7f8c8d"),
+    ];
+    return {
+      accent: palette[0],
+      palette,
+      muted: cssVar("--color-text-secondary", "#8b95a8"),
+      text: cssVar("--color-text-primary", "#e8edf5"),
+    };
+  }
+
+  let THEME = readTheme();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => { THEME = readTheme(); });
+  } else {
+    THEME = readTheme();
+  }
 
   const charts = {};
   let DATA_SOURCE = "retail_finance · MySQL ADS/DWS";

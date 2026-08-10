@@ -173,7 +173,7 @@
         subtitle: `${t.layer} · ${t.purpose}`,
         keywords: `${t.name} ${t.layer} ${t.purpose} ${t.source} ${(Array.isArray(t.downstream) ? t.downstream.join(" ") : t.downstream || "")} sql6`,
         url: paths.architecture,
-        anchor: `dd-${t.name}`,
+        anchor: `dict/${t.name}`,
       });
       (t.fields || []).forEach((f) => {
         const fk = `${t.name}.${f.name}`;
@@ -183,7 +183,7 @@
           subtitle: `${f.type} · ${f.business}`,
           keywords: `${fk} ${f.desc} ${f.business} ${t.name} ${t.layer}`,
           url: paths.architecture,
-          anchor: `dd-${t.name}`,
+          anchor: `dict/${t.name}/${f.name}`,
           fieldKey: fk,
         });
       });
@@ -194,7 +194,7 @@
           subtitle: `血缘 · ${t.lineage.join(" → ")}`,
           keywords: `${t.name} 血缘 lineage ${t.lineage.join(" ")}`,
           url: paths.architecture,
-          anchor: `dd-${t.name}`,
+          anchor: `dict/${t.name}`,
         });
       }
     });
@@ -207,7 +207,7 @@
         subtitle: `${h.layer} · ${h.purpose}`,
         keywords: `${h.name} ${h.layer} ${h.purpose} sql6 数仓`,
         url: paths.architecture,
-        anchor: `dd-${h.name}`,
+        anchor: `dict/${h.name}`,
       });
     });
 

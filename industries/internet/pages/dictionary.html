@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-industry="internet">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="互联网 · 全屏数据字典（口径 / 看板引用）">
+  <title>互联网 · 数据字典</title>
+  <link rel="stylesheet" href="../../../css/design-tokens.css">
+  <link rel="stylesheet" href="../../../css/platform-shell.css">
+  <link rel="stylesheet" href="../css/industry-overrides.css">
+  <link rel="stylesheet" href="../css/platform-features.css">
+  <link rel="stylesheet" href="../../../css/data-dictionary.css">
+  <style>
+    .dict-page-main { max-width: 1400px; margin: 0 auto; padding: 20px 24px 48px; }
+    .dict-page-header { margin-bottom: 16px; }
+    .dict-page-header h1 { margin: 0 0 6px; font-size: 22px; }
+    .dict-page-header p { margin: 0; color: var(--text-secondary, #8892a4); font-size: 13px; }
+    #data-dictionary-root { min-height: 70vh; }
+  </style>
+</head>
+<body class="page-dictionary" data-industry="internet">
+  <header class="top-nav">
+    <div class="nav-inner nav-inner-with-search">
+      <div class="brand-title">互联网通用</div>
+      <div id="global-search-slot"></div>
+      <nav class="nav-tabs" aria-label="页面导航">
+        <a href="../internet_dashboard.html" class="nav-tab">数据展示</a>
+        <a href="methodology.html" class="nav-tab">分析方法论</a>
+        <a href="architecture.html" class="nav-tab">数仓架构</a>
+        <a href="dictionary.html" class="nav-tab active">数据字典</a>
+        <a href="../../../index.html" class="nav-tab nav-home">返回平台</a>
+      </nav>
+    </div>
+  </header>
+  <main class="dict-page-main" id="data-dictionary-section">
+    <div class="dict-page-header">
+      <h1>数据字典 · 全屏</h1>
+      <p>字段口径与表级看板引用。也可从 <a href="architecture.html#data-dictionary-section">架构页嵌入版</a> 进入。</p>
+    </div>
+    <div id="data-dictionary-root"></div>
+  </main>
+  <script src="../js/data-dictionary-data.js"></script>
+  <script src="../js/dashboard-config.js"></script>
+  <script src="../js/metric-caliber-data.js"></script>
+  <script src="../../../js/data-dictionary-core.js"></script>
+  <script src="../js/data-dictionary.js"></script>
+  <script src="../js/search-index-data.js"></script>
+  <script src="../../../js/global-search.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      window.GlobalSearch?.mount?.("#global-search-slot");
+      if (!window.DataDictionaryUI?.render) return;
+      const dictInstance = window.DataDictionaryUI.render("data-dictionary-root", {
+        showAdsApplicationMap: true,
+        defaultLayerOpen: ["ODS", "DWD", "ADS"], showOverview: true
+      });
+      window.DataDictionaryUI.instance = dictInstance;
+      window.DataDictionaryUI.selectTable = (n) => dictInstance.selectTableByName(n);
+      window.DataDictionaryUI.selectField = (t, f) => dictInstance.selectFieldByName(t, f);
+      window.DataDictionaryUI.highlightField = (k) => dictInstance.highlightField(k);
+      window.DataDictionaryUI.navigateTo = (t, f) => dictInstance.navigateTo(t, f);
+      window.GlobalSearch?.consumePendingNav?.();
+    });
+  </script>
+</body>
+</html>

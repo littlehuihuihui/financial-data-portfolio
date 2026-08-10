@@ -5,197 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>多行业数据平台 · Data Nexus</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
-    :root {
-      --bg0: #030712;
-      --bg1: #0a0f1e;
-      --card: rgba(15, 23, 42, 0.72);
-      --border: rgba(56, 189, 248, 0.22);
-      --text: #e2e8f0;
-      --muted: #64748b;
-      --cyan: #22d3ee;
-      --violet: #a78bfa;
-      --emerald: #34d399;
-      --amber: #fbbf24;
-      --rose: #fb7185;
-      --glow: 0 0 40px rgba(34, 211, 238, 0.15);
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100vh; }
-    body {
-      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: var(--bg0);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    /* 科技背景 */
-    .bg-grid {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        linear-gradient(rgba(34,211,238,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34,211,238,0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 75%);
-    }
-    .bg-glow {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 600px 400px at 15% 10%, rgba(34,211,238,0.12), transparent),
-        radial-gradient(ellipse 500px 350px at 85% 20%, rgba(167,139,250,0.10), transparent),
-        radial-gradient(ellipse 700px 500px at 50% 100%, rgba(52,211,153,0.06), transparent);
-    }
-    .scanline {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.04;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 2px, #fff 3px);
-    }
-
-    .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px 48px; }
-
-    /* Hero */
-    .hero { text-align: center; padding: 56px 0 32px; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 14px; border-radius: 999px;
-      border: 1px solid var(--border); background: rgba(34,211,238,0.06);
-      font-family: "JetBrains Mono", monospace; font-size: 0.75rem; color: var(--cyan);
-      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px;
-    }
-    .hero-badge .pulse {
-      width: 8px; height: 8px; border-radius: 50%; background: var(--emerald);
-      box-shadow: 0 0 8px var(--emerald); animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-    .hero h1 {
-      margin: 0 0 12px;
-      font-family: "Orbitron", sans-serif;
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, var(--violet) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-sub { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.7; }
-    .hero-stats {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 24px;
-      margin-top: 32px; padding: 20px 0;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .stat { text-align: center; min-width: 100px; }
-    .stat-val {
-      font-family: "Orbitron", monospace; font-size: 1.5rem; font-weight: 700;
-      color: var(--cyan);
-    }
-    .stat-lbl { font-size: 0.75rem; color: var(--muted); margin-top: 4px; letter-spacing: 0.05em; }
-
-    /* Meta bar */
-    .meta-bar {
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 12px; margin: 28px 0 8px;
-      font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: var(--muted);
-    }
-    .status-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 12px; border-radius: 8px;
-      background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);
-    }
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); }
-    .status-dot.ok { background: var(--emerald); box-shadow: 0 0 6px var(--emerald); }
-    .status-dot.err { background: var(--rose); }
-
-    /* Cards */
-    .section-label {
-      font-family: "JetBrains Mono", monospace; font-size: 0.7rem;
-      color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase;
-      margin: 24px 0 16px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      position: relative;
-      background: var(--card);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px 24px 22px;
-      text-decoration: none;
-      color: inherit;
-      overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-      display: flex; flex-direction: column; gap: 14px;
-    }
-    .card::before {
-      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--accent-line, linear-gradient(90deg, var(--cyan), var(--violet)));
-      opacity: 0.8;
-    }
-    .card::after {
-      content: ""; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%;
-      background: radial-gradient(circle, var(--accent-glow, rgba(34,211,238,0.08)) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(34,211,238,0.45);
-      box-shadow: var(--glow);
-    }
-    .card.retail { --accent-line: linear-gradient(90deg, #34d399, #22d3ee); --accent-glow: rgba(52,211,153,0.1); }
-    .card.internet { --accent-line: linear-gradient(90deg, #a78bfa, #22d3ee); --accent-glow: rgba(167,139,250,0.1); }
-    .card.manufacturing { --accent-line: linear-gradient(90deg, #fbbf24, #34d399); --accent-glow: rgba(251,191,36,0.1); }
-
-    .card-head { display: flex; align-items: flex-start; gap: 16px; }
-    .card-icon {
-      width: 52px; height: 52px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem; flex-shrink: 0;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-    }
-    .card-title { margin: 0; font-size: 1.2rem; font-weight: 600; }
-    .card-tagline { margin: 4px 0 0; font-size: 0.8rem; color: var(--muted); }
-    .card-desc { margin: 0; color: var(--muted); font-size: 0.88rem; line-height: 1.6; flex: 1; }
-    .card-metrics {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-      padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .metric { text-align: center; }
-    .metric b { display: block; font-family: "JetBrains Mono", monospace; font-size: 0.95rem; color: var(--cyan); }
-    .metric span { font-size: 0.65rem; color: var(--muted); }
-    .card-meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.72rem; }
-    .tag {
-      padding: 4px 10px; border-radius: 6px;
-      background: rgba(34,211,238,0.08); color: var(--cyan);
-      border: 1px solid rgba(34,211,238,0.2);
-      font-family: "JetBrains Mono", monospace;
-    }
-    .tag.db { color: var(--violet); border-color: rgba(167,139,250,0.25); background: rgba(167,139,250,0.08); }
-    .tag.warn { color: var(--amber); border-color: rgba(251,191,36,0.25); background: rgba(251,191,36,0.08); }
-    .card-arrow {
-      position: absolute; bottom: 20px; right: 20px;
-      font-family: "JetBrains Mono", monospace; font-size: 0.75rem; color: var(--muted);
-      opacity: 0; transition: opacity 0.2s;
-    }
-    .card:hover .card-arrow { opacity: 1; color: var(--cyan); }
-
-    .empty, .loading, .note {
-      grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted);
-      font-size: 0.9rem;
-    }
-    .footer {
-      text-align: center; padding: 32px 0 16px;
-      font-family: "JetBrains Mono", monospace; font-size: 0.72rem; color: var(--muted);
-    }
-    code {
-      background: rgba(0,0,0,0.35); padding: 2px 7px; border-radius: 4px;
-      font-family: "JetBrains Mono", monospace; font-size: 0.85em; color: var(--cyan);
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
   <div class="bg-grid"></div>
@@ -204,12 +16,12 @@
 
   <div class="wrap">
     <header class="hero">
-      <div class="hero-badge"><span class="pulse"></span> Data Nexus Platform v3.1</div>
+      <div class="hero-badge"><span class="pulse"></span> Data Nexus Platform v3.17</div>
       <h1>多行业数据平台</h1>
       <p class="hero-sub">统一入口 · 行业独立数仓 · 六层分析方法论 · 看板 + 指标字典 + 质量规范<br>零售财务 · 互联网 · 制造业 — 三套完整数仓作品集，一套平台框架</p>
       <div class="hero-stats">
         <div class="stat"><div class="stat-val">3</div><div class="stat-lbl">行业模块</div></div>
-        <div class="stat"><div class="stat-val">47</div><div class="stat-lbl">分析看板</div></div>
+        <div class="stat"><div class="stat-val">44</div><div class="stat-lbl">主题看板</div></div>
         <div class="stat"><div class="stat-val">100+</div><div class="stat-lbl">数仓对象</div></div>
         <div class="stat"><div class="stat-val">12</div><div class="stat-lbl">核心文档</div></div>
       </div>
@@ -227,9 +39,9 @@
 
     <footer class="footer">
       <div style="margin-bottom:10px;">
-        <a href="https://littlehuihuihui.github.io/data-analyst-gallery/" target="_blank" rel="noopener" style="color:var(--cyan);margin:0 10px;">个人展馆</a>
-        <a href="https://littlehuihuihui.github.io/industry-data-encyclopedia/" target="_blank" rel="noopener" style="color:var(--cyan);margin:0 10px;">行业百科</a>
-        <a href="https://littlehuihuihui.github.io/financial-data-portfolio/" style="color:var(--cyan);margin:0 10px;">本平台</a>
+        <a href="https://littlehuihuihui.github.io/data-analyst-gallery/" target="_blank" rel="noopener">个人展馆</a>
+        <a href="https://littlehuihuihui.github.io/industry-data-encyclopedia/" target="_blank" rel="noopener">行业百科</a>
+        <a href="https://littlehuihuihui.github.io/financial-data-portfolio/">本平台</a>
       </div>
       ODS → DIM → DWD → DWS → ADS · 架构文档 <code>README.md</code> · DDL <code>portfolio_metadata/ddl/</code>
     </footer>
@@ -239,30 +51,30 @@
     const INDUSTRY_META = {
       retail: {
         icon: "💰", tagline: "零售财务 · 提收入 · 控成本 · 优现金流",
-        desc: "订单/支付/库存/费用全链路，13主题看板+PDF，杜邦/本量利/现金流/税务分析，面向财务BP与经营分析。",
-        metrics: [{ v: "14", l: "看板" }, { v: "4", l: "核心文档" }, { v: "v3.1", l: "版本" }],
+        desc: "订单/支付/库存/费用全链路，13主题看板+PDF+数据字典，杜邦/本量利/现金流/税务分析，面向财务BP与经营分析。",
+        metrics: [{ v: "14", l: "看板" }, { v: "4", l: "核心文档" }, { v: "v3.17", l: "版本" }],
       },
       internet: {
         icon: "🌐", tagline: "互联网 · OTT活跃 · 内容与商业化",
         desc: "广东移动OTT：17主题看板+PDF，开机/点播/直播、留存生命周期、订购分成、路径与健康度。",
-        metrics: [{ v: "18", l: "看板" }, { v: "4", l: "核心文档" }, { v: "v3.1", l: "版本" }],
+        metrics: [{ v: "18", l: "看板" }, { v: "4", l: "核心文档" }, { v: "v2.13", l: "版本" }],
       },
       manufacturing: {
         icon: "🏭", tagline: "制造业 · 保质量 · 提效率 · 稳交付",
         desc: "工单/质检/设备/供应链全链路，14主题看板+PDF，OEE/FPY/OTD/报废返工与供应商评分。",
-        metrics: [{ v: "15", l: "看板" }, { v: "4", l: "核心文档" }, { v: "v3.1", l: "版本" }],
+        metrics: [{ v: "15", l: "看板" }, { v: "4", l: "核心文档" }, { v: "v1.13", l: "版本" }],
       },
     };
 
     const FALLBACK = [
       { industry_code: "retail", industry_name: "零售财务", database_name: "retail_finance",
-        folder_path: "industries/retail/", entry_file: "retail_dashboard.html", current_version: "v3.2",
+        folder_path: "industries/retail/", entry_file: "retail_dashboard.html", current_version: "v3.17",
         entry_url: "industries/retail/retail_dashboard.html", industry_status: "active", pending_sync_count: 0 },
       { industry_code: "internet", industry_name: "互联网", database_name: "internet_analytics",
-        folder_path: "industries/internet/", entry_file: "internet_dashboard.html", current_version: "v3.2",
+        folder_path: "industries/internet/", entry_file: "internet_dashboard.html", current_version: "v2.13",
         entry_url: "industries/internet/internet_dashboard.html", industry_status: "active", pending_sync_count: 0 },
       { industry_code: "manufacturing", industry_name: "制造业", database_name: "manufacturing_analytics",
-        folder_path: "industries/manufacturing/", entry_file: "manufacturing_dashboard.html", current_version: "v3.2",
+        folder_path: "industries/manufacturing/", entry_file: "manufacturing_dashboard.html", current_version: "v1.13",
         entry_url: "industries/manufacturing/manufacturing_dashboard.html", industry_status: "active", pending_sync_count: 0 },
     ];
 

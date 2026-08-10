@@ -1,0 +1,10 @@
+/* 制造业 · 行业覆盖（accent / 品牌微调）· Step 7 */
+
+[data-industry="manufacturing"] .brand-title,
+[data-industry="manufacturing"] .header-brand h1 {
+  letter-spacing: 0.02em;
+}
+
+[data-industry="manufacturing"] .nav-tab.active {
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent, #fbbf24) 35%, transparent);
+}

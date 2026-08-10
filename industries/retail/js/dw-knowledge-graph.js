@@ -426,6 +426,20 @@ class DWKnowledgeGraph {
     this.updateChart();
   }
 
+  /** Step6：外部跳转聚焦（表 id 或 name） */
+  focusNode(tableIdOrName) {
+    if (!tableIdOrName) return false;
+    const industry = this.data[this.currentIndustry];
+    if (!industry) return false;
+    const key = String(tableIdOrName);
+    const table = industry.tables.find(t => t.id === key || t.name === key);
+    if (!table) return false;
+    this.selectTable(table.id);
+    const section = document.getElementById('dw-graph-section');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return true;
+  }
+
   highlightUpstreamDownstream(tableId) {
     this.highlightedNodes.clear();
     const industry = this.data[this.currentIndustry];

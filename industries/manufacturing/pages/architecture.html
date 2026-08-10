@@ -1,200 +1,238 @@
 ﻿<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-industry="manufacturing">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="制造业 · 数据仓库与管道架构">
   <title>制造业 · 数据仓库与管道架构</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/platform-features.css?v=1.16">
+  <link rel="stylesheet" href="../../../css/design-tokens.css">
+  <link rel="stylesheet" href="../../../css/platform-shell.css">
+  <link rel="stylesheet" href="../css/industry-overrides.css">
+  <link rel="stylesheet" href="../css/platform-features.css?v=2.16">
   <link rel="stylesheet" href="../css/dw-architecture.css">
   <link rel="stylesheet" href="../css/dw-knowledge-graph.css">
+  <link rel="stylesheet" href="../../../css/data-dictionary.css">
 </head>
-<body class="page-architecture">
+<body class="page-architecture" data-industry="manufacturing">
+
   <header class="top-nav">
     <div class="nav-inner nav-inner-with-search">
       <div class="brand-title">制造业</div>
       <div id="global-search-slot"></div>
-      <nav class="nav-tabs">
-<a href="../manufacturing_dashboard.html" class="nav-tab">数据展示</a>
+      <nav class="nav-tabs" aria-label="页面导航">
+        <a href="../manufacturing_dashboard.html" class="nav-tab">数据展示</a>
         <a href="methodology.html" class="nav-tab">分析方法论</a>
         <a href="architecture.html" class="nav-tab active">数仓架构</a>
-<a href="../../../index.html" class="nav-tab nav-home">返回平台</a>
-    </nav>
+        <a href="dictionary.html" class="nav-tab">数据字典</a>
+        <a href="../../../index.html" class="nav-tab nav-home">返回平台</a>
+      </nav>
     </div>
   </header>
+
   <main class="main-content">
-    <h1 class="section-title">⚙️ 制造业数据仓库架构</h1>
-    <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层数仓（<code>database/</code>）；宽表优先、主题聚合，14 个 Web 看板与 Tableau SQL 直接消费 DWS/ADS。<span class="arch-scale-badge">作品集版 · 宽表 + DWS + 14 看板 API</span></p>
-    <nav class="arch-toc" aria-label="页内导航">
+    <div class="arch-page-header">
+      <div class="arch-page-title-row">
+        <h1 class="section-title">⚙️ 数据仓库与管道架构</h1>
+        <span class="arch-page-badge">制造数仓 · 五层架构</span>
+      </div>
+      <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层架构，覆盖工单/质检/设备/供应链；主题看板与方法论视图直接消费 DWS/ADS 层数据。</p>
+      <div class="arch-stats-row">
+        <div class="arch-stat-item">
+          <span class="arch-stat-num">5</span>
+          <span class="arch-stat-label">层数架构</span>
+        </div>
+        <div class="arch-stat-item">
+          <span class="arch-stat-num">31+</span>
+          <span class="arch-stat-label">表/视图</span>
+        </div>
+        <div class="arch-stat-item">
+          <span class="arch-stat-num">14</span>
+          <span class="arch-stat-label">业务看板</span>
+        </div>
+        <div class="arch-stat-item">
+          <span class="arch-stat-num">3</span>
+          <span class="arch-stat-label">行业模板</span>
+        </div>
+      </div>
+    </div>
+            <nav class="arch-toc" aria-label="页内导航">
       <a href="#dw-architecture-section">分层全景图</a>
-      <a href="#dw-graph-section">知识图谱</a>
-      <a class="arch-toc-er" href="#er-diagram-section">实体关系图（ER）</a>
       <a href="#data-dictionary-section">数据字典</a>
+      <a href="#dw-graph-section">知识图谱</a>
+      <a href="#er-diagram-section">实体关系图</a>
+      <a href="#etl-lineage-section">ETL与血缘</a>
+      <a href="#layer-details-section">分层详解</a>
+      <a href="#source-tech-section">数据源与技术栈</a>
     </nav>
 
-    <aside class="layer-glossary" aria-label="数仓分层名词解释">
-      <h3 class="layer-glossary-title">分层是什么？每一层存什么粒度的数据？</h3>
-      <dl class="layer-glossary-list">
-        <dt>ODS · 操作数据层</dt>
-        <dd><strong>颗粒度：业务系统原始单据/记录级（一行一条业务事实）。</strong>贴近 MES/ERP/WMS 的原始落地，8 张表：生产工单（<code>ods_production_order</code>，一行一工单）、质检记录（一行一检验批次）、物料库存快照（一行一物料一日）、设备状态、工时记录等。保留源系统主键，不做复杂聚合。</dd>
-        <dt>DIM · 维度层</dt>
-        <dd><strong>颗粒度：描述性主数据（一行一个维度实体）。</strong>5 张表：产品（<code>dim_product</code>，一行一 SKU）、产线（一行一产线）、供应商（一行一供应商）、物料（一行一物料编码）、日期（一行一天）。用于统一口径与名称映射。</dd>
-        <dt>DWD · 明细宽表层</dt>
-        <dd><strong>颗粒度：清洗后的明细宽表（一行一条业务事实 + 冗余维度）。</strong>3 张宽表：生产宽表（一行一工单，冗余产线/产品/工时/成本）、质量宽表（一行一质检批次）、供应链宽表（一行一采购/库存事务）。查询时最多关联 1–2 张表。</dd>
-        <dt>DWS · 汇总数据层</dt>
-        <dd><strong>颗粒度：按时间 × 主题预聚合（一行一个汇总单元）。</strong>5 张表：日生产汇总（一行 = 某日×某产线，产量/产能利用率/工时）、日质量汇总（良品率/不良率）、日供应链汇总（采购额/周转天数）、日设备汇总（OEE/故障率）、<strong>月</strong>成本汇总（一行 = 某月×某工厂，总成本/单位成本/成本结构）。</dd>
-        <dt>ADS · 应用数据层</dt>
-        <dd><strong>颗粒度：面向看板/API 的主题视图与查询（封装指标口径，可跨 DWS 关联）。</strong>14 个主题看板 API（含报废返工/工序良率/停机/BOM/供应商评分等扩展），一行对应看板图表所需的一个分析切片（如日趋势一点、产线对比一行）。</dd>
-      </dl>
-      <p class="layer-glossary-foot">记忆口诀：<strong>ODS 存原始 → DIM 定口径 → DWD 宽表洗 → DWS 先算好 → ADS 给业务用</strong>。</p>
-    </aside>
-
-    <section class="arch-section" id="source-stack">
-      <h3>数据源与数据库选型</h3>
-      <p class="star-schema-desc">制造业同时对接 <strong>ERP（工单/BOM/成本）</strong> 与 <strong>MES/SCADA（报工/设备实时）</strong>；离线 Hive 承载日结，时序/实时库服务产线监控，ClickHouse/Hologres 做 OEE 与质量多维分析。规范见制造业 <code>docs/03_技术栈选型说明.md</code>。</p>
-
-      <h4 class="source-stack-subtitle">业务数据源</h4>
-      <div class="source-stack-grid">
-        <article class="source-card"><h5>SAP / ERP</h5><p>工单、BOM、物料、采购、财务成本 · Oracle/SAP</p><span class="source-tag">T+1 主链路</span></article>
-        <article class="source-card"><h5>MES</h5><p>工序报工、质检、人员工时 · SQL Server CDC</p><span class="source-tag">准实时 5min</span></article>
-        <article class="source-card"><h5>SCADA / 设备</h5><p>传感器、停机、运行参数 · MQTT 时序流</p><span class="source-tag">实时 · 秒级</span></article>
-        <article class="source-card"><h5>WMS</h5><p>库存、出入库、库位</p><span class="source-tag">T+1</span></article>
-        <article class="source-card"><h5>QMS</h5><p>不良代码、客诉、质量分析</p><span class="source-tag">T+1</span></article>
-        <article class="source-card"><h5>HR / 班组</h5><p>人员、组织、班次 · 人工效率口径</p><span class="source-tag">周更</span></article>
-      </div>
-
-      <h4 class="source-stack-subtitle">数据库与计算引擎</h4>
-      <div class="table-wrap"><table class="data-table">
-        <thead><tr><th>层级</th><th>本地作品集</th><th>中小企业</th><th>中大型 / 集团</th><th>选型理由</th></tr></thead>
-        <tbody>
-          <tr><td>ERP / 业务库</td><td>MySQL 模拟</td><td>Oracle / MySQL</td><td>SAP + PolarDB</td><td>工单与成本权威源</td></tr>
-          <tr><td>离线数仓</td><td><strong>MySQL 8.0</strong></td><td>MySQL / Hive</td><td>Hive · MaxCompute</td><td>日生产/质量/成本汇总</td></tr>
-          <tr><td>OLAP 分析</td><td>MySQL 视图</td><td>ClickHouse</td><td>Hologres / Presto</td><td>OEE、不良、产能多维分析</td></tr>
-          <tr><td>实时 / 时序</td><td>—</td><td>Kafka + Flink · 时序库</td><td>Realtime Compute + TSDB</td><td>产线看板秒级监控</td></tr>
-          <tr><td>集成 / 调度</td><td>Python 灌数</td><td>DataX + DolphinScheduler</td><td>DataWorks / Airflow</td><td>ERP 日结 + MES CDC 并存</td></tr>
-        </tbody>
-      </table></div>
-      <ul class="fpb-reconcile-list">
-        <li><strong>双速架构：</strong>成本与财务跟 ERP T+1；设备 OEE 跟 SCADA 实时流，避免混用口径。</li>
-        <li><strong>本作品集落点：</strong>制造业 MySQL 五层 = 生产 Hive + 实时侧的可演示原型。</li>
-      </ul>
-    </section>
-
-    <section class="arch-section">
-      <h3>数据来源（5 大业务域）</h3>
-      <p class="star-schema-desc">生产域（工单/产线/工时）· 质量域（质检/不良/返工）· 供应链域（采购/库存/供应商）· 设备域（OEE/故障/维护）· 成本域（材料/人工/制造费用）。样例灌入见 <code>database/seed_manufacturing_data.py</code>。</p>
-      <div class="table-wrap"><table class="data-table"><thead><tr><th>业务域</th><th>ODS 源表</th><th>典型颗粒度</th></tr></thead><tbody>
-        <tr><td>生产域</td><td>ods_production_order, ods_production_line, ods_labor</td><td>工单级 / 产线级 / 工时记录级</td></tr>
-        <tr><td>质量域</td><td>ods_quality_inspection</td><td>检验批次级（每工单一次或多次质检）</td></tr>
-        <tr><td>供应链域</td><td>ods_material, ods_inventory_material, ods_supplier</td><td>物料主数据 / 日库存快照 / 供应商主数据</td></tr>
-        <tr><td>设备域</td><td>ods_equipment</td><td>设备级日状态（OEE 三要素、停机原因）</td></tr>
-        <tr><td>成本域</td><td>（由 DWD 生产宽表拆解）</td><td>工单级成本 → 聚合为月/产品/产线</td></tr>
-      </tbody></table></div>
-    </section>
-
-    <!-- 交互式分层全景图 -->
-    <section class="arch-section" id="dw-architecture-section">
-      <h3>数仓分层全景图 · 交互式</h3>
+<!-- 区块1：交互式分层全景图 -->
+    <details class="arch-interactive-accordion" id="dw-architecture-section">
+      <summary>数仓分层全景图 · 交互式</summary>
+      <div class="arch-accordion-body arch-interactive-body">
       <p class="star-schema-desc">
-        横向五层泳道展示 ODS → DIM → DWD → DWS → ADS 完整数据流向；点击任意表卡片可查看详情、上下游血缘与关联看板；支持行业切换、搜索定位、缩放拖拽与分层筛选。
+        主链路四列 ODS → DWD → DWS → ADS，DIM 在左侧可折叠侧栏；默认仅层间主箭头，点表查看上下游与内嵌详情；可跳转数据字典 / 知识图谱。支持搜索、缩放与分层筛选。
       </p>
       <div id="dw-architecture-root"></div>
-    </section>
+      </div>
+    </details>
 
-    <!-- 数仓知识图谱 -->
-    <section class="arch-section" id="dw-graph-section">
-      <h3>数仓知识图谱 · 力导向关系图</h3>
-      <p class="star-schema-desc">
-        力导向布局展示表与表之间的血缘关系网络；拖拽节点调整位置，滚轮缩放，点击节点高亮所有上下游链路；支持分层筛选与搜索定位，直观理解数据流转脉络。
-      </p>
-      <div id="dw-graph-root"></div>
-    </section>
-
-    <section class="arch-section">
-      <h3>数仓分层速览</h3>
-      <div class="table-wrap"><table class="data-table"><thead><tr><th>层级</th><th>对象数</th><th>存储粒度</th><th>典型用途</th></tr></thead><tbody>
-        <tr><td>ODS</td><td>8 表</td><td>原始单据/记录</td><td>对接 MES/ERP，保留审计</td></tr>
-        <tr><td>DIM</td><td>5 表</td><td>主数据实体</td><td>产品/产线/供应商口径统一</td></tr>
-        <tr><td>DWD</td><td>3 表</td><td>明细宽表</td><td>跨域关联分析、根因下钻</td></tr>
-        <tr><td>DWS</td><td>5 表</td><td>日/月预聚合</td><td>看板 KPI、趋势图加速</td></tr>
-        <tr><td>ADS</td><td>10 视图</td><td>主题指标切片</td><td>Web API / Tableau 直接消费</td></tr>
-      </tbody></table></div>
-    </section>
-
-    <section class="arch-section">
-      <h3>14 看板与 ADS / API 映射</h3>
-      <div class="table-wrap"><table class="data-table"><thead><tr><th>看板</th><th>ADS视图 / 主表</th><th>API</th><th>主要粒度</th></tr></thead><tbody>
-        <tr><td>生产总览</td><td>v_production_overview / dws_production_daily</td><td>/api/dashboard_production</td><td>日 / 产线</td></tr>
-        <tr><td>交付分析</td><td>dwd_production_wide</td><td>/api/dashboard_delivery</td><td>工单 / 日</td></tr>
-        <tr><td>质量分析</td><td>v_quality_analysis / dwd_quality_wide</td><td>/api/dashboard_quality</td><td>日 / 产线 / 不良类型</td></tr>
-        <tr><td>报废与返工</td><td>dwd_quality_wide + dim_defect_type</td><td>/api/dashboard_scrap_rework</td><td>产线 / 缺陷</td></tr>
-        <tr><td>工序良率</td><td>fact_process_operation</td><td>/api/dashboard_process_yield</td><td>工序 / 产线</td></tr>
-        <tr><td>设备OEE</td><td>v_equipment_oee / dwd_equipment_run</td><td>/api/dashboard_equipment</td><td>日 / 设备</td></tr>
-        <tr><td>停机损失</td><td>dwd_equipment_run</td><td>/api/dashboard_downtime</td><td>设备 / 原因</td></tr>
-        <tr><td>产能负荷</td><td>v_capacity_utilization</td><td>/api/dashboard_capacity</td><td>日 / 产线（加权）</td></tr>
-        <tr><td>成本分析</td><td>v_cost_analysis</td><td>/api/dashboard_cost</td><td>月 / 工厂</td></tr>
-        <tr><td>供应链分析</td><td>v_supply_chain / dws_supply_daily</td><td>/api/dashboard_supply</td><td>日 / 供应商</td></tr>
-        <tr><td>供应商评分</td><td>dws_supply_daily（OTD 加权）</td><td>/api/dashboard_supplier_score</td><td>供应商 / 月</td></tr>
-        <tr><td>物料周转</td><td>v_material_turnover</td><td>/api/dashboard_material</td><td>物料 / 日</td></tr>
-        <tr><td>领料差异</td><td>fact_material_consumption</td><td>/api/dashboard_bom_variance</td><td>物料 / 产线</td></tr>
-        <tr><td>人工效率</td><td>v_labor_efficiency</td><td>/api/dashboard_labor</td><td>日 / 产线</td></tr>
-      </tbody></table></div>
-    </section>
-
-    <section class="arch-section" id="er-diagram-section">
-      <h3>实体关系图（ER）</h3>
-      <p class="star-schema-desc">基于 <code>database/</code> 权威 DDL 绘制的生产/质量/供应链雪花+宽表关系图；展示 DIM 主数据、三主题 DWD 宽表与 DWS→ADS 看板出口。</p>
-      <div id="er-diagram-root" class="er-diagram-wrap"></div>
-    </section>
-
+<!-- 区块2：数据字典（Master-Detail） -->
     <section class="arch-section" id="data-dictionary-section">
-      <h3>数据字典</h3>
-      <p class="star-schema-desc">DDL 见 <code>database/01_ods.sql</code> … <code>05_ads.sql</code> · 灌数 <code>seed_manufacturing_data.py</code></p>
+      <div class="arch-section-title-row" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <h3 style="margin:0;">数据字典</h3>
+        <a class="arch-fullscreen-link" href="dictionary.html" style="font-size:13px;color:var(--primary,#4da3ff);text-decoration:none;white-space:nowrap;">全屏打开 ↗</a>
+      </div>
+      <p class="star-schema-desc">左树为数仓五层；点度量字段可看业务/技术口径（若已配置）；表详情展示关联看板；应用层看板↔ADS 映射见字典区顶部折叠面板。</p>
+      <p class="star-schema-desc">
+        manufacturing_analytics 权威模型（ODS/DIM/DWD/DWS/ADS）；左侧按层浏览表，右侧查看字段、用途与血缘。深链 <code>#dict/表名</code>；可从全景图侧栏与顶栏全局搜索直达。
+      </p>
       <div id="data-dictionary-root" class="data-dictionary"></div>
     </section>
 
-    <section class="arch-section">
-      <h3>作品集落地技术栈</h3>
+<!-- 区块1b：数仓知识图谱 -->
+    <details class="arch-interactive-accordion" id="dw-graph-section">
+      <summary>数仓知识图谱 · 力导向关系图</summary>
+      <div class="arch-accordion-body arch-interactive-body">
+      <p class="star-schema-desc">
+        力导向布局展示表与表之间的血缘关系网络；拖拽节点调整位置，滚轮缩放，点击节点高亮所有上下游链路；支持分层筛选与搜索定位。
+      </p>
+      <div id="dw-graph-root"></div>
+      </div>
+    </details>
+
+<!-- 区块1d：实体关系图 -->
+    <details class="arch-interactive-accordion" id="er-diagram-section">
+      <summary>实体关系图（ER）</summary>
+      <div class="arch-accordion-body arch-interactive-body">
+      <p class="star-schema-desc">制造业星型/雪花模型示意；展示生产/质量/供应链事实与维度关联及 DWS→ADS 出口。</p>
+      <div id="er-diagram-root" class="er-diagram-wrap"></div>
+      </div>
+    </details>
+
+<!-- 区块：ETL与数据血缘 -->
+    <details class="arch-static-accordion" id="etl-lineage-section">
+      <summary>ETL调度与数据血缘</summary>
+      <div class="arch-accordion-body">
+
+      <h4>ETL调度策略</h4>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>任务</th><th>执行频率</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>DDL / DIM</td><td>重建时</td><td><code>database/01_ods.sql</code> … <code>05_ads.sql</code></td></tr>
+            <tr><td>样例灌入</td><td>按需</td><td><code>cd database && python seed_manufacturing_data.py</code></td></tr>
+            <tr><td>ODS → DWD → DWS</td><td>灌入后</td><td>seed 脚本链式装载宽表与日汇总</td></tr>
+            <tr><td>ADS 视图</td><td>实时</td><td><code>05_ads.sql</code> 仅读 DWS/DIM</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="etl-impl-note">库 <code>manufacturing_analytics</code> · API :5002 · 样例区间 2024-01 ~ 2026-07</p>
+      <h4>血缘应用：问题溯源与变更影响</h4>
+      <p class="lineage-usage"><strong>问题溯源</strong>：CMEI/看板异常 → ADS → DWS（产线/产品）→ DWD 宽表 → ODS（MES/ERP/WMS）对账。</p>
+      <p class="lineage-usage"><strong>变更影响</strong>：改口径或 ETL 前查下游 14 看板；变更后重跑 seed 并回归 API(:5002)。</p>
+          </div>
+    </details>
+
+<!-- 区块：数仓分层详解 -->
+    <details class="arch-static-accordion" id="layer-details-section">
+      <summary>数仓分层详解</summary>
+      <div class="arch-accordion-body">
+
+      <p class="star-schema-desc">制造数仓 ODS → DIM → DWD → DWS → ADS；看板只读 DWS/ADS。</p>
+      <h4>分层定义与数据粒度</h4>
+      <dl class="layer-glossary-list">
+        <dt>ODS · 操作数据层</dt>
+        <dd><strong>颗粒度：工单/检验/事务级。</strong>ods_production_order/line · quality_inspection · material · inventory_material · supplier · equipment · labor（源 MES/ERP/WMS/QMS）。</dd>
+        <dt>DIM · 维度层</dt>
+        <dd><strong>颗粒度：主数据实体。</strong>dim_product · production_line · supplier · material · date（可扩展工厂/设备/缺陷）。</dd>
+        <dt>DWD · 明细宽表层</dt>
+        <dd><strong>颗粒度：清洗后明细。</strong>dwd_production_wide · quality_wide · supply_wide。</dd>
+        <dt>DWS · 汇总数据层</dt>
+        <dd><strong>颗粒度：日/月预聚合。</strong>production/quality/supply/equipment daily · cost/labor monthly · material/defect daily。</dd>
+        <dt>ADS · 应用数据层</dt>
+        <dd><strong>颗粒度：看板切片。</strong>生产/质量/设备/供应链/成本/产能/财务/CMEI 等视图。</dd>
+      </dl>
+      <p class="layer-glossary-foot">记忆口诀：<strong>ODS 存原始 → DIM 定口径 → DWD 宽表洗 → DWS 先算好 → ADS 给业务用</strong>。</p>
+      <h4>分层表清单速览</h4>
+      <div class="table-wrap">
+        <table class="data-table dw-layer-table">
+          <thead><tr><th>层级</th><th>表名</th><th>说明</th><th>更新频率</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ODS</strong></td><td>ods_production_* · quality_* · material · inventory_* · supplier · equipment · labor</td><td>MES/ERP/WMS 贴源</td><td>T+1</td></tr>
+            <tr><td><strong>DIM</strong></td><td>dim_product · production_line · supplier · material · date</td><td>一致性维度</td><td>随 ETL</td></tr>
+            <tr><td><strong>DWD</strong></td><td>dwd_production_wide · quality_wide · supply_wide</td><td>明细宽表</td><td>每日 ETL</td></tr>
+            <tr><td><strong>DWS</strong></td><td>dws_*_daily / monthly</td><td>日/月汇总</td><td>每日 ETL</td></tr>
+            <tr><td><strong>ADS</strong></td><td>v_production_overview · v_quality_* · v_equipment_oee · v_cmei_daily 等</td><td>看板 / API</td><td>实时（视图）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4>宽表建模思路</h4>
+      <p class="star-schema-desc">manufacturing_analytics 采用<strong>宽表优先</strong>：产线/产品/供应商名称冗余进 DWD，减少看板 JOIN。</p>
+      <ul class="star-schema-list">
+        <li><code>product_id</code> → <strong>dim_product</strong></li>
+        <li><code>line_id</code> → <strong>dim_production_line</strong></li>
+        <li><code>supplier_id</code> → <strong>dim_supplier</strong></li>
+        <li><code>material_id</code> → <strong>dim_material</strong></li>
+        <li><code>biz_date</code> → <strong>dim_date</strong></li>
+      </ul>
+          </div>
+    </details>
+
+<!-- 区块：数据源与技术栈 -->
+    <details class="arch-static-accordion" id="source-tech-section">
+      <summary>数据源与技术栈</summary>
+      <div class="arch-accordion-body">
+
+      <h4>业务数据来源</h4>
+      <p class="star-schema-desc">制造运营底座为 MES/QMS/ERP/WMS 工单、质检、物料与设备数据；灌数见 <code>database/seed_manufacturing_data.py</code>。</p>
+      <div class="source-stack-grid">
+        <article class="source-card"><h5>MES</h5><p>工单、产线报工、设备状态、工时</p><span class="source-tag">T+1</span></article>
+        <article class="source-card"><h5>QMS</h5><p>质检记录、缺陷、报废返工</p><span class="source-tag">T+1</span></article>
+        <article class="source-card"><h5>ERP</h5><p>物料、BOM、供应商、成本</p><span class="source-tag">T+1</span></article>
+        <article class="source-card"><h5>WMS</h5><p>原材料库存事务</p><span class="source-tag">T+1</span></article>
+        <article class="source-card"><h5>设备 / IoT</h5><p>OEE 三因子、停机码</p><span class="source-tag">日更</span></article>
+        <article class="source-card"><h5>主数据</h5><p>产品、产线、供应商、物料</p><span class="source-tag">日更</span></article>
+      </div>
+      <h4>数据库与计算引擎选型</h4>
+      <div class="table-wrap table-scroll-wrap">
+        <table class="data-table">
+          <thead><tr><th>层级</th><th>本地作品集</th><th>中小企业</th><th>中大型</th><th>选型理由</th></tr></thead>
+          <tbody>
+            <tr><td>业务库</td><td>MySQL</td><td>MySQL / PostgreSQL</td><td>PolarDB</td><td>MES/ERP 事务源</td></tr>
+            <tr><td>离线数仓</td><td><strong>MySQL 8.0</strong></td><td>Hive</td><td>MaxCompute</td><td>产线日汇总与 CMEI</td></tr>
+            <tr><td>OLAP</td><td>MySQL 视图</td><td>ClickHouse</td><td>Hologres</td><td>多维质量/设备分析</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="fpb-reconcile-list">
+        <li><strong>本作品集落点：</strong><code>manufacturing_analytics</code> MySQL · 端口 5002。</li>
+      </ul>
+      <h4>作品集落地技术栈</h4>
       <ul class="arch-tech-list">
-        <li>Python 3.9+ / Flask</li>
-        <li>MySQL 8.0 数仓</li>
-        <li>SQL 脚本 ETL + ADS 视图</li>
-        <li>Tableau / ECharts 可视化</li>
+        <li>Python 3.9+ / Flask（API :5002）</li>
+        <li>MySQL 8.0（manufacturing_analytics）</li>
+        <li>SQL DDL + seed_manufacturing_data.py</li>
+        <li>Tableau / ECharts</li>
         <li>HTML / CSS / JS 前端</li>
       </ul>
-      <p class="star-schema-desc" style="margin-top:12px">生产选型（Hive / ClickHouse / 时序库 / Flink）见上方「数据源与数据库选型」。</p>
-    </section>
-  </main>
-  <script src="../js/er-diagram-data.js?v=1.16"></script>
-  <script src="../js/er-diagram.js?v=1.16"></script>
+          </div>
+    </details>
+
+</main>
+
+  <script src="../js/er-diagram-data.js?v=2.16"></script>
+  <script src="../js/er-diagram.js?v=2.16"></script>
   <script src="../js/data-dictionary-data.js"></script>
+  <script src="../js/metric-caliber-data.js"></script>
   <script src="../js/methodology-playbook-data.js"></script>
   <script src="../js/search-index-data.js"></script>
+  <script src="../../../js/data-dictionary-core.js"></script>
   <script src="../js/data-dictionary.js"></script>
-  <script src="../js/global-search.js"></script>
+  <script src="../../../js/global-search.js"></script>
   <script src="../js/dw-architecture-data.js"></script>
-  <script src="../js/dw-architecture.js"></script>`n  <script src="../js/echarts.min.js"></script>`n  <script src="../js/dw-knowledge-graph.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      window.ERDiagramUI?.render("er-diagram-root");
-      const ui = window.DataDictionaryUI.render("data-dictionary-root");
-      window.DataDictionaryUI = Object.assign(window.DataDictionaryUI || {}, ui);
-
-      // 初始化数仓分层全景图
-      if (window.DWArchitecture) {
-        new DWArchitecture("dw-architecture-root", {
-          defaultIndustry: "manufacturing"
-        });
-      }
-
-      // 初始化数仓知识图谱
-      if (window.DWKnowledgeGraph) {
-        new DWKnowledgeGraph("dw-graph-root", {
-          defaultIndustry: "manufacturing"
-        });
-      }
-    });
-  </script>
+  <script src="../../../js/dw-architecture.js"></script>
+  <script src="../js/echarts.min.js"></script>
+  <script src="../js/dw-knowledge-graph.js"></script>
+  <script src="../js/dashboard-config.js"></script>
+  <script src="../../../js/architecture-page.js"></script>
 </body>
-</html>
-

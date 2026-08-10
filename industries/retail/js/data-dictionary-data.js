@@ -1,4 +1,6 @@
-/** sql6 数据字典 · 自动生成 · 勿手改 */
+/** sql6 数据字典 · 自动生成 · 勿手改
+ * tables=32 caliber_fields=23 tables_with_dashboards=31
+ */
 window.DATA_DICTIONARY = [
   {
     "name": "ods_orders",
@@ -17,6 +19,20 @@ window.DATA_DICTIONARY = [
       "ods_orders",
       "dwd_sales_wide",
       "dws_sales_daily"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "overview",
+        "title": "经营总览",
+        "file": "dashboards/01-overview.html",
+        "href": "../retail_dashboard.html#overview"
+      },
+      {
+        "id": "quality",
+        "title": "数据质量",
+        "file": "dashboards/14-quality.html",
+        "href": "../retail_dashboard.html#quality"
+      }
     ],
     "field_count": 20,
     "fields": [
@@ -39,21 +55,24 @@ window.DATA_DICTIONARY = [
         "type": "DECIMAL(15,2)",
         "desc": "订单金额",
         "business": "订单金额",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "payment_amount",
         "type": "DECIMAL(15,2)",
         "desc": "实付金额",
         "business": "实付金额",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "cost_amount",
         "type": "DECIMAL(15,2)",
         "desc": "成本金额",
         "business": "成本金额",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "cost_of_goods_sold"
       },
       {
         "name": "discount_amount",
@@ -176,6 +195,20 @@ window.DATA_DICTIONARY = [
       "ods_payment",
       "v_cashflow"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "cashflow",
+        "title": "现金流分析",
+        "file": "dashboards/06-cashflow.html",
+        "href": "../retail_dashboard.html#cashflow"
+      },
+      {
+        "id": "quality",
+        "title": "数据质量",
+        "file": "dashboards/14-quality.html",
+        "href": "../retail_dashboard.html#quality"
+      }
+    ],
     "field_count": 11,
     "fields": [
       {
@@ -204,7 +237,8 @@ window.DATA_DICTIONARY = [
         "type": "DECIMAL(15,2)",
         "desc": "支付金额",
         "business": "支付金额",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "payment_method",
@@ -271,6 +305,7 @@ window.DATA_DICTIONARY = [
       "ods_purchase",
       "dwd_inventory_wide"
     ],
+    "used_by_dashboards": [],
     "field_count": 16,
     "fields": [
       {
@@ -404,6 +439,20 @@ window.DATA_DICTIONARY = [
       "dwd_inventory_wide",
       "dws_inventory_daily"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "inventory",
+        "title": "库存分析",
+        "file": "dashboards/08-inventory.html",
+        "href": "../retail_dashboard.html#inventory"
+      },
+      {
+        "id": "quality",
+        "title": "数据质量",
+        "file": "dashboards/14-quality.html",
+        "href": "../retail_dashboard.html#quality"
+      }
+    ],
     "field_count": 14,
     "fields": [
       {
@@ -523,6 +572,20 @@ window.DATA_DICTIONARY = [
       "dwd_expense_wide",
       "dws_expense_monthly"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "budget",
+        "title": "预算执行",
+        "file": "dashboards/09-budget.html",
+        "href": "../retail_dashboard.html#budget"
+      },
+      {
+        "id": "quality",
+        "title": "数据质量",
+        "file": "dashboards/14-quality.html",
+        "href": "../retail_dashboard.html#quality"
+      }
+    ],
     "field_count": 12,
     "fields": [
       {
@@ -625,6 +688,20 @@ window.DATA_DICTIONARY = [
       "ods_store_pnl",
       "dws_store_daily"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "store",
+        "title": "门店分析",
+        "file": "dashboards/10-store.html",
+        "href": "../retail_dashboard.html#store"
+      },
+      {
+        "id": "financial",
+        "title": "三大报表",
+        "file": "dashboards/04-financial.html",
+        "href": "../retail_dashboard.html#financial"
+      }
+    ],
     "field_count": 11,
     "fields": [
       {
@@ -719,6 +796,20 @@ window.DATA_DICTIONARY = [
       "ERP/CSV",
       "ods_ad_cost",
       "dws_expense_monthly"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "channel",
+        "title": "渠道分析",
+        "file": "dashboards/03-channel.html",
+        "href": "../retail_dashboard.html#channel"
+      },
+      {
+        "id": "budget",
+        "title": "预算执行",
+        "file": "dashboards/09-budget.html",
+        "href": "../retail_dashboard.html#budget"
+      }
     ],
     "field_count": 11,
     "fields": [
@@ -815,6 +906,14 @@ window.DATA_DICTIONARY = [
       "ods_budget",
       "v_budget"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "budget",
+        "title": "预算执行",
+        "file": "dashboards/09-budget.html",
+        "href": "../retail_dashboard.html#budget"
+      }
+    ],
     "field_count": 9,
     "fields": [
       {
@@ -896,6 +995,14 @@ window.DATA_DICTIONARY = [
       "dim_brand",
       "DWD/DWS 关联"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "brand",
+        "title": "品牌分析",
+        "file": "dashboards/02-brand.html",
+        "href": "../retail_dashboard.html#brand"
+      }
+    ],
     "field_count": 9,
     "fields": [
       {
@@ -976,6 +1083,14 @@ window.DATA_DICTIONARY = [
     "lineage": [
       "dim_channel",
       "DWD/DWS 关联"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "channel",
+        "title": "渠道分析",
+        "file": "dashboards/03-channel.html",
+        "href": "../retail_dashboard.html#channel"
+      }
     ],
     "field_count": 10,
     "fields": [
@@ -1065,6 +1180,20 @@ window.DATA_DICTIONARY = [
       "dim_category",
       "DWD/DWS 关联"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "brand",
+        "title": "品牌分析",
+        "file": "dashboards/02-brand.html",
+        "href": "../retail_dashboard.html#brand"
+      },
+      {
+        "id": "inventory",
+        "title": "库存分析",
+        "file": "dashboards/08-inventory.html",
+        "href": "../retail_dashboard.html#inventory"
+      }
+    ],
     "field_count": 8,
     "fields": [
       {
@@ -1138,6 +1267,14 @@ window.DATA_DICTIONARY = [
     "lineage": [
       "dim_store",
       "DWD/DWS 关联"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "store",
+        "title": "门店分析",
+        "file": "dashboards/10-store.html",
+        "href": "../retail_dashboard.html#store"
+      }
     ],
     "field_count": 10,
     "fields": [
@@ -1225,6 +1362,14 @@ window.DATA_DICTIONARY = [
     "lineage": [
       "dim_date",
       "DWD/DWS 关联"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "overview",
+        "title": "经营总览",
+        "file": "dashboards/01-overview.html",
+        "href": "../retail_dashboard.html#overview"
+      }
     ],
     "field_count": 12,
     "fields": [
@@ -1332,6 +1477,32 @@ window.DATA_DICTIONARY = [
       "dws_sales_daily",
       "dws_sales_monthly"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "brand",
+        "title": "品牌分析",
+        "file": "dashboards/02-brand.html",
+        "href": "../retail_dashboard.html#brand"
+      },
+      {
+        "id": "channel",
+        "title": "渠道分析",
+        "file": "dashboards/03-channel.html",
+        "href": "../retail_dashboard.html#channel"
+      },
+      {
+        "id": "overview",
+        "title": "经营总览",
+        "file": "dashboards/01-overview.html",
+        "href": "../retail_dashboard.html#overview"
+      },
+      {
+        "id": "cvp",
+        "title": "本量利分析",
+        "file": "dashboards/12-cvp.html",
+        "href": "../retail_dashboard.html#cvp"
+      }
+    ],
     "field_count": 25,
     "fields": [
       {
@@ -1388,14 +1559,16 @@ window.DATA_DICTIONARY = [
         "type": "DECIMAL(15,2)",
         "desc": "实付金额",
         "business": "实付金额",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "cost_amount",
         "type": "DECIMAL(15,2)",
         "desc": "成本金额",
         "business": "成本金额",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "cost_of_goods_sold"
       },
       {
         "name": "profit_amount",
@@ -1527,6 +1700,14 @@ window.DATA_DICTIONARY = [
       "dws_expense_monthly",
       "v_budget"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "budget",
+        "title": "预算执行",
+        "file": "dashboards/09-budget.html",
+        "href": "../retail_dashboard.html#budget"
+      }
+    ],
     "field_count": 13,
     "fields": [
       {
@@ -1637,6 +1818,14 @@ window.DATA_DICTIONARY = [
       "dwd_inventory_wide",
       "dws_inventory_daily",
       "v_inventory"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "inventory",
+        "title": "库存分析",
+        "file": "dashboards/08-inventory.html",
+        "href": "../retail_dashboard.html#inventory"
+      }
     ],
     "field_count": 19,
     "fields": [
@@ -1792,6 +1981,32 @@ window.DATA_DICTIONARY = [
       "dws_sales_monthly",
       "v_overview"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "overview",
+        "title": "经营总览",
+        "file": "dashboards/01-overview.html",
+        "href": "../retail_dashboard.html#overview"
+      },
+      {
+        "id": "brand",
+        "title": "品牌分析",
+        "file": "dashboards/02-brand.html",
+        "href": "../retail_dashboard.html#brand"
+      },
+      {
+        "id": "channel",
+        "title": "渠道分析",
+        "file": "dashboards/03-channel.html",
+        "href": "../retail_dashboard.html#channel"
+      },
+      {
+        "id": "store",
+        "title": "门店分析",
+        "file": "dashboards/10-store.html",
+        "href": "../retail_dashboard.html#store"
+      }
+    ],
     "field_count": 10,
     "fields": [
       {
@@ -1827,14 +2042,16 @@ window.DATA_DICTIONARY = [
         "type": "DECIMAL(15,2)",
         "desc": "GMV",
         "business": "GMV",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "revenue",
         "type": "DECIMAL(15,2)",
         "desc": "净收入",
         "business": "净收入",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "profit",
@@ -1848,7 +2065,8 @@ window.DATA_DICTIONARY = [
         "type": "INT",
         "desc": "订单数",
         "business": "订单数",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "transaction_count"
       },
       {
         "name": "return_amount",
@@ -1885,6 +2103,44 @@ window.DATA_DICTIONARY = [
       "v_overview",
       "v_brand"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "overview",
+        "title": "经营总览",
+        "file": "dashboards/01-overview.html",
+        "href": "../retail_dashboard.html#overview"
+      },
+      {
+        "id": "brand",
+        "title": "品牌分析",
+        "file": "dashboards/02-brand.html",
+        "href": "../retail_dashboard.html#brand"
+      },
+      {
+        "id": "channel",
+        "title": "渠道分析",
+        "file": "dashboards/03-channel.html",
+        "href": "../retail_dashboard.html#channel"
+      },
+      {
+        "id": "financial",
+        "title": "三大报表",
+        "file": "dashboards/04-financial.html",
+        "href": "../retail_dashboard.html#financial"
+      },
+      {
+        "id": "dupont",
+        "title": "杜邦分析",
+        "file": "dashboards/05-dupont.html",
+        "href": "../retail_dashboard.html#dupont"
+      },
+      {
+        "id": "cvp",
+        "title": "本量利分析",
+        "file": "dashboards/12-cvp.html",
+        "href": "../retail_dashboard.html#cvp"
+      }
+    ],
     "field_count": 8,
     "fields": [
       {
@@ -1920,7 +2176,8 @@ window.DATA_DICTIONARY = [
         "type": "DECIMAL(15,2)",
         "desc": "revenue",
         "business": "revenue",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "profit",
@@ -1934,7 +2191,8 @@ window.DATA_DICTIONARY = [
         "type": "INT",
         "desc": "order_count",
         "business": "order_count",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "transaction_count"
       },
       {
         "name": "return_amount",
@@ -1958,6 +2216,20 @@ window.DATA_DICTIONARY = [
       "DWD",
       "dws_expense_monthly",
       "v_budget"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "budget",
+        "title": "预算执行",
+        "file": "dashboards/09-budget.html",
+        "href": "../retail_dashboard.html#budget"
+      },
+      {
+        "id": "financial",
+        "title": "三大报表",
+        "file": "dashboards/04-financial.html",
+        "href": "../retail_dashboard.html#financial"
+      }
     ],
     "field_count": 6,
     "fields": [
@@ -2021,6 +2293,20 @@ window.DATA_DICTIONARY = [
       "v_inventory",
       "v_dupont"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "inventory",
+        "title": "库存分析",
+        "file": "dashboards/08-inventory.html",
+        "href": "../retail_dashboard.html#inventory"
+      },
+      {
+        "id": "dupont",
+        "title": "杜邦分析",
+        "file": "dashboards/05-dupont.html",
+        "href": "../retail_dashboard.html#dupont"
+      }
+    ],
     "field_count": 7,
     "fields": [
       {
@@ -2078,7 +2364,7 @@ window.DATA_DICTIONARY = [
     "name": "dws_store_daily",
     "layer": "DWS",
     "type": "table",
-    "purpose": "日门店汇总",
+    "purpose": "日门店汇总·快照表",
     "source": "sql6_portfolio_model",
     "downstream": [
       "经营总览 API store_top5"
@@ -2087,6 +2373,20 @@ window.DATA_DICTIONARY = [
       "DWD",
       "dws_store_daily",
       "经营总览 API store_top5"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "store",
+        "title": "门店分析",
+        "file": "dashboards/10-store.html",
+        "href": "../retail_dashboard.html#store"
+      },
+      {
+        "id": "overview",
+        "title": "经营总览",
+        "file": "dashboards/01-overview.html",
+        "href": "../retail_dashboard.html#overview"
+      }
     ],
     "field_count": 6,
     "fields": [
@@ -2116,7 +2416,8 @@ window.DATA_DICTIONARY = [
         "type": "DECIMAL(15,2)",
         "desc": "revenue",
         "business": "revenue",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "profit",
@@ -2146,6 +2447,20 @@ window.DATA_DICTIONARY = [
       "v_overview",
       "看板/API"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "overview",
+        "title": "经营总览",
+        "file": "dashboards/01-overview.html",
+        "href": "../retail_dashboard.html#overview"
+      },
+      {
+        "id": "store",
+        "title": "门店分析",
+        "file": "dashboards/10-store.html",
+        "href": "../retail_dashboard.html#store"
+      }
+    ],
     "field_count": 5,
     "fields": [
       {
@@ -2153,7 +2468,8 @@ window.DATA_DICTIONARY = [
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "total_profit",
@@ -2196,6 +2512,14 @@ window.DATA_DICTIONARY = [
       "DWS",
       "v_brand",
       "看板/API"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "brand",
+        "title": "品牌分析",
+        "file": "dashboards/02-brand.html",
+        "href": "../retail_dashboard.html#brand"
+      }
     ],
     "field_count": 4,
     "fields": [
@@ -2241,6 +2565,14 @@ window.DATA_DICTIONARY = [
       "v_channel",
       "看板/API"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "channel",
+        "title": "渠道分析",
+        "file": "dashboards/03-channel.html",
+        "href": "../retail_dashboard.html#channel"
+      }
+    ],
     "field_count": 3,
     "fields": [
       {
@@ -2278,6 +2610,20 @@ window.DATA_DICTIONARY = [
       "v_income_statement",
       "看板/API"
     ],
+    "used_by_dashboards": [
+      {
+        "id": "financial",
+        "title": "三大报表",
+        "file": "dashboards/04-financial.html",
+        "href": "../retail_dashboard.html#financial"
+      },
+      {
+        "id": "profit-quality",
+        "title": "利润质量",
+        "file": "dashboards/11-profit-quality.html",
+        "href": "../retail_dashboard.html#profit-quality"
+      }
+    ],
     "field_count": 4,
     "fields": [
       {
@@ -2285,7 +2631,8 @@ window.DATA_DICTIONARY = [
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "revenue"
       },
       {
         "name": "total_cost",
@@ -2299,14 +2646,16 @@ window.DATA_DICTIONARY = [
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "gross_profit"
       },
       {
         "name": "gross_margin",
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
-        "role": "attr"
+        "role": "measure",
+        "caliber_id": "gross_margin"
       }
     ]
   },
@@ -2322,28 +2671,178 @@ window.DATA_DICTIONARY = [
       "v_dupont",
       "看板/API"
     ],
-    "field_count": 3,
+    "used_by_dashboards": [
+      {
+        "id": "dupont",
+        "title": "杜邦分析",
+        "file": "dashboards/05-dupont.html",
+        "href": "../retail_dashboard.html#dupont"
+      }
+    ],
+    "field_count": 7,
     "fields": [
       {
         "name": "net_profit_margin",
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
-        "role": "measure"
+        "role": "measure",
+        "caliber_id": "net_profit_margin"
       },
       {
         "name": "asset_turnover",
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
-        "role": "attr"
+        "role": "measure",
+        "caliber_id": "asset_turnover"
+      },
+      {
+        "name": "equity_multiplier",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr",
+        "caliber_id": "equity_multiplier"
       },
       {
         "name": "roe",
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
+        "role": "measure",
+        "caliber_id": "roe"
+      },
+      {
+        "name": "revenue",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure",
+        "caliber_id": "revenue"
+      },
+      {
+        "name": "net_profit",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure",
+        "caliber_id": "net_profit"
+      },
+      {
+        "name": "expense_amount",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
         "role": "measure"
+      }
+    ]
+  },
+  {
+    "name": "v_balance_sheet",
+    "layer": "ADS",
+    "type": "view",
+    "purpose": "资产负债表视图",
+    "source": "sql6_portfolio_model",
+    "downstream": [],
+    "lineage": [
+      "DWS",
+      "v_balance_sheet",
+      "看板/API"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "financial",
+        "title": "三大报表",
+        "file": "dashboards/04-financial.html",
+        "href": "../retail_dashboard.html#financial"
+      }
+    ],
+    "field_count": 12,
+    "fields": [
+      {
+        "name": "SELECT",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "snapshot_month",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "brand_name",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "cash",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "accounts_receivable",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "inventory",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "fixed_assets",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "total_assets",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "accounts_payable",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "debt",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "total_liabilities",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "equity",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
       }
     ]
   },
@@ -2359,15 +2858,22 @@ window.DATA_DICTIONARY = [
       "v_cashflow",
       "看板/API"
     ],
-    "field_count": 4,
-    "fields": [
+    "used_by_dashboards": [
       {
-        "name": "snapshot_month",
-        "type": "DERIVED",
-        "desc": "派生字段",
-        "business": "派生字段",
-        "role": "attr"
+        "id": "cashflow",
+        "title": "现金流分析",
+        "file": "dashboards/06-cashflow.html",
+        "href": "../retail_dashboard.html#cashflow"
       },
+      {
+        "id": "profit-quality",
+        "title": "利润质量",
+        "file": "dashboards/11-profit-quality.html",
+        "href": "../retail_dashboard.html#profit-quality"
+      }
+    ],
+    "field_count": 5,
+    "fields": [
       {
         "name": "total_inflow",
         "type": "DERIVED",
@@ -2383,11 +2889,116 @@ window.DATA_DICTIONARY = [
         "role": "attr"
       },
       {
-        "name": "net_cashflow",
+        "name": "profit_to_cash_ratio",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "net_profit",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure",
+        "caliber_id": "net_profit"
+      },
+      {
+        "name": "expense_amount",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      }
+    ]
+  },
+  {
+    "name": "v_cashflow_statement",
+    "layer": "ADS",
+    "type": "view",
+    "purpose": "现金流量表视图",
+    "source": "sql6_portfolio_model",
+    "downstream": [],
+    "lineage": [
+      "DWS",
+      "v_cashflow_statement",
+      "看板/API"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "cashflow",
+        "title": "现金流分析",
+        "file": "dashboards/06-cashflow.html",
+        "href": "../retail_dashboard.html#cashflow"
+      }
+    ],
+    "field_count": 2,
+    "fields": [
+      {
+        "name": "snapshot_month",
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
         "role": "attr"
+      },
+      {
+        "name": "metric",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      }
+    ]
+  },
+  {
+    "name": "v_tax_analysis",
+    "layer": "ADS",
+    "type": "view",
+    "purpose": "税务分析视图",
+    "source": "sql6_portfolio_model",
+    "downstream": [],
+    "lineage": [
+      "DWS",
+      "v_tax_analysis",
+      "看板/API"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "tax",
+        "title": "税务分析",
+        "file": "dashboards/07-tax.html",
+        "href": "../retail_dashboard.html#tax"
+      }
+    ],
+    "field_count": 4,
+    "fields": [
+      {
+        "name": "month_id",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "industry_avg_tax_rate",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "tax_rate_gap",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "tax_burden_status",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
       }
     ]
   },
@@ -2403,28 +3014,22 @@ window.DATA_DICTIONARY = [
       "v_budget",
       "看板/API"
     ],
-    "field_count": 3,
-    "fields": [
+    "used_by_dashboards": [
       {
-        "name": "actual_amount",
-        "type": "DERIVED",
-        "desc": "派生字段",
-        "business": "派生字段",
-        "role": "measure"
-      },
+        "id": "budget",
+        "title": "预算执行",
+        "file": "dashboards/09-budget.html",
+        "href": "../retail_dashboard.html#budget"
+      }
+    ],
+    "field_count": 1,
+    "fields": [
       {
         "name": "variance",
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
         "role": "attr"
-      },
-      {
-        "name": "achievement_rate",
-        "type": "DERIVED",
-        "desc": "派生字段",
-        "business": "派生字段",
-        "role": "measure"
       }
     ]
   },
@@ -2439,6 +3044,14 @@ window.DATA_DICTIONARY = [
       "DWS",
       "v_inventory",
       "看板/API"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "inventory",
+        "title": "库存分析",
+        "file": "dashboards/08-inventory.html",
+        "href": "../retail_dashboard.html#inventory"
+      }
     ],
     "field_count": 5,
     "fields": [
@@ -2461,7 +3074,7 @@ window.DATA_DICTIONARY = [
         "type": "DERIVED",
         "desc": "派生字段",
         "business": "派生字段",
-        "role": "attr"
+        "role": "measure"
       },
       {
         "name": "month",
@@ -2660,13 +3273,34 @@ window.WAREHOUSE_FIELD_OVERVIEW = [
   {
     "layer": "ADS",
     "table_name": "v_dupont",
-    "field_count": 3,
+    "field_count": 7,
+    "target_range": "6-12",
+    "quality_status": "达标"
+  },
+  {
+    "layer": "ADS",
+    "table_name": "v_balance_sheet",
+    "field_count": 12,
+    "target_range": "6-12",
+    "quality_status": "达标"
+  },
+  {
+    "layer": "ADS",
+    "table_name": "v_cashflow",
+    "field_count": 5,
     "target_range": "6-12",
     "quality_status": "参考"
   },
   {
     "layer": "ADS",
-    "table_name": "v_cashflow",
+    "table_name": "v_cashflow_statement",
+    "field_count": 2,
+    "target_range": "6-12",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "ADS",
+    "table_name": "v_tax_analysis",
     "field_count": 4,
     "target_range": "6-12",
     "quality_status": "参考"
@@ -2674,7 +3308,7 @@ window.WAREHOUSE_FIELD_OVERVIEW = [
   {
     "layer": "ADS",
     "table_name": "v_budget",
-    "field_count": 3,
+    "field_count": 1,
     "target_range": "6-12",
     "quality_status": "参考"
   },
@@ -4359,17 +4993,107 @@ window.FIELD_LINEAGE = {
     "看板/API",
     "v_dupont.asset_turnover"
   ],
+  "v_dupont.equity_multiplier": [
+    "DWS",
+    "v_dupont",
+    "看板/API",
+    "v_dupont.equity_multiplier"
+  ],
   "v_dupont.roe": [
     "DWS",
     "v_dupont",
     "看板/API",
     "v_dupont.roe"
   ],
-  "v_cashflow.snapshot_month": [
+  "v_dupont.revenue": [
     "DWS",
-    "v_cashflow",
+    "v_dupont",
     "看板/API",
-    "v_cashflow.snapshot_month"
+    "v_dupont.revenue"
+  ],
+  "v_dupont.net_profit": [
+    "DWS",
+    "v_dupont",
+    "看板/API",
+    "v_dupont.net_profit"
+  ],
+  "v_dupont.expense_amount": [
+    "DWS",
+    "v_dupont",
+    "看板/API",
+    "v_dupont.expense_amount"
+  ],
+  "v_balance_sheet.SELECT": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.SELECT"
+  ],
+  "v_balance_sheet.snapshot_month": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.snapshot_month"
+  ],
+  "v_balance_sheet.brand_name": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.brand_name"
+  ],
+  "v_balance_sheet.cash": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.cash"
+  ],
+  "v_balance_sheet.accounts_receivable": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.accounts_receivable"
+  ],
+  "v_balance_sheet.inventory": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.inventory"
+  ],
+  "v_balance_sheet.fixed_assets": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.fixed_assets"
+  ],
+  "v_balance_sheet.total_assets": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.total_assets"
+  ],
+  "v_balance_sheet.accounts_payable": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.accounts_payable"
+  ],
+  "v_balance_sheet.debt": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.debt"
+  ],
+  "v_balance_sheet.total_liabilities": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.total_liabilities"
+  ],
+  "v_balance_sheet.equity": [
+    "DWS",
+    "v_balance_sheet",
+    "看板/API",
+    "v_balance_sheet.equity"
   ],
   "v_cashflow.total_inflow": [
     "DWS",
@@ -4383,29 +5107,65 @@ window.FIELD_LINEAGE = {
     "看板/API",
     "v_cashflow.total_outflow"
   ],
-  "v_cashflow.net_cashflow": [
+  "v_cashflow.profit_to_cash_ratio": [
     "DWS",
     "v_cashflow",
     "看板/API",
-    "v_cashflow.net_cashflow"
+    "v_cashflow.profit_to_cash_ratio"
   ],
-  "v_budget.actual_amount": [
+  "v_cashflow.net_profit": [
     "DWS",
-    "v_budget",
+    "v_cashflow",
     "看板/API",
-    "v_budget.actual_amount"
+    "v_cashflow.net_profit"
+  ],
+  "v_cashflow.expense_amount": [
+    "DWS",
+    "v_cashflow",
+    "看板/API",
+    "v_cashflow.expense_amount"
+  ],
+  "v_cashflow_statement.snapshot_month": [
+    "DWS",
+    "v_cashflow_statement",
+    "看板/API",
+    "v_cashflow_statement.snapshot_month"
+  ],
+  "v_cashflow_statement.metric": [
+    "DWS",
+    "v_cashflow_statement",
+    "看板/API",
+    "v_cashflow_statement.metric"
+  ],
+  "v_tax_analysis.month_id": [
+    "DWS",
+    "v_tax_analysis",
+    "看板/API",
+    "v_tax_analysis.month_id"
+  ],
+  "v_tax_analysis.industry_avg_tax_rate": [
+    "DWS",
+    "v_tax_analysis",
+    "看板/API",
+    "v_tax_analysis.industry_avg_tax_rate"
+  ],
+  "v_tax_analysis.tax_rate_gap": [
+    "DWS",
+    "v_tax_analysis",
+    "看板/API",
+    "v_tax_analysis.tax_rate_gap"
+  ],
+  "v_tax_analysis.tax_burden_status": [
+    "DWS",
+    "v_tax_analysis",
+    "看板/API",
+    "v_tax_analysis.tax_burden_status"
   ],
   "v_budget.variance": [
     "DWS",
     "v_budget",
     "看板/API",
     "v_budget.variance"
-  ],
-  "v_budget.achievement_rate": [
-    "DWS",
-    "v_budget",
-    "看板/API",
-    "v_budget.achievement_rate"
   ],
   "v_inventory.snapshot_month": [
     "DWS",
