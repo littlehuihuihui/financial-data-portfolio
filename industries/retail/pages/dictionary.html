@@ -6,10 +6,10 @@
   <meta name="description" content="零售财务 · 全屏数据字典（口径 / 看板引用）">
   <title>零售财务 · 数据字典</title>
   <link rel="stylesheet" href="../../../css/design-tokens.css">
-  <link rel="stylesheet" href="../../../css/platform-shell.css">
+  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.18">
   <link rel="stylesheet" href="../css/industry-overrides.css">
-  <link rel="stylesheet" href="../css/platform-features.css">
-  <link rel="stylesheet" href="../../../css/data-dictionary.css">
+  <link rel="stylesheet" href="../css/platform-features.css?v=3.18">
+  <link rel="stylesheet" href="../../../css/data-dictionary.css?v=3.18">
   <style>
     .dict-page-main { max-width: 1400px; margin: 0 auto; padding: 20px 24px 48px; }
     .dict-page-header { margin-bottom: 16px; }
@@ -38,34 +38,31 @@
       <h1>数据字典 · 全屏</h1>
       <p>字段口径（业务 / 技术 / 排除规则）与表级看板引用。也可从 <a href="architecture.html#data-dictionary-section">架构页嵌入版</a> 进入。</p>
     </div>
-    <div id="data-dictionary-root"></div>
+    <div id="data-dictionary-root" class="data-dictionary"></div>
   </main>
 
   <script src="../js/data-dictionary-data.js"></script>
   <script src="../js/dashboard-config.js"></script>
   <script src="../js/metric-caliber-data.js"></script>
-  <script src="../../../js/data-dictionary-core.js?v=3.17"></script>
+  <script src="../js/search-index-data.js"></script>
+  <script src="../../../js/data-dictionary-core.js?v=3.18"></script>
   <script src="../js/data-dictionary.js"></script>
-  <script src="../../../js/global-search.js"></script>
+  <script src="../../../js/global-search.js?v=3.18"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      if (window.GlobalSearch?.mount) {
-        window.GlobalSearch.mount("#global-search-slot");
-      }
+      window.GlobalSearch?.mount?.("global-search-slot");
       if (!window.DataDictionaryUI?.render) return;
       const dictInstance = window.DataDictionaryUI.render("data-dictionary-root", {
         showAdsApplicationMap: true,
         defaultLayerOpen: ["ODS", "DWD", "ADS"],
-        showOverview: true
+        showOverview: false
       });
       window.DataDictionaryUI.instance = dictInstance;
       window.DataDictionaryUI.selectTable = (name) => dictInstance.selectTableByName(name);
       window.DataDictionaryUI.selectField = (table, field) => dictInstance.selectFieldByName(table, field);
       window.DataDictionaryUI.highlightField = (key) => dictInstance.highlightField(key);
       window.DataDictionaryUI.navigateTo = (table, field) => dictInstance.navigateTo(table, field);
-      if (window.GlobalSearch?.consumePendingNav) {
-        window.GlobalSearch.consumePendingNav();
-      }
+      window.GlobalSearch?.consumePendingNav?.();
     });
   </script>
 </body>

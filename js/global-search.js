@@ -45,7 +45,8 @@
   }
 
   function mount(slotId) {
-    const slot = document.getElementById(slotId);
+    const id = String(slotId || "").replace(/^#/, "");
+    const slot = document.getElementById(id);
     if (!slot || slot.dataset.gsMounted) return;
     slot.dataset.gsMounted = "1";
 

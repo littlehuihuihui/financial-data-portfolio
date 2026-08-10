@@ -641,13 +641,20 @@
       this.state.selectedField = field;
       this.state.fieldDrawerOpen = true;
 
-      // 更新行高亮
+      // 行高亮不必整页重渲
       this.root.querySelectorAll('.dd-field-row').forEach(el => {
         el.classList.toggle('is-selected', el.dataset.field === fieldName);
       });
 
-      // 更新详情（重新渲染整个detail，因为抽屉在里面）
-      this.updateDetail();
+      const drawer = this.root.querySelector('.dd-field-drawer');
+      if (drawer) {
+        drawer.classList.add('is-open');
+        const body = drawer.querySelector('.dd-field-drawer-body');
+        if (body) body.innerHTML = this.renderFieldDetail(field);
+      } else {
+        this.updateDetail();
+      }
+      this.updateHash();
     }
 
     closeFieldDrawer() {

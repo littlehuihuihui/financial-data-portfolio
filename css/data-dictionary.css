@@ -798,13 +798,17 @@
 .dd-ads-map-panel > summary {
   cursor: pointer;
   list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding: 12px 14px;
   font-weight: 600;
   font-size: 14px;
   color: var(--text, #e8edf5);
 }
 .dd-ads-map-panel > summary::-webkit-details-marker { display: none; }
-.dd-ads-map-panel > summary::after { content: "▸"; float: right; opacity: 0.6; }
+.dd-ads-map-panel > summary::after { content: "▸"; flex-shrink: 0; opacity: 0.6; line-height: 1; }
 .dd-ads-map-panel[open] > summary::after { content: "▾"; }
 .dd-ads-map-hint { font-weight: 400; font-size: 12px; color: var(--text-secondary, #8892a4); margin-left: 6px; }
 .dd-ads-map-body { padding: 0 14px 14px; }
