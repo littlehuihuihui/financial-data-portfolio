@@ -1,0 +1,824 @@
+/* ==========================================================================
+   数据字典 · Master-Detail 布局样式（Step 3：层色读 Token）
+   ========================================================================== */
+
+.dd-layer-ODS, .dd-layer-badge.dd-layer-ODS { background: color-mix(in srgb, var(--layer-ods, #64748b) 28%, transparent); color: #cbd5e1; border: 1px solid color-mix(in srgb, var(--layer-ods, #64748b) 45%, transparent); }
+.dd-layer-DIM, .dd-layer-badge.dd-layer-DIM { background: color-mix(in srgb, var(--layer-dim, #6366f1) 28%, transparent); color: #c7d2fe; border: 1px solid color-mix(in srgb, var(--layer-dim, #6366f1) 45%, transparent); }
+.dd-layer-DWD, .dd-layer-badge.dd-layer-DWD { background: color-mix(in srgb, var(--layer-dwd, #14b8a6) 28%, transparent); color: #99f6e4; border: 1px solid color-mix(in srgb, var(--layer-dwd, #14b8a6) 45%, transparent); }
+.dd-layer-DWS, .dd-layer-badge.dd-layer-DWS { background: color-mix(in srgb, var(--layer-dws, #f59e0b) 28%, transparent); color: #fde68a; border: 1px solid color-mix(in srgb, var(--layer-dws, #f59e0b) 45%, transparent); }
+.dd-layer-ADS, .dd-layer-badge.dd-layer-ADS { background: color-mix(in srgb, var(--layer-ads, #8b5cf6) 28%, transparent); color: #ddd6fe; border: 1px solid color-mix(in srgb, var(--layer-ads, #8b5cf6) 45%, transparent); }
+
+/* ---------- 工具栏 ---------- */
+.dd-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: linear-gradient(145deg, rgba(20, 27, 45, 0.9), rgba(13, 18, 32, 0.95));
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dd-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dd-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.dd-stat-num {
+  font-weight: 700;
+  color: var(--primary);
+  font-family: "JetBrains Mono", "SF Mono", "Monaco", monospace;
+  font-size: 16px;
+  text-shadow: 0 0 10px rgba(77, 163, 255, 0.3);
+}
+
+.dd-stat-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.dd-stat-sep {
+  color: var(--text-secondary);
+  margin: 0 4px;
+}
+
+.dd-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dd-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  min-width: 240px;
+}
+
+.dd-search-box:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 12px rgba(77, 163, 255, 0.2);
+}
+
+.dd-search-box svg {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.dd-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.dd-search-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* ---------- Master-Detail 布局 ---------- */
+.dd-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 16px;
+  min-height: 500px;
+}
+
+/* ---------- 左侧树 ---------- */
+.dd-tree {
+  background: linear-gradient(145deg, rgba(20, 27, 45, 0.8), rgba(13, 18, 32, 0.9));
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 12px 0;
+  overflow-y: auto;
+  max-height: 70vh;
+  position: sticky;
+  top: 80px;
+}
+
+.dd-tree::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dd-tree::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dd-tree::-webkit-scrollbar-thumb {
+  background: rgba(77, 163, 255, 0.2);
+  border-radius: 3px;
+}
+
+.dd-tree::-webkit-scrollbar-thumb:hover {
+  background: rgba(77, 163, 255, 0.4);
+}
+
+.dd-tree-layer {
+  margin-bottom: 4px;
+}
+
+.dd-tree-layer-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.dd-tree-layer-header:hover {
+  background: rgba(77, 163, 255, 0.08);
+}
+
+.dd-tree-layer-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.dd-tree-layer.is-open .dd-tree-layer-toggle svg {
+  transform: rotate(90deg);
+}
+
+.dd-tree-layer-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dd-tree-layer-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+
+.dd-tree-layer-count {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.dd-tree-tables {
+  display: none;
+  padding: 4px 0;
+}
+
+.dd-tree-layer.is-open .dd-tree-tables {
+  display: block;
+}
+
+.dd-tree-table {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px 7px 32px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-left: 3px solid transparent;
+}
+
+.dd-tree-table:hover {
+  background: rgba(77, 163, 255, 0.08);
+}
+
+.dd-tree-table.is-active {
+  background: var(--color-primary-soft, rgba(77, 163, 255, 0.12));
+  border-left-color: var(--color-primary, var(--primary, #4da3ff));
+}
+
+.dd-tree-table-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dd-tree-table-name {
+  flex: 1;
+  font-size: 12px;
+  font-family: "JetBrains Mono", "SF Mono", "Monaco", monospace;
+  color: var(--text);
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+.dd-tree-table.is-active .dd-tree-table-name {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.dd-tree-table-fields {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-family: "JetBrains Mono", monospace;
+  opacity: 0.7;
+}
+
+.dd-tree-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* ---------- 右侧详情 ---------- */
+.dd-detail {
+  background: linear-gradient(145deg, rgba(20, 27, 45, 0.8), rgba(13, 18, 32, 0.9));
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 70vh;
+  position: relative;
+}
+
+.dd-detail::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dd-detail::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dd-detail::-webkit-scrollbar-thumb {
+  background: rgba(77, 163, 255, 0.2);
+  border-radius: 3px;
+}
+
+.dd-detail::-webkit-scrollbar-thumb:hover {
+  background: rgba(77, 163, 255, 0.4);
+}
+
+/* 空态 */
+.dd-detail-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.dd-detail-empty-icon {
+  margin-bottom: 16px;
+  opacity: 0.3;
+  color: var(--primary);
+}
+
+.dd-detail-empty-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.dd-detail-empty-desc {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* 详情头部 */
+.dd-detail-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.dd-detail-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.dd-detail-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: "JetBrains Mono", "SF Mono", "Monaco", monospace;
+  margin: 0;
+}
+
+.dd-detail-badges {
+  display: flex;
+  gap: 8px;
+}
+
+.dd-layer-badge,
+.dd-type-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+}
+
+.dd-type-badge {
+  background: rgba(107, 114, 128, 0.2);
+  color: #9ca3af;
+  border: 1px solid rgba(107, 114, 128, 0.3);
+}
+
+.dd-detail-purpose {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* 元数据 */
+.dd-detail-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.dd-meta-item {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.dd-meta-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dd-meta-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* 区块 */
+.dd-detail-section {
+  margin-bottom: 20px;
+}
+
+.dd-detail-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding-left: 10px;
+  border-left: 3px solid var(--primary);
+}
+
+/* 数据血缘 */
+.dd-lineage {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+
+.dd-lineage-node {
+  font-size: 12px;
+  font-family: "JetBrains Mono", monospace;
+  padding: 4px 10px;
+  background: rgba(77, 163, 255, 0.1);
+  border: 1px solid rgba(77, 163, 255, 0.3);
+  border-radius: 6px;
+  color: var(--primary);
+}
+
+.dd-lineage-arrow {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* 字段表格 */
+.dd-fields-table-wrap {
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dd-fields-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.dd-fields-table thead {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.dd-fields-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.dd-fields-table tbody tr {
+  border-bottom: 1px solid rgba(30, 42, 74, 0.5);
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.dd-fields-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.dd-fields-table tbody tr:hover {
+  background: rgba(77, 163, 255, 0.06);
+}
+
+.dd-fields-table tbody tr.is-selected {
+  background: rgba(77, 163, 255, 0.12);
+}
+
+.dd-fields-table td {
+  padding: 10px 12px;
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.dd-field-name {
+  font-family: "JetBrains Mono", "SF Mono", "Monaco", monospace;
+  font-size: 12px;
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.dd-field-type {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.dd-field-role {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* 字段抽屉 */
+.dd-field-drawer {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 320px;
+  background: linear-gradient(145deg, #1a2340, #141b2d);
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(77, 163, 255, 0.2);
+  z-index: 100;
+  transform: translateX(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.dd-field-drawer.is-open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dd-field-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.dd-field-drawer-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.dd-field-drawer-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.dd-field-drawer-close:hover {
+  color: var(--text);
+}
+
+.dd-field-drawer-body {
+  padding: 16px;
+}
+
+.dd-field-detail-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.dd-field-detail-name code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  color: var(--primary);
+  background: rgba(77, 163, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.dd-field-detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dd-field-detail-item {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.dd-field-detail-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dd-field-detail-value {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px) {
+  .dd-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .dd-tree {
+    max-height: 300px;
+    position: static;
+  }
+
+  .dd-detail {
+    max-height: none;
+  }
+
+  .dd-detail-meta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dd-field-drawer {
+    position: fixed;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    top: auto;
+    bottom: 16px;
+    z-index: 1000;
+  }
+
+  .dd-search-box {
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dd-toolbar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .dd-search-box {
+    min-width: auto;
+  }
+
+  .dd-detail-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ---------- 指标口径 ---------- */
+.dd-field-caliber {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--card-border);
+}
+
+.dd-field-caliber-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.dd-field-caliber-icon {
+  font-size: 14px;
+}
+
+.dd-field-caliber-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dd-field-caliber-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-left: auto;
+}
+
+.dd-field-caliber-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dd-field-caliber-item {
+  background: rgba(77, 163, 255, 0.05);
+  border: 1px solid rgba(77, 163, 255, 0.15);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.dd-field-caliber-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dd-field-caliber-value {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.dd-caliber-sql {
+  font-family: "JetBrains Mono", "SF Mono", "Monaco", monospace;
+  font-size: 11px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #a5d6ff;
+  word-break: break-all;
+  line-height: 1.6;
+}
+
+.dd-caliber-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #c4b5fd;
+  background: rgba(139, 92, 246, 0.18);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 999px;
+}
+
+.dd-caliber-none {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.dd-dashboard-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dd-dashboard-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary, #4da3ff);
+  background: rgba(77, 163, 255, 0.1);
+  border: 1px solid rgba(77, 163, 255, 0.35);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dd-dashboard-chip:hover {
+  background: rgba(77, 163, 255, 0.2);
+  border-color: var(--primary, #4da3ff);
+}
+
+.dd-detail-actions {
+  margin-top: 4px;
+}
+
+.dd-graph-focus-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ddd6fe;
+  background: rgba(139, 92, 246, 0.18);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dd-graph-focus-btn:hover {
+  background: rgba(139, 92, 246, 0.3);
+  border-color: #a78bfa;
+}
+
+/* 应用层看板映射（并入字典 · Step 8+） */
+.dd-ads-map-panel {
+  margin: 0 0 12px;
+  border: 1px solid var(--card-border, rgba(139, 92, 246, 0.35));
+  border-radius: 10px;
+  background: rgba(139, 92, 246, 0.06);
+}
+.dd-ads-map-panel > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 14px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text, #e8edf5);
+}
+.dd-ads-map-panel > summary::-webkit-details-marker { display: none; }
+.dd-ads-map-panel > summary::after { content: "▸"; float: right; opacity: 0.6; }
+.dd-ads-map-panel[open] > summary::after { content: "▾"; }
+.dd-ads-map-hint { font-weight: 400; font-size: 12px; color: var(--text-secondary, #8892a4); margin-left: 6px; }
+.dd-ads-map-body { padding: 0 14px 14px; }
+.dd-ads-map-desc { margin: 0 0 10px; font-size: 12px; color: var(--text-secondary, #8892a4); }
+.dd-ads-map-row { cursor: pointer; }
+.dd-ads-map-row:hover { background: rgba(77, 163, 255, 0.08); }
+.dd-ads-view-link {
+  background: none; border: none; padding: 0; color: var(--primary, #4da3ff);
+  cursor: pointer; text-decoration: underline; font: inherit; text-align: left;
+}
+.dd-ads-dash-link { color: var(--primary, #4da3ff); text-decoration: none; }
+.dd-ads-dash-link:hover { text-decoration: underline; }
+.dd-ads-view-meta-list { margin: 0; padding-left: 18px; font-size: 13px; }
+.dd-ads-view-meta-list li { margin-bottom: 8px; }
+.dd-ads-view-meta-list code { margin-left: 6px; font-size: 11px; }
+.dd-ads-meta-desc { display: block; margin-top: 4px; color: var(--text-secondary, #8892a4); font-size: 12px; }
+

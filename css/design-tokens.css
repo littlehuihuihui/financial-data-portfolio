@@ -1,0 +1,148 @@
+/**
+ * 多行业数据平台 · Design Tokens（Step 3）
+ * 全平台唯一色板 / 字体 / 间距源。行业页请先于 style.css 引入。
+ */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  /* ── Platform Core ── */
+  --color-bg-base: #0a0f1e;
+  --color-bg-elevated: #141b2d;
+  --color-bg-sunken: #0d1220;
+  --color-bg-deep: #030712;
+  --color-border: #1e2a4a;
+  --color-border-focus: #4da3ff;
+  --color-border-glow: rgba(56, 189, 248, 0.22);
+
+  --color-text-primary: #e8edf5;
+  --color-text-secondary: #8892a4;
+  --color-text-muted: #64748b;
+
+  --color-primary: #4da3ff;
+  --color-primary-glow: rgba(77, 163, 255, 0.35);
+  --color-primary-soft: rgba(77, 163, 255, 0.12);
+  --color-success: #22c55e;
+  --color-warning: #fbbf24;
+  --color-danger: #ef4444;
+
+  /* 入口页语义色（与 primary 并存） */
+  --color-cyan: #22d3ee;
+  --color-violet: #a78bfa;
+  --color-emerald: #34d399;
+  --color-amber: #fbbf24;
+  --color-rose: #fb7185;
+
+  /* ── 数仓分层色（字典 / 全景图 / 图谱对齐） ── */
+  --layer-ods: #64748b;
+  --layer-dim: #6366f1;
+  --layer-dwd: #14b8a6;
+  --layer-dws: #f59e0b;
+  --layer-ads: #8b5cf6;
+
+  /* ── 分析 L1–L6（方法论） ── */
+  --layer-l1: #3b82f6;
+  --layer-l2: #8b5cf6;
+  --layer-l3: #06b6d4;
+  --layer-l4: #f59e0b;
+  --layer-l5: #22c55e;
+  --layer-l6: #f472b6;
+
+  /* ── 间距 / 圆角 / 布局 ── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --nav-height: 56px;
+  --definition-height: 76px;
+
+  /* ── 字体 ── */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-display: "Orbitron", var(--font-sans);
+  --font-mono: "JetBrains Mono", Consolas, "SF Mono", monospace;
+
+  /* ── 阴影 ── */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.35);
+  --shadow-glow-primary: 0 0 20px rgba(77, 163, 255, 0.25);
+  --shadow-glow-cyan: 0 0 40px rgba(34, 211, 238, 0.15);
+
+  /* 默认图表色（可被行业覆盖） */
+  --chart-1: #1a5276;
+  --chart-2: #2874a6;
+  --chart-3: #5499c7;
+  --chart-4: #27ae60;
+  --chart-5: #e67e22;
+  --chart-6: #7f8c8d;
+  --chart-palette: var(--chart-1), var(--chart-2), var(--chart-3), var(--chart-4), var(--chart-5), var(--chart-6);
+
+  /* 默认 accent = primary（行业可覆盖） */
+  --color-accent: var(--color-primary);
+  --color-accent-alt: var(--color-cyan);
+  --color-nav-border: rgba(77, 163, 255, 0.25);
+
+  /* ── 语义 alias（全站 CSS 统一读此层，勿依赖 @import 顺序） ── */
+  --bg: var(--color-bg-base);
+  --card-bg: var(--color-bg-elevated);
+  --card-border: var(--color-border);
+  --text: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text2: var(--color-text-secondary);
+  --text3: var(--color-text-muted);
+  --primary: var(--color-primary);
+  --primary-glow: var(--color-primary-glow);
+  --primary-soft: var(--color-primary-soft);
+  --success: var(--color-success);
+  --warning: var(--color-warning);
+  --danger: var(--color-danger);
+  --nav-bg: var(--color-bg-sunken);
+  --nav-border: var(--color-nav-border);
+  --definition-bg: #0f1525;
+  --shadow: var(--shadow-card);
+  --shadow-glow: var(--shadow-glow-primary);
+  --radius: var(--radius-lg);
+  --surface: var(--color-bg-elevated);
+  --surface2: #243044;
+  --border: var(--color-border);
+  --gs-bg: rgba(20, 27, 45, 0.98);
+  --gs-border: rgba(77, 163, 255, 0.3);
+  --gs-accent: var(--color-primary);
+}
+
+[data-industry="retail"] {
+  --color-accent: #34d399;
+  --color-accent-alt: #22d3ee;
+  --color-nav-border: rgba(52, 211, 153, 0.35);
+  --chart-1: #1a5276;
+  --chart-2: #2874a6;
+  --chart-3: #5499c7;
+  --chart-4: #27ae60;
+  --chart-5: #e67e22;
+  --chart-6: #7f8c8d;
+}
+
+[data-industry="internet"] {
+  --color-accent: #a78bfa;
+  --color-accent-alt: #22d3ee;
+  --color-nav-border: rgba(167, 139, 250, 0.35);
+  --chart-1: #8e44ad;
+  --chart-2: #9b59b6;
+  --chart-3: #af7ac5;
+  --chart-4: #27ae60;
+  --chart-5: #e67e22;
+  --chart-6: #7f8c8d;
+}
+
+[data-industry="manufacturing"] {
+  --color-accent: #fbbf24;
+  --color-accent-alt: #34d399;
+  --color-nav-border: rgba(251, 191, 36, 0.35);
+  --chart-1: #e67e22;
+  --chart-2: #d35400;
+  --chart-3: #f39c12;
+  --chart-4: #27ae60;
+  --chart-5: #2980b9;
+  --chart-6: #7f8c8d;
+}
