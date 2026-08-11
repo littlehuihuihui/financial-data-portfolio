@@ -2889,7 +2889,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_dau_overview",
-    "name_cn": "Dau Overview 视图",
+    "name_cn": "日活总览",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_dau_overview 分析视图",
@@ -2955,7 +2955,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_lifecycle",
-    "name_cn": "Lifecycle 视图",
+    "name_cn": "生命周期",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_lifecycle 分析视图",
@@ -3035,7 +3035,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_user_lifecycle",
-    "name_cn": "User Lifecycle 视图",
+    "name_cn": "用户生命周期",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_user_lifecycle 分析视图",
@@ -3051,7 +3051,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_retention_decomposition",
-    "name_cn": "Retention Decomposition 视图",
+    "name_cn": "留存分解",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_retention_decomposition 分析视图",
@@ -3124,7 +3124,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_user_retention",
-    "name_cn": "User Retention 视图",
+    "name_cn": "用户留存",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_user_retention 分析视图",
@@ -3197,7 +3197,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_user_segment",
-    "name_cn": "User Segment 视图",
+    "name_cn": "用户分群",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_user_segment 分析视图",
@@ -3249,7 +3249,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_channel_attribution",
-    "name_cn": "Channel Attribution 视图",
+    "name_cn": "渠道归因",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_channel_attribution 分析视图",
@@ -3329,7 +3329,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_ab_experiment",
-    "name_cn": "Ab Experiment 视图",
+    "name_cn": "AB实验",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_ab_experiment 分析视图",
@@ -3430,7 +3430,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_funnel",
-    "name_cn": "Funnel 视图",
+    "name_cn": "转化漏斗",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_funnel 分析视图",
@@ -3510,7 +3510,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_ltv",
-    "name_cn": "Ltv 视图",
+    "name_cn": "用户LTV",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_ltv 分析视图",
@@ -3562,7 +3562,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_rfm",
-    "name_cn": "Rfm 视图",
+    "name_cn": "RFM分群",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_rfm 分析视图",
@@ -3628,7 +3628,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_channel_analysis",
-    "name_cn": "Channel Analysis 视图",
+    "name_cn": "渠道分析",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_channel_analysis 分析视图",
@@ -3715,7 +3715,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_user_portrait",
-    "name_cn": "User Portrait 视图",
+    "name_cn": "用户画像",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_user_portrait 分析视图",
@@ -3788,7 +3788,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_user_path",
-    "name_cn": "User Path 视图",
+    "name_cn": "用户路径",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_user_path 分析视图",
@@ -3882,7 +3882,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_user_path_session",
-    "name_cn": "User Path Session 视图",
+    "name_cn": "会话路径",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_user_path_session 分析视图",
@@ -3990,7 +3990,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_top_paths",
-    "name_cn": "Top Paths 视图",
+    "name_cn": "热门路径",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_top_paths 分析视图",
@@ -4056,7 +4056,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_revenue_structure",
-    "name_cn": "Revenue Structure 视图",
+    "name_cn": "收入结构",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_revenue_structure 分析视图",
@@ -4129,7 +4129,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_plan_analysis",
-    "name_cn": "Plan Analysis 视图",
+    "name_cn": "套餐分析",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_plan_analysis 分析视图",
@@ -4237,7 +4237,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_plan_ltv",
-    "name_cn": "Plan Ltv 视图",
+    "name_cn": "套餐LTV",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_plan_ltv 分析视图",
@@ -4289,7 +4289,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_arpu_trend",
-    "name_cn": "Arpu Trend 视图",
+    "name_cn": "ARPU趋势",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_arpu_trend 分析视图",
@@ -4334,7 +4334,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_activity_summary",
-    "name_cn": "Activity Summary 视图",
+    "name_cn": "活跃汇总",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_activity_summary 分析视图",
@@ -4477,7 +4477,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_activity_daily_trend",
-    "name_cn": "Activity Daily Trend 视图",
+    "name_cn": "活跃日趋势",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_activity_daily_trend 分析视图",
@@ -4571,7 +4571,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_health_dashboard",
-    "name_cn": "Health Dashboard 视图",
+    "name_cn": "健康度看板",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_health_dashboard 分析视图",
@@ -4672,7 +4672,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_health_group_summary",
-    "name_cn": "Health Group Summary 视图",
+    "name_cn": "健康度分组",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_health_group_summary 分析视图",
@@ -4738,7 +4738,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_user_tag_overview",
-    "name_cn": "User Tag Overview 视图",
+    "name_cn": "用户标签总览",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_user_tag_overview 分析视图",
@@ -4811,7 +4811,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_user_tag_detail",
-    "name_cn": "User Tag Detail 视图",
+    "name_cn": "用户标签明细",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_user_tag_detail 分析视图",
@@ -4827,7 +4827,7 @@ window.DATA_DICTIONARY=[
   },
   {
     "name": "v_user_tag_by_category",
-    "name_cn": "User Tag By Category 视图",
+    "name_cn": "标签分类汇总",
     "layer": "ADS",
     "type": "view",
     "purpose": "v_user_tag_by_category 分析视图",

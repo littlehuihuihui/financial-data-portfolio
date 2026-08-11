@@ -6,10 +6,10 @@
   <meta name="description" content="零售财务 · 全屏数据字典（口径 / 看板引用）">
   <title>零售财务 · 数据字典</title>
   <link rel="stylesheet" href="../../../css/design-tokens.css">
-  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.18">
+  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.23">
   <link rel="stylesheet" href="../css/industry-overrides.css">
-  <link rel="stylesheet" href="../css/platform-features.css?v=3.18">
-  <link rel="stylesheet" href="../../../css/data-dictionary.css?v=3.18">
+  <link rel="stylesheet" href="../css/platform-features.css?v=3.21">
+  <link rel="stylesheet" href="../../../css/data-dictionary.css?v=3.23">
   <style>
     .dict-page-main { max-width: 1400px; margin: 0 auto; padding: 20px 24px 48px; }
     .dict-page-header { margin-bottom: 16px; }
@@ -27,7 +27,6 @@
         <a href="../retail_dashboard.html" class="nav-tab">数据展示</a>
         <a href="anomaly.html" class="nav-tab">分析方法论</a>
         <a href="architecture.html" class="nav-tab">数仓架构</a>
-        <a href="dictionary.html" class="nav-tab active">数据字典</a>
         <a href="../../../index.html" class="nav-tab nav-home">返回平台</a>
       </nav>
     </div>
@@ -45,17 +44,16 @@
   <script src="../js/dashboard-config.js"></script>
   <script src="../js/metric-caliber-data.js"></script>
   <script src="../js/search-index-data.js"></script>
-  <script src="../../../js/data-dictionary-core.js?v=3.18"></script>
+  <script src="../../../js/data-dictionary-core.js?v=3.23"></script>
   <script src="../js/data-dictionary.js"></script>
-  <script src="../../../js/global-search.js?v=3.18"></script>
+  <script src="../../../js/global-search.js?v=3.19"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       window.GlobalSearch?.mount?.("global-search-slot");
       if (!window.DataDictionaryUI?.render) return;
       const dictInstance = window.DataDictionaryUI.render("data-dictionary-root", {
-        showAdsApplicationMap: true,
-        defaultLayerOpen: ["ODS", "DWD", "ADS"],
-        showOverview: false
+        showAdsApplicationMap: false,
+                showOverview: false
       });
       window.DataDictionaryUI.instance = dictInstance;
       window.DataDictionaryUI.selectTable = (name) => dictInstance.selectTableByName(name);

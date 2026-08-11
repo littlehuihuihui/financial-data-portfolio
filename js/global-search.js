@@ -1,6 +1,6 @@
 /**
  * 全局搜索 · 顶部导航搜索框
- * Step2：表/字段命中优先走字典 navigateTo / dictNav
+ * 支持 SEARCH_INDEX + DATA_DICTIONARY 全文（字段业务含义等）
  */
 (function () {
   "use strict";
@@ -17,7 +17,7 @@
   };
 
   function esc(s) {
-    return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
   function parseDictTarget(href, fieldKey) {
@@ -39,9 +39,51 @@
     return { table, field };
   }
 
-  function isArchitecturePage() {
-    return !!document.getElementById("data-dictionary-root")
-      || /architecture\.html/i.test(location.pathname);
+  function dictPageUrl() {
+    if (/dictionary\.html/i.test(location.pathname)) return null;
+    if (/architecture\.html/i.test(location.pathname)) return "dictionary.html";
+    if (/\/pages\//i.test(location.pathname)) return "dictionary.html";
+    return "pages/dictionary.html";
+  }
+
+  function searchDictionaryFulltext(kw) {
+    const tables = window.DATA_DICTIONARY || [];
+    const hits = [];
+    const seen = new Set();
+    tables.forEach((t) => {
+      const tableBlob = [t.name, t.purpose, t.summary, t.source, ...(t.lineage || [])]
+        .filter(Boolean).join(" ").toLowerCase();
+      if (tableBlob.includes(kw) && !seen.has(t.name)) {
+        seen.add(t.name);
+        hits.push({
+          category: "table",
+          title: t.name,
+          subtitle: t.purpose || t.layer || "表",
+          url: "",
+          anchor: `dict/${t.name}`,
+          fieldKey: "",
+          keywords: tableBlob,
+        });
+      }
+      (t.fields || []).forEach((f) => {
+        const fieldBlob = [f.name, f.desc, f.business, f.technical, f.type, f.role]
+          .filter(Boolean).join(" ").toLowerCase();
+        if (!fieldBlob.includes(kw)) return;
+        const key = t.name + "." + f.name;
+        if (seen.has(key)) return;
+        seen.add(key);
+        hits.push({
+          category: "field",
+          title: `${t.name}.${f.name}`,
+          subtitle: f.business || f.desc || t.purpose || "字段",
+          url: "",
+          anchor: `dict/${t.name}/${f.name}`,
+          fieldKey: key,
+          keywords: fieldBlob,
+        });
+      });
+    });
+    return hits;
   }
 
   function mount(slotId) {
@@ -52,7 +94,7 @@
 
     slot.innerHTML = `
       <div class="global-search-wrap">
-        <input type="search" id="global-search-input" placeholder="搜索看板、表、字段、指标、血缘…" autocomplete="off" aria-label="全局搜索">
+        <input type="search" id="global-search-input" placeholder="全文搜索：看板、表、字段、业务含义…" autocomplete="off" aria-label="全局搜索">
         <div class="global-search-results" id="global-search-results"></div>
       </div>`;
 
@@ -66,14 +108,24 @@
         return;
       }
       const index = window.SEARCH_INDEX || [];
-      const hits = index.filter((it) => it.keywords.toLowerCase().includes(kw)).slice(0, 24);
-      if (!hits.length) {
+      const fromIndex = index.filter((it) => (it.keywords || "").toLowerCase().includes(kw));
+      const fromDict = searchDictionaryFulltext(kw);
+      const seen = new Set();
+      const hits = [];
+      [...fromIndex, ...fromDict].forEach((h) => {
+        const key = (h.fieldKey || h.anchor || h.title || "") + "|" + (h.category || "");
+        if (seen.has(key)) return;
+        seen.add(key);
+        hits.push(h);
+      });
+      const limited = hits.slice(0, 28);
+      if (!limited.length) {
         results.innerHTML = '<div class="gs-empty">无匹配结果</div>';
         results.classList.add("open");
         return;
       }
       const groups = {};
-      hits.forEach((h) => {
+      limited.forEach((h) => {
         if (!groups[h.category]) groups[h.category] = [];
         groups[h.category].push(h);
       });
@@ -81,9 +133,17 @@
       Object.keys(groups).forEach((cat) => {
         html += `<div class="gs-group-title">${CATEGORY_LABELS[cat] || cat}</div>`;
         groups[cat].forEach((h) => {
-          const href = h.url + (h.anchor ? `#${h.anchor}` : "");
+          let href = h.url || "";
+          if (h.anchor) {
+            if (!href && (cat === "table" || cat === "field" || cat === "lineage")) {
+              const page = dictPageUrl();
+              href = page ? `${page}#${h.anchor}` : `#${h.anchor}`;
+            } else {
+              href = (href || "") + (href.includes("#") ? "" : `#${h.anchor}`);
+            }
+          }
           const fk = h.fieldKey ? ` data-field-key="${esc(h.fieldKey)}"` : "";
-          html += `<a class="gs-item" href="${esc(href)}"${fk} data-category="${esc(h.category)}"><strong>${esc(h.title)}</strong><span class="gs-sub">${esc(h.subtitle)}</span></a>`;
+          html += `<a class="gs-item" href="${esc(href || "#")}"${fk} data-category="${esc(h.category)}"><strong>${esc(h.title)}</strong><span class="gs-sub">${esc(h.subtitle || "")}</span></a>`;
         });
       });
       results.innerHTML = html;
@@ -97,7 +157,7 @@
           const { table, field } = parseDictTarget(href, fk);
 
           if ((cat === "table" || cat === "field" || cat === "lineage") && table) {
-            if (isArchitecturePage() && window.DataDictionaryUI?.navigateTo) {
+            if (window.DataDictionaryUI?.navigateTo) {
               e.preventDefault();
               window.DataDictionaryUI.navigateTo(table, field || undefined);
               results.classList.remove("open");
@@ -155,7 +215,6 @@
 
   function init() {
     mount("global-search-slot");
-    // 等 architecture 页暴露 DataDictionaryUI.navigateTo
     setTimeout(consumePendingNav, 0);
     setTimeout(consumePendingNav, 400);
   }

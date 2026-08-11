@@ -59,10 +59,41 @@ SELECT snapshot_date, factory_code, line_code,
 FROM dws_production_daily
 WHERE line_code <> 'ALL';
 
--- 以下依赖可选 DWS：库中无表时由 apply 脚本跳过
--- CREATE OR REPLACE VIEW v_defect_analysis ...
--- CREATE OR REPLACE VIEW v_material_turnover ...
--- CREATE OR REPLACE VIEW v_labor_efficiency ...
+-- 不良 / 物料 / 人工：只读 DWS（禁止 ADS 直连 ODS）
+CREATE OR REPLACE VIEW v_defect_analysis AS
+SELECT snapshot_date,
+       defect_type,
+       defect_qty,
+       scrap_qty,
+       total_qty,
+       defect_rate_pct,
+       inspect_count,
+       line_code
+FROM dws_defect_daily;
+
+CREATE OR REPLACE VIEW v_material_turnover AS
+SELECT snapshot_date,
+       material_code,
+       material_name,
+       on_hand_qty,
+       daily_usage,
+       turnover_days,
+       max_on_hand,
+       safety_stock,
+       on_hand_amount
+FROM dws_material_daily;
+
+CREATE OR REPLACE VIEW v_labor_efficiency AS
+SELECT snapshot_month,
+       factory_code,
+       line_code,
+       plan_hours,
+       actual_hours,
+       hours_achievement_pct,
+       labor_cost,
+       order_count,
+       worker_count
+FROM dws_labor_monthly;
 
 CREATE OR REPLACE VIEW v_manufacturing_finance AS
 SELECT snapshot_month, product_code,

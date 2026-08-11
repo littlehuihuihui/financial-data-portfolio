@@ -288,6 +288,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "ods_orders",
     "name": "ods_orders",
+    "name_cn": "",
     "layer": "ods",
     "type": "table",
     "purpose": "订单表",
@@ -297,6 +298,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "ods_payment",
     "name": "ods_payment",
+    "name_cn": "",
     "layer": "ods",
     "type": "table",
     "purpose": "支付流水表",
@@ -306,6 +308,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "ods_purchase",
     "name": "ods_purchase",
+    "name_cn": "",
     "layer": "ods",
     "type": "table",
     "purpose": "采购表",
@@ -315,6 +318,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "ods_inventory",
     "name": "ods_inventory",
+    "name_cn": "",
     "layer": "ods",
     "type": "table",
     "purpose": "库存流水表",
@@ -324,6 +328,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "ods_expense",
     "name": "ods_expense",
+    "name_cn": "",
     "layer": "ods",
     "type": "table",
     "purpose": "费用表",
@@ -333,6 +338,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "ods_store_pnl",
     "name": "ods_store_pnl",
+    "name_cn": "",
     "layer": "ods",
     "type": "table",
     "purpose": "门店损益表",
@@ -342,6 +348,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "ods_ad_cost",
     "name": "ods_ad_cost",
+    "name_cn": "",
     "layer": "ods",
     "type": "table",
     "purpose": "广告费用表",
@@ -351,6 +358,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "ods_budget",
     "name": "ods_budget",
+    "name_cn": "",
     "layer": "ods",
     "type": "table",
     "purpose": "预算表",
@@ -360,6 +368,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dim_brand",
     "name": "dim_brand",
+    "name_cn": "",
     "layer": "dim",
     "type": "table",
     "purpose": "品牌维度表",
@@ -369,6 +378,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dim_channel",
     "name": "dim_channel",
+    "name_cn": "",
     "layer": "dim",
     "type": "table",
     "purpose": "渠道维度表",
@@ -378,6 +388,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dim_category",
     "name": "dim_category",
+    "name_cn": "",
     "layer": "dim",
     "type": "table",
     "purpose": "品类维度表",
@@ -387,6 +398,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dim_store",
     "name": "dim_store",
+    "name_cn": "",
     "layer": "dim",
     "type": "table",
     "purpose": "门店维度表",
@@ -396,6 +408,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dim_date",
     "name": "dim_date",
+    "name_cn": "",
     "layer": "dim",
     "type": "table",
     "purpose": "日期维度表",
@@ -405,6 +418,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dwd_sales_wide",
     "name": "dwd_sales_wide",
+    "name_cn": "",
     "layer": "dwd",
     "type": "table",
     "purpose": "销售宽表",
@@ -414,6 +428,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dwd_expense_wide",
     "name": "dwd_expense_wide",
+    "name_cn": "",
     "layer": "dwd",
     "type": "table",
     "purpose": "费用宽表",
@@ -423,6 +438,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dwd_inventory_wide",
     "name": "dwd_inventory_wide",
+    "name_cn": "",
     "layer": "dwd",
     "type": "table",
     "purpose": "库存宽表",
@@ -432,6 +448,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dws_sales_daily",
     "name": "dws_sales_daily",
+    "name_cn": "",
     "layer": "dws",
     "type": "table",
     "purpose": "日销售汇总",
@@ -441,6 +458,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dws_sales_monthly",
     "name": "dws_sales_monthly",
+    "name_cn": "",
     "layer": "dws",
     "type": "table",
     "purpose": "月销售汇总",
@@ -450,6 +468,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dws_expense_monthly",
     "name": "dws_expense_monthly",
+    "name_cn": "",
     "layer": "dws",
     "type": "table",
     "purpose": "月费用汇总",
@@ -459,6 +478,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dws_inventory_daily",
     "name": "dws_inventory_daily",
+    "name_cn": "",
     "layer": "dws",
     "type": "table",
     "purpose": "日库存汇总",
@@ -468,6 +488,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "dws_store_daily",
     "name": "dws_store_daily",
+    "name_cn": "",
     "layer": "dws",
     "type": "table",
     "purpose": "日门店汇总·快照表",
@@ -477,6 +498,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_overview",
     "name": "v_overview",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "经营总览 KPI",
@@ -486,6 +508,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_brand",
     "name": "v_brand",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "品牌分析",
@@ -495,6 +518,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_channel",
     "name": "v_channel",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "渠道分析",
@@ -504,6 +528,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_income_statement",
     "name": "v_income_statement",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "利润表视图",
@@ -513,6 +538,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_dupont",
     "name": "v_dupont",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "杜邦 ROE 分解",
@@ -522,6 +548,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_balance_sheet",
     "name": "v_balance_sheet",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "资产负债表视图",
@@ -531,6 +558,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_cashflow",
     "name": "v_cashflow",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "现金流量视图",
@@ -540,6 +568,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_cashflow_statement",
     "name": "v_cashflow_statement",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "现金流量表视图",
@@ -549,6 +578,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_tax_analysis",
     "name": "v_tax_analysis",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "税务分析视图",
@@ -558,6 +588,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_budget",
     "name": "v_budget",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "预算执行",
@@ -567,6 +598,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_inventory",
     "name": "v_inventory",
+    "name_cn": "",
     "layer": "ads",
     "type": "view",
     "purpose": "库存周转监控",
@@ -596,6 +628,11 @@ window.DW_ARCHITECTURE_DATA = {
     "label": "指标封装"
   },
   {
+    "from": "dwd_sales_wide",
+    "to": "dws_sales_daily",
+    "label": "血缘"
+  },
+  {
     "from": "ods_payment",
     "to": "v_cashflow",
     "label": "指标封装"
@@ -621,6 +658,11 @@ window.DW_ARCHITECTURE_DATA = {
     "label": "指标封装"
   },
   {
+    "from": "dwd_inventory_wide",
+    "to": "dws_inventory_daily",
+    "label": "血缘"
+  },
+  {
     "from": "ods_expense",
     "to": "dwd_expense_wide",
     "label": "ETL/聚合"
@@ -634,6 +676,11 @@ window.DW_ARCHITECTURE_DATA = {
     "from": "ods_expense",
     "to": "v_budget",
     "label": "指标封装"
+  },
+  {
+    "from": "dwd_expense_wide",
+    "to": "dws_expense_monthly",
+    "label": "血缘"
   },
   {
     "from": "ods_store_pnl",
@@ -697,11 +744,6 @@ window.DW_ARCHITECTURE_DATA = {
   },
   {
     "from": "dwd_sales_wide",
-    "to": "dws_sales_daily",
-    "label": "ETL/聚合"
-  },
-  {
-    "from": "dwd_sales_wide",
     "to": "dws_sales_monthly",
     "label": "ETL/聚合"
   },
@@ -716,9 +758,9 @@ window.DW_ARCHITECTURE_DATA = {
     "label": "指标封装"
   },
   {
-    "from": "dwd_expense_wide",
-    "to": "dws_expense_monthly",
-    "label": "ETL/聚合"
+    "from": "dws_sales_daily",
+    "to": "dws_sales_monthly",
+    "label": "血缘"
   },
   {
     "from": "dwd_expense_wide",
@@ -726,9 +768,9 @@ window.DW_ARCHITECTURE_DATA = {
     "label": "指标封装"
   },
   {
-    "from": "dwd_inventory_wide",
-    "to": "dws_inventory_daily",
-    "label": "ETL/聚合"
+    "from": "dws_expense_monthly",
+    "to": "v_budget",
+    "label": "血缘"
   },
   {
     "from": "dwd_inventory_wide",
@@ -736,9 +778,9 @@ window.DW_ARCHITECTURE_DATA = {
     "label": "指标封装"
   },
   {
-    "from": "dws_sales_daily",
-    "to": "dws_sales_monthly",
-    "label": "指标封装"
+    "from": "dws_inventory_daily",
+    "to": "v_inventory",
+    "label": "血缘"
   },
   {
     "from": "dws_sales_daily",
@@ -753,7 +795,7 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "from": "dws_sales_monthly",
     "to": "v_overview",
-    "label": "指标封装"
+    "label": "血缘"
   },
   {
     "from": "dws_sales_monthly",
@@ -776,19 +818,19 @@ window.DW_ARCHITECTURE_DATA = {
     "label": "指标封装"
   },
   {
-    "from": "dws_expense_monthly",
-    "to": "v_budget",
-    "label": "指标封装"
-  },
-  {
-    "from": "dws_inventory_daily",
-    "to": "v_inventory",
-    "label": "指标封装"
+    "from": "v_overview",
+    "to": "v_brand",
+    "label": "血缘"
   },
   {
     "from": "dws_inventory_daily",
     "to": "v_dupont",
     "label": "指标封装"
+  },
+  {
+    "from": "v_inventory",
+    "to": "v_dupont",
+    "label": "血缘"
   }
 ],
     dashboards: [

@@ -19,18 +19,27 @@ class DWKnowledgeGraph {
     // 筛选状态
     this.layerFilter = new Set(['ods', 'dim', 'dwd', 'dws', 'ads']);
     
-    // 分层颜色
+    // 分层颜色（与 architecture layers / 图例一致；勿再硬编码另一套）
     this.layerColors = {
-      ods: '#6b7280',
-      dim: '#3b82f6',
-      dwd: '#10b981',
+      ods: '#64748b',
+      dim: '#6366f1',
+      dwd: '#14b8a6',
       dws: '#f59e0b',
-      ads: '#ef4444'
+      ads: '#8b5cf6'
     };
 
     this.chart = null;
     this.init();
   }
+
+  /** 节点/图例/筛选点统一取色 */
+  getLayerColor(layerId) {
+    const industry = this.data[this.currentIndustry];
+    const layer = industry?.layers?.find(l => l.id === layerId);
+    if (layer?.color) return layer.color;
+    return this.layerColors[layerId] || '#6b7280';
+  }
+
 
   init() {
     this.render();
@@ -182,7 +191,7 @@ class DWKnowledgeGraph {
       const isHighlighted = this.highlightedNodes.has(table.id);
       const isDimmed = this.highlightedNodes.size > 0 && !isHighlighted;
       
-      const color = this.layerColors[table.layer] || '#6b7280';
+      const color = this.getLayerColor(table.layer);
       
       return {
         id: table.id,
@@ -259,7 +268,7 @@ class DWKnowledgeGraph {
           if (params.dataType === 'node') {
             const table = params.data.tableData;
             return `
-              <div style="font-weight:600;margin-bottom:6px;color:${this.layerColors[table.layer]}">${table.name}</div>
+              <div style="font-weight:600;margin-bottom:6px;color:${this.getLayerColor(table.layer)}">${table.name}</div>
               <div style="color:#8892a4;font-size:11px;line-height:1.6;">
                 <div>分层：${table.layer.toUpperCase()}</div>
                 <div>类型：${table.type === 'view' ? '视图' : '表'}</div>
