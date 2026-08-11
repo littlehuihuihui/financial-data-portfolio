@@ -11,3 +11,5 @@ SOURCE 04_sync_log.sql;
 SOURCE 05_views.sql;
 SOURCE 06_stored_procedures.sql;
 SOURCE 07_init_data.sql;
+SOURCE 10_system_config.sql;
+SOURCE 11_etl_lineage.sql;

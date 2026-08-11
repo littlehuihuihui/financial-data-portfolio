@@ -3038,7 +3038,7 @@ window.DATA_DICTIONARY=[
     "name_cn": "用户生命周期",
     "layer": "ADS",
     "type": "view",
-    "purpose": "v_user_lifecycle 分析视图",
+    "purpose": "用户生命周期（同义 v_lifecycle）",
     "source": "internet_analytics/database",
     "downstream": [
       "Web看板"
@@ -3046,8 +3046,72 @@ window.DATA_DICTIONARY=[
     "lineage": [
       "v_user_lifecycle"
     ],
-    "field_count": 0,
-    "fields": []
+    "field_count": 9,
+    "fields": [
+      {
+        "name": "snapshot_date",
+        "type": "VIEW",
+        "desc": "snapshot_date",
+        "business": "snapshot_date",
+        "role": "attr"
+      },
+      {
+        "name": "new_register",
+        "type": "VIEW",
+        "desc": "new_register",
+        "business": "new_register",
+        "role": "attr"
+      },
+      {
+        "name": "new_activate",
+        "type": "VIEW",
+        "desc": "new_activate",
+        "business": "new_activate",
+        "role": "attr"
+      },
+      {
+        "name": "silent_cnt",
+        "type": "VIEW",
+        "desc": "silent_cnt",
+        "business": "silent_cnt",
+        "role": "attr"
+      },
+      {
+        "name": "churn_cnt",
+        "type": "VIEW",
+        "desc": "churn_cnt",
+        "business": "churn_cnt",
+        "role": "attr"
+      },
+      {
+        "name": "active_users",
+        "type": "VIEW",
+        "desc": "active_users",
+        "business": "active_users",
+        "role": "attr"
+      },
+      {
+        "name": "active_stb",
+        "type": "VIEW",
+        "desc": "active_stb",
+        "business": "active_stb",
+        "role": "attr"
+      },
+      {
+        "name": "active_speaker",
+        "type": "VIEW",
+        "desc": "active_speaker",
+        "business": "active_speaker",
+        "role": "attr"
+      },
+      {
+        "name": "approx_net_growth",
+        "type": "VIEW",
+        "desc": "approx_net_growth",
+        "business": "approx_net_growth",
+        "role": "attr"
+      }
+    ]
   },
   {
     "name": "v_retention_decomposition",
@@ -4814,7 +4878,7 @@ window.DATA_DICTIONARY=[
     "name_cn": "用户标签明细",
     "layer": "ADS",
     "type": "view",
-    "purpose": "v_user_tag_detail 分析视图",
+    "purpose": "用户标签明细视图",
     "source": "internet_analytics/database",
     "downstream": [
       "Web看板"
@@ -4822,8 +4886,65 @@ window.DATA_DICTIONARY=[
     "lineage": [
       "v_user_tag_detail"
     ],
-    "field_count": 0,
-    "fields": []
+    "field_count": 8,
+    "fields": [
+      {
+        "name": "snapshot_date",
+        "type": "DATE",
+        "desc": "快照日",
+        "business": "快照日",
+        "role": "attr"
+      },
+      {
+        "name": "user_id",
+        "type": "VARCHAR",
+        "desc": "用户ID",
+        "business": "用户ID",
+        "role": "bk"
+      },
+      {
+        "name": "tag_summary",
+        "type": "TEXT",
+        "desc": "标签摘要",
+        "business": "标签摘要",
+        "role": "attr"
+      },
+      {
+        "name": "demographic_tags",
+        "type": "TEXT",
+        "desc": "人口标签",
+        "business": "人口标签",
+        "role": "attr"
+      },
+      {
+        "name": "behavior_tags",
+        "type": "TEXT",
+        "desc": "行为标签",
+        "business": "行为标签",
+        "role": "attr"
+      },
+      {
+        "name": "value_tags",
+        "type": "TEXT",
+        "desc": "价值标签",
+        "business": "价值标签",
+        "role": "attr"
+      },
+      {
+        "name": "content_pref_tags",
+        "type": "TEXT",
+        "desc": "内容偏好标签",
+        "business": "内容偏好标签",
+        "role": "attr"
+      },
+      {
+        "name": "lifecycle_tags",
+        "type": "TEXT",
+        "desc": "生命周期标签",
+        "business": "生命周期标签",
+        "role": "attr"
+      }
+    ]
   },
   {
     "name": "v_user_tag_by_category",
