@@ -20,6 +20,9 @@
   /** 默认仓库（行业 data.repo 可覆盖） */
   const DEFAULT_REPO = {
     baseUrl: "https://github.com/littlehuihuihui/financial-data-portfolio",
+    // 国内常无法直连 github.com；Pages 与站点同源，可直接打开 .py/.sql
+    pagesBaseUrl: "https://littlehuihuihui.github.io/financial-data-portfolio",
+    preferPages: true,
     branch: "main",
     provider: "github",
     // 发布仓根目录即原 portfolio/ 内容
@@ -42,19 +45,29 @@
     return p;
   }
 
-  /**
-   * @returns {string|null}
-   */
+  function encodePathSegments(path) {
+    return path
+      .split("/")
+      .map((seg) => encodeURIComponent(seg))
+      .join("/");
+  }
+
+  /** GitHub Pages 静态文件 URL（国内可访问） */
+  function buildPagesFileUrl(repo, codePath) {
+    if (!repo || !repo.pagesBaseUrl) return null;
+    const path = normalizeCodePath(repo, codePath);
+    if (!path) return null;
+    return `${String(repo.pagesBaseUrl).replace(/\/+$/, "")}/${encodePathSegments(path)}`;
+  }
+
+  /** GitHub/GitLab blob URL（需可访问对应网站） */
   function buildRepoFileUrl(repo, codePath, edge) {
     if (!repo || !repo.baseUrl) return null;
     const path = normalizeCodePath(repo, codePath);
     if (!path) return null;
     const base = String(repo.baseUrl).replace(/\/+$/, "");
     const branch = encodeURIComponent(repo.branch || "main");
-    const encodedPath = path
-      .split("/")
-      .map((seg) => encodeURIComponent(seg))
-      .join("/");
+    const encodedPath = encodePathSegments(path);
     const provider = (repo.provider || "github").toLowerCase();
     let url =
       provider === "gitlab"
@@ -70,15 +83,22 @@
 
   function renderCodePath(edge, repo) {
     const raw = edge.code_path || "—";
-    const url = buildRepoFileUrl(repo, raw, edge);
-    if (!url) {
+    const pagesUrl = repo.preferPages !== false ? buildPagesFileUrl(repo, raw) : null;
+    const ghUrl = buildRepoFileUrl(repo, raw, edge);
+    const primary = pagesUrl || ghUrl;
+    if (!primary) {
       return `<code class="etl-code-path">${esc(raw)}</code>`;
     }
-    return (
-      `<a class="etl-code-path etl-code-path-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">` +
+    let html =
+      `<a class="etl-code-path etl-code-path-link" href="${esc(primary)}" target="_blank" rel="noopener noreferrer">` +
       `<code>${esc(raw)}</code></a>` +
-      `<a class="etl-repo-open" href="${esc(url)}" target="_blank" rel="noopener noreferrer">在仓库中打开</a>`
-    );
+      `<a class="etl-repo-open" href="${esc(primary)}" target="_blank" rel="noopener noreferrer">` +
+      `${pagesUrl ? "查看源码" : "在仓库中打开"}</a>`;
+    if (pagesUrl && ghUrl) {
+      html +=
+        `<a class="etl-repo-open etl-repo-github" href="${esc(ghUrl)}" target="_blank" rel="noopener noreferrer" title="需可访问 GitHub">GitHub</a>`;
+    }
+    return html;
   }
 
   class EtlLineageUI {
