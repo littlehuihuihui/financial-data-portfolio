@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>源码查看 · Data Nexus</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #4da3ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Cascadia Code", "JetBrains Mono", Consolas, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      align-items: center;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    h1 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    #path {
+      flex: 1 1 240px;
+      font-size: 13px;
+      color: var(--accent);
+      word-break: break-all;
+    }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    button, a.btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: #21262d;
+      color: var(--text);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    button:hover, a.btn:hover { border-color: var(--accent); color: var(--accent); }
+    #status {
+      padding: 10px 18px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    #status.error { color: #f85149; }
+    pre {
+      margin: 0;
+      padding: 16px 18px 48px;
+      overflow: auto;
+      font-size: 13px;
+      line-height: 1.55;
+      white-space: pre;
+      tab-size: 4;
+    }
+    .line-hl { background: rgba(77, 163, 255, 0.18); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>源码查看</h1>
+    <div id="path">—</div>
+    <div class="actions">
+      <button type="button" id="btn-copy">复制</button>
+      <a class="btn" id="btn-raw" href="#" target="_blank" rel="noopener">原始文件</a>
+      <button type="button" id="btn-back">关闭</button>
+    </div>
+  </header>
+  <div id="status">加载中…</div>
+  <pre id="code" hidden></pre>
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      let file = (params.get("f") || params.get("path") || "").trim().replace(/^\/+/, "");
+      if (file.startsWith("portfolio/")) file = file.slice("portfolio/".length);
+      const pathEl = document.getElementById("path");
+      const statusEl = document.getElementById("status");
+      const codeEl = document.getElementById("code");
+      const rawBtn = document.getElementById("btn-raw");
+
+      pathEl.textContent = file || "（未指定文件）";
+      if (!file || file.includes("..")) {
+        statusEl.className = "error";
+        statusEl.textContent = "无效的文件路径。";
+        return;
+      }
+
+      // 同源静态文件（Pages）优先；.py 虽为 octet-stream，fetch 仍可读文本
+      // 回退 raw.githubusercontent.com（text/plain，国内通常可访问）
+      const enc = file.split("/").map(encodeURIComponent).join("/");
+      const candidates = [
+        "./" + enc,
+        "https://raw.githubusercontent.com/littlehuihuihui/financial-data-portfolio/main/" + enc,
+      ];
+      rawBtn.href = candidates[0];
+
+      document.getElementById("btn-back").onclick = function () {
+        if (history.length > 1) history.back();
+        else window.close();
+      };
+      document.getElementById("btn-copy").onclick = async function () {
+        try {
+          await navigator.clipboard.writeText(codeEl.textContent || "");
+          this.textContent = "已复制";
+          setTimeout(() => { this.textContent = "复制"; }, 1200);
+        } catch (_) {
+          this.textContent = "复制失败";
+        }
+      };
+
+      function highlightLines() {
+        const hash = location.hash || "";
+        const m = hash.match(/^#L(\d+)(?:-L?(\d+))?$/i);
+        if (!m) return;
+        const start = Number(m[1]);
+        const end = Number(m[2] || m[1]);
+        const lines = codeEl.textContent.split("\n");
+        codeEl.innerHTML = lines
+          .map((line, i) => {
+            const n = i + 1;
+            const cls = n >= start && n <= end ? ' class="line-hl"' : "";
+            return `<span id="L${n}"${cls}>${line
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")}</span>`;
+          })
+          .join("\n");
+        const el = document.getElementById("L" + start);
+        if (el) el.scrollIntoView({ block: "center" });
+      }
+
+      async function load() {
+        let lastErr = null;
+        for (const url of candidates) {
+          try {
+            const res = await fetch(url, { cache: "no-cache" });
+            if (!res.ok) throw new Error(res.status + " " + res.statusText);
+            const text = await res.text();
+            if (/Page not found/i.test(text) && /<!DOCTYPE html/i.test(text.slice(0, 200))) {
+              throw new Error("404 HTML");
+            }
+            codeEl.hidden = false;
+            codeEl.textContent = text;
+            statusEl.textContent = "来源：" + url;
+            rawBtn.href = url;
+            highlightLines();
+            document.title = file.split("/").pop() + " · 源码查看";
+            return;
+          } catch (e) {
+            lastErr = e;
+          }
+        }
+        statusEl.className = "error";
+        statusEl.textContent = "无法加载文件：" + (lastErr && lastErr.message ? lastErr.message : "网络错误");
+      }
+
+      load();
+    })();
+  </script>
+</body>
+</html>

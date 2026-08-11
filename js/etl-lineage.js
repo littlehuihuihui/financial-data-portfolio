@@ -20,9 +20,10 @@
   /** 默认仓库（行业 data.repo 可覆盖） */
   const DEFAULT_REPO = {
     baseUrl: "https://github.com/littlehuihuihui/financial-data-portfolio",
-    // 国内常无法直连 github.com；Pages 与站点同源，可直接打开 .py/.sql
+    // 站内源码查看页（不依赖 github.com；.py 也不会被浏览器当下载）
     pagesBaseUrl: "https://littlehuihuihui.github.io/financial-data-portfolio",
-    preferPages: true,
+    codeViewPath: "code-view.html",
+    preferCodeView: true,
     branch: "main",
     provider: "github",
     // 发布仓根目录即原 portfolio/ 内容
@@ -52,12 +53,20 @@
       .join("/");
   }
 
-  /** GitHub Pages 静态文件 URL（国内可访问） */
-  function buildPagesFileUrl(repo, codePath) {
+  /** 站内源码查看页 */
+  function buildCodeViewUrl(repo, codePath, edge) {
     if (!repo || !repo.pagesBaseUrl) return null;
     const path = normalizeCodePath(repo, codePath);
     if (!path) return null;
-    return `${String(repo.pagesBaseUrl).replace(/\/+$/, "")}/${encodePathSegments(path)}`;
+    const base = String(repo.pagesBaseUrl).replace(/\/+$/, "");
+    const view = (repo.codeViewPath || "code-view.html").replace(/^\/+/, "");
+    let url = `${base}/${view}?f=${encodeURIComponent(path)}`;
+    const start = edge && (edge.line_start || edge.lineStart);
+    const end = edge && (edge.line_end || edge.lineEnd);
+    if (start) {
+      url += end && Number(end) !== Number(start) ? `#L${start}-L${end}` : `#L${start}`;
+    }
+    return url;
   }
 
   /** GitHub/GitLab blob URL（需可访问对应网站） */
@@ -83,18 +92,17 @@
 
   function renderCodePath(edge, repo) {
     const raw = edge.code_path || "—";
-    const pagesUrl = repo.preferPages !== false ? buildPagesFileUrl(repo, raw) : null;
+    const viewUrl = repo.preferCodeView !== false ? buildCodeViewUrl(repo, raw, edge) : null;
     const ghUrl = buildRepoFileUrl(repo, raw, edge);
-    const primary = pagesUrl || ghUrl;
+    const primary = viewUrl || ghUrl;
     if (!primary) {
       return `<code class="etl-code-path">${esc(raw)}</code>`;
     }
     let html =
       `<a class="etl-code-path etl-code-path-link" href="${esc(primary)}" target="_blank" rel="noopener noreferrer">` +
       `<code>${esc(raw)}</code></a>` +
-      `<a class="etl-repo-open" href="${esc(primary)}" target="_blank" rel="noopener noreferrer">` +
-      `${pagesUrl ? "查看源码" : "在仓库中打开"}</a>`;
-    if (pagesUrl && ghUrl) {
+      `<a class="etl-repo-open" href="${esc(primary)}" target="_blank" rel="noopener noreferrer">查看源码</a>`;
+    if (viewUrl && ghUrl) {
       html +=
         `<a class="etl-repo-open etl-repo-github" href="${esc(ghUrl)}" target="_blank" rel="noopener noreferrer" title="需可访问 GitHub">GitHub</a>`;
     }
