@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="零售财务 · 实体关系图全屏">
+  <meta name="description" content="零售财务 · 实体关系图（交互式）">
   <title>零售财务 · 实体关系图</title>
   <link rel="stylesheet" href="../../../css/design-tokens.css">
   <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.28">
@@ -11,10 +11,11 @@
   <link rel="stylesheet" href="../css/platform-features.css?v=3.32">
 
   <style>
-    .viz-page-header { flex: 0 0 auto; margin-bottom: 8px; }
-    .viz-page-header h1 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+    .viz-page-main { max-width: none; margin: 0; padding: 8px 14px 10px; }
+    .viz-page-header { margin-bottom: 16px; }
+    .viz-page-header h1 { margin: 0 0 6px; font-size: 22px; }
     .viz-page-header p { margin: 0; color: var(--text-secondary, #8892a4); font-size: 13px; }
-    .viz-page-header a { color: var(--accent, #4da3ff); }
+    #er-diagram-root { flex: 1; min-height: 0; }
   </style>
 </head>
 <body class="page-architecture-fullscreen" data-industry="retail">
@@ -30,21 +31,17 @@
       </nav>
     </div>
   </header>
-    <main class="viz-page-main">
-    <div class="viz-page-header">
-      <h1>实体关系图 · 全屏</h1>
-      <p>核心事实与维度关联示意。也可从 <a href="architecture.html#er-diagram-section">架构页嵌入版</a> 进入。</p>
-    </div>
-<div id="er-diagram-root" class="er-diagram-wrap"></div>
+  <main class="viz-page-main">
+    <div id="er-diagram-root" class="er-diagram-wrap"></div>
   </main>
   <script src="../js/er-diagram-data.js?v=3.32"></script>
-  <script src="../../../js/er-diagram.js?v=3.32"></script>
+  <script src="../../../js/er-diagram-interactive.js?v=1.0"></script>
   <script src="../../../js/global-search.js?v=3.28"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       window.GlobalSearch?.mount?.('global-search-slot');
 
-      window.ERDiagramUI.render('er-diagram-root');
+      window.ERDiagramInteractive.render('er-diagram-root');
 
       window.GlobalSearch?.consumePendingNav?.();
     });

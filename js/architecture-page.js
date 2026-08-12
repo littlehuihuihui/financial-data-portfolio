@@ -39,7 +39,7 @@
       dwArch: `${b.shared}/dw-architecture.js?v=3.33`,
       dwGraph: `${b.shared}/dw-knowledge-graph.js?v=3.36`,
       erData: `${b.industry}/er-diagram-data.js?v=3.32`,
-      er: `${b.shared}/er-diagram.js?v=3.32`,
+      er: `${b.shared}/er-diagram-interactive.js?v=1.0`,
     };
     const key = keys.join("|");
     if (!loading[key]) {
@@ -50,7 +50,7 @@
           if (k === "dwArchData" && window.DW_ARCHITECTURE_DATA) continue;
           if (k === "dwArch" && window.DWArchitecture) continue;
           if (k === "dwGraph" && window.DWKnowledgeGraph) continue;
-          if (k === "er" && window.ERDiagramUI) continue;
+          if (k === "er" && window.ERDiagramInteractive) continue;
           await loadScript(map[k]);
         }
       })();
@@ -120,9 +120,9 @@
     if (inited.er) return;
     await ensureScripts(["erData", "er"]);
     const root = document.getElementById("er-diagram-root");
-    if (!root || !window.ERDiagramUI?.render) return;
+    if (!root || !window.ERDiagramInteractive?.render) return;
     inited.er = true;
-    window.ERDiagramUI.render("er-diagram-root");
+    window.ERDiagramInteractive.render("er-diagram-root");
   }
 
   async function ensureInteractive(id) {
@@ -142,6 +142,9 @@
               window.__dwArch?.drawFlows?.();
             } else if (details.id === "dw-graph-section") {
               window.__dwGraph?.chart?.resize?.();
+            } else if (details.id === "er-diagram-section") {
+              // ER图初始化后触发resize
+              window.dispatchEvent(new Event("resize"));
             }
           });
         });
