@@ -152,19 +152,107 @@
     renderJobs() {
       const jobs = this.data.jobs || [];
       if (!jobs.length) return "<p class='etl-empty'>暂无调度任务</p>";
+      const hasTiming = jobs.some((j) => j.planned_start && j.planned_start !== "—");
       return `
         <div class="table-wrap">
           <table class="data-table etl-jobs-table">
-            <thead><tr><th>任务</th><th>执行频率</th><th>说明</th></tr></thead>
+            <thead><tr>
+              <th>任务</th><th>分层</th><th>计划开始</th><th>预计耗时</th><th>最晚完成基线</th><th>依赖</th><th>说明</th>
+            </tr></thead>
             <tbody>
               ${jobs.map((j) => `
                 <tr>
                   <td>${esc(j.name)}</td>
-                  <td>${esc(j.schedule)}</td>
-                  <td>${esc(j.description)}</td>
+                  <td>${esc(j.layer || "—")}</td>
+                  <td>${esc(j.planned_start || j.schedule || "—")}</td>
+                  <td>${j.duration_min ? esc(j.duration_min) + " min" : "—"}</td>
+                  <td>${esc(j.sla_end || "—")}</td>
+                  <td><code>${esc((j.depends_on || []).join(" → ") || "—")}</code></td>
+                  <td>${esc(j.description || "")}</td>
                 </tr>`).join("")}
             </tbody>
           </table>
+        </div>
+        ${hasTiming ? "" : ""}`;
+    }
+
+    renderGantt() {
+      const jobs = (this.data.jobs || []).filter((j) => j.planned_start && j.planned_start !== "—" && j.left_pct != null);
+      if (!jobs.length) return "";
+      const win = this.data.schedule_window || { start: "02:00", end: "09:00" };
+      const rows = jobs.map((j) => {
+        const sla = Math.min(Math.max(Number(j.sla_pct) || 0, 0), 100);
+        const left = Math.min(Math.max(Number(j.left_pct) || 0, 0), 100);
+        const width = Math.min(Math.max(Number(j.width_pct) || 2, 1), 100 - left);
+        return `
+          <div class="etl-gantt-row" data-layer="${esc(j.layer || "")}">
+            <div class="etl-gantt-label" title="${esc(j.description || "")}">
+              <span class="etl-gantt-layer">${esc(j.layer || "")}</span>
+              <span class="etl-gantt-name">${esc(j.name)}</span>
+            </div>
+            <div class="etl-gantt-track">
+              <div class="etl-gantt-bar" style="left:${left}%;width:${width}%;" title="计划 ${esc(j.planned_start)}–${esc(j.planned_end)} · ${esc(j.duration_min)}min">
+                <span class="etl-gantt-bar-text">${esc(j.planned_start)} · ${esc(j.duration_min)}m</span>
+              </div>
+              <div class="etl-gantt-sla" style="left:${sla}%;" title="最晚完成基线 ${esc(j.sla_end)}"></div>
+            </div>
+          </div>`;
+      }).join("");
+      return `
+        <h4>调度甘特图（计划开始 / 预计耗时 / 最晚完成基线）</h4>
+        <p class="etl-section-desc">色条 = 计划执行窗口；竖线 = SLA 最晚完成基线。下游依赖上游 SUCCESS，而非到点空跑。</p>
+        <div class="etl-gantt">
+          <div class="etl-gantt-axis">
+            <span>${esc(win.start)}</span><span class="etl-gantt-axis-mid">批处理窗口</span><span>${esc(win.end)}</span>
+          </div>
+          ${rows}
+          <div class="etl-gantt-legend">
+            <span><i class="etl-gantt-leg-bar"></i>计划耗时</span>
+            <span><i class="etl-gantt-leg-sla"></i>最晚完成基线</span>
+          </div>
+        </div>`;
+    }
+
+    renderDqGates() {
+      const gates = this.data.dq_gates || [];
+      if (!gates.length) return "";
+      return `
+        <h4>数据质量门禁（DQC）</h4>
+        <p class="etl-section-desc">监控对象 · 校验规则 · 阈值 · 触发动作 · 近 30 日通过率。BLOCK 失败则禁止 ADS/看板就绪。</p>
+        <div class="table-wrap">
+          <table class="data-table etl-dq-gate-table">
+            <thead><tr>
+              <th>监控对象</th><th>分层</th><th>维度</th><th>校验规则</th><th>阈值</th><th>触发动作</th><th>近月通过率</th>
+            </tr></thead>
+            <tbody>
+              ${gates.map((g) => {
+                const rate = Number(g.pass_rate_30d);
+                const cls = rate >= 99 ? "ok" : rate >= 97 ? "warn" : "bad";
+                const actionCls = String(g.action || "").includes("BLOCK") ? "block" : "warn";
+                return `
+                <tr>
+                  <td><code>${esc(g.object)}</code></td>
+                  <td>${esc(g.layer)}</td>
+                  <td>${esc(g.dimension || "—")}</td>
+                  <td>${esc(g.rule)}</td>
+                  <td>${esc(g.threshold)}</td>
+                  <td><span class="etl-action-tag etl-action-${actionCls}">${esc(g.action)}</span></td>
+                  <td><span class="etl-pass-rate etl-pass-${cls}">${esc(rate)}%</span></td>
+                </tr>`;
+              }).join("")}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    renderOps() {
+      const ops = this.data.ops || {};
+      if (!ops.delay && !ops.lineage) return "";
+      return `
+        <h4>血缘与调度：依赖 · 延迟 · 告警</h4>
+        <div class="etl-ops-grid">
+          ${ops.lineage ? `<div class="etl-ops-card"><h5>分层与甘特</h5><p>${esc(ops.lineage)}</p></div>` : ""}
+          ${ops.delay ? `<div class="etl-ops-card"><h5>上游 ODS 延迟怎么处理</h5><p>${esc(ops.delay)}</p></div>` : ""}
         </div>`;
     }
 
@@ -229,6 +317,9 @@
       this.root.innerHTML = `
         <h4>ETL调度策略</h4>
         ${this.renderJobs()}
+        ${this.renderGantt()}
+        ${this.renderDqGates()}
+        ${this.renderOps()}
         ${this.data.note ? `<p class="etl-impl-note">${esc(this.data.note)}</p>` : ""}
 
         <h4>表级变换（A → B）</h4>

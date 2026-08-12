@@ -1,43 +1,34 @@
-多行业平台 · PyCharm 傻瓜步骤
-================================
+多行业平台 · PyCharm 怎么打开 / 运行
+====================================
 
-【最简单 · 不用 PyCharm】
+【最简单】
 双击：portfolio\一键启动.bat
-浏览器打开：http://127.0.0.1:5100/
+浏览器：http://127.0.0.1:5100/
 
 
-【用 PyCharm · 已写好配置，不用自己选 3.8/3.9】
+【PyCharm · 推荐】
 
-1. 用 PyCharm 打开文件夹：
-   d:\cursor\财务数据分析\retail-finance-analysis
+1. File → Open → D:\cursor\多行业数据平台
+2. 右上角运行配置只保留这 5 个：
+   - All Services (5000+5001+5002+5100)  ← 一次全开
+   - Portfolio Platform 5100
+   - Retail API 5000
+   - Internet API 5001
+   - Manufacturing API 5002
 
-2. 看右上角运行配置下拉框，应出现：
-   - Retail API          （零售看板数据，端口 5000）
-   - Portfolio Platform  （多行业入口，端口 5100）
+3. 选「All Services」→ Run
+4. 浏览器：http://127.0.0.1:5100/
 
-3. 先选 Retail API → 点绿色三角运行
-   看到 Running on http://127.0.0.1:5000 即成功
-
-4. 再选 Portfolio Platform → 点绿色三角运行
-   看到 Running on http://127.0.0.1:5100 即成功
-
-5. 浏览器打开：http://127.0.0.1:5100/
-   点击「零售财务」卡片进入看板
-
-
-【如果右上角没有这两个配置】
-
-Retail API：
-  Script:     retail-finance-analysis\app.py
-  工作目录:   retail-finance-analysis
-  解释器:     Python 3.9 (retail-finance-analysis)  ← 带项目名那个
-
-Portfolio Platform：
-  Script:     portfolio\portfolio_app.py
-  工作目录:   portfolio
-  解释器:     选手动添加 → portfolio\venv\Scripts\python.exe
+解释器：
+  Retail → retail-finance-analysis\venv\Scripts\python.exe
+  其余 → portfolio\venv\Scripts\python.exe
 
 
-【Python 3.8 / 3.9 怎么选？】
-不用管系统里的 Python 3.8、3.9。
-选带 venv 路径的那个，或上面两个已配好的运行配置。
+【前端唯一目录】
+  portfolio/industries/{retail|internet|manufacturing}/
+  retail-finance-analysis/docs/ 已删除
+
+
+【不要】
+- 不要用旧配置名：app / 启动全部 / Portfolio Platform（无端口号）
+- 不要只开 :5000 当作品集入口（UI 用 :5100）

@@ -281,11 +281,12 @@
 }
 
 .dw-arch-legend-line {
-  width: 24px;
-  height: 2px;
-  background: #4da3ff;
+  width: 28px;
+  height: 3px;
+  background: #22d3ee;
   border-radius: 1px;
-  opacity: 0.6;
+  opacity: 0.95;
+  box-shadow: 0 0 6px rgba(34, 211, 238, 0.55);
 }
 
 .dw-arch-legend-line.dashed {
@@ -340,25 +341,44 @@
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 6; /* 高于泳道背景，避免线被 DWD 等列底色盖住 */
+  overflow: visible;
 }
 
 /* 流动动画 */
 .dw-arch-flow-animated {
-  stroke-dasharray: 10, 5;
-  animation: flowDash 1s linear infinite;
+  stroke-dasharray: 14, 10;
+  animation: flowDash 1.1s linear infinite;
+}
+
+.dw-arch-flow-spine {
+  opacity: 1;
+}
+
+.dw-arch-flow-halo {
+  pointer-events: none;
+}
+
+.dw-arch-flow-node {
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.45));
+}
+
+.dw-arch-flow-label,
+.dw-arch-flow-label-bg {
+  pointer-events: none;
 }
 
 @keyframes flowDash {
   to {
-    stroke-dashoffset: -15;
+    stroke-dashoffset: -24;
   }
 }
 
 /* ---------- 分层泳道 ---------- */
 .dw-arch-lanes {
   display: flex;
-  gap: 32px;
+  gap: 56px;
   position: relative;
   z-index: 2;
   min-width: max-content;
@@ -1137,6 +1157,62 @@
   align-items: stretch;
 }
 
+/* 读线说明条 */
+.dw-arch-flow-guide {
+  padding: 10px 14px;
+  background: rgba(8, 14, 28, 0.85);
+  border: 1px solid rgba(34, 211, 238, 0.22);
+  border-radius: 10px;
+}
+.dw-arch-flow-guide-track {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 10px;
+  margin-bottom: 8px;
+}
+.dw-arch-flow-step {
+  display: inline-block;
+  min-width: 72px;
+  padding: 6px 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  line-height: 1.25;
+}
+.dw-arch-flow-step small {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #94a3b8;
+  letter-spacing: 0;
+}
+.dw-arch-flow-step[data-layer="ods"] { border-color: rgba(100, 116, 139, 0.55); color: #cbd5e1; }
+.dw-arch-flow-step[data-layer="dwd"] { border-color: rgba(20, 184, 166, 0.55); color: #5eead4; }
+.dw-arch-flow-step[data-layer="dws"] { border-color: rgba(245, 158, 11, 0.55); color: #fcd34d; }
+.dw-arch-flow-step[data-layer="ads"] { border-color: rgba(139, 92, 246, 0.55); color: #c4b5fd; }
+.dw-arch-flow-verb {
+  font-family: var(--font-mono, Consolas, monospace);
+  font-size: 11px;
+  color: #67e8f9;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.dw-arch-flow-guide-note {
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.55;
+}
+.dw-arch-flow-guide-note strong { color: #e2e8f0; }
+
 /* DIM 侧栏 */
 .dw-arch-dim-rail {
   flex: 0 0 200px;
@@ -1244,29 +1320,38 @@
   display: flex;
   gap: 10px;
   align-items: stretch;
+  min-height: 0;
 }
 
 .dw-arch-v2 .dw-arch-canvas {
   flex: 1;
   min-width: 0;
   min-height: 560px;
-  height: min(72vh, 720px);
+  height: min(82vh, 920px);
 }
 
 .dw-arch-lanes-main {
   display: grid;
   grid-template-columns: repeat(4, minmax(200px, 1fr));
-  gap: 28px;
-  min-width: 880px;
+  gap: 48px;
+  min-width: 960px;
   width: 100%;
+  padding-top: 8px;
 }
 
 .dw-arch-lane-main {
   width: auto;
   min-width: 0;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--lane-tint, #4da3ff) 10%, transparent), transparent 48%);
+  /* 仅列头淡色，不铺满整列，避免盖住层间箭头与标签 */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--lane-tint, #4da3ff) 12%, transparent) 0%,
+    color-mix(in srgb, var(--lane-tint, #4da3ff) 4%, transparent) 48px,
+    transparent 88px
+  );
   border-radius: 12px;
   padding: 4px;
+  overflow: visible;
 }
 
 .dw-arch-lane-main .dw-arch-lane-header {
@@ -1274,10 +1359,13 @@
   top: 0;
   z-index: 3;
   backdrop-filter: blur(6px);
+  background: rgba(10, 14, 26, 0.92);
 }
 
 .dw-arch-lane-main .dw-arch-table-card {
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 /* 内嵌详情（非全屏遮罩） */
@@ -1304,7 +1392,7 @@
   top: auto;
   right: auto;
   width: 100%;
-  height: min(72vh, 720px);
+  height: min(82vh, 920px);
   transform: none;
   border: 1px solid #1e2a4a;
   border-radius: 12px;
@@ -1373,4 +1461,159 @@
     grid-template-columns: 1fr;
     min-width: 240px;
   }
+}
+
+/* 工具栏内一行流向提示（不占独立行） */
+.dw-arch-flow-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  margin-left: 4px;
+  font-family: var(--font-mono, Consolas, monospace);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #67e8f9;
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.08);
+  white-space: nowrap;
+}
+
+/* ---------- 全屏页：只留一行导航 + 一行工具栏，其余全给表 ---------- */
+body.page-architecture-fullscreen {
+  overflow: hidden;
+  --fs-nav-h: 40px;
+}
+body.page-architecture-fullscreen .top-nav {
+  min-height: var(--fs-nav-h);
+}
+body.page-architecture-fullscreen .top-nav .nav-inner {
+  height: var(--fs-nav-h);
+  max-width: none;
+  padding: 0 12px;
+}
+body.page-architecture-fullscreen .brand-title {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+body.page-architecture-fullscreen .nav-tab {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+body.page-architecture-fullscreen #global-search-slot,
+body.page-architecture-fullscreen .global-search-wrap {
+  display: none !important;
+}
+body.page-architecture-fullscreen .viz-page-header {
+  display: block !important;
+  flex: 0 0 auto;
+  margin: 0 0 6px;
+  padding: 2px 2px 0;
+}
+body.page-architecture-fullscreen .viz-page-header h1 {
+  margin: 0 0 2px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #e0e6f0);
+}
+body.page-architecture-fullscreen .viz-page-header p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary, #8892a4);
+}
+body.page-architecture-fullscreen .viz-page-header a {
+  color: #4da3ff;
+  text-decoration: none;
+}
+body.page-architecture-fullscreen .viz-page-header a:hover {
+  text-decoration: underline;
+}
+body.page-architecture-fullscreen .viz-page-main {
+  max-width: none !important;
+  width: 100%;
+  margin: 0;
+  padding: 4px 8px 6px !important;
+  height: calc(100vh - var(--fs-nav-h));
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+body.page-architecture-fullscreen #dw-architecture-root,
+body.page-architecture-fullscreen #dw-graph-root,
+body.page-architecture-fullscreen #er-diagram-root {
+  flex: 1 1 auto;
+  min-height: 0 !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+body.page-architecture-fullscreen .dw-arch-wrapper,
+body.page-architecture-fullscreen .dw-arch-v2 {
+  flex: 1;
+  min-height: 0 !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+body.page-architecture-fullscreen .dw-arch-header {
+  flex-shrink: 0;
+  padding: 6px 10px !important;
+  margin: 0 !important;
+  border-radius: 8px;
+  gap: 6px !important;
+}
+body.page-architecture-fullscreen .dw-arch-title-text {
+  font-size: 13px !important;
+}
+body.page-architecture-fullscreen .dw-arch-subtitle,
+body.page-architecture-fullscreen .dw-arch-stats {
+  font-size: 11px;
+}
+body.page-architecture-fullscreen .dw-arch-flow-guide {
+  display: none !important;
+}
+body.page-architecture-fullscreen .dw-arch-body {
+  flex: 1;
+  min-height: 0 !important;
+  gap: 6px;
+}
+body.page-architecture-fullscreen .dw-arch-main-col {
+  min-height: 0;
+  height: 100%;
+}
+body.page-architecture-fullscreen .dw-arch-v2 .dw-arch-canvas {
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  border-radius: 8px;
+}
+body.page-architecture-fullscreen .dw-arch-v2 .dw-arch-detail-inline .dw-arch-sidebar-panel {
+  height: 100% !important;
+  max-height: none !important;
+}
+body.page-architecture-fullscreen .dw-arch-lanes-main {
+  gap: 40px;
+  padding-top: 4px;
+}
+body.page-architecture-fullscreen .dw-arch-table-card {
+  padding: 7px 9px;
+}
+body.page-architecture-fullscreen .dw-arch-lane-header {
+  padding: 6px 8px;
+  margin-bottom: 6px;
+}
+body.page-architecture-fullscreen .dw-arch-lane-desc,
+body.page-architecture-fullscreen .dw-arch-lane-fullname {
+  display: none !important;
+}
+body.page-architecture-fullscreen .dw-arch-subtitle {
+  display: none !important;
+}
+body.page-architecture-fullscreen .dw-arch-filter-chips {
+  max-width: 360px;
+}
+body.page-architecture-fullscreen .dw-arch-chip {
+  padding: 2px 6px;
+  font-size: 10px;
 }

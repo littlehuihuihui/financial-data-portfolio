@@ -4,68 +4,94 @@
     "latest_score": 96,
     "pass_rate": 98.5,
     "open_count": 2,
+    "blocked_today": 128,
     "last_check": "2026-06-30",
     "summary": [
+      { "check_date": "2026-06-24", "quality_score": 95 },
+      { "check_date": "2026-06-25", "quality_score": 96 },
+      { "check_date": "2026-06-26", "quality_score": 97 },
+      { "check_date": "2026-06-27", "quality_score": 94 },
+      { "check_date": "2026-06-28", "quality_score": 95 },
+      { "check_date": "2026-06-29", "quality_score": 96 },
+      { "check_date": "2026-06-30", "quality_score": 97 }
+    ],
+    "blocked_daily": [
+      { "date": "06-01", "blocked_rows": 42 },
+      { "date": "06-02", "blocked_rows": 18 },
+      { "date": "06-03", "blocked_rows": 0 },
+      { "date": "06-04", "blocked_rows": 65 },
+      { "date": "06-05", "blocked_rows": 12 },
+      { "date": "06-06", "blocked_rows": 8 },
+      { "date": "06-07", "blocked_rows": 0 },
+      { "date": "06-08", "blocked_rows": 31 },
+      { "date": "06-09", "blocked_rows": 22 },
+      { "date": "06-10", "blocked_rows": 0 },
+      { "date": "06-11", "blocked_rows": 47 },
+      { "date": "06-12", "blocked_rows": 15 },
+      { "date": "06-13", "blocked_rows": 9 },
+      { "date": "06-14", "blocked_rows": 0 },
+      { "date": "06-15", "blocked_rows": 88 },
+      { "date": "06-16", "blocked_rows": 26 },
+      { "date": "06-17", "blocked_rows": 11 },
+      { "date": "06-18", "blocked_rows": 0 },
+      { "date": "06-19", "blocked_rows": 19 },
+      { "date": "06-20", "blocked_rows": 7 },
+      { "date": "06-21", "blocked_rows": 0 },
+      { "date": "06-22", "blocked_rows": 54 },
+      { "date": "06-23", "blocked_rows": 33 },
+      { "date": "06-24", "blocked_rows": 14 },
+      { "date": "06-25", "blocked_rows": 0 },
+      { "date": "06-26", "blocked_rows": 21 },
+      { "date": "06-27", "blocked_rows": 39 },
+      { "date": "06-28", "blocked_rows": 16 },
+      { "date": "06-29", "blocked_rows": 5 },
+      { "date": "06-30", "blocked_rows": 128 }
+    ],
+    "dirty_distribution": [
+      { "type": "DUPLICATE", "count": 86 },
+      { "type": "NULL_KEY", "count": 41 },
+      { "type": "DIM_MISS", "count": 27 },
+      { "type": "OUTLIER", "count": 19 },
+      { "type": "AMOUNT_MISMATCH", "count": 12 }
+    ],
+    "gate_layer_pass": [
+      { "layer": "DWD", "pass_rate": 98.9 },
+      { "layer": "DWS", "pass_rate": 97.2 },
+      { "layer": "ADS", "pass_rate": 97.1 }
+    ],
+    "dq_gates": [
       {
-        "check_date": "2026-06-01",
-        "quality_score": 95
+        "object": "dwd_sales_wide",
+        "rule": "ODS↔DWD 订单行数一致",
+        "threshold": "差异率 = 0%",
+        "action": "BLOCK 下游",
+        "pass_rate_30d": 99.2
       },
       {
-        "check_date": "2026-06-02",
-        "quality_score": 96
+        "object": "dwd_expense_wide",
+        "rule": "费用金额 ODS↔DWD",
+        "threshold": "差异率 ≤ 1%",
+        "action": "BLOCK",
+        "pass_rate_30d": 98.6
       },
       {
-        "check_date": "2026-06-03",
-        "quality_score": 97
+        "object": "dws_sales_monthly",
+        "rule": "月汇总 ≈ DWD 聚合",
+        "threshold": "差异率 ≤ 0.5%",
+        "action": "WARN",
+        "pass_rate_30d": 97.8
       },
       {
-        "check_date": "2026-06-04",
-        "quality_score": 94
-      },
-      {
-        "check_date": "2026-06-05",
-        "quality_score": 95
-      },
-      {
-        "check_date": "2026-06-06",
-        "quality_score": 96
-      },
-      {
-        "check_date": "2026-06-07",
-        "quality_score": 97
-      },
-      {
-        "check_date": "2026-06-08",
-        "quality_score": 94
-      },
-      {
-        "check_date": "2026-06-09",
-        "quality_score": 95
-      },
-      {
-        "check_date": "2026-06-10",
-        "quality_score": 96
-      },
-      {
-        "check_date": "2026-06-11",
-        "quality_score": 97
-      },
-      {
-        "check_date": "2026-06-12",
-        "quality_score": 94
-      },
-      {
-        "check_date": "2026-06-13",
-        "quality_score": 95
-      },
-      {
-        "check_date": "2026-06-14",
-        "quality_score": 96
+        "object": "v_overview 等 ADS",
+        "rule": "全部 BLOCK 门禁 PASS",
+        "threshold": "FAIL 数 = 0",
+        "action": "BLOCK 看板推送",
+        "pass_rate_30d": 97.1
       }
     ],
     "reconciliation": [
       {
-        "table_name": "dwd_fact_orders",
+        "table_name": "dwd_sales_wide",
         "check_type": "行数对账",
         "expected_value": "125000",
         "actual_value": "125000",

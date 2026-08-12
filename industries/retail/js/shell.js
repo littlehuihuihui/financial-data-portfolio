@@ -168,6 +168,7 @@
     }
 
     DashNav.renderNav(navEl(), currentRole, dashId, switchDashboard);
+    window.NorthstarPhases?.mount?.("#northstar-phases");
     await loadDashboard(dashId);
 
     const onHash = () => {

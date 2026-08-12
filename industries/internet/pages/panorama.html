@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-industry="internet">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="互联网通用 · 分层全景图全屏">
+  <title>互联网通用 · 分层全景图</title>
+  <link rel="stylesheet" href="../../../css/design-tokens.css">
+  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.28">
+  <link rel="stylesheet" href="../css/industry-overrides.css">
+  <link rel="stylesheet" href="../css/platform-features.css?v=3.28">
+  <link rel="stylesheet" href="../css/dw-architecture.css?v=3.37">
+  <style>
+    .viz-page-header { flex: 0 0 auto; margin-bottom: 8px; }
+    .viz-page-header h1 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+    .viz-page-header p { margin: 0; color: var(--text-secondary, #8892a4); font-size: 13px; }
+    .viz-page-header a { color: var(--accent, #4da3ff); }
+  </style>
+</head>
+<body class="page-architecture-fullscreen" data-industry="internet">
+  <header class="top-nav">
+    <div class="nav-inner">
+      <div class="brand-title">互联网通用</div>
+      <nav class="nav-tabs" aria-label="页面导航">
+        <a href="../internet_dashboard.html" class="nav-tab">数据展示</a>
+        <a href="methodology.html" class="nav-tab">分析方法论</a>
+        <a href="architecture.html" class="nav-tab">数仓架构</a>
+        <a href="../../../index.html" class="nav-tab nav-home">返回平台</a>
+      </nav>
+    </div>
+  </header>
+    <main class="viz-page-main">
+    <div class="viz-page-header">
+      <h1>分层全景图 · 全屏</h1>
+      <p>数仓分层泳道与主链路流向。也可从 <a href="architecture.html#dw-architecture-section">架构页嵌入版</a> 进入。</p>
+    </div>
+<div id="dw-architecture-root"></div>
+  </main>
+  <script src="../js/dw-architecture-data.js?v=3.30"></script>
+  <script src="../../../js/dw-architecture.js?v=3.33"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ind = document.body.dataset.industry || 'retail';
+      window.__dwArch = new DWArchitecture('dw-architecture-root', {
+        defaultIndustry: ind,
+        showIndustrySwitch: false,
+        flowMode: 'layer',
+        showDimRail: false,
+      });
+    });
+  </script>
+</body>
+</html>

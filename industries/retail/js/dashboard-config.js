@@ -86,9 +86,9 @@ window.INDUSTRY_DASHBOARDS = [
   },
   {
     "id": "quality",
-    "title": "数据质量",
+    "title": "数据质量监控大盘",
     "api": "/api/dashboard_quality",
-    "description": "质量评分 + 对账结果 + 未解决异常（CFO视图）",
+    "description": "DQC门禁 · 每日阻断量 · 脏数据分布 · 对账（数据基建）",
     "href": "../retail_dashboard.html#quality"
   }
 ];

@@ -99,6 +99,7 @@
         if (DashNav.getDashboardMeta(id)) loadDashboard(id);
       };
       await loadDashboard(parseHash());
+      window.NorthstarPhases?.mount?.("#northstar-phases");
       window.addEventListener("popstate", onHash);
       window.addEventListener("hashchange", onHash);
       window.addEventListener("dash-refresh", () => loadDashboard(parseHash()));

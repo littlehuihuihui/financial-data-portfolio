@@ -5,7 +5,8 @@
 > - `industries/internet/docs/monitoring_framework_internet.md`  
 > - `industries/manufacturing/docs/monitoring_framework_manufacturing.md`  
 >  
-> **不新增主题看板**；总览 KPI 使用标签：`北极星` / `围栏` / `核心` / `先导`。
+> **不新增主题看板**；总览 KPI 使用标签：`北极星` / `围栏` / `核心` / `先导`。  
+> **分阶段北极星**：数据展示 Shell 顶部可切换项目阶段（`northstar-phases`），展示该阶段主星、围栏与主看看板。
 
 ## 1. 五层对照
 

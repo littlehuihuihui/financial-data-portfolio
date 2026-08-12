@@ -35,11 +35,11 @@
     const b = scriptBase();
     const map = {
       echarts: `${b.industry}/echarts.min.js`,
-      dwArchData: `${b.industry}/dw-architecture-data.js`,
-      dwArch: `${b.shared}/dw-architecture.js`,
-      dwGraph: `${b.industry}/dw-knowledge-graph.js`,
-      erData: `${b.industry}/er-diagram-data.js?v=2.16`,
-      er: `${b.industry}/er-diagram.js?v=2.16`,
+      dwArchData: `${b.industry}/dw-architecture-data.js?v=3.33`,
+      dwArch: `${b.shared}/dw-architecture.js?v=3.33`,
+      dwGraph: `${b.shared}/dw-knowledge-graph.js?v=3.36`,
+      erData: `${b.industry}/er-diagram-data.js?v=3.32`,
+      er: `${b.shared}/er-diagram.js?v=3.32`,
     };
     const key = keys.join("|");
     if (!loading[key]) {
@@ -95,6 +95,7 @@
       defaultIndustry: getIndustry(),
       showIndustrySwitch: false,
       flowMode: "layer",
+      showDimRail: false,
       dimRailCollapsed: true,
     });
     return window.__dwArch;

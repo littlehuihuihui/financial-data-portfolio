@@ -53,7 +53,7 @@ python scripts/init_metadata_db.py
 
 ```bash
 # 终端 1 · 零售行业 API（数据库 retail_finance）
-python industries/retail/app.py
+cd ../retail-finance-analysis && python app.py
 
 # 终端 2 · 平台入口（数据库 portfolio_metadata）
 python portfolio_app.py

@@ -38,19 +38,20 @@ html {
 }
 
 body {
-  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", sans-serif);
+  font-family: var(--font-ui, var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif));
   background-color: var(--bg);
-  background-image: 
-    linear-gradient(rgba(77, 163, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(77, 163, 255, 0.025) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
   background-attachment: fixed;
   color: var(--text);
   line-height: 1.6;
   max-width: 100%;
   min-height: 100vh;
   position: relative;
+  letter-spacing: 0.01em;
 }
 
 body::before {
@@ -60,11 +61,22 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(ellipse at 20% 0%, rgba(77, 163, 255, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(0, 212, 170, 0.04) 0%, transparent 50%);
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(34, 211, 238, 0.1) 0%, transparent 48%),
+    radial-gradient(ellipse at 82% 100%, rgba(56, 189, 248, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 60%, rgba(0, 0, 0, 0.15) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.03;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 2px, #fff 3px);
 }
 
 body > * {
@@ -100,9 +112,22 @@ code {
   position: sticky;
   top: 0;
   z-index: 200;
-  background: var(--nav-bg);
+  background: rgba(10, 15, 28, 0.92);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--nav-border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+}
+
+.top-nav::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 1px;
+  background: var(--glow-line, linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.75), transparent));
+  opacity: 0.7;
+  pointer-events: none;
 }
 
 .nav-inner {
@@ -117,17 +142,31 @@ code {
 }
 
 .brand-title {
-  font-size: 18px;
+  font-family: var(--font-display, var(--font-ui, sans-serif));
+  font-size: 15px;
   font-weight: 700;
   color: var(--text);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.12em;
   white-space: nowrap;
+  text-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
 }
 
 .brand-title::before {
-  content: "◆ ";
-  color: var(--primary);
-  font-size: 12px;
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background: var(--color-cyan, #22d3ee);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.8);
+  transform: rotate(45deg);
+  animation: brand-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes brand-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 10px rgba(34, 211, 238, 0.8); }
+  50% { opacity: 0.55; box-shadow: 0 0 4px rgba(34, 211, 238, 0.35); }
 }
 
 .nav-tabs {
@@ -136,28 +175,31 @@ code {
 }
 
 .nav-tab {
-  padding: 8px 16px;
+  padding: 7px 14px;
   font-size: 13px;
+  font-family: var(--font-ui, inherit);
+  font-weight: 600;
+  letter-spacing: 0.04em;
   color: #a8b0bc;
-  border-radius: 20px;
+  border-radius: 4px;
   border: 1px solid transparent;
-  transition: color 0.2s, background 0.2s;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
   white-space: nowrap;
 }
 
 .nav-tab:hover {
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(34, 211, 238, 0.25);
+  background: rgba(34, 211, 238, 0.08);
   text-shadow: none;
 }
 
 .nav-tab.active {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: none;
-  font-weight: 600;
+  color: #e0f2fe;
+  background: rgba(34, 211, 238, 0.12);
+  border-color: rgba(34, 211, 238, 0.4);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.12);
+  font-weight: 700;
 }
 
 .nav-tab.nav-home {
@@ -1713,6 +1755,161 @@ a.etl-code-path-link code {
   color: var(--text-secondary, #8892a4);
   margin: 12px 0 0;
 }
+
+/* ---------- ETL 甘特 + DQC 门禁 ---------- */
+.etl-gantt {
+  margin: 0 0 20px;
+  padding: 12px 14px 14px;
+  border: 1px solid var(--card-border, #1e2a4a);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.18);
+}
+.etl-gantt-axis {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-secondary, #8892a4);
+  margin-bottom: 8px;
+  padding-left: 148px;
+}
+.etl-gantt-axis-mid { opacity: 0.7; }
+.etl-gantt-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.etl-gantt-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.etl-gantt-layer {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #67e8f9;
+}
+.etl-gantt-name {
+  font-size: 12px;
+  color: var(--text, #e0e6f0);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.etl-gantt-track {
+  position: relative;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(77,163,255,0.06), rgba(139,92,246,0.06));
+  border: 1px solid rgba(30, 42, 74, 0.9);
+}
+.etl-gantt-bar {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #0ea5e9, #22d3ee);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.35);
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  min-width: 4px;
+  overflow: hidden;
+}
+.etl-gantt-row[data-layer="DQC"] .etl-gantt-bar {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+.etl-gantt-row[data-layer="ADS"] .etl-gantt-bar {
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+}
+.etl-gantt-bar-text {
+  font-size: 10px;
+  font-weight: 600;
+  color: #041018;
+  white-space: nowrap;
+}
+.etl-gantt-sla {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: #f43f5e;
+  box-shadow: 0 0 6px rgba(244, 63, 94, 0.7);
+  z-index: 2;
+}
+.etl-gantt-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-secondary, #8892a4);
+  padding-left: 148px;
+}
+.etl-gantt-legend i {
+  display: inline-block;
+  width: 14px;
+  height: 8px;
+  margin-right: 6px;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+.etl-gantt-leg-bar { background: #22d3ee; }
+.etl-gantt-leg-sla { width: 2px !important; height: 12px !important; background: #f43f5e; }
+.etl-action-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.etl-action-block {
+  color: #fecdd3;
+  background: rgba(244, 63, 94, 0.18);
+  border: 1px solid rgba(244, 63, 94, 0.35);
+}
+.etl-action-warn {
+  color: #fde68a;
+  background: rgba(245, 158, 11, 0.16);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+.etl-pass-rate { font-weight: 700; }
+.etl-pass-ok { color: #34d399; }
+.etl-pass-warn { color: #fbbf24; }
+.etl-pass-bad { color: #fb7185; }
+.etl-ops-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+.etl-ops-card {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--card-border, #1e2a4a);
+  background: rgba(0, 0, 0, 0.16);
+}
+.etl-ops-card h5 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #67e8f9;
+}
+.etl-ops-card p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--text-secondary, #b0b8c8);
+}
+@media (max-width: 900px) {
+  .etl-gantt-row { grid-template-columns: 1fr; }
+  .etl-gantt-axis, .etl-gantt-legend { padding-left: 0; }
+  .etl-ops-grid { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 900px) {
   .etl-master-detail {
     grid-template-columns: 1fr;

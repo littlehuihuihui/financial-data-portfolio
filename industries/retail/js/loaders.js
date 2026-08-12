@@ -324,17 +324,50 @@ window.DashLoaders = (function () {
   async function quality() {
     const d = await api("/api/dashboard_quality");
     const latest = d.latest_score ?? 100;
+    const blockedToday = d.blocked_today ?? (d.open_count || 0);
     renderKpiGrid("db-kpi", [
       { name: "质量评分", value: latest },
       { name: "PASS率", value: d.pass_rate, unit: "%" },
+      { name: "今日阻断量", value: blockedToday, sub: "BLOCK 门禁" },
       { name: "未解决异常", value: d.open_count },
       { name: "最近检查", value: d.last_check, sub: "ODS↔DWD↔DWS" },
     ]);
+
     const summary = d.summary || [];
     setLineChart(initChart("db-chart-quality"),
       summary.map((r) => r.check_date).reverse(),
       [{ name: "质量评分", data: summary.map((r) => r.quality_score).reverse() }]
     );
+
+    // 每日阻断异常量（无 API 字段时用 demo）
+    const blocked = d.blocked_daily || [];
+    if (blocked.length) {
+      setBarChart(initChart("db-chart-blocked"),
+        blocked.map((r) => r.date),
+        [{ name: "阻断行数", data: blocked.map((r) => r.blocked_rows) }]
+      );
+    }
+
+    // 脏数据分布
+    const dirty = d.dirty_distribution || [];
+    if (dirty.length) {
+      setDonut(initChart("db-chart-dirty"), dirty, "type", "count");
+    }
+
+    // 分层门禁通过率
+    const gateLayers = d.gate_layer_pass || [];
+    if (gateLayers.length) {
+      setBarChart(initChart("db-chart-gate-layer"),
+        gateLayers.map((r) => r.layer),
+        [{ name: "通过率%", data: gateLayers.map((r) => r.pass_rate) }]
+      );
+    }
+
+    renderTable("db-quality-gates", d.dq_gates || [], [
+      { key: "object", fmt: "raw" }, { key: "rule", fmt: "raw" },
+      { key: "threshold", fmt: "raw" }, { key: "action", fmt: "raw" },
+      { key: "pass_rate_30d", fmt: "num", align: "right" },
+    ]);
     renderTable("db-quality-recon", d.reconciliation, [
       { key: "table_name", fmt: "raw" }, { key: "check_type", fmt: "raw" },
       { key: "expected_value", fmt: "raw", align: "right" }, { key: "actual_value", fmt: "raw", align: "right" },

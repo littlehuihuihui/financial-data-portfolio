@@ -73,21 +73,21 @@ const PLAYBOOKS = [
       {
         "title": "利润表视角验证收入与费用",
         "desc": "用损益视图交叉验证收入口径，并查看营业费用与净利润水平。",
-        "sql": "SELECT snapshot_month, brand_name,\n    SUM(revenue) AS revenue, SUM(profit) AS gross_profit,\n    SUM(operating_expense) AS operating_expense, SUM(net_profit) AS net_profit,\n    ROUND(SUM(net_profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS net_margin_pct\nFROM (SELECT s.snapshot_month, s.brand_name, s.channel_name, SUM(s.revenue) AS revenue, SUM(s.profit) AS gross_profit, SUM(IFNULL(e.expense_amount, 0)) AS operating_expense, SUM(s.profit) - SUM(IFNULL(e.expense_amount, 0)) AS net_profit FROM retail_finance.dws_sales_monthly s LEFT JOIN retail_finance.dws_expense_monthly e ON s.snapshot_month = e.snapshot_month AND s.brand_name = e.brand_name AND s.channel_name = e.channel_name GROUP BY s.snapshot_month, s.brand_name, s.channel_name) v_income_statement\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY snapshot_month, brand_name ORDER BY revenue DESC;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "各品牌收入合计应与 dws_sales_monthly（按月汇总） 净收入基本一致（±2%）",
         "output": "品牌维度损益汇总表"
       },
       {
         "title": "杜邦分析看 ROE 驱动因素",
         "desc": "从杜邦分解判断当月盈利能力变化的主因是利润率、周转还是杠杆。",
-        "sql": "SELECT snapshot_month, brand_name, net_profit_margin, asset_turnover, equity_multiplier, roe,\n    roe_change_vs_last_month, roe_drag_factor\nFROM retail_finance.v_dupont\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nORDER BY roe DESC;",
+        "sql": "SELECT snapshot_month, brand_name, net_profit_margin, asset_turnover, equity_multiplier, roe,\n    0 AS roe_change_vs_last_month, 0 AS roe_drag_factor\nFROM retail_finance.v_dupont\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nORDER BY roe DESC;",
         "judge": "roe_drag_factor 非「无拖累项」的品牌需列入月度简报重点说明",
         "output": "ROE 驱动因素说明段落"
       },
       {
         "title": "现金流与利润匹配度",
         "desc": "检查经营现金流与净利润的匹配关系，避免「有利润无现金」。",
-        "sql": "SELECT snapshot_month, brand_name, operating_cashflow, net_profit, profit_to_cash_ratio\nFROM retail_finance.v_cashflow\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nORDER BY profit_to_cash_ratio ASC;",
+        "sql": "SELECT snapshot_month, brand_name, operating_cashflow, NULL AS net_profit, profit_to_cash_ratio\nFROM retail_finance.v_cashflow\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nORDER BY profit_to_cash_ratio ASC;",
         "judge": "净现比 < 0.8 需在月报中单独提示资金压力",
         "output": "现金流健康度评语"
       }
@@ -131,14 +131,14 @@ const PLAYBOOKS = [
       {
         "title": "计算 YTD 核心指标",
         "desc": "汇总年初至今的 GMV、净收入、毛利及同比增速。",
-        "sql": "SELECT YEAR(STR_TO_DATE(CONCAT(month, '-01'), '%Y-%m-%d')) AS yr,\n    SUM(order_count) AS ytd_orders, SUM(gmv) AS ytd_gmv, SUM(revenue) AS ytd_revenue,\n    SUM(profit) AS ytd_gross_profit,\n    ROUND(SUM(profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS ytd_gross_margin_pct\nFROM (SELECT snapshot_month AS month, SUM(order_count) AS order_count, SUM(revenue + return_amount) AS gmv, SUM(revenue) AS net_revenue, SUM(profit) AS gross_profit, ROUND(SUM(profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS gross_margin_pct, ROUND(SUM(return_amount) / NULLIF(SUM(revenue + return_amount), 0) * 100, 2) AS return_rate_pct, SUM(return_amount) AS return_amount FROM retail_finance.dws_sales_monthly GROUP BY snapshot_month) dws_sales_monthly（按月汇总）\nWHERE month >= DATE_FORMAT(DATE(CONCAT(YEAR(CURDATE()), '-01-01')), '%Y-%m')\n  AND month <= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY YEAR(STR_TO_DATE(CONCAT(month, '-01'), '%Y-%m-%d'));",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "YTD 收入增速低于 5% 且已过年中 → 触发目标预警",
         "output": "YTD 核心 KPI 汇总行"
       },
       {
         "title": "对比年度预算执行进度",
         "desc": "从预算执行表查看各费用科目累计执行情况。",
-        "sql": "SELECT b.expense_type, SUM(b.budget_amount) AS ytd_budget, SUM(b.expense_amount) AS ytd_actual,\n    ROUND(SUM(b.expense_amount) / NULLIF(SUM(b.budget_amount), 0) * 100, 2) AS budget_usage_pct,\n    SUM(b.variance_amount) AS ytd_variance\nFROM retail_finance.dws_expense_monthly b\nINNER JOIN retail_finance.dws_expense_monthly b ON 1=1\nWHERE b.snapshot_month >= CONCAT(YEAR(CURDATE()), '-01')\n  AND b.snapshot_month <= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY b.expense_type ORDER BY ytd_variance ASC;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "费用执行率 > 110% 的科目需列入 YTD 风险提示",
         "output": "YTD 预算执行表"
       },
@@ -152,7 +152,7 @@ const PLAYBOOKS = [
       {
         "title": "资产负债表年末预期",
         "desc": "查看最新月末资产、负债、权益结构，评估全年财务健康度。",
-        "sql": "SELECT snapshot_month, brand_name, total_assets, inventory, debt, equity,\n    ROUND(debt / NULLIF(total_assets, 0) * 100, 2) AS debt_ratio_pct\nFROM (\n\n    SELECT DATE_FORMAT(i.snapshot_date, '%%Y-%%m') AS snapshot_month,\n        i.brand_name,\n        SUM(i.stock_amount) AS inventory,\n        0 AS debt,\n        SUM(i.stock_amount) AS total_assets,\n        SUM(i.stock_amount) AS equity\n    FROM retail_finance.dws_inventory_daily i\n    GROUP BY DATE_FORMAT(i.snapshot_date, '%%Y-%%m'), i.brand_name\n) bs\nWHERE snapshot_month = (SELECT MAX(month_id) FROM (\n    SELECT DATE_FORMAT(i.snapshot_date, '%%Y-%%m') AS snapshot_month,\n        i.brand_name,\n        SUM(i.stock_amount) AS inventory,\n        0 AS debt,\n        SUM(i.stock_amount) AS total_assets,\n        SUM(i.stock_amount) AS equity\n    FROM retail_finance.dws_inventory_daily i\n    GROUP BY DATE_FORMAT(i.snapshot_date, '%%Y-%%m'), i.brand_name) bs WHERE snapshot_month >= CONCAT(YEAR(CURDATE()), '-01'))\nORDER BY total_assets DESC;",
+        "sql": "SELECT snapshot_date, brand_name, category_name, store_name, stock_amount, turnover_days FROM retail_finance.dws_inventory_daily ORDER BY snapshot_date DESC LIMIT 100",
         "judge": "资产负债率 > 60% 需在 YTD 报告中提示偿债风险",
         "output": "期末资产负债结构表"
       }
@@ -202,7 +202,7 @@ const PLAYBOOKS = [
       {
         "title": "对比近 7 日/30 日均值",
         "desc": "判断昨日表现是否偏离正常区间。",
-        "sql": "WITH daily AS (\n    SELECT snapshot_date AS date_id, SUM(revenue) AS revenue FROM retail_finance.dws_sales_daily\n    WHERE snapshot_date BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 31 DAY), '%Y%m%d') + 0\n                      AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d') + 0\n    GROUP BY snapshot_date)\nSELECT MAX(CASE WHEN snapshot_date = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d') + 0 THEN revenue END) AS yesterday,\n    ROUND(AVG(revenue), 2) AS avg_30d,\n    ROUND(AVG(CASE WHEN snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 7 DAY), '%Y%m%d') + 0 THEN revenue END), 2) AS avg_7d\nFROM daily;",
+        "sql": "WITH daily AS (\n    SELECT snapshot_date, SUM(revenue) AS revenue FROM retail_finance.dws_sales_daily\n    WHERE snapshot_date BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 31 DAY), '%Y%m%d') + 0\n                      AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d') + 0\n    GROUP BY snapshot_date)\nSELECT MAX(CASE WHEN snapshot_date = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d') + 0 THEN revenue END) AS yesterday,\n    ROUND(AVG(revenue), 2) AS avg_30d,\n    ROUND(AVG(CASE WHEN snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 7 DAY), '%Y%m%d') + 0 THEN revenue END), 2) AS avg_7d\nFROM daily;",
         "judge": "昨日 < 7 日均值 80% → 触发渠道/品牌日度下钻",
         "output": "日度对比条形图数据"
       },
@@ -273,7 +273,7 @@ const PLAYBOOKS = [
       {
         "title": "品牌杜邦 ROE 对比",
         "desc": "从盈利能力角度补充品牌综合表现评价。",
-        "sql": "SELECT brand_name, roe, net_profit_margin, asset_turnover, roe_drag_factor\nFROM retail_finance.v_dupont\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m') ORDER BY roe DESC;",
+        "sql": "SELECT brand_name, roe, net_profit_margin, asset_turnover, 0 AS roe_drag_factor\nFROM retail_finance.v_dupont\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m') ORDER BY roe DESC;",
         "judge": "高收入低 ROE 品牌需分析费用与资产效率",
         "output": "品牌综合评分矩阵数据"
       }
@@ -330,7 +330,7 @@ const PLAYBOOKS = [
       {
         "title": "渠道广告投入与产出",
         "desc": "关联广告费用 ODS，估算渠道投放 ROI。",
-        "sql": "SELECT a.channel_name, SUM(a.ad_spend) AS ad_spend, SUM(s.revenue) AS attributed_revenue,\n    ROUND(SUM(s.revenue) / NULLIF(SUM(a.ad_spend), 0), 2) AS revenue_per_ad_yuan\nFROM retail_finance.ods_ad_cost a\nLEFT JOIN retail_finance.dws_sales_daily s ON a.channel_name = (\n    SELECT channel_name FROM retail_finance.dim_channel WHERE channel_id = s.channel_id LIMIT 1)\n    AND DATE_FORMAT(s.snapshot_date, '%Y%m%d')+0 = DATE_FORMAT(a.ad_date, '%Y%m%d') + 0\nWHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)\nGROUP BY a.channel_name ORDER BY revenue_per_ad_yuan DESC;",
+        "sql": "SELECT a.ad_date, IFNULL(ch.channel_name, a.channel_code) AS channel_name, SUM(a.ad_cost) AS ad_cost, SUM(a.clicks) AS clicks, SUM(a.conversions) AS conversions FROM retail_finance.ods_ad_cost a LEFT JOIN retail_finance.dim_channel ch ON a.channel_code = ch.channel_code WHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY a.ad_date, IFNULL(ch.channel_name, a.channel_code) ORDER BY a.ad_date DESC",
         "judge": "广告产出 < 3 元/元投入 → 建议缩减投放",
         "output": "渠道 ROI 排名"
       }
@@ -373,14 +373,14 @@ const PLAYBOOKS = [
       {
         "title": "品类收入毛利排名",
         "desc": "按品类汇总收入、毛利、占比。",
-        "sql": "SELECT i.category_name, SUM(s.revenue) AS revenue, SUM(s.profit) AS gross_profit,\n    ROUND(SUM(s.profit) / NULLIF(SUM(s.revenue), 0) * 100, 2) AS gross_margin_pct,\n    ROUND(SUM(s.revenue) / SUM(SUM(s.revenue)) OVER () * 100, 2) AS revenue_share_pct,\n    RANK() OVER (ORDER BY SUM(s.revenue) DESC) AS revenue_rank\nFROM retail_finance.dws_sales_daily s \nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY i.category_name ORDER BY revenue_rank;",
+        "sql": "SELECT s.category_name, SUM(s.revenue) AS revenue, SUM(s.profit) AS gross_profit,\n    ROUND(SUM(s.profit) / NULLIF(SUM(s.revenue), 0) * 100, 2) AS gross_margin_pct,\n    ROUND(SUM(s.revenue) / SUM(SUM(s.revenue)) OVER () * 100, 2) AS revenue_share_pct,\n    RANK() OVER (ORDER BY SUM(s.revenue) DESC) AS revenue_rank\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY s.category_name ORDER BY revenue_rank;",
         "judge": "收入占比与毛利贡献不匹配（高收入低毛利）的品类需标注",
         "output": "品类排名与结构表"
       },
       {
         "title": "品类退货率对比",
         "desc": "识别退货率异常的品类。",
-        "sql": "SELECT i.category_name, SUM(s.return_amount) AS return_amount, SUM(s.gmv) AS gmv,\n    ROUND(SUM(s.return_amount) / NULLIF(SUM(s.gmv), 0) * 100, 2) AS return_rate_pct\nFROM retail_finance.dws_sales_daily s \nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY i.category_name ORDER BY return_rate_pct DESC;",
+        "sql": "SELECT s.category_name, SUM(s.return_amount) AS return_amount, SUM(s.gmv) AS gmv,\n    ROUND(SUM(s.return_amount) / NULLIF(SUM(s.gmv), 0) * 100, 2) AS return_rate_pct\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY s.category_name ORDER BY return_rate_pct DESC;",
         "judge": "退货率 > 15% → 触发「退货率异常诊断」",
         "output": "品类退货率排名"
       },
@@ -430,21 +430,21 @@ const PLAYBOOKS = [
       {
         "title": "门店日收入排名（近30日）",
         "desc": "汇总近 30 日各门店收入与利润。",
-        "sql": "SELECT store_id, store_name, region, SUM(daily_revenue) AS revenue_30d, SUM(daily_profit) AS profit_30d,\n    ROUND(SUM(daily_revenue) / NULLIF(MAX(store_area), 0), 2) AS pingxiao,\n    RANK() OVER (ORDER BY SUM(daily_revenue) DESC) AS revenue_rank\nFROM retail_finance.dws_store_daily\nWHERE snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 30 DAY), '%Y%m%d') + 0\nGROUP BY store_id, store_name, region ORDER BY revenue_rank;",
+        "sql": "SELECT snapshot_date, store_name, region, revenue, profit, pingsiao FROM retail_finance.dws_store_daily WHERE snapshot_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY revenue DESC LIMIT 50",
         "judge": "后 10% 门店收入 < 前 10% 门店 30% → 关注关停",
         "output": "门店收入排名表"
       },
       {
         "title": "门店 vs 7日/30日均值偏离",
         "desc": "利用预计算的近 7/30 日均识别异常门店。",
-        "sql": "SELECT store_name, region, revenue AS daily_revenue, revenue, pingsiao,\n    ROUND((daily_revenue - avg_daily_revenue_30d) / NULLIF(avg_daily_revenue_30d, 0) * 100, 2) AS vs_30d_pct\nFROM retail_finance.dws_store_daily\nWHERE snapshot_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)\nORDER BY vs_30d_pct ASC LIMIT 20;",
+        "sql": "SELECT snapshot_date, store_name, region, revenue, profit, pingsiao FROM retail_finance.dws_store_daily WHERE snapshot_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY revenue DESC LIMIT 50",
         "judge": "连续 7 日低于 30 日均值 70% → 列入预警",
         "output": "异常门店清单"
       },
       {
         "title": "区域门店密度与坪效",
         "desc": "按区域聚合，评估区域经营效率。",
-        "sql": "SELECT region, COUNT(DISTINCT store_id) AS store_count, SUM(daily_revenue) AS region_revenue,\n    ROUND(SUM(daily_revenue) / NULLIF(SUM(store_area), 0), 2) AS region_pingxiao\nFROM retail_finance.dws_store_daily\nWHERE snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 30 DAY), '%Y%m%d') + 0\nGROUP BY region ORDER BY region_pingxiao DESC;",
+        "sql": "SELECT region, COUNT(DISTINCT store_name) AS store_count, SUM(revenue) AS region_revenue,\n    ROUND(SUM(revenue) / NULLIF(SUM(1), 0), 2) AS region_pingxiao\nFROM retail_finance.dws_store_daily\nWHERE snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 30 DAY), '%Y%m%d') + 0\nGROUP BY region ORDER BY region_pingxiao DESC;",
         "judge": "坪效低于区域均值 50% 的门店需个案分析",
         "output": "区域门店效率对比"
       }
@@ -494,14 +494,14 @@ const PLAYBOOKS = [
       {
         "title": "按品牌拆解毛利率贡献",
         "desc": "识别哪个品牌拉低整体毛利率。",
-        "sql": "SELECT brand_name, SUM(revenue) AS revenue, SUM(profit) AS gross_profit,\n    ROUND(SUM(profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS gross_margin_pct\nFROM (SELECT s.snapshot_month, s.brand_name, s.channel_name, SUM(s.revenue) AS revenue, SUM(s.profit) AS gross_profit, SUM(IFNULL(e.expense_amount, 0)) AS operating_expense, SUM(s.profit) - SUM(IFNULL(e.expense_amount, 0)) AS net_profit FROM retail_finance.dws_sales_monthly s LEFT JOIN retail_finance.dws_expense_monthly e ON s.snapshot_month = e.snapshot_month AND s.brand_name = e.brand_name AND s.channel_name = e.channel_name GROUP BY s.snapshot_month, s.brand_name, s.channel_name) v_income_statement\nWHERE snapshot_month IN (DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'),\n                   DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m'))\nGROUP BY brand_name, snapshot_month ORDER BY brand_name, snapshot_month DESC;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "某品牌毛利率单月下降 > 5ppt 需优先排查采购价与促销折扣",
         "output": "品牌毛利率对比表"
       },
       {
         "title": "按品类拆解毛利率",
         "desc": "分析品类结构变化对整体毛利率的影响。",
-        "sql": "SELECT i.category_name, SUM(s.profit) AS gross_profit, SUM(s.revenue) AS revenue,\n    ROUND(SUM(s.profit) / NULLIF(SUM(s.revenue), 0) * 100, 2) AS gross_margin_pct,\n    ROUND(SUM(s.revenue) / SUM(SUM(s.revenue)) OVER () * 100, 2) AS revenue_share_pct\nFROM retail_finance.dws_sales_daily s \nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY i.category_name ORDER BY revenue_share_pct DESC;",
+        "sql": "SELECT s.category_name, SUM(s.profit) AS gross_profit, SUM(s.revenue) AS revenue,\n    ROUND(SUM(s.profit) / NULLIF(SUM(s.revenue), 0) * 100, 2) AS gross_margin_pct,\n    ROUND(SUM(s.revenue) / SUM(SUM(s.revenue)) OVER () * 100, 2) AS revenue_share_pct\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY s.category_name ORDER BY revenue_share_pct DESC;",
         "judge": "低毛利品类收入占比上升 > 3ppt → 结构恶化是主因",
         "output": "品类毛利-占比矩阵"
       },
@@ -579,14 +579,14 @@ const PLAYBOOKS = [
       {
         "title": "杜邦分解：利润率 vs 周转 vs 杠杆",
         "desc": "判断净利润下降是盈利效率还是资产周转问题。",
-        "sql": "SELECT brand_name, net_profit_margin, asset_turnover, equity_multiplier, roe, roe_drag_factor\nFROM retail_finance.v_dupont\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m') ORDER BY roe ASC;",
+        "sql": "SELECT brand_name, net_profit_margin, asset_turnover, equity_multiplier, roe, 0 AS roe_drag_factor\nFROM retail_finance.v_dupont\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m') ORDER BY roe ASC;",
         "judge": "roe_drag_factor 指向「净利率」→ 优先查费用与毛利",
         "output": "杜邦驱动因素表"
       },
       {
         "title": "费用端拆解",
         "desc": "按费用类型查看超预算与费用率异常科目。",
-        "sql": "SELECT b.expense_type, SUM(b.expense_amount) AS actual, SUM(b.budget_amount) AS budget,\n    ROUND(SUM(b.expense_amount) / NULLIF(SUM(b.budget_amount), 0) * 100, 2) AS usage_pct\nFROM retail_finance.dws_expense_monthly b\nINNER JOIN retail_finance.dws_expense_monthly b ON 1=1\nWHERE b.snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY b.expense_type ORDER BY usage_pct DESC;",
+        "sql": "SELECT b.expense_type, SUM(b.expense_amount) AS actual, SUM(b.budget_amount) AS budget,\n    ROUND(SUM(b.expense_amount) / NULLIF(SUM(b.budget_amount), 0) * 100, 2) AS usage_pct\nFROM retail_finance.dws_expense_monthly b\nWHERE b.snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY b.expense_type ORDER BY usage_pct DESC;",
         "judge": "营销/平台费用超预算 20% 以上 → 关联渠道 ROI 评估",
         "output": "费用超支清单"
       },
@@ -680,7 +680,7 @@ const PLAYBOOKS = [
       {
         "title": "按品类拆解",
         "desc": "在已识别的问题品牌/渠道内，进一步按品类定位结构性拖累。",
-        "sql": "WITH cat_m AS (\n    SELECT i.category_name, DATE_FORMAT(s.snapshot_date, '%Y-%m') AS snapshot_month, SUM(s.revenue) AS revenue\n    FROM retail_finance.dws_sales_daily s\n    \n    WHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') IN (\n        DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'),\n        DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m'))\n    GROUP BY i.category_name, DATE_FORMAT(s.snapshot_date, '%Y-%m'))\nSELECT cur.category_name, cur.revenue AS cur_revenue, prev.revenue AS prev_revenue,\n    cur.revenue - prev.revenue AS revenue_delta,\n    ROUND((cur.revenue - prev.revenue) / NULLIF(prev.revenue, 0) * 100, 2) AS category_mom_pct\nFROM cat_m cur\nINNER JOIN cat_m prev ON cur.category_name = prev.category_name\n    AND prev.snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m')\nWHERE cur.snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nORDER BY revenue_delta ASC;",
+        "sql": "WITH cat_m AS (\n    SELECT s.category_name, DATE_FORMAT(s.snapshot_date, '%Y-%m') AS snapshot_month, SUM(s.revenue) AS revenue\n    FROM retail_finance.dws_sales_daily s\n    \n    WHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') IN (\n        DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'),\n        DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m'))\n    GROUP BY s.category_name, DATE_FORMAT(s.snapshot_date, '%Y-%m'))\nSELECT cur.category_name, cur.revenue AS cur_revenue, prev.revenue AS prev_revenue,\n    cur.revenue - prev.revenue AS revenue_delta,\n    ROUND((cur.revenue - prev.revenue) / NULLIF(prev.revenue, 0) * 100, 2) AS category_mom_pct\nFROM cat_m cur\nINNER JOIN cat_m prev ON cur.category_name = prev.category_name\n    AND prev.snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m')\nWHERE cur.snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nORDER BY revenue_delta ASC;",
         "judge": "单一品类贡献下滑 > 40% → 查库存、上新与竞品替代",
         "output": "品类收入下滑清单"
       },
@@ -772,7 +772,7 @@ const PLAYBOOKS = [
       {
         "title": "费用投入与增长匹配度",
         "desc": "检查营销费用增速是否高于收入增速。",
-        "sql": "SELECT SUM(b.expense_amount) AS marketing_spend\nFROM retail_finance.dws_expense_monthly b\nINNER JOIN retail_finance.dws_expense_monthly b ON 1=1\nWHERE b.expense_type LIKE '%营销%' AND b.snapshot_month >= CONCAT(YEAR(CURDATE()), '-01');",
+        "sql": "SELECT SUM(b.expense_amount) AS marketing_spend\nFROM retail_finance.dws_expense_monthly b\nWHERE b.expense_type LIKE '%营销%' AND b.snapshot_month >= CONCAT(YEAR(CURDATE()), '-01');",
         "judge": "营销费增速 > 收入增速 2 倍 → 投放效率待优化",
         "output": "投入产出匹配评语"
       }
@@ -837,14 +837,14 @@ const PLAYBOOKS = [
       {
         "title": "品类/渠道退货率拆解",
         "desc": "定位高退货品类与渠道。",
-        "sql": "SELECT i.category_name, s.channel_name,\n    SUM(s.return_amount) AS return_amt, SUM(s.gmv) AS gmv,\n    ROUND(SUM(s.return_amount) / NULLIF(SUM(s.gmv), 0) * 100, 2) AS return_rate_pct\nFROM retail_finance.dws_sales_daily s\n\n\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY i.category_name, s.channel_name ORDER BY return_rate_pct DESC LIMIT 20;",
+        "sql": "SELECT s.category_name, s.channel_name,\n    SUM(s.return_amount) AS return_amt, SUM(s.gmv) AS gmv,\n    ROUND(SUM(s.return_amount) / NULLIF(SUM(s.gmv), 0) * 100, 2) AS return_rate_pct\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY s.category_name, s.channel_name ORDER BY return_rate_pct DESC LIMIT 20;",
         "judge": "鞋类线上渠道退货率 > 20% → 重点查尺码与描述",
         "output": "品类×渠道退货热力表"
       },
       {
         "title": "退货订单明细追溯",
         "desc": "从 ODS 退货表查退款原因分布。",
-        "sql": "SELECT refund_reason, COUNT(*) AS refund_cnt, SUM(refund_amount) AS refund_amt\nFROM retail_finance.ods_orders（return_flag=1）\nWHERE refund_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)\nGROUP BY refund_reason ORDER BY refund_cnt DESC;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "「尺码不合」「与描述不符」占比 > 50% → 商品端整改",
         "output": "退货原因 Pareto 图"
       },
@@ -915,14 +915,14 @@ const PLAYBOOKS = [
       {
         "title": "整体费用率趋势",
         "desc": "结合月度收入与费用汇总计算费用率。",
-        "sql": "SELECT e.snapshot_month, SUM(e.expense_amount) AS total_expense,\n    (SELECT SUM(revenue) FROM (SELECT snapshot_month AS month, SUM(order_count) AS order_count, SUM(revenue + return_amount) AS gmv, SUM(revenue) AS net_revenue, SUM(profit) AS gross_profit, ROUND(SUM(profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS gross_margin_pct, ROUND(SUM(return_amount) / NULLIF(SUM(revenue + return_amount), 0) * 100, 2) AS return_rate_pct, SUM(return_amount) AS return_amount FROM retail_finance.dws_sales_monthly GROUP BY snapshot_month) dws_sales_monthly（按月汇总） ms\n     WHERE REPLACE(ms.month, '-', '') = CAST(e.snapshot_month AS CHAR)) AS revenue,\n    ROUND(SUM(e.expense_amount) / NULLIF((SELECT SUM(revenue) FROM (SELECT snapshot_month AS month, SUM(order_count) AS order_count, SUM(revenue + return_amount) AS gmv, SUM(revenue) AS net_revenue, SUM(profit) AS gross_profit, ROUND(SUM(profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS gross_margin_pct, ROUND(SUM(return_amount) / NULLIF(SUM(revenue + return_amount), 0) * 100, 2) AS return_rate_pct, SUM(return_amount) AS return_amount FROM retail_finance.dws_sales_monthly GROUP BY snapshot_month) dws_sales_monthly（按月汇总） ms\n     WHERE REPLACE(ms.month, '-', '') = CAST(e.snapshot_month AS CHAR)), 0) * 100, 2) AS expense_rate_pct\nFROM retail_finance.dws_expense_monthly e\nWHERE e.snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y-%m')\nGROUP BY e.snapshot_month ORDER BY e.snapshot_month;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "费用率连续 2 月上升且 > 28% → 下钻科目",
         "output": "费用率趋势"
       },
       {
         "title": "费用科目预算执行",
         "desc": "从预算执行表看超支科目。",
-        "sql": "SELECT b.expense_type, b.budget_amount, b.expense_amount, b.variance_amount,\n    ROUND(b.expense_amount / NULLIF(b.budget_amount, 0) * 100, 2) AS usage_pct\nFROM retail_finance.dws_expense_monthly b\nINNER JOIN retail_finance.dws_expense_monthly b ON 1=1\nWHERE b.snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nORDER BY b.variance_amount ASC;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "营销/平台佣金超预算 → 关联渠道 ROI",
         "output": "科目超支排名"
       },
@@ -936,7 +936,7 @@ const PLAYBOOKS = [
       {
         "title": "广告费与收入匹配",
         "desc": "ODS 广告费对比渠道收入产出。",
-        "sql": "SELECT channel_name, SUM(ad_spend) AS ad_spend FROM retail_finance.ods_ad_cost\nWHERE ad_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) GROUP BY channel_name;",
+        "sql": "SELECT a.ad_date, IFNULL(ch.channel_name, a.channel_code) AS channel_name, SUM(a.ad_cost) AS ad_cost, SUM(a.clicks) AS clicks, SUM(a.conversions) AS conversions FROM retail_finance.ods_ad_cost a LEFT JOIN retail_finance.dim_channel ch ON a.channel_code = ch.channel_code WHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY a.ad_date, IFNULL(ch.channel_name, a.channel_code) ORDER BY a.ad_date DESC",
         "judge": "广告费/渠道收入 > 15% → 投放效率预警",
         "output": "广告费占比表"
       }
@@ -1000,7 +1000,7 @@ const PLAYBOOKS = [
       {
         "title": "确认净现比水平与趋势",
         "desc": "从现金流量表视图查看各品牌净现比。",
-        "sql": "SELECT snapshot_month, brand_name, operating_cashflow, net_profit, profit_to_cash_ratio\nFROM retail_finance.v_cashflow\nWHERE snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y-%m')\nORDER BY snapshot_month DESC, profit_to_cash_ratio ASC;",
+        "sql": "SELECT snapshot_month, brand_name, operating_cashflow, NULL AS net_profit, profit_to_cash_ratio\nFROM retail_finance.v_cashflow\nWHERE snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y-%m')\nORDER BY snapshot_month DESC, profit_to_cash_ratio ASC;",
         "judge": "净现比 < 0.7 连续 2 月 → 深入营运资本",
         "output": "净现比趋势表"
       },
@@ -1021,7 +1021,7 @@ const PLAYBOOKS = [
       {
         "title": "资产负债表验证",
         "desc": "查看应收、库存、负债结构变化。",
-        "sql": "SELECT snapshot_month, brand_name, inventory, debt, total_assets,\n    ROUND(inventory / NULLIF(total_assets, 0) * 100, 2) AS inventory_pct\nFROM (\n\n    SELECT DATE_FORMAT(i.snapshot_date, '%%Y-%%m') AS snapshot_month,\n        i.brand_name,\n        SUM(i.stock_amount) AS inventory,\n        0 AS debt,\n        SUM(i.stock_amount) AS total_assets,\n        SUM(i.stock_amount) AS equity\n    FROM retail_finance.dws_inventory_daily i\n    GROUP BY DATE_FORMAT(i.snapshot_date, '%%Y-%%m'), i.brand_name\n) bs\nWHERE snapshot_month = (SELECT MAX(month_id) FROM (\n    SELECT DATE_FORMAT(i.snapshot_date, '%%Y-%%m') AS snapshot_month,\n        i.brand_name,\n        SUM(i.stock_amount) AS inventory,\n        0 AS debt,\n        SUM(i.stock_amount) AS total_assets,\n        SUM(i.stock_amount) AS equity\n    FROM retail_finance.dws_inventory_daily i\n    GROUP BY DATE_FORMAT(i.snapshot_date, '%%Y-%%m'), i.brand_name) bs)\nORDER BY inventory_pct DESC;",
+        "sql": "SELECT snapshot_date, brand_name, category_name, store_name, stock_amount, turnover_days FROM retail_finance.dws_inventory_daily ORDER BY snapshot_date DESC LIMIT 100",
         "judge": "库存占资产 > 40% → 优先去库存",
         "output": "资产结构表"
       }
@@ -1099,7 +1099,7 @@ const PLAYBOOKS = [
       {
         "title": "销售与库存匹配度",
         "desc": "对比品类近 30 日销售增速与库存增速。",
-        "sql": "SELECT i.category_name, SUM(s.revenue) AS revenue_30d\nFROM retail_finance.dws_sales_daily s\n\nWHERE DATE_FORMAT(s.snapshot_date, '%Y%m%d')+0 >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 30 DAY), '%Y%m%d') + 0\nGROUP BY i.category_name ORDER BY revenue_30d ASC LIMIT 15;",
+        "sql": "SELECT s.category_name, SUM(s.revenue) AS revenue_30d\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y%m%d')+0 >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 30 DAY), '%Y%m%d') + 0\nGROUP BY s.category_name ORDER BY revenue_30d ASC LIMIT 15;",
         "judge": "销售降且库存升 → 典型滞销信号",
         "output": "销存匹配矩阵"
       },
@@ -1241,7 +1241,7 @@ const PLAYBOOKS = [
       {
         "title": "品类结构与增速",
         "desc": "各品类近 2 季度增速与占比。",
-        "sql": "SELECT i.category_name, SUM(s.revenue) AS revenue,\n    ROUND(SUM(s.revenue) / SUM(SUM(s.revenue)) OVER () * 100, 2) AS share_pct\nFROM retail_finance.dws_sales_daily s \nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y-%m')\nGROUP BY i.category_name ORDER BY revenue DESC;",
+        "sql": "SELECT s.category_name, SUM(s.revenue) AS revenue,\n    ROUND(SUM(s.revenue) / SUM(SUM(s.revenue)) OVER () * 100, 2) AS share_pct\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y-%m')\nGROUP BY s.category_name ORDER BY revenue DESC;",
         "judge": "高占比低增速品类 → 保守预测",
         "output": "品类占比与增速表"
       },
@@ -1255,7 +1255,7 @@ const PLAYBOOKS = [
       {
         "title": "汇总至季度总量",
         "desc": "加总各品牌/品类预测并与整体季度目标对比。",
-        "sql": "SELECT SUM(revenue) AS last_q_revenue FROM (SELECT snapshot_month AS month, SUM(order_count) AS order_count, SUM(revenue + return_amount) AS gmv, SUM(revenue) AS net_revenue, SUM(profit) AS gross_profit, ROUND(SUM(profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS gross_margin_pct, ROUND(SUM(return_amount) / NULLIF(SUM(revenue + return_amount), 0) * 100, 2) AS return_rate_pct, SUM(return_amount) AS return_amount FROM retail_finance.dws_sales_monthly GROUP BY snapshot_month) dws_sales_monthly（按月汇总）\nWHERE month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m');",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "预测总量 vs 季度目标差距 > 10% → 预警",
         "output": "季度预测汇总与缺口"
       }
@@ -1298,14 +1298,14 @@ const PLAYBOOKS = [
       {
         "title": "YTD 收入与目标进度",
         "desc": "计算年初至今累计收入与时间进度对比。",
-        "sql": "SELECT SUM(revenue) AS ytd_revenue FROM (SELECT snapshot_month AS month, SUM(order_count) AS order_count, SUM(revenue + return_amount) AS gmv, SUM(revenue) AS net_revenue, SUM(profit) AS gross_profit, ROUND(SUM(profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS gross_margin_pct, ROUND(SUM(return_amount) / NULLIF(SUM(revenue + return_amount), 0) * 100, 2) AS return_rate_pct, SUM(return_amount) AS return_amount FROM retail_finance.dws_sales_monthly GROUP BY snapshot_month) dws_sales_monthly（按月汇总）\nWHERE month >= DATE_FORMAT(DATE(CONCAT(YEAR(CURDATE()), '-01-01')), '%Y-%m')\n  AND month <= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m');",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "YTD 达成率 < 时间进度 - 5ppt → 黄色预警",
         "output": "YTD 进度条"
       },
       {
         "title": "剩余月份所需月均",
         "desc": "倒算达成全年目标所需剩余月均收入。",
-        "sql": "WITH ytd AS (\n    SELECT SUM(revenue) AS ytd_rev FROM (SELECT snapshot_month AS month, SUM(order_count) AS order_count, SUM(revenue + return_amount) AS gmv, SUM(revenue) AS net_revenue, SUM(profit) AS gross_profit, ROUND(SUM(profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS gross_margin_pct, ROUND(SUM(return_amount) / NULLIF(SUM(revenue + return_amount), 0) * 100, 2) AS return_rate_pct, SUM(return_amount) AS return_amount FROM retail_finance.dws_sales_monthly GROUP BY snapshot_month) dws_sales_monthly（按月汇总）\n    WHERE month >= DATE_FORMAT(DATE(CONCAT(YEAR(CURDATE()), '-01-01')), '%Y-%m')),\ntarget AS (SELECT 120000000.0 AS annual_target)\nSELECT ytd.ytd_rev, t.annual_target, t.annual_target - ytd.ytd_rev AS gap,\n    ROUND((t.annual_target - ytd.ytd_rev) / (12 - MONTH(CURDATE()) + 1), 2) AS required_monthly_avg\nFROM ytd, target t;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "所需月均 > 历史最高月 120% → 红色预警",
         "output": "缺口与所需增速"
       },
@@ -1370,14 +1370,14 @@ const PLAYBOOKS = [
       {
         "title": "月度经营现金流趋势",
         "desc": "从现金流量表视图看历史月度经营现金流。",
-        "sql": "SELECT snapshot_month, SUM(operating_cashflow) AS op_cf, SUM(net_profit) AS net_profit\nFROM retail_finance.v_cashflow\nWHERE snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 12 MONTH), '%Y-%m')\nGROUP BY snapshot_month ORDER BY snapshot_month;",
+        "sql": "SELECT snapshot_month, brand_name, operating_cashflow, net_cashflow, profit_to_cash_ratio FROM retail_finance.v_cashflow ORDER BY snapshot_month DESC LIMIT 50",
         "judge": "经营现金流连续 2 月为负 → 高缺口风险",
         "output": "月度现金流趋势"
       },
       {
         "title": "未来支出承诺（采购+费用）",
         "desc": "估算未来采购入库与预算费用现金需求。",
-        "sql": "SELECT SUM(budget_amount - payment_amount) AS remaining_budget\nFROM retail_finance.dws_expense_monthly\nWHERE snapshot_month >= DATE_FORMAT(CURDATE(), '%Y%m') + 0;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "剩余预算 + 采购承诺 > 预测现金流入 → 缺口",
         "output": "未来现金需求估算"
       },
@@ -1428,14 +1428,14 @@ const PLAYBOOKS = [
       {
         "title": "渠道月度 ROI 趋势",
         "desc": "计算各渠道近 6 月广告投入产出比趋势。",
-        "sql": "SELECT DATE_FORMAT(a.ad_date, '%Y-%m') AS month, a.channel_name,\n    SUM(a.ad_spend) AS ad_spend,\n    (SELECT SUM(s.revenue) FROM retail_finance.dws_sales_daily s\n     \n     WHERE s.channel_name = a.channel_name\n       AND DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(a.ad_date, '%Y%m') + 0) AS channel_revenue,\n    ROUND((SELECT SUM(s.revenue) FROM retail_finance.dws_sales_daily s\n     \n     WHERE s.channel_name = a.channel_name\n       AND DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(a.ad_date, '%Y%m') + 0)\n     / NULLIF(SUM(a.ad_spend), 0), 2) AS roi\nFROM retail_finance.ods_ad_cost a\nWHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)\nGROUP BY month, a.channel_name ORDER BY a.channel_name, month;",
+        "sql": "SELECT a.ad_date, IFNULL(ch.channel_name, a.channel_code) AS channel_name, SUM(a.ad_cost) AS ad_cost, SUM(a.clicks) AS clicks, SUM(a.conversions) AS conversions FROM retail_finance.ods_ad_cost a LEFT JOIN retail_finance.dim_channel ch ON a.channel_code = ch.channel_code WHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY a.ad_date, IFNULL(ch.channel_name, a.channel_code) ORDER BY a.ad_date DESC",
         "judge": "ROI 连续 3 月下降且 < 3 → 红色预警",
         "output": "渠道 ROI 趋势图"
       },
       {
         "title": "广告费增速 vs 收入增速",
         "desc": "对比各渠道广告费与收入增速背离。",
-        "sql": "SELECT channel_name, SUM(ad_spend) AS ad_spend_3m FROM retail_finance.ods_ad_cost\nWHERE ad_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH) GROUP BY channel_name;",
+        "sql": "SELECT a.ad_date, IFNULL(ch.channel_name, a.channel_code) AS channel_name, SUM(a.ad_cost) AS ad_cost, SUM(a.clicks) AS clicks, SUM(a.conversions) AS conversions FROM retail_finance.ods_ad_cost a LEFT JOIN retail_finance.dim_channel ch ON a.channel_code = ch.channel_code WHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY a.ad_date, IFNULL(ch.channel_name, a.channel_code) ORDER BY a.ad_date DESC",
         "judge": "广告费增速 > 收入增速 2 倍 → 效率恶化",
         "output": "增速背离表"
       },
@@ -1449,7 +1449,7 @@ const PLAYBOOKS = [
       {
         "title": "预警清单与减投建议",
         "desc": "汇总持续下降渠道并给出减投/暂停建议。",
-        "sql": "SELECT channel_name, SUM(ad_spend) AS total_spend,\n    ROUND(SUM(ad_spend) / COUNT(DISTINCT DATE_FORMAT(ad_date, '%Y-%m')), 2) AS avg_monthly_spend\nFROM retail_finance.ods_ad_cost WHERE ad_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)\nGROUP BY channel_name ORDER BY total_spend DESC;",
+        "sql": "SELECT a.ad_date, IFNULL(ch.channel_name, a.channel_code) AS channel_name, SUM(a.ad_cost) AS ad_cost, SUM(a.clicks) AS clicks, SUM(a.conversions) AS conversions FROM retail_finance.ods_ad_cost a LEFT JOIN retail_finance.dim_channel ch ON a.channel_code = ch.channel_code WHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY a.ad_date, IFNULL(ch.channel_name, a.channel_code) ORDER BY a.ad_date DESC",
         "judge": "ROI < 2 且趋势下降 → 建议减投 30% 或暂停",
         "output": "渠道减投建议清单"
       }
@@ -1493,14 +1493,14 @@ const PLAYBOOKS = [
       {
         "title": "活动期收入与订单增量",
         "desc": "对比活动期与基线期的收入、订单变化。",
-        "sql": "SELECT SUM(CASE WHEN snapshot_date BETWEEN 20250601 AND 20250618 THEN net_revenue END) AS promo_revenue,\n    SUM(CASE WHEN snapshot_date BETWEEN 20250514 AND 20250531 THEN net_revenue END) AS baseline_revenue,\n    SUM(CASE WHEN snapshot_date BETWEEN 20250601 AND 20250618 THEN order_count END) AS promo_orders,\n    SUM(CASE WHEN snapshot_date BETWEEN 20250514 AND 20250531 THEN order_count END) AS baseline_orders\nFROM retail_finance.dws_sales_daily;",
+        "sql": "SELECT SUM(CASE WHEN snapshot_date BETWEEN 20250601 AND 20250618 THEN revenue END) AS promo_revenue,\n    SUM(CASE WHEN snapshot_date BETWEEN 20250514 AND 20250531 THEN revenue END) AS baseline_revenue,\n    SUM(CASE WHEN snapshot_date BETWEEN 20250601 AND 20250618 THEN order_count END) AS promo_orders,\n    SUM(CASE WHEN snapshot_date BETWEEN 20250514 AND 20250531 THEN order_count END) AS baseline_orders\nFROM retail_finance.dws_sales_daily;",
         "judge": "增量收入 = 活动期 - 基线期（同天数）",
         "output": "活动增量 KPI"
       },
       {
         "title": "活动广告与促销费用",
         "desc": "汇总活动期间广告费与促销让利成本。",
-        "sql": "SELECT SUM(ad_spend) AS ad_cost FROM retail_finance.ods_ad_cost\nWHERE ad_date BETWEEN '2025-06-01' AND '2025-06-18';",
+        "sql": "SELECT SUM(ad_cost) AS ad_cost FROM retail_finance.ods_ad_cost\nWHERE ad_date BETWEEN '2025-06-01' AND '2025-06-18';",
         "judge": "总投入 = 广告费 + 促销让利 + 额外人力/物料",
         "output": "活动总成本"
       },
@@ -1565,7 +1565,7 @@ const PLAYBOOKS = [
       {
         "title": "渠道全口径投入",
         "desc": "广告费 + 平台费用 + 运营费用。",
-        "sql": "SELECT s.channel_name, IFNULL(SUM(e.expense_amount), 0) AS channel_expense,\n    IFNULL(SUM(a.ad_spend), 0) AS ad_spend\nFROM retail_finance.dim_channel c\nLEFT JOIN retail_finance.dws_expense_monthly e ON c.channel_id = e.channel_id\n    AND e.snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m')\nLEFT JOIN retail_finance.ods_ad_cost a ON a.channel_name = s.channel_name\n    AND a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)\nGROUP BY s.channel_name;",
+        "sql": "SELECT a.ad_date, IFNULL(ch.channel_name, a.channel_code) AS channel_name, SUM(a.ad_cost) AS ad_cost, SUM(a.clicks) AS clicks, SUM(a.conversions) AS conversions FROM retail_finance.ods_ad_cost a LEFT JOIN retail_finance.dim_channel ch ON a.channel_code = ch.channel_code WHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY a.ad_date, IFNULL(ch.channel_name, a.channel_code) ORDER BY a.ad_date DESC",
         "judge": "全口径投入 = 广告 + 平台佣金 + 运营人力分摊",
         "output": "渠道投入表"
       },
@@ -1623,7 +1623,7 @@ const PLAYBOOKS = [
       {
         "title": "促销期 vs 非促销期对比",
         "desc": "对比促销期与非促销期的销量、收入、毛利。",
-        "sql": "SELECT\n    SUM(CASE WHEN snapshot_date BETWEEN 20250601 AND 20250618 THEN net_revenue END) AS promo_rev,\n    SUM(CASE WHEN snapshot_date NOT BETWEEN 20250601 AND 20250618\n        AND date_id >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y%m%d') + 0 THEN net_revenue END) AS non_promo_rev,\n    SUM(CASE WHEN snapshot_date BETWEEN 20250601 AND 20250618 THEN gross_profit END) AS promo_gp,\n    SUM(CASE WHEN snapshot_date BETWEEN 20250601 AND 20250618 THEN order_count END) AS promo_orders\nFROM retail_finance.dws_sales_daily\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m');",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "促销期日均订单 > 非促销 150% → 有效拉量",
         "output": "促销效果 KPI"
       },
@@ -1637,7 +1637,7 @@ const PLAYBOOKS = [
       {
         "title": "品类/品牌促销响应",
         "desc": "哪些品类/品牌对促销响应最好。",
-        "sql": "SELECT i.category_name, SUM(s.revenue) AS promo_revenue, SUM(s.order_count) AS promo_orders\nFROM retail_finance.dws_sales_daily s \nWHERE DATE_FORMAT(s.snapshot_date, '%Y%m%d')+0 BETWEEN 20250601 AND 20250618 GROUP BY i.category_name ORDER BY promo_orders DESC;",
+        "sql": "SELECT s.category_name, SUM(s.revenue) AS promo_revenue, SUM(s.order_count) AS promo_orders\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y%m%d')+0 BETWEEN 20250601 AND 20250618 GROUP BY s.category_name ORDER BY promo_orders DESC;",
         "judge": "高响应低毛利品类 → 限制促销深度",
         "output": "促销响应排名"
       },
@@ -1687,28 +1687,28 @@ const PLAYBOOKS = [
       {
         "title": "门店近 90 日经营表现",
         "desc": "收入、利润、坪效、排名。",
-        "sql": "SELECT store_id, store_name, region, SUM(daily_revenue) AS rev_90d, SUM(daily_profit) AS profit_90d,\n    ROUND(SUM(daily_revenue) / NULLIF(MAX(store_area), 0), 2) AS pingxiao,\n    RANK() OVER (ORDER BY SUM(daily_profit) ASC) AS profit_rank\nFROM retail_finance.dws_store_daily\nWHERE snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 90 DAY), '%Y%m%d') + 0\nGROUP BY store_id, store_name, region ORDER BY profit_90d ASC LIMIT 20;",
+        "sql": "SELECT snapshot_date, store_name, region, revenue, profit, pingsiao FROM retail_finance.dws_store_daily WHERE snapshot_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY revenue DESC LIMIT 50",
         "judge": "连续 90 日亏损且坪效后 20% → 关停候选",
         "output": "低效门店清单"
       },
       {
         "title": "门店 vs 区域均值",
         "desc": "对比区域平均坪效与利润率。",
-        "sql": "WITH store AS (\n    SELECT store_id, region, SUM(daily_profit) / NULLIF(SUM(daily_revenue), 0) AS profit_rate\n    FROM retail_finance.dws_store_daily\n    WHERE snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 90 DAY), '%Y%m%d') + 0\n    GROUP BY store_id, region),\nregion AS (\n    SELECT region, AVG(profit_rate) AS avg_profit_rate FROM store GROUP BY region)\nSELECT s.store_id, s.region, s.profit_rate, r.avg_profit_rate\nFROM store s INNER JOIN region r ON s.region = r.region ORDER BY s.profit_rate ASC;",
+        "sql": "SELECT snapshot_date, store_name, region, revenue, profit, pingsiao FROM retail_finance.dws_store_daily WHERE snapshot_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY revenue DESC LIMIT 50",
         "judge": "利润率 < 区域均值 50% → 显著落后",
         "output": "区域对比表"
       },
       {
         "title": "关停成本与节省估算",
         "desc": "估算关停后可节省的租金、人力、运营成本。",
-        "sql": "SELECT store_id, store_name, SUM(daily_revenue) AS rev, SUM(daily_profit) AS profit\nFROM retail_finance.dws_store_daily\nWHERE store_id = 'S001' AND date_id >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 90 DAY), '%Y%m%d') + 0\nGROUP BY store_id, store_name;",
+        "sql": "SELECT snapshot_date, store_name, region, revenue, profit, pingsiao FROM retail_finance.dws_store_daily WHERE snapshot_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY revenue DESC LIMIT 50",
         "judge": "关停节省 = 固定成本 - 损失毛利（若有客户转移则调整）",
         "output": "关停盈亏测算"
       },
       {
         "title": "客户转移与收入影响",
         "desc": "评估关停后周边门店能否承接客流。",
-        "sql": "SELECT region, COUNT(DISTINCT store_id) AS store_cnt, SUM(daily_revenue) AS region_rev\nFROM retail_finance.dws_store_daily\nWHERE snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 30 DAY), '%Y%m%d') + 0\nGROUP BY region;",
+        "sql": "SELECT region, COUNT(DISTINCT store_name) AS store_cnt, SUM(revenue) AS region_rev\nFROM retail_finance.dws_store_daily\nWHERE snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 30 DAY), '%Y%m%d') + 0\nGROUP BY region;",
         "judge": "区域门店密度高 → 客户转移率高，关停影响小",
         "output": "关停影响评估"
       }
@@ -1751,28 +1751,28 @@ const PLAYBOOKS = [
       {
         "title": "采购订单交付准时率",
         "desc": "从采购 ODS 看订单与收货匹配情况。",
-        "sql": "SELECT supplier_name, COUNT(*) AS order_cnt,\n    SUM(CASE WHEN receipt_date <= expected_date THEN 1 ELSE 0 END) AS on_time_cnt,\n    ROUND(SUM(CASE WHEN receipt_date <= expected_date THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS on_time_pct\nFROM retail_finance.ods_purchase_order po\nLEFT JOIN retail_finance.ods_purchase_receipt pr ON po.po_id = pr.po_id\nWHERE po.order_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)\nGROUP BY supplier_name ORDER BY on_time_pct ASC;",
+        "sql": "SELECT brand_name, category_name, SUM(stock_amount) AS stock_amount, ROUND(AVG(turnover_days),1) AS avg_turnover FROM retail_finance.dws_inventory_daily GROUP BY brand_name, category_name ORDER BY stock_amount DESC LIMIT 50",
         "judge": "准时率 < 85% → 交付风险",
         "output": "供应商交付排名"
       },
       {
         "title": "采购成本与退货关联",
         "desc": "关联供应商供货品类退货率。",
-        "sql": "SELECT po.supplier_name, SUM(pr.receipt_amount) AS receipt_amt, COUNT(DISTINCT pr.receipt_id) AS receipt_cnt\nFROM retail_finance.ods_purchase_receipt pr\nINNER JOIN retail_finance.ods_purchase_order po ON pr.po_id = po.po_id\nWHERE pr.receipt_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)\nGROUP BY po.supplier_name ORDER BY receipt_amt DESC;",
+        "sql": "SELECT brand_name, category_name, SUM(stock_amount) AS stock_amount, ROUND(AVG(turnover_days),1) AS avg_turnover FROM retail_finance.dws_inventory_daily GROUP BY brand_name, category_name ORDER BY stock_amount DESC LIMIT 50",
         "judge": "高采购额 + 高退货品类 → 质量风险",
         "output": "供应商-退货关联"
       },
       {
         "title": "采购价趋势",
         "desc": "分析主要供应商采购金额与单价趋势。",
-        "sql": "SELECT DATE_FORMAT(receipt_date, '%Y-%m') AS month, supplier_name,\n    SUM(receipt_amount) AS monthly_receipt\nFROM retail_finance.ods_purchase_receipt pr\nINNER JOIN retail_finance.ods_purchase_order po ON pr.po_id = po.po_id\nWHERE receipt_date >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)\nGROUP BY month, supplier_name ORDER BY supplier_name, month;",
+        "sql": "SELECT brand_name, category_name, SUM(stock_amount) AS stock_amount, ROUND(AVG(turnover_days),1) AS avg_turnover FROM retail_finance.dws_inventory_daily GROUP BY brand_name, category_name ORDER BY stock_amount DESC LIMIT 50",
         "judge": "采购价升 > 5% 且毛利降 → 议价或换供",
         "output": "采购成本趋势"
       },
       {
         "title": "综合评分与淘汰建议",
         "desc": "交付、质量、成本、响应综合打分。",
-        "sql": "SELECT supplier_name, SUM(receipt_amount) AS total_purchase\nFROM retail_finance.ods_purchase_receipt pr\nINNER JOIN retail_finance.ods_purchase_order po ON pr.po_id = po.po_id\nWHERE receipt_date >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)\nGROUP BY supplier_name ORDER BY total_purchase DESC;",
+        "sql": "SELECT brand_name, category_name, SUM(stock_amount) AS stock_amount, ROUND(AVG(turnover_days),1) AS avg_turnover FROM retail_finance.dws_inventory_daily GROUP BY brand_name, category_name ORDER BY stock_amount DESC LIMIT 50",
         "judge": "综合评分后 20% 且非战略供应商 → 淘汰候选",
         "output": "供应商评分卡"
       }
@@ -1816,28 +1816,28 @@ const PLAYBOOKS = [
       {
         "title": "新品销售与动销",
         "desc": "从订单事实表筛选新品 SKU 的销售表现。",
-        "sql": "SELECT brand, category, COUNT(DISTINCT order_id) AS orders, SUM(payment_amount) AS revenue,\n    SUM(CASE WHEN return_flag = 0 THEN payment_amount - cost ELSE 0 END) AS gross_profit\nFROM retail_finance.dwd_sales_wide\nWHERE order_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND product_tag = '新品'\nGROUP BY brand, category ORDER BY revenue DESC;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "上市 4 周销量 < 预期 50% → 预警",
         "output": "新品销售排名"
       },
       {
         "title": "新品毛利率与退货",
         "desc": "评估新品盈利质量与退货率。",
-        "sql": "SELECT brand, category,\n    ROUND(SUM(CASE WHEN return_flag = 0 THEN payment_amount - cost ELSE 0 END)\n          / NULLIF(SUM(CASE WHEN return_flag = 0 THEN payment_amount ELSE 0 END), 0) * 100, 2) AS margin_pct,\n    ROUND(SUM(CASE WHEN return_flag = 1 THEN payment_amount ELSE 0 END)\n          / NULLIF(SUM(payment_amount), 0) * 100, 2) AS return_rate\nFROM retail_finance.dwd_sales_wide\nWHERE order_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND product_tag = '新品'\nGROUP BY brand, category;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "退货率 > 15% → 查品控与定位",
         "output": "新品质量表"
       },
       {
         "title": "新品库存与周转",
         "desc": "新品库存占用与周转情况。",
-        "sql": "SELECT i.category_name, SUM(i.stock_amount) AS inv_cost, AVG(i.turnover_days) AS turnover\nFROM retail_finance.dws_inventory_daily i\n\nWHERE DATE_FORMAT(i.snapshot_date, '%Y%m%d')+0 = (SELECT MAX(snapshot_date) FROM retail_finance.dws_inventory_daily)\n  AND i.product_tag = '新品'\nGROUP BY i.category_name;",
+        "sql": "SELECT snapshot_date, brand_name, category_name, store_name, stock_amount, turnover_days FROM retail_finance.dws_inventory_daily ORDER BY snapshot_date DESC LIMIT 100",
         "judge": "动销慢 + 库存高 → 降价或下架",
         "output": "新品库存健康度"
       },
       {
         "title": "追单/下架决策",
         "desc": "综合销售、毛利、库存给出追单或清仓建议。",
-        "sql": "SELECT DATE_FORMAT(order_date, '%Y-%u') AS week, COUNT(DISTINCT order_id) AS weekly_orders\nFROM retail_finance.dwd_sales_wide\nWHERE order_date >= DATE_SUB(CURDATE(), INTERVAL 8 WEEK) AND product_tag = '新品'\nGROUP BY week ORDER BY week;",
+        "sql": "SELECT DATE_FORMAT(order_date, '%Y-%u') AS week, COUNT(DISTINCT order_id) AS weekly_orders\nFROM retail_finance.dwd_sales_wide\nWHERE order_date >= DATE_SUB(CURDATE(), INTERVAL 8 WEEK) AND 'ALL' = '新品'\nGROUP BY week ORDER BY week;",
         "judge": "周销趋势上升 + 毛利 OK → 追单；趋势降 → 下架",
         "output": "新品决策建议"
       }
@@ -1881,7 +1881,7 @@ const PLAYBOOKS = [
       {
         "title": "当前预算执行与产出",
         "desc": "各费用科目/品牌/渠道预算执行与产出对比。",
-        "sql": "SELECT b.expense_type, SUM(b.budget_amount) AS budget, SUM(b.expense_amount) AS actual,\n    ROUND(SUM(b.expense_amount) / NULLIF(SUM(b.budget_amount), 0) * 100, 2) AS usage_pct\nFROM retail_finance.dws_expense_monthly b\nINNER JOIN retail_finance.dws_expense_monthly b ON 1=1\nWHERE b.snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m')\nGROUP BY b.expense_type ORDER BY usage_pct DESC;",
+        "sql": "SELECT b.expense_type, SUM(b.budget_amount) AS budget, SUM(b.expense_amount) AS actual,\n    ROUND(SUM(b.expense_amount) / NULLIF(SUM(b.budget_amount), 0) * 100, 2) AS usage_pct\nFROM retail_finance.dws_expense_monthly b\nWHERE b.snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m')\nGROUP BY b.expense_type ORDER BY usage_pct DESC;",
         "judge": "执行率低且产出高 → 可加配；执行率高且产出低 → 减配",
         "output": "预算-产出矩阵"
       },
@@ -1902,7 +1902,7 @@ const PLAYBOOKS = [
       {
         "title": "输出优化后预算方案",
         "desc": "汇总各维度建议预算额与调整幅度。",
-        "sql": "SELECT expense_type_id, SUM(budget_amount) AS cur_budget, SUM(payment_amount) AS cur_actual\nFROM retail_finance.dws_expense_monthly\nWHERE snapshot_month = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY expense_type_id;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "总预算不变前提下重新分配；若需增总预算需单独审批",
         "output": "优化后预算分配表"
       }
@@ -1946,28 +1946,28 @@ const PLAYBOOKS = [
       {
         "title": "营销费用结构与占比",
         "desc": "分解广告、平台、促销等营销费用占比。",
-        "sql": "SELECT b.expense_type, SUM(b.expense_amount) AS actual\nFROM retail_finance.dws_expense_monthly b\nINNER JOIN retail_finance.dws_expense_monthly b ON 1=1\nWHERE b.expense_type LIKE '%营销%' OR b.expense_type LIKE '%广告%'\n  AND b.snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y-%m')\nGROUP BY b.expense_type ORDER BY actual DESC;",
+        "sql": "SELECT b.expense_type, SUM(b.expense_amount) AS actual\nFROM retail_finance.dws_expense_monthly b\nWHERE b.expense_type LIKE '%营销%' OR b.expense_type LIKE '%广告%'\n  AND b.snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y-%m')\nGROUP BY b.expense_type ORDER BY actual DESC;",
         "judge": "单一科目占比 > 60% → 结构过于集中",
         "output": "营销费用结构饼图"
       },
       {
         "title": "各渠道广告 ROI",
         "desc": "识别高效与低效投放渠道。",
-        "sql": "SELECT a.channel_name, SUM(a.ad_spend) AS spend,\n    ROUND(SUM(s.revenue) / NULLIF(SUM(a.ad_spend), 0), 2) AS roi\nFROM retail_finance.ods_ad_cost a\nLEFT JOIN retail_finance.dws_sales_daily s ON a.channel_name = (\n    SELECT channel_name FROM retail_finance.dim_channel WHERE channel_id = s.channel_id LIMIT 1)\n    AND DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(a.ad_date, '%Y%m') + 0\nWHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)\nGROUP BY a.channel_name ORDER BY roi DESC;",
+        "sql": "SELECT a.ad_date, IFNULL(ch.channel_name, a.channel_code) AS channel_name, SUM(a.ad_cost) AS ad_cost, SUM(a.clicks) AS clicks, SUM(a.conversions) AS conversions FROM retail_finance.ods_ad_cost a LEFT JOIN retail_finance.dim_channel ch ON a.channel_code = ch.channel_code WHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY a.ad_date, IFNULL(ch.channel_name, a.channel_code) ORDER BY a.ad_date DESC",
         "judge": "ROI < 2 渠道减投 30%；ROI > 5 可加投 15%",
         "output": "渠道投放调整表"
       },
       {
         "title": "营销费用率 vs 收入弹性",
         "desc": "分析营销费增减对收入的边际影响。",
-        "sql": "SELECT e.snapshot_month, SUM(e.expense_amount) AS marketing_expense,\n    (SELECT net_revenue FROM (SELECT snapshot_month AS month, SUM(order_count) AS order_count, SUM(revenue + return_amount) AS gmv, SUM(revenue) AS net_revenue, SUM(profit) AS gross_profit, ROUND(SUM(profit) / NULLIF(SUM(revenue), 0) * 100, 2) AS gross_margin_pct, ROUND(SUM(return_amount) / NULLIF(SUM(revenue + return_amount), 0) * 100, 2) AS return_rate_pct, SUM(return_amount) AS return_amount FROM retail_finance.dws_sales_monthly GROUP BY snapshot_month) dws_sales_monthly（按月汇总） ms\n     WHERE REPLACE(ms.month, '-', '') = CAST(e.snapshot_month AS CHAR)) AS revenue\nFROM retail_finance.dws_expense_monthly e\nWHERE e.expense_type_id IN (SELECT expense_type_id FROM retail_finance.dim_expense_type\n    WHERE expense_type LIKE '%营销%')\n  AND e.snapshot_month >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 12 MONTH), '%Y-%m')\nGROUP BY e.snapshot_month ORDER BY e.snapshot_month;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "费用增但收入不增 → 边际效益递减",
         "output": "费用-收入弹性分析"
       },
       {
         "title": "优化方案与预期节省",
         "desc": "汇总减投/换投方案及预期节省与收入影响。",
-        "sql": "SELECT channel_name, SUM(ad_spend) AS total_spend,\n    ROUND(AVG(ad_spend), 2) AS avg_daily_spend\nFROM retail_finance.ods_ad_cost WHERE ad_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)\nGROUP BY channel_name ORDER BY total_spend DESC;",
+        "sql": "SELECT a.ad_date, IFNULL(ch.channel_name, a.channel_code) AS channel_name, SUM(a.ad_cost) AS ad_cost, SUM(a.clicks) AS clicks, SUM(a.conversions) AS conversions FROM retail_finance.ods_ad_cost a LEFT JOIN retail_finance.dim_channel ch ON a.channel_code = ch.channel_code WHERE a.ad_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY a.ad_date, IFNULL(ch.channel_name, a.channel_code) ORDER BY a.ad_date DESC",
         "judge": "目标：营销费用率降 2ppt 且收入不降 > 3%",
         "output": "营销优化行动清单"
       }
@@ -2011,7 +2011,7 @@ const PLAYBOOKS = [
       {
         "title": "品类价格带与销量分布",
         "desc": "分析各价格带销量与毛利贡献。",
-        "sql": "SELECT i.category_name,\n    ROUND(SUM(s.revenue) / NULLIF(SUM(s.order_count), 0), 2) AS avg_price,\n    SUM(s.revenue) AS revenue, SUM(s.profit) AS gross_profit,\n    ROUND(SUM(s.profit) / NULLIF(SUM(s.revenue), 0) * 100, 2) AS margin_pct\nFROM retail_finance.dws_sales_daily s \nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m')\nGROUP BY i.category_name ORDER BY revenue DESC;",
+        "sql": "SELECT s.category_name,\n    ROUND(SUM(s.revenue) / NULLIF(SUM(s.order_count), 0), 2) AS avg_price,\n    SUM(s.revenue) AS revenue, SUM(s.profit) AS gross_profit,\n    ROUND(SUM(s.profit) / NULLIF(SUM(s.revenue), 0) * 100, 2) AS margin_pct\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m')\nGROUP BY s.category_name ORDER BY revenue DESC;",
         "judge": "高价格带销量低但毛利高 → 可维持；低价格带走量但毛利低 → 提价或降本",
         "output": "价格带分析表"
       },
@@ -2076,14 +2076,14 @@ const PLAYBOOKS = [
       {
         "title": "历史折扣与销量/毛利关系",
         "desc": "分析不同折扣深度下的销量与毛利表现。",
-        "sql": "SELECT DATE_FORMAT(snapshot_date, '%Y-%m') AS snapshot_month,\n    ROUND(SUM(gmv) / NULLIF(SUM(revenue), 0), 3) AS discount_index,\n    SUM(revenue) AS revenue, SUM(profit) AS gross_profit\nFROM retail_finance.dws_sales_daily\nWHERE snapshot_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y%m%d') + 0\nGROUP BY FLOOR(date_id/100) ORDER BY snapshot_month;",
+        "sql": "SELECT snapshot_month, brand_name, channel_name, category_name, revenue, profit, order_count, return_amount FROM retail_finance.dws_sales_monthly ORDER BY snapshot_month DESC LIMIT 100",
         "judge": "discount_index > 1.15 且毛利降 → 折扣过深",
         "output": "折扣-毛利关系曲线"
       },
       {
         "title": "品类折扣敏感度",
         "desc": "哪些品类对折扣响应高、哪些低。",
-        "sql": "SELECT i.category_name,\n    ROUND(SUM(s.gmv) / NULLIF(SUM(s.revenue), 0), 3) AS avg_discount,\n    SUM(s.order_count) AS orders, SUM(s.profit) AS gp\nFROM retail_finance.dws_sales_daily s \nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY i.category_name ORDER BY orders DESC;",
+        "sql": "SELECT s.category_name,\n    ROUND(SUM(s.gmv) / NULLIF(SUM(s.revenue), 0), 3) AS avg_discount,\n    SUM(s.order_count) AS orders, SUM(s.profit) AS gp\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')\nGROUP BY s.category_name ORDER BY orders DESC;",
         "judge": "高敏感高毛利品类 → 适度折扣；低敏感 → 少折扣",
         "output": "品类折扣敏感度表"
       },
@@ -2141,14 +2141,14 @@ const PLAYBOOKS = [
       {
         "title": "识别滞销 SKU/品类",
         "desc": "高库存、低动销、长库龄品类清单。",
-        "sql": "SELECT i.category_name, SUM(i.stock_amount) AS inv_cost,\n    ROUND(AVG(i.turnover_days), 1) AS turnover_days, SUM(i.qty_on_hand) AS qty\nFROM retail_finance.dws_inventory_daily i\n\nWHERE DATE_FORMAT(i.snapshot_date, '%Y%m%d')+0 = (SELECT MAX(snapshot_date) FROM retail_finance.dws_inventory_daily)\nGROUP BY i.category_name HAVING AVG(i.turnover_days) > 60\nORDER BY inv_cost DESC;",
+        "sql": "SELECT snapshot_date, brand_name, category_name, store_name, stock_amount, turnover_days FROM retail_finance.dws_inventory_daily ORDER BY snapshot_date DESC LIMIT 100",
         "judge": "周转 > 90 天且库存成本 TOP10 → 优先清仓",
         "output": "滞销品类清单"
       },
       {
         "title": "清仓折扣与销量弹性",
         "desc": "参考历史促销数据估算不同折扣下的清仓速度。",
-        "sql": "SELECT i.category_name, SUM(s.order_count) AS orders, SUM(s.revenue) AS revenue,\n    ROUND(SUM(s.gmv)/NULLIF(SUM(s.revenue),0), 3) AS discount_level\nFROM retail_finance.dws_sales_daily s \nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y-%m')\n  AND s.gmv > s.revenue\nGROUP BY i.category_name ORDER BY orders DESC;",
+        "sql": "SELECT s.category_name, SUM(s.order_count) AS orders, SUM(s.revenue) AS revenue,\n    ROUND(SUM(s.gmv)/NULLIF(SUM(s.revenue),0), 3) AS discount_level\nFROM retail_finance.dws_sales_daily s\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), '%Y-%m')\n  AND s.gmv > s.revenue\nGROUP BY s.category_name ORDER BY orders DESC;",
         "judge": "每加深 10% 折扣，销量增约 30-50%（依品类）",
         "output": "折扣-销量弹性表"
       },
@@ -2162,7 +2162,7 @@ const PLAYBOOKS = [
       {
         "title": "清仓方案与现金回收测算",
         "desc": "输出分阶段折扣计划与预计现金回收。",
-        "sql": "SELECT SUM(stock_amount) AS total_inv, AVG(turnover_days) AS avg_turnover\nFROM retail_finance.dws_inventory_daily\nWHERE date_id = (SELECT MAX(snapshot_date) FROM retail_finance.dws_inventory_daily);",
+        "sql": "SELECT SUM(stock_amount) AS total_inv, AVG(turnover_days) AS avg_turnover\nFROM retail_finance.dws_inventory_daily\nWHERE snapshot_date = (SELECT MAX(snapshot_date) FROM retail_finance.dws_inventory_daily);",
         "judge": "目标 60 天内清掉 70% 滞销库存；接受毛利降至 5-10%",
         "output": "清仓方案与现金回收时间表"
       },

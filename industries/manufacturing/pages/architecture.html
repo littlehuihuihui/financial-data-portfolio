@@ -6,11 +6,11 @@
   <meta name="description" content="制造业 · 数据仓库与管道架构">
   <title>制造业 · 数据仓库与管道架构</title>
   <link rel="stylesheet" href="../../../css/design-tokens.css">
-  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.28">
+  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.34">
   <link rel="stylesheet" href="../css/industry-overrides.css">
-  <link rel="stylesheet" href="../css/platform-features.css?v=3.28">
-  <link rel="stylesheet" href="../css/dw-architecture.css">
-  <link rel="stylesheet" href="../css/dw-knowledge-graph.css">
+  <link rel="stylesheet" href="../css/platform-features.css?v=3.32">
+  <link rel="stylesheet" href="../css/dw-architecture.css?v=3.33">
+  <link rel="stylesheet" href="../css/dw-knowledge-graph.css?v=3.36">
   <link rel="stylesheet" href="../../../css/data-dictionary.css?v=3.28">
 </head>
 <body class="page-architecture" data-industry="manufacturing">
@@ -67,7 +67,7 @@
 
 
 <!-- 区块：数据字典（第一项 · 可折叠） -->
-    <details class="arch-interactive-accordion" id="data-dictionary-section" open>
+    <details class="arch-interactive-accordion" id="data-dictionary-section">
       <summary>数据字典 <a class="arch-fullscreen-link" href="dictionary.html" onclick="event.stopPropagation()">全屏打开 ↗</a></summary>
       <div class="arch-accordion-body arch-interactive-body">
       <p class="star-schema-desc">左树按 ODS → DIM → DWD → DWS → ADS → 应用层 浏览；点击层名展开/收起；支持全文搜索（如「运费」）；右侧为表梗概、血缘与字段口径。</p>
@@ -78,10 +78,10 @@
 
 <!-- 区块1：交互式分层全景图 -->
     <details class="arch-interactive-accordion" id="dw-architecture-section">
-      <summary>数仓分层全景图 · 交互式</summary>
+      <summary>数仓分层全景图 · 交互式 <a class="arch-fullscreen-link" href="panorama.html" onclick="event.stopPropagation()">全屏打开 ↗</a></summary>
       <div class="arch-accordion-body arch-interactive-body">
       <p class="star-schema-desc">
-        主链路四列 ODS → DWD → DWS → ADS，DIM 在左侧可折叠侧栏；默认仅层间主箭头，点表查看上下游与内嵌详情；可跳转数据字典 / 知识图谱。支持搜索、缩放与分层筛选。
+        主链路四列 ODS → DWD → DWS → ADS；默认层间主箭头，点表查看上下游与内嵌详情；可跳转数据字典 / 知识图谱。支持搜索、缩放与分层筛选。DIM 维度表见数据字典。
       </p>
       <div id="dw-architecture-root"></div>
       </div>
@@ -90,7 +90,7 @@
 
 <!-- 区块1b：数仓知识图谱 -->
     <details class="arch-interactive-accordion" id="dw-graph-section">
-      <summary>数仓知识图谱 · 力导向关系图</summary>
+      <summary>数仓知识图谱 · 力导向关系图 <a class="arch-fullscreen-link" href="knowledge-graph.html" onclick="event.stopPropagation()">全屏打开 ↗</a></summary>
       <div class="arch-accordion-body arch-interactive-body">
       <p class="star-schema-desc">
         力导向布局展示表与表之间的血缘关系网络；拖拽节点调整位置，滚轮缩放，点击节点高亮所有上下游链路；支持分层筛选与搜索定位。
@@ -101,7 +101,7 @@
 
 <!-- 区块1d：实体关系图 -->
     <details class="arch-interactive-accordion" id="er-diagram-section">
-      <summary>实体关系图（ER）</summary>
+      <summary>实体关系图（ER） <a class="arch-fullscreen-link" href="er-diagram.html" onclick="event.stopPropagation()">全屏打开 ↗</a></summary>
       <div class="arch-accordion-body arch-interactive-body">
       <p class="star-schema-desc">制造业星型/雪花模型示意；展示生产/质量/供应链事实与维度关联及 DWS→ADS 出口。</p>
       <div id="er-diagram-root" class="er-diagram-wrap"></div>
@@ -212,7 +212,7 @@
   <script src="../../../js/data-dictionary-core.js?v=3.28"></script>
   <script src="../js/data-dictionary.js"></script>
   <script src="../../../js/global-search.js?v=3.28"></script>
-  <script src="../js/etl-lineage-data.js?v=3.28"></script>
-  <script src="../../../js/etl-lineage.js?v=3.30"></script>
-  <script src="../../../js/architecture-page.js?v=3.28"></script>
+  <script src="../js/etl-lineage-data.js?v=3.34"></script>
+  <script src="../../../js/etl-lineage.js?v=3.34"></script>
+  <script src="../../../js/architecture-page.js?v=3.33"></script>
 </body>

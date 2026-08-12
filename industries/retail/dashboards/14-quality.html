@@ -1,8 +1,23 @@
 <section class="dashboard-page" data-dashboard="quality">
-  <h2 class="dashboard-page-title">✅ 数据质量</h2>
-  <p class="dashboard-page-desc">质量评分 · 各表PASS率 · ODS↔DWD↔DWS对账 · 未解决异常</p>
+  <h2 class="dashboard-page-title">数据质量监控大盘</h2>
+  <p class="dashboard-page-desc">DQC 门禁 · 每日阻断异常量 · 脏数据分布 · ODS↔DWD↔DWS 对账 — 证明「数据基建」而不只是销售额趋势</p>
   <div id="db-kpi" class="kpi-grid"></div>
-  <div class="chart-box"><h3>近7天质量评分</h3><div id="db-chart-quality" class="chart"></div></div>
+
+  <div class="charts-row">
+    <div class="chart-box"><h3>近30天 · 每日阻断异常量</h3><div id="db-chart-blocked" class="chart"></div></div>
+    <div class="chart-box"><h3>脏数据分布（按类型）</h3><div id="db-chart-dirty" class="chart"></div></div>
+  </div>
+  <div class="charts-row">
+    <div class="chart-box"><h3>近7天质量评分</h3><div id="db-chart-quality" class="chart"></div></div>
+    <div class="chart-box"><h3>分层门禁通过率</h3><div id="db-chart-gate-layer" class="chart"></div></div>
+  </div>
+
+  <div class="chart-box">
+    <h3>数据质量门禁（规则级）</h3>
+    <div class="table-scroll"><table class="data-table"><thead><tr>
+      <th>监控对象</th><th>校验规则</th><th>阈值</th><th>触发动作</th><th class="num">近月通过率</th>
+    </tr></thead><tbody id="db-quality-gates"></tbody></table></div>
+  </div>
   <div class="chart-box">
     <h3>对账结果</h3>
     <div class="table-scroll"><table class="data-table"><thead><tr><th>表</th><th>检查类型</th><th class="num">期望</th><th class="num">实际</th><th>状态</th></tr></thead><tbody id="db-quality-recon"></tbody></table></div>

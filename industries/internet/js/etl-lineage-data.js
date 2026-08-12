@@ -6,32 +6,142 @@ window.ETL_LINEAGE = {
     "trace": "日活/留存/付费/漏斗异常：ADS → DWS（dws_act_user_active_1d / dws_trade_* / dws_user_*）→ DWD 明细 → ODS 日志/订购。上方可查看 A→B 落点。",
     "impact": "改口径后重跑 seed_ott.py（或 legacy seed），确认 04_ott_ads_views.sql，回归 API :5001。"
   },
-  "jobs": [
-    {
-      "id": "dim_init",
-      "name": "维度/DDL",
-      "schedule": "重建时",
-      "description": "ott_ddl / 01_ddl + ADS 视图"
+      "jobs": [
+      {
+        "id": "dim_init",
+        "name": "维度/DDL",
+        "schedule": "重建时",
+        "description": "ott_ddl + ADS 视图",
+        "layer": "DIM",
+        "planned_start": "—",
+        "duration_min": 0,
+        "sla_end": "—",
+        "planned_end": "—",
+        "depends_on": [],
+        "on_upstream_delay": "wait"
+      },
+      {
+        "id": "seed_ods",
+        "name": "日志/订购 → ODS",
+        "schedule": "T+1 02:30",
+        "description": "OTT 贴源；完成标志触发下游",
+        "layer": "ODS",
+        "planned_start": "02:30",
+        "duration_min": 40,
+        "sla_end": "04:00",
+        "planned_end": "03:10",
+        "depends_on": [],
+        "on_upstream_delay": "wait",
+        "left_pct": 0.0,
+        "width_pct": 12.12,
+        "sla_pct": 27.27
+      },
+      {
+        "id": "ods_dwd_dws",
+        "name": "ODS → DWD → DWS",
+        "schedule": "T+1 04:00",
+        "description": "行为/订购明细与日汇总（seed_ott）",
+        "layer": "DWS",
+        "planned_start": "04:00",
+        "duration_min": 55,
+        "sla_end": "06:00",
+        "planned_end": "04:55",
+        "depends_on": [
+          "seed_ods"
+        ],
+        "on_upstream_delay": "wait",
+        "left_pct": 27.27,
+        "width_pct": 16.67,
+        "sla_pct": 63.64
+      },
+      {
+        "id": "dqc_gate",
+        "name": "数据质量门禁 DQC",
+        "schedule": "T+1 06:00",
+        "description": "DAU/漏斗/订购一致性",
+        "layer": "DQC",
+        "planned_start": "06:00",
+        "duration_min": 15,
+        "sla_end": "06:30",
+        "planned_end": "06:15",
+        "depends_on": [
+          "ods_dwd_dws"
+        ],
+        "on_upstream_delay": "skip",
+        "left_pct": 63.64,
+        "width_pct": 4.55,
+        "sla_pct": 72.73
+      },
+      {
+        "id": "ads_views",
+        "name": "ADS 视图 / 看板就绪",
+        "schedule": "T+1 06:30",
+        "description": "04_ott_ads_views.sql",
+        "layer": "ADS",
+        "planned_start": "06:30",
+        "duration_min": 10,
+        "sla_end": "07:30",
+        "planned_end": "06:40",
+        "depends_on": [
+          "dqc_gate"
+        ],
+        "on_upstream_delay": "skip",
+        "left_pct": 72.73,
+        "width_pct": 3.03,
+        "sla_pct": 90.91
+      }
+    ],
+    "schedule_window": {
+      "start": "02:30",
+      "end": "08:00"
     },
-    {
-      "id": "seed_ott",
-      "name": "OTT 样例灌入",
-      "schedule": "按需",
-      "description": "python seed_ott.py（主路径）"
+    "dq_gates": [
+      {
+        "id": "g_dws_dau",
+        "object": "dws_act_user_active_1d",
+        "layer": "DWS",
+        "rule": "DAU 日分区非空且波动",
+        "threshold": "环比跌幅 ≤ 30%",
+        "action": "WARN",
+        "pass_rate_30d": 97.5,
+        "dimension": "及时性"
+      },
+      {
+        "id": "g_dwd_ord",
+        "object": "dwd_trade_order_di",
+        "layer": "DWD",
+        "rule": "订购金额 ≥ 0",
+        "threshold": "负值行 = 0",
+        "action": "BLOCK",
+        "pass_rate_30d": 99.4,
+        "dimension": "准确性"
+      },
+      {
+        "id": "g_dws_funnel",
+        "object": "dws_trade_cashier_funnel_1d",
+        "layer": "DWS",
+        "rule": "漏斗漏斗单调 expose≥confirm",
+        "threshold": "违规 = 0",
+        "action": "BLOCK",
+        "pass_rate_30d": 98.1,
+        "dimension": "一致性"
+      },
+      {
+        "id": "g_ads_ready",
+        "object": "v_dau_overview 等",
+        "layer": "ADS",
+        "rule": "BLOCK 门禁全 PASS",
+        "threshold": "FAIL = 0",
+        "action": "BLOCK 看板",
+        "pass_rate_30d": 96.9,
+        "dimension": "可用性"
+      }
+    ],
+    "ops": {
+      "window": "02:30–08:00",
+      "delay": "日志 ODS 延迟：传感器等待；过 04:00 HOLD 汇总；过 08:00 日活看板未就绪 P1。补跑仍走分层链路。",
+      "lineage": "互联网主链贴源→明细/汇总→DQC→ADS；甘特+依赖解释调度，而非只展示 cron 文案。"
     },
-    {
-      "id": "seed_legacy",
-      "name": "Legacy 增长灌入",
-      "schedule": "按需",
-      "description": "python seed_internet_data.py（旧表名）"
-    },
-    {
-      "id": "ads_views",
-      "name": "ADS 视图",
-      "schedule": "实时",
-      "description": "04_ott_ads_views.sql"
-    }
-  ],
   "edges": [
     {
       "id": "inet_syn_dws_act",

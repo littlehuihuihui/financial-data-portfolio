@@ -6,32 +6,160 @@ window.ETL_LINEAGE = {
     "trace": "CMEI / 产量·质量·设备看板异常时：从 ADS（如 v_production_overview、v_labor_efficiency）定位日期/产线/产品 → 下钻 DWS → 回查 DWD 宽表 → 对比 ODS（MES/ERP/WMS/QMS）。上方「表级变换」可查看对应 A→B 的 Python/SQL/视图落点。",
     "impact": "改口径或 ETL 前查下游 14 个主题看板；变更后重跑 seed_manufacturing_data.py / seed_enhance.py / 06_migrate_dws_ads.sql，回归 API :5002。"
   },
-  "jobs": [
-    {
-      "id": "ddl_dim",
-      "name": "DDL / DIM",
-      "schedule": "重建时",
-      "description": "01_ods.sql … 08_enhance.sql 建表/同义视图"
+      "jobs": [
+      {
+        "id": "ddl_dim",
+        "name": "DDL / DIM",
+        "schedule": "重建时",
+        "description": "01_ods…08_enhance",
+        "layer": "DIM",
+        "planned_start": "—",
+        "duration_min": 0,
+        "sla_end": "—",
+        "planned_end": "—",
+        "depends_on": [],
+        "on_upstream_delay": "wait"
+      },
+      {
+        "id": "seed_ods",
+        "name": "MES/ERP/WMS → ODS",
+        "schedule": "T+1 01:30",
+        "description": "样例对应 seed；完成标志触发下游",
+        "layer": "ODS",
+        "planned_start": "01:30",
+        "duration_min": 40,
+        "sla_end": "03:00",
+        "planned_end": "02:10",
+        "depends_on": [],
+        "on_upstream_delay": "wait",
+        "left_pct": 0.0,
+        "width_pct": 10.26,
+        "sla_pct": 23.08
+      },
+      {
+        "id": "ods_dwd",
+        "name": "ODS → DWD 宽表",
+        "schedule": "T+1 03:00",
+        "description": "产量/质量/设备明细事实",
+        "layer": "DWD",
+        "planned_start": "03:00",
+        "duration_min": 45,
+        "sla_end": "04:30",
+        "planned_end": "03:45",
+        "depends_on": [
+          "seed_ods"
+        ],
+        "on_upstream_delay": "wait",
+        "left_pct": 23.08,
+        "width_pct": 11.54,
+        "sla_pct": 46.15
+      },
+      {
+        "id": "dwd_dws",
+        "name": "DWD → DWS 日/月汇总",
+        "schedule": "T+1 04:30",
+        "description": "主题汇总；06_migrate 可补数",
+        "layer": "DWS",
+        "planned_start": "04:30",
+        "duration_min": 50,
+        "sla_end": "06:00",
+        "planned_end": "05:20",
+        "depends_on": [
+          "ods_dwd"
+        ],
+        "on_upstream_delay": "wait",
+        "left_pct": 46.15,
+        "width_pct": 12.82,
+        "sla_pct": 69.23
+      },
+      {
+        "id": "dqc_gate",
+        "name": "数据质量门禁 DQC",
+        "schedule": "T+1 06:00",
+        "description": "CMEI 输入完整性门禁",
+        "layer": "DQC",
+        "planned_start": "06:00",
+        "duration_min": 20,
+        "sla_end": "06:40",
+        "planned_end": "06:20",
+        "depends_on": [
+          "dwd_dws"
+        ],
+        "on_upstream_delay": "skip",
+        "left_pct": 69.23,
+        "width_pct": 5.13,
+        "sla_pct": 79.49
+      },
+      {
+        "id": "ads_views",
+        "name": "ADS 视图 / 看板就绪",
+        "schedule": "T+1 06:40",
+        "description": "05_ads.sql 仅读 DWS/DIM",
+        "layer": "ADS",
+        "planned_start": "06:40",
+        "duration_min": 15,
+        "sla_end": "07:30",
+        "planned_end": "06:55",
+        "depends_on": [
+          "dqc_gate"
+        ],
+        "on_upstream_delay": "skip",
+        "left_pct": 79.49,
+        "width_pct": 3.85,
+        "sla_pct": 92.31
+      }
+    ],
+    "schedule_window": {
+      "start": "01:30",
+      "end": "08:00"
     },
-    {
-      "id": "seed_sample",
-      "name": "样例灌入",
-      "schedule": "按需",
-      "description": "seed_manufacturing_data.py + seed_enhance.py"
+    "dq_gates": [
+      {
+        "id": "g_dwd_prod",
+        "object": "dwd_production_wide",
+        "layer": "DWD",
+        "rule": "产量行数 ODS↔DWD",
+        "threshold": "差异率 = 0%",
+        "action": "BLOCK",
+        "pass_rate_30d": 98.9,
+        "dimension": "完整性"
+      },
+      {
+        "id": "g_dwd_qi",
+        "object": "dwd_quality_wide",
+        "layer": "DWD",
+        "rule": "检验数 ≥ 产出×抽检比",
+        "threshold": "覆盖率 ≥ 95%",
+        "action": "WARN",
+        "pass_rate_30d": 97.2,
+        "dimension": "完整性"
+      },
+      {
+        "id": "g_dws_oee",
+        "object": "dws_equipment_daily",
+        "layer": "DWS",
+        "rule": "OEE 分量 ∈[0,1]",
+        "threshold": "越界行 = 0",
+        "action": "BLOCK",
+        "pass_rate_30d": 99.0,
+        "dimension": "准确性"
+      },
+      {
+        "id": "g_ads_cmei",
+        "object": "v_cmei_daily",
+        "layer": "ADS",
+        "rule": "OTD/FPY/OEE 上游均 PASS",
+        "threshold": "FAIL = 0",
+        "action": "BLOCK 看板",
+        "pass_rate_30d": 96.8,
+        "dimension": "可用性"
+      }
+    ],
+    "ops": {
+      "window": "01:30–08:00",
+      "delay": "MES ODS 延迟：等到达标志；过 03:00 HOLD DWD；过 08:00 标记 CMEI 看板未就绪并 P1。补跑禁止 ADS 直读 ODS。",
+      "lineage": "制造主链 ODS→DWD→DWS→DQC→ADS；甘特展示计划开始/耗时/最晚基线与依赖。"
     },
-    {
-      "id": "ods_dwd_dws",
-      "name": "ODS → DWD → DWS",
-      "schedule": "灌入后 / T+1",
-      "description": "宽表与日/月汇总；06_migrate 可补数"
-    },
-    {
-      "id": "ads_views",
-      "name": "ADS 视图",
-      "schedule": "实时",
-      "description": "05_ads.sql 仅读 DWS/DIM"
-    }
-  ],
   "edges": [
     {
       "id": "mfg_syn_dim_product",

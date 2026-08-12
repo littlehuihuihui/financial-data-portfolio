@@ -20,12 +20,14 @@ class DWArchitecture {
     this.highlightedTables = new Set();
     /** 连线模式：layer 层间主箭头 | focus 选中表上下游 | full 全量血缘 */
     this.flowMode = options.flowMode || 'layer';
+    /** 左侧 DIM 侧栏：默认关闭（主链路仅 ODS→DWD→DWS→ADS） */
+    this.showDimRail = options.showDimRail === true;
     this.dimRailCollapsed = options.dimRailCollapsed === true;
     this.legendOpen = false;
     this.openDimCategories = new Set();
     
-    // 筛选状态
-    this.layerFilter = new Set(['ods', 'dim', 'dwd', 'dws', 'ads']);
+    // 筛选状态（无侧栏时不含 dim，避免「筛了但不显示」）
+    this.layerFilter = this.defaultLayerFilter();
     this.typeFilter = new Set(['table', 'view']);
     
     // 缩放状态
@@ -39,12 +41,19 @@ class DWArchitecture {
     this.init();
   }
 
+  defaultLayerFilter() {
+    return this.showDimRail
+      ? new Set(['ods', 'dim', 'dwd', 'dws', 'ads'])
+      : new Set(['ods', 'dwd', 'dws', 'ads']);
+  }
+
   init() {
     this.render();
     this.bindEvents();
     requestAnimationFrame(() => {
       this.fitView();
-      this.drawFlows();
+      /* 等 transform 生效后再量坐标，避免线错位 */
+      requestAnimationFrame(() => this.drawFlows());
     });
     window.addEventListener('resize', () => {
       clearTimeout(this._resizeTimer);
@@ -79,9 +88,10 @@ class DWArchitecture {
         <div class="dw-arch-header">
           <div class="dw-arch-title">
             <span class="dw-arch-title-icon">◆</span>
-            <span class="dw-arch-title-text">数仓分层全景图</span>
+            <span class="dw-arch-title-text">分层全景</span>
             <span class="dw-arch-subtitle">${industry.name}</span>
             <span class="dw-arch-stats">${visibleTables}/${totalTables} 表 · ${totalFlows} 流向</span>
+            <span class="dw-arch-flow-chip" title="默认简线：层间主方向 ODS→DWD→DWS→ADS">ODS→DWD→DWS→ADS</span>
           </div>
           <div class="dw-arch-controls">
             ${this.showIndustrySwitch ? `
@@ -97,7 +107,7 @@ class DWArchitecture {
               <span class="dw-arch-search-icon">🔍</span>
             </div>
             <div class="dw-arch-filter-chips" title="分层筛选">
-              ${industry.layers.map(layer => `
+              ${industry.layers.filter(layer => this.showDimRail || layer.id !== 'dim').map(layer => `
                 <label class="dw-arch-chip ${this.layerFilter.has(layer.id) ? 'on' : ''}">
                   <input type="checkbox" data-layer-filter="${layer.id}" ${this.layerFilter.has(layer.id) ? 'checked' : ''} hidden>
                   <span class="dw-arch-filter-dot" style="background:${layer.color}"></span>${layer.name}
@@ -121,16 +131,15 @@ class DWArchitecture {
               <button type="button" class="dw-arch-zoom-btn" data-zoom="reset" title="重置">⟲</button>
             </div>
             <div class="dw-arch-legend-wrap">
-              <button type="button" class="dw-arch-legend-btn" data-legend-toggle title="图例">ⓘ</button>
+              <button type="button" class="dw-arch-legend-btn" data-legend-toggle title="图例与读线说明">ⓘ</button>
               <div class="dw-arch-legend-pop ${this.legendOpen ? 'open' : ''}" id="dwArchLegendPop">
-                <div class="dw-arch-legend-item"><span class="dw-arch-legend-line"></span>数据流向</div>
+                <div class="dw-arch-legend-item"><span class="dw-arch-legend-line"></span>层间主流向（简线）</div>
                 <div class="dw-arch-legend-item"><span class="dw-arch-legend-line dashed"></span>维度关联</div>
-                <div class="dw-arch-legend-item"><span class="dw-arch-legend-dot" style="background:var(--layer-ods,#64748b)"></span>ODS</div>
-                <div class="dw-arch-legend-item"><span class="dw-arch-legend-dot" style="background:var(--layer-dim,#6366f1)"></span>DIM（侧栏）</div>
-                <div class="dw-arch-legend-item"><span class="dw-arch-legend-dot" style="background:var(--layer-dwd,#14b8a6)"></span>DWD</div>
-                <div class="dw-arch-legend-item"><span class="dw-arch-legend-dot" style="background:var(--layer-dws,#f59e0b)"></span>DWS</div>
-                <div class="dw-arch-legend-item"><span class="dw-arch-legend-dot" style="background:var(--layer-ads,#8b5cf6)"></span>ADS</div>
-                <p class="dw-arch-legend-tip">主链路 ODS→DWD→DWS→ADS · DIM 在左侧 · 点表看上下游</p>
+                <div class="dw-arch-legend-item"><span class="dw-arch-legend-dot" style="background:var(--layer-ods,#64748b)"></span>ODS 贴源</div>
+                <div class="dw-arch-legend-item"><span class="dw-arch-legend-dot" style="background:var(--layer-dwd,#14b8a6)"></span>DWD 明细</div>
+                <div class="dw-arch-legend-item"><span class="dw-arch-legend-dot" style="background:var(--layer-dws,#f59e0b)"></span>DWS 汇总</div>
+                <div class="dw-arch-legend-item"><span class="dw-arch-legend-dot" style="background:var(--layer-ads,#8b5cf6)"></span>ADS 应用</div>
+                <p class="dw-arch-legend-tip">简线 = 层间左→右主方向，不是表对表。点表看上下游；「全量血缘」展开表级连线。DIM 见数据字典。</p>
               </div>
             </div>
             <button type="button" class="dw-arch-more-btn" data-more-toggle title="更多">⋯</button>
@@ -142,17 +151,35 @@ class DWArchitecture {
         </div>
 
         <div class="dw-arch-body">
-          ${this.layerFilter.has('dim') ? this.renderDimRail(industry, dimLayer) : ''}
+          ${this.showDimRail && this.layerFilter.has('dim') ? this.renderDimRail(industry, dimLayer) : ''}
           <div class="dw-arch-main-col">
             <div class="dw-arch-canvas" id="dwArchCanvas">
               <div class="dw-arch-canvas-inner" id="dwArchCanvasInner" style="transform: translate(${this.translateX}px, ${this.translateY}px) scale(${this.scale}); transform-origin: 0 0;">
                 <svg class="dw-arch-flows-svg" id="dwArchFlowsSvg">
                   <defs>
-                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                      <polygon points="0 0, 10 3.5, 0 7" fill="#4da3ff" opacity="0.6"/>
+                    <filter id="arrow-glow" x="-80%" y="-80%" width="260%" height="260%">
+                      <feGaussianBlur stdDeviation="2.2" result="blur"/>
+                      <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                    <filter id="arrow-soft" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                      <feMerge>
+                        <feMergeNode in="blur"/>
+                      </feMerge>
+                    </filter>
+                    <linearGradient id="spine-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35"/>
+                      <stop offset="45%" stop-color="#22d3ee" stop-opacity="1"/>
+                      <stop offset="100%" stop-color="#67e8f9" stop-opacity="1"/>
+                    </linearGradient>
+                    <marker id="arrowhead" markerWidth="16" markerHeight="12" refX="14" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+                      <path d="M1 1 L14 6 L1 11 L3.5 6 Z" fill="#67e8f9" stroke="#e0f2fe" stroke-width="0.8" stroke-linejoin="round"/>
                     </marker>
-                    <marker id="arrowhead-dim" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280" opacity="0.4"/>
+                    <marker id="arrowhead-dim" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+                      <path d="M1 1 L11 5 L1 9 L2.8 5 Z" fill="#94a3b8" opacity="0.9" stroke="#cbd5e1" stroke-width="0.5" stroke-linejoin="round"/>
                     </marker>
                   </defs>
                 </svg>
@@ -169,7 +196,7 @@ class DWArchitecture {
               <div class="dw-arch-sidebar-panel" id="dwArchSidebarPanel">
                 <button type="button" class="dw-arch-sidebar-close" id="dwArchSidebarClose" title="关闭">×</button>
                 <div id="dwArchSidebarContent">
-                  <div class="dw-arch-detail-empty">点击主链路或 DIM 侧栏中的表卡片查看详情</div>
+                  <div class="dw-arch-detail-empty">点击主链路中的表卡片查看详情</div>
                 </div>
               </div>
             </aside>
@@ -446,15 +473,17 @@ class DWArchitecture {
     this.bindEvents();
     requestAnimationFrame(() => {
       if (!opts.keepTransform) this.fitView();
-      this.drawFlows();
-      if (selected) {
-        this.selectedTable = selected;
-        this.showSidebar(selected);
-        this.container.querySelectorAll('.dw-arch-table-card').forEach(card => {
-          card.classList.toggle('selected', card.dataset.tableId === selected);
-          card.classList.toggle('highlighted', this.highlightedTables.has(card.dataset.tableId));
-        });
-      }
+      requestAnimationFrame(() => {
+        this.drawFlows();
+        if (selected) {
+          this.selectedTable = selected;
+          this.showSidebar(selected);
+          this.container.querySelectorAll('.dw-arch-table-card').forEach(card => {
+            card.classList.toggle('selected', card.dataset.tableId === selected);
+            card.classList.toggle('highlighted', this.highlightedTables.has(card.dataset.tableId));
+          });
+        }
+      });
     });
   }
 
@@ -466,7 +495,7 @@ class DWArchitecture {
     this.flowMode = 'layer';
     this.openDimCategories = new Set();
     this._dimCatsInit = false;
-    this.layerFilter = new Set(['ods', 'dim', 'dwd', 'dws', 'ads']);
+    this.layerFilter = this.defaultLayerFilter();
     this.typeFilter = new Set(['table', 'view']);
     this.refresh();
   }
@@ -561,7 +590,7 @@ class DWArchitecture {
     this.scale = 1;
     this.translateX = 0;
     this.translateY = 0;
-    this.layerFilter = new Set(['ods', 'dim', 'dwd', 'dws', 'ads']);
+    this.layerFilter = this.defaultLayerFilter();
     this.typeFilter = new Set(['table', 'view']);
 
     const searchInput = this.container.querySelector('.dw-arch-search-input');
@@ -580,6 +609,7 @@ class DWArchitecture {
         break;
       case 'fit':
         this.fitView();
+        requestAnimationFrame(() => this.drawFlows());
         return;
       case 'reset':
         this.scale = 1;
@@ -925,7 +955,7 @@ class DWArchitecture {
     }
     const content = this.container.querySelector('#dwArchSidebarContent');
     if (content) {
-      content.innerHTML = '<div class="dw-arch-detail-empty">点击主链路或 DIM 侧栏中的表卡片查看详情</div>';
+      content.innerHTML = '<div class="dw-arch-detail-empty">点击主链路中的表卡片查看详情</div>';
     }
     this.selectedTable = null;
     if (this.flowMode === 'focus') this.flowMode = 'layer';
@@ -942,6 +972,23 @@ class DWArchitecture {
     return industry.tables.find(t => t.id === tableId);
   }
 
+  /** 画布有 CSS scale 时，把屏幕矩形换算成 SVG 本地坐标 */
+  rectInSvg(el, svg) {
+    const s = this.scale || 1;
+    const a = el.getBoundingClientRect();
+    const b = svg.getBoundingClientRect();
+    return {
+      left: (a.left - b.left) / s,
+      right: (a.right - b.left) / s,
+      top: (a.top - b.top) / s,
+      bottom: (a.bottom - b.top) / s,
+      centerX: ((a.left + a.right) / 2 - b.left) / s,
+      centerY: ((a.top + a.bottom) / 2 - b.top) / s,
+      width: a.width / s,
+      height: a.height / s,
+    };
+  }
+
   drawFlows() {
     const svg = this.container.querySelector('#dwArchFlowsSvg');
     const canvas = this.container.querySelector('#dwArchCanvas');
@@ -956,10 +1003,11 @@ class DWArchitecture {
     const h = Math.max(inner.scrollHeight, canvas.clientHeight, 1);
     svg.setAttribute('width', w);
     svg.setAttribute('height', h);
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
     svg.style.width = w + 'px';
     svg.style.height = h + 'px';
 
-    svg.querySelectorAll('path, text, rect').forEach(p => p.remove());
+    svg.querySelectorAll('path, text, rect, circle, polygon, g.dw-arch-flow-node, linearGradient[id^="spine-grad-"]').forEach(p => p.remove());
 
     const mode = this.flowMode === 'full'
       ? 'full'
@@ -973,18 +1021,7 @@ class DWArchitecture {
     const cardPositions = {};
     this.container.querySelectorAll('.dw-arch-table-card').forEach(card => {
       const tableId = card.dataset.tableId;
-      const cardRect = card.getBoundingClientRect();
-      const svgRect = svg.getBoundingClientRect();
-      cardPositions[tableId] = {
-        left: cardRect.left - svgRect.left,
-        right: cardRect.right - svgRect.left,
-        top: cardRect.top - svgRect.top,
-        bottom: cardRect.bottom - svgRect.top,
-        centerX: (cardRect.left + cardRect.right) / 2 - svgRect.left,
-        centerY: (cardRect.top + cardRect.bottom) / 2 - svgRect.top,
-        width: cardRect.width,
-        height: cardRect.height
-      };
+      cardPositions[tableId] = this.rectInSvg(card, svg);
     });
 
     let flows = industry.flows.filter(f =>
@@ -1001,12 +1038,11 @@ class DWArchitecture {
     const laneBusX = {};
     this.container.querySelectorAll('.dw-arch-lane-main').forEach(lane => {
       const id = lane.dataset.layer;
-      const r = lane.getBoundingClientRect();
-      const svgR = svg.getBoundingClientRect();
+      const r = this.rectInSvg(lane, svg);
       laneBusX[id] = {
-        left: r.left - svgR.left,
-        right: r.right - svgR.left,
-        mid: (r.left + r.right) / 2 - svgR.left,
+        left: r.left,
+        right: r.right,
+        mid: r.centerX,
       };
     });
 
@@ -1052,26 +1088,41 @@ class DWArchitecture {
 
       if (useBus) {
         const busX = (laneBusX[fromTable.layer].right + laneBusX[toTable.layer].left) / 2;
-        d = `M ${startX} ${startY} L ${busX} ${startY} L ${busX} ${endY} L ${endX} ${endY}`;
+        d = this.buildRoundedBusPath(startX, startY, busX, endX, endY, 10);
       } else {
         const dx = endX - startX;
-        const controlOffset = Math.min(Math.abs(dx) * 0.5, 120);
+        const controlOffset = Math.min(Math.abs(dx) * 0.45, 100);
         d = `M ${startX} ${startY} C ${startX + controlOffset} ${startY}, ${endX - controlOffset} ${endY}, ${endX} ${endY}`;
       }
 
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       path.setAttribute('d', d);
       path.setAttribute('fill', 'none');
+      path.setAttribute('stroke-linecap', 'round');
+      path.setAttribute('stroke-linejoin', 'round');
 
       if (flow.dashed) {
-        path.setAttribute('stroke', isHighlighted ? '#6b7280' : 'rgba(107, 114, 128, 0.35)');
-        path.setAttribute('stroke-dasharray', '5,5');
-        path.setAttribute('stroke-width', isHighlighted ? '2' : '1.5');
+        path.setAttribute('stroke', isHighlighted ? '#94a3b8' : 'rgba(148, 163, 184, 0.4)');
+        path.setAttribute('stroke-dasharray', '5,6');
+        path.setAttribute('stroke-width', isHighlighted ? '2' : '1.6');
         path.setAttribute('marker-end', 'url(#arrowhead-dim)');
       } else {
-        path.setAttribute('stroke', isHighlighted ? '#4da3ff' : 'rgba(77, 163, 255, 0.3)');
-        path.setAttribute('stroke-width', isHighlighted ? '2.5' : '1.5');
+        if (isHighlighted) {
+          const halo = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          halo.setAttribute('d', d);
+          halo.setAttribute('fill', 'none');
+          halo.setAttribute('stroke', 'rgba(34, 211, 238, 0.22)');
+          halo.setAttribute('stroke-width', '8');
+          halo.setAttribute('stroke-linecap', 'round');
+          halo.setAttribute('stroke-linejoin', 'round');
+          halo.setAttribute('filter', 'url(#arrow-soft)');
+          halo.classList.add('dw-arch-flow-halo');
+          svg.appendChild(halo);
+        }
+        path.setAttribute('stroke', isHighlighted ? 'url(#spine-grad)' : 'rgba(34, 211, 238, 0.5)');
+        path.setAttribute('stroke-width', isHighlighted ? '2.8' : '2');
         path.setAttribute('marker-end', 'url(#arrowhead)');
+        if (isHighlighted) path.setAttribute('filter', 'url(#arrow-glow)');
       }
 
       if (isHighlighted && !flow.dashed) {
@@ -1112,22 +1163,52 @@ class DWArchitecture {
     });
   }
 
-  /** 默认模式：层间主箭头 ODS→DWD→DWS→ADS（DIM 不入主链路） */
+  /** 正交总线路径：圆角折线，避免直角生硬 */
+  buildRoundedBusPath(startX, startY, busX, endX, endY, radius = 10) {
+    const r = Math.min(radius, Math.abs(busX - startX) / 2, Math.abs(endY - startY) / 2, Math.abs(endX - busX) / 2);
+    if (r < 2 || Math.abs(endY - startY) < 4) {
+      return `M ${startX} ${startY} L ${busX} ${startY} L ${busX} ${endY} L ${endX} ${endY}`;
+    }
+    const yDir = endY >= startY ? 1 : -1;
+    return [
+      `M ${startX} ${startY}`,
+      `L ${busX - r} ${startY}`,
+      `Q ${busX} ${startY} ${busX} ${startY + r * yDir}`,
+      `L ${busX} ${endY - r * yDir}`,
+      `Q ${busX} ${endY} ${busX + r} ${endY}`,
+      `L ${endX} ${endY}`,
+    ].join(' ');
+  }
+
+  /** 默认模式：列头之间水平主轨 ODS→DWD→DWS→ADS（一眼能读懂左→右） */
   drawLayerSpine(svg, industry) {
     const MAIN = ['ods', 'dwd', 'dws', 'ads'];
-    const svgRect = svg.getBoundingClientRect();
+    const VERB = {
+      'ods|dwd': '清洗关联',
+      'dwd|dws': '主题汇总',
+      'dws|ads': '看板取数',
+    };
+    const LAYER_COLOR = {
+      ods: '#64748b',
+      dwd: '#14b8a6',
+      dws: '#f59e0b',
+      ads: '#8b5cf6',
+    };
     const laneBoxes = MAIN.map(id => {
       if (!this.layerFilter.has(id)) return null;
       const lane = this.container.querySelector(`.dw-arch-lane[data-layer="${id}"]`);
       if (!lane) return null;
-      const r = lane.getBoundingClientRect();
+      const header = lane.querySelector('.dw-arch-lane-header') || lane;
+      const r = this.rectInSvg(lane, svg);
+      const hr = this.rectInSvg(header, svg);
       const layerMeta = industry.layers.find(l => l.id === id);
       return {
         id,
-        color: layerMeta?.color || '#4da3ff',
-        left: r.left - svgRect.left,
-        right: r.right - svgRect.left,
-        centerY: r.top - svgRect.top + Math.min(r.height * 0.35, 120),
+        color: layerMeta?.color || LAYER_COLOR[id] || '#22d3ee',
+        left: r.left,
+        right: r.right,
+        /* 锚在列头垂直中线，水平穿列间距，对准列边缘 */
+        railY: hr.top + hr.height / 2,
       };
     }).filter(Boolean);
 
@@ -1136,44 +1217,95 @@ class DWArchitecture {
       const to = laneBoxes[i + 1];
       const startX = from.right;
       const endX = to.left;
-      const startY = from.centerY;
-      const endY = to.centerY;
+      const y = (from.railY + to.railY) / 2;
       const mid = (startX + endX) / 2;
       const gap = endX - startX;
       if (gap < 8) continue;
 
+      const d = `M ${startX} ${y} L ${endX} ${y}`;
+
+      /* 锚点：线从列右缘点出发、对准下一列左缘点 */
+      const mkDot = (cx, fill) => {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', cx);
+        c.setAttribute('cy', y);
+        c.setAttribute('r', '4');
+        c.setAttribute('fill', fill);
+        c.setAttribute('stroke', '#e0f2fe');
+        c.setAttribute('stroke-width', '1.2');
+        c.classList.add('dw-arch-flow-node');
+        svg.appendChild(c);
+      };
+      mkDot(startX, from.color);
+      mkDot(endX, to.color);
+
+      const halo = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      halo.setAttribute('d', d);
+      halo.setAttribute('fill', 'none');
+      halo.setAttribute('stroke', from.color);
+      halo.setAttribute('stroke-opacity', '0.22');
+      halo.setAttribute('stroke-width', '10');
+      halo.setAttribute('stroke-linecap', 'round');
+      halo.setAttribute('filter', 'url(#arrow-soft)');
+      halo.classList.add('dw-arch-flow-halo');
+      svg.appendChild(halo);
+
+      const gradId = `spine-grad-${from.id}-${to.id}`;
+      let grad = svg.querySelector(`#${gradId}`);
+      if (!grad) {
+        grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+        grad.setAttribute('id', gradId);
+        grad.setAttribute('gradientUnits', 'userSpaceOnUse');
+        const s1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        s1.setAttribute('offset', '0%');
+        s1.setAttribute('stop-color', from.color);
+        const s2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        s2.setAttribute('offset', '100%');
+        s2.setAttribute('stop-color', to.color);
+        grad.appendChild(s1);
+        grad.appendChild(s2);
+        svg.querySelector('defs')?.appendChild(grad);
+      }
+      grad.setAttribute('x1', startX);
+      grad.setAttribute('y1', y);
+      grad.setAttribute('x2', endX);
+      grad.setAttribute('y2', y);
+
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d',
-        `M ${startX} ${startY} C ${mid} ${startY}, ${mid} ${endY}, ${endX} ${endY}`);
+      path.setAttribute('d', d);
       path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', 'rgba(77, 163, 255, 0.55)');
-      path.setAttribute('stroke-width', '2.5');
+      path.setAttribute('stroke', `url(#${gradId})`);
+      path.setAttribute('stroke-width', '3.2');
+      path.setAttribute('stroke-linecap', 'round');
       path.setAttribute('marker-end', 'url(#arrowhead)');
-      path.classList.add('dw-arch-flow-line', 'dw-arch-flow-spine');
+      path.setAttribute('filter', 'url(#arrow-glow)');
+      path.classList.add('dw-arch-flow-line', 'dw-arch-flow-spine', 'dw-arch-flow-animated');
       svg.appendChild(path);
 
-      const label = `${from.id.toUpperCase()}→${to.id.toUpperCase()}`;
-      const labelX = mid;
-      const labelY = (startY + endY) / 2 - 10;
-      const tw = label.length * 7.5;
+      const verb = VERB[`${from.id}|${to.id}`] || '流转';
+      const label = `${from.id.toUpperCase()} → ${to.id.toUpperCase()} · ${verb}`;
+      const labelY = y - 14;
+      const tw = Math.max(label.length * 7.2, 96);
       const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      bg.setAttribute('x', labelX - tw / 2 - 6);
+      bg.setAttribute('x', mid - tw / 2 - 8);
       bg.setAttribute('y', labelY - 11);
-      bg.setAttribute('width', tw + 12);
-      bg.setAttribute('height', '16');
-      bg.setAttribute('rx', '4');
-      bg.setAttribute('fill', 'rgba(10, 14, 26, 0.85)');
-      bg.setAttribute('stroke', 'rgba(77, 163, 255, 0.35)');
+      bg.setAttribute('width', tw + 16);
+      bg.setAttribute('height', '20');
+      bg.setAttribute('rx', '10');
+      bg.setAttribute('fill', 'rgba(2, 10, 24, 0.92)');
+      bg.setAttribute('stroke', `${to.color}aa`);
+      bg.setAttribute('stroke-width', '1');
       svg.appendChild(bg);
 
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('x', labelX);
+      text.setAttribute('x', mid);
       text.setAttribute('y', labelY);
       text.setAttribute('text-anchor', 'middle');
       text.setAttribute('dominant-baseline', 'middle');
-      text.setAttribute('fill', '#7dd3fc');
-      text.setAttribute('font-size', '10px');
-      text.setAttribute('font-weight', '600');
+      text.setAttribute('fill', '#e2e8f0');
+      text.setAttribute('font-size', '11px');
+      text.setAttribute('font-weight', '700');
+      text.setAttribute('letter-spacing', '0.04em');
       text.textContent = label;
       svg.appendChild(text);
     }

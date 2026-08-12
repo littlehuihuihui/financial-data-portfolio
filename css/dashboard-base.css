@@ -359,6 +359,176 @@
   font-weight: 600;
 }
 
+/* ---------- 分阶段北极星 ---------- */
+.page-dashboard .ns-phases-panel {
+  margin: 0 0 16px;
+  padding: 14px 16px 16px;
+  border: 1px solid var(--dash-border, #1e2a4a);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(14, 165, 233, 0.08), transparent 42%),
+    rgba(8, 12, 22, 0.55);
+}
+.page-dashboard .ns-phases-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.page-dashboard .ns-phases-title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dash-text, #e8edf5);
+}
+.page-dashboard .ns-phases-sub {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--dash-muted, #8892a4);
+  max-width: 52rem;
+}
+.page-dashboard .ns-phases-current-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(56, 189, 248, 0.12);
+  white-space: nowrap;
+}
+.page-dashboard .ns-phase-track {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.page-dashboard .ns-phase-arrow {
+  display: flex;
+  align-items: center;
+  color: #475569;
+  font-size: 14px;
+  padding: 0 2px;
+}
+.page-dashboard .ns-phase-step {
+  flex: 1 1 140px;
+  min-width: 120px;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(30, 42, 74, 0.95);
+  background: rgba(0, 0, 0, 0.22);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.page-dashboard .ns-phase-step:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+  background: rgba(56, 189, 248, 0.08);
+}
+.page-dashboard .ns-phase-step.is-active {
+  border-color: rgba(56, 189, 248, 0.65);
+  background: rgba(56, 189, 248, 0.14);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2);
+}
+.page-dashboard .ns-phase-step.is-done:not(.is-active) {
+  border-color: rgba(52, 211, 153, 0.35);
+}
+.page-dashboard .ns-phase-idx {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #67e8f9;
+  margin-bottom: 4px;
+}
+.page-dashboard .ns-phase-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dash-text, #e8edf5);
+}
+.page-dashboard .ns-phase-metric {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--dash-muted, #8892a4);
+}
+.page-dashboard .ns-phase-detail {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.85fr) minmax(260px, 1.4fr);
+  gap: 12px;
+  align-items: stretch;
+}
+.page-dashboard .ns-star-card {
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(8, 47, 73, 0.35);
+}
+.page-dashboard .ns-star-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e0f2fe;
+  margin-bottom: 8px;
+}
+.page-dashboard .ns-star-value {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #7dd3fc;
+  letter-spacing: -0.02em;
+}
+.page-dashboard .ns-star-unit {
+  margin-left: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #bae6fd;
+}
+.page-dashboard .ns-star-formula {
+  margin-top: 8px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+.page-dashboard .ns-phase-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.page-dashboard .ns-meta-block {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(30, 42, 74, 0.85);
+}
+.page-dashboard .ns-meta-block h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #67e8f9;
+}
+.page-dashboard .ns-meta-block p,
+.page-dashboard .ns-guard-list {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--dash-muted, #b0b8c8);
+}
+.page-dashboard .ns-guard-list {
+  padding-left: 1.1em;
+}
+@media (max-width: 900px) {
+  .page-dashboard .ns-phase-detail { grid-template-columns: 1fr; }
+  .page-dashboard .ns-phase-meta { grid-template-columns: 1fr; }
+  .page-dashboard .ns-phase-arrow { display: none; }
+}
+
 .page-dashboard .kpi-card .kpi-hint {
   font-size: 0.65rem;
   color: var(--dash-muted);

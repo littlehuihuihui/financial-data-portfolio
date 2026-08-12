@@ -11,6 +11,13 @@
 | 门店日数据 | `../../retail-finance-analysis/scripts/generate_store_daily_data.py` |
 | 数仓刷新 | `../../retail-finance-analysis/scripts/refresh_data_to_202606.py` |
 | Python ETL | `../../retail-finance-analysis/retail_finance_warehouse/02_etl_python/` |
+| **日批调度契约（甘特/SLA/延迟）** | `../../retail-finance-analysis/retail_finance_warehouse/02_etl_python/etl_daily_schedule.py`（本目录有副本） |
+
+## 调度与 DQC（面试要点）
+
+- 计划窗口见 `etl_daily_schedule.py`：`planned_start` / `duration_min` / `sla_end` / `depends_on`
+- 上游 ODS 延迟：传感器等待 → 过 SLA HOLD 下游 → 过对外基线 P1 + 看板未就绪
+- 架构页「ETL调度与血缘」：甘特图 + 质量门禁表；看板「数据质量」为大盘（阻断量 / 脏数据分布）
 
 ## 元数据记录
 

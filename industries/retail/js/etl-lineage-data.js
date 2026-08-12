@@ -6,38 +6,170 @@ window.ETL_LINEAGE = {
     "trace": "问题溯源（自下而上）：看板异常从 ADS 定位月份/品牌/渠道 → 下钻 DWS → 回查 dwd_sales_wide → 对比 ods_orders。上方「表级变换」可查看 A→B 代码落点。",
     "impact": "变更影响（自上而下）：改 ETL/口径前查下游 ADS 与 13+ 主题看板；重跑 seed_sql6_from_csv.py 及 07/08/09 SQL，对账后回归 API :5000。"
   },
-  "jobs": [
-    {
-      "id": "dim_date",
-      "name": "dim_date 初始化",
-      "schedule": "重建时",
-      "description": "sql6 02_dim.sql"
+      "jobs": [
+      {
+        "id": "dim_date",
+        "name": "dim_date 初始化",
+        "schedule": "重建时",
+        "description": "sql6 02_dim.sql",
+        "layer": "DIM",
+        "planned_start": "—",
+        "duration_min": 0,
+        "sla_end": "—",
+        "planned_end": "—",
+        "depends_on": [],
+        "on_upstream_delay": "wait"
+      },
+      {
+        "id": "csv_ods",
+        "name": "源系统/CSV → ODS",
+        "schedule": "T+1 02:00",
+        "description": "贴源落库；完成标志后触发下游",
+        "layer": "ODS",
+        "planned_start": "02:00",
+        "duration_min": 45,
+        "sla_end": "03:30",
+        "planned_end": "02:45",
+        "depends_on": [],
+        "on_upstream_delay": "wait",
+        "left_pct": 0.0,
+        "width_pct": 10.71,
+        "sla_pct": 21.43
+      },
+      {
+        "id": "ods_dwd",
+        "name": "ODS → DWD 宽表",
+        "schedule": "T+1 03:30",
+        "description": "seed etl_dwd + 08_dwd_bridge；依赖 ODS",
+        "layer": "DWD",
+        "planned_start": "03:30",
+        "duration_min": 40,
+        "sla_end": "05:00",
+        "planned_end": "04:10",
+        "depends_on": [
+          "csv_ods"
+        ],
+        "on_upstream_delay": "wait",
+        "left_pct": 21.43,
+        "width_pct": 9.52,
+        "sla_pct": 42.86
+      },
+      {
+        "id": "dwd_dws",
+        "name": "DWD → DWS 汇总",
+        "schedule": "T+1 05:00",
+        "description": "seed etl_dws + 07/09；依赖 DWD",
+        "layer": "DWS",
+        "planned_start": "05:00",
+        "duration_min": 50,
+        "sla_end": "06:30",
+        "planned_end": "05:50",
+        "depends_on": [
+          "ods_dwd"
+        ],
+        "on_upstream_delay": "wait",
+        "left_pct": 42.86,
+        "width_pct": 11.9,
+        "sla_pct": 64.29
+      },
+      {
+        "id": "dqc_gate",
+        "name": "数据质量门禁 DQC",
+        "schedule": "T+1 06:30",
+        "description": "BLOCK 失败禁止 ADS/看板就绪",
+        "layer": "DQC",
+        "planned_start": "06:30",
+        "duration_min": 15,
+        "sla_end": "07:00",
+        "planned_end": "06:45",
+        "depends_on": [
+          "dwd_dws"
+        ],
+        "on_upstream_delay": "skip",
+        "left_pct": 64.29,
+        "width_pct": 3.57,
+        "sla_pct": 71.43
+      },
+      {
+        "id": "ads_views",
+        "name": "ADS 视图 / 看板就绪",
+        "schedule": "T+1 07:00",
+        "description": "05_ads.sql 仅读 DWS/DIM",
+        "layer": "ADS",
+        "planned_start": "07:00",
+        "duration_min": 10,
+        "sla_end": "07:30",
+        "planned_end": "07:10",
+        "depends_on": [
+          "dqc_gate"
+        ],
+        "on_upstream_delay": "skip",
+        "left_pct": 71.43,
+        "width_pct": 2.38,
+        "sla_pct": 78.57
+      }
+    ],
+    "schedule_window": {
+      "start": "02:00",
+      "end": "09:00"
     },
-    {
-      "id": "csv_ods",
-      "name": "CSV → ODS",
-      "schedule": "按需",
-      "description": "seed_sql6_from_csv.py"
+    "dq_gates": [
+      {
+        "id": "g_dwd_orders",
+        "object": "dwd_sales_wide",
+        "layer": "DWD",
+        "rule": "ODS↔DWD 订单行数一致",
+        "threshold": "差异率 = 0%",
+        "action": "BLOCK 下游 DWS/ADS",
+        "pass_rate_30d": 99.2,
+        "dimension": "完整性"
+      },
+      {
+        "id": "g_dwd_exp",
+        "object": "dwd_expense_wide",
+        "layer": "DWD",
+        "rule": "费用金额 ODS↔DWD",
+        "threshold": "差异率 ≤ 1%",
+        "action": "BLOCK",
+        "pass_rate_30d": 98.6,
+        "dimension": "准确性"
+      },
+      {
+        "id": "g_dws_sales",
+        "object": "dws_sales_monthly",
+        "layer": "DWS",
+        "rule": "月汇总金额 ≈ DWD 聚合",
+        "threshold": "差异率 ≤ 0.5%",
+        "action": "WARN",
+        "pass_rate_30d": 97.8,
+        "dimension": "一致性"
+      },
+      {
+        "id": "g_dws_timeliness",
+        "object": "dws_sales_daily",
+        "layer": "DWS",
+        "rule": "业务日分区按时产出",
+        "threshold": "≤ 06:30 完成",
+        "action": "WARN",
+        "pass_rate_30d": 96.5,
+        "dimension": "及时性"
+      },
+      {
+        "id": "g_ads_ready",
+        "object": "v_overview 等 ADS",
+        "layer": "ADS",
+        "rule": "全部 BLOCK 门禁 PASS",
+        "threshold": "FAIL 数 = 0",
+        "action": "BLOCK 看板推送",
+        "pass_rate_30d": 97.1,
+        "dimension": "可用性"
+      }
+    ],
+    "ops": {
+      "window": "02:00–09:00",
+      "delay": "ODS 未到：下游 ExternalTaskSensor 等待；过 ODS sla_end(03:30)→HOLD DWD/DWS/ADS 并告警源系统；过对外 SLA 09:00→P1 + 看板「数据未就绪」。迟到补跑按 biz_date：ODS→DWD→DWS→DQC，禁止跳层写 ADS。",
+      "lineage": "分层：ODS 贴源 → DWD 明细 → DWS 汇总 → DQC 门禁 → ADS 投影。甘特条=计划窗口，竖线=最晚完成基线；依赖边决定能否启动，而非纯 cron。"
     },
-    {
-      "id": "ods_dwd",
-      "name": "ODS → DWD 宽表",
-      "schedule": "灌入后",
-      "description": "seed etl_dwd + 08_dwd_bridge_finance.sql"
-    },
-    {
-      "id": "dwd_dws",
-      "name": "DWD → DWS 汇总",
-      "schedule": "灌入后",
-      "description": "seed etl_dws + 07/09 支付预算与财务扩展"
-    },
-    {
-      "id": "ads_views",
-      "name": "ADS 视图",
-      "schedule": "实时",
-      "description": "05_ads.sql"
-    }
-  ],
   "edges": [
     {
       "id": "rtl_syn_brand",

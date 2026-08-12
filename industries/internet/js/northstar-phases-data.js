@@ -1,0 +1,64 @@
+/** 互联网 OTT · 分阶段北极星（数据展示） */
+window.NORTHSTAR_PHASES = {
+  industry: "internet",
+  subtitle: "广东移动 OTT 按产品阶段演进北极星：冷启动 → 习惯养成 → 规模增长 → 商业健康。",
+  currentPhaseId: "p3",
+  phases: [
+    {
+      id: "p1",
+      name: "冷启动",
+      goal: "把新增设备真正「拉进来并完成首次有效播放」。",
+      why: "上线初期盯 MAU 太早，虚荣指标多；先盯新增激活与首次有效行为，验证漏斗是否通。",
+      northstar: {
+        name: "新增有效激活",
+        formula: "当月首次满足有效活跃规则的去重设备",
+        value_display: "12.4万",
+        unit: "",
+      },
+      guardrails: ["激活→首播转化不崩", "异常刷量设备占比", "端型（STB/Speaker）结构可解释"],
+      focus_dashboards: "活跃总览 · 用户生命周期 · 渠道归因",
+    },
+    {
+      id: "p2",
+      name: "习惯养成",
+      goal: "用户回来看、看完——形成内容习惯。",
+      why: "有激活无留存=漏桶；本阶段把北极星收到留存/完播，为后续 MAU 打地基。",
+      northstar: {
+        name: "D7 留存",
+        formula: "队列 D7 留存率 · dws_user_retention_1d",
+        value_display: "28.5",
+        unit: "%",
+      },
+      guardrails: ["完播率（点播）", "只开机占比不抬升", "内容供给稳定"],
+      focus_dashboards: "用户留存 · 内容质量/完播 · 用户路径",
+    },
+    {
+      id: "p3",
+      name: "规模增长",
+      goal: "做大有效月活——当前公司级主优化目标。",
+      why: "习惯跑通后，用「有效 MAU」统一 STB+Speaker；冲量时必须守住留存/完播/LTV/CAC 围栏。",
+      northstar: {
+        name: "有效 MAU",
+        formula: "月内有效活跃去重设备（非裸开机）",
+        value_display: "326万",
+        unit: "",
+      },
+      guardrails: ["D7 留存", "完播率（点播）", "LTV/CAC ≥ 1"],
+      focus_dashboards: "活跃总览 · 留存 · LTV/CAC · 漏斗",
+    },
+    {
+      id: "p4",
+      name: "商业健康",
+      goal: "规模与变现质量并重，拒绝亏损式冲 MAU。",
+      why: "MAU 足够大后，阶段重点转为订购转化与 ARPU；北极星可切到付费相关，但本作品集仍以有效 MAU 为主星、LTV/CAC 为围栏讲述。",
+      northstar: {
+        name: "订购转化率",
+        formula: "收银台确认 ÷ 曝光 · 漏斗月汇总",
+        value_display: "3.8",
+        unit: "%",
+      },
+      guardrails: ["有效 MAU 不萎缩", "LTV/CAC", "退订率可控"],
+      focus_dashboards: "漏斗转化 · 收入结构 · ARPU · LTV",
+    },
+  ],
+};

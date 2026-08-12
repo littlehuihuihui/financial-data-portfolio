@@ -34,7 +34,7 @@
     { id: "store", title: "门店分析", description: "门店KPI + Top10排名 + 健康度散点 + 异常预警" },
     { id: "profit-quality", title: "利润质量", description: "净现比 + 利润vs现金流 + 差异拆解" },
     { id: "cvp", title: "本量利分析", description: "盈亏平衡 + 安全边际 + 敏感性分析" },
-    { id: "quality", title: "数据质量", description: "质量评分 + 对账结果 + 未解决异常（CFO视图）" },
+    { id: "quality", title: "数据质量监控大盘", description: "DQC门禁 · 每日阻断量 · 脏数据分布 · 对账" },
   ];
 
   const SITE_PAGES = [

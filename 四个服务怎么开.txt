@@ -1,0 +1,28 @@
+多行业平台 · 四个服务怎么开
+========================
+
+端口一览：
+
+  5000  零售 API           retail-finance-analysis\app.py
+  5001  互联网 API         internet-analytics\app.py
+  5002  制造业 API         manufacturing-analytics\app.py
+  5100  多行业平台入口     portfolio\portfolio_app.py   ← 浏览器看这个
+
+【最省事】
+双击：portfolio\一键启动.bat
+浏览器：http://127.0.0.1:5100/
+
+【PyCharm】
+已预置 Run Configuration（工程根 .idea/runConfigurations/）：
+  - All Services (5000+5001+5002+5100)
+  - Portfolio Platform 5100
+  - Retail API 5000 / Internet API 5001 / Manufacturing API 5002
+
+Compound「All Services」一次启动四个进程。
+
+【前端说明】
+所有 HTML/CSS/JS 只在 portfolio/ 维护。
+retail-finance-analysis/docs/ 已删除；5000 端口静态页也读 portfolio。
+
+零售看板：http://127.0.0.1:5100/industries/retail/retail_dashboard.html
+数仓架构：http://127.0.0.1:5100/industries/retail/pages/architecture.html

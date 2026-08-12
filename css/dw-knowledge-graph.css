@@ -438,15 +438,61 @@
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  background: rgba(77, 163, 255, 0.1);
-  border: 1px solid rgba(77, 163, 255, 0.2);
+  background: rgba(244, 114, 182, 0.1);
+  border: 1px solid rgba(244, 114, 182, 0.25);
   border-radius: 6px;
   font-size: 12px;
-  color: #4da3ff;
+  color: #f9a8d4;
 }
 
 .dw-graph-detail-dashboard-icon {
   font-size: 10px;
+}
+
+a.dw-graph-dash-link {
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+a.dw-graph-dash-link:hover {
+  border-color: rgba(244, 114, 182, 0.55);
+  background: rgba(244, 114, 182, 0.18);
+  color: #fce7f3;
+}
+
+.dw-graph-dash-go {
+  margin-left: auto;
+  font-size: 11px;
+  color: #f472b6;
+  opacity: 0.85;
+}
+
+.dw-graph-open-dash-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(244, 114, 182, 0.4);
+  background: linear-gradient(135deg, rgba(244, 114, 182, 0.2), rgba(139, 92, 246, 0.15));
+  color: #fce7f3;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: filter 0.15s ease, border-color 0.15s ease;
+}
+
+.dw-graph-open-dash-btn:hover {
+  border-color: rgba(244, 114, 182, 0.7);
+  filter: brightness(1.08);
+}
+
+.dw-graph-filter-dash {
+  margin-left: 4px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* 字段列表 */

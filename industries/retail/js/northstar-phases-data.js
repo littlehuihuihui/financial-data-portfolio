@@ -1,0 +1,64 @@
+/** 零售财务 · 分阶段北极星（数据展示） */
+window.NORTHSTAR_PHASES = {
+  industry: "retail",
+  subtitle: "跃动体育项目按阶段切换主优化目标：基建可信 → 经营透视 → 利润攻坚 → 资本效率。",
+  currentPhaseId: "p3",
+  phases: [
+    {
+      id: "p1",
+      name: "基建可信",
+      goal: "数仓与看板先「信得过」，再谈经营决策。",
+      why: "项目冷启动阶段若直接盯利润，脏数据与对账失败会误导业务；先把 ODS→DWD→DWS→DQC 门禁打通。",
+      northstar: {
+        name: "DQC 门禁通过率",
+        formula: "BLOCK 规则 PASS 数 ÷ 应检规则数",
+        value_display: "97.1",
+        unit: "%",
+      },
+      guardrails: ["对外 SLA：看板 09:00 前就绪", "ODS↔DWD 行数差异率 = 0%", "禁止 ADS 直读 ODS"],
+      focus_dashboards: "数据质量监控大盘 · ETL 调度/甘特 · 数仓架构",
+    },
+    {
+      id: "p2",
+      name: "经营透视",
+      goal: "管理层每周看清「卖了多少、毛利如何」。",
+      why: "数据可信后，阶段目标转为规模可见：用净收入/GMV 验证业务是否在增长，再进入利润优化。",
+      northstar: {
+        name: "净收入",
+        formula: "成交净额（扣退）· DWS dws_sales_monthly → ADS v_overview",
+        value_display: "1.28亿",
+        unit: "",
+      },
+      guardrails: ["退货率 ≤ 15%", "库存周转不连续恶化", "品牌/渠道结构不畸形冲量"],
+      focus_dashboards: "经营总览 · 品牌分析 · 渠道分析",
+    },
+    {
+      id: "p3",
+      name: "利润攻坚",
+      goal: "在增长同时把利润率做扎实——公司级唯一主优化目标。",
+      why: "规模起来后，冲 GMV 容易牺牲毛利与费用；本阶段收敛为「净利率」单一北极星，配套围栏防虚假优化。",
+      northstar: {
+        name: "净利率",
+        formula: "净利润 ÷ 净收入 · 杜邦/利润质量交叉验证",
+        value_display: "8.6",
+        unit: "%",
+      },
+      guardrails: ["退货率", "经营净现比 ≥ 0.8", "库存周转天数不击穿品类基准"],
+      focus_dashboards: "经营总览 · 杜邦分析 · 利润质量 · 费用/库存",
+    },
+    {
+      id: "p4",
+      name: "资本效率",
+      goal: "利润质量与股东回报并重，避免「账面利润、现金失血」。",
+      why: "净利率达标后，阶段升级为 ROE；仍以净现比为硬围栏，防止只优化利润率不做现金。",
+      northstar: {
+        name: "ROE",
+        formula: "净利率 × 资产周转 × 权益乘数 · ADS v_dupont",
+        value_display: "18.2",
+        unit: "%",
+      },
+      guardrails: ["净利率不回落破位", "经营净现比", "资产负债结构健康"],
+      focus_dashboards: "杜邦分析 · 现金流 · 资产负债表 · 利润质量",
+    },
+  ],
+};
