@@ -120,6 +120,7 @@
       const state = { ...DashState.load(), ...DashState.applyRowFilters(meta, roleConfig) };
       await DashLoaders.load(dashboardId, state);
       DashCore.bindExportButtons(contentEl());
+      window.NorthstarPhases?.patchDashboardContext?.(contentEl());
       setStatus(DashCore.statusFooter(dash.title, state.month));
     } catch (err) {
       console.error(err);
@@ -178,6 +179,17 @@
     window.addEventListener("popstate", onHash);
     window.addEventListener("hashchange", onHash);
     window.addEventListener("dash-refresh", () => loadDashboard(parseHash()));
+    window.addEventListener("northstar-phase-change", (e) => {
+      const target = e.detail?.primary_dashboard;
+      const allowed = roleConfig.dashboards || [];
+      const next = target && allowed.includes(target) ? target : parseHash();
+      if (target && !allowed.includes(target) && e.detail?.focus_ids?.length) {
+        const alt = e.detail.focus_ids.find((id) => allowed.includes(id));
+        loadDashboard(alt || next);
+        return;
+      }
+      loadDashboard(next);
+    });
     window.addEventListener("resize", () => DashCore.resizeAll());
   }
 

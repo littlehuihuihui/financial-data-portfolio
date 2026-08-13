@@ -207,11 +207,18 @@
     });
   }
 
-  async function boot() {
+    function initDataFaq() {
+      const root = document.getElementById("data-faq-root");
+      if (!root || !window.DataFaq?.mount) return null;
+      return window.DataFaq.mount(root, { industry: getIndustry() });
+    }
+
+    async function boot() {
     // 先加载架构数据，供字典血缘跳转 / 图谱配色共用
     try { await ensureScripts(["dwArchData"]); } catch (_) { /* ignore */ }
     initDictionary();
     initEtlLineage();
+    initDataFaq();
     bindInteractiveAccordions();
     bindTocLinks();
     initStaticAccordions();

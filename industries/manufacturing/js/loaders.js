@@ -26,11 +26,13 @@ window.DashLoaders = (function () {
         name: "CMEI",
         value: k.cmei_pct,
         unit: "%",
-        role: "northstar",
+        role: "core",
         sub: "FPY×40% + OEE×35% + OTD×25%",
       });
     }
-    renderKpiGrid("db-kpi", kpis);
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles
+      ? window.NorthstarPhases.applyKpiRoles(kpis)
+      : kpis.map((c) => (c.name === "CMEI" ? { ...c, role: "northstar" } : c)));
     setLineChart(initChart("db-chart-output-trend"), d.trend?.map((r) => r.snapshot_date) || [],
       [{ name: "产量", data: d.trend?.map((r) => r.output_qty) || [] },
        { name: "产能利用率%", data: d.trend?.map((r) => r.capacity_util_pct) || [] }]);
@@ -48,7 +50,13 @@ window.DashLoaders = (function () {
   async function delivery(state) {
     const d = await api("/api/dashboard_delivery", params(state));
     const k = d.kpi || {};
-    renderKpiGrid("db-kpi", [
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles?.([
+      { name: "准时交付率", value: k.otd_pct, unit: "%" },
+      { name: "逾期工单", value: k.late_count },
+      { name: "计划达成率", value: k.plan_achieve_pct, unit: "%" },
+      { name: "平均交付周期(天)", value: k.avg_lead_days },
+      { name: "工单数", value: k.order_count },
+    ]) || [
       { name: "准时交付率", value: k.otd_pct, unit: "%" },
       { name: "逾期工单", value: k.late_count },
       { name: "计划达成率", value: k.plan_achieve_pct, unit: "%" },
@@ -74,7 +82,12 @@ window.DashLoaders = (function () {
   async function quality(state) {
     const d = await api("/api/dashboard_quality", params(state));
     const k = d.kpi || {};
-    renderKpiGrid("db-kpi", [
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles?.([
+      { name: "良品率", value: k.yield_rate_pct, unit: "%" },
+      { name: "不良率", value: k.defect_rate_pct, unit: "%" },
+      { name: "报废率", value: k.scrap_rate_pct, unit: "%" },
+      { name: "一次通过率", value: k.first_pass_pct, unit: "%" },
+    ]) || [
       { name: "良品率", value: k.yield_rate_pct, unit: "%" },
       { name: "不良率", value: k.defect_rate_pct, unit: "%" },
       { name: "报废率", value: k.scrap_rate_pct, unit: "%" },
@@ -98,7 +111,11 @@ window.DashLoaders = (function () {
   async function equipment(state) {
     const d = await api("/api/dashboard_equipment", params(state));
     const k = d.kpi || {};
-    renderKpiGrid("db-kpi", [
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles?.([
+      { name: "OEE", value: k.oee_pct, unit: "%" },
+      { name: "停机时长", value: k.downtime_hours },
+      { name: "故障次数", value: k.failure_count },
+    ]) || [
       { name: "OEE", value: k.oee_pct, unit: "%" },
       { name: "停机时长", value: k.downtime_hours },
       { name: "故障次数", value: k.failure_count },

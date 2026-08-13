@@ -3,7 +3,7 @@
   "roles": {
     "ceo": {
       "label": "CEO/总经理",
-      "dashboards": ["overview", "financial", "dupont", "cashflow", "profit-quality"],
+      "dashboards": ["overview", "financial", "dupont", "cashflow", "profit-quality", "quality"],
       "row_filters": {}
     },
     "cfo": {
@@ -15,7 +15,7 @@
       "label": "财务BP",
       "dashboards": [
         "overview", "brand", "channel", "financial", "dupont", "cashflow",
-        "tax", "inventory", "budget", "store", "profit-quality", "cvp"
+        "tax", "inventory", "budget", "store", "profit-quality", "cvp", "quality"
       ],
       "row_filters": {}
     },

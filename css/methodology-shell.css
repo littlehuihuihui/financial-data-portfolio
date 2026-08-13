@@ -15,49 +15,52 @@
       --sidebar-w: 340px;
     }
     *, *::before, *::after { box-sizing: border-box; }
+    /* 背景 / 顶栏 HUD 交给 platform-shell；此处只补方法论布局 */
     body {
       margin: 0;
-      font-family: var(--font-sans, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif);
-      background: var(--bg, var(--color-bg-base, #0a0f1e));
+      font-family: var(--font-ui, var(--font-sans, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif));
       color: var(--text, var(--color-text-primary, #e8edf5));
       line-height: 1.55;
       min-height: 100vh;
     }
-    .top-nav {
-      position: sticky; top: 0; z-index: 100;
-      background: color-mix(in srgb, var(--nav-bg, #0d1220) 95%, transparent);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--card-border, var(--color-border, #1e2a4a));
+    .top-nav .nav-inner {
+      max-width: 1600px;
     }
-    .nav-inner {
-      max-width: 1600px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 20px; height: 52px; gap: 16px;
+    .brand {
+      font-family: var(--font-display, var(--font-ui, sans-serif));
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
+      text-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
     }
-    .brand { font-weight: 700; font-size: 15px; white-space: nowrap; }
-    .nav-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
-    .nav-tab {
-      color: var(--text2); text-decoration: none; font-size: 13px;
-      padding: 6px 12px; border-radius: 6px; transition: .15s;
-    }
-    .nav-tab:hover { color: var(--text); background: var(--surface2); }
-    .nav-tab.active { color: #fff; background: var(--l1); }
     .nav-export { border: 1px solid var(--border); }
-    .nav-tab.nav-home {
-      margin-left: auto;
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: #7dd3fc;
-    }
-    .nav-tab.nav-home:hover { color: #e0f2fe; background: rgba(56, 189, 248, 0.12); }
     .nav-inner-with-search { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
     .nav-inner-with-search .nav-tabs { flex-shrink: 0; }
 
     .hero {
       max-width: 1600px; margin: 0 auto;
-      padding: 20px 20px 0;
+      padding: 22px 20px 4px;
+      position: relative;
     }
-    .hero h1 { font-size: 22px; margin: 0 0 6px; }
-    .hero p { margin: 0; color: var(--text2); font-size: 14px; }
+    .hero::before {
+      content: "ANALYSIS FRAMEWORK";
+      display: block;
+      font-family: var(--font-mono, monospace);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: #67e8f9;
+      opacity: 0.7;
+      margin-bottom: 6px;
+    }
+    .hero h1 {
+      font-family: var(--font-display, var(--font-ui, sans-serif));
+      font-size: 20px;
+      letter-spacing: 0.06em;
+      margin: 0 0 8px;
+      text-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+    }
+    .hero p { margin: 0; color: var(--text2); font-size: 14px; max-width: 72ch; }
 
     .search-bar {
       max-width: 1600px; margin: 16px auto 0;
@@ -83,15 +86,17 @@
       align-items: start;
     }
 
-    /* Sidebar */
+    /* Sidebar · glass HUD */
     .sidebar {
       position: sticky; top: 68px;
       max-height: calc(100vh - 80px);
       overflow-y: auto;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: linear-gradient(165deg, rgba(20, 27, 45, 0.92), rgba(10, 15, 26, 0.96));
+      border: 1px solid color-mix(in srgb, var(--color-cyan, #22d3ee) 22%, var(--border));
       border-radius: var(--radius);
       padding: 8px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(34, 211, 238, 0.08);
     }
     .sidebar::-webkit-scrollbar { width: 6px; }
     .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -141,21 +146,33 @@
     }
     .q-card:hover { background: var(--surface2); color: var(--text); }
     .q-card.active {
-      background: var(--surface2);
-      border-color: var(--border);
+      background: rgba(34, 211, 238, 0.1);
+      border-color: rgba(34, 211, 238, 0.35);
       color: var(--text);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.12);
     }
     .q-card .q-title { font-weight: 600; display: block; margin-bottom: 2px; }
     .q-card .q-desc { font-size: 11px; color: var(--text3); display: block; line-height: 1.4; }
     .q-card.hidden { display: none; }
 
-    /* Detail panel */
+    /* Detail panel · glass HUD */
     .detail {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      position: relative;
+      background: linear-gradient(165deg, rgba(20, 27, 45, 0.94), rgba(10, 15, 26, 0.98));
+      border: 1px solid color-mix(in srgb, var(--color-primary, #4da3ff) 22%, var(--border));
       border-radius: var(--radius);
       min-height: 500px;
       overflow: hidden;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
+    }
+    .detail::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 12%; right: 12%;
+      height: 1px;
+      background: var(--glow-line, linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.75), transparent));
+      opacity: 0.75;
+      pointer-events: none;
     }
     .detail-empty {
       display: flex; align-items: center; justify-content: center;

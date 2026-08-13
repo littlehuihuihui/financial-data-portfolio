@@ -295,7 +295,36 @@ code {
 
 /* ---------- 数仓架构页头部 ---------- */
 .arch-page-header {
+  position: relative;
   margin-bottom: 24px;
+  padding: 20px 22px 18px;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--color-cyan, #22d3ee) 24%, var(--card-border));
+  background:
+    linear-gradient(145deg, rgba(20, 27, 45, 0.88), rgba(10, 15, 28, 0.94)),
+    radial-gradient(ellipse at 0% 0%, rgba(34, 211, 238, 0.08), transparent 55%);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(34, 211, 238, 0.08);
+  overflow: hidden;
+}
+
+.arch-page-header::before,
+.arch-page-header::after {
+  content: "";
+  position: absolute;
+  width: var(--hud-corner, 14px);
+  height: var(--hud-corner, 14px);
+  border-color: rgba(34, 211, 238, 0.65);
+  border-style: solid;
+  pointer-events: none;
+}
+.arch-page-header::before {
+  top: 8px; left: 8px;
+  border-width: 2px 0 0 2px;
+}
+.arch-page-header::after {
+  top: 8px; right: 8px;
+  border-width: 2px 2px 0 0;
 }
 
 .arch-page-title-row {
@@ -308,6 +337,9 @@ code {
 
 .arch-page-title-row .section-title {
   margin-bottom: 0;
+  font-family: var(--font-display, var(--font-ui, sans-serif));
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 18px rgba(34, 211, 238, 0.22);
 }
 
 .arch-page-badge {
@@ -1977,11 +2009,17 @@ a.etl-code-path-link code {
 
 /* 交互区块折叠（全景 / 图谱 / ER） */
 .arch-interactive-accordion {
+  position: relative;
   margin: 0 0 16px;
-  border: 1px solid var(--card-border, var(--color-border));
+  border: 1px solid color-mix(in srgb, var(--color-cyan, #22d3ee) 18%, var(--card-border, var(--color-border)));
   border-radius: var(--radius, 10px);
   background: linear-gradient(145deg, rgba(20, 27, 45, 0.95), rgba(15, 20, 35, 0.98));
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(34, 211, 238, 0.06);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.arch-interactive-accordion:hover {
+  border-color: color-mix(in srgb, var(--color-cyan, #22d3ee) 35%, var(--card-border, var(--color-border)));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 20px rgba(34, 211, 238, 0.08);
 }
 .arch-interactive-accordion > summary {
   cursor: pointer;
@@ -1991,8 +2029,10 @@ a.etl-code-path-link code {
   justify-content: space-between;
   gap: 12px;
   padding: 16px 20px;
+  font-family: var(--font-ui, inherit);
   font-weight: 600;
   font-size: 15px;
+  letter-spacing: 0.03em;
   color: var(--text, var(--color-text-primary));
   user-select: none;
 }

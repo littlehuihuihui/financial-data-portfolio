@@ -1,0 +1,2026 @@
+{
+  "schema_version": "2.1",
+  "generated_at": "2026-08-13T06:13:37Z",
+  "industry": {
+    "industry_code": "internet",
+    "industry_name": "互联网通用",
+    "database_name": "internet_analytics",
+    "metadata_database": "portfolio_metadata",
+    "folder_path": "/industries/internet/",
+    "entry_file": "internet_dashboard.html",
+    "company_name": "广东移动 OTT",
+    "status": "active",
+    "warehouse_models": [
+      "internet_analytics"
+    ],
+    "api_ports": {
+      "internet_api": 5001,
+      "portfolio_platform": 5100
+    }
+  },
+  "navigation": {
+    "platform_entry": {
+      "label": "多行业平台入口",
+      "path": "/index.html"
+    },
+    "internet_tabs": [
+      {
+        "id": "dashboard",
+        "label": "数据展示",
+        "path": "internet_dashboard.html",
+        "description": "17 个主题看板 + 分阶段北极星 + 角色切换"
+      },
+      {
+        "id": "methodology",
+        "label": "分析方法论",
+        "path": "pages/methodology.html",
+        "description": "六层分析框架 · OTT 场景 · 第六层工具箱"
+      },
+      {
+        "id": "platform_graph",
+        "label": "知识图谱",
+        "path": "pages/platform-graph.html",
+        "description": "看板 · 分析方法 · 五层数仓 · 指标（控密度三层聚焦）"
+      },
+      {
+        "id": "architecture",
+        "label": "数仓架构",
+        "path": "pages/architecture.html",
+        "description": "OTT 雪花模型 · 数据字典 · 数仓血缘"
+      },
+      {
+        "id": "dictionary",
+        "label": "数据字典",
+        "path": "pages/dictionary.html",
+        "description": "全屏 Master-Detail · 指标口径"
+      }
+    ],
+    "methodology_sidebar_layers": [
+      "l1",
+      "l2",
+      "l3",
+      "l4",
+      "l5"
+    ],
+    "global_search": true,
+    "report_nav_hidden": true
+  },
+  "dashboards": [
+    {
+      "id": "overview",
+      "title": "活跃总览",
+      "icon": "📈",
+      "roles": [
+        "运营负责人",
+        "内容运营",
+        "用户增长",
+        "商业化运营"
+      ],
+      "core_content": "有效MAU(STB/Speaker/合计) · DAU/WAU/MAU · 多时间窗",
+      "api": "/api/dashboard_overview",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/01-overview.html"
+    },
+    {
+      "id": "launcher",
+      "title": "开机活跃",
+      "icon": "📺",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "开机次数/设备数/时长 · 端对比 · 只开机占比",
+      "api": "/api/dashboard_launcher",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/02-launcher.html"
+    },
+    {
+      "id": "vod",
+      "title": "点播活跃",
+      "icon": "🎬",
+      "roles": [
+        "运营负责人",
+        "内容运营",
+        "商业化运营"
+      ],
+      "core_content": "VV/UV/时长 · 人均VV/人均时长 · 多时间窗",
+      "api": "/api/dashboard_vod",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/03-vod.html"
+    },
+    {
+      "id": "live",
+      "title": "直播活跃",
+      "icon": "📡",
+      "roles": [
+        "运营负责人",
+        "内容运营"
+      ],
+      "core_content": "观看次数/人数/时长 · 频道分布",
+      "api": "/api/dashboard_live",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/04-live.html"
+    },
+    {
+      "id": "series",
+      "title": "内容·剧集",
+      "icon": "🎞️",
+      "roles": [
+        "运营负责人",
+        "内容运营",
+        "商业化运营"
+      ],
+      "core_content": "剧集 VV/UV/时长/完播率 · 题材渗透",
+      "api": "/api/dashboard_series",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/05-series.html"
+    },
+    {
+      "id": "episode",
+      "title": "内容·单集与行为",
+      "icon": "▶️",
+      "roles": [
+        "运营负责人",
+        "内容运营"
+      ],
+      "core_content": "单集排名 · 播放行为分布(action/完成度)",
+      "api": "/api/dashboard_episode",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/06-episode.html"
+    },
+    {
+      "id": "quality",
+      "title": "完播与QoS",
+      "icon": "✅",
+      "roles": [
+        "运营负责人",
+        "内容运营"
+      ],
+      "core_content": "完播率/完成度/首帧/卡顿 · 内容质量榜",
+      "api": "/api/dashboard_quality",
+      "filters": [],
+      "file": "dashboard/07-quality.html"
+    },
+    {
+      "id": "lifecycle",
+      "title": "用户生命周期",
+      "icon": "🌱",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "开户/激活/沉默/流失/净增",
+      "api": "/api/dashboard_lifecycle",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/08-lifecycle.html"
+    },
+    {
+      "id": "retention",
+      "title": "用户留存",
+      "icon": "🔄",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "次留/7留/30留 · 同期群矩阵",
+      "api": "/api/dashboard_retention",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/09-retention.html"
+    },
+    {
+      "id": "device",
+      "title": "设备流转",
+      "icon": "🔀",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "STB↔Speaker · 型号/固件 · 双端用户",
+      "api": "/api/dashboard_device",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/10-device.html"
+    },
+    {
+      "id": "funnel",
+      "title": "商业化漏斗",
+      "icon": "🔻",
+      "roles": [
+        "运营负责人",
+        "商业化运营"
+      ],
+      "core_content": "曝光→点击→验证→确认 · 误触监控",
+      "api": "/api/dashboard_funnel",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/11-funnel.html"
+    },
+    {
+      "id": "order",
+      "title": "订购与分成",
+      "icon": "💎",
+      "roles": [
+        "运营负责人",
+        "商业化运营"
+      ],
+      "core_content": "订购/退订 · 收费结构 · MAU结算(演示)+CP分成(演示30%)",
+      "api": "/api/dashboard_order",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/12-order.html"
+    },
+    {
+      "id": "path",
+      "title": "用户行为路径",
+      "icon": "🗺️",
+      "roles": [
+        "运营负责人",
+        "内容运营",
+        "用户增长"
+      ],
+      "core_content": "Sankey路径图 · 页面流转 · 步骤流失 · 转化链路",
+      "api": "/api/dashboard_path",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/13-path.html"
+    },
+    {
+      "id": "revenue",
+      "title": "收入结构深度分析",
+      "icon": "💰",
+      "roles": [
+        "运营负责人",
+        "商业化运营"
+      ],
+      "core_content": "套餐LTV · ARPU/ARPPU · 退订/续费率 · 收入结构",
+      "api": "/api/dashboard_revenue",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/14-revenue.html"
+    },
+    {
+      "id": "activity",
+      "title": "营销活动复盘",
+      "icon": "🎯",
+      "roles": [
+        "运营负责人",
+        "商业化运营"
+      ],
+      "core_content": "活动ROI · 触达→参与→转化 · 全周期效果",
+      "api": "/api/dashboard_activity",
+      "filters": [],
+      "file": "dashboard/15-activity.html"
+    },
+    {
+      "id": "health",
+      "title": "业务健康度",
+      "icon": "❤️",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "红黄绿灯 · 综合健康分 · 基线对比 · 一页纸",
+      "api": "/api/dashboard_health",
+      "filters": [],
+      "file": "dashboard/16-health.html"
+    },
+    {
+      "id": "tags",
+      "title": "用户标签画像",
+      "icon": "🏷️",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "5类标签体系 · 人群覆盖 · 画像分析 · 规则来源",
+      "api": "/api/dashboard_tags",
+      "filters": [],
+      "file": "dashboard/17-tags.html"
+    },
+    {
+      "id": "report-export",
+      "title": "报告导出（P0-P3）",
+      "icon": "📄",
+      "roles": [
+        "内容运营",
+        "商业化运营",
+        "用户增长",
+        "运营负责人"
+      ],
+      "core_content": "体系总览 + P0b监控五层(有效MAU/围栏) + 17 主题看板摘要 + 六层方法论 + 工具箱 + 数仓架构 PDF",
+      "api": null,
+      "filters": [],
+      "file": "pdf/report.html",
+      "nav_visible": false
+    }
+  ],
+  "source_dashboards_version": "2.1",
+  "analysis_framework": {
+    "layers": [
+      {
+        "id": "l1",
+        "name": "描述性分析",
+        "short": "第一层",
+        "question": "现在是什么状况？",
+        "color": "#3b82f6",
+        "categories": [
+          "活跃概况类",
+          "用户结构类",
+          "渠道获客类",
+          "产品使用类",
+          "内容分析类"
+        ]
+      },
+      {
+        "id": "l2",
+        "name": "诊断性分析",
+        "short": "第二层",
+        "question": "为什么会这样？",
+        "color": "#8b5cf6",
+        "categories": [
+          "活跃异常类",
+          "留存异常类",
+          "渠道效率类",
+          "流失转化类",
+          "内容质量类"
+        ]
+      },
+      {
+        "id": "l3",
+        "name": "预测性分析",
+        "short": "第三层",
+        "question": "接下来会怎样？",
+        "color": "#06b6d4",
+        "categories": [
+          "DAU预测类",
+          "LTV预测类",
+          "渠道预测类",
+          "收入预测类",
+          "流失预测类"
+        ]
+      },
+      {
+        "id": "l4",
+        "name": "评估性分析",
+        "short": "第四层",
+        "question": "做得怎么样？",
+        "color": "#f59e0b",
+        "categories": [
+          "获客效率类",
+          "活动效果类",
+          "产品效果类",
+          "实验评估类",
+          "体验评估类"
+        ]
+      },
+      {
+        "id": "l5",
+        "name": "优化决策",
+        "short": "第五层",
+        "question": "应该怎么做？",
+        "color": "#22c55e",
+        "categories": [
+          "投放优化类",
+          "用户挽回类",
+          "产品优先级类",
+          "渠道组合类",
+          "定价优化类"
+        ]
+      },
+      {
+        "id": "l6",
+        "name": "分析方法工具箱",
+        "short": "第六层",
+        "question": "用什么方法？",
+        "color": "#f472b6",
+        "categories": [
+          "用户理解",
+          "增长分析",
+          "归因与实验",
+          "运营优化"
+        ]
+      }
+    ],
+    "layers_l1_to_l5": [
+      {
+        "id": "l1",
+        "name": "描述性分析",
+        "short": "第一层",
+        "question": "现在是什么状况？",
+        "color": "#3b82f6",
+        "categories": [
+          "活跃概况类",
+          "用户结构类",
+          "渠道获客类",
+          "产品使用类",
+          "内容分析类"
+        ]
+      },
+      {
+        "id": "l2",
+        "name": "诊断性分析",
+        "short": "第二层",
+        "question": "为什么会这样？",
+        "color": "#8b5cf6",
+        "categories": [
+          "活跃异常类",
+          "留存异常类",
+          "渠道效率类",
+          "流失转化类",
+          "内容质量类"
+        ]
+      },
+      {
+        "id": "l3",
+        "name": "预测性分析",
+        "short": "第三层",
+        "question": "接下来会怎样？",
+        "color": "#06b6d4",
+        "categories": [
+          "DAU预测类",
+          "LTV预测类",
+          "渠道预测类",
+          "收入预测类",
+          "流失预测类"
+        ]
+      },
+      {
+        "id": "l4",
+        "name": "评估性分析",
+        "short": "第四层",
+        "question": "做得怎么样？",
+        "color": "#f59e0b",
+        "categories": [
+          "获客效率类",
+          "活动效果类",
+          "产品效果类",
+          "实验评估类",
+          "体验评估类"
+        ]
+      },
+      {
+        "id": "l5",
+        "name": "优化决策",
+        "short": "第五层",
+        "question": "应该怎么做？",
+        "color": "#22c55e",
+        "categories": [
+          "投放优化类",
+          "用户挽回类",
+          "产品优先级类",
+          "渠道组合类",
+          "定价优化类"
+        ]
+      }
+    ],
+    "layer6_toolbox": {
+      "layer": {
+        "id": "l6",
+        "name": "分析方法工具箱",
+        "short": "第六层",
+        "question": "用什么方法？",
+        "color": "#f472b6",
+        "categories": [
+          "用户理解",
+          "增长分析",
+          "归因与实验",
+          "运营优化"
+        ]
+      },
+      "opening": null,
+      "intro": "用户画像、生命周期、留存、RFM、漏斗、LTV、归因、流失预警、A/B 测试、边际 ROI、分群、行为路径、增长实验、渠道评分卡、北极星拆解——15 种可复用分析方法。每种方法按教材体（定义/原理/适用/目的/步骤/输出与误区/方法对比/边界）展开，并配演示图表（帕累托/漏斗/热力/瀑布等），帮助 OTT 增长团队选用手法。",
+      "methods": [
+        {
+          "id": "persona",
+          "layer": "l6",
+          "category": "用户理解",
+          "title": "用户画像分析",
+          "aliases": "用户画像 / 人口属性 / 端型地市分布",
+          "desc": "按端型（STB/Speaker）、地市、设备型号等维度交叉分析用户规模与行为特征，识别核心人群。",
+          "bizQuestion": "我们的核心 OTT 用户是谁？广深占比多少？",
+          "portfolio": "2026-07：STB 占 MAU 62%（约 3,100 MAC），Speaker 38%（约 1,900 MAC）；广州+深圳合计 48%，点播渗透率 STB 72% vs Speaker 54%。见 v_user_portrait 与活跃总览看板。"
+        },
+        {
+          "id": "lifecycle",
+          "layer": "l6",
+          "category": "用户理解",
+          "title": "生命周期分析",
+          "aliases": "生命周期 / 五阶段 / 用户旅程",
+          "desc": "将用户划分为新注册→激活→活跃→沉默→流失五阶段，跟踪各阶段规模与迁移率，识别增长瓶颈。",
+          "bizQuestion": "用户处在哪个生命周期阶段？净增为什么转负？",
+          "portfolio": "2026-07：日激活约 85 人，沉默 1,240 人（占 18%），周 churn 约 32 人；approx_net_growth 近 7 日均值 +12。见 v_lifecycle 与用户生命周期看板。"
+        },
+        {
+          "id": "segment",
+          "layer": "l6",
+          "category": "用户理解",
+          "title": "用户分群分析",
+          "aliases": "分群 / 用户分层 / 状态分群",
+          "desc": "按活跃状态、端型、行为标签等维度将用户划分为可运营的分群，配套差异化策略。",
+          "bizQuestion": "哪些用户群值得重点运营？各群规模多大？",
+          "portfolio": "2026-07 快照：活跃 4,200 / 沉默 1,240 / 流失 560；双端用户约 10%（1,000 MAC）。见 v_user_segment 与设备流转看板。"
+        },
+        {
+          "id": "retention",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "留存分析",
+          "aliases": "留存 / 同期群 / Cohort / N日留存",
+          "desc": "按首次活跃日期分组，跟踪各 cohort 在 D1/D7/D30 的留存曲线，评估获客质量变化。",
+          "bizQuestion": "新用户留得住吗？哪批 cohort 质量更好？",
+          "portfolio": "2026-07 注册 cohort：D1 留存 38%，D7 22%，D30 14%；STB D7 25% vs Speaker 16%。见 v_user_retention 与用户留存看板。"
+        },
+        {
+          "id": "rfm",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "RFM 分层分析",
+          "aliases": "RFM / 最近频次金额 / 价值分层",
+          "desc": "以最近活跃（R）、使用频次（F）、订购金额（M）三维将用户分为高价值/潜力/流失风险等层级。",
+          "bizQuestion": "谁值得重点运营？谁需要挽回？",
+          "portfolio": "2026-07：高价值活跃 8%（约 336 人），流失风险 22%（约 924 人）；优先对沉默 >30 天且历史点播 >10 次的用户 push 挽回。见 v_rfm。"
+        },
+        {
+          "id": "funnel",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "漏斗分析",
+          "aliases": "转化漏斗 / 收银台漏斗 / 步骤流失",
+          "desc": "将曝光→点击→验证→确认绘制为漏斗，分析各步骤留存率与流失率，识别转化瓶颈。",
+          "bizQuestion": "从曝光到订购，哪一步流失最多？",
+          "portfolio": "2026-07 收银台：launcher 曝光 12,800 → 点击 3,200（25%）→ 验证 2,560（80%）→ 确认 512（20%）；video 点击→验证仅 45%（误触）。见 v_funnel 与商业化漏斗看板。"
+        },
+        {
+          "id": "ltv",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "LTV 分析",
+          "aliases": "LTV / 终身价值 / LTV/CAC / ARPU",
+          "desc": "估算用户在整个生命周期内的订购金额与分成贡献，并与获客成本（CAC）对比评估长期 ROI。",
+          "bizQuestion": "用户长期值多少钱？投放回本了吗？",
+          "portfolio": "2026-07：launcher 入口 LTV 15.2 元、CAC 8.5 元（LTV/CAC=1.8）；video 入口 LTV 12.8 元、CAC 11.2 元（LTV/CAC=1.1）。见 v_ltv 与 v_channel_analysis。"
+        },
+        {
+          "id": "northstar",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "北极星指标拆解",
+          "aliases": "北极星 / 指标拆解 / OKR 树",
+          "desc": "将核心北极星指标（如有效 MAU）拆解为 DAU、端型渗透、功能使用、留存等子指标，定位驱动因素。",
+          "bizQuestion": "有效 MAU 怎么拆？增长靠哪个子指标？",
+          "portfolio": "2026-07 有效 MAU 4,800 = STB 3,100 + Speaker 1,900；驱动：点播渗透 68%、直播 42%、只开机 28%（需压降）。见 v_dau_overview 与活跃总览看板。"
+        },
+        {
+          "id": "attribution",
+          "layer": "l6",
+          "category": "归因与实验",
+          "title": "渠道归因分析",
+          "aliases": "归因 / 末次点击 / 线性归因 / 时间衰减",
+          "desc": "将订购转化归功于 launcher/video 等入口触点，支持末次点击、线性分配、时间衰减等多种归因模型。",
+          "bizQuestion": "这笔订购应该归功于哪个入口？",
+          "portfolio": "2026-07 末次归因：launcher 62% 订购（320 单）、video 38%（196 单）；线性模型 launcher 58%。见 v_channel_attribution。"
+        },
+        {
+          "id": "ab",
+          "layer": "l6",
+          "category": "归因与实验",
+          "title": "A/B 测试分析",
+          "aliases": "A/B 测试 / 实验 / 显著性检验",
+          "desc": "对比实验组与对照组的核心指标（CTR/CVR/留存），通过样本量与 p 值判断改版是否显著有效。",
+          "bizQuestion": "收银台改版有没有效？能否全量？",
+          "portfolio": "launcher 引导实验：treatment CVR 18.2% vs control 15.8%（+2.4pct，样本 3,200，p<0.05），建议全量。见 v_ab_experiment。"
+        },
+        {
+          "id": "experiment-design",
+          "layer": "l6",
+          "category": "归因与实验",
+          "title": "增长实验设计",
+          "aliases": "实验设计 / 假设验证 / 最小可行实验",
+          "desc": "从业务假设出发，设计对照实验的样本量、周期、核心指标与成功标准，避免无效实验。",
+          "bizQuestion": "下一个实验该怎么设计？",
+          "portfolio": "假设「video 入口减少误触可提升验证率 5pct」：需样本各 2,000+，周期 14 天，核心指标 click→verify，成功标准 +3pct 且 p<0.05。参考 v_ab_experiment 历史口径。"
+        },
+        {
+          "id": "churn",
+          "layer": "l6",
+          "category": "运营优化",
+          "title": "流失预警分析",
+          "aliases": "流失预警 / 沉默监控 / Churn Score",
+          "desc": "基于沉默天数、只开机行为、播放衰减等信号，对即将流失的用户进行评分与预警。",
+          "bizQuestion": "谁即将流失？规模多大？",
+          "portfolio": "2026-07：沉默 >30 天 1,240 人，其中只开机无点播 680 人（最高风险）；建议分 3 批 push+内容券触达。见 v_rfm 与 v_user_segment。"
+        },
+        {
+          "id": "marginal-roi",
+          "layer": "l6",
+          "category": "运营优化",
+          "title": "边际 ROI 分析",
+          "aliases": "边际 ROI / 增量收益 / 预算边际",
+          "desc": "评估每增加一单位入口流量/投放预算带来的增量订购与分成，识别收益递减拐点。",
+          "bizQuestion": "再加投 10% 流量，还能赚多少？",
+          "portfolio": "launcher 入口：前 60% 流量 ROI 2.1，60–80% 降至 1.4，>80% 仅 0.9（边际递减）；建议流量上限 75%。见 v_channel_analysis 日粒度拆解。"
+        },
+        {
+          "id": "channel-scorecard",
+          "layer": "l6",
+          "category": "运营优化",
+          "title": "渠道质量评分卡",
+          "aliases": "渠道评分卡 / 入口质量 / 渠道 KPI",
+          "desc": "将 CAC、LTV、留存、转化率、分成 ROI 等指标加权汇总为渠道综合评分，支持投放决策。",
+          "bizQuestion": "各入口综合质量如何排名？",
+          "portfolio": "2026-07 评分卡：launcher 82 分（LTV/CAC 1.8、D7 留存 25%）；video 58 分（误触高、LTV/CAC 1.1）。见 v_channel_analysis + v_ltv 综合。"
+        },
+        {
+          "id": "path",
+          "layer": "l6",
+          "category": "运营优化",
+          "title": "行为路径分析",
+          "aliases": "行为路径 / 用户旅程 / 序列分析",
+          "desc": "追踪用户从开机→点播/直播→收银台→订购的行为序列，识别高频路径与流失节点。",
+          "bizQuestion": "用户典型路径是什么？在哪一步离开？",
+          "portfolio": "2026-07 典型路径：开机(100%) → 点播(68%) → 剧集详情(45%) → 收银台曝光(12%) → 确认(2.4%)；最大流失在详情→收银台。见 dws_act_user_active_1d + dws_trade_cashier_funnel_1d。"
+        }
+      ],
+      "method_count": 15
+    },
+    "playbooks": [
+      {
+        "id": "q01",
+        "layer": "l1",
+        "category": "活跃概况类",
+        "title": "DAU/MAU 趋势总览",
+        "desc": "掌握 OTT 整体活跃水位、端型结构与月度波动",
+        "bizQuestion": "这个月日活和月活怎么样？",
+        "keywords": [
+          "DAU",
+          "MAU",
+          "日活",
+          "月活",
+          "STB",
+          "Speaker"
+        ],
+        "triggers": [
+          "每周增长例会前需准备活跃简报",
+          "管理层询问「最近用户还活跃吗」",
+          "暑期档/版本发布后需复盘活跃变化"
+        ],
+        "steps": [
+          {
+            "title": "拉取日活趋势",
+            "desc": "从 v_dau_overview 获取近 3 个月 DAU、点播/直播/只开机结构。",
+            "sql": "SELECT snapshot_date, total_dau, dau_stb, dau_speaker, vod_active, live_active, only_launcher\nFROM internet_analytics.v_dau_overview\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') >= '2026-05'\nORDER BY snapshot_date;",
+            "judge": "DAU 连续 7 日环比降幅 >10% 需标注关注",
+            "output": "DAU 折线图 + KPI 卡片"
+          },
+          {
+            "title": "计算有效 MAU",
+            "desc": "按端型统计当月去重 MAC，验证 STB/Speaker/合计口径。",
+            "sql": "SELECT device_type, COUNT(DISTINCT mac) AS mau\nFROM internet_analytics.dws_act_user_active_1d\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY device_type\nUNION ALL\nSELECT '合计', COUNT(DISTINCT mac) FROM internet_analytics.dws_act_user_active_1d\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07';",
+            "output": "MAU 端型对比表"
+          }
+        ],
+        "outputs": [
+          "DAU/MAU 周报一页纸",
+          "活跃异常标注清单"
+        ],
+        "nextSteps": [
+          "若 DAU 下滑 → 「DAU 下滑诊断」",
+          "若只开机占比上升 → 「产品功能使用深度」"
+        ],
+        "dashboards": [
+          "活跃总览",
+          "overview",
+          "v_dau_overview"
+        ]
+      },
+      {
+        "id": "q02",
+        "layer": "l1",
+        "category": "用户结构类",
+        "title": "用户画像（端/地市）",
+        "desc": "STB/Speaker 端型与广东各地市用户分布",
+        "bizQuestion": "我们的核心用户是谁？",
+        "keywords": [
+          "画像",
+          "端型",
+          "地市",
+          "STB",
+          "Speaker",
+          "区域"
+        ],
+        "triggers": [
+          "制定区域运营策略前",
+          "端型改版需确认目标用户",
+          "付费率偏低需定位人群"
+        ],
+        "steps": [
+          {
+            "title": "端型×地市分布",
+            "desc": "从 v_user_portrait 获取最新快照的端型与地市分布。",
+            "sql": "SELECT device_type, city_tier, user_count, paid_count, paid_rate_pct\nFROM internet_analytics.v_user_portrait\nORDER BY user_count DESC;",
+            "output": "端型×地市分布柱状图"
+          },
+          {
+            "title": "地市活跃占比",
+            "desc": "按 region 维度拆解当月活跃 MAC 占比。",
+            "sql": "SELECT IFNULL(r.region_name, '未知') AS region_name, COUNT(DISTINCT a.mac) AS uv,\n  ROUND(COUNT(DISTINCT a.mac) / SUM(COUNT(DISTINCT a.mac)) OVER() * 100, 2) AS share_pct\nFROM internet_analytics.dws_act_user_active_1d a\nLEFT JOIN internet_analytics.dim_region r ON a.region_id = r.region_id\nWHERE DATE_FORMAT(a.snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY r.region_name ORDER BY uv DESC;",
+            "judge": "核心地市（广深）占比低于 40% 需单列说明",
+            "output": "地市占比饼图"
+          }
+        ],
+        "outputs": [
+          "用户画像报告",
+          "区域运营建议"
+        ],
+        "nextSteps": [
+          "若某地市活跃偏低 → 「渠道获客分布」",
+          "若 Speaker 付费率低 → 「付费转化下降诊断」"
+        ],
+        "dashboards": [
+          "活跃总览",
+          "overview",
+          "v_user_portrait"
+        ]
+      },
+      {
+        "id": "q03",
+        "layer": "l1",
+        "category": "渠道获客类",
+        "title": "渠道获客分布（入口 launcher/video）",
+        "desc": "收银台入口来源（launcher/video）的订购量与金额占比",
+        "bizQuestion": "用户主要从哪个入口来？",
+        "keywords": [
+          "渠道",
+          "获客",
+          "launcher",
+          "video",
+          "入口",
+          "归因"
+        ],
+        "triggers": [
+          "月度投放复盘",
+          "新增订购结构突变",
+          "入口改版效果初评"
+        ],
+        "steps": [
+          {
+            "title": "入口来源订购占比",
+            "desc": "从 v_channel_attribution 获取当月各入口订购量与金额。",
+            "sql": "SELECT touch_point, SUM(attributed_orders) AS orders, SUM(attributed_amount) AS amount,\n  ROUND(SUM(attributed_orders) / SUM(SUM(attributed_orders)) OVER() * 100, 2) AS order_share_pct\nFROM internet_analytics.v_channel_attribution\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY touch_point ORDER BY orders DESC;",
+            "output": "入口来源堆叠图"
+          }
+        ],
+        "outputs": [
+          "渠道获客结构图",
+          "入口贡献排名"
+        ],
+        "nextSteps": [
+          "CAC 上升 → 「CAC/获客效率上升诊断」",
+          "入口质量差 → 「渠道质量下降诊断」"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_channel_attribution"
+        ]
+      },
+      {
+        "id": "q04",
+        "layer": "l1",
+        "category": "产品使用类",
+        "title": "产品功能使用（点播/直播/开机）",
+        "desc": "开机、点播、直播三大功能的使用深度与渗透",
+        "bizQuestion": "用户在产品里做什么？",
+        "keywords": [
+          "点播",
+          "直播",
+          "开机",
+          "VV",
+          "时长",
+          "功能渗透"
+        ],
+        "triggers": [
+          "版本迭代评审",
+          "某功能渗透率异常",
+          "只开机用户占比上升"
+        ],
+        "steps": [
+          {
+            "title": "功能活跃渗透",
+            "desc": "统计当月点播/直播/只开机用户占比与人均行为。",
+            "sql": "SELECT\n  ROUND(SUM(is_vod_active) / COUNT(*) * 100, 2) AS vod_penetration_pct,\n  ROUND(SUM(is_live_active) / COUNT(*) * 100, 2) AS live_penetration_pct,\n  ROUND(SUM(is_only_launcher) / COUNT(*) * 100, 2) AS only_launcher_pct,\n  ROUND(AVG(vod_play_cnt), 2) AS avg_vod_play_cnt,\n  ROUND(AVG(vod_play_dur) / 60, 1) AS avg_vod_minutes\nFROM internet_analytics.dws_act_user_active_1d\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07';",
+            "judge": "只开机占比 >35% 需标注流失风险",
+            "output": "功能渗透 KPI 卡片"
+          },
+          {
+            "title": "端型功能差异",
+            "desc": "对比 STB 与 Speaker 的功能使用深度。",
+            "sql": "SELECT device_type,\n  ROUND(SUM(is_vod_active) / COUNT(*) * 100, 2) AS vod_pct,\n  ROUND(SUM(is_live_active) / COUNT(*) * 100, 2) AS live_pct,\n  ROUND(AVG(vod_play_dur) / 60, 1) AS avg_vod_min\nFROM internet_analytics.dws_act_user_active_1d\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY device_type;",
+            "output": "端型功能对比表"
+          }
+        ],
+        "outputs": [
+          "功能渗透报告",
+          "端型差异说明"
+        ],
+        "nextSteps": [
+          "点播渗透低 → 「内容题材分布」",
+          "只开机多 → 「用户流失诊断」"
+        ],
+        "dashboards": [
+          "开机活跃",
+          "launcher",
+          "点播活跃",
+          "vod",
+          "直播活跃",
+          "live"
+        ]
+      },
+      {
+        "id": "q05",
+        "layer": "l1",
+        "category": "活跃概况类",
+        "title": "活跃结构分析",
+        "desc": "高/中/低活跃、沉默与流失用户的结构占比",
+        "bizQuestion": "活跃用户结构健康吗？",
+        "keywords": [
+          "活跃结构",
+          "沉默",
+          "流失",
+          "分群",
+          "用户状态"
+        ],
+        "triggers": [
+          "月活增长但有效活跃停滞",
+          "沉默用户占比上升",
+          "生命周期净增转负"
+        ],
+        "steps": [
+          {
+            "title": "用户状态分布",
+            "desc": "从 v_user_segment 获取最新快照的活跃/沉默/流失结构。",
+            "sql": "SELECT segment_name, user_count,\n  ROUND(user_count / SUM(user_count) OVER() * 100, 2) AS share_pct,\n  avg_days_since_active\nFROM internet_analytics.v_user_segment\nWHERE snapshot_date = (SELECT MAX(snapshot_date) FROM internet_analytics.v_user_segment)\nORDER BY user_count DESC;",
+            "output": "活跃结构饼图"
+          },
+          {
+            "title": "生命周期净增",
+            "desc": "从 v_lifecycle 查看开户/激活/沉默/流失的日趋势。",
+            "sql": "SELECT snapshot_date, new_register, new_activate, silent_cnt, churn_cnt,\n  active_users, approx_net_growth\nFROM internet_analytics.v_lifecycle\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nORDER BY snapshot_date;",
+            "judge": "连续 7 日 approx_net_growth < 0 需标注",
+            "output": "生命周期趋势折线"
+          }
+        ],
+        "outputs": [
+          "活跃结构报告",
+          "净增趋势图"
+        ],
+        "nextSteps": [
+          "沉默占比高 → 「用户流失诊断」",
+          "激活放缓 → 「留存下降诊断」"
+        ],
+        "dashboards": [
+          "用户生命周期",
+          "lifecycle",
+          "v_user_segment",
+          "v_lifecycle"
+        ]
+      },
+      {
+        "id": "q06",
+        "layer": "l1",
+        "category": "内容分析类",
+        "title": "内容题材分布",
+        "desc": "剧集题材/品类的 VV、UV 与完播率分布",
+        "bizQuestion": "用户在看什么内容？",
+        "keywords": [
+          "题材",
+          "剧集",
+          "VV",
+          "完播率",
+          "genre",
+          "品类"
+        ],
+        "triggers": [
+          "内容运营排期前",
+          "某题材完播率异常",
+          "暑期档内容策略调整"
+        ],
+        "steps": [
+          {
+            "title": "题材 VV/UV 排行",
+            "desc": "从 dws_content_series_play_1d 按题材汇总播放与完播。",
+            "sql": "SELECT g.genre_name, SUM(s.vv) AS total_vv, SUM(s.uv) AS total_uv,\n  ROUND(SUM(s.finish_cnt) / NULLIF(SUM(s.vv), 0) * 100, 2) AS finish_rate_pct\nFROM internet_analytics.dws_content_series_play_1d s\nJOIN internet_analytics.dim_genre g ON s.genre_id = g.genre_id\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY g.genre_name ORDER BY total_vv DESC;",
+            "output": "题材播放排行表"
+          },
+          {
+            "title": "品类渗透对比",
+            "desc": "对比影视/综艺/动漫品类的播放占比。",
+            "sql": "SELECT c.category_name, SUM(s.vv) AS vv, SUM(s.uv) AS uv,\n  ROUND(SUM(s.vv) / SUM(SUM(s.vv)) OVER() * 100, 2) AS vv_share_pct\nFROM internet_analytics.dws_content_series_play_1d s\nJOIN internet_analytics.dim_category c ON s.category_id = c.category_id\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY c.category_name ORDER BY vv DESC;",
+            "output": "品类渗透饼图"
+          }
+        ],
+        "outputs": [
+          "内容题材分布报告",
+          "排期建议清单"
+        ],
+        "nextSteps": [
+          "完播率低 → 「完播率异常诊断」",
+          "某题材 VV 高 → 「产品功能效果评估」"
+        ],
+        "dashboards": [
+          "内容·剧集",
+          "series",
+          "dws_content_series_play_1d"
+        ]
+      },
+      {
+        "id": "q07",
+        "layer": "l2",
+        "category": "活跃异常类",
+        "title": "DAU 下滑诊断",
+        "desc": "定位 DAU 下降的主因：端型、地市还是功能渗透",
+        "bizQuestion": "为什么日活下降了？",
+        "keywords": [
+          "DAU",
+          "下滑",
+          "诊断",
+          "端型",
+          "地市"
+        ],
+        "triggers": [
+          "DAU 连续 7 日环比降幅 >10%",
+          "大促后活跃未回补",
+          "某端型 DAU 骤降"
+        ],
+        "steps": [
+          {
+            "title": "端型 DAU 拆解",
+            "desc": "对比近两周 STB/Speaker DAU 变化。",
+            "sql": "SELECT snapshot_date, dau_stb, dau_speaker, total_dau,\n  total_dau - LAG(total_dau) OVER (ORDER BY snapshot_date) AS dau_change\nFROM internet_analytics.v_dau_overview\nWHERE snapshot_date >= DATE_SUB('2026-07-15', INTERVAL 14 DAY)\nORDER BY snapshot_date;",
+            "judge": "单端型降幅 >15% 列为首要怀疑对象",
+            "output": "端型 DAU 对比折线"
+          },
+          {
+            "title": "功能渗透变化",
+            "desc": "检查点播/直播/只开机结构是否恶化。",
+            "sql": "SELECT snapshot_date,\n  ROUND(vod_active / NULLIF(total_dau, 0) * 100, 2) AS vod_pct,\n  ROUND(only_launcher / NULLIF(total_dau, 0) * 100, 2) AS only_launcher_pct\nFROM internet_analytics.v_dau_overview\nWHERE snapshot_date >= DATE_SUB('2026-07-15', INTERVAL 14 DAY)\nORDER BY snapshot_date;",
+            "output": "功能渗透变化表"
+          }
+        ],
+        "outputs": [
+          "DAU 下滑根因报告",
+          "优先排查清单"
+        ],
+        "nextSteps": [
+          "端型问题 → 「设备流转」看板",
+          "只开机上升 → 「用户流失诊断」"
+        ],
+        "dashboards": [
+          "活跃总览",
+          "overview",
+          "设备流转",
+          "device"
+        ]
+      },
+      {
+        "id": "q08",
+        "layer": "l2",
+        "category": "留存异常类",
+        "title": "留存下降诊断",
+        "desc": "D1/D7/D30 留存偏离历史基线，分端型拆解",
+        "bizQuestion": "为什么留存变差了？",
+        "keywords": [
+          "留存",
+          "D1",
+          "D7",
+          "D30",
+          "同期群",
+          "cohort"
+        ],
+        "triggers": [
+          "D7 留存连续两周下滑",
+          "新版本上线后留存异动",
+          "Speaker 端留存显著低于 STB"
+        ],
+        "steps": [
+          {
+            "title": "留存矩阵热力图",
+            "desc": "从 v_user_retention 获取同期群留存曲线。",
+            "sql": "SELECT cohort_date, day_offset, channel_code, retention_rate\nFROM internet_analytics.v_user_retention\nWHERE cohort_date >= '2026-06-01' AND day_offset IN (1, 7, 30)\nORDER BY cohort_date, day_offset, channel_code;",
+            "judge": "D7 留存低于近 3 月均值 5pct 为异常",
+            "output": "留存矩阵热力图"
+          },
+          {
+            "title": "留存分解",
+            "desc": "从 v_retention_decomposition 按端型对比留存桶。",
+            "sql": "SELECT retention_bucket, device_type, AVG(retention_rate) AS avg_rate\nFROM internet_analytics.v_retention_decomposition\nWHERE cohort_date >= '2026-06-01'\nGROUP BY retention_bucket, device_type ORDER BY retention_bucket, device_type;",
+            "output": "端型留存对比表"
+          }
+        ],
+        "outputs": [
+          "留存诊断结论",
+          "疑似端型/版本清单"
+        ],
+        "nextSteps": [
+          "定位端型后 → 「产品功能使用」",
+          "预测回补 → 「LTV/ARPU 预测」"
+        ],
+        "dashboards": [
+          "用户留存",
+          "retention",
+          "v_user_retention",
+          "v_retention_decomposition"
+        ]
+      },
+      {
+        "id": "q09",
+        "layer": "l2",
+        "category": "渠道效率类",
+        "title": "CAC/获客效率上升诊断",
+        "desc": "订购金额/单成本上升，定位花费效率恶化的入口",
+        "bizQuestion": "为什么获客越来越贵？",
+        "keywords": [
+          "CAC",
+          "获客成本",
+          "单成本",
+          "订购金额",
+          "ROI"
+        ],
+        "triggers": [
+          "CAC 月环比上升 >15%",
+          "某入口订购量下滑但单成本增加",
+          "video 入口误触率上升"
+        ],
+        "steps": [
+          {
+            "title": "入口 CAC 排行",
+            "desc": "从 v_channel_analysis 计算各入口单均订购成本。",
+            "sql": "SELECT channel_name,\n  SUM(platform_share_amount) AS total_amount, SUM(order_users) AS total_orders,\n  ROUND(SUM(platform_share_amount) / NULLIF(SUM(order_users), 0), 2) AS cac\nFROM internet_analytics.v_channel_analysis\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY channel_name ORDER BY cac DESC;",
+            "judge": "CAC > 客单价 50% 的入口标红",
+            "output": "CAC 对比柱状图"
+          },
+          {
+            "title": "CAC vs 分成 ROI",
+            "desc": "对比各入口的分成回报效率。",
+            "sql": "SELECT channel_name, ROUND(AVG(platform_share_amount/NULLIF(order_users,0)),2) AS avg_cac, AVG(conversion_rate) AS avg_roi, SUM(gmv_amount) AS revenue_share\nFROM internet_analytics.v_channel_analysis\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY channel_name;",
+            "output": "CAC-ROI 散点图"
+          }
+        ],
+        "outputs": [
+          "渠道投放调整建议",
+          "高成本低效入口清单"
+        ],
+        "nextSteps": [
+          "评估长期价值 → 「渠道获客效率评估」",
+          "预算重分配 → 「投放预算分配优化」"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_channel_analysis"
+        ]
+      },
+      {
+        "id": "q10",
+        "layer": "l2",
+        "category": "流失转化类",
+        "title": "付费转化下降诊断",
+        "desc": "收银台曝光→点击→验证→确认各环节转化率",
+        "bizQuestion": "转化卡在哪一步？",
+        "keywords": [
+          "漏斗",
+          "转化",
+          "收银台",
+          "曝光",
+          "确认",
+          "误触"
+        ],
+        "triggers": [
+          "付费转化率周环比下降",
+          "video 入口点击高但验证低",
+          "活动期曝光多但确认少"
+        ],
+        "steps": [
+          {
+            "title": "当月漏斗转化",
+            "desc": "从 v_funnel 获取各入口各环节转化率。",
+            "sql": "SELECT channel_code, product_line, step_visit, step_signup, step_activate, step_purchase,\n  signup_rate, purchase_rate\nFROM internet_analytics.v_funnel\nWHERE snapshot_month = '2026-07' AND channel_code <> 'ALL'\nORDER BY step_purchase DESC;",
+            "judge": "点击→验证环节转化率低于近 3 月均值 3pct 为重点",
+            "output": "漏斗图"
+          },
+          {
+            "title": "误触监控",
+            "desc": "对比 launcher vs video 入口的 click→verify 转化。",
+            "sql": "SELECT src_type,\n  SUM(expose_cnt) AS expose, SUM(click_cnt) AS click, SUM(verify_cnt) AS verify,\n  ROUND(SUM(verify_cnt) / NULLIF(SUM(click_cnt), 0) * 100, 2) AS click2verify_pct\nFROM internet_analytics.dws_trade_cashier_funnel_1d\nWHERE device_type = 'ALL' AND DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY src_type;",
+            "output": "误触对比表"
+          }
+        ],
+        "outputs": [
+          "漏斗瓶颈诊断",
+          "误触入口清单"
+        ],
+        "nextSteps": [
+          "定位流失环节后联动收银台改版",
+          "video 误触 → 「A/B 测试效果评估」"
+        ],
+        "dashboards": [
+          "商业化漏斗",
+          "funnel",
+          "v_funnel"
+        ]
+      },
+      {
+        "id": "q11",
+        "layer": "l2",
+        "category": "流失转化类",
+        "title": "用户流失诊断",
+        "desc": "沉默与流失用户的规模、特征与迁移路径",
+        "bizQuestion": "用户为什么走了？",
+        "keywords": [
+          "流失",
+          "沉默",
+          "churn",
+          "挽回",
+          "生命周期"
+        ],
+        "triggers": [
+          "沉默用户占比上升",
+          "churn_cnt 连续 7 日上升",
+          "只开机用户占比 >35%"
+        ],
+        "steps": [
+          {
+            "title": "流失规模趋势",
+            "desc": "从 v_lifecycle 查看沉默/流失日趋势与净增。",
+            "sql": "SELECT snapshot_date, silent_cnt, churn_cnt, active_users, approx_net_growth\nFROM internet_analytics.v_lifecycle\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nORDER BY snapshot_date;",
+            "judge": "churn_cnt 周环比 >20% 需紧急响应",
+            "output": "流失趋势折线"
+          },
+          {
+            "title": "流失风险分群",
+            "desc": "从 v_rfm 识别沉默天数较长的用户。",
+            "sql": "SELECT rfm_segment, COUNT(*) AS users\nFROM internet_analytics.v_rfm\nGROUP BY rfm_segment ORDER BY users DESC;",
+            "output": "RFM 流失风险分布"
+          }
+        ],
+        "outputs": [
+          "流失诊断报告",
+          "高风险用户规模估算"
+        ],
+        "nextSteps": [
+          "制定挽回 → 「用户挽回策略优化」",
+          "预测规模 → 「用户流失预测」"
+        ],
+        "dashboards": [
+          "用户生命周期",
+          "lifecycle",
+          "v_lifecycle",
+          "v_rfm"
+        ]
+      },
+      {
+        "id": "q12",
+        "layer": "l2",
+        "category": "渠道效率类",
+        "title": "渠道质量下降诊断",
+        "desc": "各入口的留存、LTV 与转化质量综合对比",
+        "bizQuestion": "哪个入口带来的用户质量差了？",
+        "keywords": [
+          "渠道质量",
+          "入口",
+          "留存",
+          "LTV",
+          "转化"
+        ],
+        "triggers": [
+          "某入口新增多但留存差",
+          "launcher 入口 LTV 低于 video",
+          "渠道评分卡红灯"
+        ],
+        "steps": [
+          {
+            "title": "入口 LTV 对比",
+            "desc": "从 v_ltv 按入口对比客单与分成。",
+            "sql": "SELECT channel_name, order_count, total_gmv, avg_order_value, avg_platform_share FROM v_ltv ORDER BY total_gmv DESC",
+            "output": "入口 LTV 排行"
+          },
+          {
+            "title": "入口转化效率",
+            "desc": "从 v_channel_analysis 对比各入口转化率。",
+            "sql": "SELECT channel_name, AVG(conversion_rate) AS avg_cvr, ROUND(AVG(platform_share_amount/NULLIF(order_users,0)),2) AS avg_cac, AVG(conversion_rate) AS avg_roi\nFROM internet_analytics.v_channel_analysis\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY channel_name ORDER BY avg_cvr DESC;",
+            "judge": "LTV/CAC < 1 的入口标红",
+            "output": "渠道质量对比表"
+          }
+        ],
+        "outputs": [
+          "渠道质量诊断",
+          "低效入口收缩建议"
+        ],
+        "nextSteps": [
+          "组合优化 → 「渠道组合优化」",
+          "归因复核 → 「渠道归因分析」工具箱"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_ltv",
+          "v_channel_analysis"
+        ]
+      },
+      {
+        "id": "q13",
+        "layer": "l2",
+        "category": "内容质量类",
+        "title": "完播率异常诊断",
+        "desc": "剧集/单集完播率偏离基线，定位内容或 QoS 问题",
+        "bizQuestion": "为什么完播率下降了？",
+        "keywords": [
+          "完播率",
+          "完成度",
+          "QoS",
+          "卡顿",
+          "内容质量"
+        ],
+        "triggers": [
+          "整体完播率月环比下降 >5pct",
+          "某题材完播率骤降",
+          "首帧/卡顿投诉上升"
+        ],
+        "steps": [
+          {
+            "title": "剧集完播率排行",
+            "desc": "从 dws_content_series_play_1d 定位低完播剧集。",
+            "sql": "SELECT s.series_id, se.series_name,\n  SUM(s.vv) AS vv, ROUND(SUM(s.finish_cnt) / NULLIF(SUM(s.vv), 0) * 100, 2) AS finish_rate_pct,\n  ROUND(AVG(s.complete_rate_avg), 2) AS avg_complete_rate\nFROM internet_analytics.dws_content_series_play_1d s\nJOIN internet_analytics.dim_content_series se ON s.series_id = se.series_id\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY s.series_id, se.series_name\nHAVING vv >= 100\nORDER BY finish_rate_pct ASC LIMIT 20;",
+            "judge": "完播率 <30% 且 VV Top50 需列入排查",
+            "output": "低完播剧集清单"
+          },
+          {
+            "title": "题材完播对比",
+            "desc": "按题材对比完播率是否结构性下降。",
+            "sql": "SELECT g.genre_name,\n  ROUND(SUM(s.finish_cnt) / NULLIF(SUM(s.vv), 0) * 100, 2) AS finish_rate_pct\nFROM internet_analytics.dws_content_series_play_1d s\nJOIN internet_analytics.dim_genre g ON s.genre_id = g.genre_id\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY g.genre_name ORDER BY finish_rate_pct;",
+            "output": "题材完播对比表"
+          }
+        ],
+        "outputs": [
+          "完播异常诊断",
+          "内容/QoS 排查清单"
+        ],
+        "nextSteps": [
+          "QoS 问题 → 「完播与QoS」看板",
+          "内容问题 → 「产品优先级优化」"
+        ],
+        "dashboards": [
+          "完播与QoS",
+          "quality",
+          "内容·剧集",
+          "series"
+        ]
+      },
+      {
+        "id": "q14",
+        "layer": "l3",
+        "category": "DAU预测类",
+        "title": "下月 DAU 预测",
+        "desc": "基于近 3 月 DAU 趋势外推下月日活区间",
+        "bizQuestion": "下个月日活大概多少？",
+        "keywords": [
+          "DAU",
+          "预测",
+          "趋势",
+          "外推",
+          "MA"
+        ],
+        "triggers": [
+          "月度经营计划编制",
+          "暑期档资源排期",
+          "DAU 出现异常波动后需预测回补"
+        ],
+        "steps": [
+          {
+            "title": "近 90 日 DAU 基线",
+            "desc": "计算近 3 月 DAU 均值与标准差。",
+            "sql": "SELECT\n  ROUND(AVG(total_dau), 0) AS avg_dau,\n  ROUND(STDDEV(total_dau), 0) AS std_dau,\n  MIN(total_dau) AS min_dau, MAX(total_dau) AS max_dau\nFROM internet_analytics.v_dau_overview\nWHERE snapshot_date >= DATE_SUB('2026-07-15', INTERVAL 90 DAY);",
+            "output": "DAU 基线统计"
+          },
+          {
+            "title": "7 日移动平均外推",
+            "desc": "用近 7 日均值作为下月 DAU 基准预测。",
+            "sql": "SELECT snapshot_date, total_dau,\n  ROUND(AVG(total_dau) OVER (ORDER BY snapshot_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW), 0) AS ma7_dau\nFROM internet_analytics.v_dau_overview\nWHERE snapshot_date >= DATE_SUB('2026-07-15', INTERVAL 30 DAY)\nORDER BY snapshot_date;",
+            "judge": "预测区间 = ma7 ± 1.5×std",
+            "output": "DAU 预测折线（含区间带）"
+          }
+        ],
+        "outputs": [
+          "下月 DAU 预测区间",
+          "端型拆分预测"
+        ],
+        "nextSteps": [
+          "预测偏低 → 「投放预算分配优化」",
+          "预测偏高 → 验证内容排期"
+        ],
+        "dashboards": [
+          "活跃总览",
+          "overview",
+          "v_dau_overview"
+        ]
+      },
+      {
+        "id": "q15",
+        "layer": "l3",
+        "category": "LTV预测类",
+        "title": "LTV/ARPU 预测（订购客单）",
+        "desc": "按入口 Cohort + 客单外推用户终身价值",
+        "bizQuestion": "这批用户长期值多少钱？",
+        "keywords": [
+          "LTV",
+          "ARPU",
+          "客单",
+          "终身价值",
+          "预测"
+        ],
+        "triggers": [
+          "评估新入口是否值得加码",
+          "会员/连续包月策略调整前",
+          "渠道试投结束"
+        ],
+        "steps": [
+          {
+            "title": "入口 LTV 现状",
+            "desc": "从 v_ltv 获取各入口当前 LTV 与分成。",
+            "sql": "SELECT channel_name, order_count, total_gmv, avg_order_value, avg_platform_share FROM v_ltv ORDER BY total_gmv DESC",
+            "output": "入口 LTV 排行"
+          },
+          {
+            "title": "客单趋势",
+            "desc": "从 dws_trade_order_1d 查看近 3 月客单变化。",
+            "sql": "SELECT DATE_FORMAT(snapshot_date, '%Y-%m') AS month,\n  ROUND(SUM(order_amount) / NULLIF(SUM(order_cnt), 0), 2) AS avg_order_amount,\n  SUM(order_cnt) AS orders\nFROM internet_analytics.dws_trade_order_1d\nWHERE src_type <> 'ALL'\nGROUP BY DATE_FORMAT(snapshot_date, '%Y-%m')\nORDER BY month;",
+            "output": "客单趋势折线"
+          }
+        ],
+        "outputs": [
+          "入口 LTV 预测区间",
+          "ARPU 基准情景"
+        ],
+        "nextSteps": [
+          "与 CAC 对比 → 「渠道获客效率评估」",
+          "定价调整 → 「定价策略优化」"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_ltv"
+        ]
+      },
+      {
+        "id": "q16",
+        "layer": "l3",
+        "category": "渠道预测类",
+        "title": "渠道效果预测",
+        "desc": "基于历史入口转化与留存外推下月渠道贡献",
+        "bizQuestion": "各入口下月能带来多少订购？",
+        "keywords": [
+          "渠道",
+          "预测",
+          "入口",
+          "转化",
+          "订购量"
+        ],
+        "triggers": [
+          "季度渠道预算评审",
+          "新入口试投评估",
+          "入口改版效果预判"
+        ],
+        "steps": [
+          {
+            "title": "入口历史转化基线",
+            "desc": "汇总近 3 月各入口漏斗转化与订购量。",
+            "sql": "SELECT product_line AS src_type,\n  SUM(step_visit) AS expose, SUM(step_purchase) AS confirm,\n  ROUND(SUM(step_purchase) / NULLIF(SUM(step_visit), 0) * 100, 2) AS overall_cvr_pct\nFROM internet_analytics.v_funnel\nWHERE snapshot_month >= '2026-05'\nGROUP BY product_line;",
+            "output": "入口转化基线表"
+          },
+          {
+            "title": "下月订购量外推",
+            "desc": "假设曝光维持近 30 日均值，外推确认量。",
+            "sql": "SELECT src_type,\n  ROUND(AVG(expose_cnt), 0) AS avg_daily_expose,\n  ROUND(AVG(confirm_cnt), 0) AS avg_daily_confirm,\n  ROUND(AVG(confirm_cnt) * 30, 0) AS forecast_monthly_confirm\nFROM internet_analytics.dws_trade_cashier_funnel_1d\nWHERE device_type = 'ALL' AND snapshot_date >= DATE_SUB('2026-07-15', INTERVAL 30 DAY)\nGROUP BY src_type;",
+            "output": "渠道订购预测表"
+          }
+        ],
+        "outputs": [
+          "下月渠道贡献预测",
+          "入口优先级建议"
+        ],
+        "nextSteps": [
+          "低效入口 → 「渠道组合优化」",
+          "高潜入口 → 「投放预算分配优化」"
+        ],
+        "dashboards": [
+          "商业化漏斗",
+          "funnel",
+          "v_funnel",
+          "v_channel_attribution"
+        ]
+      },
+      {
+        "id": "q17",
+        "layer": "l3",
+        "category": "流失预测类",
+        "title": "用户流失预测",
+        "desc": "基于沉默趋势与 RFM 分层预测下月流失规模",
+        "bizQuestion": "下个月大概流失多少人？",
+        "keywords": [
+          "流失",
+          "预测",
+          "沉默",
+          "churn",
+          "RFM"
+        ],
+        "triggers": [
+          "沉默用户占比持续上升",
+          "续订率下滑预警",
+          "挽回预算编制"
+        ],
+        "steps": [
+          {
+            "title": "沉默/流失趋势外推",
+            "desc": "从 v_lifecycle 拟合近 30 日 churn 趋势。",
+            "sql": "SELECT snapshot_date, silent_cnt, churn_cnt,\n  ROUND(AVG(churn_cnt) OVER (ORDER BY snapshot_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW), 0) AS ma7_churn\nFROM internet_analytics.v_lifecycle\nWHERE snapshot_date >= DATE_SUB('2026-07-15', INTERVAL 30 DAY)\nORDER BY snapshot_date;",
+            "output": "流失趋势 + MA7 预测线"
+          },
+          {
+            "title": "高风险用户规模",
+            "desc": "从 v_rfm 统计流失风险分群人数。",
+            "sql": "SELECT rfm_segment, COUNT(*) AS users\nFROM internet_analytics.v_rfm\nWHERE rfm_segment IN ('流失风险', '一般/流失')\nGROUP BY rfm_segment;",
+            "judge": "高风险用户 > 总活跃 15% 需启动挽回",
+            "output": "流失风险规模估算"
+          }
+        ],
+        "outputs": [
+          "下月流失预测区间",
+          "挽回优先级人群规模"
+        ],
+        "nextSteps": [
+          "制定挽回 → 「用户挽回策略优化」",
+          "根因分析 → 「用户流失诊断」"
+        ],
+        "dashboards": [
+          "用户生命周期",
+          "lifecycle",
+          "v_lifecycle",
+          "v_rfm"
+        ]
+      },
+      {
+        "id": "q18",
+        "layer": "l3",
+        "category": "收入预测类",
+        "title": "分成收入预测",
+        "desc": "基于订购量与分成比例外推下月爱奇艺分成收入",
+        "bizQuestion": "下月分成收入大概多少？",
+        "keywords": [
+          "分成",
+          "收入",
+          "预测",
+          "订购",
+          "revenue_share"
+        ],
+        "triggers": [
+          "月度财务结算前",
+          "内容采购成本评估",
+          "套餐定价调整前"
+        ],
+        "steps": [
+          {
+            "title": "近 3 月分成趋势",
+            "desc": "从 dws_trade_order_1d 汇总月度分成收入。",
+            "sql": "SELECT DATE_FORMAT(snapshot_date, '%Y-%m') AS month,\n  SUM(order_cnt) AS orders, ROUND(SUM(order_amount), 0) AS order_amount,\n  ROUND(SUM(revenue_share), 0) AS revenue_share\nFROM internet_analytics.dws_trade_order_1d\nWHERE src_type <> 'ALL'\nGROUP BY DATE_FORMAT(snapshot_date, '%Y-%m')\nORDER BY month;",
+            "output": "分成收入趋势表"
+          },
+          {
+            "title": "下月分成外推",
+            "desc": "假设客单与分成率维持，按近 30 日日均订购外推。",
+            "sql": "SELECT\n  ROUND(AVG(daily_orders), 0) AS avg_daily_orders,\n  ROUND(AVG(daily_share), 0) AS avg_daily_share,\n  ROUND(AVG(daily_share) * 30, 0) AS forecast_monthly_share\nFROM (\n  SELECT snapshot_date, SUM(order_cnt) AS daily_orders, SUM(revenue_share) AS daily_share\n  FROM internet_analytics.dws_trade_order_1d\n  WHERE src_type <> 'ALL' AND snapshot_date >= DATE_SUB('2026-07-15', INTERVAL 30 DAY)\n  GROUP BY snapshot_date\n) t;",
+            "output": "下月分成预测区间"
+          }
+        ],
+        "outputs": [
+          "下月分成收入预测",
+          "套餐结构贡献拆解"
+        ],
+        "nextSteps": [
+          "收入缺口 → 「定价策略优化」",
+          "ROI 评估 → 「活动 ROI 评估」"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "dws_trade_order_1d"
+        ]
+      },
+      {
+        "id": "q19",
+        "layer": "l4",
+        "category": "获客效率类",
+        "title": "渠道获客效率评估",
+        "desc": "LTV/CAC 比率评估各入口长期 ROI",
+        "bizQuestion": "各入口投放划不划算？",
+        "keywords": [
+          "CAC",
+          "LTV",
+          "ROI",
+          "评估",
+          "获客效率"
+        ],
+        "triggers": [
+          "季度预算评审",
+          "新入口试投结束",
+          "渠道评分卡定期复盘"
+        ],
+        "steps": [
+          {
+            "title": "LTV/CAC 比率",
+            "desc": "合并 v_ltv 与 v_channel_analysis 计算回本效率。",
+            "sql": "SELECT channel_name, order_count, total_gmv, avg_order_value, avg_platform_share FROM v_ltv ORDER BY total_gmv DESC",
+            "judge": "LTV/CAC < 1 不建议加投；> 3 可加大预算",
+            "output": "渠道效率评估表"
+          }
+        ],
+        "outputs": [
+          "渠道投放评级（加码/维持/收缩）",
+          "LTV/CAC 排行"
+        ],
+        "nextSteps": [
+          "加码渠道 → 「投放预算分配优化」",
+          "收缩渠道 → 「渠道组合优化」"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_ltv",
+          "v_channel_analysis"
+        ]
+      },
+      {
+        "id": "q20",
+        "layer": "l4",
+        "category": "实验评估类",
+        "title": "A/B 测试效果评估",
+        "desc": "收银台入口改版/引导实验的显著性检验",
+        "bizQuestion": "改版实验有没有效？",
+        "keywords": [
+          "A/B",
+          "实验",
+          "显著性",
+          "对照组",
+          "CTR",
+          "CVR"
+        ],
+        "triggers": [
+          "收银台 UI 改版上线",
+          "launcher 引导策略 A/B 测试结束",
+          "video 误触优化实验"
+        ],
+        "steps": [
+          {
+            "title": "实验组 vs 对照组",
+            "desc": "从 v_ab_experiment 对比各变体的 CTR/CVR。",
+            "sql": "SELECT snapshot_date, compare_name, variant, sample_size, click_cnt, verify_cnt, confirm_cnt, ctr_pct, cvr_pct FROM v_ab_experiment ORDER BY snapshot_date DESC LIMIT 100",
+            "judge": "CVR 差异 >2pct 且样本 >1000 可初步判定显著",
+            "output": "A/B 对比表"
+          }
+        ],
+        "outputs": [
+          "实验结论报告",
+          "全量/回滚建议"
+        ],
+        "nextSteps": [
+          "显著正向 → 全量发布",
+          "无显著 → 「增长实验设计」重新规划"
+        ],
+        "dashboards": [
+          "商业化漏斗",
+          "funnel",
+          "v_ab_experiment"
+        ]
+      },
+      {
+        "id": "q21",
+        "layer": "l4",
+        "category": "产品效果类",
+        "title": "产品功能效果评估（内容）",
+        "desc": "评估内容上线/推荐策略对 VV、完播与渗透的影响",
+        "bizQuestion": "这次内容/功能改版效果好吗？",
+        "keywords": [
+          "内容",
+          "VV",
+          "完播",
+          "渗透",
+          "效果评估"
+        ],
+        "triggers": [
+          "新剧集上线后 7 日",
+          "推荐算法调整后",
+          "暑期档内容包发布"
+        ],
+        "steps": [
+          {
+            "title": "内容 VV/完播对比",
+            "desc": "对比改版前后目标剧集的 VV 与完播率。",
+            "sql": "SELECT s.series_id, se.series_name,\n  SUM(CASE WHEN DATE_FORMAT(s.snapshot_date, '%Y-%m') = '2026-07' THEN s.vv ELSE 0 END) AS vv_jul,\n  SUM(CASE WHEN DATE_FORMAT(s.snapshot_date, '%Y-%m') = '2026-06' THEN s.vv ELSE 0 END) AS vv_jun,\n  ROUND(SUM(s.finish_cnt) / NULLIF(SUM(s.vv), 0) * 100, 2) AS finish_rate_pct\nFROM internet_analytics.dws_content_series_play_1d s\nJOIN internet_analytics.dim_content_series se ON s.series_id = se.series_id\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') IN ('2026-06', '2026-07')\nGROUP BY s.series_id, se.series_name\nORDER BY vv_jul DESC LIMIT 20;",
+            "output": "内容效果对比表"
+          },
+          {
+            "title": "点播渗透变化",
+            "desc": "评估内容策略对整体点播渗透率的影响。",
+            "sql": "SELECT DATE_FORMAT(snapshot_date, '%Y-%m') AS month,\n  ROUND(SUM(is_vod_active) / COUNT(*) * 100, 2) AS vod_penetration_pct\nFROM internet_analytics.dws_act_user_active_1d\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') IN ('2026-06', '2026-07')\nGROUP BY DATE_FORMAT(snapshot_date, '%Y-%m');",
+            "output": "点播渗透变化折线"
+          }
+        ],
+        "outputs": [
+          "内容效果评估报告",
+          "推荐策略调整建议"
+        ],
+        "nextSteps": [
+          "效果好 → 「产品优先级优化」加推",
+          "效果差 → 「完播率异常诊断」"
+        ],
+        "dashboards": [
+          "内容·剧集",
+          "series",
+          "点播活跃",
+          "vod"
+        ]
+      },
+      {
+        "id": "q22",
+        "layer": "l4",
+        "category": "活动效果类",
+        "title": "活动 ROI 评估（订购分成）",
+        "desc": "评估促销/活动期间的订购量、金额与分成 ROI",
+        "bizQuestion": "这次活动 ROI 怎么样？",
+        "keywords": [
+          "ROI",
+          "活动",
+          "订购",
+          "分成",
+          "促销"
+        ],
+        "triggers": [
+          "暑期促销结束后",
+          "连续包月优惠活动复盘",
+          "月度分成结算前"
+        ],
+        "steps": [
+          {
+            "title": "活动期 vs 基线",
+            "desc": "对比活动月与基线的订购量、金额与分成。",
+            "sql": "SELECT DATE_FORMAT(snapshot_date, '%Y-%m') AS month,\n  SUM(order_cnt) AS orders, ROUND(SUM(order_amount), 0) AS amount,\n  ROUND(SUM(revenue_share), 0) AS share,\n  ROUND(SUM(revenue_share) / NULLIF(SUM(order_amount), 0) * 100, 2) AS share_rate_pct\nFROM internet_analytics.dws_trade_order_1d\nWHERE src_type <> 'ALL' AND DATE_FORMAT(snapshot_date, '%Y-%m') IN ('2026-06', '2026-07')\nGROUP BY DATE_FORMAT(snapshot_date, '%Y-%m');",
+            "judge": "活动月 ROI 低于基线 80% 需复盘",
+            "output": "活动 ROI 对比表"
+          },
+          {
+            "title": "套餐结构贡献",
+            "desc": "拆解连续包月/单月/包年的活动贡献。",
+            "sql": "SELECT pay_type, SUM(order_cnt) AS orders, ROUND(SUM(order_amount), 0) AS amount,\n  ROUND(SUM(revenue_share), 0) AS share\nFROM internet_analytics.dws_trade_order_1d\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07' AND src_type <> 'ALL'\nGROUP BY pay_type ORDER BY orders DESC;",
+            "output": "套餐贡献拆解"
+          }
+        ],
+        "outputs": [
+          "活动 ROI 评估报告",
+          "下轮活动优化建议"
+        ],
+        "nextSteps": [
+          "ROI 低 → 「定价策略优化」",
+          "某套餐效果好 → 加大推广"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "dws_trade_order_1d"
+        ]
+      },
+      {
+        "id": "q23",
+        "layer": "l4",
+        "category": "体验评估类",
+        "title": "用户满意度评估（完播/QoS 代理）",
+        "desc": "用完播率、完成度与播放行为代理用户满意度",
+        "bizQuestion": "用户满意度怎么样？",
+        "keywords": [
+          "满意度",
+          "完播率",
+          "QoS",
+          "卡顿",
+          "体验"
+        ],
+        "triggers": [
+          "QoS 投诉上升",
+          "完播率月环比下降",
+          "NPS 调研前需数据支撑"
+        ],
+        "steps": [
+          {
+            "title": "整体完播率基线",
+            "desc": "从 dws_content_series_play_1d 计算当月整体完播率。",
+            "sql": "SELECT\n  ROUND(SUM(finish_cnt) / NULLIF(SUM(vv), 0) * 100, 2) AS overall_finish_rate_pct,\n  ROUND(AVG(complete_rate_avg), 2) AS avg_complete_rate,\n  SUM(vv) AS total_vv\nFROM internet_analytics.dws_content_series_play_1d\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07';",
+            "judge": "完播率 <45% 或环比下降 >5pct 需关注",
+            "output": "满意度代理 KPI 卡片"
+          },
+          {
+            "title": "播放行为分布",
+            "desc": "从 dwd_vod_play_di 查看 pause/seek/stop 等行为占比。",
+            "sql": "SELECT snapshot_date, total_dau, dau_stb, dau_speaker, vod_active, live_active, only_launcher FROM v_dau_overview ORDER BY snapshot_date DESC LIMIT 60",
+            "output": "播放行为分布图"
+          }
+        ],
+        "outputs": [
+          "用户满意度代理报告",
+          "体验改进优先级"
+        ],
+        "nextSteps": [
+          "QoS 问题 → 「完播与QoS」看板",
+          "内容问题 → 「完播率异常诊断」"
+        ],
+        "dashboards": [
+          "完播与QoS",
+          "quality",
+          "内容·单集与行为",
+          "episode"
+        ]
+      },
+      {
+        "id": "q24",
+        "layer": "l5",
+        "category": "投放优化类",
+        "title": "投放预算分配优化（入口流量）",
+        "desc": "按 LTV/CAC 与边际 ROI 重分配 launcher/video 入口流量",
+        "bizQuestion": "预算应该怎么分配？",
+        "keywords": [
+          "预算",
+          "分配",
+          "入口",
+          "流量",
+          "优化"
+        ],
+        "triggers": [
+          "季度预算调整",
+          "某入口 LTV/CAC >3 需加码",
+          "video 误触导致浪费"
+        ],
+        "steps": [
+          {
+            "title": "入口效率排序",
+            "desc": "按 LTV/CAC 与 ROI 对入口排序。",
+            "sql": "SELECT channel_name, order_count, total_gmv, avg_order_value, avg_platform_share FROM v_ltv ORDER BY total_gmv DESC",
+            "output": "入口效率排序表"
+          },
+          {
+            "title": "建议预算比例",
+            "desc": "按效率权重计算建议流量占比（launcher 高 ROI 倾斜）。",
+            "sql": "SELECT touch_point, SUM(attributed_orders) AS orders,\n  ROUND(SUM(attributed_orders) / SUM(SUM(attributed_orders)) OVER() * 100, 2) AS current_share_pct,\n  ROUND(SUM(attributed_amount) / NULLIF(SUM(attributed_orders), 0), 2) AS avg_order_value\nFROM internet_analytics.v_channel_attribution\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY touch_point;",
+            "judge": "建议 launcher 占比 ≥60%（若 LTV/CAC 领先）",
+            "output": "预算分配建议方案"
+          }
+        ],
+        "outputs": [
+          "入口流量分配方案",
+          "预期 ROI 提升估算"
+        ],
+        "nextSteps": [
+          "执行后 → 「A/B 测试效果评估」验证",
+          "定期复盘 → 「渠道获客效率评估」"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "商业化漏斗",
+          "funnel"
+        ]
+      },
+      {
+        "id": "q25",
+        "layer": "l5",
+        "category": "用户挽回类",
+        "title": "用户挽回策略优化",
+        "desc": "RFM 分层制定差异化沉默/流失用户触达策略",
+        "bizQuestion": "怎么挽回流失用户？",
+        "keywords": [
+          "挽回",
+          "RFM",
+          "沉默",
+          "触达",
+          "push"
+        ],
+        "triggers": [
+          "沉默用户占比 >20%",
+          "churn_cnt 连续上升",
+          "续订率下滑"
+        ],
+        "steps": [
+          {
+            "title": "RFM 分层分布",
+            "desc": "从 v_rfm 识别各分层规模。",
+            "sql": "SELECT rfm_segment, COUNT(*) AS users,\n  ROUND(COUNT(*) / SUM(COUNT(*)) OVER() * 100, 2) AS share_pct\nFROM internet_analytics.v_rfm\nGROUP BY rfm_segment ORDER BY users DESC;",
+            "output": "RFM 分层饼图"
+          },
+          {
+            "title": "高风险用户清单",
+            "desc": "筛选沉默天数长且历史活跃的用户。",
+            "sql": "SELECT user_id, rfm_segment, recency_days, user_segment\nFROM internet_analytics.v_rfm\nWHERE rfm_segment IN ('流失风险', '一般/流失')\nORDER BY recency_days DESC LIMIT 100;",
+            "output": "触达名单 CSV"
+          }
+        ],
+        "outputs": [
+          "分层触达策略",
+          "挽回活动人群包"
+        ],
+        "nextSteps": [
+          "触达后评估 → 「留存下降诊断」",
+          "预测规模 → 「用户流失预测」"
+        ],
+        "dashboards": [
+          "用户生命周期",
+          "lifecycle",
+          "v_rfm"
+        ]
+      },
+      {
+        "id": "q26",
+        "layer": "l5",
+        "category": "产品优先级类",
+        "title": "产品优先级优化",
+        "desc": "基于 VV/完播/渗透确定内容与功能迭代优先级",
+        "bizQuestion": "先做哪个功能/内容？",
+        "keywords": [
+          "优先级",
+          "内容",
+          "功能",
+          "VV",
+          "完播",
+          "渗透"
+        ],
+        "triggers": [
+          "季度产品 roadmap 评审",
+          "资源有限需取舍",
+          "某功能渗透低但战略重要"
+        ],
+        "steps": [
+          {
+            "title": "内容价值矩阵",
+            "desc": "VV × 完播率四象限定位高价值内容。",
+            "sql": "SELECT s.series_id, se.series_name, SUM(s.vv) AS vv,\n  ROUND(SUM(s.finish_cnt) / NULLIF(SUM(s.vv), 0) * 100, 2) AS finish_rate_pct\nFROM internet_analytics.dws_content_series_play_1d s\nJOIN internet_analytics.dim_content_series se ON s.series_id = se.series_id\nWHERE DATE_FORMAT(s.snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY s.series_id, se.series_name\nORDER BY vv DESC LIMIT 30;",
+            "judge": "高 VV 低完播 = 优化体验；低 VV 高完播 = 加推",
+            "output": "内容优先级矩阵"
+          },
+          {
+            "title": "功能渗透缺口",
+            "desc": "识别渗透率低但战略重要的功能。",
+            "sql": "SELECT\n  ROUND(SUM(is_vod_active) / COUNT(*) * 100, 2) AS vod_pct,\n  ROUND(SUM(is_live_active) / COUNT(*) * 100, 2) AS live_pct,\n  ROUND(SUM(is_only_launcher) / COUNT(*) * 100, 2) AS only_launcher_pct\nFROM internet_analytics.dws_act_user_active_1d\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07';",
+            "output": "功能优先级建议"
+          }
+        ],
+        "outputs": [
+          "产品/内容优先级清单",
+          "迭代 roadmap 建议"
+        ],
+        "nextSteps": [
+          "内容加推 → 「产品功能效果评估」",
+          "体验优化 → 「完播率异常诊断」"
+        ],
+        "dashboards": [
+          "内容·剧集",
+          "series",
+          "点播活跃",
+          "vod",
+          "直播活跃",
+          "live"
+        ]
+      },
+      {
+        "id": "q27",
+        "layer": "l5",
+        "category": "渠道组合类",
+        "title": "渠道组合优化",
+        "desc": "launcher + video 入口的最优组合与协同策略",
+        "bizQuestion": "入口怎么组合最优？",
+        "keywords": [
+          "渠道组合",
+          "launcher",
+          "video",
+          "协同",
+          "归因"
+        ],
+        "triggers": [
+          "单入口依赖度过高",
+          "多渠道触点需协同",
+          "归因模型切换评估"
+        ],
+        "steps": [
+          {
+            "title": "入口贡献与协同",
+            "desc": "从 v_channel_attribution 看多入口贡献结构。",
+            "sql": "SELECT touch_point, attribution_model,\n  SUM(attributed_orders) AS orders, SUM(attributed_amount) AS amount,\n  ROUND(SUM(attributed_revenue_share), 0) AS share\nFROM internet_analytics.v_channel_attribution\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY touch_point, attribution_model;",
+            "output": "入口贡献结构表"
+          },
+          {
+            "title": "组合效率对比",
+            "desc": "对比各入口 LTV、CAC 与留存质量。",
+            "sql": "SELECT channel_name, order_count, total_gmv, avg_order_value, avg_platform_share FROM v_ltv ORDER BY total_gmv DESC",
+            "judge": "保留 LTV/CAC >2 的入口，收缩 <1 的入口",
+            "output": "渠道组合建议"
+          }
+        ],
+        "outputs": [
+          "最优渠道组合方案",
+          "入口协同策略"
+        ],
+        "nextSteps": [
+          "预算落地 → 「投放预算分配优化」",
+          "归因复核 → 工具箱「渠道归因分析」"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_channel_attribution",
+          "v_ltv"
+        ]
+      },
+      {
+        "id": "q28",
+        "layer": "l5",
+        "category": "定价优化类",
+        "title": "定价策略优化",
+        "desc": "连续包月/单月/包年套餐的定价与结构优化",
+        "bizQuestion": "套餐价格怎么定？",
+        "keywords": [
+          "定价",
+          "套餐",
+          "连续包月",
+          "包年",
+          "客单"
+        ],
+        "triggers": [
+          "客单下降或续订率下滑",
+          "竞品定价调整",
+          "新套餐上线评估"
+        ],
+        "steps": [
+          {
+            "title": "套餐结构分析",
+            "desc": "从 dws_trade_order_1d 拆解各套餐订购量与金额。",
+            "sql": "SELECT pay_type, SUM(order_cnt) AS orders, SUM(unsub_cnt) AS unsub,\n  ROUND(SUM(order_amount), 0) AS amount,\n  ROUND(SUM(order_amount) / NULLIF(SUM(order_cnt), 0), 2) AS avg_price,\n  ROUND(SUM(unsub_cnt) / NULLIF(SUM(order_cnt), 0) * 100, 2) AS unsub_rate_pct\nFROM internet_analytics.dws_trade_order_1d\nWHERE DATE_FORMAT(snapshot_date, '%Y-%m') = '2026-07' AND src_type <> 'ALL'\nGROUP BY pay_type ORDER BY orders DESC;",
+            "output": "套餐结构表"
+          },
+          {
+            "title": "价格弹性参考",
+            "desc": "对比近 3 月客单与订购量变化趋势。",
+            "sql": "SELECT DATE_FORMAT(snapshot_date, '%Y-%m') AS month, pay_type,\n  SUM(order_cnt) AS orders,\n  ROUND(SUM(order_amount) / NULLIF(SUM(order_cnt), 0), 2) AS avg_price\nFROM internet_analytics.dws_trade_order_1d\nWHERE src_type <> 'ALL'\nGROUP BY DATE_FORMAT(snapshot_date, '%Y-%m'), pay_type\nORDER BY month, pay_type;",
+            "judge": "退订率 >15% 的套餐需考虑降价或权益加码",
+            "output": "定价优化建议"
+          }
+        ],
+        "outputs": [
+          "定价策略方案",
+          "套餐结构调整建议"
+        ],
+        "nextSteps": [
+          "方案验证 → 「A/B 测试效果评估」",
+          "收入影响 → 「分成收入预测」"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "dws_trade_order_1d"
+        ]
+      }
+    ],
+    "playbook_count": 28,
+    "sidebar_note": "左侧导航展示六层框架（l1-l5 问题列表 + l6 工具箱入口）"
+  },
+  "statistics": {
+    "dashboard_count": 18,
+    "theme_dashboard_count": 17,
+    "playbook_count": 28,
+    "toolbox_method_count": 15,
+    "analysis_layers": 6
+  }
+}

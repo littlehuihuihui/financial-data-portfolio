@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="数仓分层与技术栈答疑 · 基础 / 进阶 / 面试">
+  <title>数据分析答疑 · Data Nexus</title>
+  <link rel="stylesheet" href="../css/design-tokens.css">
+  <link rel="stylesheet" href="../css/platform-shell.css?v=3.38">
+  <link rel="stylesheet" href="../css/data-faq.css?v=1.0">
+</head>
+<body class="page-data-faq">
+  <header class="top-nav">
+    <div class="nav-inner">
+      <div class="brand-title">DATA NEXUS</div>
+      <nav class="nav-tabs" aria-label="页面导航">
+        <a href="../index.html" class="nav-tab">平台首页</a>
+        <a href="data-faq.html" class="nav-tab active">数据分析答疑</a>
+        <a href="../industries/retail/pages/architecture.html" class="nav-tab">零售架构</a>
+        <a href="../industries/internet/pages/architecture.html" class="nav-tab">互联网架构</a>
+        <a href="../industries/manufacturing/pages/architecture.html" class="nav-tab">制造架构</a>
+      </nav>
+    </div>
+  </header>
+  <main class="dfaq-page-wrap">
+    <h1 class="dfaq-page-title">数据分析答疑</h1>
+    <p class="dfaq-page-sub">
+      跨行业共用：解释 ODS→ADS 每一层在干什么，以及作品集落地技术栈（MySQL / Python / ETL / 可视化）。
+      点击芯片查看<strong>基础</strong>、<strong>进阶</strong>与<strong>面试常见问</strong>。进入具体行业架构页还可看到本行业表例。
+    </p>
+    <label class="dfaq-industry-pick" style="display:flex;flex-direction:column;gap:0.35rem;margin-bottom:1rem;font-size:0.8rem;color:#94a3b8;max-width:220px">
+      预览行业例子
+      <select id="dfaq-industry" style="padding:0.4rem 0.6rem;border-radius:6px;border:1px solid rgba(34,211,238,0.35);background:#0a1220;color:#e2e8f0">
+        <option value="">不限定（平台总览）</option>
+        <option value="retail">零售财务</option>
+        <option value="internet">互联网 OTT</option>
+        <option value="manufacturing">制造业</option>
+      </select>
+    </label>
+    <div id="data-faq-root"></div>
+  </main>
+  <script src="../js/data-faq-data.js?v=1.0"></script>
+  <script src="../js/data-faq.js?v=1.0"></script>
+  <script>
+    (function () {
+      var root = document.getElementById("data-faq-root");
+      var sel = document.getElementById("dfaq-industry");
+      function remount() {
+        window.DataFaq.mount(root, { industry: sel.value || "" });
+      }
+      sel.addEventListener("change", remount);
+      remount();
+    })();
+  </script>
+</body>
+</html>

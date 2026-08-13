@@ -9,7 +9,13 @@ window.DashLoaders = (function () {
     const d = await api("/api/dashboard_overview", p(state));
     const mau = d.mau || {}, w = d.windows || [], cp = d.compose || {};
     const findW = (n) => (w.find((x) => x.name === n) || {}).users || 0;
-    renderKpiGrid("db-kpi", [
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles ? window.NorthstarPhases.applyKpiRoles([
+      { name: "有效MAU(合计)", value: mau.total, role: "core", sub: "冲量时须守住留存/完播/LTV/CAC 围栏" },
+      { name: "STB MAU", value: mau.stb, role: "core" },
+      { name: "Speaker MAU", value: mau.speaker, role: "core" },
+      { name: "本日DAU", value: findW("本日"), role: "core" },
+      { name: "近30天活跃", value: findW("近30天"), role: "leading" },
+    ]) : [
       { name: "有效MAU(合计)", value: mau.total, role: "northstar", sub: "冲量时须守住留存/完播/LTV/CAC 围栏" },
       { name: "STB MAU", value: mau.stb, role: "core" },
       { name: "Speaker MAU", value: mau.speaker, role: "core" },
@@ -139,7 +145,13 @@ window.DashLoaders = (function () {
   async function lifecycle(state) {
     const d = await api("/api/dashboard_lifecycle", p(state));
     const k = d.kpi || {};
-    renderKpiGrid("db-kpi", [
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles?.([
+      { name: "新增开户(本月)", value: k.new_register },
+      { name: "新增激活(本月)", value: k.new_activate },
+      { name: "沉默用户", value: k.silent_cnt },
+      { name: "累计流失", value: k.churn_cnt },
+      { name: "日均活跃", value: k.avg_active },
+    ]) || [
       { name: "新增开户(本月)", value: k.new_register },
       { name: "新增激活(本月)", value: k.new_activate },
       { name: "沉默用户", value: k.silent_cnt },
@@ -155,7 +167,8 @@ window.DashLoaders = (function () {
 
   async function retention(state) {
     const d = await api("/api/dashboard_retention", p(state));
-    renderKpiGrid("db-kpi", (d.trend || []).map((r) => ({ name: `D${r.day_offset}留存`, value: r.retention_rate, unit: "%" })));
+    const retCards = (d.trend || []).map((r) => ({ name: `D${r.day_offset}留存`, value: r.retention_rate, unit: "%" }));
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles?.(retCards) || retCards);
     setLineChart(initChart("db-chart-retention"), d.trend?.map((r) => `D${r.day_offset}`) || [],
       [{ name: "留存率%", data: d.trend?.map((r) => r.retention_rate) || [] }]);
     renderTable("db-table-retention", d.matrix, [
@@ -182,10 +195,13 @@ window.DashLoaders = (function () {
   async function funnel(state) {
     const d = await api("/api/dashboard_funnel", p(state));
     const f = d.funnel || {};
-    renderKpiGrid("db-kpi", [
+    const conv = f.expose ? Number(((Number(f.confirm || 0) / Number(f.expose)) * 100).toFixed(2)) : 0;
+    const funnelKpis = [
+      { name: "订购转化率", value: conv, unit: "%", sub: "确认 ÷ 曝光" },
       { name: "曝光", value: f.expose }, { name: "点击", value: f.click },
       { name: "验证", value: f.verify }, { name: "确认订购", value: f.confirm },
-    ]);
+    ];
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles?.(funnelKpis) || funnelKpis);
     setBarChart(initChart("db-chart-funnel"), ["曝光", "点击", "验证", "确认"],
       [{ name: "人次", data: [f.expose, f.click, f.verify, f.confirm] }]);
     setBarChart(initChart("db-chart-funnel-src"), d.by_src?.map((r) => r.src_type) || [],

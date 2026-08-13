@@ -1,4 +1,4 @@
-/* 方法论页交互 · 六层框架 */
+/* 方法论页交互 · 六层框架 + 三层回答结构 */
 (function () {
   "use strict";
 
@@ -14,6 +14,60 @@
 
   function esc(s) {
     return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  // ===== 看板名称到URL的智能映射 =====
+  function getDashboardHref(name) {
+    const n = String(name || "").toLowerCase();
+    const industry = document.body?.dataset?.industry || "retail";
+    const base = `../${industry}_dashboard.html`;
+
+    // 优先从行业dashboard配置里匹配
+    if (window.INDUSTRY_DASHBOARDS && Array.isArray(window.INDUSTRY_DASHBOARDS)) {
+      // 精确匹配标题
+      const exact = window.INDUSTRY_DASHBOARDS.find(d =>
+        d.title && d.title.toLowerCase() === n.trim()
+      );
+      if (exact && exact.href) return exact.href;
+
+      // 模糊匹配标题
+      const fuzzy = window.INDUSTRY_DASHBOARDS.find(d => {
+        const title = (d.title || "").toLowerCase();
+        const id = (d.id || "").toLowerCase();
+        return title.includes(n) || n.includes(title) || id.includes(n) || n.includes(id);
+      });
+      if (fuzzy && fuzzy.href) return fuzzy.href;
+    }
+
+    // 表名/视图名 → 跳转到数据字典
+    if (n.startsWith("dws_") || n.startsWith("dwd_") || n.startsWith("ods_") || n.startsWith("dim_") || n.startsWith("v_") || n.startsWith("fact_")) {
+      return `dictionary.html#${name.trim()}`;
+    }
+
+    // 通用关键词匹配（兜底）
+    if (n.includes("总览") || n.includes("overview") || n.includes("概览")) return `${base}#overview`;
+    if (n.includes("生产")) return `${base}#production`;
+    if (n.includes("质量") || n.includes("良品") || n.includes("缺陷")) return `${base}#quality`;
+    if (n.includes("交付") || n.includes("准时") || n.includes("otd")) return `${base}#delivery`;
+    if (n.includes("设备") || n.includes("oee") || n.includes("停机")) return `${base}#equipment`;
+    if (n.includes("产能") || n.includes("负荷")) return `${base}#capacity`;
+    if (n.includes("成本") || n.includes("cost")) return `${base}#cost`;
+    if (n.includes("活跃") || n.includes("dau") || n.includes("mau")) return `${base}#overview`;
+    if (n.includes("点播") || n.includes("vod")) return `${base}#vod`;
+    if (n.includes("直播") || n.includes("live")) return `${base}#live`;
+    if (n.includes("留存") || n.includes("retention")) return `${base}#retention`;
+    if (n.includes("收入") || n.includes("付费") || n.includes("ltv")) return `${base}#revenue`;
+
+    // 默认跳转到dashboard首页
+    return base;
+  }
+
+  // ===== 知识图谱跳转 =====
+  function getKnowledgeGraphHref(p) {
+    const industry = document.body?.dataset?.industry || "retail";
+    // 跳转到平台知识图谱，带上第一个关联看板作为聚焦节点
+    const firstDash = p.dashboards && p.dashboards[0] ? p.dashboards[0] : p.title;
+    return `platform-graph.html?node=${encodeURIComponent(firstDash)}`;
   }
 
   function toolboxMethodTitle(id) {
@@ -69,7 +123,7 @@
     const layersHtml = LAYERS.map(layer => {
       const items = PLAYBOOKS.filter(p => p.layer === layer.id);
       const cards = items.map(p => {
-        const hay = (p.title + p.desc + (p.bizQuestion || "") + (p.keywords || []).join(" ")).toLowerCase();
+        const hay = (p.title + p.desc + p.bizQuestion + p.keywords.join(" ")).toLowerCase();
         const match = !kw || hay.includes(kw);
         if (match) visibleCount++;
         const cats = layer.categories || [];
@@ -124,7 +178,7 @@
       });
     });
     sidebar.querySelectorAll("[data-toolbox-id]").forEach((btn) => {
-      btn.addEventListener("click", () => selectToolboxMethod(btn.dataset.toolboxId));
+      btn.addEventListener("click", () => selectToolboxMethod(btn.dataset.toolbox-id));
     });
     sidebar.querySelectorAll(".layer-header").forEach(h => {
       h.addEventListener("click", () => {
@@ -153,64 +207,511 @@
       </table>`;
   }
 
-  function renderSteps(steps) {
+  // ===== 三层框架：数据校验步骤 =====
+  function renderDataValidationSteps(steps) {
     return steps.map((s, i) => `
       <div class="step-block">
-        <div class="step-head">Step ${i + 1}：${esc(s.title)}</div>
+        <div class="step-head">校验 ${i + 1}：${esc(s.title)}</div>
         <div class="step-body">
-          ${s.desc ? `<p>${esc(s.desc)}</p>` : ""}
-          ${s.sql ? `<pre class="sql-block">${esc(s.sql.trim())}</pre>` : ""}
-          ${s.judge ? `<p class="step-label"><strong>判断：</strong>${esc(s.judge)}</p>` : ""}
-          ${s.output ? `<p class="step-label"><strong>预期输出：</strong>${esc(s.output)}</p>` : ""}
+          ${s.desc ? `<p class="step-desc">${esc(s.desc)}</p>` : ""}
+          ${s.sql ? `
+            <div class="sql-wrap">
+              <div class="sql-label">📊 SQL 取数</div>
+              <pre class="sql-block">${esc(s.sql.trim())}</pre>
+            </div>` : ""}
+          ${s.judge ? `
+            <div class="judge-wrap">
+              <div class="judge-label">⚖️ 判断标准</div>
+              <p class="judge-text">${esc(s.judge)}</p>
+            </div>` : ""}
+          ${s.output ? `<p class="step-output"><strong>输出：</strong>${esc(s.output)}</p>` : ""}
         </div>
       </div>`).join("");
+  }
+
+  // ===== 三层框架：业务归因（从steps和criteria提取） =====
+  function renderBusinessAttribution(p) {
+    const { steps, criteria } = p;
+    // 从steps的judge里提取归因要点
+    const attributionPoints = [];
+    steps.forEach((s, i) => {
+      if (s.judge) {
+        attributionPoints.push({
+          title: s.title,
+          point: s.judge
+        });
+      }
+    });
+
+    const criteriaHtml = criteria && criteria.length ? renderCriteria(criteria) : "";
+
+    const pointsHtml = attributionPoints.length ? `
+      <div class="attribution-points">
+        ${attributionPoints.map((p, i) => `
+          <div class="attribution-item">
+            <span class="attribution-num">${i + 1}</span>
+            <div class="attribution-content">
+              <div class="attribution-title">${esc(p.title)}</div>
+              <div class="attribution-desc">${esc(p.point)}</div>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    ` : '<p class="empty-hint">暂无归因要点</p>';
+
+    return `
+      <div class="attribution-wrap">
+        <div class="attribution-intro">
+          <p>基于数据校验结果，从以下维度进行业务归因分析：</p>
+        </div>
+        ${pointsHtml}
+        ${criteriaHtml ? `
+          <div class="criteria-wrap">
+            <div class="criteria-title">📋 判断标准矩阵</div>
+            ${criteriaHtml}
+          </div>
+        ` : ""}
+      </div>
+    `;
+  }
+
+  // ===== 三层框架：策略输出 =====
+  function renderStrategyOutput(p) {
+    const dashboardsHtml = p.dashboards && p.dashboards.length ? `
+      <div class="dash-section">
+        <div class="dash-section-title">📊 关联看板</div>
+        <div class="dash-links">
+          ${p.dashboards.map(d => {
+            const href = getDashboardHref(d);
+            return `<a href="${esc(href)}" class="dash-link" target="_blank" rel="noopener">
+              <span class="dash-link-icon">→</span>
+              <span class="dash-link-text">${esc(d)}</span>
+            </a>`;
+          }).join("")}
+        </div>
+      </div>
+    ` : "";
+
+    const kgHref = getKnowledgeGraphHref(p);
+
+    return `
+      <div class="strategy-wrap">
+        <div class="strategy-section">
+          <div class="strategy-section-title">📄 产出物</div>
+          <ul class="output-list">${p.outputs.map(o => `<li>${esc(o)}</li>`).join("")}</ul>
+        </div>
+        <div class="strategy-section">
+          <div class="strategy-section-title">🎯 下一步行动</div>
+          <ul class="next-list">${p.nextSteps.map(n => `<li>${esc(n)}</li>`).join("")}</ul>
+        </div>
+        ${dashboardsHtml}
+        <div class="kg-section">
+          <div class="kg-section-title">🕸️ 知识图谱</div>
+          <a href="${esc(kgHref)}" class="kg-link" target="_blank" rel="noopener">
+            <span class="kg-link-icon">🌐</span>
+            <span class="kg-link-text">在知识图谱中查看辐射关系</span>
+            <span class="kg-link-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    `;
   }
 
   function renderDetail(p) {
     if (!p) return;
     const layer = LAYERS.find(l => l.id === p.layer);
+    const color = layer?.color || "#3b82f6";
+
     detailPanel.innerHTML = `
       <div class="detail-inner">
         <header class="detail-head">
-          <span class="detail-badge" style="background:${layer.color}22;color:${layer.color}">${esc(layer.name)}</span>
+          <span class="detail-badge" style="background:${color}22;color:${color}">${esc(layer.name)}</span>
           <h2>📌 ${esc(p.title)}</h2>
-          <p class="biz-q">业务问：「${esc(p.bizQuestion || p.desc)}」</p>
+          <p class="biz-q">业务问：「${esc(p.bizQuestion)}」</p>
         </header>
 
-        ${(p.triggers || []).length ? `
-        <section class="section" style="--accent:${layer.color}">
-          <h3 class="section-title">触发条件</h3>
-          <ul class="trigger-list">${(p.triggers || []).map(t => `<li>${esc(t)}</li>`).join("")}</ul>
-        </section>` : ""}
-
-        <section class="section" style="--accent:${layer.color}">
-          <h3 class="section-title">分析步骤</h3>
-          ${renderSteps(p.steps)}
+        <!-- 触发条件 -->
+        <section class="section trigger-section" style="--accent:${color}">
+          <h3 class="section-title">⚡ 触发场景</h3>
+          <ul class="trigger-list">${p.triggers.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
         </section>
 
-        ${p.criteria && p.criteria.length ? `
-        <section class="section" style="--accent:${layer.color}">
-          <h3 class="section-title">判断标准汇总</h3>
-          ${renderCriteria(p.criteria)}
-        </section>` : ""}
+        <!-- 三层框架 -->
+        <div class="three-layer-framework">
 
-        ${(p.outputs || []).length ? `
-        <section class="section" style="--accent:${layer.color}">
-          <h3 class="section-title">产出物</h3>
-          <ul class="output-list">${(p.outputs || []).map(o => `<li>${esc(o)}</li>`).join("")}</ul>
-        </section>` : ""}
+          <!-- 第一层：数据校验 -->
+          <section class="section layer-section layer-1" style="--accent:#3b82f6">
+            <div class="layer-header-bar">
+              <span class="layer-number">01</span>
+              <div class="layer-header-content">
+                <h3 class="section-title">数据校验</h3>
+                <p class="layer-subtitle">公式 · SQL取数 · 判断标准</p>
+              </div>
+            </div>
+            <div class="layer-body">
+              ${renderDataValidationSteps(p.steps)}
+            </div>
+          </section>
 
-        ${(p.nextSteps || []).length ? `
-        <section class="section" style="--accent:${layer.color}">
-          <h3 class="section-title">下一步建议</h3>
-          <ul class="next-list">${(p.nextSteps || []).map(n => `<li>${esc(n)}</li>`).join("")}</ul>
-        </section>` : ""}
+          <!-- 第二层：业务归因 -->
+          <section class="section layer-section layer-2" style="--accent:#8b5cf6">
+            <div class="layer-header-bar">
+              <span class="layer-number">02</span>
+              <div class="layer-header-content">
+                <h3 class="section-title">业务归因</h3>
+                <p class="layer-subtitle">原因分析 · 诊断逻辑</p>
+              </div>
+            </div>
+            <div class="layer-body">
+              ${renderBusinessAttribution(p)}
+            </div>
+          </section>
 
-        <section class="section" style="--accent:${layer.color}">
-          <h3 class="section-title">关联看板 / 视图</h3>
-          <div class="dash-tags">${p.dashboards.map(d => `<span class="dash-tag">${esc(d)}</span>`).join("")}</div>
-        </section>
+          <!-- 第三层：策略输出 -->
+          <section class="section layer-section layer-3" style="--accent:#22c55e">
+            <div class="layer-header-bar">
+              <span class="layer-number">03</span>
+              <div class="layer-header-content">
+                <h3 class="section-title">策略输出</h3>
+                <p class="layer-subtitle">产出物 · 行动建议 · 关联工具</p>
+              </div>
+            </div>
+            <div class="layer-body">
+              ${renderStrategyOutput(p)}
+            </div>
+          </section>
+
+        </div>
       </div>`;
+
+    // 注入三层框架样式
+    injectThreeLayerStyles();
+  }
+
+  // ===== 注入三层框架样式 =====
+  function injectThreeLayerStyles() {
+    if (document.getElementById("three-layer-styles")) return;
+    const style = document.createElement("style");
+    style.id = "three-layer-styles";
+    style.textContent = `
+      .three-layer-framework {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .layer-section {
+        border-left: 3px solid var(--accent);
+        background: linear-gradient(135deg, rgba(15,23,42,0.6) 0%, rgba(30,41,59,0.4) 100%);
+        border-radius: 0 12px 12px 0;
+        overflow: hidden;
+      }
+      .layer-header-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        background: rgba(15,23,42,0.5);
+        border-bottom: 1px solid rgba(71,85,105,0.3);
+      }
+      .layer-number {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 18px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "JetBrains Mono", Consolas, monospace;
+        flex-shrink: 0;
+      }
+      .layer-header-content .section-title {
+        margin: 0;
+        font-size: 16px;
+        color: #f1f5f9;
+      }
+      .layer-subtitle {
+        margin: 2px 0 0;
+        font-size: 12px;
+        color: #94a3b8;
+      }
+      .layer-body {
+        padding: 16px 18px;
+      }
+
+      /* 数据校验层样式 */
+      .step-block {
+        margin-bottom: 16px;
+        background: rgba(15,23,42,0.4);
+        border: 1px solid rgba(71,85,105,0.3);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .step-block:last-child { margin-bottom: 0; }
+      .step-head {
+        padding: 10px 14px;
+        background: rgba(59,130,246,0.1);
+        border-bottom: 1px solid rgba(59,130,246,0.2);
+        font-weight: 600;
+        font-size: 13px;
+        color: #93c5fd;
+      }
+      .step-body { padding: 12px 14px; }
+      .step-desc {
+        margin: 0 0 10px;
+        font-size: 13px;
+        color: #cbd5e1;
+        line-height: 1.6;
+      }
+      .sql-wrap {
+        margin-bottom: 10px;
+      }
+      .sql-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #60a5fa;
+        margin-bottom: 6px;
+      }
+      .sql-block {
+        background: rgba(15,23,42,0.8);
+        border: 1px solid rgba(59,130,246,0.2);
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 11px;
+        line-height: 1.6;
+        color: #93c5fd;
+        overflow-x: auto;
+        margin: 0;
+        font-family: "JetBrains Mono", Consolas, monospace;
+      }
+      .judge-wrap {
+        background: rgba(251,191,36,0.08);
+        border: 1px solid rgba(251,191,36,0.2);
+        border-radius: 6px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+      }
+      .judge-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #fbbf24;
+        margin-bottom: 4px;
+      }
+      .judge-text {
+        margin: 0;
+        font-size: 12px;
+        color: #fde68a;
+        line-height: 1.5;
+      }
+      .step-output {
+        margin: 0;
+        font-size: 12px;
+        color: #94a3b8;
+      }
+      .step-output strong { color: #cbd5e1; }
+
+      /* 业务归因层样式 */
+      .attribution-wrap { padding: 4px 0; }
+      .attribution-intro {
+        margin-bottom: 14px;
+        font-size: 13px;
+        color: #cbd5e1;
+        line-height: 1.6;
+      }
+      .attribution-points {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .attribution-item {
+        display: flex;
+        gap: 10px;
+        padding: 10px 12px;
+        background: rgba(139,92,246,0.08);
+        border: 1px solid rgba(139,92,246,0.2);
+        border-radius: 8px;
+      }
+      .attribution-num {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        background: rgba(139,92,246,0.2);
+        color: #c4b5fd;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-family: "JetBrains Mono", Consolas, monospace;
+      }
+      .attribution-content { flex: 1; min-width: 0; }
+      .attribution-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #ddd6fe;
+        margin-bottom: 3px;
+      }
+      .attribution-desc {
+        font-size: 12px;
+        color: #a78bfa;
+        line-height: 1.5;
+      }
+      .criteria-wrap {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(139,92,246,0.2);
+      }
+      .criteria-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #ddd6fe;
+        margin-bottom: 10px;
+      }
+      .empty-hint {
+        color: #64748b;
+        font-size: 12px;
+        text-align: center;
+        padding: 20px;
+      }
+
+      /* 策略输出层样式 */
+      .strategy-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .strategy-section {
+        background: rgba(15,23,42,0.4);
+        border: 1px solid rgba(34,197,94,0.2);
+        border-radius: 10px;
+        padding: 14px;
+      }
+      .strategy-section-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #86efac;
+        margin-bottom: 10px;
+      }
+      .output-list, .next-list {
+        margin: 0;
+        padding-left: 20px;
+        color: #bbf7d0;
+        font-size: 13px;
+        line-height: 1.8;
+      }
+      .dash-section {
+        background: rgba(15,23,42,0.4);
+        border: 1px solid rgba(34,197,94,0.2);
+        border-radius: 10px;
+        padding: 14px;
+      }
+      .dash-section-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #86efac;
+        margin-bottom: 10px;
+      }
+      .dash-links {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .dash-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background: rgba(34,197,94,0.08);
+        border: 1px solid rgba(34,197,94,0.15);
+        border-radius: 6px;
+        text-decoration: none;
+        color: #86efac;
+        font-size: 12px;
+        transition: all 0.2s;
+      }
+      .dash-link:hover {
+        background: rgba(34,197,94,0.15);
+        border-color: rgba(34,197,94,0.3);
+        transform: translateX(2px);
+      }
+      .dash-link-icon {
+        color: #22c55e;
+        font-weight: bold;
+      }
+      .dash-link-text { flex: 1; }
+
+      .kg-section {
+        background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(59,130,246,0.1) 100%);
+        border: 1px solid rgba(34,197,94,0.25);
+        border-radius: 10px;
+        padding: 14px;
+      }
+      .kg-section-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #86efac;
+        margin-bottom: 10px;
+      }
+      .kg-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        background: rgba(15,23,42,0.5);
+        border: 1px solid rgba(34,197,94,0.2);
+        border-radius: 8px;
+        text-decoration: none;
+        color: #e2e8f0;
+        transition: all 0.2s;
+      }
+      .kg-link:hover {
+        background: rgba(34,197,94,0.1);
+        border-color: rgba(34,197,94,0.4);
+        transform: translateX(2px);
+      }
+      .kg-link-icon { font-size: 18px; }
+      .kg-link-text { flex: 1; font-size: 13px; font-weight: 500; }
+      .kg-link-arrow { color: #22c55e; font-size: 16px; }
+
+      /* 触发条件样式调整 */
+      .trigger-section {
+        background: rgba(15,23,42,0.4);
+        border: 1px solid rgba(71,85,105,0.3);
+        border-radius: 10px;
+        padding: 14px 18px;
+      }
+      .trigger-section .section-title {
+        margin-top: 0;
+        font-size: 14px;
+      }
+      .trigger-list {
+        margin: 8px 0 0;
+        padding-left: 20px;
+        color: #94a3b8;
+        font-size: 13px;
+        line-height: 1.8;
+      }
+
+      /* 响应式 */
+      @media (max-width: 768px) {
+        .layer-header-bar {
+          padding: 12px 14px;
+        }
+        .layer-body {
+          padding: 12px 14px;
+        }
+        .layer-number {
+          width: 32px;
+          height: 32px;
+          font-size: 14px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   function selectPlaybook(id) {

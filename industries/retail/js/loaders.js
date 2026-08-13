@@ -13,9 +13,9 @@ window.DashLoaders = (function () {
   }
 
   function tagRetailOverviewRoles(cards) {
-    const map = {
-      净利率: "northstar",
-      净利润率: "northstar",
+    const base = {
+      净利率: "core",
+      净利润率: "core",
       净收入: "core",
       毛利率: "core",
       GMV: "core",
@@ -23,11 +23,14 @@ window.DashLoaders = (function () {
       库存周转天数: "guardrail",
       周转天数: "guardrail",
     };
-    return (cards || []).map((c) => {
+    const tagged = (cards || []).map((c) => {
       const name = c.name || c.kpi_name || "";
-      const role = map[name] || c.role;
+      const role = base[name] || c.role;
       return role ? { ...c, role } : { ...c };
     });
+    return window.NorthstarPhases?.applyKpiRoles
+      ? window.NorthstarPhases.applyKpiRoles(tagged)
+      : tagged;
   }
 
   async function overview(state) {
@@ -129,6 +132,18 @@ window.DashLoaders = (function () {
 
   async function dupont(state) {
     const d = await api("/api/dashboard_dupont", params(state));
+    const rows = d.current || [];
+    const avg = (key) => {
+      const vals = rows.map((r) => Number(r[key])).filter((n) => !Number.isNaN(n));
+      return vals.length ? Number((vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2)) : null;
+    };
+    const dupontKpis = [
+      { name: "ROE", value: avg("roe"), unit: "%" },
+      { name: "净利率", value: avg("net_profit_margin"), unit: "%" },
+      { name: "资产周转", value: avg("asset_turnover") },
+      { name: "权益乘数", value: avg("equity_multiplier") },
+    ];
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles?.(dupontKpis) || dupontKpis);
     renderTable("db-dupont-current", d.current, [
       { key: "brand_name" }, { key: "roe", fmt: "pct", align: "right" },
       { key: "net_profit_margin", fmt: "pct", align: "right" }, { key: "asset_turnover", fmt: "raw", align: "right" },
@@ -325,9 +340,15 @@ window.DashLoaders = (function () {
     const d = await api("/api/dashboard_quality");
     const latest = d.latest_score ?? 100;
     const blockedToday = d.blocked_today ?? (d.open_count || 0);
-    renderKpiGrid("db-kpi", [
+    renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles?.([
+      { name: "DQC 门禁通过率", value: d.pass_rate, unit: "%" },
       { name: "质量评分", value: latest },
-      { name: "PASS率", value: d.pass_rate, unit: "%" },
+      { name: "今日阻断量", value: blockedToday, sub: "BLOCK 门禁" },
+      { name: "未解决异常", value: d.open_count },
+      { name: "最近检查", value: d.last_check, sub: "ODS↔DWD↔DWS" },
+    ]) || [
+      { name: "DQC 门禁通过率", value: d.pass_rate, unit: "%" },
+      { name: "质量评分", value: latest },
       { name: "今日阻断量", value: blockedToday, sub: "BLOCK 门禁" },
       { name: "未解决异常", value: d.open_count },
       { name: "最近检查", value: d.last_check, sub: "ODS↔DWD↔DWS" },

@@ -1,6 +1,7 @@
 <section class="dashboard-page" data-dashboard="dupont">
   <h2 class="dashboard-page-title">🌳 杜邦分析</h2>
   <p class="dashboard-page-desc">ROE = 净利润 / 所有者权益 · 净利率 × 资产周转 × 权益乘数 · 数据源：<code>v_dupont</code> ← <code>dws_asset_monthly</code></p>
+  <div id="db-kpi" class="kpi-grid"></div>
   <div class="table-scroll"><table class="data-table"><thead><tr><th>品牌</th><th class="num">ROE</th><th class="num">净利率</th><th class="num">周转</th><th class="num">杠杆</th><th>拖累因子</th></tr></thead><tbody id="db-dupont-current"></tbody></table></div>
   <div class="chart-row two-col">
     <div class="chart-box"><h3>ROE 趋势（近12月）</h3><div id="db-chart-roe-trend" class="chart"></div></div>

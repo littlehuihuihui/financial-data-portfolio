@@ -65,6 +65,7 @@
       const state = { ...DashState.load(), ...DashState.applyRowFilters(meta, roleConfig) };
       await DashLoaders.load(id, state);
       DashCore.bindExportButtons(contentEl());
+      window.NorthstarPhases?.patchDashboardContext?.(contentEl());
       setStatus(DashCore.statusFooter(dash.title, state.month));
     } catch (e) {
       const hint = DashCore.preferDemo?.() || DashCore.usingDemo
@@ -100,6 +101,12 @@
       window.addEventListener("popstate", onHash);
       window.addEventListener("hashchange", onHash);
       window.addEventListener("dash-refresh", () => loadDashboard(parseHash()));
+      window.addEventListener("northstar-phase-change", (e) => {
+        const target = e.detail?.primary_dashboard;
+        const metaDash = target && DashNav.getDashboardMeta(target);
+        if (metaDash) loadDashboard(target);
+        else loadDashboard(parseHash());
+      });
       window.addEventListener("resize", () => DashCore.resizeAll());
     } catch (e) {
       setStatus("初始化失败: " + e.message, true);
