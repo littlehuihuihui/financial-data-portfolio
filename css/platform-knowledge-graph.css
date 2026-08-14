@@ -1302,6 +1302,14 @@ body.kg-graph-mode .kg2-focus {
 .kg-embed { display: none; }
 .kg-embed.is-on { display: block !important; }
 
+/* 独立知识图谱页：始终可见，避免误加 kg-embed 后空白 */
+body.page-platform-graph #pkgRoot,
+body.page-platform-graph .pkg-standalone,
+body.page-platform-graph .pkg-root {
+  display: block !important;
+  min-height: calc(100vh - var(--nav-height, 56px));
+}
+
 /* 作品集四模块入口 */
 .kg2-cards-4 {
   display: grid;

@@ -6,9 +6,9 @@
   <meta name="description" content="零售财务 · 数据仓库与管道架构">
   <title>零售财务 · 数据仓库与管道架构</title>
   <link rel="stylesheet" href="../../../css/design-tokens.css">
-  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.38">
+  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.52">
   <link rel="stylesheet" href="../css/industry-overrides.css">
-  <link rel="stylesheet" href="../css/platform-features.css?v=3.32">
+  <link rel="stylesheet" href="../css/platform-features.css?v=3.52">
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 </head>
 <body class="page-architecture" data-industry="retail">
@@ -108,7 +108,7 @@
         </table>
       </div>
 
-      <h4>业务数据来源</h4>
+      <h4 id="erp-datasource">业务数据来源</h4>
       <p class="star-schema-desc">数仓底座为零售经营与财务单据（订单/支付/采购/库存/费用/预算），样例灌入见 <code>scripts/seed_sql6_from_csv.py</code>。</p>
       <div class="source-stack-grid">
         <article class="source-card"><h5>ERP / 财务</h5><p>销售订单、应收应付、凭证 · 经营与报表底座</p><span class="source-tag">T+1</span></article>
@@ -143,5 +143,5 @@
 
   <script src="../js/search-index-data.js" defer></script>
   <script src="../../../js/global-search.js?v=3.28" defer></script>
-  <script src="../../../js/architecture-page.js?v=3.46" defer></script>
+  <script src="../../../js/architecture-page.js?v=3.50" defer></script>
 </body>

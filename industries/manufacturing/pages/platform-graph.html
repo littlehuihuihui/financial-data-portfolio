@@ -7,10 +7,10 @@
   <title>制造业 · 平台知识图谱</title>
   <link rel="preload" href="../../../vendor/vis-network.min.js" as="script">
   <link rel="stylesheet" href="../../../css/design-tokens.css">
-  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.38">
+  <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.52">
   <link rel="stylesheet" href="../css/industry-overrides.css">
-  <link rel="stylesheet" href="../css/platform-features.css?v=3.32">
-  <link rel="stylesheet" href="../../../css/platform-knowledge-graph.css?v=3.46">
+  <link rel="stylesheet" href="../css/platform-features.css?v=3.52">
+  <link rel="stylesheet" href="../../../css/platform-knowledge-graph.css?v=3.50">
 </head>
 <body class="page-platform-graph" data-industry="manufacturing">
   <header class="top-nav">
@@ -26,13 +26,21 @@
       </nav>
     </div>
   </header>
-  <div id="pkgRoot"></div>
+  <div id="pkgRoot"><p id="pkgBootHint" style="padding:24px;color:#94a3b8;font-size:14px">正在加载知识图谱…</p></div>
   <script src="../js/platform-kg-data.js" defer></script>
-  <script src="../../../js/platform-knowledge-graph.js?v=3.48" defer></script>
+  <script src="../../../js/platform-knowledge-graph.js?v=3.50" defer></script>
   <script src="../../../js/global-search.js?v=3.28" defer></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       window.GlobalSearch?.mount?.("global-search-slot");
+      setTimeout(() => {
+        const root = document.getElementById("pkgRoot");
+        if (!root || root.querySelector(".kg2-landing, .kg2-page")) return;
+        if (window.PLATFORM_KG_DATA && typeof window.initPlatformKnowledgeGraph === "function") {
+          try { window.initPlatformKnowledgeGraph({ root: "#pkgRoot", embed: false }); }
+          catch (e) { root.innerHTML = '<div style="padding:32px;color:#f87171">知识图谱失败：' + (e && e.message ? e.message : e) + "</div>"; }
+        }
+      }, 800);
     });
   </script>
 </body>

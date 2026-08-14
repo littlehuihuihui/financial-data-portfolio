@@ -295,7 +295,13 @@
 
     // 空闲时预取字典（首屏不阻塞）
     const hash = (location.hash || "").replace(/^#/, "").split("?")[0];
-    if (hash && hash !== "dw-graph-section") {
+    if (hash === "erp-datasource") {
+      openDetails("data-faq-section");
+      ensureInteractive("data-faq-section").then(() => {
+        const el = document.getElementById("erp-datasource");
+        (el || document.getElementById("data-faq-section"))?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+      });
+    } else if (hash && hash !== "dw-graph-section") {
       ensureInteractive(hash);
     } else {
       scheduleIdle(() => {

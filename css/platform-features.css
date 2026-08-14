@@ -788,7 +788,51 @@
 }
 
 @media (max-width: 900px) {
-  .global-search-wrap { max-width: 100%; order: 3; width: 100%; }
+  .nav-inner-with-search {
+    flex-wrap: wrap !important;
+  }
+  /* slot 才是 flex 子项；order 必须打在 slot 上，不能只打在内部 wrap */
+  .nav-inner-with-search #global-search-slot {
+    order: 3;
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .nav-inner-with-search #global-search-slot .global-search-wrap,
+  .global-search-wrap {
+    max-width: 100%;
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .nav-inner-with-search .brand-title {
+    flex: 0 1 auto;
+    order: 1;
+  }
+  .nav-inner-with-search .nav-tabs {
+    order: 2;
+    flex: 1 1 auto;
+    flex-shrink: 1;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    min-width: 0;
+  }
+  .nav-inner-with-search .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .arch-toc {
+    overflow: visible;
+    gap: 0.4rem;
+    padding: 0.75rem 0.85rem;
+  }
+  .arch-toc a {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.78rem;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
 }
 
 /* ===== ER 左→右布局：工作区 + 详情面板 ===== */

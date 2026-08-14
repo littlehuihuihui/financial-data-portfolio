@@ -57,9 +57,15 @@
       pathKey: "architecture",
     },
     {
-      title: "ERP 数据源（已并入架构）",
-      subtitle: "站点 · 架构页 #erp-datasource",
-      keywords: "ERP 数据源 ODS 对账 ods_orders ods_payment 原始数据",
+      title: "知识图谱",
+      subtitle: "站点 · 平台辐射图 · 看板/方法/数仓/指标",
+      keywords: "知识图谱 辐射图 platform-graph 血缘 关系图",
+      pathKey: "knowledge_graph",
+    },
+    {
+      title: "业务数据来源（架构页）",
+      subtitle: "站点 · 架构页答疑区 · ERP/POS/WMS 等",
+      keywords: "ERP 数据源 ODS 对账 ods_orders ods_payment 原始数据 业务数据来源",
       pathKey: "erp",
     }
   ];
@@ -87,6 +93,7 @@
         dashboard: "../retail_dashboard.html",
         architecture: "architecture.html",
         anomaly: "anomaly.html",
+        knowledge_graph: "platform-graph.html",
         erp: "architecture.html#erp-datasource",
         report: "report.html",
       };
@@ -96,6 +103,7 @@
         dashboard: "retail_dashboard.html",
         architecture: "pages/architecture.html",
         anomaly: "pages/anomaly.html",
+        knowledge_graph: "pages/platform-graph.html",
         erp: "pages/architecture.html#erp-datasource",
         report: "pages/report.html",
       };
@@ -104,6 +112,7 @@
       dashboard: "shell.html",
       architecture: "architecture.html",
       anomaly: "anomaly.html",
+      knowledge_graph: "platform-graph.html",
       erp: "architecture.html#erp-datasource",
       report: "report.html",
     };

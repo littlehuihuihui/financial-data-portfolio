@@ -43,9 +43,11 @@
       return null;
     }
     var dens = densityCfg(DATA);
-    var opts = Object.assign({ root: "#pkgRoot", startModule: null, startNode: null }, userOpts || {});
+    var opts = Object.assign({ root: "#pkgRoot", startModule: null, startNode: null, embed: false }, userOpts || {});
     var mount = typeof opts.root === "string" ? document.querySelector(opts.root) : opts.root;
-    if (!mount) return null;
+    if (!mount) {
+      return null;
+    }
 
     var visLoading = null;
     function resolveVisUrls() {
@@ -89,7 +91,11 @@
       return visLoading;
     }
 
-    mount.classList.add("kg-embed", "is-on", "pkg-root");
+    // 独立页不要用 kg-embed（默认 display:none）；仅架构页嵌入时才加
+    var useEmbed = opts.embed === true || !!(document.body && document.body.classList && document.body.classList.contains("page-architecture"));
+    mount.classList.add("pkg-root");
+    if (useEmbed) mount.classList.add("kg-embed", "is-on");
+    else mount.classList.add("pkg-standalone");
     mount.innerHTML =
       '<div class="kg2-page" id="kg2Root">' +
       '  <div class="kg2-bgfx"><div class="kg2-particles" id="kg2Particles"></div></div>' +
@@ -360,6 +366,7 @@
       wireSearch(stageEl.querySelector("#kg2HeroSearch"), stageEl.querySelector("#kg2HeroDrop"));
       var hotHints = ["经营总览", "杜邦", "毛利率", "GMV", "留存", "北极星", "ODS", "ADS", "现金流", "库存"];
       var hotEl = stageEl.querySelector("#kg2Hot");
+      if (!hotEl) return;
       var usedHot = {};
       hotHints.forEach(function (hint) {
         var node = DATA.nodes.find(function (n) {
@@ -1050,8 +1057,31 @@
   };
 
   document.addEventListener("DOMContentLoaded", function () {
-    if (document.querySelector("#pkgRoot") && window.PLATFORM_KG_DATA) {
-      window.initPlatformKnowledgeGraph({ root: "#pkgRoot" });
+    var started = false;
+    function tryInit() {
+      if (started) return true;
+      var root = document.querySelector("#pkgRoot");
+      var hasData = !!window.PLATFORM_KG_DATA;
+      if (!(root && hasData && typeof window.initPlatformKnowledgeGraph === "function")) return false;
+      started = true;
+      try {
+        window.initPlatformKnowledgeGraph({ root: "#pkgRoot", embed: false });
+      } catch (err) {
+        started = false;
+        root.innerHTML = '<div class="kg2-empty" style="padding:32px;color:#f87171">知识图谱初始化失败：' + String(err && err.message || err) + "</div>";
+      }
+      return true;
+    }
+    if (!tryInit()) {
+      setTimeout(tryInit, 0);
+      setTimeout(tryInit, 120);
+      setTimeout(function () {
+        if (tryInit()) return;
+        var root = document.querySelector("#pkgRoot");
+        if (root && !root.querySelector(".kg2-page")) {
+          root.innerHTML = '<div class="kg2-empty" style="padding:32px;color:#f87171">知识图谱数据未加载。请检查 platform-kg-data.js 是否可访问后刷新。</div>';
+        }
+      }, 600);
     }
   });
 })();
