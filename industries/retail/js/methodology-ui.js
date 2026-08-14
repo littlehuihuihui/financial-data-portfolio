@@ -16,35 +16,87 @@
     return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
   }
 
-  // ===== 看板名称到URL的智能映射 =====
+  // ===== 看板目录（config/dashboards.json）=====
+  let dashCatalog = [];
+
+  function industryCode() {
+    return document.body?.dataset?.industry || "retail";
+  }
+
+  function stripRefLabel(name) {
+    return String(name || "")
+      .trim()
+      .replace(/（[^）]*）/g, "")
+      .replace(/\([^)]*\)/g, "")
+      .replace(/看板$/g, "")
+      .replace(/视图$/g, "")
+      .replace(/表$/g, "")
+      .trim();
+  }
+
+  function tableToken(name) {
+    const cleaned = stripRefLabel(name);
+    const token = cleaned.split(/[\s,，、]+/)[0] || "";
+    return token;
+  }
+
+  function isTableOrViewName(name) {
+    const t = tableToken(name);
+    return /^(ods_|dim_|dwd_|dws_|v_|fact_|ads_)/i.test(t);
+  }
+
+  function matchDashboard(name) {
+    const n = stripRefLabel(name).toLowerCase();
+    if (!n) return null;
+    const list = dashCatalog.length
+      ? dashCatalog
+      : (window.INDUSTRY_DASHBOARDS || []);
+    const exactId = list.find((d) => String(d.id || "").toLowerCase() === n);
+    if (exactId) return exactId;
+    const exactTitle = list.find((d) => String(d.title || "").toLowerCase() === n);
+    if (exactTitle) return exactTitle;
+    const fuzzy = list.find((d) => {
+      const title = String(d.title || "").toLowerCase();
+      const id = String(d.id || "").toLowerCase();
+      return (title && (title.includes(n) || n.includes(title))) ||
+        (id && (id.includes(n) || n.includes(id)));
+    });
+    return fuzzy || null;
+  }
+
+  async function loadDashCatalog() {
+    try {
+      const res = await fetch("../config/dashboards.json", { cache: "no-store" });
+      if (!res.ok) return;
+      const json = await res.json();
+      const list = Array.isArray(json) ? json : (json.dashboards || []);
+      dashCatalog = list;
+      const ind = industryCode();
+      window.INDUSTRY_DASHBOARDS = list.map((d) => ({
+        id: d.id,
+        title: d.title,
+        href: `../${ind}_dashboard.html#${d.id}`,
+      }));
+    } catch (e) {
+      console.warn("[methodology] dashboards.json load failed", e);
+    }
+  }
+
+  // ===== 看板 / 视图 → 页面 URL =====
   function getDashboardHref(name) {
+    const ind = industryCode();
+    const base = `../${ind}_dashboard.html`;
+    const token = tableToken(name);
+
+    if (isTableOrViewName(name)) {
+      return `dictionary.html#dict/${encodeURIComponent(token)}`;
+    }
+
+    const dash = matchDashboard(name);
+    if (dash?.id) return `${base}#${dash.id}`;
+    if (dash?.href) return dash.href;
+
     const n = String(name || "").toLowerCase();
-    const industry = document.body?.dataset?.industry || "retail";
-    const base = `../${industry}_dashboard.html`;
-
-    // 优先从行业dashboard配置里匹配
-    if (window.INDUSTRY_DASHBOARDS && Array.isArray(window.INDUSTRY_DASHBOARDS)) {
-      // 精确匹配标题
-      const exact = window.INDUSTRY_DASHBOARDS.find(d =>
-        d.title && d.title.toLowerCase() === n.trim()
-      );
-      if (exact && exact.href) return exact.href;
-
-      // 模糊匹配标题
-      const fuzzy = window.INDUSTRY_DASHBOARDS.find(d => {
-        const title = (d.title || "").toLowerCase();
-        const id = (d.id || "").toLowerCase();
-        return title.includes(n) || n.includes(title) || id.includes(n) || n.includes(id);
-      });
-      if (fuzzy && fuzzy.href) return fuzzy.href;
-    }
-
-    // 表名/视图名 → 跳转到数据字典
-    if (n.startsWith("dws_") || n.startsWith("dwd_") || n.startsWith("ods_") || n.startsWith("dim_") || n.startsWith("v_") || n.startsWith("fact_")) {
-      return `dictionary.html#${name.trim()}`;
-    }
-
-    // 通用关键词匹配（兜底）
     if (n.includes("总览") || n.includes("overview") || n.includes("概览")) return `${base}#overview`;
     if (n.includes("生产")) return `${base}#production`;
     if (n.includes("质量") || n.includes("良品") || n.includes("缺陷")) return `${base}#quality`;
@@ -57,17 +109,40 @@
     if (n.includes("直播") || n.includes("live")) return `${base}#live`;
     if (n.includes("留存") || n.includes("retention")) return `${base}#retention`;
     if (n.includes("收入") || n.includes("付费") || n.includes("ltv")) return `${base}#revenue`;
-
-    // 默认跳转到dashboard首页
     return base;
   }
 
-  // ===== 知识图谱跳转 =====
-  function getKnowledgeGraphHref(p) {
-    const industry = document.body?.dataset?.industry || "retail";
-    // 跳转到平台知识图谱，带上第一个关联看板作为聚焦节点
-    const firstDash = p.dashboards && p.dashboards[0] ? p.dashboards[0] : p.title;
-    return `platform-graph.html?node=${encodeURIComponent(firstDash)}`;
+  // ===== 关联项 → 知识图谱节点 id（星点）=====
+  function resolveKgNodeId(name, playbookId) {
+    const raw = String(name || "").trim();
+    if (!raw) return playbookId ? `pb:${playbookId}` : "";
+    if (/^(dash|tbl|pb|metric|tool):/i.test(raw)) return raw;
+
+    const token = tableToken(raw);
+    if (isTableOrViewName(raw)) return `tbl:${token}`;
+
+    const dash = matchDashboard(raw);
+    if (dash?.id) return `dash:${dash.id}`;
+
+    // 中文名未命中配置时，仍尝试用清理后的英文 id
+    if (/^[a-z][a-z0-9_-]*$/i.test(token)) return `dash:${token.toLowerCase()}`;
+    return playbookId ? `pb:${playbookId}` : "";
+  }
+
+  function getKnowledgeGraphHref(p, refName) {
+    const nodeId = refName
+      ? resolveKgNodeId(refName, p?.id)
+      : (p?.id ? `pb:${p.id}` : resolveKgNodeId(p?.dashboards?.[0], p?.id));
+    if (!nodeId) return "platform-graph.html";
+    return `platform-graph.html?node=${encodeURIComponent(nodeId)}`;
+  }
+
+  function classifyRef(name, playbookId) {
+    const label = String(name || "").trim();
+    const nodeId = resolveKgNodeId(label, playbookId);
+    const pageHref = getDashboardHref(label);
+    const kind = isTableOrViewName(label) ? "view" : (matchDashboard(label) ? "dashboard" : "ref");
+    return { label, nodeId, pageHref, kind };
   }
 
   function toolboxMethodTitle(id) {
@@ -279,14 +354,22 @@
   function renderStrategyOutput(p) {
     const dashboardsHtml = p.dashboards && p.dashboards.length ? `
       <div class="dash-section">
-        <div class="dash-section-title">📊 关联看板</div>
+        <div class="dash-section-title">📊 关联看板 / 视图</div>
         <div class="dash-links">
-          ${p.dashboards.map(d => {
-            const href = getDashboardHref(d);
-            return `<a href="${esc(href)}" class="dash-link" target="_blank" rel="noopener">
-              <span class="dash-link-icon">→</span>
-              <span class="dash-link-text">${esc(d)}</span>
-            </a>`;
+          ${p.dashboards.map((d) => {
+            const ref = classifyRef(d, p.id);
+            const pageLabel = ref.kind === "view" ? "打开字典" : "打开看板";
+            const kgHref = getKnowledgeGraphHref(p, d);
+            return `<div class="dash-link-row">
+              <div class="dash-link-main">
+                <span class="dash-link-icon">→</span>
+                <span class="dash-link-text">${esc(ref.label)}</span>
+              </div>
+              <div class="dash-link-actions">
+                <a href="${esc(ref.pageHref)}" class="dash-action" target="_blank" rel="noopener">${pageLabel}</a>
+                <a href="${esc(kgHref)}" class="dash-action dash-action-kg" target="_blank" rel="noopener" title="在知识图谱中定位该星点">图谱星点</a>
+              </div>
+            </div>`;
           }).join("")}
         </div>
       </div>
@@ -298,18 +381,18 @@
       <div class="strategy-wrap">
         <div class="strategy-section">
           <div class="strategy-section-title">📄 产出物</div>
-          <ul class="output-list">${p.outputs.map(o => `<li>${esc(o)}</li>`).join("")}</ul>
+          <ul class="output-list">${(p.outputs || []).map(o => `<li>${esc(o)}</li>`).join("")}</ul>
         </div>
         <div class="strategy-section">
           <div class="strategy-section-title">🎯 下一步行动</div>
-          <ul class="next-list">${p.nextSteps.map(n => `<li>${esc(n)}</li>`).join("")}</ul>
+          <ul class="next-list">${(p.nextSteps || []).map(n => `<li>${esc(n)}</li>`).join("")}</ul>
         </div>
         ${dashboardsHtml}
         <div class="kg-section">
           <div class="kg-section-title">🕸️ 知识图谱</div>
           <a href="${esc(kgHref)}" class="kg-link" target="_blank" rel="noopener">
             <span class="kg-link-icon">🌐</span>
-            <span class="kg-link-text">在知识图谱中查看辐射关系</span>
+            <span class="kg-link-text">以本场景为中心打开辐射星点图（pb:${esc(p.id || "")}）</span>
             <span class="kg-link-arrow">→</span>
           </a>
         </div>
@@ -325,7 +408,7 @@
     detailPanel.innerHTML = `
       <div class="detail-inner">
         <header class="detail-head">
-          <span class="detail-badge" style="background:${color}22;color:${color}">${esc(layer.name)}</span>
+          <span class="detail-badge" style="background:${color}22;color:${color}">${esc(layer?.name || "")}</span>
           <h2>📌 ${esc(p.title)}</h2>
           <p class="biz-q">业务问：「${esc(p.bizQuestion)}」</p>
         </header>
@@ -333,7 +416,7 @@
         <!-- 触发条件 -->
         <section class="section trigger-section" style="--accent:${color}">
           <h3 class="section-title">⚡ 触发场景</h3>
-          <ul class="trigger-list">${p.triggers.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
+          <ul class="trigger-list">${(p.triggers || []).map(t => `<li>${esc(t)}</li>`).join("")}</ul>
         </section>
 
         <!-- 三层框架 -->
@@ -643,6 +726,54 @@
         font-weight: bold;
       }
       .dash-link-text { flex: 1; }
+      .dash-link-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 12px;
+        background: rgba(34,197,94,0.08);
+        border: 1px solid rgba(34,197,94,0.15);
+        border-radius: 6px;
+      }
+      .dash-link-main {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+        flex: 1 1 160px;
+        color: #86efac;
+        font-size: 12px;
+      }
+      .dash-link-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .dash-action {
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(34,197,94,0.35);
+        color: #bbf7d0;
+        background: rgba(15,23,42,0.45);
+        white-space: nowrap;
+      }
+      .dash-action:hover {
+        border-color: rgba(34,197,94,0.65);
+        background: rgba(34,197,94,0.18);
+      }
+      .dash-action-kg {
+        border-color: rgba(56,189,248,0.45);
+        color: #7dd3fc;
+      }
+      .dash-action-kg:hover {
+        border-color: rgba(56,189,248,0.75);
+        background: rgba(14,116,144,0.25);
+      }
 
       .kg-section {
         background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(59,130,246,0.1) 100%);
@@ -751,9 +882,14 @@
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initPage);
-  } else {
+  async function boot() {
+    await loadDashCatalog();
     initPage();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
   }
 })();

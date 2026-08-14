@@ -91,14 +91,47 @@
         </div>
         <details class="ns-toolbar-more">
           <summary>阶段说明</summary>
-          <div class="ns-toolbar-popover">
-            <p><b>为什么换</b> ${esc(phase.why || "—")}</p>
-            <p><b>本阶段目标</b> ${esc(phase.goal || "—")}</p>
-            <p><b>围栏</b> ${(phase.guardrails || []).map(esc).join(" · ") || "—"}</p>
-            <p><b>主看看板</b> ${esc(phase.focus_dashboards || "—")}</p>
+          <div class="ns-toolbar-popover" role="region" aria-label="北极星阶段说明">
+            <p><b>为什么换</b><span>${esc(phase.why || "—")}</span></p>
+            <p><b>本阶段目标</b><span>${esc(phase.goal || "—")}</span></p>
+            <p><b>围栏</b><span>${(phase.guardrails || []).map(esc).join(" · ") || "—"}</span></p>
+            <p><b>主看看板</b><span>${esc(phase.focus_dashboards || "—")}</span></p>
           </div>
         </details>
       </div>`;
+  }
+
+  function kgHrefForDashboard(dashboardId) {
+    const base = "pages/platform-graph.html";
+    if (!dashboardId) return base;
+    return `${base}?node=${encodeURIComponent("dash:" + dashboardId)}`;
+  }
+
+  function syncControlsKgLink(dashboardId) {
+    const a = document.querySelector(".dash-controls .dash-kg-link");
+    if (!a) return;
+    a.href = kgHrefForDashboard(dashboardId);
+    a.title = dashboardId
+      ? `以看板「${dashboardId}」为中心打开知识图谱辐射图`
+      : "平台知识图谱 · 看板/方法/数仓/指标";
+    a.textContent = "知识图谱辐射图 ↗";
+  }
+
+  function ensureTitleKgLink(scope, dashboardId) {
+    if (!dashboardId) return;
+    const root = scope || document;
+    const title = root.querySelector?.(".dashboard-page-title") || document.querySelector(".dashboard-page-title");
+    if (!title) return;
+    let a = title.querySelector(".dash-kg-inline");
+    if (!a) {
+      a = document.createElement("a");
+      a.className = "dash-kg-inline";
+      a.target = "_self";
+      title.appendChild(a);
+    }
+    a.href = kgHrefForDashboard(dashboardId);
+    a.textContent = "知识图谱辐射图 ↗";
+    a.title = "以当前看板为中心打开平台知识图谱";
   }
 
   function bind(root, data) {
@@ -126,6 +159,11 @@
     const phase = getActivePhase();
     if (!phase) return;
     const root = scope || document;
+    const page = root.querySelector?.(".dashboard-page") || document.querySelector(".dashboard-page");
+    const dashId = page?.getAttribute?.("data-dashboard") || window.DashState?.load?.()?.dashboard || null;
+    syncControlsKgLink(dashId);
+    ensureTitleKgLink(root, dashId);
+
     const legend = root.querySelector?.(".monitor-legend") || document.querySelector(".monitor-legend");
     if (legend) {
       const ns = phase.northstar?.name || "—";
@@ -165,5 +203,7 @@
     getActivePhase,
     applyKpiRoles,
     patchDashboardContext,
+    kgHrefForDashboard,
+    syncControlsKgLink,
   };
 })();

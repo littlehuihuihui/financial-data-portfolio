@@ -1,19 +1,27 @@
 /**
- * 架构页统一初始化：数据字典（首屏）/ 全景 / 图谱 / ER / 搜索 / hash 深链
- * 全景/图谱/ER/ECharts 按需懒加载。
+ * 架构页统一初始化：字典 / 全景 / 图谱 / ER / ETL / 答疑 按需懒加载
+ * 首屏只挂搜索与 TOC，避免同步解析 100KB+ 数据脚本。
  */
 (function () {
   "use strict";
 
-  const inited = { panorama: false, graph: false, er: false, dictionary: false, etl: false };
+  const inited = {
+    panorama: false,
+    graph: false,
+    er: false,
+    dictionary: false,
+    etl: false,
+    faq: false,
+  };
   const loading = {};
+  const cssLoaded = {};
 
   function getIndustry() {
     return document.body?.dataset?.industry || "retail";
   }
 
   function scriptBase() {
-    return { industry: "../js", shared: "../../../js" };
+    return { industry: "../js", shared: "../../../js", cssIndustry: "../css", cssShared: "../../../css" };
   }
 
   function loadScript(src) {
@@ -31,26 +39,70 @@
     });
   }
 
+  function loadCss(href) {
+    if (cssLoaded[href] || document.querySelector(`link[data-lazy-href="${href}"]`)) {
+      cssLoaded[href] = true;
+      return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+      const l = document.createElement("link");
+      l.rel = "stylesheet";
+      l.href = href;
+      l.dataset.lazyHref = href;
+      l.onload = () => {
+        cssLoaded[href] = true;
+        resolve();
+      };
+      l.onerror = () => {
+        cssLoaded[href] = true;
+        resolve();
+      };
+      document.head.appendChild(l);
+    });
+  }
+
   async function ensureScripts(keys) {
     const b = scriptBase();
     const map = {
-      echarts: `${b.industry}/echarts.min.js`,
-      dwArchData: `${b.industry}/dw-architecture-data.js?v=3.33`,
-      dwArch: `${b.shared}/dw-architecture.js?v=3.33`,
+      echarts: "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js",
+      dwArchData: `${b.industry}/dw-architecture-data.js?v=3.34`,
+      dwArch: `${b.shared}/dw-architecture.js?v=3.35`,
       dwGraph: `${b.shared}/dw-knowledge-graph.js?v=3.36`,
       erData: `${b.industry}/er-diagram-data.js?v=3.32`,
       er: `${b.shared}/er-diagram-interactive.js?v=1.0`,
+      dictData: `${b.industry}/data-dictionary-data.js?v=3.28`,
+      metricCaliber: `${b.industry}/metric-caliber-data.js?v=3.28`,
+      dashConfig: `${b.industry}/dashboard-config.js?v=3.28`,
+      dictCore: `${b.shared}/data-dictionary-core.js?v=3.29`,
+      dictUi: `${b.industry}/data-dictionary.js?v=3.28`,
+      etlData: `${b.industry}/etl-lineage-data.js?v=3.34`,
+      etlUi: `${b.shared}/etl-lineage.js?v=3.35`,
+      faqData: `${b.shared}/data-faq-data.js?v=2.2`,
+      faqUi: `${b.shared}/data-faq.js?v=2.2`,
+    };
+    const ready = {
+      echarts: () => !!window.echarts,
+      dwArchData: () => !!window.DW_ARCHITECTURE_DATA,
+      dwArch: () => !!window.DWArchitecture,
+      dwGraph: () => !!window.DWKnowledgeGraph,
+      erData: () => !!window.ER_DIAGRAM,
+      er: () => !!window.ERDiagramInteractive,
+      dictData: () => Array.isArray(window.DATA_DICTIONARY),
+      metricCaliber: () => !!window.METRIC_CALIBER,
+      dashConfig: () => true,
+      dictCore: () => !!window.DataDictionaryUI,
+      dictUi: () => !!window.DATA_DICTIONARY_INDUSTRY,
+      etlData: () => !!window.ETL_LINEAGE,
+      etlUi: () => !!window.EtlLineageUI,
+      faqData: () => !!window.DATA_FAQ_DATA,
+      faqUi: () => !!window.DataFaq,
     };
     const key = keys.join("|");
     if (!loading[key]) {
       loading[key] = (async () => {
         for (const k of keys) {
           if (!map[k]) continue;
-          if (k === "echarts" && window.echarts) continue;
-          if (k === "dwArchData" && window.DW_ARCHITECTURE_DATA) continue;
-          if (k === "dwArch" && window.DWArchitecture) continue;
-          if (k === "dwGraph" && window.DWKnowledgeGraph) continue;
-          if (k === "er" && window.ERDiagramInteractive) continue;
+          if (ready[k]?.()) continue;
           await loadScript(map[k]);
         }
       })();
@@ -62,6 +114,12 @@
     const el = document.getElementById(id);
     if (el && el.tagName === "DETAILS") el.open = true;
     return el;
+  }
+
+  async function ensureDictionaryStack() {
+    const b = scriptBase();
+    await loadCss(`${b.cssShared}/data-dictionary.css?v=3.28`);
+    await ensureScripts(["dictData", "metricCaliber", "dashConfig", "dictCore", "dictUi"]);
   }
 
   function initDictionary() {
@@ -81,13 +139,20 @@
     return inst;
   }
 
+  async function initDictionaryLazy() {
+    await ensureDictionaryStack();
+    return initDictionary();
+  }
+
   async function initPanorama() {
     if (inited.panorama) {
       window.__dwArch?.fitView?.();
       window.__dwArch?.drawFlows?.();
       return window.__dwArch;
     }
-    await ensureScripts(["dwArchData", "dwArch"]);
+    const b = scriptBase();
+    await loadCss(`${b.cssIndustry}/dw-architecture.css?v=3.38`);
+    await ensureScripts(["dwArchData", "dwArch", "metricCaliber", "etlData"]);
     const root = document.getElementById("dw-architecture-root");
     if (!root || !window.DWArchitecture) return null;
     inited.panorama = true;
@@ -101,21 +166,6 @@
     return window.__dwArch;
   }
 
-  async function initGraph() {
-    if (inited.graph) {
-      window.__dwGraph?.chart?.resize?.();
-      return window.__dwGraph;
-    }
-    await ensureScripts(["echarts", "dwArchData", "dwGraph"]);
-    const root = document.getElementById("dw-graph-root");
-    if (!root || !window.DWKnowledgeGraph) return null;
-    inited.graph = true;
-    window.__dwGraph = new DWKnowledgeGraph("dw-graph-root", {
-      defaultIndustry: getIndustry(),
-    });
-    return window.__dwGraph;
-  }
-
   async function initEr() {
     if (inited.er) return;
     await ensureScripts(["erData", "er"]);
@@ -125,14 +175,42 @@
     window.ERDiagramInteractive.render("er-diagram-root");
   }
 
+  async function initEtlLineageLazy() {
+    if (inited.etl) return window.EtlLineageUI?.instance || null;
+    await ensureScripts(["etlData", "etlUi"]);
+    const root = document.getElementById("etl-lineage-root");
+    if (!root || !window.EtlLineageUI?.render) return null;
+    inited.etl = true;
+    const inst = window.EtlLineageUI.render("etl-lineage-root");
+    window.EtlLineageUI.instance = inst;
+    return inst;
+  }
+
+  async function initDataFaqLazy() {
+    if (inited.faq) return;
+    const b = scriptBase();
+    await loadCss(`${b.cssShared}/data-faq.css?v=2.2`);
+    await ensureScripts(["faqData", "faqUi"]);
+    const root = document.getElementById("data-faq-root");
+    if (!root || !window.DataFaq?.mount) return null;
+    inited.faq = true;
+    return window.DataFaq.mount(root, { industry: getIndustry() });
+  }
+
   async function ensureInteractive(id) {
-    if (id === "dw-architecture-section") await initPanorama();
-    else if (id === "dw-graph-section") await initGraph();
+    if (id === "data-dictionary-section") await initDictionaryLazy();
+    else if (id === "dw-architecture-section") await initPanorama();
     else if (id === "er-diagram-section") await initEr();
+    else if (id === "etl-lineage-section") await initEtlLineageLazy();
+    else if (id === "data-faq-section") await initDataFaqLazy();
+    else if (id === "dw-graph-section") {
+      // 旧数仓力导向图已移除 → 平台知识图谱
+      location.href = "platform-graph.html";
+    }
   }
 
   function bindInteractiveAccordions() {
-    document.querySelectorAll(".arch-interactive-accordion").forEach((details) => {
+    document.querySelectorAll(".arch-interactive-accordion, .arch-static-accordion").forEach((details) => {
       details.addEventListener("toggle", () => {
         if (!details.open) return;
         ensureInteractive(details.id).then(() => {
@@ -140,10 +218,7 @@
             if (details.id === "dw-architecture-section") {
               window.__dwArch?.fitView?.();
               window.__dwArch?.drawFlows?.();
-            } else if (details.id === "dw-graph-section") {
-              window.__dwGraph?.chart?.resize?.();
             } else if (details.id === "er-diagram-section") {
-              // ER图初始化后触发resize
               window.dispatchEvent(new Event("resize"));
             }
           });
@@ -164,41 +239,23 @@
     });
   }
 
-  function parseGraphFocusFromHash() {
+  function applyLegacyGraphHash() {
     const raw = location.hash.slice(1);
-    if (!raw) return null;
+    if (!raw) return;
     const base = raw.split("?")[0];
-    if (base && base !== "dw-graph-section") return null;
+    if (base !== "dw-graph-section") return;
     const q = raw.includes("?") ? raw.split("?").slice(1).join("?") : "";
     const params = new URLSearchParams(q);
-    return params.get("focus") || params.get("table");
-  }
-
-  function applyGraphFocus() {
-    const focus = parseGraphFocusFromHash();
-    if (!focus) return;
-    openDetails("dw-graph-section");
-    initGraph().then(() => {
-      setTimeout(() => {
-        window.__dwGraph?.focusNode?.(focus);
-        document.getElementById("dw-graph-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 320);
-    });
+    const focus = params.get("focus") || params.get("table");
+    const node = focus
+      ? (/^(tbl|dash|metric|pb):/i.test(focus) ? focus : `tbl:${focus}`)
+      : "";
+    location.replace(node ? `platform-graph.html?node=${encodeURIComponent(node)}` : "platform-graph.html");
   }
 
   function openArchInteractive(id) {
     openDetails(id);
     ensureInteractive(id);
-  }
-
-  function initEtlLineage() {
-    if (inited.etl) return window.EtlLineageUI?.instance || null;
-    const root = document.getElementById("etl-lineage-root");
-    if (!root || !window.EtlLineageUI?.render) return null;
-    inited.etl = true;
-    const inst = window.EtlLineageUI.render("etl-lineage-root");
-    window.EtlLineageUI.instance = inst;
-    return inst;
   }
 
   function initStaticAccordions() {
@@ -207,18 +264,15 @@
     });
   }
 
-    function initDataFaq() {
-      const root = document.getElementById("data-faq-root");
-      if (!root || !window.DataFaq?.mount) return null;
-      return window.DataFaq.mount(root, { industry: getIndustry() });
+  function scheduleIdle(fn) {
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(() => fn(), { timeout: 2500 });
+    } else {
+      setTimeout(fn, 1200);
     }
+  }
 
-    async function boot() {
-    // 先加载架构数据，供字典血缘跳转 / 图谱配色共用
-    try { await ensureScripts(["dwArchData"]); } catch (_) { /* ignore */ }
-    initDictionary();
-    initEtlLineage();
-    initDataFaq();
+  async function boot() {
     bindInteractiveAccordions();
     bindTocLinks();
     initStaticAccordions();
@@ -227,10 +281,30 @@
     window.GlobalSearch?.consumePendingNav?.();
     setTimeout(() => window.GlobalSearch?.consumePendingNav?.(), 400);
 
-    applyGraphFocus();
-    window.addEventListener("hashchange", applyGraphFocus);
+    // 搜索深链：优先加载字典再消费 dictNav
+    try {
+      if (sessionStorage.getItem("dictNav") || sessionStorage.getItem("highlightFieldKey")) {
+        openDetails("data-dictionary-section");
+        initDictionaryLazy().then(() => window.GlobalSearch?.consumePendingNav?.());
+      }
+    } catch (_) { /* ignore */ }
+
+    applyLegacyGraphHash();
+    window.addEventListener("hashchange", applyLegacyGraphHash);
     window.openArchInteractive = openArchInteractive;
+
+    // 空闲时预取字典（首屏不阻塞）
+    const hash = (location.hash || "").replace(/^#/, "").split("?")[0];
+    if (hash && hash !== "dw-graph-section") {
+      ensureInteractive(hash);
+    } else {
+      scheduleIdle(() => {
+        ensureDictionaryStack().catch(() => {});
+      });
+    }
   }
 
-  document.addEventListener("DOMContentLoaded", () => { boot(); });
+  document.addEventListener("DOMContentLoaded", () => {
+    boot();
+  });
 })();

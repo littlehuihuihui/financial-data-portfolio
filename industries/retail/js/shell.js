@@ -62,7 +62,10 @@
       DashState.save({ channel: e.target.value });
       loadDashboard(dashboardId);
     });
-    document.getElementById("btn-refresh")?.addEventListener("click", () => loadDashboard(dashboardId));
+    document.getElementById("btn-refresh")?.addEventListener("click", () => {
+      DashCore.clearApiCache?.();
+      loadDashboard(dashboardId);
+    });
   }
 
   function maxAvailableMonth() {
@@ -95,12 +98,17 @@
     return (arr || []).map((v) => `<option value="${v}" ${v === current ? "selected" : ""}>${v}</option>`).join("");
   }
 
+  const htmlCache = new Map();
+
   async function fetchDashboardHtml(dashboardId) {
     const dash = DashNav.getDashboardMeta(dashboardId);
     if (!dash?.file) throw new Error("看板配置缺失");
+    if (htmlCache.has(dashboardId)) return htmlCache.get(dashboardId);
     const res = await fetch(dash.file);
     if (!res.ok) throw new Error(`加载看板模板失败: ${dash.file}`);
-    return res.text();
+    const text = await res.text();
+    htmlCache.set(dashboardId, text);
+    return text;
   }
 
   async function loadDashboard(dashboardId) {
@@ -118,6 +126,7 @@
       const html = await fetchDashboardHtml(dashboardId);
       contentEl().innerHTML = html;
       const state = { ...DashState.load(), ...DashState.applyRowFilters(meta, roleConfig) };
+      await DashCore.ensureEcharts?.();
       await DashLoaders.load(dashboardId, state);
       DashCore.bindExportButtons(contentEl());
       window.NorthstarPhases?.patchDashboardContext?.(contentEl());

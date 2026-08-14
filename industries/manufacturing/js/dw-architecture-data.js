@@ -51,7 +51,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·设备台账·全量表",
     "fieldCount": 11,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "设备采集 / SCADA",
+    "sourceType": "埋点日志"
   },
   {
     "id": "ods_inventory_material",
@@ -61,7 +64,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·物料库存·日快照表",
     "fieldCount": 12,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "WMS 物料库存",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_labor",
@@ -71,7 +77,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·人工工时·增量表",
     "fieldCount": 13,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "HR/计件系统",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_material",
@@ -81,7 +90,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·物料主数据·全量表",
     "fieldCount": 11,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "业务系统贴源",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_production_line",
@@ -91,7 +103,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·产线主数据·全量表",
     "fieldCount": 11,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "业务系统贴源",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_production_order",
@@ -101,7 +116,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·生产工单·增量表",
     "fieldCount": 15,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "MES 生产工单",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_quality_inspection",
@@ -111,7 +129,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·质检记录·增量表",
     "fieldCount": 15,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "QMS 质检",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_supplier",
@@ -121,7 +142,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·供应商·全量表",
     "fieldCount": 10,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "业务系统贴源",
+    "sourceType": "业务库"
   },
   {
     "id": "dim_date",
@@ -131,7 +155,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·日期·全量",
     "fieldCount": 11,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_defect_type",
@@ -141,7 +166,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·缺陷类型·全量",
     "fieldCount": 8,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_equipment",
@@ -151,7 +177,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·设备·全量",
     "fieldCount": 14,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_factory",
@@ -161,7 +188,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·工厂·全量",
     "fieldCount": 12,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_material",
@@ -171,7 +199,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·物料·全量",
     "fieldCount": 10,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_product",
@@ -181,7 +210,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·产品·全量",
     "fieldCount": 10,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_production_line",
@@ -191,7 +221,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·产线·全量",
     "fieldCount": 10,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_supplier",
@@ -201,7 +232,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·供应商·全量",
     "fieldCount": 10,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_equipment_run",
@@ -211,7 +243,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·设备运行明细事实·增量·粒度=日×设备×班次",
     "fieldCount": 19,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_labor_wide",
@@ -221,7 +254,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·人工事实宽表·增量·粒度=工单×人工记录",
     "fieldCount": 14,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_production_wide",
@@ -231,7 +265,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·生产事实宽表·增量·粒度=工单",
     "fieldCount": 21,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_quality_wide",
@@ -241,7 +276,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·质量事实宽表·增量·粒度=质检单",
     "fieldCount": 18,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_supply_wide",
@@ -251,7 +287,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·供应链事实宽表·快照·粒度=日×物料×供应商",
     "fieldCount": 17,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "fact_equipment_run",
@@ -261,7 +298,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "DWD·设备运行事实（同义视图）",
     "fieldCount": 19,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "fact_labor",
@@ -271,7 +309,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "DWD·人工事实（同义视图）",
     "fieldCount": 14,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "fact_material_consumption",
@@ -281,7 +320,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "FACT·工单领料事实·增量·粒度=工单×物料",
     "fieldCount": 14,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "fact_process_operation",
@@ -291,7 +331,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "FACT·工序完成事实·增量·粒度=工单×工序",
     "fieldCount": 18,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "fact_production",
@@ -301,7 +342,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "DWD·生产事实（同义视图）",
     "fieldCount": 21,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "fact_quality",
@@ -311,7 +353,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "DWD·质量事实（同义视图）",
     "fieldCount": 18,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "fact_supply",
@@ -321,7 +364,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "DWD·供应事实（同义视图）",
     "fieldCount": 17,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dws_cost_monthly",
@@ -331,7 +375,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·月成本汇总·快照表",
     "fieldCount": 10,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_defect_daily",
@@ -341,7 +386,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·日缺陷汇总·快照表",
     "fieldCount": 9,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_equipment_daily",
@@ -351,7 +397,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·日设备汇总·快照表",
     "fieldCount": 11,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_labor_monthly",
@@ -361,7 +408,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·月人工效率·快照表",
     "fieldCount": 10,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_material_daily",
@@ -371,7 +419,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·日物料周转·快照表",
     "fieldCount": 10,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_production_daily",
@@ -381,7 +430,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·日生产汇总·快照表",
     "fieldCount": 10,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_quality_daily",
@@ -391,7 +441,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·日质量汇总·快照表",
     "fieldCount": 12,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_supply_daily",
@@ -401,7 +452,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·日供应汇总·快照表",
     "fieldCount": 9,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "v_capacity_utilization",
@@ -411,7 +463,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·产能利用率",
     "fieldCount": 8,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_cmei_daily",
@@ -421,7 +474,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·综合效能CMEI",
     "fieldCount": 5,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_cost_analysis",
@@ -431,7 +485,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·成本分析",
     "fieldCount": 7,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_defect_analysis",
@@ -441,7 +496,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·缺陷分析",
     "fieldCount": 8,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_equipment_oee",
@@ -451,7 +507,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·设备OEE",
     "fieldCount": 10,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_labor_efficiency",
@@ -461,7 +518,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·人效分析",
     "fieldCount": 9,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_manufacturing_finance",
@@ -471,7 +529,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·制造财务",
     "fieldCount": 10,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_material_turnover",
@@ -481,7 +540,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·物料周转",
     "fieldCount": 9,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_production_overview",
@@ -491,7 +551,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·生产总览",
     "fieldCount": 6,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_quality_analysis",
@@ -501,7 +562,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·质量分析",
     "fieldCount": 6,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_supply_chain",
@@ -511,7 +573,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "ADS·供应链",
     "fieldCount": 6,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   }
 ],
     flows: [

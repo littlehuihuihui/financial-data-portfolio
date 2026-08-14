@@ -52,7 +52,23 @@
       DashState.save({ factory: e.target.value });
       loadDashboard(dashboardId);
     });
-    document.getElementById("btn-refresh")?.addEventListener("click", () => loadDashboard(dashboardId));
+    document.getElementById("btn-refresh")?.addEventListener("click", () => {
+      DashCore.clearApiCache?.();
+      loadDashboard(dashboardId);
+    });
+  }
+
+  const htmlCache = new Map();
+
+  async function fetchDashboardHtml(dash) {
+    if (!dash?.file) throw new Error("看板配置缺失");
+    const key = dash.id || dash.file;
+    if (htmlCache.has(key)) return htmlCache.get(key);
+    const res = await fetch(dash.file);
+    if (!res.ok) throw new Error(`加载看板模板失败: ${dash.file}`);
+    const text = await res.text();
+    htmlCache.set(key, text);
+    return text;
   }
 
   async function loadDashboard(id, switchRole) {
@@ -68,9 +84,10 @@
     renderFilters(id);
     contentEl().innerHTML = '<div class="empty-hint">加载中…</div>';
     try {
-      const html = await fetch(dash.file).then((r) => r.text());
+      const html = await fetchDashboardHtml(dash);
       contentEl().innerHTML = html;
       const state = { ...DashState.load(), ...DashState.applyRowFilters(meta, roleConfig) };
+      await DashCore.ensureEcharts?.();
       await DashLoaders.load(id, state);
       DashCore.bindExportButtons(contentEl());
       window.NorthstarPhases?.patchDashboardContext?.(contentEl());

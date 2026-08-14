@@ -1155,11 +1155,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ods",
       "description": "ODS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/ods_inventory_material",
       "detail": {
         "definition": "ODS 表/视图",
-        "notes": "分层：ODS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ods"
@@ -1174,11 +1174,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ods",
       "description": "ODS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/ods_labor",
       "detail": {
         "definition": "ODS 表/视图",
-        "notes": "分层：ODS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ods"
@@ -1193,11 +1193,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ods",
       "description": "ODS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/ods_material",
       "detail": {
         "definition": "ODS 表/视图",
-        "notes": "分层：ODS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ods"
@@ -1212,11 +1212,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ods",
       "description": "ODS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/ods_production_line",
       "detail": {
         "definition": "ODS 表/视图",
-        "notes": "分层：ODS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ods"
@@ -1231,11 +1231,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dim",
       "description": "DIM",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dim_date",
       "detail": {
         "definition": "DIM 表/视图",
-        "notes": "分层：DIM · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dim"
@@ -1250,11 +1250,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dim",
       "description": "DIM",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dim_defect_type",
       "detail": {
         "definition": "DIM 表/视图",
-        "notes": "分层：DIM · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dim"
@@ -1269,11 +1269,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dim",
       "description": "DIM",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dim_equipment",
       "detail": {
         "definition": "DIM 表/视图",
-        "notes": "分层：DIM · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dim"
@@ -1288,11 +1288,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dim",
       "description": "DIM",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dim_factory",
       "detail": {
         "definition": "DIM 表/视图",
-        "notes": "分层：DIM · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dim"
@@ -1307,11 +1307,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dwd",
       "description": "DWD",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dwd_equipment_run",
       "detail": {
         "definition": "DWD 表/视图",
-        "notes": "分层：DWD · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dwd"
@@ -1326,11 +1326,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dwd",
       "description": "DWD",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dwd_labor_wide",
       "detail": {
         "definition": "DWD 表/视图",
-        "notes": "分层：DWD · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dwd"
@@ -1345,11 +1345,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dwd",
       "description": "DWD",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dwd_production_wide",
       "detail": {
         "definition": "DWD 表/视图",
-        "notes": "分层：DWD · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dwd"
@@ -1364,11 +1364,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dwd",
       "description": "DWD",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dwd_quality_wide",
       "detail": {
         "definition": "DWD 表/视图",
-        "notes": "分层：DWD · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dwd"
@@ -1383,11 +1383,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_cost_monthly",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1402,11 +1402,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_defect_daily",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1423,11 +1423,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_equipment_daily",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1442,11 +1442,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_labor_monthly",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1461,11 +1461,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_material_daily",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1480,11 +1480,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_production_daily",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1501,11 +1501,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_quality_daily",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1520,11 +1520,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_supply_daily",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1539,11 +1539,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_capacity_utilization",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1558,11 +1558,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_cmei_daily",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1577,11 +1577,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_cost_analysis",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1596,11 +1596,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_defect_analysis",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1615,11 +1615,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_equipment_oee",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1634,11 +1634,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_labor_efficiency",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1653,11 +1653,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_manufacturing_finance",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1672,11 +1672,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_material_turnover",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1691,11 +1691,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_production_overview",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1710,11 +1710,11 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_quality_analysis",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"

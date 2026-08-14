@@ -71,8 +71,31 @@ window.DashCore = (function () {
     return json;
   }
 
+  const apiCache = new Map();
+  function apiCacheKey(path, params) {
+    const q = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => {
+        if (v != null && v !== "") q.set(k, String(v));
+      });
+    }
+    const qs = q.toString();
+    return qs ? `${path}?${qs}` : path;
+  }
+  function clearApiCache() {
+    apiCache.clear();
+  }
+
   async function api(path, params) {
-    if (preferDemo()) return loadDemo(path);
+    const key = apiCacheKey(path, params);
+    if (apiCache.has(key)) return apiCache.get(key);
+
+    const store = (data) => {
+      apiCache.set(key, data);
+      return data;
+    };
+
+    if (preferDemo()) return store(await loadDemo(path));
     try {
       const url = new URL(apiBase() + path);
       if (params) {
@@ -86,10 +109,10 @@ window.DashCore = (function () {
       if (!json.ok) throw new Error(json.error || "API error");
       usingDemo = false;
       DATA_SOURCE = "retail_finance · MySQL ADS/DWS";
-      return json.data;
+      return store(json.data);
     } catch (err) {
       try {
-        return await loadDemo(path);
+        return store(await loadDemo(path));
       } catch {
         throw err;
       }
@@ -119,6 +142,10 @@ window.DashCore = (function () {
   }
 
   function initChart(id) {
+    if (typeof echarts === "undefined") {
+      console.warn("ECharts 尚未加载:", id);
+      return null;
+    }
     if (charts[id]) {
       charts[id].dispose();
       delete charts[id];
@@ -127,6 +154,27 @@ window.DashCore = (function () {
     if (!dom) return null;
     charts[id] = echarts.init(dom);
     return charts[id];
+  }
+
+  let echartsLoading = null;
+  function ensureEcharts() {
+    if (typeof window.echarts !== "undefined") return Promise.resolve();
+    if (echartsLoading) return echartsLoading;
+    echartsLoading = new Promise((resolve, reject) => {
+      const existing = document.querySelector("script[data-echarts-cdn]");
+      if (existing) {
+        existing.addEventListener("load", () => resolve());
+        existing.addEventListener("error", () => reject(new Error("ECharts 加载失败")));
+        return;
+      }
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js";
+      s.dataset.echartsCdn = "1";
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error("ECharts 加载失败"));
+      document.head.appendChild(s);
+    });
+    return echartsLoading;
   }
 
   function renderKpiGrid(containerId, items) {
@@ -305,7 +353,7 @@ window.DashCore = (function () {
   }
 
   return {
-    api, fmtNum, fmtPct: fmtPctDelta, monthLabel, initChart, renderKpiGrid, renderTable,
+    api, clearApiCache, fmtNum, fmtPct: fmtPctDelta, monthLabel, initChart, ensureEcharts, renderKpiGrid, renderTable,
     setLineChart, setBarChart, setDonut, setScatter, resizeAll, charts,
     exportTableCsv, bindExportButtons, bindChartNav, statusFooter, THEME,
     get DATA_SOURCE() { return DATA_SOURCE; },

@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>广东移动 OTT · 视频活跃数据分析体系</title>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="../../css/design-tokens.css">
-  <link rel="stylesheet" href="css/dashboard.css?v=3.26">
+  <link rel="stylesheet" href="../../css/dashboard-base.css?v=3.44">
+  <link rel="stylesheet" href="css/dashboard.css?v=3.40">
   <link rel="stylesheet" href="css/shell.css">
   <link rel="stylesheet" href="css/platform-features.css">
   <link rel="stylesheet" href="css/industry-overrides.css">
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <link rel="prefetch" href="pages/architecture.html">
+  <link rel="prefetch" href="pages/platform-graph.html">
 </head>
 <body class="page-dashboard page-shell" data-industry="internet">
   <header class="dashboard-header">
@@ -29,7 +32,7 @@
   <div class="dash-controls">
     <div id="northstar-phases" class="northstar-phases-mount" aria-live="polite"></div>
     <div id="dash-filters" class="dash-filters toolbar"></div>
-    <a href="pages/platform-graph.html" class="btn-dash btn-dash-outline dash-kg-link" title="平台知识图谱 · 看板/方法/数仓/指标">知识图谱 ↗</a>
+    <a href="pages/platform-graph.html" class="btn-dash btn-dash-outline dash-kg-link" title="以当前看板为中心打开知识图谱辐射图">知识图谱辐射图 ↗</a>
   </div>
   <main id="dashboard-content" class="dashboard-main shell-content"><div class="empty-hint">初始化看板…</div></main>
   <footer id="status-bar" class="dashboard-status-bar">初始化…</footer>
@@ -43,12 +46,12 @@
       }
     })();
   </script>
-  <script src="js/state.js"></script>
-  <script src="js/dashboard-core.js"></script>
-  <script src="js/loaders.js"></script>
-  <script src="js/nav.js"></script>
-  <script src="js/northstar-phases-data.js?v=1.1"></script>
-  <script src="../../js/northstar-phases.js?v=1.1"></script>
-  <script src="js/shell.js"></script>
+  <script src="js/state.js" defer></script>
+  <script src="js/dashboard-core.js" defer></script>
+  <script src="js/loaders.js" defer></script>
+  <script src="js/nav.js" defer></script>
+  <script src="js/northstar-phases-data.js?v=1.1" defer></script>
+  <script src="../../js/northstar-phases.js?v=1.2" defer></script>
+  <script src="js/shell.js" defer></script>
 </body>
 </html>

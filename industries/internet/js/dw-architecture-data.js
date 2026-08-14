@@ -51,7 +51,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·省份（雪花上级维）",
     "fieldCount": 2,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_region",
@@ -61,7 +62,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·地市（雪花，挂 dim_province）",
     "fieldCount": 4,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_content_genre",
@@ -71,7 +73,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·题材（雪花末级）",
     "fieldCount": 2,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_content_category",
@@ -81,7 +84,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·内容类型",
     "fieldCount": 3,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_content_cp",
@@ -91,7 +95,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·内容提供方",
     "fieldCount": 3,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_content_series",
@@ -101,7 +106,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·剧集（雪花，挂 category/genre/cp）",
     "fieldCount": 9,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_content_episode",
@@ -111,7 +117,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·单集（雪花，挂 series）",
     "fieldCount": 5,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_channel_category",
@@ -121,7 +128,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·直播频道大类",
     "fieldCount": 2,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_live_channel",
@@ -131,7 +139,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·直播频道（雪花，挂 channel_category）",
     "fieldCount": 3,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_device_type",
@@ -141,7 +150,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·端类型",
     "fieldCount": 2,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_device_model",
@@ -151,7 +161,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·设备型号（雪花，挂 device_type）",
     "fieldCount": 3,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_firmware",
@@ -161,7 +172,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·固件版本",
     "fieldCount": 2,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_device",
@@ -171,7 +183,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·设备（雪花，挂 model/firmware/region）",
     "fieldCount": 7,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_user_package",
@@ -181,7 +194,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·套餐",
     "fieldCount": 4,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_user",
@@ -191,7 +205,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·用户（雪花，挂 region/package）",
     "fieldCount": 6,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_month",
@@ -201,7 +216,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·月（雪花上级）",
     "fieldCount": 4,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_week",
@@ -211,7 +227,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·周（雪花上级）",
     "fieldCount": 5,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_date",
@@ -221,7 +238,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DIM·日期（雪花，挂 week/month）",
     "fieldCount": 8,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "ods_device_info_df",
@@ -231,7 +249,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·设备信息·全量",
     "fieldCount": 7,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "设备档案库",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_content_series_df",
@@ -241,7 +262,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·剧集元数据·全量",
     "fieldCount": 9,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "内容媒资库",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_content_episode_df",
@@ -251,7 +275,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·单集元数据·全量",
     "fieldCount": 6,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "内容媒资库",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_live_channel_df",
@@ -261,7 +288,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·直播频道元数据·全量",
     "fieldCount": 4,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "直播运营库",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_log_launcher_di",
@@ -271,7 +301,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·开机日志·增量（近3天）",
     "fieldCount": 9,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "埋点日志 · Launcher",
+    "sourceType": "埋点日志"
   },
   {
     "id": "ods_log_vod_di",
@@ -281,7 +314,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·点播日志·增量（近3天，含action）",
     "fieldCount": 15,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "埋点日志 · 点播",
+    "sourceType": "埋点日志"
   },
   {
     "id": "ods_log_live_di",
@@ -291,7 +327,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·直播日志·增量（近3天）",
     "fieldCount": 9,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "埋点日志 · 直播",
+    "sourceType": "埋点日志"
   },
   {
     "id": "ods_log_cashier_di",
@@ -301,7 +340,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·收银台日志·增量（近3天）",
     "fieldCount": 11,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "埋点日志 · 收银台",
+    "sourceType": "埋点日志"
   },
   {
     "id": "ods_user_register_di",
@@ -311,7 +353,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·开户·增量",
     "fieldCount": 8,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "用户中心",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_user_unsubscribe_di",
@@ -321,7 +366,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·退订·增量",
     "fieldCount": 8,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "用户中心",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_order_di",
@@ -331,7 +379,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "ODS·订购/退订明细·增量",
     "fieldCount": 11,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "订购业务库",
+    "sourceType": "业务库"
   },
   {
     "id": "dwd_act_launcher_di",
@@ -341,7 +392,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·开机事实·粒度=一次开机行为（mac为主，userid变则记录变）",
     "fieldCount": 8,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_vod_play_di",
@@ -351,7 +403,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·点播播放事实·粒度=一次播放",
     "fieldCount": 18,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_live_play_di",
@@ -361,7 +414,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·直播播放事实·粒度=一次观看",
     "fieldCount": 9,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_trade_cashier_di",
@@ -371,7 +425,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·收银台漏斗事实·粒度=一次埋点",
     "fieldCount": 11,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_trade_order_di",
@@ -381,7 +436,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·订购/退订事实",
     "fieldCount": 11,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_user_status_di",
@@ -391,7 +447,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWD·用户状态日快照·粒度=日×userid",
     "fieldCount": 9,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dws_act_user_active_1d",
@@ -401,7 +458,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·用户日活跃·mac粒度",
     "fieldCount": 13,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_content_series_play_1d",
@@ -411,7 +469,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·剧集日播放·series粒度",
     "fieldCount": 11,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_content_episode_play_1d",
@@ -421,7 +480,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·单集日播放·episode粒度",
     "fieldCount": 8,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_content_live_play_1d",
@@ -431,7 +491,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·直播频道日播放",
     "fieldCount": 7,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_trade_cashier_funnel_1d",
@@ -441,7 +502,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·收银台漏斗日汇总",
     "fieldCount": 8,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_trade_order_1d",
@@ -451,7 +513,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·订购/分成日汇总",
     "fieldCount": 8,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_user_lifecycle_1d",
@@ -461,7 +524,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·用户生命周期日汇总",
     "fieldCount": 9,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_user_retention_1d",
@@ -471,7 +535,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "DWS·留存同期群日汇总",
     "fieldCount": 7,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "v_dau_overview",
@@ -481,7 +546,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_dau_overview 分析视图（日活总览）",
     "fieldCount": 7,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_lifecycle",
@@ -491,7 +557,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_lifecycle 分析视图（生命周期）",
     "fieldCount": 9,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_user_lifecycle",
@@ -499,9 +566,10 @@ window.DW_ARCHITECTURE_DATA = {
     "name_cn": "用户生命周期",
     "layer": "ads",
     "type": "view",
-    "purpose": "v_user_lifecycle 分析视图（用户生命周期）",
-    "fieldCount": 0,
-    "category": "ADS"
+    "purpose": "用户生命周期（同义 v_lifecycle）",
+    "fieldCount": 9,
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_retention_decomposition",
@@ -511,7 +579,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_retention_decomposition 分析视图（留存分解）",
     "fieldCount": 8,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_user_retention",
@@ -521,7 +590,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_user_retention 分析视图（用户留存）",
     "fieldCount": 8,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_user_segment",
@@ -531,7 +601,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_user_segment 分析视图（用户分群）",
     "fieldCount": 5,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_channel_attribution",
@@ -541,7 +612,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_channel_attribution 分析视图（渠道归因）",
     "fieldCount": 9,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_ab_experiment",
@@ -551,7 +623,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_ab_experiment 分析视图（AB实验）",
     "fieldCount": 12,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_funnel",
@@ -561,7 +634,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_funnel 分析视图（转化漏斗）",
     "fieldCount": 9,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_ltv",
@@ -571,7 +645,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_ltv 分析视图（用户LTV）",
     "fieldCount": 5,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_rfm",
@@ -581,7 +656,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_rfm 分析视图（RFM分群）",
     "fieldCount": 7,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_channel_analysis",
@@ -591,7 +667,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_channel_analysis 分析视图（渠道分析）",
     "fieldCount": 10,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_user_portrait",
@@ -601,7 +678,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_user_portrait 分析视图（用户画像）",
     "fieldCount": 8,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_user_path",
@@ -611,7 +689,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_user_path 分析视图（用户路径）",
     "fieldCount": 11,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_user_path_session",
@@ -621,7 +700,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_user_path_session 分析视图（会话路径）",
     "fieldCount": 13,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_top_paths",
@@ -631,7 +711,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_top_paths 分析视图（热门路径）",
     "fieldCount": 7,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_revenue_structure",
@@ -641,7 +722,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_revenue_structure 分析视图（收入结构）",
     "fieldCount": 8,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_plan_analysis",
@@ -651,7 +733,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_plan_analysis 分析视图（套餐分析）",
     "fieldCount": 13,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_plan_ltv",
@@ -661,7 +744,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_plan_ltv 分析视图（套餐LTV）",
     "fieldCount": 5,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_arpu_trend",
@@ -671,7 +755,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_arpu_trend 分析视图（ARPU趋势）",
     "fieldCount": 4,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_activity_summary",
@@ -681,7 +766,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_activity_summary 分析视图（活跃汇总）",
     "fieldCount": 18,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_activity_daily_trend",
@@ -691,7 +777,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_activity_daily_trend 分析视图（活跃日趋势）",
     "fieldCount": 11,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_health_dashboard",
@@ -701,7 +788,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_health_dashboard 分析视图（健康度看板）",
     "fieldCount": 12,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_health_group_summary",
@@ -711,7 +799,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_health_group_summary 分析视图（健康度分组）",
     "fieldCount": 7,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_user_tag_overview",
@@ -721,7 +810,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_user_tag_overview 分析视图（用户标签总览）",
     "fieldCount": 8,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_user_tag_detail",
@@ -729,9 +819,10 @@ window.DW_ARCHITECTURE_DATA = {
     "name_cn": "用户标签明细",
     "layer": "ads",
     "type": "view",
-    "purpose": "v_user_tag_detail 分析视图（用户标签明细）",
-    "fieldCount": 0,
-    "category": "ADS"
+    "purpose": "用户标签明细视图",
+    "fieldCount": 8,
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_user_tag_by_category",
@@ -741,157 +832,232 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "v_user_tag_by_category 分析视图（标签分类汇总）",
     "fieldCount": 8,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   }
 ],
     flows: [
   {
-    "from": "dim_province",
+    "from": "ods_log_launcher_di",
+    "to": "dwd_act_launcher_di",
+    "label": "ETL清洗",
+    "schedule": "T+1"
+  },
+  {
+    "from": "ods_log_vod_di",
+    "to": "dwd_vod_play_di",
+    "label": "ETL清洗",
+    "schedule": "T+1"
+  },
+  {
+    "from": "ods_log_live_di",
+    "to": "dwd_live_play_di",
+    "label": "ETL清洗",
+    "schedule": "T+1"
+  },
+  {
+    "from": "ods_log_cashier_di",
+    "to": "dwd_trade_cashier_di",
+    "label": "ETL清洗",
+    "schedule": "T+1"
+  },
+  {
+    "from": "ods_order_di",
+    "to": "dwd_trade_order_di",
+    "label": "ETL清洗",
+    "schedule": "T+1"
+  },
+  {
+    "from": "ods_user_register_di",
+    "to": "dwd_user_status_di",
+    "label": "ETL清洗",
+    "schedule": "T+1"
+  },
+  {
+    "from": "ods_user_unsubscribe_di",
+    "to": "dwd_user_status_di",
+    "label": "ETL清洗",
+    "schedule": "T+1"
+  },
+  {
+    "from": "dim_device",
     "to": "dwd_act_launcher_di",
     "label": "维度关联",
     "dashed": true
   },
   {
-    "from": "dim_region",
-    "to": "dwd_act_launcher_di",
+    "from": "dim_device",
+    "to": "dwd_vod_play_di",
     "label": "维度关联",
     "dashed": true
   },
   {
-    "from": "dim_content_genre",
-    "to": "dwd_act_launcher_di",
+    "from": "dim_device",
+    "to": "dwd_live_play_di",
     "label": "维度关联",
     "dashed": true
   },
   {
-    "from": "dim_content_category",
-    "to": "dwd_act_launcher_di",
-    "label": "维度关联",
-    "dashed": true
-  },
-  {
-    "from": "dim_content_cp",
-    "to": "dwd_act_launcher_di",
-    "label": "维度关联",
-    "dashed": true
-  },
-  {
-    "from": "dim_content_series",
-    "to": "dwd_act_launcher_di",
+    "from": "dim_user",
+    "to": "dwd_trade_order_di",
     "label": "维度关联",
     "dashed": true
   },
   {
     "from": "dim_content_episode",
-    "to": "dwd_act_launcher_di",
-    "label": "维度关联",
-    "dashed": true
-  },
-  {
-    "from": "dim_channel_category",
-    "to": "dwd_act_launcher_di",
-    "label": "维度关联",
-    "dashed": true
-  },
-  {
-    "from": "ods_device_info_df",
-    "to": "dwd_act_launcher_di",
-    "label": "ETL清洗"
-  },
-  {
-    "from": "ods_content_series_df",
     "to": "dwd_vod_play_di",
-    "label": "ETL清洗"
+    "label": "维度关联",
+    "dashed": true
   },
   {
-    "from": "ods_content_episode_df",
+    "from": "dim_live_channel",
     "to": "dwd_live_play_di",
-    "label": "ETL清洗"
+    "label": "维度关联",
+    "dashed": true
   },
   {
-    "from": "ods_live_channel_df",
-    "to": "dwd_trade_cashier_di",
-    "label": "ETL清洗"
+    "from": "dim_date",
+    "to": "dwd_act_launcher_di",
+    "label": "维度关联",
+    "dashed": true
   },
   {
-    "from": "ods_log_launcher_di",
-    "to": "dwd_trade_order_di",
-    "label": "ETL清洗"
-  },
-  {
-    "from": "ods_log_vod_di",
-    "to": "dwd_user_status_di",
-    "label": "ETL清洗"
+    "from": "dim_date",
+    "to": "dwd_vod_play_di",
+    "label": "维度关联",
+    "dashed": true
   },
   {
     "from": "dwd_act_launcher_di",
     "to": "dws_act_user_active_1d",
-    "label": "日聚合"
+    "label": "日聚合",
+    "schedule": "T+1"
   },
   {
     "from": "dwd_vod_play_di",
     "to": "dws_content_series_play_1d",
-    "label": "日聚合"
+    "label": "日聚合",
+    "schedule": "T+1"
+  },
+  {
+    "from": "dwd_vod_play_di",
+    "to": "dws_content_episode_play_1d",
+    "label": "日聚合",
+    "schedule": "T+1"
   },
   {
     "from": "dwd_live_play_di",
-    "to": "dws_content_episode_play_1d",
-    "label": "日聚合"
+    "to": "dws_content_live_play_1d",
+    "label": "日聚合",
+    "schedule": "T+1"
   },
   {
     "from": "dwd_trade_cashier_di",
-    "to": "dws_content_live_play_1d",
-    "label": "日聚合"
+    "to": "dws_trade_cashier_funnel_1d",
+    "label": "日聚合",
+    "schedule": "T+1"
   },
   {
     "from": "dwd_trade_order_di",
-    "to": "dws_trade_cashier_funnel_1d",
-    "label": "日聚合"
+    "to": "dws_trade_order_1d",
+    "label": "日聚合",
+    "schedule": "T+1"
   },
   {
     "from": "dwd_user_status_di",
-    "to": "dws_trade_order_1d",
-    "label": "日聚合"
+    "to": "dws_user_lifecycle_1d",
+    "label": "日聚合",
+    "schedule": "T+1"
+  },
+  {
+    "from": "dwd_user_status_di",
+    "to": "dws_user_retention_1d",
+    "label": "同期群",
+    "schedule": "T+1"
   },
   {
     "from": "dws_act_user_active_1d",
     "to": "v_dau_overview",
-    "label": "指标封装"
-  },
-  {
-    "from": "dws_content_series_play_1d",
-    "to": "v_lifecycle",
-    "label": "指标封装"
-  },
-  {
-    "from": "dws_content_episode_play_1d",
-    "to": "v_user_lifecycle",
-    "label": "指标封装"
-  },
-  {
-    "from": "dws_content_live_play_1d",
-    "to": "v_retention_decomposition",
-    "label": "指标封装"
-  },
-  {
-    "from": "dws_trade_cashier_funnel_1d",
-    "to": "v_user_retention",
-    "label": "指标封装"
-  },
-  {
-    "from": "dws_trade_order_1d",
-    "to": "v_user_segment",
-    "label": "指标封装"
+    "label": "指标封装",
+    "schedule": "实时"
   },
   {
     "from": "dws_user_lifecycle_1d",
-    "to": "v_channel_attribution",
-    "label": "指标封装"
+    "to": "v_lifecycle",
+    "label": "指标封装",
+    "schedule": "实时"
   },
   {
     "from": "dws_user_retention_1d",
+    "to": "v_retention_decomposition",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dwd_user_status_di",
+    "to": "v_user_segment",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_trade_order_1d",
+    "to": "v_channel_attribution",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_trade_order_1d",
+    "to": "v_ltv",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_trade_cashier_funnel_1d",
+    "to": "v_funnel",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_trade_order_1d",
+    "to": "v_rfm",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_trade_cashier_funnel_1d",
     "to": "v_ab_experiment",
-    "label": "指标封装"
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "v_lifecycle",
+    "to": "v_user_lifecycle",
+    "label": "兼容视图",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_user_retention_1d",
+    "to": "v_user_retention",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_trade_order_1d",
+    "to": "v_channel_analysis",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_trade_order_1d",
+    "to": "v_revenue_structure",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dwd_user_status_di",
+    "to": "v_user_portrait",
+    "label": "指标封装",
+    "schedule": "实时"
   }
 ],
     dashboards: [

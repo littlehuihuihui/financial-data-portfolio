@@ -1510,11 +1510,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ods",
       "description": "ODS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/ods_payment",
       "detail": {
         "definition": "ODS 表/视图",
-        "notes": "分层：ODS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ods"
@@ -1529,11 +1529,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ods",
       "description": "ODS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/ods_purchase",
       "detail": {
         "definition": "ODS 表/视图",
-        "notes": "分层：ODS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ods"
@@ -1548,11 +1548,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ods",
       "description": "ODS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/ods_inventory",
       "detail": {
         "definition": "ODS 表/视图",
-        "notes": "分层：ODS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ods"
@@ -1567,11 +1567,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ods",
       "description": "ODS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/ods_expense",
       "detail": {
         "definition": "ODS 表/视图",
-        "notes": "分层：ODS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ods"
@@ -1586,11 +1586,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dim",
       "description": "DIM",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dim_brand",
       "detail": {
         "definition": "DIM 表/视图",
-        "notes": "分层：DIM · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dim"
@@ -1605,11 +1605,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dim",
       "description": "DIM",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dim_channel",
       "detail": {
         "definition": "DIM 表/视图",
-        "notes": "分层：DIM · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dim"
@@ -1624,11 +1624,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dim",
       "description": "DIM",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dim_category",
       "detail": {
         "definition": "DIM 表/视图",
-        "notes": "分层：DIM · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dim"
@@ -1643,11 +1643,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dim",
       "description": "DIM",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dim_store",
       "detail": {
         "definition": "DIM 表/视图",
-        "notes": "分层：DIM · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dim"
@@ -1662,11 +1662,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dwd",
       "description": "DWD",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dwd_sales_wide",
       "detail": {
         "definition": "DWD 表/视图",
-        "notes": "分层：DWD · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dwd"
@@ -1681,11 +1681,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dwd",
       "description": "DWD",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dwd_expense_wide",
       "detail": {
         "definition": "DWD 表/视图",
-        "notes": "分层：DWD · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dwd"
@@ -1700,11 +1700,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dwd",
       "description": "DWD",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dwd_inventory_wide",
       "detail": {
         "definition": "DWD 表/视图",
-        "notes": "分层：DWD · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dwd"
@@ -1719,11 +1719,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_sales_daily",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1738,11 +1738,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_sales_monthly",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1757,11 +1757,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_expense_monthly",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1776,11 +1776,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_inventory_daily",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1797,11 +1797,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_dws",
       "description": "DWS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/dws_store_daily",
       "detail": {
         "definition": "DWS 表/视图",
-        "notes": "分层：DWS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "dws"
@@ -1816,11 +1816,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_overview",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1835,11 +1835,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_brand",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1854,11 +1854,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_channel",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1873,11 +1873,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_income_statement",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1892,11 +1892,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_dupont",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1911,11 +1911,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_balance_sheet",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1930,11 +1930,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_cashflow",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1949,11 +1949,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_cashflow_statement",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1968,11 +1968,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_tax_analysis",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
@@ -1987,11 +1987,11 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_wh_ads",
       "description": "ADS",
-      "href": "architecture.html#dw-graph-section",
+      "href": "platform-graph.html",
       "dictHref": "dictionary.html#dict/v_budget",
       "detail": {
         "definition": "ADS 表/视图",
-        "notes": "分层：ADS · 详表字段见数据字典；血缘见数仓血缘图"
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"

@@ -9,10 +9,7 @@
   <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.38">
   <link rel="stylesheet" href="../css/industry-overrides.css">
   <link rel="stylesheet" href="../css/platform-features.css?v=3.32">
-  <link rel="stylesheet" href="../css/dw-architecture.css?v=3.33">
-  <link rel="stylesheet" href="../css/dw-knowledge-graph.css?v=3.36">
-  <link rel="stylesheet" href="../../../css/data-dictionary.css?v=3.28">
-  <link rel="stylesheet" href="../../../css/data-faq.css?v=1.0">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 </head>
 <body class="page-architecture" data-industry="internet">
 
@@ -41,11 +38,10 @@
             <nav class="arch-toc" aria-label="页内导航">
       <a href="#data-dictionary-section">数据字典</a>
       <a href="#dw-architecture-section">分层全景图</a>
-      <a href="#dw-graph-section">数仓血缘</a>
       <a href="platform-graph.html">平台知识图谱</a>
       <a href="#er-diagram-section">实体关系图</a>
       <a href="#etl-lineage-section">ETL与血缘</a>
-      <a href="#data-faq-section">数仓答疑</a>
+      <a href="#data-faq-section">答疑合集</a>
     </nav>
 
 
@@ -54,7 +50,7 @@
     <details class="arch-interactive-accordion" id="data-dictionary-section">
       <summary>数据字典 <a class="arch-fullscreen-link" href="dictionary.html" onclick="event.stopPropagation()">全屏打开 ↗</a></summary>
       <div class="arch-accordion-body arch-interactive-body">
-      <p class="star-schema-desc">左树按 ODS → DIM → DWD → DWS → ADS → 应用层 浏览；点击层名展开/收起；支持全文搜索（如「运费」）；右侧为表梗概、血缘与字段口径。</p>
+      <p class="star-schema-desc">左树按 ODS → DIM → DWD → DWS → ADS → 应用层 浏览；右侧表名 / 字段名可跳转平台知识图谱辐射图；支持全文搜索。</p>
       <div id="data-dictionary-root" class="data-dictionary"></div>
       </div>
     </details>
@@ -72,16 +68,6 @@
     </details>
 
 
-<!-- 区块1b：数仓血缘 -->
-    <details class="arch-interactive-accordion" id="dw-graph-section">
-      <summary>数仓血缘 · 力导向关系图 <a class="arch-fullscreen-link" href="knowledge-graph.html" onclick="event.stopPropagation()">全屏打开 ↗</a></summary>
-      <div class="arch-accordion-body arch-interactive-body">
-      <p class="star-schema-desc">
-        力导向布局展示表与表之间的血缘关系网络；拖拽节点调整位置，滚轮缩放，点击节点高亮所有上下游链路；支持分层筛选与搜索定位，直观理解数据流转脉络。
-      </p>
-      <div id="dw-graph-root"></div>
-      </div>
-    </details>
 
 <!-- 区块1d：实体关系图 -->
     <details class="arch-interactive-accordion" id="er-diagram-section">
@@ -102,11 +88,11 @@
     </details>
 
 
-<!-- 区块：数仓答疑 · 分层与技术栈 -->
+<!-- 区块：数据分析答疑 · 常见问题 -->
     <details class="arch-static-accordion" id="data-faq-section">
-      <summary>数仓答疑 · 分层与技术栈</summary>
+      <summary>数据分析答疑 · 常见问题</summary>
       <div class="arch-accordion-body">
-      <p class="star-schema-desc">点击下方芯片查看分层通俗解释与技术栈答疑（基础 / 进阶 / 面试）。完整平台版见 <a href="../../../pages/data-faq.html">数据分析答疑</a>。</p>
+      <p class="star-schema-desc">按主题浏览常见问题（作品集怎么做、分层、技术栈、面试）。完整合集见 <a href="../../../pages/data-faq.html">数据分析答疑</a>。</p>
 
       <h4>本行业 · 分层表清单速览</h4>
       <div class="table-wrap">
@@ -154,16 +140,7 @@
 
 </main>
 
-  <script src="../js/data-dictionary-data.js"></script>
-  <script src="../js/metric-caliber-data.js"></script>
-  <script src="../js/dashboard-config.js"></script>
-  <script src="../js/search-index-data.js"></script>
-  <script src="../../../js/data-dictionary-core.js?v=3.28"></script>
-  <script src="../js/data-dictionary.js"></script>
-  <script src="../../../js/global-search.js?v=3.28"></script>
-  <script src="../js/etl-lineage-data.js?v=3.34"></script>
-  <script src="../../../js/etl-lineage.js?v=3.34"></script>
-  <script src="../../../js/data-faq-data.js?v=1.0"></script>
-  <script src="../../../js/data-faq.js?v=1.0"></script>
-  <script src="../../../js/architecture-page.js?v=3.34"></script>
+  <script src="../js/search-index-data.js" defer></script>
+  <script src="../../../js/global-search.js?v=3.28" defer></script>
+  <script src="../../../js/architecture-page.js?v=3.46" defer></script>
 </body>

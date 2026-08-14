@@ -106,6 +106,20 @@
 
 
 
+
+  function ensureEcharts() {
+    if (typeof window.echarts !== "undefined") return Promise.resolve();
+    if (window.__echartsLoading) return window.__echartsLoading;
+    window.__echartsLoading = new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js";
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error("ECharts load failed"));
+      document.head.appendChild(s);
+    });
+    return window.__echartsLoading;
+  }
+
   function initChart(item, idx) {
 
     const wrap = document.getElementById(`toolbox-chart-${idx}-wrap`);
@@ -815,10 +829,10 @@
 
     root.innerHTML = html;
 
-    requestAnimationFrame(() => {
-
-      methods.forEach((item, idx) => initChart(item, idx));
-
+    ensureEcharts().then(() => {
+      requestAnimationFrame(() => {
+        methods.forEach((item, idx) => initChart(item, idx));
+      });
     });
 
   }
@@ -863,7 +877,7 @@
 
       </div>`;
 
-    requestAnimationFrame(() => initChart(item, idx));
+    ensureEcharts().then(() => requestAnimationFrame(() => initChart(item, idx)));
 
   }
 

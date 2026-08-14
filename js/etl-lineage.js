@@ -123,6 +123,29 @@
       };
       this.render();
       this.bind();
+      this.applyFocusFromUrl();
+    }
+
+    /** 按表名筛选并选中相关 A→B 边（全景图跳转入口） */
+    focusTable(tableName) {
+      if (!tableName || !this.root) return;
+      this.state.filter = String(tableName);
+      const edges = this.filteredEdges();
+      const preferTo = edges.find((e) => e.to_table === tableName);
+      this.state.selectedId = (preferTo || edges[0] || {}).id || this.state.selectedId;
+      this.render();
+      this.root.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    applyFocusFromUrl() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get("etlTable") || sessionStorage.getItem("etlFocusTable");
+        if (q) {
+          sessionStorage.removeItem("etlFocusTable");
+          this.focusTable(q);
+        }
+      } catch (_) { /* ignore */ }
     }
 
     filteredEdges() {
@@ -376,7 +399,9 @@
 
   window.EtlLineageUI = {
     render(rootId) {
-      return new EtlLineageUI(rootId);
+      const inst = new EtlLineageUI(rootId);
+      window.__etlLineageUI = inst;
+      return inst;
     },
   };
 })();

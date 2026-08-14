@@ -2,7 +2,7 @@
  * 多行业数据平台 · Design Tokens（Step 3）
  * 全平台唯一色板 / 字体 / 间距源。行业页请先于 style.css 引入。
  */
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+/* 字体改为页面异步加载（见 index.html / 各页 preconnect），避免 @import 阻塞首屏 CSS */
 
 :root {
   /* ── Platform Core ── */

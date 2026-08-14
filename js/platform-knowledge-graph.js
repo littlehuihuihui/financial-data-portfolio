@@ -38,14 +38,56 @@
 
   window.initPlatformKnowledgeGraph = function (userOpts) {
     var DATA = window.PLATFORM_KG_DATA;
-    if (!DATA || typeof vis === "undefined") {
-      console.error("PlatformKG: PLATFORM_KG_DATA or vis-network missing");
+    if (!DATA) {
+      console.error("PlatformKG: PLATFORM_KG_DATA missing");
       return null;
     }
     var dens = densityCfg(DATA);
     var opts = Object.assign({ root: "#pkgRoot", startModule: null, startNode: null }, userOpts || {});
     var mount = typeof opts.root === "string" ? document.querySelector(opts.root) : opts.root;
     if (!mount) return null;
+
+    var visLoading = null;
+    function resolveVisUrls() {
+      var local = "../../../vendor/vis-network.min.js";
+      try {
+        var scripts = document.getElementsByTagName("script");
+        for (var si = 0; si < scripts.length; si++) {
+          var src = scripts[si].src || "";
+          if (src.indexOf("platform-knowledge-graph.js") >= 0) {
+            local = src.replace(/js\/platform-knowledge-graph\.js[^/]*$/, "vendor/vis-network.min.js");
+            break;
+          }
+        }
+      } catch (e) {}
+      return [
+        local,
+        "https://cdn.jsdelivr.net/npm/vis-network@9.1.9/standalone/umd/vis-network.min.js",
+        "https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js",
+      ];
+    }
+    function ensureVis() {
+      if (typeof vis !== "undefined") return Promise.resolve();
+      if (visLoading) return visLoading;
+      visLoading = new Promise(function (resolve, reject) {
+        var urls = resolveVisUrls();
+        var i = 0;
+        function tryNext() {
+          if (i >= urls.length) {
+            reject(new Error("vis-network load failed"));
+            return;
+          }
+          var s = document.createElement("script");
+          s.src = urls[i++];
+          s.async = true;
+          s.onload = function () { resolve(); };
+          s.onerror = tryNext;
+          document.head.appendChild(s);
+        }
+        tryNext();
+      });
+      return visLoading;
+    }
 
     mount.classList.add("kg-embed", "is-on", "pkg-root");
     mount.innerHTML =
@@ -55,7 +97,8 @@
       "</div>";
     var stageEl = mount.querySelector("#kg2Stage");
     var particles = mount.querySelector("#kg2Particles");
-    for (var i = 0; i < 14; i++) {
+    var particleN = (window.matchMedia && window.matchMedia("(max-width: 900px)").matches) ? 0 : 6;
+    for (var i = 0; i < particleN; i++) {
       var sp = document.createElement("span");
       sp.style.left = Math.random() * 100 + "%";
       sp.style.animationDelay = Math.random() * 16 + "s";
@@ -103,6 +146,40 @@
     var network = null;
     var nodesDS = null;
     var edgesDS = null;
+
+    function isNarrow() {
+      try { return window.matchMedia && window.matchMedia("(max-width: 900px)").matches; }
+      catch (e) { return window.innerWidth <= 900; }
+    }
+    function syncDrawerUi() {
+      var focus = stageEl.querySelector(".kg2-focus");
+      if (!focus) return;
+      focus.classList.toggle("is-side-collapsed", sideCollapsed);
+      focus.classList.toggle("is-panel-collapsed", panelCollapsed);
+      focus.classList.toggle("is-drawer-open", !sideCollapsed || !panelCollapsed);
+      var side = stageEl.querySelector("#kg2Side");
+      var panel = stageEl.querySelector("#kg2Panel");
+      if (side) side.classList.toggle("is-collapsed", sideCollapsed);
+      if (panel) panel.classList.toggle("is-collapsed", panelCollapsed);
+      var railL = stageEl.querySelector("#kg2ToggleSide");
+      var railR = stageEl.querySelector("#kg2TogglePanel");
+      if (railL) railL.textContent = sideCollapsed ? "»" : "«";
+      if (railR) railR.textContent = panelCollapsed ? "«" : "»";
+      var mSide = stageEl.querySelector("#kg2MobSide");
+      var mPanel = stageEl.querySelector("#kg2MobPanel");
+      if (mSide) mSide.classList.toggle("is-on", !sideCollapsed);
+      if (mPanel) mPanel.classList.toggle("is-on", !panelCollapsed);
+    }
+    function setSideOpen(open) {
+      sideCollapsed = !open;
+      if (open && isNarrow()) panelCollapsed = true;
+      syncDrawerUi();
+    }
+    function setPanelOpen(open) {
+      panelCollapsed = !open;
+      if (open && isNarrow()) sideCollapsed = true;
+      syncDrawerUi();
+    }
 
     function resetShowMore() {
       TYPE_ORDER.forEach(function (t) {
@@ -376,6 +453,10 @@
       expandedId = null;
       layerOf = {};
       resetShowMore();
+      if (isNarrow()) {
+        sideCollapsed = true;
+        panelCollapsed = true;
+      }
       stage = "focus";
       renderFocus();
     }
@@ -384,8 +465,10 @@
       var node = byId.get(id);
       if (!node || node.isRoot || node.isCategory) return;
       selectedId = id;
+      if (isNarrow()) setPanelOpen(true);
       renderPanel(node);
       highlightSelection();
+      syncDrawerUi();
     }
 
     function renderPanel(node) {
@@ -527,7 +610,8 @@
           layerOf[node.id] = 2;
           visibleCount += 1;
           var ang = n === 1 ? base : base - spread / 2 + (spread * i) / Math.max(n - 1, 1);
-          var r = 210 + (i % 3) * 24;
+          var rScale = isNarrow() ? 0.72 : 1;
+          var r = (210 + (i % 3) * 24) * rScale;
           var x = Math.cos(ang) * r;
           var y = -Math.sin(ang) * r;
           l2Positions[node.id] = { x: x, y: y, ang: ang, r: r };
@@ -598,7 +682,7 @@
           visibleCount += 1;
           var meta3 = TYPE[child.type] || TYPE.metric;
           var ang3 = n3 === 1 ? pos.ang : pos.ang - fan / 2 + (fan * j) / Math.max(n3 - 1, 1);
-          var r3 = pos.r + 110 + (j % 2) * 16;
+          var r3 = pos.r + (isNarrow() ? 78 : 110) + (j % 2) * 16;
           nodeObjs.push({
             id: child.id,
             label: trunc(child.name, 5),
@@ -758,8 +842,10 @@
       var panelNode = byId.get(selectedId) || center;
       destroyNet();
 
+      var drawerOpen = !sideCollapsed || !panelCollapsed;
       stageEl.innerHTML =
-        '<div class="kg2-focus' + (sideCollapsed ? " is-side-collapsed" : "") + (panelCollapsed ? " is-panel-collapsed" : "") + '">' +
+        '<div class="kg2-focus' + (sideCollapsed ? " is-side-collapsed" : "") + (panelCollapsed ? " is-panel-collapsed" : "") + (drawerOpen ? " is-drawer-open" : "") + '">' +
+        '  <button type="button" class="kg2-scrim" id="kg2Scrim" aria-label="关闭浮层"></button>' +
         '  <aside class="kg2-side' + (sideCollapsed ? " is-collapsed" : "") + '" id="kg2Side">' +
         '    <button type="button" class="kg2-btn" id="kg2Back">← 返回</button>' +
         '    <div class="kg2-search-mini"><input id="kg2FocusSearch" type="search" placeholder="搜索节点…" /></div>' +
@@ -776,13 +862,19 @@
         '    <div class="kg2-path-hist"><div style="margin-bottom:4px;font-weight:600">探索路径</div><div id="kg2Hist"></div></div>' +
         "  </aside>" +
         '  <div class="kg2-canvas-wrap">' +
+        '    <div class="kg2-mobile-bar">' +
+        '      <button type="button" class="kg2-mbtn" id="kg2MobBack">← 返回</button>' +
+        '      <button type="button" class="kg2-mbtn' + (sideCollapsed ? "" : " is-on") + '" id="kg2MobSide">图例</button>' +
+        '      <span class="kg2-mbtn-spacer"></span>' +
+        '      <button type="button" class="kg2-mbtn' + (panelCollapsed ? "" : " is-on") + '" id="kg2MobPanel">详情</button>' +
+        "    </div>" +
         '    <button type="button" class="kg2-rail-btn kg2-rail-left" id="kg2ToggleSide">' + (sideCollapsed ? "»" : "«") + "</button>" +
         '    <div class="kg2-network" id="kg2Net"></div>' +
-        '    <div class="kg2-canvas-hint">点第2层展开第3层 · 虚线=跨类型网状关联 · 左右栏可收起</div>' +
+        '    <div class="kg2-canvas-hint">点第2层展开第3层 · 虚线=跨类型关联 · 手机点「图例/详情」</div>' +
         '    <div class="kg2-ctrl"><button type="button" id="kg2ZoomIn">＋</button><button type="button" id="kg2ZoomOut">－</button><button type="button" id="kg2Fit">◎</button></div>' +
         '    <button type="button" class="kg2-rail-btn kg2-rail-right" id="kg2TogglePanel">' + (panelCollapsed ? "«" : "»") + "</button>" +
         "  </div>" +
-        '  <aside class="kg2-panel open" id="kg2Panel"></aside>' +
+        '  <aside class="kg2-panel open' + (panelCollapsed ? " is-collapsed" : "") + '" id="kg2Panel"></aside>' +
         "</div>";
 
       function refit() {
@@ -790,21 +882,7 @@
           try { if (network) network.fit({ animation: { duration: 260 } }); } catch (e) {}
         }, 280);
       }
-      stageEl.querySelector("#kg2ToggleSide").addEventListener("click", function () {
-        sideCollapsed = !sideCollapsed;
-        stageEl.querySelector(".kg2-focus").classList.toggle("is-side-collapsed", sideCollapsed);
-        stageEl.querySelector("#kg2Side").classList.toggle("is-collapsed", sideCollapsed);
-        stageEl.querySelector("#kg2ToggleSide").textContent = sideCollapsed ? "»" : "«";
-        refit();
-      });
-      stageEl.querySelector("#kg2TogglePanel").addEventListener("click", function () {
-        panelCollapsed = !panelCollapsed;
-        stageEl.querySelector(".kg2-focus").classList.toggle("is-panel-collapsed", panelCollapsed);
-        stageEl.querySelector("#kg2Panel").classList.toggle("is-collapsed", panelCollapsed);
-        stageEl.querySelector("#kg2TogglePanel").textContent = panelCollapsed ? "«" : "»";
-        refit();
-      });
-      stageEl.querySelector("#kg2Back").addEventListener("click", function () {
+      function goBackFocus() {
         if (history.length) {
           centerId = history.pop();
           selectedId = centerId;
@@ -818,7 +896,29 @@
           stage = "landing";
           render();
         }
+      }
+      stageEl.querySelector("#kg2ToggleSide").addEventListener("click", function () {
+        setSideOpen(sideCollapsed);
+        refit();
       });
+      stageEl.querySelector("#kg2TogglePanel").addEventListener("click", function () {
+        setPanelOpen(panelCollapsed);
+        refit();
+      });
+      var mobSide = stageEl.querySelector("#kg2MobSide");
+      var mobPanel = stageEl.querySelector("#kg2MobPanel");
+      var mobBack = stageEl.querySelector("#kg2MobBack");
+      var scrim = stageEl.querySelector("#kg2Scrim");
+      if (mobSide) mobSide.addEventListener("click", function () { setSideOpen(sideCollapsed); refit(); });
+      if (mobPanel) mobPanel.addEventListener("click", function () { setPanelOpen(panelCollapsed); refit(); });
+      if (mobBack) mobBack.addEventListener("click", goBackFocus);
+      if (scrim) scrim.addEventListener("click", function () {
+        sideCollapsed = true;
+        panelCollapsed = true;
+        syncDrawerUi();
+        refit();
+      });
+      stageEl.querySelector("#kg2Back").addEventListener("click", goBackFocus);
 
       var pathIds = history.concat([centerId]);
       var histEl = stageEl.querySelector("#kg2Hist");
@@ -837,9 +937,25 @@
       wireSearch(stageEl.querySelector("#kg2FocusSearch"), stageEl.querySelector("#kg2FocusDrop"));
 
       renderPanel(panelNode);
-      drawGraph(center);
-      highlightSelection();
       updateMoreButtons(center);
+
+      var netHost = stageEl.querySelector("#kg2Net");
+      function bootGraph() {
+        drawGraph(center);
+        highlightSelection();
+      }
+      if (typeof vis === "undefined") {
+        if (netHost) {
+          netHost.innerHTML = '<div class="kg2-loading" role="status">正在加载图谱引擎（首次约需数秒）…</div>';
+        }
+        ensureVis().then(bootGraph).catch(function () {
+          if (netHost) {
+            netHost.innerHTML = '<div class="kg2-empty">图谱引擎加载失败。请刷新重试；若仍失败请检查 vendor/vis-network.min.js 是否已部署。</div>';
+          }
+        });
+      } else {
+        bootGraph();
+      }
 
       stageEl.querySelector("#kg2ZoomIn").addEventListener("click", function () {
         if (network) network.moveTo({ scale: Math.min(2.4, network.getScale() * 1.2), animation: { duration: 180 } });
@@ -852,11 +968,64 @@
       });
     }
 
-    // deep link
+    // deep link：?node= 定位到对应星点（支持 dash:/tbl:/pb: 与表名、中文名别名）
     try {
       var params = new URLSearchParams(location.search);
       var mod = opts.startModule || params.get("module");
-      var node = opts.startNode || params.get("node");
+      var nodeRaw = opts.startNode || params.get("node");
+
+      function resolveDeepNode(raw) {
+        if (!raw) return null;
+        var s = String(raw).trim();
+        try { s = decodeURIComponent(s); } catch (e1) { /* keep */ }
+        if (byId.get(s)) return s;
+        var cleaned = s
+          .replace(/（[^）]*）/g, "")
+          .replace(/\([^)]*\)/g, "")
+          .replace(/看板$/g, "")
+          .replace(/视图$/g, "")
+          .trim();
+        if (byId.get(cleaned)) return cleaned;
+        var token = cleaned.split(/[\s,，、]+/)[0] || "";
+        if (/^(ods_|dim_|dwd_|dws_|v_|fact_|ads_)/i.test(token) && byId.get("tbl:" + token)) {
+          return "tbl:" + token;
+        }
+        if (/^metric:/i.test(s)) {
+          var mname = s.slice(7);
+          if (byId.get("metric:" + mname)) return "metric:" + mname;
+          var mfound = null;
+          byId.forEach(function (n, id) {
+            if (mfound || !n || n.type !== "metric") return;
+            if (String(n.name || "").toLowerCase() === mname.toLowerCase()) mfound = id;
+          });
+          if (mfound) return mfound;
+          byId.forEach(function (n, id) {
+            if (mfound || !n || n.type !== "metric") return;
+            var nm = String(n.name || "").toLowerCase();
+            if (nm && (nm.indexOf(mname.toLowerCase()) >= 0 || mname.toLowerCase().indexOf(nm) >= 0)) mfound = id;
+          });
+          if (mfound) return mfound;
+        }
+        if (/^[a-z][a-z0-9_-]*$/i.test(token) && byId.get("dash:" + token.toLowerCase())) {
+          return "dash:" + token.toLowerCase();
+        }
+        var lower = cleaned.toLowerCase();
+        var found = null;
+        byId.forEach(function (n, id) {
+          if (found || !n || n.isRoot || n.isCategory) return;
+          var nm = String(n.name || "").toLowerCase();
+          if (nm === lower) found = id;
+        });
+        if (found) return found;
+        byId.forEach(function (n, id) {
+          if (found || !n || n.isRoot || n.isCategory) return;
+          var nm = String(n.name || "").toLowerCase();
+          if (nm && (nm.indexOf(lower) >= 0 || lower.indexOf(nm) >= 0)) found = id;
+        });
+        return found;
+      }
+
+      var node = resolveDeepNode(nodeRaw);
       if (node && byId.get(node)) {
         overviewModule = byId.get(node).type;
         enterFocus(node, false);
@@ -872,6 +1041,10 @@
     } catch (e) {
       render();
     }
+
+    // 空闲时预拉图谱引擎，减少点进聚焦时的等待
+    var idle = window.requestIdleCallback || function (cb) { setTimeout(cb, 1200); };
+    idle(function () { ensureVis().catch(function () {}); }, { timeout: 2500 });
 
     return { render: render, enterFocus: enterFocus };
   };

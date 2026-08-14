@@ -289,22 +289,58 @@ class DWArchitecture {
     return String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
   }
 
+  /** 调度周期：表字段 → ETL 边 → 层默认 */
+  resolveSchedule(table) {
+    if (!table) return '';
+    if (table.schedule) return table.schedule;
+    const etl = window.ETL_LINEAGE;
+    if (etl?.edges?.length) {
+      const hit = etl.edges.find((e) => e.to_table === table.name || e.to_table === table.id);
+      if (hit?.schedule) return hit.schedule;
+    }
+    const defaults = { ods: 'T+1 灌入', dim: 'T+1', dwd: 'T+1', dws: 'T+1', ads: '实时' };
+    return defaults[table.layer] || 'T+1';
+  }
+
+  scheduleBadgeClass(schedule) {
+    const s = String(schedule || '');
+    if (/实时|流式|秒级/.test(s)) return 'is-realtime';
+    if (/按需|重建/.test(s)) return 'is-ondemand';
+    return 'is-batch';
+  }
+
+  getMetricsForTable(tableName) {
+    const cal = window.METRIC_CALIBER;
+    if (!cal || typeof cal !== 'object') return [];
+    return Object.entries(cal)
+      .filter(([, m]) => m && (m.source_table === tableName || (m.source_tables || []).includes(tableName)))
+      .slice(0, 6)
+      .map(([id, m]) => ({ id, ...m }));
+  }
+
   renderTableCard(table, layer) {
     const isHighlighted = this.highlightedTables.has(table.id);
     const isSelected = this.selectedTable === table.id;
     const matchesSearch = !this.searchKeyword ||
       table.name.toLowerCase().includes(this.searchKeyword.toLowerCase()) ||
-      (table.purpose || '').toLowerCase().includes(this.searchKeyword.toLowerCase());
+      (table.purpose || '').toLowerCase().includes(this.searchKeyword.toLowerCase()) ||
+      (table.sourceSystem || '').toLowerCase().includes(this.searchKeyword.toLowerCase());
+
+    const schedule = this.resolveSchedule(table);
+    const srcType = table.sourceType || '';
+    const srcSys = table.sourceSystem || '';
 
     return `
       <div class="dw-arch-table-card ${isSelected ? 'selected' : ''} ${isHighlighted ? 'highlighted' : ''} ${!matchesSearch ? 'dimmed' : ''}"
            data-table-id="${table.id}"
            data-layer="${layer.id}"
            style="--layer-color: ${layer.color}">
-        <div class="dw-arch-table-name-cn">${table.purpose}</div>
-        <div class="dw-arch-table-name-en">${table.name}</div>
+        <div class="dw-arch-table-name-cn">${this.escHtml(table.purpose || table.name_cn || table.name)}</div>
+        <div class="dw-arch-table-name-en">${this.escHtml(table.name)}</div>
+        ${srcSys ? `<div class="dw-arch-table-source" title="${this.escAttr(srcSys)}"><span class="dw-arch-source-type">${this.escHtml(srcType || '数据源')}</span> ${this.escHtml(srcSys)}</div>` : ''}
         <div class="dw-arch-table-meta">
           <span class="dw-arch-table-field-count">${table.fieldCount} 字段</span>
+          ${schedule ? `<span class="dw-arch-schedule-badge ${this.scheduleBadgeClass(schedule)}" title="ETL 调度周期">${this.escHtml(schedule)}</span>` : ''}
           <span class="dw-arch-table-type-dot ${table.type}" title="${table.type === 'view' ? '视图' : '表'}"></span>
         </div>
       </div>
@@ -693,6 +729,9 @@ class DWArchitecture {
     const dashboards = industry.dashboards.filter(d =>
       d.tables.includes(tableId)
     );
+    const schedule = this.resolveSchedule(table);
+    const metrics = this.getMetricsForTable(table.name);
+    const processPath = this.buildProcessPath(tableId, upstream, downstream);
 
     // 尝试从数据字典获取字段
     const dictFields = this.getFieldsFromDictionary(table.name);
@@ -709,9 +748,10 @@ class DWArchitecture {
           <div class="dw-arch-detail-type-badge">
             ${table.type === 'view' ? '视图' : '表'}
           </div>
+          ${schedule ? `<div class="dw-arch-detail-schedule-badge ${this.scheduleBadgeClass(schedule)}">${this.escHtml(schedule)}</div>` : ''}
         </div>
-        <h3 class="dw-arch-detail-name">${table.name}</h3>
-        <p class="dw-arch-detail-purpose">${table.purpose}</p>
+        <h3 class="dw-arch-detail-name">${this.escHtml(table.name)}</h3>
+        <p class="dw-arch-detail-purpose">${this.escHtml(table.purpose || '')}</p>
 
         <div class="dw-arch-detail-meta">
           <div class="dw-arch-detail-meta-item">
@@ -720,11 +760,27 @@ class DWArchitecture {
           </div>
           <div class="dw-arch-detail-meta-item">
             <span class="dw-arch-detail-meta-label">分类</span>
-            <span class="dw-arch-detail-meta-value">${table.category}</span>
+            <span class="dw-arch-detail-meta-value">${this.escHtml(table.category || '')}</span>
           </div>
           <div class="dw-arch-detail-meta-item">
             <span class="dw-arch-detail-meta-label">分层</span>
-            <span class="dw-arch-detail-meta-value">${layer?.fullName}</span>
+            <span class="dw-arch-detail-meta-value">${layer?.fullName || ''}</span>
+          </div>
+          ${table.sourceSystem ? `
+          <div class="dw-arch-detail-meta-item dw-arch-detail-meta-wide">
+            <span class="dw-arch-detail-meta-label">数据源</span>
+            <span class="dw-arch-detail-meta-value">${this.escHtml(table.sourceType ? table.sourceType + ' · ' : '')}${this.escHtml(table.sourceSystem)}</span>
+          </div>` : ''}
+        </div>
+
+        <!-- 加工链路 -->
+        <div class="dw-arch-detail-section">
+          <h4 class="dw-arch-detail-section-title">
+            <span class="dw-arch-detail-section-icon">⛓</span>
+            数据怎么加工来的
+          </h4>
+          <div class="dw-arch-detail-desc dw-arch-process-path">
+            ${processPath}
           </div>
         </div>
 
@@ -735,7 +791,7 @@ class DWArchitecture {
             表说明
           </h4>
           <div class="dw-arch-detail-desc">
-            ${table.description || table.purpose}
+            ${this.escHtml(table.description || table.purpose || '')}
           </div>
         </div>
 
@@ -749,13 +805,23 @@ class DWArchitecture {
             <div class="dw-arch-detail-rel-list">
               ${upstream.map(u => `
                 <div class="dw-arch-detail-rel-item" data-table-id="${u.from}">
-                  <div class="dw-arch-detail-rel-name">${u.table?.name || u.from}</div>
-                  <div class="dw-arch-detail-rel-label">${u.label}</div>
+                  <div class="dw-arch-detail-rel-name">${this.escHtml(u.table?.name || u.from)}</div>
+                  <div class="dw-arch-detail-rel-label">${this.escHtml(u.label || '')}${u.schedule ? ' · ' + this.escHtml(u.schedule) : ''}</div>
                 </div>
               `).join('')}
             </div>
           </div>
-        ` : ''}
+        ` : `
+          <div class="dw-arch-detail-section">
+            <h4 class="dw-arch-detail-section-title">
+              <span class="dw-arch-detail-section-icon">↑</span>
+              上游来源
+            </h4>
+            <div class="dw-arch-detail-desc">${table.layer === 'ods'
+              ? 'ODS 为贴源层，上游为外部数据源（见上方「数据源」）。'
+              : '暂无已登记的上游边；可在 ETL 血缘中查看表级变换。'}</div>
+          </div>
+        `}
 
         <!-- 下游依赖 -->
         ${downstream.length > 0 ? `
@@ -767,8 +833,28 @@ class DWArchitecture {
             <div class="dw-arch-detail-rel-list">
               ${downstream.map(d => `
                 <div class="dw-arch-detail-rel-item" data-table-id="${d.to}">
-                  <div class="dw-arch-detail-rel-name">${d.table?.name || d.to}</div>
-                  <div class="dw-arch-detail-rel-label">${d.label}</div>
+                  <div class="dw-arch-detail-rel-name">${this.escHtml(d.table?.name || d.to)}</div>
+                  <div class="dw-arch-detail-rel-label">${this.escHtml(d.label || '')}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- 关键指标口径 -->
+        ${metrics.length > 0 ? `
+          <div class="dw-arch-detail-section">
+            <h4 class="dw-arch-detail-section-title">
+              <span class="dw-arch-detail-section-icon">📐</span>
+              关键指标口径（${metrics.length}）
+            </h4>
+            <div class="dw-arch-caliber-list">
+              ${metrics.map(m => `
+                <div class="dw-arch-caliber-item">
+                  <div class="dw-arch-caliber-label">${this.escHtml(m.label || m.id)}</div>
+                  <div class="dw-arch-caliber-biz">${this.escHtml(m.business || '')}</div>
+                  ${m.technical ? `<div class="dw-arch-caliber-tech"><code>${this.escHtml(m.technical)}</code></div>` : ''}
+                  <div class="dw-arch-caliber-meta">刷新：${this.escHtml(m.refresh || '—')}${m.exclude_rules && m.exclude_rules !== '-' ? ' · 排除：' + this.escHtml(m.exclude_rules) : ''}</div>
                 </div>
               `).join('')}
             </div>
@@ -786,7 +872,7 @@ class DWArchitecture {
               ${dashboards.map(d => `
                 <div class="dw-arch-detail-dashboard-item">
                   <span class="dw-arch-detail-dashboard-icon">◆</span>
-                  ${d.name}
+                  ${this.escHtml(d.name)}
                 </div>
               `).join('')}
             </div>
@@ -807,10 +893,10 @@ class DWArchitecture {
               ${dictFields.map(f => `
                 <div class="dw-arch-field-item">
                   <div class="dw-arch-field-header">
-                    <span class="dw-arch-field-name">${f.name}</span>
-                    <span class="dw-arch-field-type">${f.type}</span>
+                    <span class="dw-arch-field-name">${this.escHtml(f.name)}</span>
+                    <span class="dw-arch-field-type">${this.escHtml(f.type)}</span>
                   </div>
-                  <div class="dw-arch-field-desc">${f.desc || f.business || f.comment || '暂无说明'}</div>
+                  <div class="dw-arch-field-desc">${this.escHtml(f.desc || f.business || f.comment || '暂无说明')}</div>
                 </div>
               `).join('')}
             </div>
@@ -821,13 +907,17 @@ class DWArchitecture {
           `}
         </div>
 
-        <!-- 在数据字典中查看 -->
+        <!-- 跳转动作 -->
         <div class="dw-arch-detail-action">
-          <button type="button" class="dw-arch-open-dict-btn" data-table-name="${table.name}">
+          <button type="button" class="dw-arch-open-etl-btn" data-table-name="${this.escAttr(table.name)}">
+            <span class="dw-arch-btn-icon">⚙</span>
+            查看表级变换（ETL）
+          </button>
+          <button type="button" class="dw-arch-open-dict-btn" data-table-name="${this.escAttr(table.name)}">
             <span class="dw-arch-btn-icon">📖</span>
             在数据字典中查看
           </button>
-          <button type="button" class="dw-arch-open-graph-btn" data-table-id="${table.id}" data-table-name="${table.name}">
+          <button type="button" class="dw-arch-open-graph-btn" data-table-id="${this.escAttr(table.id)}" data-table-name="${this.escAttr(table.name)}">
             <span class="dw-arch-btn-icon">🕸</span>
             在知识图谱中聚焦
           </button>
@@ -841,7 +931,6 @@ class DWArchitecture {
         const targetId = e.currentTarget.dataset.tableId;
         if (targetId) {
           this.selectTable(targetId);
-          // 滚动到目标卡片
           const targetCard = this.container.querySelector(`[data-table-id="${targetId}"]`);
           if (targetCard) {
             targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -850,7 +939,6 @@ class DWArchitecture {
       });
     });
 
-    // 绑定字段搜索
     const fieldsSearch = content.querySelector('.dw-arch-fields-search-input');
     if (fieldsSearch) {
       fieldsSearch.addEventListener('input', (e) => {
@@ -863,12 +951,10 @@ class DWArchitecture {
       });
     }
 
-    // 绑定"在数据字典中查看"按钮
     const openDictBtn = content.querySelector('.dw-arch-open-dict-btn');
     if (openDictBtn) {
       openDictBtn.addEventListener('click', (e) => {
-        const tableName = e.currentTarget.dataset.tableName;
-        this.navigateToDictionary(tableName);
+        this.navigateToDictionary(e.currentTarget.dataset.tableName);
       });
     }
 
@@ -880,8 +966,60 @@ class DWArchitecture {
       });
     }
 
+    const openEtlBtn = content.querySelector('.dw-arch-open-etl-btn');
+    if (openEtlBtn) {
+      openEtlBtn.addEventListener('click', (e) => {
+        this.navigateToEtl(e.currentTarget.dataset.tableName);
+      });
+    }
+
     sidebar.classList.add('open');
     sidebar.setAttribute('aria-hidden', 'false');
+  }
+
+  buildProcessPath(tableId, upstream, downstream) {
+    const table = this.getTable(tableId);
+    if (!table) return '—';
+    if (table.layer === 'ods') {
+      const src = table.sourceSystem || '外部业务系统 / 文件 / 埋点';
+      return `<strong>采集</strong>：${this.escHtml(src)} → <code>${this.escHtml(table.name)}</code>（贴源 ODS）→ 再经 DWD 清洗宽表、DWS 汇总、ADS 指标封装。`;
+    }
+    const ups = upstream.length
+      ? upstream.map(u => `<code>${this.escHtml(u.from)}</code>`).join(' + ')
+      : '（上游待登记）';
+    const label = upstream[0]?.label || 'ETL/聚合';
+    let html = `${ups} <span class="dw-arch-path-arrow">—${this.escHtml(label)}→</span> <code>${this.escHtml(table.name)}</code>`;
+    if (downstream.length) {
+      html += ` <span class="dw-arch-path-arrow">→</span> ${downstream.slice(0, 3).map(d => `<code>${this.escHtml(d.to)}</code>`).join('、')}`;
+      if (downstream.length > 3) html += ` 等 ${downstream.length} 个下游`;
+    }
+    html += `<br><span class="dw-arch-path-hint">点击下方「查看表级变换」可跳到 ETL A→B 明细与代码落点。</span>`;
+    return html;
+  }
+
+  /** 跳转到架构页 ETL 表级变换，并按表名筛选 */
+  navigateToEtl(tableName) {
+    if (!tableName) return;
+    const onArch = !!document.getElementById('etl-lineage-section') || !!document.getElementById('etl-lineage-root');
+    if (onArch) {
+      const sec = document.getElementById('etl-lineage-section');
+      if (sec && sec.tagName === 'DETAILS') sec.open = true;
+      const runFocus = () => {
+        const ui = window.__etlLineageUI || window.EtlLineageUI?.instance;
+        if (ui?.focusTable) ui.focusTable(tableName);
+      };
+      if (typeof window.openArchInteractive === 'function') {
+        Promise.resolve(window.openArchInteractive('etl-lineage-section')).then(runFocus);
+      } else {
+        runFocus();
+      }
+      (sec || document.getElementById('etl-lineage-root'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    const url = new URL('architecture.html', window.location.href);
+    url.hash = 'etl-lineage-section';
+    url.searchParams.set('etlTable', tableName);
+    window.location.href = url.pathname + url.search + url.hash;
   }
 
   /** Step2：关闭侧栏 → 滚动到字典 → 选中同名表 */
@@ -917,20 +1055,15 @@ class DWArchitecture {
     setTimeout(go, 120);
   }
 
-  /** Step6：全景图 → 知识图谱 focusNode */
+  /** Step6：全景图 → 平台知识图谱辐射图 */
   navigateToGraph(tableIdOrName) {
     if (!tableIdOrName) return;
     this.closeSidebar();
+    const raw = String(tableIdOrName).trim();
+    const nodeId = /^(tbl|dash|metric|pb):/i.test(raw) ? raw : `tbl:${raw}`;
     setTimeout(() => {
-      window.openArchInteractive?.("dw-graph-section");
-      const graph = window.__dwGraph;
-      if (graph?.focusNode) {
-        setTimeout(() => graph.focusNode(tableIdOrName), 120);
-        return;
-      }
-      const section = document.getElementById('dw-graph-section');
-      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 120);
+      window.open(`platform-graph.html?node=${encodeURIComponent(nodeId)}`, "_blank", "noopener");
+    }, 80);
   }
 
   getFieldsFromDictionary(tableName) {

@@ -1,5 +1,6 @@
 /**
- * 数仓答疑 UI · DataFaq.mount(root, { industry })
+ * 数据分析答疑 UI · 常见问题合集
+ * DataFaq.mount(root, { industry })
  */
 (function () {
   "use strict";
@@ -13,126 +14,175 @@
   }
 
   function getData() {
-    return window.DATA_FAQ_DATA || { layers: [], tech: [], examples: {} };
+    return window.DATA_FAQ_DATA || { categories: [], faqs: [], examples: {} };
   }
 
-  function findItem(id) {
-    const d = getData();
-    return d.layers.find((x) => x.id === id) || d.tech.find((x) => x.id === id) || null;
+  function exampleText(industry, key) {
+    if (!industry || !key) return "";
+    return getData().examples?.[industry]?.[key] || "";
   }
 
-  function exampleText(industry, itemId) {
-    if (!industry) return "";
-    const ex = getData().examples?.[industry] || {};
-    return ex[itemId] || "";
+  function parasHtml(text) {
+    if (text == null || text === "") return "";
+    const parts = Array.isArray(text) ? text : [text];
+    return parts.map((p) => `<p>${esc(p)}</p>`).join("");
   }
 
-  function renderChips(items, groupLabel) {
-    const btns = items
-      .map(
-        (it) =>
-          `<button type="button" class="dfaq-chip" data-faq-id="${esc(it.id)}" data-faq-kind="${esc(it.kind)}">${esc(it.label)}</button>`
-      )
-      .join("");
-    return `<div class="dfaq-group"><h3 class="dfaq-group-title">${esc(groupLabel)}</h3><div class="dfaq-chip-row">${btns}</div></div>`;
+  function listHtml(list) {
+    if (!list?.length) return "";
+    return `<ul class="dfaq-list">${list.map((li) => `<li>${esc(li)}</li>`).join("")}</ul>`;
   }
 
-  function blocksHtml(blocks) {
-    if (!blocks?.length) return "<p class='dfaq-empty'>暂无内容</p>";
+  function sqlHtml(sql) {
+    if (!sql) return "";
+    const blocks = Array.isArray(sql) ? sql : [sql];
     return blocks
-      .map(
-        (b) =>
-          `<section class="dfaq-block"><h4>${esc(b.h)}</h4><p>${esc(b.p)}</p></section>`
-      )
+      .map((block) => {
+        if (typeof block === "string") {
+          return `<pre class="dfaq-sql"><code>${esc(block.trim())}</code></pre>`;
+        }
+        const title = block.title ? `<p class="dfaq-sql-title">${esc(block.title)}</p>` : "";
+        return `${title}<pre class="dfaq-sql"><code>${esc(String(block.code || "").trim())}</code></pre>`;
+      })
       .join("");
   }
 
-  function interviewHtml(list) {
-    if (!list?.length) return "<p class='dfaq-empty'>暂无面试题</p>";
-    return list
-      .map(
-        (qa) =>
-          `<section class="dfaq-qa"><h4>Q · ${esc(qa.q)}</h4><p><strong>A ·</strong> ${esc(qa.a)}</p></section>`
-      )
-      .join("");
-  }
-
-  function openDialog(host, item, industry) {
-    let dlg = host.querySelector(".dfaq-dialog");
-    if (!dlg) {
-      dlg = document.createElement("dialog");
-      dlg.className = "dfaq-dialog";
-      host.appendChild(dlg);
-    }
-    const ex = exampleText(industry, item.id);
-    dlg.innerHTML = `
-      <div class="dfaq-dialog-inner">
-        <header class="dfaq-dialog-head">
-          <div>
-            <p class="dfaq-dialog-kicker">${esc(item.kind === "layer" ? "数仓分层" : "技术栈")}</p>
-            <h2 id="dfaq-dialog-title">${esc(item.title)}</h2>
-            <p class="dfaq-dialog-tagline">${esc(item.tagline || "")}</p>
-          </div>
-          <button type="button" class="dfaq-close" aria-label="关闭">×</button>
-        </header>
-        <div class="dfaq-tabs" role="tablist">
-          <button type="button" class="dfaq-tab is-active" data-tab="beginner" role="tab" aria-selected="true">基础</button>
-          <button type="button" class="dfaq-tab" data-tab="advanced" role="tab" aria-selected="false">进阶</button>
-          <button type="button" class="dfaq-tab" data-tab="interview" role="tab" aria-selected="false">面试常见问</button>
-        </div>
-        <div class="dfaq-panels">
-          <div class="dfaq-panel is-active" data-panel="beginner">${blocksHtml(item.beginner)}</div>
-          <div class="dfaq-panel" data-panel="advanced">${blocksHtml(item.advanced)}</div>
-          <div class="dfaq-panel" data-panel="interview">${interviewHtml(item.interview)}</div>
-        </div>
+  function answerHtml(item, industry) {
+    const ex = exampleText(industry, item.exampleKey);
+    return `
+      <div class="dfaq-a">
+        ${parasHtml(item.a)}
+        ${listHtml(item.list)}
+        ${sqlHtml(item.sql)}
+        ${item.note ? `<p class="dfaq-note">${esc(item.note)}</p>` : ""}
         ${ex ? `<aside class="dfaq-example"><strong>本行业例子</strong><p>${esc(ex)}</p></aside>` : ""}
       </div>`;
+  }
 
-    dlg.querySelector(".dfaq-close")?.addEventListener("click", () => dlg.close());
-    dlg.addEventListener("click", (e) => {
-      if (e.target === dlg) dlg.close();
+  function filterFaqs(faqs, cat, query) {
+    const q = (query || "").trim().toLowerCase();
+    return faqs.filter((item) => {
+      if (cat && cat !== "all" && item.cat !== cat) return false;
+      if (!q) return true;
+      const sqlBits = []
+        .concat(item.sql || [])
+        .map((s) => (typeof s === "string" ? s : `${s.title || ""} ${s.code || ""}`));
+      const hay = [item.q, item.a, item.note, ...(item.list || []), ...sqlBits]
+        .flat()
+        .filter(Boolean)
+        .join("\n")
+        .toLowerCase();
+      return hay.includes(q);
     });
-    dlg.querySelectorAll(".dfaq-tab").forEach((tab) => {
-      tab.addEventListener("click", () => {
-        const name = tab.dataset.tab;
-        dlg.querySelectorAll(".dfaq-tab").forEach((t) => {
-          t.classList.toggle("is-active", t === tab);
-          t.setAttribute("aria-selected", t === tab ? "true" : "false");
-        });
-        dlg.querySelectorAll(".dfaq-panel").forEach((p) => {
-          p.classList.toggle("is-active", p.dataset.panel === name);
-        });
+  }
+
+  function catLabel(categories, id) {
+    return categories.find((c) => c.id === id)?.label || id;
+  }
+
+  function renderList(host, state) {
+    const data = getData();
+    const items = filterFaqs(data.faqs, state.cat, state.query);
+    const listEl = host.querySelector(".dfaq-list-wrap");
+    const countEl = host.querySelector(".dfaq-count");
+    if (countEl) {
+      countEl.textContent = items.length ? `共 ${items.length} 题` : "无匹配问题";
+    }
+    if (!listEl) return;
+
+    if (!items.length) {
+      listEl.innerHTML = `<p class="dfaq-empty">没有匹配的问题，试试切换分类或清空搜索。</p>`;
+      return;
+    }
+
+    listEl.innerHTML = items
+      .map((item, idx) => {
+        const open = state.openId === item.id ? " open" : "";
+        return `
+        <details class="dfaq-item" data-faq-id="${esc(item.id)}"${open}>
+          <summary class="dfaq-summary">
+            <span class="dfaq-item-cat">${esc(catLabel(data.categories, item.cat))}</span>
+            <span class="dfaq-item-q">${esc(item.q)}</span>
+          </summary>
+          ${answerHtml(item, state.industry)}
+        </details>`;
+      })
+      .join("");
+
+    listEl.querySelectorAll(".dfaq-item").forEach((det) => {
+      det.addEventListener("toggle", () => {
+        if (det.open) {
+          state.openId = det.dataset.faqId;
+          listEl.querySelectorAll(".dfaq-item").forEach((other) => {
+            if (other !== det) other.open = false;
+          });
+        } else if (state.openId === det.dataset.faqId) {
+          state.openId = "";
+        }
       });
     });
-
-    if (typeof dlg.showModal === "function") dlg.showModal();
-    else dlg.setAttribute("open", "open");
   }
 
   function mount(root, opts) {
     const el = typeof root === "string" ? document.querySelector(root) : root;
     if (!el) return null;
-    const industry = opts?.industry || document.body?.dataset?.industry || "";
     const data = getData();
+    const state = {
+      industry: opts?.industry || document.body?.dataset?.industry || "",
+      cat: opts?.category || "all",
+      query: "",
+      openId: "",
+    };
+
+    const cats = (data.categories || []).length
+      ? data.categories
+      : [{ id: "all", label: "全部问题" }];
 
     el.classList.add("dfaq-root");
     el.innerHTML = `
-      <p class="dfaq-lead">点击芯片打开答疑弹框：基础 / 进阶 / 面试常见问。分层用通俗技术语言说明「这一层干什么」；技术栈结合作品集落地与常见考点。</p>
-      ${renderChips(data.layers, "数仓分层")}
-      ${renderChips(data.tech, "落地技术栈")}
-      <div class="dfaq-dialog-host"></div>`;
+      <p class="dfaq-lead">按主题浏览常见问题。MySQL / 窗口函数 / JOIN / EXPLAIN 等已按「能讲清楚」展开：先讲为什么，再给写法与示例 SQL，最后补坑位。可搜索关键字定位。</p>
+      <div class="dfaq-controls">
+        <div class="dfaq-cats" role="tablist" aria-label="问题分类">
+          ${cats
+            .map(
+              (c) =>
+                `<button type="button" class="dfaq-cat${c.id === state.cat ? " is-active" : ""}" data-cat="${esc(c.id)}" role="tab" aria-selected="${c.id === state.cat ? "true" : "false"}">${esc(c.label)}</button>`
+            )
+            .join("")}
+        </div>
+        <div class="dfaq-search-row">
+          <label class="dfaq-search-label" for="dfaq-search">搜索</label>
+          <input type="search" id="dfaq-search" class="dfaq-search" placeholder="例如：ODS、窗口函数、人机协同、DQC…" autocomplete="off">
+          <span class="dfaq-count" aria-live="polite"></span>
+        </div>
+      </div>
+      <div class="dfaq-list-wrap"></div>`;
 
-    const host = el.querySelector(".dfaq-dialog-host");
-    el.addEventListener("click", (e) => {
-      const btn = e.target.closest(".dfaq-chip");
-      if (!btn) return;
-      const item = findItem(btn.dataset.faqId);
-      if (!item) return;
-      openDialog(host, item, industry);
+    const search = el.querySelector(".dfaq-search");
+    el.querySelectorAll(".dfaq-cat").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.cat = btn.dataset.cat;
+        state.openId = "";
+        el.querySelectorAll(".dfaq-cat").forEach((b) => {
+          const on = b === btn;
+          b.classList.toggle("is-active", on);
+          b.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        renderList(el, state);
+      });
+    });
+    search?.addEventListener("input", () => {
+      state.query = search.value;
+      state.openId = "";
+      renderList(el, state);
     });
 
-    return { el, industry };
+    renderList(el, state);
+    return { el, state, remount: (next) => {
+      if (next?.industry != null) state.industry = next.industry;
+      renderList(el, state);
+    } };
   }
 
-  window.DataFaq = { mount, findItem, getData };
+  window.DataFaq = { mount, getData };
 })();

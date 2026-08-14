@@ -1,206 +1,308 @@
-/* 数仓答疑 · 芯片 + dialog */
+/* 数据分析答疑 · 常见问题合集 */
 .dfaq-root {
   margin-top: 0.5rem;
+  width: 100%;
 }
 .dfaq-lead {
-  margin: 0 0 1rem;
-  font-size: 0.9rem;
-  line-height: 1.55;
+  margin: 0 0 1.1rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
   color: var(--color-text-muted, #94a3b8);
+  max-width: 48rem;
 }
-.dfaq-group {
-  margin-bottom: 1.1rem;
+
+.dfaq-controls {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(30, 42, 74, 0.95);
+  background: rgba(8, 16, 32, 0.5);
 }
-.dfaq-group-title {
-  margin: 0 0 0.55rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-cyan, #22d3ee);
-}
-.dfaq-chip-row {
+.dfaq-cats {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
 }
-.dfaq-chip {
+.dfaq-cat {
   appearance: none;
   cursor: pointer;
   font: inherit;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  padding: 0.45rem 0.85rem;
-  border-radius: 8px;
-  border: 1px solid rgba(34, 211, 238, 0.35);
-  background: rgba(8, 20, 40, 0.75);
-  color: var(--color-text-primary, #e2e8f0);
-  transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
-}
-.dfaq-chip:hover {
-  border-color: rgba(34, 211, 238, 0.7);
-  background: rgba(14, 116, 144, 0.25);
-  transform: translateY(-1px);
-}
-.dfaq-chip[data-faq-kind="tech"] {
-  border-color: rgba(52, 211, 153, 0.35);
-}
-.dfaq-chip[data-faq-kind="tech"]:hover {
-  border-color: rgba(52, 211, 153, 0.7);
-  background: rgba(6, 78, 59, 0.35);
-}
-
-.dfaq-dialog {
-  border: 1px solid rgba(34, 211, 238, 0.35);
-  border-radius: 14px;
-  padding: 0;
-  max-width: min(640px, 94vw);
-  width: 100%;
-  background: rgba(8, 14, 28, 0.98);
-  color: var(--color-text-primary, #e2e8f0);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-}
-.dfaq-dialog::backdrop {
-  background: rgba(2, 6, 16, 0.72);
-  backdrop-filter: blur(3px);
-}
-.dfaq-dialog-inner {
-  padding: 1.1rem 1.2rem 1.25rem;
-}
-.dfaq-dialog-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.85rem;
-}
-.dfaq-dialog-kicker {
-  margin: 0 0 0.2rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #67e8f9;
-}
-.dfaq-dialog-head h2 {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 700;
-  line-height: 1.3;
-}
-.dfaq-dialog-tagline {
-  margin: 0.35rem 0 0;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--color-text-muted, #94a3b8);
-}
-.dfaq-close {
-  appearance: none;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  background: transparent;
-  color: #cbd5e1;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 8px;
-  font-size: 1.25rem;
-  line-height: 1;
-  cursor: pointer;
-}
-.dfaq-close:hover {
-  border-color: #67e8f9;
-  color: #67e8f9;
-}
-
-.dfaq-tabs {
-  display: flex;
-  gap: 0.35rem;
-  margin-bottom: 0.85rem;
-  border-bottom: 1px solid rgba(30, 42, 74, 0.95);
-  padding-bottom: 0.45rem;
-}
-.dfaq-tab {
-  appearance: none;
-  border: none;
-  background: transparent;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(34, 211, 238, 0.28);
+  background: rgba(8, 20, 40, 0.65);
   color: #94a3b8;
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.35rem 0.7rem;
-  border-radius: 6px;
-  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
-.dfaq-tab.is-active {
+.dfaq-cat:hover {
+  border-color: rgba(34, 211, 238, 0.55);
+  color: #e2e8f0;
+}
+.dfaq-cat.is-active {
   color: #ecfeff;
-  background: rgba(14, 116, 144, 0.35);
+  border-color: rgba(34, 211, 238, 0.65);
+  background: rgba(14, 116, 144, 0.4);
 }
-.dfaq-panel {
-  display: none;
-  max-height: min(52vh, 420px);
-  overflow: auto;
-  padding-right: 0.25rem;
+.dfaq-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
 }
-.dfaq-panel.is-active {
-  display: block;
+.dfaq-search-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  letter-spacing: 0.04em;
 }
-.dfaq-block,
-.dfaq-qa {
-  margin-bottom: 0.85rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(30, 42, 74, 0.75);
-}
-.dfaq-block:last-child,
-.dfaq-qa:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-.dfaq-block h4,
-.dfaq-qa h4 {
-  margin: 0 0 0.35rem;
-  font-size: 0.9rem;
-  color: #7dd3fc;
-}
-.dfaq-block p,
-.dfaq-qa p,
-.dfaq-example p {
-  margin: 0;
+.dfaq-search {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 0.45rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  background: #0a1220;
+  color: #e2e8f0;
+  font: inherit;
   font-size: 0.88rem;
-  line-height: 1.6;
+}
+.dfaq-search:focus {
+  outline: 2px solid rgba(34, 211, 238, 0.35);
+  outline-offset: 1px;
+}
+.dfaq-count {
+  font-size: 0.78rem;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.dfaq-list-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.dfaq-item {
+  border-radius: 10px;
+  border: 1px solid rgba(30, 42, 74, 0.95);
+  background: rgba(8, 14, 28, 0.72);
+  overflow: hidden;
+}
+.dfaq-item[open] {
+  border-color: rgba(34, 211, 238, 0.4);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+.dfaq-summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem 0.75rem;
+  align-items: start;
+  cursor: pointer;
+  list-style: none;
+  padding: 0.85rem 1rem;
+  font: inherit;
+}
+.dfaq-summary::-webkit-details-marker {
+  display: none;
+}
+.dfaq-summary::after {
+  content: "+";
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  align-self: start;
+  color: #67e8f9;
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1;
+  margin-top: 0.1rem;
+}
+.dfaq-item[open] .dfaq-summary::after {
+  content: "−";
+}
+.dfaq-item-cat {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  background: rgba(14, 116, 144, 0.28);
+  color: #67e8f9;
+  white-space: nowrap;
+  margin-top: 0.15rem;
+}
+.dfaq-item-q {
+  grid-column: 2;
+  padding-right: 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #e2e8f0;
+}
+.dfaq-a {
+  padding: 0 1rem 1rem 1rem;
+  border-top: 1px solid rgba(30, 42, 74, 0.85);
+  margin: 0 0.15rem;
+}
+.dfaq-a > p {
+  margin: 0.85rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #dbe4f0;
+}
+.dfaq-a > p:first-child {
+  margin-top: 0.85rem;
+}
+.dfaq-list {
+  margin: 0.65rem 0 0;
+  padding-left: 1.25rem;
   color: #cbd5e1;
 }
-.dfaq-empty {
-  margin: 0;
-  color: #94a3b8;
-  font-size: 0.88rem;
+.dfaq-list li {
+  margin-bottom: 0.45rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.dfaq-list li:last-child {
+  margin-bottom: 0;
+}
+.dfaq-sql-title {
+  margin: 0.85rem 0 0.35rem !important;
+  font-size: 0.78rem !important;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #7dd3fc !important;
+}
+.dfaq-sql {
+  margin: 0.45rem 0 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  background: #050b16;
+  overflow-x: auto;
+}
+.dfaq-sql code {
+  font-family: "JetBrains Mono", "Cascadia Code", "Consolas", ui-monospace, monospace;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: #bbf7d0;
+  white-space: pre;
+}
+.dfaq-note {
+  margin: 0.85rem 0 0 !important;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  border-left: 3px solid rgba(250, 204, 21, 0.7);
+  background: rgba(66, 32, 6, 0.35);
+  font-size: 0.86rem !important;
+  line-height: 1.55 !important;
+  color: #fde68a !important;
 }
 .dfaq-example {
-  margin-top: 1rem;
+  margin-top: 0.85rem;
   padding: 0.75rem 0.85rem;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid rgba(52, 211, 153, 0.35);
   background: rgba(6, 78, 59, 0.25);
 }
 .dfaq-example strong {
   display: block;
-  margin-bottom: 0.35rem;
-  font-size: 0.75rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.72rem;
   letter-spacing: 0.06em;
   color: #6ee7b7;
 }
+.dfaq-example p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+}
+.dfaq-empty {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  border: 1px dashed rgba(100, 116, 139, 0.4);
+}
 
-/* 平台独立页轻量壳 */
+/* 平台独立页 */
 .page-data-faq .dfaq-page-wrap {
-  max-width: 960px;
+  max-width: 920px;
   margin: 0 auto;
-  padding: 1.25rem 1.25rem 3rem;
+  padding: 1.5rem 1.35rem 3.5rem;
+  box-sizing: border-box;
 }
 .page-data-faq .dfaq-page-title {
-  margin: 0 0 0.35rem;
-  font-size: 1.45rem;
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.35rem, 2.5vw, 1.6rem);
 }
 .page-data-faq .dfaq-page-sub {
   margin: 0 0 1.25rem;
   color: var(--color-text-muted, #94a3b8);
   font-size: 0.95rem;
-  line-height: 1.55;
+  line-height: 1.6;
+  max-width: 42rem;
+}
+.page-data-faq .dfaq-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 1.15rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(34, 211, 238, 0.22);
+  background: rgba(8, 16, 32, 0.55);
+}
+.page-data-faq .dfaq-industry-pick {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  min-width: min(100%, 240px);
+  flex: 1 1 220px;
+  max-width: 320px;
+}
+.page-data-faq .dfaq-industry-pick select {
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  background: #0a1220;
+  color: #e2e8f0;
+  font: inherit;
+  width: 100%;
+}
+.page-data-faq .dfaq-toolbar-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #64748b;
+  flex: 1 1 200px;
+  max-width: 28rem;
+}
+
+@media (max-width: 560px) {
+  .dfaq-summary {
+    grid-template-columns: 1fr;
+  }
+  .dfaq-item-cat {
+    grid-row: auto;
+    justify-self: start;
+  }
+  .dfaq-item-q {
+    grid-column: 1;
+    padding-right: 1.75rem;
+  }
+  .dfaq-summary::after {
+    grid-column: 1;
+    grid-row: 2;
+  }
 }

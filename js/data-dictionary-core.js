@@ -46,6 +46,38 @@
     return "";
   }
 
+  function platformKgHref(nodeId) {
+    if (!nodeId) return "platform-graph.html";
+    return `platform-graph.html?node=${encodeURIComponent(nodeId)}`;
+  }
+
+  function tableKgNodeId(name) {
+    const t = String(name || "").trim();
+    if (!t) return "";
+    if (/^(tbl|dash|metric|pb|tool):/i.test(t)) return t;
+    return `tbl:${t}`;
+  }
+
+  function fieldKgNodeId(field, tableName) {
+    if (!field) return tableKgNodeId(tableName);
+    if (field.caliber_id) return `metric:${field.caliber_id}`;
+    const name = String(field.name || "").trim();
+    if (!name) return tableKgNodeId(tableName);
+    const role = String(field.role || "").toLowerCase();
+    const measureLike = ["metric", "measure", "kpi", "fact", "amount", "指标", "度量"].includes(role)
+      || /^(gmv|revenue|profit|amount|amt|qty|cnt|count|rate|ratio|cost|margin|sales|dau|mau|oee)/i.test(name);
+    if (measureLike) return `metric:${name}`;
+    return tableKgNodeId(tableName);
+  }
+
+  function kgLinkHtml(nodeId, label, opts) {
+    const href = platformKgHref(nodeId);
+    const title = (opts && opts.title) || "在平台知识图谱辐射图中定位";
+    const cls = (opts && opts.cls) || "dd-kg-link";
+    const inner = opts && opts.innerHtml != null ? opts.innerHtml : esc(label);
+    return `<a class="${cls}" href="${esc(href)}" target="_blank" rel="noopener" title="${esc(title)}" onclick="event.stopPropagation()">${inner}<span class="dd-kg-link-ico" aria-hidden="true">↗</span></a>`;
+  }
+
   /** 当前行业架构数据（用于血缘跳转） */
   function currentArchIndustry() {
     const key = document.body?.dataset?.industry || window.DATA_DICTIONARY_INDUSTRY || "retail";
@@ -358,10 +390,18 @@
 
       const cn = tableNameCn(table);
       const titleMain = table.isApp ? (table.title || table.name) : table.name;
+      const tableNode = table.isApp ? (table.id ? `dash:${String(table.id).replace(/^dash:/, "")}` : "") : tableKgNodeId(table.name);
+      const titleHtml = table.isApp
+        ? esc(titleMain)
+        : kgLinkHtml(tableNode, titleMain, {
+            cls: "dd-kg-link dd-kg-link-title",
+            title: `在知识图谱中定位表 ${table.name}`,
+            innerHtml: `<span class="dd-detail-title-text">${esc(titleMain)}</span>`,
+          });
       return `
         <div class="dd-detail-header">
           <div class="dd-detail-title-row">
-            <h3 class="dd-detail-title">${esc(titleMain)}${(!table.isApp && cn) ? `<span class="dd-detail-title-cn">（${esc(cn)}）</span>` : ""}</h3>
+            <h3 class="dd-detail-title">${titleHtml}${(!table.isApp && cn) ? `<span class="dd-detail-title-cn">（${esc(cn)}）</span>` : ""}</h3>
             <div class="dd-detail-badges">
               <span class="dd-layer-badge dd-layer-${esc(table.layer)}" style="background: ${color}20; color: ${color}; border-color: ${color}40">${esc(table.layer)}</span>
               <span class="dd-type-badge">${esc(table.type)}</span>
@@ -420,7 +460,7 @@
         ${table.isApp ? "" : this.renderDashboardLinks(table)}
         ${table.isApp ? "" : `
         <div class="dd-detail-section dd-detail-actions">
-          <button type="button" class="dd-graph-focus-btn" data-table="${esc(table.name)}">在知识图谱中聚焦</button>
+          <a class="dd-graph-focus-btn" href="${esc(platformKgHref(tableKgNodeId(table.name)))}" target="_blank" rel="noopener">在知识图谱辐射图中打开此表 ↗</a>
         </div>`}
 
         ${table.isApp ? "" : `<div class="dd-detail-section">
@@ -580,10 +620,19 @@
       const caliber = this.resolveCaliber(field);
       const cn = fieldNameCn(field);
       const biz = field.business || field.desc || "-";
+      const tableName = this.state.selectedTable?.name || "";
+      const nodeId = fieldKgNodeId(field, tableName);
+      const nameLink = kgLinkHtml(nodeId, field.name, {
+        cls: "dd-kg-link dd-kg-link-field",
+        title: nodeId.startsWith("metric:")
+          ? `在知识图谱中定位指标 ${field.name}`
+          : `在知识图谱中定位所属表 ${tableName}`,
+        innerHtml: `<code class="dd-field-name">${esc(field.name)}</code>`,
+      });
 
       return `
         <tr class="dd-field-row ${isSelected ? 'is-selected' : ''}" data-field="${esc(field.name)}">
-          <td><code class="dd-field-name">${esc(field.name)}</code></td>
+          <td>${nameLink}</td>
           <td><span class="dd-field-cn">${esc(cn || "—")}</span></td>
           <td><span class="dd-field-type">${esc(field.type || "—")}</span></td>
           <td><span class="dd-field-role" style="background: ${roleColor}20; color: ${roleColor}">${esc(ROLE_LABELS[field.role] || field.role || "—")}</span></td>
@@ -644,7 +693,11 @@
 
       return `
         <div class="dd-field-detail-name">
-          <code>${esc(field.name)}</code>
+          ${kgLinkHtml(fieldKgNodeId(field, this.state.selectedTable?.name), field.name, {
+            cls: "dd-kg-link dd-kg-link-field",
+            title: "在知识图谱辐射图中定位",
+            innerHtml: `<code>${esc(field.name)}</code>`,
+          })}
           ${cn ? `<span class="dd-field-cn-badge">${esc(cn)}</span>` : ""}
           <span class="dd-field-role" style="background: ${roleColor}20; color: ${roleColor}">${esc(ROLE_LABELS[field.role] || field.role)}</span>
         </div>
@@ -720,19 +773,13 @@
           return;
         }
 
-        // 在知识图谱中聚焦
-        const graphBtn = e.target.closest('.dd-graph-focus-btn');
+        // 在知识图谱中聚焦（已改为 <a class="dd-graph-focus-btn">，此处仅兜底）
+        const graphBtn = e.target.closest("a.dd-graph-focus-btn, button.dd-graph-focus-btn");
         if (graphBtn) {
-          const tableName = graphBtn.dataset.table;
-          window.openArchInteractive?.("dw-graph-section");
-          if (window.__dwGraph?.focusNode) {
-            setTimeout(() => {
-              window.__dwGraph.focusNode(tableName);
-              document.getElementById("dw-graph-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }, 120);
-          } else {
-            location.hash = `dw-graph-section?focus=${encodeURIComponent(tableName || "")}`;
-            document.getElementById("dw-graph-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (graphBtn.tagName === "A" && graphBtn.getAttribute("href")) return;
+          const tableName = graphBtn.dataset.table || this.state.selectedTable?.name;
+          if (tableName) {
+            window.open(platformKgHref(tableKgNodeId(tableName)), "_blank", "noopener");
           }
           return;
         }

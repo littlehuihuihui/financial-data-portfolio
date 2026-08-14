@@ -293,7 +293,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "订单表",
     "fieldCount": 20,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "业务库 · ERP/OMS 订单",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_payment",
@@ -303,7 +306,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "支付流水表",
     "fieldCount": 11,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "支付中台 / 收银流水",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_purchase",
@@ -313,7 +319,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "采购表",
     "fieldCount": 16,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "采购/供应链系统",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_inventory",
@@ -323,7 +332,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "库存流水表",
     "fieldCount": 14,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "WMS / 进销存",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_expense",
@@ -333,7 +345,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "费用表",
     "fieldCount": 12,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "费控 / 财务总账",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_store_pnl",
@@ -343,7 +358,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "门店损益表",
     "fieldCount": 11,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "门店损益月报（ERP）",
+    "sourceType": "业务库"
   },
   {
     "id": "ods_ad_cost",
@@ -353,7 +371,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "广告费用表",
     "fieldCount": 11,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "第三方广告平台导出",
+    "sourceType": "第三方文件"
   },
   {
     "id": "ods_budget",
@@ -363,7 +384,10 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "预算表",
     "fieldCount": 9,
-    "category": "ODS"
+    "category": "ODS",
+    "schedule": "T+1 灌入",
+    "sourceSystem": "预算编制表 / 财务BP",
+    "sourceType": "业务库"
   },
   {
     "id": "dim_brand",
@@ -373,7 +397,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "品牌维度表",
     "fieldCount": 9,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_channel",
@@ -383,7 +408,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "渠道维度表",
     "fieldCount": 10,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_category",
@@ -393,7 +419,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "品类维度表",
     "fieldCount": 8,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_store",
@@ -403,7 +430,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "门店维度表",
     "fieldCount": 10,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dim_date",
@@ -413,7 +441,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "日期维度表",
     "fieldCount": 12,
-    "category": "DIM"
+    "category": "DIM",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_sales_wide",
@@ -423,7 +452,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "销售宽表",
     "fieldCount": 25,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_expense_wide",
@@ -433,7 +463,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "费用宽表",
     "fieldCount": 13,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dwd_inventory_wide",
@@ -443,7 +474,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "库存宽表",
     "fieldCount": 19,
-    "category": "DWD"
+    "category": "DWD",
+    "schedule": "T+1"
   },
   {
     "id": "dws_sales_daily",
@@ -453,7 +485,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "日销售汇总",
     "fieldCount": 10,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_sales_monthly",
@@ -463,7 +496,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "月销售汇总",
     "fieldCount": 8,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_expense_monthly",
@@ -473,7 +507,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "月费用汇总",
     "fieldCount": 6,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_inventory_daily",
@@ -483,7 +518,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "日库存汇总",
     "fieldCount": 7,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "dws_store_daily",
@@ -493,7 +529,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "日门店汇总·快照表",
     "fieldCount": 6,
-    "category": "DWS"
+    "category": "DWS",
+    "schedule": "T+1"
   },
   {
     "id": "v_overview",
@@ -503,7 +540,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "经营总览 KPI",
     "fieldCount": 5,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_brand",
@@ -513,7 +551,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "品牌分析",
     "fieldCount": 4,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_channel",
@@ -523,7 +562,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "渠道分析",
     "fieldCount": 3,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_income_statement",
@@ -533,7 +573,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "利润表视图",
     "fieldCount": 4,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_dupont",
@@ -543,7 +584,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "杜邦 ROE 分解",
     "fieldCount": 7,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_balance_sheet",
@@ -553,7 +595,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "资产负债表视图",
     "fieldCount": 12,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_cashflow",
@@ -563,7 +606,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "现金流量视图",
     "fieldCount": 5,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_cashflow_statement",
@@ -573,7 +617,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "现金流量表视图",
     "fieldCount": 2,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_tax_analysis",
@@ -583,7 +628,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "税务分析视图",
     "fieldCount": 4,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_budget",
@@ -593,7 +639,8 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "预算执行",
     "fieldCount": 1,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
   },
   {
     "id": "v_inventory",
@@ -603,7 +650,52 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "库存周转监控",
     "fieldCount": 5,
-    "category": "ADS"
+    "category": "ADS",
+    "schedule": "实时（视图）"
+  },
+  {
+    "id": "dws_asset_monthly",
+    "name": "dws_asset_monthly",
+    "name_cn": "资产月汇总",
+    "layer": "dws",
+    "type": "table",
+    "purpose": "资产/负债月汇总（资产负债表上游）",
+    "fieldCount": 12,
+    "category": "财务汇总",
+    "schedule": "T+1"
+  },
+  {
+    "id": "dws_cashflow_monthly",
+    "name": "dws_cashflow_monthly",
+    "name_cn": "现金流月汇总",
+    "layer": "dws",
+    "type": "table",
+    "purpose": "经营/投资/筹资现金流月汇总",
+    "fieldCount": 14,
+    "category": "财务汇总",
+    "schedule": "T+1"
+  },
+  {
+    "id": "dws_tax_monthly",
+    "name": "dws_tax_monthly",
+    "name_cn": "税务月汇总",
+    "layer": "dws",
+    "type": "table",
+    "purpose": "销项/进项/应纳税额月汇总",
+    "fieldCount": 10,
+    "category": "财务汇总",
+    "schedule": "T+1"
+  },
+  {
+    "id": "dws_budget_monthly",
+    "name": "dws_budget_monthly",
+    "name_cn": "预算月汇总",
+    "layer": "dws",
+    "type": "table",
+    "purpose": "预算执行月汇总",
+    "fieldCount": 10,
+    "category": "财务汇总",
+    "schedule": "T+1"
   }
 ],
     flows: [
@@ -831,6 +923,42 @@ window.DW_ARCHITECTURE_DATA = {
     "from": "v_inventory",
     "to": "v_dupont",
     "label": "血缘"
+  },
+  {
+    "from": "dws_asset_monthly",
+    "to": "v_balance_sheet",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_cashflow_monthly",
+    "to": "v_cashflow",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "v_cashflow",
+    "to": "v_cashflow_statement",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_tax_monthly",
+    "to": "v_tax_analysis",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_budget_monthly",
+    "to": "v_budget",
+    "label": "指标封装",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_expense_monthly",
+    "to": "v_income_statement",
+    "label": "指标封装",
+    "schedule": "实时"
   }
 ],
     dashboards: [
@@ -959,7 +1087,7 @@ window.DW_ARCHITECTURE_DATA = {
   },
   {
     "id": "quality",
-    "name": "数据质量",
+    "name": "数据质量监控大盘",
     "api": "/api/dashboard_quality",
     "tables": [
       "ods_orders",

@@ -1357,15 +1357,142 @@
 .dw-arch-lane-main .dw-arch-lane-header {
   position: sticky;
   top: 0;
-  z-index: 3;
+  z-index: 2;
   backdrop-filter: blur(6px);
-  background: rgba(10, 14, 26, 0.92);
+  background: rgba(10, 14, 26, 0.96);
+  margin-bottom: 12px;
+  box-shadow: 0 10px 14px -10px rgba(0, 0, 0, 0.55);
+  /* 避免 sticky 层盖住首张表名：与表卡片拉开间距并隔离叠层 */
+  isolation: isolate;
+}
+
+.dw-arch-lane-main .dw-arch-lane-tables {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 2px;
 }
 
 .dw-arch-lane-main .dw-arch-table-card {
   width: 100%;
   position: relative;
-  z-index: 1;
+  z-index: 0;
+  scroll-margin-top: 64px;
+}
+
+.dw-arch-table-source {
+  font-size: 10px;
+  line-height: 1.35;
+  color: #94a3b8;
+  margin: 4px 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dw-arch-source-type {
+  display: inline-block;
+  padding: 0 4px;
+  margin-right: 2px;
+  border-radius: 3px;
+  background: rgba(100, 116, 139, 0.25);
+  color: #cbd5e1;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.dw-arch-schedule-badge,
+.dw-arch-detail-schedule-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.dw-arch-schedule-badge.is-realtime,
+.dw-arch-detail-schedule-badge.is-realtime {
+  background: rgba(16, 185, 129, 0.16);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.dw-arch-schedule-badge.is-ondemand,
+.dw-arch-detail-schedule-badge.is-ondemand {
+  background: rgba(148, 163, 184, 0.16);
+  color: #cbd5e1;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.dw-arch-detail-meta-wide {
+  grid-column: 1 / -1;
+}
+
+.dw-arch-process-path .dw-arch-path-arrow {
+  color: #64748b;
+  margin: 0 4px;
+}
+
+.dw-arch-process-path .dw-arch-path-hint {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #8892a4;
+}
+
+.dw-arch-caliber-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dw-arch-caliber-item {
+  padding: 8px 10px;
+  border: 1px solid #1e2a4a;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.dw-arch-caliber-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #e2e8f0;
+}
+
+.dw-arch-caliber-biz {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.dw-arch-caliber-tech {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #67e8f9;
+  overflow-x: auto;
+}
+
+.dw-arch-caliber-meta {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.dw-arch-detail-action {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dw-arch-open-etl-btn {
+  /* 与字典按钮同壳，略强调加工链路 */
+  border-color: rgba(245, 158, 11, 0.45) !important;
 }
 
 /* 内嵌详情（非全屏遮罩） */
@@ -1601,7 +1728,7 @@ body.page-architecture-fullscreen .dw-arch-table-card {
 }
 body.page-architecture-fullscreen .dw-arch-lane-header {
   padding: 6px 8px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 body.page-architecture-fullscreen .dw-arch-lane-desc,
 body.page-architecture-fullscreen .dw-arch-lane-fullname {
