@@ -33,20 +33,50 @@ const PLAYBOOKS = [
   },
   {
     id: "q02", layer: "l1", category: "用户结构类", title: "用户画像（端/地市）",
-    desc: "STB/Speaker 端型与广东各地市用户分布", bizQuestion: "我们的核心用户是谁？",
-    keywords: ["画像", "端型", "地市", "STB", "Speaker", "区域"],
-    triggers: ["制定区域运营策略前", "端型改版需确认目标用户", "付费率偏低需定位人群"],
+    desc: "把「我们的核心用户是谁」拆成可度量的人群切片：端型、地市、付费渗透，并落到运营动作",
+    bizQuestion: "我们的核心用户是谁？广深与 STB/Speaker 各占多少、谁更愿意付费？",
+    keywords: ["画像", "端型", "地市", "STB", "Speaker", "区域", "用户结构", "业务问题拆解"],
+    triggers: ["制定区域运营策略前", "端型改版需确认目标用户", "付费率偏低需定位人群", "面试被问「怎么拆用户画像」"],
     steps: [
-      { title: "端型×地市分布", desc: "从 v_user_portrait 获取最新快照的端型与地市分布。",
+      {
+        title: "澄清业务问题与决策用途",
+        desc: "先写清：画像服务于哪次决策（投放加码 / 端型改版 / 区域运营），避免「有表就画饼」。输出：决策问题一句 + 成功标准（如广深活跃占比≥40%）。",
+        output: "问题卡：决策 / 人群口径 / 成功标准"
+      },
+      {
+        title: "选定粒度与口径（Kimball 对齐）",
+        desc: "粒度声明：一行=某日×端型×地市（或最新快照）。口径：活跃=有开机或播放行为的 MAC；付费=当月有订购的 userid。禁止混用订单数与 MAC。",
+        judge: "口径文档未写清「MAC vs userid」则停",
+        output: "粒度与口径备忘"
+      },
+      {
+        title: "端型×地市分布",
+        desc: "从 v_user_portrait 获取最新快照的端型与地市分布、付费人数与付费率。",
         sql: "SELECT device_type, city_tier, user_count, paid_count, paid_rate_pct\nFROM internet_analytics.v_user_portrait\nORDER BY user_count DESC;",
-        output: "端型×地市分布柱状图" },
-      { title: "地市活跃占比", desc: "按 region 维度拆解当月活跃 MAC 占比。",
+        output: "端型×地市分布柱状图 + 付费率热力"
+      },
+      {
+        title: "地市活跃占比与核心城验证",
+        desc: "按 region 维度拆解当月活跃 MAC 占比，核对广深是否仍是基本盘。",
         sql: "SELECT IFNULL(r.region_name, '未知') AS region_name, COUNT(DISTINCT a.mac) AS uv,\n  ROUND(COUNT(DISTINCT a.mac) / SUM(COUNT(DISTINCT a.mac)) OVER() * 100, 2) AS share_pct\nFROM internet_analytics.dws_act_user_active_1d a\nLEFT JOIN internet_analytics.dim_region r ON a.region_id = r.region_id\nWHERE DATE_FORMAT(a.snapshot_date, '%Y-%m') = '2026-07'\nGROUP BY r.region_name ORDER BY uv DESC;",
-        judge: "核心地市（广深）占比低于 40% 需单列说明", output: "地市占比饼图" },
+        judge: "核心地市（广深）占比低于 40% 需单列说明",
+        output: "地市占比饼图 / 排名表"
+      },
+      {
+        title: "交叉诊断：谁活跃但不付费",
+        desc: "在画像结果上叠加付费率，找出「高活跃低付费」切片，作为下一跳诊断输入（漏斗 / 套餐）。",
+        sql: "SELECT device_type, city_tier, user_count, paid_rate_pct\nFROM internet_analytics.v_user_portrait\nWHERE user_count >= 1000 AND paid_rate_pct < 8\nORDER BY user_count DESC\nLIMIT 20;",
+        output: "待攻坚人群清单（Top 切片）"
+      },
+      {
+        title: "沉淀结论与动作建议",
+        desc: "用三段式写结论：事实（占比/付费率）→ 含义（基本盘/机会盘）→ 动作（区域投放 / 端型运营 / 转诊断场景）。同步更新北极星阶段叙事是否仍匹配。",
+        output: "一页纸画像结论 + 跳转下一场景"
+      },
     ],
-    outputs: ["用户画像报告", "区域运营建议"],
-    nextSteps: ["若某地市活跃偏低 → 「渠道获客分布」", "若 Speaker 付费率低 → 「付费转化下降诊断」"],
-    dashboards: ["活跃总览", "overview", "v_user_portrait"],
+    outputs: ["用户画像报告（含口径）", "区域/端型运营建议", "待攻坚人群清单"],
+    nextSteps: ["若某地市活跃偏低 → 「渠道获客分布」", "若 Speaker 付费率低 → 「付费转化下降诊断」", "若只开机多 → 「产品功能使用深度」"],
+    dashboards: ["活跃总览", "overview", "v_user_portrait", "用户标签画像", "tags"],
   },
   {
     id: "q03", layer: "l1", category: "渠道获客类", title: "渠道获客分布（入口 launcher/video）",

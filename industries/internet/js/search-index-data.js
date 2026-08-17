@@ -28,11 +28,12 @@
 
   const tables = (window.DATA_DICTIONARY || []).map((t) => ({
     category: "table",
-    title: t.name,
-    subtitle: `${t.layer} · ${t.purpose || ""}`,
-    keywords: `${t.name} ${t.layer} ${t.purpose} ${(t.fields || []).map((f) => f.name).join(" ")} 数仓 internet_analytics`,
+    title: t.name_cn ? `${t.name}（${t.name_cn}）` : t.name,
+    subtitle: `${t.layer} · ${t.purpose || t.name_cn || ""}`,
+    keywords: `${t.name} ${t.name_cn || ""} ${t.layer} ${t.purpose || ""} ${(t.fields || []).map((f) => f.name).join(" ")} 数仓 internet_analytics`,
     url: base.architecture,
     anchor: `dict/${t.name}`,
+    tableName: t.name,
   }));
 
   const playbooks = (window.PLAYBOOKS || []).map((p) => ({

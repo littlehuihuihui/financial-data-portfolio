@@ -1,6 +1,7 @@
 /**
- * 架构页统一初始化：字典 / 全景 / 图谱 / ER / ETL / 答疑 按需懒加载
+ * 架构页统一初始化：字典 / 全景 / ER / ETL 按需懒加载
  * 首屏只挂搜索与 TOC，避免同步解析 100KB+ 数据脚本。
+ * 数据分析答疑仅保留平台页 pages/data-faq.html。
  */
 (function () {
   "use strict";
@@ -11,7 +12,6 @@
     er: false,
     dictionary: false,
     etl: false,
-    faq: false,
   };
   const loading = {};
   const cssLoaded = {};
@@ -69,7 +69,7 @@
       dwArch: `${b.shared}/dw-architecture.js?v=3.35`,
       dwGraph: `${b.shared}/dw-knowledge-graph.js?v=3.36`,
       erData: `${b.industry}/er-diagram-data.js?v=3.32`,
-      er: `${b.shared}/er-diagram-interactive.js?v=1.0`,
+      er: `${b.shared}/er-diagram-interactive.js?v=1.1`,
       dictData: `${b.industry}/data-dictionary-data.js?v=3.28`,
       metricCaliber: `${b.industry}/metric-caliber-data.js?v=3.28`,
       dashConfig: `${b.industry}/dashboard-config.js?v=3.28`,
@@ -77,8 +77,6 @@
       dictUi: `${b.industry}/data-dictionary.js?v=3.28`,
       etlData: `${b.industry}/etl-lineage-data.js?v=3.34`,
       etlUi: `${b.shared}/etl-lineage.js?v=3.35`,
-      faqData: `${b.shared}/data-faq-data.js?v=2.2`,
-      faqUi: `${b.shared}/data-faq.js?v=2.2`,
     };
     const ready = {
       echarts: () => !!window.echarts,
@@ -94,8 +92,6 @@
       dictUi: () => !!window.DATA_DICTIONARY_INDUSTRY,
       etlData: () => !!window.ETL_LINEAGE,
       etlUi: () => !!window.EtlLineageUI,
-      faqData: () => !!window.DATA_FAQ_DATA,
-      faqUi: () => !!window.DataFaq,
     };
     const key = keys.join("|");
     if (!loading[key]) {
@@ -151,7 +147,7 @@
       return window.__dwArch;
     }
     const b = scriptBase();
-    await loadCss(`${b.cssIndustry}/dw-architecture.css?v=3.38`);
+    await loadCss(`${b.cssIndustry}/dw-architecture.css?v=3.53`);
     await ensureScripts(["dwArchData", "dwArch", "metricCaliber", "etlData"]);
     const root = document.getElementById("dw-architecture-root");
     if (!root || !window.DWArchitecture) return null;
@@ -186,23 +182,11 @@
     return inst;
   }
 
-  async function initDataFaqLazy() {
-    if (inited.faq) return;
-    const b = scriptBase();
-    await loadCss(`${b.cssShared}/data-faq.css?v=2.2`);
-    await ensureScripts(["faqData", "faqUi"]);
-    const root = document.getElementById("data-faq-root");
-    if (!root || !window.DataFaq?.mount) return null;
-    inited.faq = true;
-    return window.DataFaq.mount(root, { industry: getIndustry() });
-  }
-
   async function ensureInteractive(id) {
     if (id === "data-dictionary-section") await initDictionaryLazy();
     else if (id === "dw-architecture-section") await initPanorama();
     else if (id === "er-diagram-section") await initEr();
     else if (id === "etl-lineage-section") await initEtlLineageLazy();
-    else if (id === "data-faq-section") await initDataFaqLazy();
     else if (id === "dw-graph-section") {
       // 旧数仓力导向图已移除 → 平台知识图谱
       location.href = "platform-graph.html";
@@ -293,14 +277,27 @@
     window.addEventListener("hashchange", applyLegacyGraphHash);
     window.openArchInteractive = openArchInteractive;
 
-    // 空闲时预取字典（首屏不阻塞）
-    const hash = (location.hash || "").replace(/^#/, "").split("?")[0];
-    if (hash === "erp-datasource") {
-      openDetails("data-faq-section");
-      ensureInteractive("data-faq-section").then(() => {
-        const el = document.getElementById("erp-datasource");
-        (el || document.getElementById("data-faq-section"))?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+    // 空闲时预取字典（首屏不阻塞）；支持 #dict/表名[/字段] 与 #erp-datasource
+    const hashRaw = (location.hash || "").replace(/^#/, "");
+    const hash = hashRaw.split("?")[0];
+    if (hash.startsWith("dict/")) {
+      const parts = hash.slice(5).split("/");
+      const table = parts[0] || null;
+      const field = parts[1] || null;
+      if (table) {
+        try {
+          sessionStorage.setItem("dictNav", JSON.stringify({ table, field }));
+        } catch (_) { /* ignore */ }
+      }
+      openDetails("data-dictionary-section");
+      initDictionaryLazy().then(() => {
+        window.GlobalSearch?.consumePendingNav?.();
+        setTimeout(() => window.GlobalSearch?.consumePendingNav?.(), 400);
       });
+    } else if (hash === "erp-datasource") {
+      openDetails("data-source-section");
+      const el = document.getElementById("erp-datasource");
+      (el || document.getElementById("data-source-section"))?.scrollIntoView?.({ behavior: "smooth", block: "start" });
     } else if (hash && hash !== "dw-graph-section") {
       ensureInteractive(hash);
     } else {

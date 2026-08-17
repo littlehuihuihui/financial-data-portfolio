@@ -280,9 +280,14 @@
         DATA.nodes.forEach(function (n) {
           if (n.isRoot || n.isCategory || !TYPE[n.type]) return;
           var nm = String(n.name || "").toLowerCase();
-          var blob = String(n.description || (n.detail && n.detail.definition) || "").toLowerCase();
+          var cn = String(n.name_cn || "").toLowerCase();
+          var labels = [n.name, n.name_cn, n.description];
+          if (Array.isArray(n.aliases)) labels = labels.concat(n.aliases);
+          if (Array.isArray(n.tags)) labels = labels.concat(n.tags);
+          if (n.detail) labels.push(n.detail.definition, n.detail.notes);
+          var blob = labels.filter(Boolean).join(" ").toLowerCase();
           var sc = 0;
-          if (nm.indexOf(ql) >= 0) sc += 40;
+          if (nm.indexOf(ql) >= 0 || cn.indexOf(ql) >= 0) sc += 40;
           else if (blob.indexOf(ql) >= 0) sc += 10;
           if (sc <= 0) return;
           scored[n.type].push({ n: n, sc: sc });
@@ -294,7 +299,8 @@
           if (!list.length) return;
           html += '<div class="kg2-search-group">' + TYPE[t].label + "</div>";
           list.forEach(function (n) {
-            html += '<div class="kg2-search-item" data-id="' + n.id + '">' + hilite(n.name, q) + "</div>";
+            var label = n.name_cn ? (n.name + " · " + n.name_cn) : n.name;
+            html += '<div class="kg2-search-item" data-id="' + n.id + '">' + hilite(label, q) + "</div>";
           });
         });
         drop.innerHTML = html || '<div class="kg2-search-item">无匹配结果</div>';
@@ -1017,17 +1023,26 @@
           return "dash:" + token.toLowerCase();
         }
         var lower = cleaned.toLowerCase();
+        function nodeLabels(n) {
+          var list = [n.name, n.name_cn, n.description];
+          if (Array.isArray(n.aliases)) list = list.concat(n.aliases);
+          if (Array.isArray(n.tags)) list = list.concat(n.tags);
+          if (n.detail) list.push(n.detail.definition, n.detail.notes);
+          return list.filter(Boolean).map(function (x) { return String(x).toLowerCase(); });
+        }
         var found = null;
         byId.forEach(function (n, id) {
           if (found || !n || n.isRoot || n.isCategory) return;
-          var nm = String(n.name || "").toLowerCase();
-          if (nm === lower) found = id;
+          var labels = nodeLabels(n);
+          if (labels.indexOf(lower) >= 0) found = id;
         });
         if (found) return found;
         byId.forEach(function (n, id) {
           if (found || !n || n.isRoot || n.isCategory) return;
-          var nm = String(n.name || "").toLowerCase();
-          if (nm && (nm.indexOf(lower) >= 0 || lower.indexOf(nm) >= 0)) found = id;
+          nodeLabels(n).forEach(function (nm) {
+            if (found || !nm) return;
+            if (nm.indexOf(lower) >= 0 || lower.indexOf(nm) >= 0) found = id;
+          });
         });
         return found;
       }
@@ -1056,6 +1071,9 @@
     return { render: render, enterFocus: enterFocus };
   };
 
+  // 供全局搜索等同页深链调用
+  window.__platformKgApi = null;
+
   document.addEventListener("DOMContentLoaded", function () {
     var started = false;
     function tryInit() {
@@ -1065,7 +1083,7 @@
       if (!(root && hasData && typeof window.initPlatformKnowledgeGraph === "function")) return false;
       started = true;
       try {
-        window.initPlatformKnowledgeGraph({ root: "#pkgRoot", embed: false });
+        window.__platformKgApi = window.initPlatformKnowledgeGraph({ root: "#pkgRoot", embed: false });
       } catch (err) {
         started = false;
         root.innerHTML = '<div class="kg2-empty" style="padding:32px;color:#f87171">知识图谱初始化失败：' + String(err && err.message || err) + "</div>";

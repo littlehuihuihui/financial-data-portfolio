@@ -89,7 +89,7 @@
     const token = tableToken(name);
 
     if (isTableOrViewName(name)) {
-      return `dictionary.html#dict/${encodeURIComponent(token)}`;
+      return `architecture.html#dict/${encodeURIComponent(token)}`;
     }
 
     const dash = matchDashboard(name);
@@ -867,20 +867,36 @@
   searchInput.addEventListener("input", () => renderSidebar(searchInput.value));
   mobileToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 
-  function initPage() {
-    const hash = location.hash.replace("#", "");
+  function normalizeMethodHash(raw) {
+    let hash = String(raw || "").replace(/^#/, "");
+    if (hash.startsWith("playbook/")) hash = hash.slice(9);
+    return hash;
+  }
+
+  function applyMethodHash() {
+    const hash = normalizeMethodHash(location.hash);
     if (hash.startsWith("toolbox-")) {
       activeToolboxId = hash.slice(8);
-    } else if (hash && PLAYBOOKS.some((p) => p.id === hash)) {
-      activeId = hash;
-    }
-    renderSidebar();
-    if (activeToolboxId) {
       selectToolboxMethod(activeToolboxId);
-    } else {
+      return true;
+    }
+    if (hash && PLAYBOOKS.some((p) => p.id === hash)) {
+      selectPlaybook(hash);
+      return true;
+    }
+    return false;
+  }
+
+  function initPage() {
+    if (!applyMethodHash()) {
+      renderSidebar();
       selectPlaybook(activeId);
     }
   }
+
+  window.addEventListener("hashchange", () => {
+    applyMethodHash();
+  });
 
   async function boot() {
     await loadDashCatalog();

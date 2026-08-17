@@ -153,48 +153,52 @@
     async function loadIndustries() {
       const grid = document.getElementById("industry-grid");
       const statusEl = document.getElementById("db-status");
+      const dot = statusEl.querySelector(".status-dot");
+      const txt = statusEl.querySelector("span:last-child");
+      const staticHost = (location.hostname || "").endsWith("github.io");
       let items = FALLBACK;
       let fromApi = false;
 
-      try {
-        const health = await fetch("api/health");
-        const healthJson = await health.json();
-        const dot = statusEl.querySelector(".status-dot");
-        const txt = statusEl.querySelector("span:last-child");
-        if (healthJson.ok) {
-          dot.classList.add("ok");
-          if (txt) txt.textContent = "元数据库已连接";
-        } else {
-          dot.classList.add("err");
-          if (txt) txt.textContent = "元数据库未连接（使用静态回退）";
+      // GitHub Pages 为纯静态站，跳过本地 API，避免卡住「正在加载…」
+      if (staticHost) {
+        if (dot) { dot.classList.remove("err"); dot.classList.add("ok"); }
+        if (txt) txt.textContent = "静态作品集模式（演示数据）";
+      } else {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 2500);
+        try {
+          const health = await fetch("api/health", { signal: ctrl.signal });
+          const healthJson = await health.json();
+          if (healthJson.ok) {
+            if (dot) { dot.classList.remove("err"); dot.classList.add("ok"); }
+            if (txt) txt.textContent = "元数据库已连接";
+          } else {
+            if (dot) { dot.classList.remove("ok"); dot.classList.add("err"); }
+            if (txt) txt.textContent = "元数据库未连接（使用静态回退）";
+          }
+        } catch {
+          if (dot) { dot.classList.remove("ok"); dot.classList.add("err"); }
+          if (txt) txt.textContent = "API 未启动（使用本地回退）";
         }
-      } catch {
-        statusEl.querySelector(".status-dot").classList.add("err");
-        const txt = statusEl.querySelector("span:last-child");
-        if (txt) {
-          const staticHost = (location.hostname || "").endsWith("github.io");
-          txt.textContent = staticHost ? "静态作品集模式（演示数据）" : "API 未启动（使用本地回退）";
-          if (staticHost) statusEl.querySelector(".status-dot").classList.remove("err");
-          if (staticHost) statusEl.querySelector(".status-dot").classList.add("ok");
-        }
-      }
 
-      try {
-        const res = await fetch("api/industries");
-        const json = await res.json();
-        if (json.ok && Array.isArray(json.data) && json.data.length) {
-          items = json.data.map((it) => {
-            const url = it.entry_url || "";
-            if (url.startsWith("/industries/")) {
-              return { ...it, entry_url: url.replace(/^\//, "") };
-            }
-            return it;
-          });
-          fromApi = true;
-          const codes = new Set(items.map((i) => i.industry_code));
-          FALLBACK.forEach((fb) => { if (!codes.has(fb.industry_code)) items.push(fb); });
-        }
-      } catch { /* fallback */ }
+        try {
+          const res = await fetch("api/industries", { signal: ctrl.signal });
+          const json = await res.json();
+          if (json.ok && Array.isArray(json.data) && json.data.length) {
+            items = json.data.map((it) => {
+              const url = it.entry_url || "";
+              if (url.startsWith("/industries/")) {
+                return { ...it, entry_url: url.replace(/^\//, "") };
+              }
+              return it;
+            });
+            fromApi = true;
+            const codes = new Set(items.map((i) => i.industry_code));
+            FALLBACK.forEach((fb) => { if (!codes.has(fb.industry_code)) items.push(fb); });
+          }
+        } catch { /* fallback */ }
+        clearTimeout(timer);
+      }
 
       if (!items.length) {
         grid.innerHTML = '<div class="empty">暂无已注册行业，请执行 portfolio_metadata/ddl/07_init_data.sql</div>';
@@ -202,7 +206,7 @@
       }
 
       grid.innerHTML = items.map(renderCard).join("");
-      if (!fromApi) {
+      if (!fromApi && !staticHost) {
         const note = document.createElement("p");
         note.className = "note";
         note.innerHTML = '提示：运行 <code>Portfolio Platform (5100)</code> 可从元数据库动态加载行业列表';

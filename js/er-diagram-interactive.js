@@ -857,6 +857,32 @@
         font-size: 12px;
       }
       .er-diagram-desc strong { color: #cbd5e1; }
+      @media (max-width: 768px) {
+        .er-v2-workspace {
+          flex-direction: column;
+          height: auto;
+          min-height: 0;
+          max-height: none;
+        }
+        .er-v2-chart-wrap {
+          min-height: 52vh;
+          height: 52vh;
+          width: 100%;
+        }
+        .er-v2-detail-panel {
+          width: 100%;
+          max-height: 40vh;
+          flex-shrink: 1;
+        }
+        .er-v2-toolbar {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .er-v2-search {
+          width: 100%;
+          max-width: none;
+        }
+      }
     `;
     document.head.appendChild(style);
   }

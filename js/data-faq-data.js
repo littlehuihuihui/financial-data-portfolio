@@ -590,6 +590,35 @@ FROM dws_sales_monthly;`,
       ],
       alsoInterview: true,
     },
+    {
+      id: "analysis-biz-decompose",
+      cat: "analysis",
+      q: "业务问题怎么拆解？以「用户画像」为例怎么讲？",
+      a: [
+        "不要一上来画饼图。先问：这个画像要支持哪次决策？成功标准是什么？再落到粒度、口径、切片、交叉诊断与动作。",
+        "作品集里互联网「用户画像（端/地市）」场景（方法论 q02）就是标准示范：决策澄清 → 口径 → 端型×地市 → 核心城验证 → 高活跃低付费清单 → 一页纸结论。",
+      ],
+      list: [
+        "1) 决策问题：一句话写清「为了什么而画画像」（投放 / 改版 / 区域运营），并给出可验证成功标准",
+        "2) 粒度与口径：一行代表什么（日×端×地市）；活跃用 MAC 还是 userid；付费如何定义——写进口径备忘再写 SQL",
+        "3) 主切片：端型（STB/Speaker）× 地市/城别；输出分布与付费率，而不是只报总量",
+        "4) 验证基本盘：核心城（如广深）活跃占比是否仍 ≥ 约定阈值；低于阈值要单列说明",
+        "5) 交叉诊断：筛「高活跃低付费」等人群，作为下一跳漏斗/套餐诊断输入",
+        "6) 结论三段式：事实 → 含义（基本盘/机会盘）→ 动作；并链到对应看板与下一场景卡",
+      ],
+      sql: [
+        {
+          title: "端型×地市画像（ADS）",
+          code: "SELECT device_type, city_tier, user_count, paid_count, paid_rate_pct\nFROM internet_analytics.v_user_portrait\nORDER BY user_count DESC;",
+        },
+        {
+          title: "待攻坚：高活跃低付费切片",
+          code: "SELECT device_type, city_tier, user_count, paid_rate_pct\nFROM internet_analytics.v_user_portrait\nWHERE user_count >= 1000 AND paid_rate_pct < 8\nORDER BY user_count DESC\nLIMIT 20;",
+        },
+      ],
+      exampleKey: "biz_persona",
+      alsoInterview: true,
+    },
 
     /* ========== 面试高频（汇总入口；部分与上文交叉，此处给标准答法） ========== */
     {
@@ -720,14 +749,15 @@ LIMIT 20;`,
       viz: "14 主题看板 + PDF 同源指标。",
       frontend: "retail_dashboard.html；北极星阶段联动主看板。",
       prod_stack: "财务对账偏 T+1 离线仓，不必强行实时。",
+      biz_persona: "零售可对照：品牌×渠道×门店画像；拆法同「决策→口径→切片→交叉→动作」。",
     },
     internet: {
       overview: "库 internet_analytics；API :5001；有效 MAU 叙事。",
       ods: "例：ods_device_operation_log — 一行一次操作。",
-      dim: "例：dim_video_info / dim_user。",
+      dim: "例：dim_video_info / dim_user；直播频道大类 dim_channel_category。",
       dwd: "例：dwd_device_operation_wide、dwd_user_wide。",
       dws: "例：活跃/留存/漏斗日汇总。",
-      ads: "例：v_dau_overview、v_retention_*、v_funnel、v_ltv。",
+      ads: "例：v_dau_overview、v_retention_*、v_funnel、v_ltv、v_user_portrait。",
       wide: "user_id → dim_user；channel_code → dim_channel。",
       mysql: "窗口函数常用于留存/漏斗；生产行为明细对照 ClickHouse。",
       python_flask: "Flask :5001；口径在 ADS 视图。",
@@ -735,6 +765,7 @@ LIMIT 20;`,
       viz: "DAU/留存/漏斗与 API 同源；DISTINCT 类指标宜预聚合。",
       frontend: "internet_dashboard.html + 增长方法论页。",
       prod_stack: "生产常 Hive/ODPS + ClickHouse + Kafka/Flink。",
+      biz_persona: "方法论 q02「用户画像（端/地市）」：v_user_portrait + dim_region；广深活跃占比可作成功标准。",
     },
     manufacturing: {
       overview: "库 manufacturing_analytics；API :5002；CMEI 北极星。",
@@ -750,8 +781,9 @@ LIMIT 20;`,
       viz: "产量/质量/设备看板，产线下钻。",
       frontend: "manufacturing_dashboard.html；CMEI 阶段联动。",
       prod_stack: "MES 可近实时；经营汇总仍可 T+1。",
+      biz_persona: "制造可对照：产线×产品×班次；先澄清决策（排产/质量攻坚）再切 OEE/良率。",
     },
   };
 
-  window.DATA_FAQ_DATA = { categories, faqs, examples, version: "2.2" };
+  window.DATA_FAQ_DATA = { categories, faqs, examples, version: "2.3" };
 })();

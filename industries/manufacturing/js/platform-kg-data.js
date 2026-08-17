@@ -17,13 +17,13 @@ window.PLATFORM_KG_DATA = {
       "l3MaxTotal": 15
     },
     "counts": {
-      "nodes": 129,
-      "edges": 173,
-      "leaves": 109,
+      "nodes": 169,
+      "edges": 241,
+      "leaves": 149,
       "dashboards": 14,
-      "playbooks": 26,
+      "playbooks": 50,
       "metrics": 39,
-      "warehouseTables": 30
+      "warehouseTables": 46
     }
   },
   "nodes": [
@@ -154,6 +154,11 @@ window.PLATFORM_KG_DATA = {
         "pb:q01",
         "pb:q06",
         "pb:q22",
+        "pb:q27",
+        "pb:q39",
+        "pb:q42",
+        "pb:q46",
+        "pb:q49",
         "metric:生产节拍"
       ],
       "childrenIds": []
@@ -175,7 +180,10 @@ window.PLATFORM_KG_DATA = {
       ],
       "crossRefs": [
         "pb:q12",
-        "pb:q23"
+        "pb:q23",
+        "pb:q31",
+        "pb:q45",
+        "pb:q47"
       ],
       "childrenIds": []
     },
@@ -199,6 +207,9 @@ window.PLATFORM_KG_DATA = {
         "pb:q11",
         "pb:q17",
         "pb:q26",
+        "pb:q29",
+        "pb:q35",
+        "pb:q43",
         "metric:质量损失成本",
         "metric:质量率_quality"
       ],
@@ -244,7 +255,9 @@ window.PLATFORM_KG_DATA = {
         "看板"
       ],
       "crossRefs": [
-        "pb:q21"
+        "pb:q21",
+        "pb:q29",
+        "pb:q43"
       ],
       "childrenIds": []
     },
@@ -268,6 +281,9 @@ window.PLATFORM_KG_DATA = {
         "pb:q07",
         "pb:q16",
         "pb:q19",
+        "pb:q33",
+        "pb:q36",
+        "pb:q48",
         "metric:oee_设备综合效率",
         "metric:设备利用率"
       ],
@@ -292,6 +308,7 @@ window.PLATFORM_KG_DATA = {
         "pb:q13",
         "pb:q16",
         "pb:q19",
+        "pb:q38",
         "metric:停机时长"
       ],
       "childrenIds": []
@@ -332,7 +349,11 @@ window.PLATFORM_KG_DATA = {
       "crossRefs": [
         "pb:q04",
         "pb:q17",
-        "pb:q20"
+        "pb:q20",
+        "pb:q28",
+        "pb:q34",
+        "pb:q41",
+        "pb:q44"
       ],
       "childrenIds": []
     },
@@ -356,6 +377,8 @@ window.PLATFORM_KG_DATA = {
         "pb:q14",
         "pb:q18",
         "pb:q25",
+        "pb:q40",
+        "pb:q50",
         "metric:供应商准交率"
       ],
       "childrenIds": []
@@ -416,7 +439,9 @@ window.PLATFORM_KG_DATA = {
       ],
       "crossRefs": [
         "pb:q15",
-        "pb:q20"
+        "pb:q20",
+        "pb:q28",
+        "pb:q37"
       ],
       "childrenIds": []
     },
@@ -436,7 +461,12 @@ window.PLATFORM_KG_DATA = {
         "看板"
       ],
       "crossRefs": [
-        "pb:q24"
+        "pb:q24",
+        "pb:q27",
+        "pb:q34",
+        "pb:q42",
+        "pb:q46",
+        "pb:q49"
       ],
       "childrenIds": []
     },
@@ -453,7 +483,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q11",
         "pb:q12",
         "pb:q19",
-        "pb:q20"
+        "pb:q20",
+        "pb:q27",
+        "pb:q28",
+        "pb:q29",
+        "pb:q30",
+        "pb:q31",
+        "pb:q32"
       ],
       "detail": {
         "definition": "L1 描述"
@@ -474,7 +510,14 @@ window.PLATFORM_KG_DATA = {
         "pb:q13",
         "pb:q14",
         "pb:q21",
-        "pb:q22"
+        "pb:q22",
+        "pb:q33",
+        "pb:q34",
+        "pb:q35",
+        "pb:q36",
+        "pb:q37",
+        "pb:q38",
+        "pb:q39"
       ],
       "detail": {
         "definition": "L2 诊断"
@@ -492,7 +535,11 @@ window.PLATFORM_KG_DATA = {
         "pb:q06",
         "pb:q15",
         "pb:q16",
-        "pb:q23"
+        "pb:q23",
+        "pb:q40",
+        "pb:q41",
+        "pb:q42",
+        "pb:q43"
       ],
       "detail": {
         "definition": "L3 归因/预测"
@@ -510,7 +557,10 @@ window.PLATFORM_KG_DATA = {
         "pb:q07",
         "pb:q08",
         "pb:q17",
-        "pb:q24"
+        "pb:q24",
+        "pb:q44",
+        "pb:q45",
+        "pb:q46"
       ],
       "detail": {
         "definition": "L4 评估"
@@ -529,7 +579,11 @@ window.PLATFORM_KG_DATA = {
         "pb:q10",
         "pb:q18",
         "pb:q25",
-        "pb:q26"
+        "pb:q26",
+        "pb:q47",
+        "pb:q48",
+        "pb:q49",
+        "pb:q50"
       ],
       "detail": {
         "definition": "L5 决策"
@@ -556,7 +610,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l1",
       "description": "产量、产能、良品率、成本、交付",
-      "href": "methodology.html#playbook/q01",
+      "href": "methodology.html#q01",
       "detail": {
         "definition": "本月生产运营怎么样？",
         "notes": "产量、产能、良品率、成本、交付",
@@ -575,7 +629,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l1",
       "description": "各产线产量与产能利用率对比",
-      "href": "methodology.html#playbook/q02",
+      "href": "methodology.html#q02",
       "detail": {
         "definition": "哪条产线表现最好？",
         "notes": "各产线产量与产能利用率对比",
@@ -592,7 +646,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l2",
       "description": "拆产线→产品→不良类型→根因",
-      "href": "methodology.html#playbook/q03",
+      "href": "methodology.html#q03",
       "detail": {
         "definition": "为什么良品率下降了？",
         "notes": "拆产线→产品→不良类型→根因",
@@ -611,7 +665,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l2",
       "description": "拆材料/人工/制造费用",
-      "href": "methodology.html#playbook/q04",
+      "href": "methodology.html#q04",
       "detail": {
         "definition": "为什么单位成本涨了？",
         "notes": "拆材料/人工/制造费用",
@@ -630,7 +684,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l2",
       "description": "拆设备→故障类型→停机时长",
-      "href": "methodology.html#playbook/q05",
+      "href": "methodology.html#q05",
       "detail": {
         "definition": "为什么设备老出问题？",
         "notes": "拆设备→故障类型→停机时长",
@@ -650,7 +704,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l3",
       "description": "基于历史产量+订单预测",
-      "href": "methodology.html#playbook/q06",
+      "href": "methodology.html#q06",
       "detail": {
         "definition": "下月能产多少？",
         "notes": "基于历史产量+订单预测",
@@ -669,7 +723,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l4",
       "description": "各设备/产线OEE对比",
-      "href": "methodology.html#playbook/q07",
+      "href": "methodology.html#q07",
       "detail": {
         "definition": "哪些设备最该优先改善？",
         "notes": "各设备/产线OEE对比",
@@ -688,7 +742,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l4",
       "description": "准时率+质量+价格综合评分",
-      "href": "methodology.html#playbook/q08",
+      "href": "methodology.html#q08",
       "detail": {
         "definition": "哪家供应商最可靠？",
         "notes": "准时率+质量+价格综合评分",
@@ -707,7 +761,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l5",
       "description": "柏拉图定位TOP不良",
-      "href": "methodology.html#playbook/q09",
+      "href": "methodology.html#q09",
       "detail": {
         "definition": "先改哪个不良？",
         "notes": "柏拉图定位TOP不良",
@@ -724,7 +778,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l5",
       "description": "排产优化、减少换型",
-      "href": "methodology.html#playbook/q10",
+      "href": "methodology.html#q10",
       "detail": {
         "definition": "如何提升产能利用率？",
         "notes": "排产优化、减少换型",
@@ -741,7 +795,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l1",
       "description": "良品率、FPY、报废返工、TOP 不良",
-      "href": "methodology.html#playbook/q11",
+      "href": "methodology.html#q11",
       "detail": {
         "definition": "本月质量状况怎么样？",
         "notes": "良品率、FPY、报废返工、TOP 不良",
@@ -761,7 +815,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l1",
       "description": "OTIF/OTD、欠交、提前完工结构",
-      "href": "methodology.html#playbook/q12",
+      "href": "methodology.html#q12",
       "detail": {
         "definition": "客户订单交付稳不稳？",
         "notes": "OTIF/OTD、欠交、提前完工结构",
@@ -780,7 +834,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l2",
       "description": "拆产线利用率→瓶颈工序→停机/换型损失",
-      "href": "methodology.html#playbook/q13",
+      "href": "methodology.html#q13",
       "detail": {
         "definition": "为什么产能跟不上订单？",
         "notes": "拆产线利用率→瓶颈工序→停机/换型损失",
@@ -799,7 +853,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l2",
       "description": "拆供应商 OTD→物料齐套→产线停待",
-      "href": "methodology.html#playbook/q14",
+      "href": "methodology.html#q14",
       "detail": {
         "definition": "为什么交期延误变多了？",
         "notes": "拆供应商 OTD→物料齐套→产线停待",
@@ -818,7 +872,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l3",
       "description": "按预测产量+BOM 推算关键件需求与安全库存",
-      "href": "methodology.html#playbook/q15",
+      "href": "methodology.html#q15",
       "detail": {
         "definition": "下月关键物料要备多少？",
         "notes": "按预测产量+BOM 推算关键件需求与安全库存",
@@ -837,7 +891,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l3",
       "description": "用停机趋势+故障频次预测高风险设备",
-      "href": "methodology.html#playbook/q16",
+      "href": "methodology.html#q16",
       "detail": {
         "definition": "哪些设备下月最可能出问题？",
         "notes": "用停机趋势+故障频次预测高风险设备",
@@ -857,7 +911,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l4",
       "description": "爬坡良品率、单位成本、产能达成 vs 目标",
-      "href": "methodology.html#playbook/q17",
+      "href": "methodology.html#q17",
       "detail": {
         "definition": "这款新品导入达标了吗？",
         "notes": "爬坡良品率、单位成本、产能达成 vs 目标",
@@ -877,7 +931,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l5",
       "description": "按评分卡调整份额、双源与淘汰",
-      "href": "methodology.html#playbook/q18",
+      "href": "methodology.html#q18",
       "detail": {
         "definition": "采购份额怎么调更稳？",
         "notes": "按评分卡调整份额、双源与淘汰",
@@ -897,7 +951,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l1",
       "description": "OEE、可用率、停机时长、MTBF 快照",
-      "href": "methodology.html#playbook/q19",
+      "href": "methodology.html#q19",
       "detail": {
         "definition": "本月设备运行状态怎么样？",
         "notes": "OEE、可用率、停机时长、MTBF 快照",
@@ -918,7 +972,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l1",
       "description": "单位成本、材料/人工/制费结构",
-      "href": "methodology.html#playbook/q20",
+      "href": "methodology.html#q20",
       "detail": {
         "definition": "本月制造成本处在什么水平？",
         "notes": "单位成本、材料/人工/制费结构",
@@ -938,7 +992,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l2",
       "description": "拆产品→工序→不良类型→批次",
-      "href": "methodology.html#playbook/q21",
+      "href": "methodology.html#q21",
       "detail": {
         "definition": "为什么报废/返工突然变多？",
         "notes": "拆产品→工序→不良类型→批次",
@@ -958,7 +1012,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l2",
       "description": "拆工序 WIP→节拍→换型/停机",
-      "href": "methodology.html#playbook/q22",
+      "href": "methodology.html#q22",
       "detail": {
         "definition": "为什么在制品堆这么多？",
         "notes": "拆工序 WIP→节拍→换型/停机",
@@ -977,7 +1031,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l3",
       "description": "按在制进度+瓶颈产能预估能否按期",
-      "href": "methodology.html#playbook/q23",
+      "href": "methodology.html#q23",
       "detail": {
         "definition": "哪些订单下周可能延期？",
         "notes": "按在制进度+瓶颈产能预估能否按期",
@@ -996,7 +1050,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l4",
       "description": "人均产出、标准工时达成、加班结构",
-      "href": "methodology.html#playbook/q24",
+      "href": "methodology.html#q24",
       "detail": {
         "definition": "人员效率达标了吗？哪班偏低？",
         "notes": "人均产出、标准工时达成、加班结构",
@@ -1016,7 +1070,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l5",
       "description": "高周转/呆滞分层，调整安全库存与采购批量",
-      "href": "methodology.html#playbook/q25",
+      "href": "methodology.html#q25",
       "detail": {
         "definition": "库存怎么压又不缺料？",
         "notes": "高周转/呆滞分层，调整安全库存与采购批量",
@@ -1035,7 +1089,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_method_l5",
       "description": "从遏制到永久措施与横展验证",
-      "href": "methodology.html#playbook/q26",
+      "href": "methodology.html#q26",
       "detail": {
         "definition": "这起客诉怎么闭环不再发？",
         "notes": "从遏制到永久措施与横展验证",
@@ -1045,6 +1099,466 @@ window.PLATFORM_KG_DATA = {
       "crossRefs": [
         "dash:quality",
         "dash:scrap-rework"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q27",
+      "name": "班组绩效排名",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l1",
+      "description": "各班组产量、良率、效率对比",
+      "href": "methodology.html#q27",
+      "detail": {
+        "definition": "哪个班表现最好？哪个班拖后腿？",
+        "notes": "各班组产量、良率、效率对比",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:labor",
+        "dash:production"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q28",
+      "name": "产品盈利能力分析",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l1",
+      "description": "各产品/产品线的收入、成本、毛利对比",
+      "href": "methodology.html#q28",
+      "detail": {
+        "definition": "哪款产品最赚钱？哪款在亏钱？",
+        "notes": "各产品/产品线的收入、成本、毛利对比",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:cost",
+        "dash:bom-variance"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q29",
+      "name": "工序良率总览",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l1",
+      "description": "各工序良率、FPY、瓶颈工序识别",
+      "href": "methodology.html#q29",
+      "detail": {
+        "definition": "哪道工序良率最低？质量瓶颈在哪？",
+        "notes": "各工序良率、FPY、瓶颈工序识别",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:process-yield",
+        "dash:quality"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q30",
+      "name": "能耗总览",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l1",
+      "description": "电、气、水等能耗总量、单耗、趋势",
+      "href": "methodology.html#q30",
+      "detail": {
+        "definition": "本月能耗情况怎么样？单耗达标吗？",
+        "notes": "电、气、水等能耗总量、单耗、趋势",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q31",
+      "name": "客户交付分析",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l1",
+      "description": "按客户维度的OTIF、欠交、订单满足率",
+      "href": "methodology.html#q31",
+      "detail": {
+        "definition": "哪些客户交付最差？客户满意度风险在哪？",
+        "notes": "按客户维度的OTIF、欠交、订单满足率",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:delivery"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q32",
+      "name": "安全生产概况",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l1",
+      "description": "事故次数、隐患整改、安全培训完成率",
+      "href": "methodology.html#q32",
+      "detail": {
+        "definition": "本月安全状况怎么样？有哪些风险点？",
+        "notes": "事故次数、隐患整改、安全培训完成率",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q33",
+      "name": "能耗上升诊断",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l2",
+      "description": "拆产品→工序→设备→时段，定位能耗上升原因",
+      "href": "methodology.html#q33",
+      "detail": {
+        "definition": "为什么这个月电费涨了这么多？",
+        "notes": "拆产品→工序→设备→时段，定位能耗上升原因",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:equipment"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q34",
+      "name": "人工成本上升诊断",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l2",
+      "description": "拆产量→效率→加班→单价，定位人工成本上涨原因",
+      "href": "methodology.html#q34",
+      "detail": {
+        "definition": "为什么人工成本涨了？是加人了还是效率降了？",
+        "notes": "拆产量→效率→加班→单价，定位人工成本上涨原因",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:labor",
+        "dash:cost"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q35",
+      "name": "客诉上升诊断",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l2",
+      "description": "拆客户→产品→不良类型→批次，定位客诉上升根因",
+      "href": "methodology.html#q35",
+      "detail": {
+        "definition": "为什么客诉突然变多了？哪类问题最严重？",
+        "notes": "拆客户→产品→不良类型→批次，定位客诉上升根因",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:quality"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q36",
+      "name": "安全事故根因分析",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l2",
+      "description": "拆类型→部位→时段→原因，定位安全事故规律",
+      "href": "methodology.html#q36",
+      "detail": {
+        "definition": "为什么事故变多了？根因是什么？",
+        "notes": "拆类型→部位→时段→原因，定位安全事故规律",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:equipment"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q37",
+      "name": "物料损耗上升诊断",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l2",
+      "description": "拆物料→工序→原因，定位物料损耗上升点",
+      "href": "methodology.html#q37",
+      "detail": {
+        "definition": "为什么物料损耗率超标了？浪费在哪？",
+        "notes": "拆物料→工序→原因，定位物料损耗上升点",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:bom-variance"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q38",
+      "name": "换型时间过长诊断",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l2",
+      "description": "拆产品→产线→换型类型，定位换型损失大头",
+      "href": "methodology.html#q38",
+      "detail": {
+        "definition": "为什么换型要这么久？时间都花在哪了？",
+        "notes": "拆产品→产线→换型类型，定位换型损失大头",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:downtime"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q39",
+      "name": "瓶颈工序漂移诊断",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l2",
+      "description": "跟踪瓶颈工序是否转移，识别新的约束点",
+      "href": "methodology.html#q39",
+      "detail": {
+        "definition": "瓶颈工序是不是变了？现在卡在哪？",
+        "notes": "跟踪瓶颈工序是否转移，识别新的约束点",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:production"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q40",
+      "name": "安全库存预警",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l3",
+      "description": "基于消耗速度和交期，识别低于安全库存的物料",
+      "href": "methodology.html#q40",
+      "detail": {
+        "definition": "哪些物料快断货了？需要紧急采购吗？",
+        "notes": "基于消耗速度和交期，识别低于安全库存的物料",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:supply"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q41",
+      "name": "能耗预测与预算",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l3",
+      "description": "基于产量计划预测下月能耗，对比预算识别缺口",
+      "href": "methodology.html#q41",
+      "detail": {
+        "definition": "下月能耗预算够不够？需要追加吗？",
+        "notes": "基于产量计划预测下月能耗，对比预算识别缺口",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:cost"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q42",
+      "name": "人力需求预测",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l3",
+      "description": "基于产量计划和标准工时，预测下月人力需求",
+      "href": "methodology.html#q42",
+      "detail": {
+        "definition": "下月需要多少人？现在的人够吗？",
+        "notes": "基于产量计划和标准工时，预测下月人力需求",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:labor",
+        "dash:production"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q43",
+      "name": "质量风险预测",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l3",
+      "description": "基于过程参数趋势，预测质量风险点",
+      "href": "methodology.html#q43",
+      "detail": {
+        "definition": "哪些产品/工序下月质量风险高？",
+        "notes": "基于过程参数趋势，预测质量风险点",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:quality",
+        "dash:process-yield"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q44",
+      "name": "产品盈利能力评估",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l4",
+      "description": "从毛利、周转、销量多维度评估产品价值",
+      "href": "methodology.html#q44",
+      "detail": {
+        "definition": "哪些产品是金牛？哪些是瘦狗？",
+        "notes": "从毛利、周转、销量多维度评估产品价值",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:cost"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q45",
+      "name": "客户价值评估",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l4",
+      "description": "从收入、利润、交付、风险多维度评估客户价值",
+      "href": "methodology.html#q45",
+      "detail": {
+        "definition": "哪些客户是高价值客户？哪些需要策略调整？",
+        "notes": "从收入、利润、交付、风险多维度评估客户价值",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:delivery"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q46",
+      "name": "班组绩效综合评估",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l4",
+      "description": "从产量、质量、效率、安全多维度综合评估班组",
+      "href": "methodology.html#q46",
+      "detail": {
+        "definition": "哪个班组综合表现最好？差距在哪？",
+        "notes": "从产量、质量、效率、安全多维度综合评估班组",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:labor",
+        "dash:production"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q47",
+      "name": "生产排程优化",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l5",
+      "description": "基于瓶颈、换型、交期优化排产顺序，提升产能和交付",
+      "href": "methodology.html#q47",
+      "detail": {
+        "definition": "怎么排产能让产出最多、交付最好？",
+        "notes": "基于瓶颈、换型、交期优化排产顺序，提升产能和交付",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:delivery"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q48",
+      "name": "能耗优化方案",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l5",
+      "description": "从设备、工艺、管理三方面制定节能降耗方案",
+      "href": "methodology.html#q48",
+      "detail": {
+        "definition": "怎么把能耗降下来？投入产出比怎么样？",
+        "notes": "从设备、工艺、管理三方面制定节能降耗方案",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:equipment"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q49",
+      "name": "人员排班优化",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l5",
+      "description": "基于产量波动和人员技能，优化班次和人员配置",
+      "href": "methodology.html#q49",
+      "detail": {
+        "definition": "怎么排班既能满足生产又不浪费人力？",
+        "notes": "基于产量波动和人员技能，优化班次和人员配置",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:labor",
+        "dash:production"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "pb:q50",
+      "name": "物料配送路径优化",
+      "type": "methodology",
+      "category": "manufacturing",
+      "parentId": "cat_method_l5",
+      "description": "优化厂内物料配送路线和频次，降低物流成本和等待",
+      "href": "methodology.html#q50",
+      "detail": {
+        "definition": "怎么送料能又快又省？配送路线怎么优化？",
+        "notes": "优化厂内物料配送路线和频次，降低物流成本和等待",
+        "steps": []
+      },
+      "tags": [],
+      "crossRefs": [
+        "dash:supply"
       ],
       "childrenIds": []
     },
@@ -1059,7 +1573,10 @@ window.PLATFORM_KG_DATA = {
         "tbl:ods_inventory_material",
         "tbl:ods_labor",
         "tbl:ods_material",
-        "tbl:ods_production_line"
+        "tbl:ods_production_line",
+        "tbl:ods_production_order",
+        "tbl:ods_quality_inspection",
+        "tbl:ods_supplier"
       ],
       "detail": {
         "definition": "ODS 贴源层"
@@ -1077,7 +1594,11 @@ window.PLATFORM_KG_DATA = {
         "tbl:dim_date",
         "tbl:dim_defect_type",
         "tbl:dim_equipment",
-        "tbl:dim_factory"
+        "tbl:dim_factory",
+        "tbl:dim_material",
+        "tbl:dim_product",
+        "tbl:dim_production_line",
+        "tbl:dim_supplier"
       ],
       "detail": {
         "definition": "DIM 维度层"
@@ -1095,7 +1616,15 @@ window.PLATFORM_KG_DATA = {
         "tbl:dwd_equipment_run",
         "tbl:dwd_labor_wide",
         "tbl:dwd_production_wide",
-        "tbl:dwd_quality_wide"
+        "tbl:dwd_quality_wide",
+        "tbl:dwd_supply_wide",
+        "tbl:fact_equipment_run",
+        "tbl:fact_labor",
+        "tbl:fact_material_consumption",
+        "tbl:fact_process_operation",
+        "tbl:fact_production",
+        "tbl:fact_quality",
+        "tbl:fact_supply"
       ],
       "detail": {
         "definition": "DWD 明细层"
@@ -1141,7 +1670,8 @@ window.PLATFORM_KG_DATA = {
         "tbl:v_manufacturing_finance",
         "tbl:v_material_turnover",
         "tbl:v_production_overview",
-        "tbl:v_quality_analysis"
+        "tbl:v_quality_analysis",
+        "tbl:v_supply_chain"
       ],
       "detail": {
         "definition": "ADS 应用层"
@@ -1151,18 +1681,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_inventory_material",
       "name": "ods_inventory_material",
+      "name_cn": "物料库存",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_inventory_material",
+      "description": "物料库存",
+      "aliases": [
+        "物料库存",
+        "ODS·物料库存·日快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_inventory_material",
+      "dictHref": "architecture.html#dict/ods_inventory_material",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "ODS·物料库存·日快照表",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ods"
+        "ods",
+        "物料库存"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1170,18 +1706,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_labor",
       "name": "ods_labor",
+      "name_cn": "人工工时",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_labor",
+      "description": "人工工时",
+      "aliases": [
+        "人工工时",
+        "ODS·人工工时·增量表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_labor",
+      "dictHref": "architecture.html#dict/ods_labor",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "ODS·人工工时·增量表",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ods"
+        "ods",
+        "人工工时"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1189,18 +1731,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_material",
       "name": "ods_material",
+      "name_cn": "物料主数据",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_material",
+      "description": "物料主数据",
+      "aliases": [
+        "物料主数据",
+        "ODS·物料主数据·全量表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_material",
+      "dictHref": "architecture.html#dict/ods_material",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "ODS·物料主数据·全量表",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ods"
+        "ods",
+        "物料主数据"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1208,18 +1756,99 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_production_line",
       "name": "ods_production_line",
+      "name_cn": "产线主数据",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_production_line",
+      "description": "产线主数据",
+      "aliases": [
+        "产线主数据",
+        "ODS·产线主数据·全量表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_production_line",
+      "dictHref": "architecture.html#dict/ods_production_line",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "ODS·产线主数据·全量表",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ods"
+        "ods",
+        "产线主数据"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_production_order",
+      "name": "ods_production_order",
+      "name_cn": "生产工单",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_ods",
+      "description": "生产工单",
+      "aliases": [
+        "生产工单",
+        "ODS·生产工单·增量表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_production_order",
+      "dictHref": "architecture.html#dict/ods_production_order",
+      "detail": {
+        "definition": "ODS·生产工单·增量表",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "生产工单"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_quality_inspection",
+      "name": "ods_quality_inspection",
+      "name_cn": "质检记录",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_ods",
+      "description": "质检记录",
+      "aliases": [
+        "质检记录",
+        "ODS·质检记录·增量表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_quality_inspection",
+      "dictHref": "architecture.html#dict/ods_quality_inspection",
+      "detail": {
+        "definition": "ODS·质检记录·增量表",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "质检记录"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_supplier",
+      "name": "ods_supplier",
+      "name_cn": "供应商",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_ods",
+      "description": "供应商",
+      "aliases": [
+        "供应商",
+        "ODS·供应商·全量表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_supplier",
+      "dictHref": "architecture.html#dict/ods_supplier",
+      "detail": {
+        "definition": "ODS·供应商·全量表",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "供应商"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1227,18 +1856,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_date",
       "name": "dim_date",
+      "name_cn": "日期",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_date",
+      "description": "日期",
+      "aliases": [
+        "日期",
+        "DIM·日期·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_date",
+      "dictHref": "architecture.html#dict/dim_date",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "DIM·日期·全量",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dim"
+        "dim",
+        "日期"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1246,18 +1881,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_defect_type",
       "name": "dim_defect_type",
+      "name_cn": "缺陷类型",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_defect_type",
+      "description": "缺陷类型",
+      "aliases": [
+        "缺陷类型",
+        "DIM·缺陷类型·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_defect_type",
+      "dictHref": "architecture.html#dict/dim_defect_type",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "DIM·缺陷类型·全量",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dim"
+        "dim",
+        "缺陷类型"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1265,18 +1906,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_equipment",
       "name": "dim_equipment",
+      "name_cn": "设备",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_equipment",
+      "description": "设备",
+      "aliases": [
+        "设备",
+        "DIM·设备·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_equipment",
+      "dictHref": "architecture.html#dict/dim_equipment",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "DIM·设备·全量",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dim"
+        "dim",
+        "设备"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1284,18 +1931,124 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_factory",
       "name": "dim_factory",
+      "name_cn": "工厂",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_factory",
+      "description": "工厂",
+      "aliases": [
+        "工厂",
+        "DIM·工厂·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_factory",
+      "dictHref": "architecture.html#dict/dim_factory",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "DIM·工厂·全量",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dim"
+        "dim",
+        "工厂"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_material",
+      "name": "dim_material",
+      "name_cn": "物料",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dim",
+      "description": "物料",
+      "aliases": [
+        "物料",
+        "DIM·物料·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_material",
+      "dictHref": "architecture.html#dict/dim_material",
+      "detail": {
+        "definition": "DIM·物料·全量",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "物料"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_product",
+      "name": "dim_product",
+      "name_cn": "产品",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dim",
+      "description": "产品",
+      "aliases": [
+        "产品",
+        "DIM·产品·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_product",
+      "dictHref": "architecture.html#dict/dim_product",
+      "detail": {
+        "definition": "DIM·产品·全量",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "产品"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_production_line",
+      "name": "dim_production_line",
+      "name_cn": "产线",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dim",
+      "description": "产线",
+      "aliases": [
+        "产线",
+        "DIM·产线·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_production_line",
+      "dictHref": "architecture.html#dict/dim_production_line",
+      "detail": {
+        "definition": "DIM·产线·全量",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "产线"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_supplier",
+      "name": "dim_supplier",
+      "name_cn": "供应商",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dim",
+      "description": "供应商",
+      "aliases": [
+        "供应商",
+        "DIM·供应商·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_supplier",
+      "dictHref": "architecture.html#dict/dim_supplier",
+      "detail": {
+        "definition": "DIM·供应商·全量",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "供应商"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1303,18 +2056,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_equipment_run",
       "name": "dwd_equipment_run",
+      "name_cn": "设备运行明细事实",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_equipment_run",
+      "description": "设备运行明细事实",
+      "aliases": [
+        "设备运行明细事实",
+        "DWD·设备运行明细事实·增量·粒度=日×设备×班次"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_equipment_run",
+      "dictHref": "architecture.html#dict/dwd_equipment_run",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "DWD·设备运行明细事实·增量·粒度=日×设备×班次",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dwd"
+        "dwd",
+        "设备运行明细事实"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1322,18 +2081,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_labor_wide",
       "name": "dwd_labor_wide",
+      "name_cn": "人工事实宽表",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_labor_wide",
+      "description": "人工事实宽表",
+      "aliases": [
+        "人工事实宽表",
+        "DWD·人工事实宽表·增量·粒度=工单×人工记录"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_labor_wide",
+      "dictHref": "architecture.html#dict/dwd_labor_wide",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "DWD·人工事实宽表·增量·粒度=工单×人工记录",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dwd"
+        "dwd",
+        "人工事实宽表"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1341,18 +2106,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_production_wide",
       "name": "dwd_production_wide",
+      "name_cn": "生产事实宽表",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_production_wide",
+      "description": "生产事实宽表",
+      "aliases": [
+        "生产事实宽表",
+        "DWD·生产事实宽表·增量·粒度=工单"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_production_wide",
+      "dictHref": "architecture.html#dict/dwd_production_wide",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "DWD·生产事实宽表·增量·粒度=工单",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dwd"
+        "dwd",
+        "生产事实宽表"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1360,18 +2131,224 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_quality_wide",
       "name": "dwd_quality_wide",
+      "name_cn": "质量事实宽表",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_quality_wide",
+      "description": "质量事实宽表",
+      "aliases": [
+        "质量事实宽表",
+        "DWD·质量事实宽表·增量·粒度=质检单"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_quality_wide",
+      "dictHref": "architecture.html#dict/dwd_quality_wide",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "DWD·质量事实宽表·增量·粒度=质检单",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dwd"
+        "dwd",
+        "质量事实宽表"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dwd_supply_wide",
+      "name": "dwd_supply_wide",
+      "name_cn": "供应链事实宽表",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dwd",
+      "description": "供应链事实宽表",
+      "aliases": [
+        "供应链事实宽表",
+        "DWD·供应链事实宽表·快照·粒度=日×物料×供应商"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_supply_wide",
+      "dictHref": "architecture.html#dict/dwd_supply_wide",
+      "detail": {
+        "definition": "DWD·供应链事实宽表·快照·粒度=日×物料×供应商",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "供应链事实宽表"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:fact_equipment_run",
+      "name": "fact_equipment_run",
+      "name_cn": "设备运行事实",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dwd",
+      "description": "设备运行事实",
+      "aliases": [
+        "设备运行事实",
+        "DWD·设备运行事实（同义视图）"
+      ],
+      "href": "platform-graph.html?node=tbl:fact_equipment_run",
+      "dictHref": "architecture.html#dict/fact_equipment_run",
+      "detail": {
+        "definition": "DWD·设备运行事实（同义视图）",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "设备运行事实"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:fact_labor",
+      "name": "fact_labor",
+      "name_cn": "人工事实",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dwd",
+      "description": "人工事实",
+      "aliases": [
+        "人工事实",
+        "DWD·人工事实（同义视图）"
+      ],
+      "href": "platform-graph.html?node=tbl:fact_labor",
+      "dictHref": "architecture.html#dict/fact_labor",
+      "detail": {
+        "definition": "DWD·人工事实（同义视图）",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "人工事实"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:fact_material_consumption",
+      "name": "fact_material_consumption",
+      "name_cn": "工单领料事实",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dwd",
+      "description": "工单领料事实",
+      "aliases": [
+        "工单领料事实",
+        "FACT·工单领料事实·增量·粒度=工单×物料"
+      ],
+      "href": "platform-graph.html?node=tbl:fact_material_consumption",
+      "dictHref": "architecture.html#dict/fact_material_consumption",
+      "detail": {
+        "definition": "FACT·工单领料事实·增量·粒度=工单×物料",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "工单领料事实"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:fact_process_operation",
+      "name": "fact_process_operation",
+      "name_cn": "工序完成事实",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dwd",
+      "description": "工序完成事实",
+      "aliases": [
+        "工序完成事实",
+        "FACT·工序完成事实·增量·粒度=工单×工序"
+      ],
+      "href": "platform-graph.html?node=tbl:fact_process_operation",
+      "dictHref": "architecture.html#dict/fact_process_operation",
+      "detail": {
+        "definition": "FACT·工序完成事实·增量·粒度=工单×工序",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "工序完成事实"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:fact_production",
+      "name": "fact_production",
+      "name_cn": "生产事实",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dwd",
+      "description": "生产事实",
+      "aliases": [
+        "生产事实",
+        "DWD·生产事实（同义视图）"
+      ],
+      "href": "platform-graph.html?node=tbl:fact_production",
+      "dictHref": "architecture.html#dict/fact_production",
+      "detail": {
+        "definition": "DWD·生产事实（同义视图）",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "生产事实"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:fact_quality",
+      "name": "fact_quality",
+      "name_cn": "质量事实",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dwd",
+      "description": "质量事实",
+      "aliases": [
+        "质量事实",
+        "DWD·质量事实（同义视图）"
+      ],
+      "href": "platform-graph.html?node=tbl:fact_quality",
+      "dictHref": "architecture.html#dict/fact_quality",
+      "detail": {
+        "definition": "DWD·质量事实（同义视图）",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "质量事实"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:fact_supply",
+      "name": "fact_supply",
+      "name_cn": "供应事实",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_dwd",
+      "description": "供应事实",
+      "aliases": [
+        "供应事实",
+        "DWD·供应事实（同义视图）"
+      ],
+      "href": "platform-graph.html?node=tbl:fact_supply",
+      "dictHref": "architecture.html#dict/fact_supply",
+      "detail": {
+        "definition": "DWD·供应事实（同义视图）",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "供应事实"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1379,18 +2356,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_cost_monthly",
       "name": "dws_cost_monthly",
+      "name_cn": "月成本汇总",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_cost_monthly",
+      "description": "月成本汇总",
+      "aliases": [
+        "月成本汇总",
+        "DWS·月成本汇总·快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_cost_monthly",
+      "dictHref": "architecture.html#dict/dws_cost_monthly",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·月成本汇总·快照表",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "月成本汇总"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1398,18 +2381,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_defect_daily",
       "name": "dws_defect_daily",
+      "name_cn": "日缺陷汇总",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_defect_daily",
+      "description": "日缺陷汇总",
+      "aliases": [
+        "日缺陷汇总",
+        "DWS·日缺陷汇总·快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_defect_daily",
+      "dictHref": "architecture.html#dict/dws_defect_daily",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·日缺陷汇总·快照表",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "日缺陷汇总"
       ],
       "crossRefs": [
         "metric:柏拉图top3不良"
@@ -1419,18 +2408,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_equipment_daily",
       "name": "dws_equipment_daily",
+      "name_cn": "日设备汇总",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_equipment_daily",
+      "description": "日设备汇总",
+      "aliases": [
+        "日设备汇总",
+        "DWS·日设备汇总·快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_equipment_daily",
+      "dictHref": "architecture.html#dict/dws_equipment_daily",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·日设备汇总·快照表",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "日设备汇总"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1438,18 +2433,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_labor_monthly",
       "name": "dws_labor_monthly",
+      "name_cn": "月人工效率",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_labor_monthly",
+      "description": "月人工效率",
+      "aliases": [
+        "月人工效率",
+        "DWS·月人工效率·快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_labor_monthly",
+      "dictHref": "architecture.html#dict/dws_labor_monthly",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·月人工效率·快照表",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "月人工效率"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1457,18 +2458,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_material_daily",
       "name": "dws_material_daily",
+      "name_cn": "日物料周转",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_material_daily",
+      "description": "日物料周转",
+      "aliases": [
+        "日物料周转",
+        "DWS·日物料周转·快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_material_daily",
+      "dictHref": "architecture.html#dict/dws_material_daily",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·日物料周转·快照表",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "日物料周转"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1476,18 +2483,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_production_daily",
       "name": "dws_production_daily",
+      "name_cn": "日生产汇总",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_production_daily",
+      "description": "日生产汇总",
+      "aliases": [
+        "日生产汇总",
+        "DWS·日生产汇总·快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_production_daily",
+      "dictHref": "architecture.html#dict/dws_production_daily",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·日生产汇总·快照表",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "日生产汇总"
       ],
       "crossRefs": [
         "metric:计划达成率"
@@ -1497,18 +2510,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_quality_daily",
       "name": "dws_quality_daily",
+      "name_cn": "日质量汇总",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_quality_daily",
+      "description": "日质量汇总",
+      "aliases": [
+        "日质量汇总",
+        "DWS·日质量汇总·快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_quality_daily",
+      "dictHref": "architecture.html#dict/dws_quality_daily",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·日质量汇总·快照表",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "日质量汇总"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1516,18 +2535,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_supply_daily",
       "name": "dws_supply_daily",
+      "name_cn": "日供应汇总",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_supply_daily",
+      "description": "日供应汇总",
+      "aliases": [
+        "日供应汇总",
+        "DWS·日供应汇总·快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_supply_daily",
+      "dictHref": "architecture.html#dict/dws_supply_daily",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·日供应汇总·快照表",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "日供应汇总"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1535,18 +2560,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_capacity_utilization",
       "name": "v_capacity_utilization",
+      "name_cn": "产能利用率",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_capacity_utilization",
+      "description": "产能利用率",
+      "aliases": [
+        "产能利用率",
+        "ADS·产能利用率"
+      ],
+      "href": "platform-graph.html?node=tbl:v_capacity_utilization",
+      "dictHref": "architecture.html#dict/v_capacity_utilization",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·产能利用率",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "产能利用率"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1554,18 +2585,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_cmei_daily",
       "name": "v_cmei_daily",
+      "name_cn": "综合效能CMEI",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_cmei_daily",
+      "description": "综合效能CMEI",
+      "aliases": [
+        "综合效能CMEI",
+        "ADS·综合效能CMEI"
+      ],
+      "href": "platform-graph.html?node=tbl:v_cmei_daily",
+      "dictHref": "architecture.html#dict/v_cmei_daily",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·综合效能CMEI",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "综合效能CMEI"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1573,18 +2610,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_cost_analysis",
       "name": "v_cost_analysis",
+      "name_cn": "成本分析",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_cost_analysis",
+      "description": "成本分析",
+      "aliases": [
+        "成本分析",
+        "ADS·成本分析"
+      ],
+      "href": "platform-graph.html?node=tbl:v_cost_analysis",
+      "dictHref": "architecture.html#dict/v_cost_analysis",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·成本分析",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "成本分析"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1592,18 +2635,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_defect_analysis",
       "name": "v_defect_analysis",
+      "name_cn": "缺陷分析",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_defect_analysis",
+      "description": "缺陷分析",
+      "aliases": [
+        "缺陷分析",
+        "ADS·缺陷分析"
+      ],
+      "href": "platform-graph.html?node=tbl:v_defect_analysis",
+      "dictHref": "architecture.html#dict/v_defect_analysis",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·缺陷分析",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "缺陷分析"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1611,18 +2660,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_equipment_oee",
       "name": "v_equipment_oee",
+      "name_cn": "设备OEE",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_equipment_oee",
+      "description": "设备OEE",
+      "aliases": [
+        "设备OEE",
+        "ADS·设备OEE"
+      ],
+      "href": "platform-graph.html?node=tbl:v_equipment_oee",
+      "dictHref": "architecture.html#dict/v_equipment_oee",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·设备OEE",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "设备OEE"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1630,18 +2685,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_labor_efficiency",
       "name": "v_labor_efficiency",
+      "name_cn": "人效分析",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_labor_efficiency",
+      "description": "人效分析",
+      "aliases": [
+        "人效分析",
+        "ADS·人效分析"
+      ],
+      "href": "platform-graph.html?node=tbl:v_labor_efficiency",
+      "dictHref": "architecture.html#dict/v_labor_efficiency",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·人效分析",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "人效分析"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1649,18 +2710,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_manufacturing_finance",
       "name": "v_manufacturing_finance",
+      "name_cn": "制造财务",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_manufacturing_finance",
+      "description": "制造财务",
+      "aliases": [
+        "制造财务",
+        "ADS·制造财务"
+      ],
+      "href": "platform-graph.html?node=tbl:v_manufacturing_finance",
+      "dictHref": "architecture.html#dict/v_manufacturing_finance",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·制造财务",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "制造财务"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1668,18 +2735,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_material_turnover",
       "name": "v_material_turnover",
+      "name_cn": "物料周转",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_material_turnover",
+      "description": "物料周转",
+      "aliases": [
+        "物料周转",
+        "ADS·物料周转"
+      ],
+      "href": "platform-graph.html?node=tbl:v_material_turnover",
+      "dictHref": "architecture.html#dict/v_material_turnover",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·物料周转",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "物料周转"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1687,18 +2760,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_production_overview",
       "name": "v_production_overview",
+      "name_cn": "生产总览",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_production_overview",
+      "description": "生产总览",
+      "aliases": [
+        "生产总览",
+        "ADS·生产总览"
+      ],
+      "href": "platform-graph.html?node=tbl:v_production_overview",
+      "dictHref": "architecture.html#dict/v_production_overview",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·生产总览",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "生产总览"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1706,18 +2785,49 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_quality_analysis",
       "name": "v_quality_analysis",
+      "name_cn": "质量分析",
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_quality_analysis",
+      "description": "质量分析",
+      "aliases": [
+        "质量分析",
+        "ADS·质量分析"
+      ],
+      "href": "platform-graph.html?node=tbl:v_quality_analysis",
+      "dictHref": "architecture.html#dict/v_quality_analysis",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "ADS·质量分析",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "质量分析"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_supply_chain",
+      "name": "v_supply_chain",
+      "name_cn": "供应链",
+      "type": "warehouse",
+      "category": "manufacturing",
+      "parentId": "cat_wh_ads",
+      "description": "供应链",
+      "aliases": [
+        "供应链",
+        "ADS·供应链"
+      ],
+      "href": "platform-graph.html?node=tbl:v_supply_chain",
+      "dictHref": "architecture.html#dict/v_supply_chain",
+      "detail": {
+        "definition": "ADS·供应链",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "供应链"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1753,7 +2863,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "FPY×40%+OEE×35%+OTD×25%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/`v_cmei_daily`（已落地最小视图）",
       "detail": {
         "definition": "FPY×40%+OEE×35%+OTD×25%",
         "formula": "加权合成",
@@ -1798,7 +2908,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "当日实际产出的合格产品数量",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_production_fact",
       "detail": {
         "definition": "当日实际产出的合格产品数量",
         "formula": "SUM(actual_qty) WHERE 生产日期=当日",
@@ -1819,7 +2929,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "当日计划产出的产品数量",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_production_fact",
       "detail": {
         "definition": "当日计划产出的产品数量",
         "formula": "SUM(plan_qty) WHERE 生产日期=当日",
@@ -1840,7 +2950,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "实际产量 / 计划产量 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_production_daily",
       "detail": {
         "definition": "实际产量 / 计划产量 × 100%",
         "formula": "实际产量 / NULLIF(计划产量, 0) × 100",
@@ -1863,7 +2973,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "已完工工单 / 总开工工单 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_order_daily",
       "detail": {
         "definition": "已完工工单 / 总开工工单 × 100%",
         "formula": "完工工单数 / NULLIF(开工工单数, 0) × 100",
@@ -1884,7 +2994,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "生产线上正在加工的在制品数量",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_production_fact",
       "detail": {
         "definition": "生产线上正在加工的在制品数量",
         "formula": "SUM(在制数量) WHERE 工单状态=生产中",
@@ -1905,7 +3015,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "按承诺时间交付的订单占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_delivery_daily",
       "detail": {
         "definition": "按承诺时间交付的订单占比",
         "formula": "准时交付工单数 / 应交付总工单数 × 100",
@@ -1926,7 +3036,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "平均产出一件产品的时间",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_production_shift",
       "detail": {
         "definition": "平均产出一件产品的时间",
         "formula": "当班生产时长 / 当班产量",
@@ -1949,7 +3059,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "标准工时 / 实际工时 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_operation_daily",
       "detail": {
         "definition": "标准工时 / 实际工时 × 100%",
         "formula": "SUM(标准工时) / NULLIF(SUM(实际工时), 0) × 100",
@@ -1970,7 +3080,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "平均每个工人每班产量",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_labor_daily",
       "detail": {
         "definition": "平均每个工人每班产量",
         "formula": "总产量 / 平均出勤人数",
@@ -1993,7 +3103,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_生产运营指标",
       "description": "工单从开工到完工的平均时长",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_production_fact",
       "detail": {
         "definition": "工单从开工到完工的平均时长",
         "formula": "AVG(完工时间 - 开工时间)",
@@ -2014,7 +3124,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "第一次就合格的产品占比（不包含返工后合格）",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_quality_fact",
       "detail": {
         "definition": "第一次就合格的产品占比（不包含返工后合格）",
         "formula": "一次合格数 / 总检验数 × 100",
@@ -2035,7 +3145,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "最终合格产品占比（含返工后合格）",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_quality_fact",
       "detail": {
         "definition": "最终合格产品占比（含返工后合格）",
         "formula": "最终合格数 / 总投入数 × 100",
@@ -2056,7 +3166,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "不良品占总检验数的比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_quality_fact",
       "detail": {
         "definition": "不良品占总检验数的比例",
         "formula": "不良数 / 总检验数 × 100",
@@ -2077,7 +3187,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "需要返工的产品占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_quality_fact",
       "detail": {
         "definition": "需要返工的产品占比",
         "formula": "返工数 / 总检验数 × 100",
@@ -2100,7 +3210,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "直接报废的产品占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_quality_fact",
       "detail": {
         "definition": "直接报废的产品占比",
         "formula": "报废数 / 总投入数 × 100",
@@ -2123,7 +3233,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "不良、返工、报废造成的损失金额",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_quality_cost",
       "detail": {
         "definition": "不良、返工、报废造成的损失金额",
         "formula": "返工成本 + 报废成本 + 质量索赔",
@@ -2146,7 +3256,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "占80%不良的前3种不良类型",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_defect_daily",
       "detail": {
         "definition": "占80%不良的前3种不良类型",
         "formula": "按不良数量降序，累计占比80%的前N类",
@@ -2169,7 +3279,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "生产过程的稳定性能力",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_spc_analysis（规划中，未建表）",
       "detail": {
         "definition": "生产过程的稳定性能力",
         "formula": "(规格上限 - 规格下限) / (6×标准差)",
@@ -2190,7 +3300,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_质量指标",
       "description": "客户投诉订单占总交付订单比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_customer_quality",
       "detail": {
         "definition": "客户投诉订单占总交付订单比例",
         "formula": "客诉工单数 / 总交付工单数 × 10000 PPM",
@@ -2235,7 +3345,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "来料检验合格的批次占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_incoming_quality",
       "detail": {
         "definition": "来料检验合格的批次占比",
         "formula": "合格批次 / 总检验批次 × 100",
@@ -2279,7 +3389,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_设备OEE指标",
       "description": "可用率 × 性能率 × 质量率",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_oee_daily",
       "detail": {
         "definition": "可用率 × 性能率 × 质量率",
         "formula": "availability * performance * quality",
@@ -2302,7 +3412,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_设备OEE指标",
       "description": "设备实际运行时间 / 计划生产时间",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_device_daily",
       "detail": {
         "definition": "设备实际运行时间 / 计划生产时间",
         "formula": "运行时间 / NULLIF(计划时间, 0) × 100",
@@ -2323,7 +3433,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_设备OEE指标",
       "description": "实际产出 / 理论产出 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_oee_daily",
       "detail": {
         "definition": "实际产出 / 理论产出 × 100%",
         "formula": "实际产量 / (运行时间 × 标准节拍) × 100",
@@ -2344,7 +3454,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_设备OEE指标",
       "description": "合格产品 / 总产品 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_oee_daily",
       "detail": {
         "definition": "合格产品 / 总产品 × 100%",
         "formula": "合格数 / NULLIF(总产量, 0) × 100",
@@ -2367,7 +3477,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_设备OEE指标",
       "description": "两次故障之间的平均运行时间",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_device_failure",
       "detail": {
         "definition": "两次故障之间的平均运行时间",
         "formula": "总运行时间 / 故障次数",
@@ -2388,7 +3498,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_设备OEE指标",
       "description": "故障后平均修复恢复时间",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_device_failure",
       "detail": {
         "definition": "故障后平均修复恢复时间",
         "formula": "总修复时长 / 故障次数",
@@ -2409,7 +3519,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_设备OEE指标",
       "description": "设备实际运行时间 / 总日历时间",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_device_daily",
       "detail": {
         "definition": "设备实际运行时间 / 总日历时间",
         "formula": "运行时间 / 24小时 × 100",
@@ -2432,7 +3542,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_设备OEE指标",
       "description": "当日设备累计停机时间",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_device_fact",
       "detail": {
         "definition": "当日设备累计停机时间",
         "formula": "SUM(停机时长)",
@@ -2457,7 +3567,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_设备OEE指标",
       "description": "故障停机时间 / 总停机时间 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_oee_daily",
       "detail": {
         "definition": "故障停机时间 / 总停机时间 × 100%",
         "formula": "故障停机时长 / NULLIF(总停机时长, 0) × 100",
@@ -2478,7 +3588,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "期末原材料+在制品+成品库存总金额",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_inventory_daily",
       "detail": {
         "definition": "期末原材料+在制品+成品库存总金额",
         "formula": "SUM(库存数量 × 单位成本)",
@@ -2499,7 +3609,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "库存平均多少天周转一次",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_inventory_monthly",
       "detail": {
         "definition": "库存平均多少天周转一次",
         "formula": "平均库存金额 / 当期销售成本 × 天数",
@@ -2520,7 +3630,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "原材料库存周转天数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_material_monthly",
       "detail": {
         "definition": "原材料库存周转天数",
         "formula": "平均原材料库存 / 当期材料耗用 × 天数",
@@ -2541,7 +3651,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "成品库存周转天数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_finished_goods",
       "detail": {
         "definition": "成品库存周转天数",
         "formula": "平均成品库存 / 当期销售成本 × 天数",
@@ -2562,7 +3672,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "账实一致的SKU占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_stocktake",
       "detail": {
         "definition": "账实一致的SKU占比",
         "formula": "盘点一致SKU数 / 总盘点SKU数 × 100",
@@ -2583,7 +3693,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "供应商按约定时间到货的批次占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_purchase_daily",
       "detail": {
         "definition": "供应商按约定时间到货的批次占比",
         "formula": "准时到货批次 / 总到货批次 × 100",
@@ -2604,7 +3714,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "各供应商的准时交付率",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_supplier_score",
       "detail": {
         "definition": "各供应商的准时交付率",
         "formula": "准时交付数 / 应交付总数 × 100",
@@ -2628,7 +3738,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "因缺料导致的生产线停机时间",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_device_fact",
       "detail": {
         "definition": "因缺料导致的生产线停机时间",
         "formula": "SUM(停机时长) WHERE 停机原因='缺料'",
@@ -2649,7 +3759,7 @@ window.PLATFORM_KG_DATA = {
       "category": "manufacturing",
       "parentId": "cat_metric_供应链与物料指标",
       "description": "物料清单准确率",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dim_bom",
       "detail": {
         "definition": "物料清单准确率",
         "formula": "正确BOM行数 / 总BOM行数 × 100",
@@ -2995,6 +4105,174 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
+      "source": "cat_method_l1",
+      "target": "pb:q27",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l1",
+      "target": "pb:q28",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l1",
+      "target": "pb:q29",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l1",
+      "target": "pb:q30",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l1",
+      "target": "pb:q31",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l1",
+      "target": "pb:q32",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
+      "target": "pb:q33",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
+      "target": "pb:q34",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
+      "target": "pb:q35",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
+      "target": "pb:q36",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
+      "target": "pb:q37",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
+      "target": "pb:q38",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
+      "target": "pb:q39",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l3",
+      "target": "pb:q40",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l3",
+      "target": "pb:q41",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l3",
+      "target": "pb:q42",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l3",
+      "target": "pb:q43",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l4",
+      "target": "pb:q44",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l4",
+      "target": "pb:q45",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l4",
+      "target": "pb:q46",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l5",
+      "target": "pb:q47",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l5",
+      "target": "pb:q48",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l5",
+      "target": "pb:q49",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l5",
+      "target": "pb:q50",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
       "source": "root_warehouse",
       "target": "cat_wh_ods",
       "style": "solid",
@@ -3058,6 +4336,27 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_production_order",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_quality_inspection",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_supplier",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
       "source": "cat_wh_dim",
       "target": "tbl:dim_date",
       "style": "solid",
@@ -3086,6 +4385,34 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_material",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_product",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_production_line",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_supplier",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
       "source": "cat_wh_dwd",
       "target": "tbl:dwd_equipment_run",
       "style": "solid",
@@ -3109,6 +4436,62 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "cat_wh_dwd",
       "target": "tbl:dwd_quality_wide",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:dwd_supply_wide",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:fact_equipment_run",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:fact_labor",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:fact_material_consumption",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:fact_process_operation",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:fact_production",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:fact_quality",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:fact_supply",
       "style": "solid",
       "cross": false,
       "label": ""
@@ -3235,6 +4618,13 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "cat_wh_ads",
       "target": "tbl:v_quality_analysis",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_supply_chain",
       "style": "solid",
       "cross": false,
       "label": ""
@@ -3562,13 +4952,6 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q01",
-      "target": "dash:production",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q03",
       "target": "dash:quality",
       "style": "dashed",
@@ -3800,6 +5183,216 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
+      "source": "pb:q27",
+      "target": "dash:labor",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q27",
+      "target": "dash:production",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q28",
+      "target": "dash:cost",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q28",
+      "target": "dash:bom-variance",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q29",
+      "target": "dash:process-yield",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q29",
+      "target": "dash:quality",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q31",
+      "target": "dash:delivery",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q33",
+      "target": "dash:equipment",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q34",
+      "target": "dash:labor",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q34",
+      "target": "dash:cost",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q35",
+      "target": "dash:quality",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q36",
+      "target": "dash:equipment",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q37",
+      "target": "dash:bom-variance",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q38",
+      "target": "dash:downtime",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q39",
+      "target": "dash:production",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q40",
+      "target": "dash:supply",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q41",
+      "target": "dash:cost",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q42",
+      "target": "dash:labor",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q42",
+      "target": "dash:production",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q43",
+      "target": "dash:quality",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q43",
+      "target": "dash:process-yield",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q44",
+      "target": "dash:cost",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q45",
+      "target": "dash:delivery",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q46",
+      "target": "dash:labor",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q46",
+      "target": "dash:production",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q47",
+      "target": "dash:delivery",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q48",
+      "target": "dash:equipment",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q49",
+      "target": "dash:labor",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q49",
+      "target": "dash:production",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q50",
+      "target": "dash:supply",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
       "source": "dash:production",
       "target": "metric:生产节拍",
       "style": "dashed",
@@ -3809,13 +5402,6 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "dash:quality",
       "target": "metric:质量损失成本",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关指标"
-    },
-    {
-      "source": "dash:quality",
-      "target": "metric:质量率_quality",
       "style": "dashed",
       "cross": true,
       "label": "相关指标"

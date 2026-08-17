@@ -1744,3 +1744,66 @@ body.page-architecture-fullscreen .dw-arch-chip {
   padding: 2px 6px;
   font-size: 10px;
 }
+
+/* ---------- 手机端：全景图 / 全屏页可读可滑 ---------- */
+@media (max-width: 768px) {
+  body.page-architecture-fullscreen {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  body.page-architecture-fullscreen .viz-page-main {
+    height: auto !important;
+    min-height: calc(100dvh - var(--fs-nav-h, 40px));
+    padding: 6px 8px 16px !important;
+  }
+  body.page-architecture-fullscreen #dw-architecture-root,
+  body.page-architecture-fullscreen #er-diagram-root,
+  body.page-architecture-fullscreen #dw-graph-root {
+    height: auto !important;
+    min-height: 70dvh !important;
+  }
+  body.page-architecture-fullscreen .dw-arch-wrapper,
+  body.page-architecture-fullscreen .dw-arch-v2 {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  body.page-architecture-fullscreen .dw-arch-v2 .dw-arch-canvas {
+    height: min(70dvh, 640px) !important;
+    min-height: 360px !important;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+  }
+  body.page-architecture-fullscreen .top-nav .nav-inner {
+    height: auto;
+    min-height: var(--fs-nav-h);
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px 8px;
+  }
+  body.page-architecture-fullscreen .nav-tabs {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+  }
+  .dw-arch-lanes-main {
+    grid-template-columns: 1fr !important;
+    min-width: 0 !important;
+    gap: 16px !important;
+  }
+  .dw-arch-v2 .dw-arch-canvas {
+    min-height: 420px;
+    height: min(70vh, 640px);
+  }
+  .dw-arch-table-source {
+    white-space: normal;
+  }
+  .dw-arch-header {
+    gap: 8px;
+  }
+  .dw-arch-controls {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+}

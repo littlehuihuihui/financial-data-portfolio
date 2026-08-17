@@ -17,13 +17,13 @@ window.PLATFORM_KG_DATA = {
       "l3MaxTotal": 15
     },
     "counts": {
-      "nodes": 123,
-      "edges": 171,
-      "leaves": 105,
+      "nodes": 132,
+      "edges": 172,
+      "leaves": 114,
       "dashboards": 13,
       "playbooks": 31,
       "metrics": 35,
-      "warehouseTables": 26
+      "warehouseTables": 35
     }
   },
   "nodes": [
@@ -520,7 +520,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l1",
       "description": "当月核心经营指标一览与环比同比",
-      "href": "anomaly.html#playbook/q01",
+      "href": "anomaly.html#q01",
       "detail": {
         "definition": "这个月业绩怎么样？",
         "notes": "当月核心经营指标一览与环比同比",
@@ -553,7 +553,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l1",
       "description": "年初至今累计业绩与年度预算进度",
-      "href": "anomaly.html#playbook/q02",
+      "href": "anomaly.html#q02",
       "detail": {
         "definition": "今年到目前为止怎么样了？",
         "notes": "年初至今累计业绩与年度预算进度",
@@ -582,7 +582,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l1",
       "description": "当日/昨日销售与现金流速览",
-      "href": "anomaly.html#playbook/q03",
+      "href": "anomaly.html#q03",
       "detail": {
         "definition": "昨天卖了多少？",
         "notes": "当日/昨日销售与现金流速览",
@@ -611,7 +611,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l1",
       "description": "品牌维度收入毛利与增速排名",
-      "href": "anomaly.html#playbook/q04",
+      "href": "anomaly.html#q04",
       "detail": {
         "definition": "哪个品牌卖得好？哪个品牌在掉队？",
         "notes": "品牌维度收入毛利与增速排名",
@@ -641,7 +641,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l1",
       "description": "线上线下渠道收入费用与 ROI 排名",
-      "href": "anomaly.html#playbook/q05",
+      "href": "anomaly.html#q05",
       "detail": {
         "definition": "哪个渠道最赚钱？哪个渠道在烧钱？",
         "notes": "线上线下渠道收入费用与 ROI 排名",
@@ -670,7 +670,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l1",
       "description": "鞋服配等品类销售结构与毛利排名",
-      "href": "anomaly.html#playbook/q06",
+      "href": "anomaly.html#q06",
       "detail": {
         "definition": "哪个品类是现金牛？哪个品类在拖累？",
         "notes": "鞋服配等品类销售结构与毛利排名",
@@ -699,7 +699,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l1",
       "description": "门店坪效、利润与区域排名",
-      "href": "anomaly.html#playbook/q07",
+      "href": "anomaly.html#q07",
       "detail": {
         "definition": "哪家店是标杆？哪家店该关？",
         "notes": "门店坪效、利润与区域排名",
@@ -728,7 +728,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l2",
       "description": "定位毛利率下降是成本、定价还是结构问题",
-      "href": "anomaly.html#playbook/q08",
+      "href": "anomaly.html#q08",
       "detail": {
         "definition": "毛利率为什么下降了？",
         "notes": "定位毛利率下降是成本、定价还是结构问题",
@@ -758,7 +758,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l2",
       "description": "从收入、毛利、费用三端定位净利润下降原因",
-      "href": "anomaly.html#playbook/q09",
+      "href": "anomaly.html#q09",
       "detail": {
         "definition": "净利润为什么少了？",
         "notes": "从收入、毛利、费用三端定位净利润下降原因",
@@ -789,7 +789,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l2",
       "description": "五层下钻定位收入下降根因：整体→品牌→渠道→品类→量价",
-      "href": "anomaly.html#playbook/q10",
+      "href": "anomaly.html#q10",
       "detail": {
         "definition": "收入为什么下降了？主要拖累来自哪里？",
         "notes": "五层下钻定位收入下降根因：整体→品牌→渠道→品类→量价",
@@ -821,7 +821,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l2",
       "description": "收入正增长但低于预期时的瓶颈分析",
-      "href": "anomaly.html#playbook/q11",
+      "href": "anomaly.html#q11",
       "detail": {
         "definition": "收入增长为什么这么慢？",
         "notes": "收入正增长但低于预期时的瓶颈分析",
@@ -848,7 +848,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l2",
       "description": "定位退货率飙升的品类、渠道与 SKU 根因",
-      "href": "anomaly.html#playbook/q12",
+      "href": "anomaly.html#q12",
       "detail": {
         "definition": "退货率为什么突然升高？",
         "notes": "定位退货率飙升的品类、渠道与 SKU 根因",
@@ -875,7 +875,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l2",
       "description": "识别费用率超标科目与渠道",
-      "href": "anomaly.html#playbook/q13",
+      "href": "anomaly.html#q13",
       "detail": {
         "definition": "费用率为什么高了？哪个科目超支？",
         "notes": "识别费用率超标科目与渠道",
@@ -904,7 +904,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l2",
       "description": "分析经营现金流与净利润背离原因",
-      "href": "anomaly.html#playbook/q14",
+      "href": "anomaly.html#q14",
       "detail": {
         "definition": "为什么有利润但现金紧张？净现比为什么下降？",
         "notes": "分析经营现金流与净利润背离原因",
@@ -935,7 +935,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l2",
       "description": "定位库存周转变慢的品牌、品类与仓店",
-      "href": "anomaly.html#playbook/q15",
+      "href": "anomaly.html#q15",
       "detail": {
         "definition": "库存为什么越压越多、周转越来越慢？",
         "notes": "定位库存周转变慢的品牌、品类与仓店",
@@ -965,7 +965,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l3",
       "description": "基于历史趋势与季节性预测下月净收入",
-      "href": "anomaly.html#playbook/q16",
+      "href": "anomaly.html#q16",
       "detail": {
         "definition": "下个月大概能卖多少？",
         "notes": "基于历史趋势与季节性预测下月净收入",
@@ -992,7 +992,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l3",
       "description": "按品牌与品类分解的下季度收入预测",
-      "href": "anomaly.html#playbook/q17",
+      "href": "anomaly.html#q17",
       "detail": {
         "definition": "下季度各品牌/品类分别能卖多少？",
         "notes": "按品牌与品类分解的下季度收入预测",
@@ -1019,7 +1019,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l3",
       "description": "基于 YTD 进度预测全年目标能否达成",
-      "href": "anomaly.html#playbook/q18",
+      "href": "anomaly.html#q18",
       "detail": {
         "definition": "年底目标还能完成吗？差多少？",
         "notes": "基于 YTD 进度预测全年目标能否达成",
@@ -1046,7 +1046,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l3",
       "description": "预测未来 3-6 个月现金流缺口",
-      "href": "anomaly.html#playbook/q19",
+      "href": "anomaly.html#q19",
       "detail": {
         "definition": "未来会不会缺钱？缺口有多大？",
         "notes": "预测未来 3-6 个月现金流缺口",
@@ -1075,7 +1075,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l3",
       "description": "监测各渠道广告 ROI 持续恶化趋势",
-      "href": "anomaly.html#playbook/q20",
+      "href": "anomaly.html#q20",
       "detail": {
         "definition": "哪个渠道投放越来越不划算？",
         "notes": "监测各渠道广告 ROI 持续恶化趋势",
@@ -1104,7 +1104,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l4",
       "description": "评估单次营销活动投入产出",
-      "href": "anomaly.html#playbook/q21",
+      "href": "anomaly.html#q21",
       "detail": {
         "definition": "这场活动值不值得？ROI 多少？",
         "notes": "评估单次营销活动投入产出",
@@ -1131,7 +1131,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l4",
       "description": "综合评估各渠道投入与产出效率",
-      "href": "anomaly.html#playbook/q22",
+      "href": "anomaly.html#q22",
       "detail": {
         "definition": "这个渠道还值得继续投吗？",
         "notes": "综合评估各渠道投入与产出效率",
@@ -1158,7 +1158,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l4",
       "description": "评估折扣促销对销量、毛利与客单的影响",
-      "href": "anomaly.html#playbook/q23",
+      "href": "anomaly.html#q23",
       "detail": {
         "definition": "这次促销拉动了多少销量？有没有亏毛利？",
         "notes": "评估折扣促销对销量、毛利与客单的影响",
@@ -1187,7 +1187,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l4",
       "description": "评估低效门店是否应关停或整改",
-      "href": "anomaly.html#playbook/q24",
+      "href": "anomaly.html#q24",
       "detail": {
         "definition": "这家店要不要关？关了能省多少钱？",
         "notes": "评估低效门店是否应关停或整改",
@@ -1217,7 +1217,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l4",
       "description": "评估供应商交付、质量与成本表现",
-      "href": "anomaly.html#playbook/q25",
+      "href": "anomaly.html#q25",
       "detail": {
         "definition": "这个供应商表现怎么样？要不要换？",
         "notes": "评估供应商交付、质量与成本表现",
@@ -1244,7 +1244,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l4",
       "description": "评估新品上市后的销售、毛利与库存表现",
-      "href": "anomaly.html#playbook/q26",
+      "href": "anomaly.html#q26",
       "detail": {
         "definition": "新品卖得好不好？要不要追单/下架？",
         "notes": "评估新品上市后的销售、毛利与库存表现",
@@ -1274,7 +1274,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l5",
       "description": "基于 ROI 与战略优先级优化预算分配",
-      "href": "anomaly.html#playbook/q27",
+      "href": "anomaly.html#q27",
       "detail": {
         "definition": "下季度预算应该怎么分？",
         "notes": "基于 ROI 与战略优先级优化预算分配",
@@ -1303,7 +1303,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l5",
       "description": "在收入目标下优化营销费用结构与效率",
-      "href": "anomaly.html#playbook/q28",
+      "href": "anomaly.html#q28",
       "detail": {
         "definition": "营销费怎么花更划算？",
         "notes": "在收入目标下优化营销费用结构与效率",
@@ -1330,7 +1330,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l5",
       "description": "基于弹性与竞品分析优化定价",
-      "href": "anomaly.html#playbook/q29",
+      "href": "anomaly.html#q29",
       "detail": {
         "definition": "价格定高了还是低了？怎么调价？",
         "notes": "基于弹性与竞品分析优化定价",
@@ -1357,7 +1357,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l5",
       "description": "优化折扣深度、频率与品类范围",
-      "href": "anomaly.html#playbook/q30",
+      "href": "anomaly.html#q30",
       "detail": {
         "definition": "折扣怎么打才能既走量又不亏？",
         "notes": "优化折扣深度、频率与品类范围",
@@ -1384,7 +1384,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_method_l5",
       "description": "制定滞销库存清仓方案以回收现金",
-      "href": "anomaly.html#playbook/q31",
+      "href": "anomaly.html#q31",
       "detail": {
         "definition": "滞销库存怎么清？打几折能清掉？",
         "notes": "制定滞销库存清仓方案以回收现金",
@@ -1418,7 +1418,10 @@ window.PLATFORM_KG_DATA = {
         "tbl:ods_payment",
         "tbl:ods_purchase",
         "tbl:ods_inventory",
-        "tbl:ods_expense"
+        "tbl:ods_expense",
+        "tbl:ods_store_pnl",
+        "tbl:ods_ad_cost",
+        "tbl:ods_budget"
       ],
       "detail": {
         "definition": "ODS 贴源层"
@@ -1436,7 +1439,8 @@ window.PLATFORM_KG_DATA = {
         "tbl:dim_brand",
         "tbl:dim_channel",
         "tbl:dim_category",
-        "tbl:dim_store"
+        "tbl:dim_store",
+        "tbl:dim_date"
       ],
       "detail": {
         "definition": "DIM 维度层"
@@ -1472,7 +1476,11 @@ window.PLATFORM_KG_DATA = {
         "tbl:dws_sales_monthly",
         "tbl:dws_expense_monthly",
         "tbl:dws_inventory_daily",
-        "tbl:dws_store_daily"
+        "tbl:dws_store_daily",
+        "tbl:dws_asset_monthly",
+        "tbl:dws_cashflow_monthly",
+        "tbl:dws_tax_monthly",
+        "tbl:dws_budget_monthly"
       ],
       "detail": {
         "definition": "DWS 汇总层"
@@ -1496,7 +1504,8 @@ window.PLATFORM_KG_DATA = {
         "tbl:v_cashflow",
         "tbl:v_cashflow_statement",
         "tbl:v_tax_analysis",
-        "tbl:v_budget"
+        "tbl:v_budget",
+        "tbl:v_inventory"
       ],
       "detail": {
         "definition": "ADS 应用层"
@@ -1506,14 +1515,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_payment",
       "name": "ods_payment",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_payment",
+      "description": "支付流水表",
+      "aliases": [
+        "支付流水表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_payment",
+      "dictHref": "architecture.html#dict/ods_payment",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "支付流水表",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1525,14 +1538,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_purchase",
       "name": "ods_purchase",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_purchase",
+      "description": "采购表",
+      "aliases": [
+        "采购表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_purchase",
+      "dictHref": "architecture.html#dict/ods_purchase",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "采购表",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1544,14 +1561,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_inventory",
       "name": "ods_inventory",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_inventory",
+      "description": "库存流水表",
+      "aliases": [
+        "库存流水表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_inventory",
+      "dictHref": "architecture.html#dict/ods_inventory",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "库存流水表",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1563,14 +1584,87 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_expense",
       "name": "ods_expense",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_expense",
+      "description": "费用表",
+      "aliases": [
+        "费用表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_expense",
+      "dictHref": "architecture.html#dict/ods_expense",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "费用表",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_store_pnl",
+      "name": "ods_store_pnl",
+      "name_cn": "",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_ods",
+      "description": "门店损益表",
+      "aliases": [
+        "门店损益表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_store_pnl",
+      "dictHref": "architecture.html#dict/ods_store_pnl",
+      "detail": {
+        "definition": "门店损益表",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_ad_cost",
+      "name": "ods_ad_cost",
+      "name_cn": "",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_ods",
+      "description": "广告费用表",
+      "aliases": [
+        "广告费用表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_ad_cost",
+      "dictHref": "architecture.html#dict/ods_ad_cost",
+      "detail": {
+        "definition": "广告费用表",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_budget",
+      "name": "ods_budget",
+      "name_cn": "",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_ods",
+      "description": "预算表",
+      "aliases": [
+        "预算表"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_budget",
+      "dictHref": "architecture.html#dict/ods_budget",
+      "detail": {
+        "definition": "预算表",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1582,14 +1676,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_brand",
       "name": "dim_brand",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_brand",
+      "description": "品牌维度表",
+      "aliases": [
+        "品牌维度表"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_brand",
+      "dictHref": "architecture.html#dict/dim_brand",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "品牌维度表",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1601,14 +1699,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_channel",
       "name": "dim_channel",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_channel",
+      "description": "渠道维度表",
+      "aliases": [
+        "渠道维度表"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_channel",
+      "dictHref": "architecture.html#dict/dim_channel",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "渠道维度表",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1620,14 +1722,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_category",
       "name": "dim_category",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_category",
+      "description": "品类维度表",
+      "aliases": [
+        "品类维度表"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_category",
+      "dictHref": "architecture.html#dict/dim_category",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "品类维度表",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1639,14 +1745,41 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_store",
       "name": "dim_store",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_store",
+      "description": "门店维度表",
+      "aliases": [
+        "门店维度表"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_store",
+      "dictHref": "architecture.html#dict/dim_store",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "门店维度表",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_date",
+      "name": "dim_date",
+      "name_cn": "",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_dim",
+      "description": "日期维度表",
+      "aliases": [
+        "日期维度表"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_date",
+      "dictHref": "architecture.html#dict/dim_date",
+      "detail": {
+        "definition": "日期维度表",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1658,14 +1791,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_sales_wide",
       "name": "dwd_sales_wide",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_sales_wide",
+      "description": "销售宽表",
+      "aliases": [
+        "销售宽表"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_sales_wide",
+      "dictHref": "architecture.html#dict/dwd_sales_wide",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "销售宽表",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1677,14 +1814,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_expense_wide",
       "name": "dwd_expense_wide",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_expense_wide",
+      "description": "费用宽表",
+      "aliases": [
+        "费用宽表"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_expense_wide",
+      "dictHref": "architecture.html#dict/dwd_expense_wide",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "费用宽表",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1696,14 +1837,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_inventory_wide",
       "name": "dwd_inventory_wide",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_inventory_wide",
+      "description": "库存宽表",
+      "aliases": [
+        "库存宽表"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_inventory_wide",
+      "dictHref": "architecture.html#dict/dwd_inventory_wide",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "库存宽表",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1715,14 +1860,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_sales_daily",
       "name": "dws_sales_daily",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_sales_daily",
+      "description": "日销售汇总",
+      "aliases": [
+        "日销售汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_sales_daily",
+      "dictHref": "architecture.html#dict/dws_sales_daily",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "日销售汇总",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1734,14 +1883,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_sales_monthly",
       "name": "dws_sales_monthly",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_sales_monthly",
+      "description": "月销售汇总",
+      "aliases": [
+        "月销售汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_sales_monthly",
+      "dictHref": "architecture.html#dict/dws_sales_monthly",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "月销售汇总",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1753,14 +1906,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_expense_monthly",
       "name": "dws_expense_monthly",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_expense_monthly",
+      "description": "月费用汇总",
+      "aliases": [
+        "月费用汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_expense_monthly",
+      "dictHref": "architecture.html#dict/dws_expense_monthly",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "月费用汇总",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1772,14 +1929,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_inventory_daily",
       "name": "dws_inventory_daily",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_inventory_daily",
+      "description": "日库存汇总",
+      "aliases": [
+        "日库存汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_inventory_daily",
+      "dictHref": "architecture.html#dict/dws_inventory_daily",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "日库存汇总",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1793,14 +1954,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_store_daily",
       "name": "dws_store_daily",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_store_daily",
+      "description": "日门店汇总·快照表",
+      "aliases": [
+        "日门店汇总·快照表"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_store_daily",
+      "dictHref": "architecture.html#dict/dws_store_daily",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "日门店汇总·快照表",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1810,16 +1975,120 @@ window.PLATFORM_KG_DATA = {
       "childrenIds": []
     },
     {
+      "id": "tbl:dws_asset_monthly",
+      "name": "dws_asset_monthly",
+      "name_cn": "资产月汇总",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_dws",
+      "description": "资产月汇总",
+      "aliases": [
+        "资产月汇总",
+        "资产/负债月汇总（资产负债表上游）"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_asset_monthly",
+      "dictHref": "architecture.html#dict/dws_asset_monthly",
+      "detail": {
+        "definition": "资产/负债月汇总（资产负债表上游）",
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dws",
+        "资产月汇总"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dws_cashflow_monthly",
+      "name": "dws_cashflow_monthly",
+      "name_cn": "现金流月汇总",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_dws",
+      "description": "现金流月汇总",
+      "aliases": [
+        "现金流月汇总",
+        "经营/投资/筹资现金流月汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_cashflow_monthly",
+      "dictHref": "architecture.html#dict/dws_cashflow_monthly",
+      "detail": {
+        "definition": "经营/投资/筹资现金流月汇总",
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dws",
+        "现金流月汇总"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dws_tax_monthly",
+      "name": "dws_tax_monthly",
+      "name_cn": "税务月汇总",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_dws",
+      "description": "税务月汇总",
+      "aliases": [
+        "税务月汇总",
+        "销项/进项/应纳税额月汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_tax_monthly",
+      "dictHref": "architecture.html#dict/dws_tax_monthly",
+      "detail": {
+        "definition": "销项/进项/应纳税额月汇总",
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dws",
+        "税务月汇总"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dws_budget_monthly",
+      "name": "dws_budget_monthly",
+      "name_cn": "预算月汇总",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_dws",
+      "description": "预算月汇总",
+      "aliases": [
+        "预算月汇总",
+        "预算执行月汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_budget_monthly",
+      "dictHref": "architecture.html#dict/dws_budget_monthly",
+      "detail": {
+        "definition": "预算执行月汇总",
+        "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dws",
+        "预算月汇总"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
       "id": "tbl:v_overview",
       "name": "v_overview",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_overview",
+      "description": "经营总览 KPI",
+      "aliases": [
+        "经营总览 KPI"
+      ],
+      "href": "platform-graph.html?node=tbl:v_overview",
+      "dictHref": "architecture.html#dict/v_overview",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "经营总览 KPI",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1831,14 +2100,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_brand",
       "name": "v_brand",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_brand",
+      "description": "品牌分析",
+      "aliases": [
+        "品牌分析"
+      ],
+      "href": "platform-graph.html?node=tbl:v_brand",
+      "dictHref": "architecture.html#dict/v_brand",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "品牌分析",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1850,14 +2123,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_channel",
       "name": "v_channel",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_channel",
+      "description": "渠道分析",
+      "aliases": [
+        "渠道分析"
+      ],
+      "href": "platform-graph.html?node=tbl:v_channel",
+      "dictHref": "architecture.html#dict/v_channel",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "渠道分析",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1869,14 +2146,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_income_statement",
       "name": "v_income_statement",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_income_statement",
+      "description": "利润表视图",
+      "aliases": [
+        "利润表视图"
+      ],
+      "href": "platform-graph.html?node=tbl:v_income_statement",
+      "dictHref": "architecture.html#dict/v_income_statement",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "利润表视图",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1888,14 +2169,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_dupont",
       "name": "v_dupont",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_dupont",
+      "description": "杜邦 ROE 分解",
+      "aliases": [
+        "杜邦 ROE 分解"
+      ],
+      "href": "platform-graph.html?node=tbl:v_dupont",
+      "dictHref": "architecture.html#dict/v_dupont",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "杜邦 ROE 分解",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1907,14 +2192,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_balance_sheet",
       "name": "v_balance_sheet",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_balance_sheet",
+      "description": "资产负债表视图",
+      "aliases": [
+        "资产负债表视图"
+      ],
+      "href": "platform-graph.html?node=tbl:v_balance_sheet",
+      "dictHref": "architecture.html#dict/v_balance_sheet",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "资产负债表视图",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1926,14 +2215,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_cashflow",
       "name": "v_cashflow",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_cashflow",
+      "description": "现金流量视图",
+      "aliases": [
+        "现金流量视图"
+      ],
+      "href": "platform-graph.html?node=tbl:v_cashflow",
+      "dictHref": "architecture.html#dict/v_cashflow",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "现金流量视图",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1945,14 +2238,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_cashflow_statement",
       "name": "v_cashflow_statement",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_cashflow_statement",
+      "description": "现金流量表视图",
+      "aliases": [
+        "现金流量表视图"
+      ],
+      "href": "platform-graph.html?node=tbl:v_cashflow_statement",
+      "dictHref": "architecture.html#dict/v_cashflow_statement",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "现金流量表视图",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1964,14 +2261,18 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_tax_analysis",
       "name": "v_tax_analysis",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_tax_analysis",
+      "description": "税务分析视图",
+      "aliases": [
+        "税务分析视图"
+      ],
+      "href": "platform-graph.html?node=tbl:v_tax_analysis",
+      "dictHref": "architecture.html#dict/v_tax_analysis",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "税务分析视图",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -1983,14 +2284,41 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_budget",
       "name": "v_budget",
+      "name_cn": "",
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_budget",
+      "description": "预算执行",
+      "aliases": [
+        "预算执行"
+      ],
+      "href": "platform-graph.html?node=tbl:v_budget",
+      "dictHref": "architecture.html#dict/v_budget",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "预算执行",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_inventory",
+      "name": "v_inventory",
+      "name_cn": "",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_ads",
+      "description": "库存周转监控",
+      "aliases": [
+        "库存周转监控"
+      ],
+      "href": "platform-graph.html?node=tbl:v_inventory",
+      "dictHref": "architecture.html#dict/v_inventory",
+      "detail": {
+        "definition": "库存周转监控",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
@@ -2046,7 +2374,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "当期确认的销售收入，不含税",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_voucher_fact",
       "detail": {
         "definition": "当期确认的销售收入，不含税",
         "formula": "SUM(CASE WHEN 科目类型='收入' THEN 贷方发生额-借方发生额 ELSE 0 END)",
@@ -2067,7 +2395,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "当期销售商品的成本",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_voucher_fact",
       "detail": {
         "definition": "当期销售商品的成本",
         "formula": "SUM(CASE WHEN 科目类型='成本' THEN 借方发生额-贷方发生额 ELSE 0 END)",
@@ -2088,7 +2416,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "营业收入 - 营业成本",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_account_daily",
       "detail": {
         "definition": "营业收入 - 营业成本",
         "formula": "营业收入 - 营业成本",
@@ -2117,7 +2445,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "毛利 / 营业收入 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_account_daily",
       "detail": {
         "definition": "毛利 / 营业收入 × 100%",
         "formula": "(营业收入 - 营业成本) / NULLIF(营业收入, 0) × 100",
@@ -2140,7 +2468,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "开业满12个月的门店当期销售额",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_sales_fact",
       "detail": {
         "definition": "开业满12个月的门店当期销售额",
         "formula": "SUM(销售额) WHERE 门店开业日期 < 当期日期 - 365天",
@@ -2161,7 +2489,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "同店销售额同比增长率",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_store_monthly",
       "detail": {
         "definition": "同店销售额同比增长率",
         "formula": "(本期同店 - 上期同店) / NULLIF(上期同店, 0) × 100",
@@ -2182,7 +2510,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "销售环节发生的各项费用",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_voucher_fact",
       "detail": {
         "definition": "销售环节发生的各项费用",
         "formula": "SUM(销售费用科目借方发生额)",
@@ -2203,7 +2531,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "管理部门发生的各项费用",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_voucher_fact",
       "detail": {
         "definition": "管理部门发生的各项费用",
         "formula": "SUM(管理费用科目借方发生额)",
@@ -2224,7 +2552,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "融资、手续费等财务费用",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_voucher_fact",
       "detail": {
         "definition": "融资、手续费等财务费用",
         "formula": "SUM(财务费用科目借方发生额 - 利息收入)",
@@ -2245,7 +2573,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "销售+管理+财务费用",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_account_daily",
       "detail": {
         "definition": "销售+管理+财务费用",
         "formula": "销售费用 + 管理费用 + 财务费用",
@@ -2266,7 +2594,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "期间费用 / 营业收入 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_account_daily",
       "detail": {
         "definition": "期间费用 / 营业收入 × 100%",
         "formula": "期间费用合计 / NULLIF(营业收入, 0) × 100",
@@ -2290,7 +2618,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "毛利 - 期间费用 + 其他收益",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_account_daily",
       "detail": {
         "definition": "毛利 - 期间费用 + 其他收益",
         "formula": "毛利 - 期间费用 + 其他收益 + 投资收益",
@@ -2311,7 +2639,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "税后利润，归属于母公司",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_account_monthly",
       "detail": {
         "definition": "税后利润，归属于母公司",
         "formula": "营业利润 + 营业外收支 - 所得税费用",
@@ -2335,7 +2663,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "净利润 / 营业收入 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_account_monthly",
       "detail": {
         "definition": "净利润 / 营业收入 × 100%",
         "formula": "净利润 / NULLIF(营业收入, 0) × 100",
@@ -2356,7 +2684,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "期末库存账面价值",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_inventory_daily",
       "detail": {
         "definition": "期末库存账面价值",
         "formula": "SUM(库存商品科目期末余额)",
@@ -2380,7 +2708,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "库存平均多少天周转一次",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_inventory_monthly",
       "detail": {
         "definition": "库存平均多少天周转一次",
         "formula": "平均库存余额 / 当期销售成本 × 当期天数",
@@ -2404,7 +2732,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "当期库存周转次数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_inventory_monthly",
       "detail": {
         "definition": "当期库存周转次数",
         "formula": "当期销售成本 / 平均库存余额",
@@ -2427,7 +2755,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "应收账款平均回款天数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_ar_monthly",
       "detail": {
         "definition": "应收账款平均回款天数",
         "formula": "平均应收账款 / 当期营收 × 当期天数",
@@ -2448,7 +2776,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "应付账款平均付款天数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_ap_monthly",
       "detail": {
         "definition": "应付账款平均付款天数",
         "formula": "平均应付账款 / 当期采购成本 × 当期天数",
@@ -2469,7 +2797,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "从付货款到收货款的天数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_cash_monthly",
       "detail": {
         "definition": "从付货款到收货款的天数",
         "formula": "库存周转天数 + 应收周转天数 - 应付周转天数",
@@ -2492,7 +2820,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "有销售的SKU占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_sku_daily",
       "detail": {
         "definition": "有销售的SKU占比",
         "formula": "有销售SKU数 / 总在售SKU数 × 100",
@@ -2513,7 +2841,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "净利润 / 平均净资产 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_finance_monthly",
       "detail": {
         "definition": "净利润 / 平均净资产 × 100%",
         "formula": "净利润 / AVG(期初净资产, 期末净资产) × 100",
@@ -2534,7 +2862,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "净利润 / 平均总资产 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_finance_monthly",
       "detail": {
         "definition": "净利润 / 平均总资产 × 100%",
         "formula": "净利润 / AVG(期初总资产, 期末总资产) × 100",
@@ -2555,7 +2883,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "总资产 / 净资产（杠杆倍数）",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_finance_monthly",
       "detail": {
         "definition": "总资产 / 净资产（杠杆倍数）",
         "formula": "平均总资产 / 平均净资产",
@@ -2576,7 +2904,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "净利润 / 营业收入 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_finance_monthly",
       "detail": {
         "definition": "净利润 / 营业收入 × 100%",
         "formula": "净利润 / 营业收入 × 100",
@@ -2597,7 +2925,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_核心财务指标",
       "description": "营业收入 / 平均总资产",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_finance_monthly",
       "detail": {
         "definition": "营业收入 / 平均总资产",
         "formula": "营业收入 / 平均总资产",
@@ -2641,7 +2969,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_业务运营指标",
       "description": "每平米面积产出的销售额",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_store_monthly",
       "detail": {
         "definition": "每平米面积产出的销售额",
         "formula": "门店销售额 / 门店营业面积",
@@ -2665,7 +2993,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_业务运营指标",
       "description": "每个员工产出的销售额",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_store_monthly",
       "detail": {
         "definition": "每个员工产出的销售额",
         "formula": "门店销售额 / 门店平均人数",
@@ -2686,7 +3014,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_业务运营指标",
       "description": "平均每单消费金额",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_sales_fact",
       "detail": {
         "definition": "平均每单消费金额",
         "formula": "销售总额 / 订单笔数",
@@ -2709,7 +3037,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_业务运营指标",
       "description": "平均每单购买件数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_sales_fact",
       "detail": {
         "definition": "平均每单购买件数",
         "formula": "销售总件数 / 订单笔数",
@@ -2730,7 +3058,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_业务运营指标",
       "description": "当期有效订单数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_sales_fact",
       "detail": {
         "definition": "当期有效订单数",
         "formula": "COUNT(DISTINCT 订单号) WHERE 订单状态='已完成'",
@@ -2751,7 +3079,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_业务运营指标",
       "description": "各渠道贡献的销售收入",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_sales_fact",
       "detail": {
         "definition": "各渠道贡献的销售收入",
         "formula": "SUM(销售额) GROUP BY 渠道",
@@ -2774,7 +3102,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_业务运营指标",
       "description": "各渠道销售额占总销售额比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_channel_daily",
       "detail": {
         "definition": "各渠道销售额占总销售额比例",
         "formula": "渠道销售额 / 总销售额 × 100",
@@ -2797,7 +3125,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_业务运营指标",
       "description": "渠道毛利 / 渠道投放费用",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_marketing_monthly",
       "detail": {
         "definition": "渠道毛利 / 渠道投放费用",
         "formula": "(渠道毛利 - 渠道费用) / NULLIF(渠道费用, 0)",
@@ -2821,7 +3149,7 @@ window.PLATFORM_KG_DATA = {
       "category": "retail",
       "parentId": "cat_metric_业务运营指标",
       "description": "获取一个新客户的成本",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_channel_monthly",
       "detail": {
         "definition": "获取一个新客户的成本",
         "formula": "渠道投放费用 / 新增客户数",
@@ -3258,6 +3586,27 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_store_pnl",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_ad_cost",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_budget",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
       "source": "cat_wh_dim",
       "target": "tbl:dim_brand",
       "style": "solid",
@@ -3281,6 +3630,13 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "cat_wh_dim",
       "target": "tbl:dim_store",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_date",
       "style": "solid",
       "cross": false,
       "label": ""
@@ -3337,6 +3693,34 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "cat_wh_dws",
       "target": "tbl:dws_store_daily",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dws",
+      "target": "tbl:dws_asset_monthly",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dws",
+      "target": "tbl:dws_cashflow_monthly",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dws",
+      "target": "tbl:dws_tax_monthly",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dws",
+      "target": "tbl:dws_budget_monthly",
       "style": "solid",
       "cross": false,
       "label": ""
@@ -3407,6 +3791,13 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "cat_wh_ads",
       "target": "tbl:v_budget",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_inventory",
       "style": "solid",
       "cross": false,
       "label": ""
@@ -3783,20 +4174,6 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q07",
-      "target": "dash:store",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q07",
-      "target": "dash:store",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q08",
       "target": "metric:gross_profit",
       "style": "dashed",
@@ -3861,13 +4238,6 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q14",
-      "target": "dash:cashflow",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q14",
       "target": "dash:inventory",
       "style": "dashed",
       "cross": true,
@@ -3883,27 +4253,6 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "pb:q15",
       "target": "dash:inventory",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q15",
-      "target": "dash:inventory",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q15",
-      "target": "dash:inventory",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q19",
-      "target": "dash:cashflow",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
@@ -3944,13 +4293,6 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q24",
-      "target": "dash:store",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q26",
       "target": "metric:gross_profit",
       "style": "dashed",
@@ -3967,13 +4309,6 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "pb:q27",
       "target": "dash:dupont",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q31",
-      "target": "dash:inventory",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"

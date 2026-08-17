@@ -17,13 +17,13 @@ window.PLATFORM_KG_DATA = {
       "l3MaxTotal": 15
     },
     "counts": {
-      "nodes": 145,
-      "edges": 245,
-      "leaves": 125,
+      "nodes": 184,
+      "edges": 238,
+      "leaves": 164,
       "dashboards": 17,
       "playbooks": 28,
       "metrics": 50,
-      "warehouseTables": 30
+      "warehouseTables": 69
     }
   },
   "nodes": [
@@ -507,6 +507,7 @@ window.PLATFORM_KG_DATA = {
         "看板"
       ],
       "crossRefs": [
+        "pb:q02",
         "metric:用户渗透率",
         "metric:用户生命周期"
       ],
@@ -630,7 +631,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l1",
       "description": "掌握 OTT 整体活跃水位、端型结构与月度波动",
-      "href": "methodology.html#playbook/q01",
+      "href": "methodology.html#q01",
       "detail": {
         "definition": "这个月日活和月活怎么样？",
         "notes": "掌握 OTT 整体活跃水位、端型结构与月度波动",
@@ -648,16 +649,17 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l1",
-      "description": "STB/Speaker 端型与广东各地市用户分布",
-      "href": "methodology.html#playbook/q02",
+      "description": "把「我们的核心用户是谁」拆成可度量的人群切片：端型、地市、付费渗透，并落到运营动作",
+      "href": "methodology.html#q02",
       "detail": {
-        "definition": "我们的核心用户是谁？",
-        "notes": "STB/Speaker 端型与广东各地市用户分布",
+        "definition": "我们的核心用户是谁？广深与 STB/Speaker 各占多少、谁更愿意付费？",
+        "notes": "把「我们的核心用户是谁」拆成可度量的人群切片：端型、地市、付费渗透，并落到运营动作",
         "steps": []
       },
       "tags": [],
       "crossRefs": [
-        "dash:overview"
+        "dash:overview",
+        "dash:tags"
       ],
       "childrenIds": []
     },
@@ -668,7 +670,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l1",
       "description": "收银台入口来源（launcher/video）的订购量与金额占比",
-      "href": "methodology.html#playbook/q03",
+      "href": "methodology.html#q03",
       "detail": {
         "definition": "用户主要从哪个入口来？",
         "notes": "收银台入口来源（launcher/video）的订购量与金额占比",
@@ -687,7 +689,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l1",
       "description": "开机、点播、直播三大功能的使用深度与渗透",
-      "href": "methodology.html#playbook/q04",
+      "href": "methodology.html#q04",
       "detail": {
         "definition": "用户在产品里做什么？",
         "notes": "开机、点播、直播三大功能的使用深度与渗透",
@@ -708,7 +710,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l1",
       "description": "高/中/低活跃、沉默与流失用户的结构占比",
-      "href": "methodology.html#playbook/q05",
+      "href": "methodology.html#q05",
       "detail": {
         "definition": "活跃用户结构健康吗？",
         "notes": "高/中/低活跃、沉默与流失用户的结构占比",
@@ -727,7 +729,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l1",
       "description": "剧集题材/品类的 VV、UV 与完播率分布",
-      "href": "methodology.html#playbook/q06",
+      "href": "methodology.html#q06",
       "detail": {
         "definition": "用户在看什么内容？",
         "notes": "剧集题材/品类的 VV、UV 与完播率分布",
@@ -746,7 +748,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l2",
       "description": "定位 DAU 下降的主因：端型、地市还是功能渗透",
-      "href": "methodology.html#playbook/q07",
+      "href": "methodology.html#q07",
       "detail": {
         "definition": "为什么日活下降了？",
         "notes": "定位 DAU 下降的主因：端型、地市还是功能渗透",
@@ -766,7 +768,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l2",
       "description": "D1/D7/D30 留存偏离历史基线，分端型拆解",
-      "href": "methodology.html#playbook/q08",
+      "href": "methodology.html#q08",
       "detail": {
         "definition": "为什么留存变差了？",
         "notes": "D1/D7/D30 留存偏离历史基线，分端型拆解",
@@ -785,7 +787,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l2",
       "description": "订购金额/单成本上升，定位花费效率恶化的入口",
-      "href": "methodology.html#playbook/q09",
+      "href": "methodology.html#q09",
       "detail": {
         "definition": "为什么获客越来越贵？",
         "notes": "订购金额/单成本上升，定位花费效率恶化的入口",
@@ -804,7 +806,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l2",
       "description": "收银台曝光→点击→验证→确认各环节转化率",
-      "href": "methodology.html#playbook/q10",
+      "href": "methodology.html#q10",
       "detail": {
         "definition": "转化卡在哪一步？",
         "notes": "收银台曝光→点击→验证→确认各环节转化率",
@@ -823,7 +825,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l2",
       "description": "沉默与流失用户的规模、特征与迁移路径",
-      "href": "methodology.html#playbook/q11",
+      "href": "methodology.html#q11",
       "detail": {
         "definition": "用户为什么走了？",
         "notes": "沉默与流失用户的规模、特征与迁移路径",
@@ -842,7 +844,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l2",
       "description": "各入口的留存、LTV 与转化质量综合对比",
-      "href": "methodology.html#playbook/q12",
+      "href": "methodology.html#q12",
       "detail": {
         "definition": "哪个入口带来的用户质量差了？",
         "notes": "各入口的留存、LTV 与转化质量综合对比",
@@ -861,7 +863,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l2",
       "description": "剧集/单集完播率偏离基线，定位内容或 QoS 问题",
-      "href": "methodology.html#playbook/q13",
+      "href": "methodology.html#q13",
       "detail": {
         "definition": "为什么完播率下降了？",
         "notes": "剧集/单集完播率偏离基线，定位内容或 QoS 问题",
@@ -881,7 +883,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l3",
       "description": "基于近 3 月 DAU 趋势外推下月日活区间",
-      "href": "methodology.html#playbook/q14",
+      "href": "methodology.html#q14",
       "detail": {
         "definition": "下个月日活大概多少？",
         "notes": "基于近 3 月 DAU 趋势外推下月日活区间",
@@ -900,7 +902,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l3",
       "description": "按入口 Cohort + 客单外推用户终身价值",
-      "href": "methodology.html#playbook/q15",
+      "href": "methodology.html#q15",
       "detail": {
         "definition": "这批用户长期值多少钱？",
         "notes": "按入口 Cohort + 客单外推用户终身价值",
@@ -920,7 +922,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l3",
       "description": "基于历史入口转化与留存外推下月渠道贡献",
-      "href": "methodology.html#playbook/q16",
+      "href": "methodology.html#q16",
       "detail": {
         "definition": "各入口下月能带来多少订购？",
         "notes": "基于历史入口转化与留存外推下月渠道贡献",
@@ -939,7 +941,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l3",
       "description": "基于沉默趋势与 RFM 分层预测下月流失规模",
-      "href": "methodology.html#playbook/q17",
+      "href": "methodology.html#q17",
       "detail": {
         "definition": "下个月大概流失多少人？",
         "notes": "基于沉默趋势与 RFM 分层预测下月流失规模",
@@ -958,7 +960,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l3",
       "description": "基于订购量与分成比例外推下月爱奇艺分成收入",
-      "href": "methodology.html#playbook/q18",
+      "href": "methodology.html#q18",
       "detail": {
         "definition": "下月分成收入大概多少？",
         "notes": "基于订购量与分成比例外推下月爱奇艺分成收入",
@@ -977,7 +979,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l4",
       "description": "LTV/CAC 比率评估各入口长期 ROI",
-      "href": "methodology.html#playbook/q19",
+      "href": "methodology.html#q19",
       "detail": {
         "definition": "各入口投放划不划算？",
         "notes": "LTV/CAC 比率评估各入口长期 ROI",
@@ -996,7 +998,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l4",
       "description": "收银台入口改版/引导实验的显著性检验",
-      "href": "methodology.html#playbook/q20",
+      "href": "methodology.html#q20",
       "detail": {
         "definition": "改版实验有没有效？",
         "notes": "收银台入口改版/引导实验的显著性检验",
@@ -1015,7 +1017,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l4",
       "description": "评估内容上线/推荐策略对 VV、完播与渗透的影响",
-      "href": "methodology.html#playbook/q21",
+      "href": "methodology.html#q21",
       "detail": {
         "definition": "这次内容/功能改版效果好吗？",
         "notes": "评估内容上线/推荐策略对 VV、完播与渗透的影响",
@@ -1035,7 +1037,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l4",
       "description": "评估促销/活动期间的订购量、金额与分成 ROI",
-      "href": "methodology.html#playbook/q22",
+      "href": "methodology.html#q22",
       "detail": {
         "definition": "这次活动 ROI 怎么样？",
         "notes": "评估促销/活动期间的订购量、金额与分成 ROI",
@@ -1054,7 +1056,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l4",
       "description": "用完播率、完成度与播放行为代理用户满意度",
-      "href": "methodology.html#playbook/q23",
+      "href": "methodology.html#q23",
       "detail": {
         "definition": "用户满意度怎么样？",
         "notes": "用完播率、完成度与播放行为代理用户满意度",
@@ -1074,7 +1076,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l5",
       "description": "按 LTV/CAC 与边际 ROI 重分配 launcher/video 入口流量",
-      "href": "methodology.html#playbook/q24",
+      "href": "methodology.html#q24",
       "detail": {
         "definition": "预算应该怎么分配？",
         "notes": "按 LTV/CAC 与边际 ROI 重分配 launcher/video 入口流量",
@@ -1094,7 +1096,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l5",
       "description": "RFM 分层制定差异化沉默/流失用户触达策略",
-      "href": "methodology.html#playbook/q25",
+      "href": "methodology.html#q25",
       "detail": {
         "definition": "怎么挽回流失用户？",
         "notes": "RFM 分层制定差异化沉默/流失用户触达策略",
@@ -1113,7 +1115,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l5",
       "description": "基于 VV/完播/渗透确定内容与功能迭代优先级",
-      "href": "methodology.html#playbook/q26",
+      "href": "methodology.html#q26",
       "detail": {
         "definition": "先做哪个功能/内容？",
         "notes": "基于 VV/完播/渗透确定内容与功能迭代优先级",
@@ -1134,7 +1136,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l5",
       "description": "launcher + video 入口的最优组合与协同策略",
-      "href": "methodology.html#playbook/q27",
+      "href": "methodology.html#q27",
       "detail": {
         "definition": "入口怎么组合最优？",
         "notes": "launcher + video 入口的最优组合与协同策略",
@@ -1153,7 +1155,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_method_l5",
       "description": "连续包月/单月/包年套餐的定价与结构优化",
-      "href": "methodology.html#playbook/q28",
+      "href": "methodology.html#q28",
       "detail": {
         "definition": "套餐价格怎么定？",
         "notes": "连续包月/单月/包年套餐的定价与结构优化",
@@ -1176,7 +1178,14 @@ window.PLATFORM_KG_DATA = {
         "tbl:ods_device_info_df",
         "tbl:ods_content_series_df",
         "tbl:ods_content_episode_df",
-        "tbl:ods_live_channel_df"
+        "tbl:ods_live_channel_df",
+        "tbl:ods_log_launcher_di",
+        "tbl:ods_log_vod_di",
+        "tbl:ods_log_live_di",
+        "tbl:ods_log_cashier_di",
+        "tbl:ods_user_register_di",
+        "tbl:ods_user_unsubscribe_di",
+        "tbl:ods_order_di"
       ],
       "detail": {
         "definition": "ODS 贴源层"
@@ -1194,7 +1203,20 @@ window.PLATFORM_KG_DATA = {
         "tbl:dim_region",
         "tbl:dim_content_genre",
         "tbl:dim_content_category",
-        "tbl:dim_content_cp"
+        "tbl:dim_content_cp",
+        "tbl:dim_content_series",
+        "tbl:dim_content_episode",
+        "tbl:dim_channel_category",
+        "tbl:dim_live_channel",
+        "tbl:dim_device_type",
+        "tbl:dim_device_model",
+        "tbl:dim_firmware",
+        "tbl:dim_device",
+        "tbl:dim_user_package",
+        "tbl:dim_user",
+        "tbl:dim_month",
+        "tbl:dim_week",
+        "tbl:dim_date"
       ],
       "detail": {
         "definition": "DIM 维度层"
@@ -1212,7 +1234,9 @@ window.PLATFORM_KG_DATA = {
         "tbl:dwd_act_launcher_di",
         "tbl:dwd_vod_play_di",
         "tbl:dwd_live_play_di",
-        "tbl:dwd_trade_cashier_di"
+        "tbl:dwd_trade_cashier_di",
+        "tbl:dwd_trade_order_di",
+        "tbl:dwd_user_status_di"
       ],
       "detail": {
         "definition": "DWD 明细层"
@@ -1258,7 +1282,24 @@ window.PLATFORM_KG_DATA = {
         "tbl:v_channel_attribution",
         "tbl:v_ab_experiment",
         "tbl:v_funnel",
-        "tbl:v_ltv"
+        "tbl:v_ltv",
+        "tbl:v_rfm",
+        "tbl:v_channel_analysis",
+        "tbl:v_user_portrait",
+        "tbl:v_user_path",
+        "tbl:v_user_path_session",
+        "tbl:v_top_paths",
+        "tbl:v_revenue_structure",
+        "tbl:v_plan_analysis",
+        "tbl:v_plan_ltv",
+        "tbl:v_arpu_trend",
+        "tbl:v_activity_summary",
+        "tbl:v_activity_daily_trend",
+        "tbl:v_health_dashboard",
+        "tbl:v_health_group_summary",
+        "tbl:v_user_tag_overview",
+        "tbl:v_user_tag_detail",
+        "tbl:v_user_tag_by_category"
       ],
       "detail": {
         "definition": "ADS 应用层"
@@ -1268,18 +1309,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_device_info_df",
       "name": "ods_device_info_df",
+      "name_cn": "设备信息·全量",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_device_info_df",
+      "description": "设备信息·全量",
+      "aliases": [
+        "设备信息·全量",
+        "ODS·设备信息·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_device_info_df",
+      "dictHref": "architecture.html#dict/ods_device_info_df",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "ODS·设备信息·全量",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ods"
+        "ods",
+        "设备信息·全量"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1287,18 +1334,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_content_series_df",
       "name": "ods_content_series_df",
+      "name_cn": "剧集元数据·全量",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_content_series_df",
+      "description": "剧集元数据·全量",
+      "aliases": [
+        "剧集元数据·全量",
+        "ODS·剧集元数据·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_content_series_df",
+      "dictHref": "architecture.html#dict/ods_content_series_df",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "ODS·剧集元数据·全量",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ods"
+        "ods",
+        "剧集元数据·全量"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1306,18 +1359,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_content_episode_df",
       "name": "ods_content_episode_df",
+      "name_cn": "单集元数据·全量",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_content_episode_df",
+      "description": "单集元数据·全量",
+      "aliases": [
+        "单集元数据·全量",
+        "ODS·单集元数据·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_content_episode_df",
+      "dictHref": "architecture.html#dict/ods_content_episode_df",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "ODS·单集元数据·全量",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ods"
+        "ods",
+        "单集元数据·全量"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1325,18 +1384,199 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:ods_live_channel_df",
       "name": "ods_live_channel_df",
+      "name_cn": "直播频道元数据·全量",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ods",
-      "description": "ODS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/ods_live_channel_df",
+      "description": "直播频道元数据·全量",
+      "aliases": [
+        "直播频道元数据·全量",
+        "ODS·直播频道元数据·全量"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_live_channel_df",
+      "dictHref": "architecture.html#dict/ods_live_channel_df",
       "detail": {
-        "definition": "ODS 表/视图",
+        "definition": "ODS·直播频道元数据·全量",
         "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ods"
+        "ods",
+        "直播频道元数据·全量"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_log_launcher_di",
+      "name": "ods_log_launcher_di",
+      "name_cn": "开机日志·增量",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ods",
+      "description": "开机日志·增量",
+      "aliases": [
+        "开机日志·增量",
+        "ODS·开机日志·增量（近3天）"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_log_launcher_di",
+      "dictHref": "architecture.html#dict/ods_log_launcher_di",
+      "detail": {
+        "definition": "ODS·开机日志·增量（近3天）",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "开机日志·增量"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_log_vod_di",
+      "name": "ods_log_vod_di",
+      "name_cn": "点播日志·增量",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ods",
+      "description": "点播日志·增量",
+      "aliases": [
+        "点播日志·增量",
+        "ODS·点播日志·增量（近3天，含action）"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_log_vod_di",
+      "dictHref": "architecture.html#dict/ods_log_vod_di",
+      "detail": {
+        "definition": "ODS·点播日志·增量（近3天，含action）",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "点播日志·增量"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_log_live_di",
+      "name": "ods_log_live_di",
+      "name_cn": "直播日志·增量",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ods",
+      "description": "直播日志·增量",
+      "aliases": [
+        "直播日志·增量",
+        "ODS·直播日志·增量（近3天）"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_log_live_di",
+      "dictHref": "architecture.html#dict/ods_log_live_di",
+      "detail": {
+        "definition": "ODS·直播日志·增量（近3天）",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "直播日志·增量"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_log_cashier_di",
+      "name": "ods_log_cashier_di",
+      "name_cn": "收银台日志·增量",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ods",
+      "description": "收银台日志·增量",
+      "aliases": [
+        "收银台日志·增量",
+        "ODS·收银台日志·增量（近3天）"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_log_cashier_di",
+      "dictHref": "architecture.html#dict/ods_log_cashier_di",
+      "detail": {
+        "definition": "ODS·收银台日志·增量（近3天）",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "收银台日志·增量"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_user_register_di",
+      "name": "ods_user_register_di",
+      "name_cn": "开户·增量",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ods",
+      "description": "开户·增量",
+      "aliases": [
+        "开户·增量",
+        "ODS·开户·增量"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_user_register_di",
+      "dictHref": "architecture.html#dict/ods_user_register_di",
+      "detail": {
+        "definition": "ODS·开户·增量",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "开户·增量"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_user_unsubscribe_di",
+      "name": "ods_user_unsubscribe_di",
+      "name_cn": "退订·增量",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ods",
+      "description": "退订·增量",
+      "aliases": [
+        "退订·增量",
+        "ODS·退订·增量"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_user_unsubscribe_di",
+      "dictHref": "architecture.html#dict/ods_user_unsubscribe_di",
+      "detail": {
+        "definition": "ODS·退订·增量",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "退订·增量"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:ods_order_di",
+      "name": "ods_order_di",
+      "name_cn": "订购/退订明细·增量",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ods",
+      "description": "订购/退订明细·增量",
+      "aliases": [
+        "订购/退订明细·增量",
+        "ODS·订购/退订明细·增量"
+      ],
+      "href": "platform-graph.html?node=tbl:ods_order_di",
+      "dictHref": "architecture.html#dict/ods_order_di",
+      "detail": {
+        "definition": "ODS·订购/退订明细·增量",
+        "notes": "分层：ODS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ods",
+        "订购/退订明细·增量"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1344,18 +1584,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_region",
       "name": "dim_region",
+      "name_cn": "地市",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_region",
+      "description": "地市",
+      "aliases": [
+        "地市",
+        "DIM·地市（雪花，挂 dim_province）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_region",
+      "dictHref": "architecture.html#dict/dim_region",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "DIM·地市（雪花，挂 dim_province）",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dim"
+        "dim",
+        "地市"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1363,18 +1609,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_content_genre",
       "name": "dim_content_genre",
+      "name_cn": "题材",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_content_genre",
+      "description": "题材",
+      "aliases": [
+        "题材",
+        "DIM·题材（雪花末级）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_content_genre",
+      "dictHref": "architecture.html#dict/dim_content_genre",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "DIM·题材（雪花末级）",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dim"
+        "dim",
+        "题材"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1382,18 +1634,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_content_category",
       "name": "dim_content_category",
+      "name_cn": "内容类型",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_content_category",
+      "description": "内容类型",
+      "aliases": [
+        "内容类型",
+        "DIM·内容类型"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_content_category",
+      "dictHref": "architecture.html#dict/dim_content_category",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "DIM·内容类型",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dim"
+        "dim",
+        "内容类型"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1401,18 +1659,353 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dim_content_cp",
       "name": "dim_content_cp",
+      "name_cn": "内容提供方",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dim",
-      "description": "DIM",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dim_content_cp",
+      "description": "内容提供方",
+      "aliases": [
+        "内容提供方",
+        "DIM·内容提供方"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_content_cp",
+      "dictHref": "architecture.html#dict/dim_content_cp",
       "detail": {
-        "definition": "DIM 表/视图",
+        "definition": "DIM·内容提供方",
         "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dim"
+        "dim",
+        "内容提供方"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_content_series",
+      "name": "dim_content_series",
+      "name_cn": "剧集",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "剧集",
+      "aliases": [
+        "剧集",
+        "DIM·剧集（雪花，挂 category/genre/cp）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_content_series",
+      "dictHref": "architecture.html#dict/dim_content_series",
+      "detail": {
+        "definition": "DIM·剧集（雪花，挂 category/genre/cp）",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "剧集"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_content_episode",
+      "name": "dim_content_episode",
+      "name_cn": "单集",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "单集",
+      "aliases": [
+        "单集",
+        "DIM·单集（雪花，挂 series）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_content_episode",
+      "dictHref": "architecture.html#dict/dim_content_episode",
+      "detail": {
+        "definition": "DIM·单集（雪花，挂 series）",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "单集"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_channel_category",
+      "name": "dim_channel_category",
+      "name_cn": "直播频道大类",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "直播频道大类",
+      "aliases": [
+        "直播频道大类",
+        "DIM·直播频道大类"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_channel_category",
+      "dictHref": "architecture.html#dict/dim_channel_category",
+      "detail": {
+        "definition": "DIM·直播频道大类",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "直播频道大类"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_live_channel",
+      "name": "dim_live_channel",
+      "name_cn": "直播频道",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "直播频道",
+      "aliases": [
+        "直播频道",
+        "DIM·直播频道（雪花，挂 channel_category）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_live_channel",
+      "dictHref": "architecture.html#dict/dim_live_channel",
+      "detail": {
+        "definition": "DIM·直播频道（雪花，挂 channel_category）",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "直播频道"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_device_type",
+      "name": "dim_device_type",
+      "name_cn": "端类型",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "端类型",
+      "aliases": [
+        "端类型",
+        "DIM·端类型"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_device_type",
+      "dictHref": "architecture.html#dict/dim_device_type",
+      "detail": {
+        "definition": "DIM·端类型",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "端类型"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_device_model",
+      "name": "dim_device_model",
+      "name_cn": "设备型号",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "设备型号",
+      "aliases": [
+        "设备型号",
+        "DIM·设备型号（雪花，挂 device_type）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_device_model",
+      "dictHref": "architecture.html#dict/dim_device_model",
+      "detail": {
+        "definition": "DIM·设备型号（雪花，挂 device_type）",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "设备型号"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_firmware",
+      "name": "dim_firmware",
+      "name_cn": "固件版本",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "固件版本",
+      "aliases": [
+        "固件版本",
+        "DIM·固件版本"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_firmware",
+      "dictHref": "architecture.html#dict/dim_firmware",
+      "detail": {
+        "definition": "DIM·固件版本",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "固件版本"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_device",
+      "name": "dim_device",
+      "name_cn": "设备",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "设备",
+      "aliases": [
+        "设备",
+        "DIM·设备（雪花，挂 model/firmware/region）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_device",
+      "dictHref": "architecture.html#dict/dim_device",
+      "detail": {
+        "definition": "DIM·设备（雪花，挂 model/firmware/region）",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "设备"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_user_package",
+      "name": "dim_user_package",
+      "name_cn": "套餐",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "套餐",
+      "aliases": [
+        "套餐",
+        "DIM·套餐"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_user_package",
+      "dictHref": "architecture.html#dict/dim_user_package",
+      "detail": {
+        "definition": "DIM·套餐",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "套餐"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_user",
+      "name": "dim_user",
+      "name_cn": "用户",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "用户",
+      "aliases": [
+        "用户",
+        "DIM·用户（雪花，挂 region/package）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_user",
+      "dictHref": "architecture.html#dict/dim_user",
+      "detail": {
+        "definition": "DIM·用户（雪花，挂 region/package）",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "用户"
+      ],
+      "crossRefs": [
+        "metric:新增用户",
+        "metric:沉默用户数",
+        "metric:渠道新增用户"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_month",
+      "name": "dim_month",
+      "name_cn": "月",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "月",
+      "aliases": [
+        "月",
+        "DIM·月（雪花上级）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_month",
+      "dictHref": "architecture.html#dict/dim_month",
+      "detail": {
+        "definition": "DIM·月（雪花上级）",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "月"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_week",
+      "name": "dim_week",
+      "name_cn": "周",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "周",
+      "aliases": [
+        "周",
+        "DIM·周（雪花上级）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_week",
+      "dictHref": "architecture.html#dict/dim_week",
+      "detail": {
+        "definition": "DIM·周（雪花上级）",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "周"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_date",
+      "name": "dim_date",
+      "name_cn": "日期",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "日期",
+      "aliases": [
+        "日期",
+        "DIM·日期（雪花，挂 week/month）"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_date",
+      "dictHref": "architecture.html#dict/dim_date",
+      "detail": {
+        "definition": "DIM·日期（雪花，挂 week/month）",
+        "notes": "分层：DIM · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dim",
+        "日期"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1420,18 +2013,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_act_launcher_di",
       "name": "dwd_act_launcher_di",
+      "name_cn": "开机事实·粒度=一次开机行为",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_act_launcher_di",
+      "description": "开机事实·粒度=一次开机行为",
+      "aliases": [
+        "开机事实·粒度=一次开机行为",
+        "DWD·开机事实·粒度=一次开机行为（mac为主，userid变则记录变）"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_act_launcher_di",
+      "dictHref": "architecture.html#dict/dwd_act_launcher_di",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "DWD·开机事实·粒度=一次开机行为（mac为主，userid变则记录变）",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dwd"
+        "dwd",
+        "开机事实·粒度=一次开机行为"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1439,18 +2038,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_vod_play_di",
       "name": "dwd_vod_play_di",
+      "name_cn": "点播播放事实·粒度=一次播放",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_vod_play_di",
+      "description": "点播播放事实·粒度=一次播放",
+      "aliases": [
+        "点播播放事实·粒度=一次播放",
+        "DWD·点播播放事实·粒度=一次播放"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_vod_play_di",
+      "dictHref": "architecture.html#dict/dwd_vod_play_di",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "DWD·点播播放事实·粒度=一次播放",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dwd"
+        "dwd",
+        "点播播放事实·粒度=一次播放"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1458,18 +2063,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_live_play_di",
       "name": "dwd_live_play_di",
+      "name_cn": "直播播放事实·粒度=一次观看",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_live_play_di",
+      "description": "直播播放事实·粒度=一次观看",
+      "aliases": [
+        "直播播放事实·粒度=一次观看",
+        "DWD·直播播放事实·粒度=一次观看"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_live_play_di",
+      "dictHref": "architecture.html#dict/dwd_live_play_di",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "DWD·直播播放事实·粒度=一次观看",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dwd"
+        "dwd",
+        "直播播放事实·粒度=一次观看"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1477,18 +2088,74 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dwd_trade_cashier_di",
       "name": "dwd_trade_cashier_di",
+      "name_cn": "收银台漏斗事实·粒度=一次埋点",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dwd",
-      "description": "DWD",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dwd_trade_cashier_di",
+      "description": "收银台漏斗事实·粒度=一次埋点",
+      "aliases": [
+        "收银台漏斗事实·粒度=一次埋点",
+        "DWD·收银台漏斗事实·粒度=一次埋点"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_trade_cashier_di",
+      "dictHref": "architecture.html#dict/dwd_trade_cashier_di",
       "detail": {
-        "definition": "DWD 表/视图",
+        "definition": "DWD·收银台漏斗事实·粒度=一次埋点",
         "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dwd"
+        "dwd",
+        "收银台漏斗事实·粒度=一次埋点"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dwd_trade_order_di",
+      "name": "dwd_trade_order_di",
+      "name_cn": "订购/退订事实",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dwd",
+      "description": "订购/退订事实",
+      "aliases": [
+        "订购/退订事实",
+        "DWD·订购/退订事实"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_trade_order_di",
+      "dictHref": "architecture.html#dict/dwd_trade_order_di",
+      "detail": {
+        "definition": "DWD·订购/退订事实",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "订购/退订事实"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dwd_user_status_di",
+      "name": "dwd_user_status_di",
+      "name_cn": "用户状态日快照·粒度=日×userid",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dwd",
+      "description": "用户状态日快照·粒度=日×userid",
+      "aliases": [
+        "用户状态日快照·粒度=日×userid",
+        "DWD·用户状态日快照·粒度=日×userid"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_user_status_di",
+      "dictHref": "architecture.html#dict/dwd_user_status_di",
+      "detail": {
+        "definition": "DWD·用户状态日快照·粒度=日×userid",
+        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dwd",
+        "用户状态日快照·粒度=日×userid"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1496,18 +2163,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_act_user_active_1d",
       "name": "dws_act_user_active_1d",
+      "name_cn": "用户日活跃·mac粒度",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_act_user_active_1d",
+      "description": "用户日活跃·mac粒度",
+      "aliases": [
+        "用户日活跃·mac粒度",
+        "DWS·用户日活跃·mac粒度"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_act_user_active_1d",
+      "dictHref": "architecture.html#dict/dws_act_user_active_1d",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·用户日活跃·mac粒度",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "用户日活跃·mac粒度"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1515,18 +2188,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_content_series_play_1d",
       "name": "dws_content_series_play_1d",
+      "name_cn": "剧集日播放·series粒度",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_content_series_play_1d",
+      "description": "剧集日播放·series粒度",
+      "aliases": [
+        "剧集日播放·series粒度",
+        "DWS·剧集日播放·series粒度"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_content_series_play_1d",
+      "dictHref": "architecture.html#dict/dws_content_series_play_1d",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·剧集日播放·series粒度",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "剧集日播放·series粒度"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1534,18 +2213,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_content_episode_play_1d",
       "name": "dws_content_episode_play_1d",
+      "name_cn": "单集日播放·episode粒度",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_content_episode_play_1d",
+      "description": "单集日播放·episode粒度",
+      "aliases": [
+        "单集日播放·episode粒度",
+        "DWS·单集日播放·episode粒度"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_content_episode_play_1d",
+      "dictHref": "architecture.html#dict/dws_content_episode_play_1d",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·单集日播放·episode粒度",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "单集日播放·episode粒度"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1553,18 +2238,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_content_live_play_1d",
       "name": "dws_content_live_play_1d",
+      "name_cn": "直播频道日播放",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_content_live_play_1d",
+      "description": "直播频道日播放",
+      "aliases": [
+        "直播频道日播放",
+        "DWS·直播频道日播放"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_content_live_play_1d",
+      "dictHref": "architecture.html#dict/dws_content_live_play_1d",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·直播频道日播放",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "直播频道日播放"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1572,18 +2263,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_trade_cashier_funnel_1d",
       "name": "dws_trade_cashier_funnel_1d",
+      "name_cn": "收银台漏斗日汇总",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_trade_cashier_funnel_1d",
+      "description": "收银台漏斗日汇总",
+      "aliases": [
+        "收银台漏斗日汇总",
+        "DWS·收银台漏斗日汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_trade_cashier_funnel_1d",
+      "dictHref": "architecture.html#dict/dws_trade_cashier_funnel_1d",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·收银台漏斗日汇总",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "收银台漏斗日汇总"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1591,18 +2288,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_trade_order_1d",
       "name": "dws_trade_order_1d",
+      "name_cn": "订购/分成日汇总",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_trade_order_1d",
+      "description": "订购/分成日汇总",
+      "aliases": [
+        "订购/分成日汇总",
+        "DWS·订购/分成日汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_trade_order_1d",
+      "dictHref": "architecture.html#dict/dws_trade_order_1d",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·订购/分成日汇总",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "订购/分成日汇总"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1610,18 +2313,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_user_lifecycle_1d",
       "name": "dws_user_lifecycle_1d",
+      "name_cn": "用户生命周期日汇总",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_user_lifecycle_1d",
+      "description": "用户生命周期日汇总",
+      "aliases": [
+        "用户生命周期日汇总",
+        "DWS·用户生命周期日汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_user_lifecycle_1d",
+      "dictHref": "architecture.html#dict/dws_user_lifecycle_1d",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·用户生命周期日汇总",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "用户生命周期日汇总"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1629,18 +2338,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:dws_user_retention_1d",
       "name": "dws_user_retention_1d",
+      "name_cn": "留存同期群日汇总",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_dws",
-      "description": "DWS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/dws_user_retention_1d",
+      "description": "留存同期群日汇总",
+      "aliases": [
+        "留存同期群日汇总",
+        "DWS·留存同期群日汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_user_retention_1d",
+      "dictHref": "architecture.html#dict/dws_user_retention_1d",
       "detail": {
-        "definition": "DWS 表/视图",
+        "definition": "DWS·留存同期群日汇总",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "dws"
+        "dws",
+        "留存同期群日汇总"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1648,18 +2363,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_dau_overview",
       "name": "v_dau_overview",
+      "name_cn": "日活总览",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_dau_overview",
+      "description": "日活总览",
+      "aliases": [
+        "日活总览",
+        "v_dau_overview 分析视图（日活总览）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_dau_overview",
+      "dictHref": "architecture.html#dict/v_dau_overview",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "v_dau_overview 分析视图（日活总览）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "日活总览"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1667,18 +2388,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_lifecycle",
       "name": "v_lifecycle",
+      "name_cn": "生命周期",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_lifecycle",
+      "description": "生命周期",
+      "aliases": [
+        "生命周期",
+        "v_lifecycle 分析视图（生命周期）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_lifecycle",
+      "dictHref": "architecture.html#dict/v_lifecycle",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "v_lifecycle 分析视图（生命周期）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "生命周期"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1686,18 +2413,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_user_lifecycle",
       "name": "v_user_lifecycle",
+      "name_cn": "用户生命周期",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_user_lifecycle",
+      "description": "用户生命周期",
+      "aliases": [
+        "用户生命周期",
+        "用户生命周期（同义 v_lifecycle）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_user_lifecycle",
+      "dictHref": "architecture.html#dict/v_user_lifecycle",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "用户生命周期（同义 v_lifecycle）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "用户生命周期"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1705,18 +2438,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_retention_decomposition",
       "name": "v_retention_decomposition",
+      "name_cn": "留存分解",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_retention_decomposition",
+      "description": "留存分解",
+      "aliases": [
+        "留存分解",
+        "v_retention_decomposition 分析视图（留存分解）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_retention_decomposition",
+      "dictHref": "architecture.html#dict/v_retention_decomposition",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "v_retention_decomposition 分析视图（留存分解）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "留存分解"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1724,18 +2463,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_user_retention",
       "name": "v_user_retention",
+      "name_cn": "用户留存",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_user_retention",
+      "description": "用户留存",
+      "aliases": [
+        "用户留存",
+        "v_user_retention 分析视图（用户留存）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_user_retention",
+      "dictHref": "architecture.html#dict/v_user_retention",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "v_user_retention 分析视图（用户留存）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "用户留存"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1743,18 +2488,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_user_segment",
       "name": "v_user_segment",
+      "name_cn": "用户分群",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_user_segment",
+      "description": "用户分群",
+      "aliases": [
+        "用户分群",
+        "v_user_segment 分析视图（用户分群）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_user_segment",
+      "dictHref": "architecture.html#dict/v_user_segment",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "v_user_segment 分析视图（用户分群）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "用户分群"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1762,18 +2513,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_channel_attribution",
       "name": "v_channel_attribution",
+      "name_cn": "渠道归因",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_channel_attribution",
+      "description": "渠道归因",
+      "aliases": [
+        "渠道归因",
+        "v_channel_attribution 分析视图（渠道归因）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_channel_attribution",
+      "dictHref": "architecture.html#dict/v_channel_attribution",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "v_channel_attribution 分析视图（渠道归因）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "渠道归因"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1781,18 +2538,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_ab_experiment",
       "name": "v_ab_experiment",
+      "name_cn": "AB实验",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_ab_experiment",
+      "description": "AB实验",
+      "aliases": [
+        "AB实验",
+        "v_ab_experiment 分析视图（AB实验）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_ab_experiment",
+      "dictHref": "architecture.html#dict/v_ab_experiment",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "v_ab_experiment 分析视图（AB实验）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "AB实验"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1800,18 +2563,24 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_funnel",
       "name": "v_funnel",
+      "name_cn": "转化漏斗",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_funnel",
+      "description": "转化漏斗",
+      "aliases": [
+        "转化漏斗",
+        "v_funnel 分析视图（转化漏斗）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_funnel",
+      "dictHref": "architecture.html#dict/v_funnel",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "v_funnel 分析视图（转化漏斗）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "转化漏斗"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1819,18 +2588,449 @@ window.PLATFORM_KG_DATA = {
     {
       "id": "tbl:v_ltv",
       "name": "v_ltv",
+      "name_cn": "用户LTV",
       "type": "warehouse",
       "category": "internet",
       "parentId": "cat_wh_ads",
-      "description": "ADS",
-      "href": "platform-graph.html",
-      "dictHref": "dictionary.html#dict/v_ltv",
+      "description": "用户LTV",
+      "aliases": [
+        "用户LTV",
+        "v_ltv 分析视图（用户LTV）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_ltv",
+      "dictHref": "architecture.html#dict/v_ltv",
       "detail": {
-        "definition": "ADS 表/视图",
+        "definition": "v_ltv 分析视图（用户LTV）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
-        "ads"
+        "ads",
+        "用户LTV"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_rfm",
+      "name": "v_rfm",
+      "name_cn": "RFM分群",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "RFM分群",
+      "aliases": [
+        "RFM分群",
+        "v_rfm 分析视图（RFM分群）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_rfm",
+      "dictHref": "architecture.html#dict/v_rfm",
+      "detail": {
+        "definition": "v_rfm 分析视图（RFM分群）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "RFM分群"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_channel_analysis",
+      "name": "v_channel_analysis",
+      "name_cn": "渠道分析",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "渠道分析",
+      "aliases": [
+        "渠道分析",
+        "v_channel_analysis 分析视图（渠道分析）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_channel_analysis",
+      "dictHref": "architecture.html#dict/v_channel_analysis",
+      "detail": {
+        "definition": "v_channel_analysis 分析视图（渠道分析）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "渠道分析"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_user_portrait",
+      "name": "v_user_portrait",
+      "name_cn": "用户画像",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "用户画像",
+      "aliases": [
+        "用户画像",
+        "v_user_portrait 分析视图（用户画像）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_user_portrait",
+      "dictHref": "architecture.html#dict/v_user_portrait",
+      "detail": {
+        "definition": "v_user_portrait 分析视图（用户画像）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "用户画像"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_user_path",
+      "name": "v_user_path",
+      "name_cn": "用户路径",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "用户路径",
+      "aliases": [
+        "用户路径",
+        "v_user_path 分析视图（用户路径）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_user_path",
+      "dictHref": "architecture.html#dict/v_user_path",
+      "detail": {
+        "definition": "v_user_path 分析视图（用户路径）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "用户路径"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_user_path_session",
+      "name": "v_user_path_session",
+      "name_cn": "会话路径",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "会话路径",
+      "aliases": [
+        "会话路径",
+        "v_user_path_session 分析视图（会话路径）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_user_path_session",
+      "dictHref": "architecture.html#dict/v_user_path_session",
+      "detail": {
+        "definition": "v_user_path_session 分析视图（会话路径）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "会话路径"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_top_paths",
+      "name": "v_top_paths",
+      "name_cn": "热门路径",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "热门路径",
+      "aliases": [
+        "热门路径",
+        "v_top_paths 分析视图（热门路径）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_top_paths",
+      "dictHref": "architecture.html#dict/v_top_paths",
+      "detail": {
+        "definition": "v_top_paths 分析视图（热门路径）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "热门路径"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_revenue_structure",
+      "name": "v_revenue_structure",
+      "name_cn": "收入结构",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "收入结构",
+      "aliases": [
+        "收入结构",
+        "v_revenue_structure 分析视图（收入结构）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_revenue_structure",
+      "dictHref": "architecture.html#dict/v_revenue_structure",
+      "detail": {
+        "definition": "v_revenue_structure 分析视图（收入结构）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "收入结构"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_plan_analysis",
+      "name": "v_plan_analysis",
+      "name_cn": "套餐分析",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "套餐分析",
+      "aliases": [
+        "套餐分析",
+        "v_plan_analysis 分析视图（套餐分析）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_plan_analysis",
+      "dictHref": "architecture.html#dict/v_plan_analysis",
+      "detail": {
+        "definition": "v_plan_analysis 分析视图（套餐分析）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "套餐分析"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_plan_ltv",
+      "name": "v_plan_ltv",
+      "name_cn": "套餐LTV",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "套餐LTV",
+      "aliases": [
+        "套餐LTV",
+        "v_plan_ltv 分析视图（套餐LTV）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_plan_ltv",
+      "dictHref": "architecture.html#dict/v_plan_ltv",
+      "detail": {
+        "definition": "v_plan_ltv 分析视图（套餐LTV）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "套餐LTV"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_arpu_trend",
+      "name": "v_arpu_trend",
+      "name_cn": "ARPU趋势",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "ARPU趋势",
+      "aliases": [
+        "ARPU趋势",
+        "v_arpu_trend 分析视图（ARPU趋势）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_arpu_trend",
+      "dictHref": "architecture.html#dict/v_arpu_trend",
+      "detail": {
+        "definition": "v_arpu_trend 分析视图（ARPU趋势）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "ARPU趋势"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_activity_summary",
+      "name": "v_activity_summary",
+      "name_cn": "活跃汇总",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "活跃汇总",
+      "aliases": [
+        "活跃汇总",
+        "v_activity_summary 分析视图（活跃汇总）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_activity_summary",
+      "dictHref": "architecture.html#dict/v_activity_summary",
+      "detail": {
+        "definition": "v_activity_summary 分析视图（活跃汇总）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "活跃汇总"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_activity_daily_trend",
+      "name": "v_activity_daily_trend",
+      "name_cn": "活跃日趋势",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "活跃日趋势",
+      "aliases": [
+        "活跃日趋势",
+        "v_activity_daily_trend 分析视图（活跃日趋势）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_activity_daily_trend",
+      "dictHref": "architecture.html#dict/v_activity_daily_trend",
+      "detail": {
+        "definition": "v_activity_daily_trend 分析视图（活跃日趋势）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "活跃日趋势"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_health_dashboard",
+      "name": "v_health_dashboard",
+      "name_cn": "健康度看板",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "健康度看板",
+      "aliases": [
+        "健康度看板",
+        "v_health_dashboard 分析视图（健康度看板）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_health_dashboard",
+      "dictHref": "architecture.html#dict/v_health_dashboard",
+      "detail": {
+        "definition": "v_health_dashboard 分析视图（健康度看板）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "健康度看板"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_health_group_summary",
+      "name": "v_health_group_summary",
+      "name_cn": "健康度分组",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "健康度分组",
+      "aliases": [
+        "健康度分组",
+        "v_health_group_summary 分析视图（健康度分组）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_health_group_summary",
+      "dictHref": "architecture.html#dict/v_health_group_summary",
+      "detail": {
+        "definition": "v_health_group_summary 分析视图（健康度分组）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "健康度分组"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_user_tag_overview",
+      "name": "v_user_tag_overview",
+      "name_cn": "用户标签总览",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "用户标签总览",
+      "aliases": [
+        "用户标签总览",
+        "v_user_tag_overview 分析视图（用户标签总览）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_user_tag_overview",
+      "dictHref": "architecture.html#dict/v_user_tag_overview",
+      "detail": {
+        "definition": "v_user_tag_overview 分析视图（用户标签总览）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "用户标签总览"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_user_tag_detail",
+      "name": "v_user_tag_detail",
+      "name_cn": "用户标签明细",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "用户标签明细",
+      "aliases": [
+        "用户标签明细",
+        "用户标签明细视图"
+      ],
+      "href": "platform-graph.html?node=tbl:v_user_tag_detail",
+      "dictHref": "architecture.html#dict/v_user_tag_detail",
+      "detail": {
+        "definition": "用户标签明细视图",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "用户标签明细"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_user_tag_by_category",
+      "name": "v_user_tag_by_category",
+      "name_cn": "标签分类汇总",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_ads",
+      "description": "标签分类汇总",
+      "aliases": [
+        "标签分类汇总",
+        "v_user_tag_by_category 分析视图（标签分类汇总）"
+      ],
+      "href": "platform-graph.html?node=tbl:v_user_tag_by_category",
+      "dictHref": "architecture.html#dict/v_user_tag_by_category",
+      "detail": {
+        "definition": "v_user_tag_by_category 分析视图（标签分类汇总）",
+        "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "ads",
+        "标签分类汇总"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1871,7 +3071,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "当日有任意有效行为的去重用户数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_user_event_fact",
       "detail": {
         "definition": "当日有任意有效行为的去重用户数",
         "formula": "COUNT(DISTINCT user_id) WHERE 当日有事件",
@@ -1892,7 +3092,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "当月有任意有效行为的去重用户数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_monthly",
       "detail": {
         "definition": "当月有任意有效行为的去重用户数",
         "formula": "COUNT(DISTINCT user_id) WHERE 当月有事件",
@@ -1913,7 +3113,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "当日首次注册/首次使用产品的用户数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dim_user",
       "detail": {
         "definition": "当日首次注册/首次使用产品的用户数",
         "formula": "COUNT(DISTINCT user_id) WHERE register_date = 当日",
@@ -1924,7 +3124,9 @@ window.PLATFORM_KG_DATA = {
         "新增用户"
       ],
       "source_table": "dim_user",
-      "crossRefs": [],
+      "crossRefs": [
+        "tbl:dim_user"
+      ],
       "childrenIds": []
     },
     {
@@ -1934,7 +3136,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "DAU / 累计注册用户数 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_daily",
       "detail": {
         "definition": "DAU / 累计注册用户数 × 100%",
         "formula": "DAU / 累计注册用户数 × 100",
@@ -1960,7 +3162,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "使用某功能的用户 / DAU × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_feature_daily",
       "detail": {
         "definition": "使用某功能的用户 / DAU × 100%",
         "formula": "功能用户数 / NULLIF(DAU, 0) × 100",
@@ -1986,7 +3188,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "新增用户第2天回来的比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_cohort_daily",
       "detail": {
         "definition": "新增用户第2天回来的比例",
         "formula": "第N天新增且第N+1天活跃 / 第N天新增 × 100",
@@ -2007,7 +3209,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "新增用户第7天回来的比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_cohort_daily",
       "detail": {
         "definition": "新增用户第7天回来的比例",
         "formula": "第N天新增且第N+7天活跃 / 第N天新增 × 100",
@@ -2028,7 +3230,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "新增用户第30天回来的比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_cohort_monthly",
       "detail": {
         "definition": "新增用户第30天回来的比例",
         "formula": "第N天新增且第N+30天活跃 / 第N天新增 × 100",
@@ -2049,7 +3251,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "上月活跃本月不活跃的用户占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_monthly",
       "detail": {
         "definition": "上月活跃本月不活跃的用户占比",
         "formula": "(上月活跃 - 本月仍活跃) / 上月活跃 × 100",
@@ -2070,7 +3272,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "连续N天未活跃的用户数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dim_user",
       "detail": {
         "definition": "连续N天未活跃的用户数",
         "formula": "COUNT(user_id) WHERE last_active_date < 今日 - 30天",
@@ -2081,7 +3283,9 @@ window.PLATFORM_KG_DATA = {
         "沉默用户数"
       ],
       "source_table": "dim_user",
-      "crossRefs": [],
+      "crossRefs": [
+        "tbl:dim_user"
+      ],
       "childrenIds": []
     },
     {
@@ -2091,7 +3295,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "平均每个用户每日使用时长",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_daily",
       "detail": {
         "definition": "平均每个用户每日使用时长",
         "formula": "总使用时长 / DAU",
@@ -2112,7 +3316,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "平均每个用户每日启动次数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_daily",
       "detail": {
         "definition": "平均每个用户每日启动次数",
         "formula": "总启动次数 / DAU",
@@ -2133,7 +3337,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "平均每次会话持续时间",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_session_daily",
       "detail": {
         "definition": "平均每次会话持续时间",
         "formula": "总会话时长 / 总会话数",
@@ -2154,7 +3358,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "当日页面浏览总次数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_user_event_fact",
       "detail": {
         "definition": "当日页面浏览总次数",
         "formula": "SUM(page_view事件数)",
@@ -2175,7 +3379,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_用户增长指标",
       "description": "平均每个用户每日浏览页面数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_daily",
       "detail": {
         "definition": "平均每个用户每日浏览页面数",
         "formula": "PV / DAU",
@@ -2224,7 +3428,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "各渠道带来的新增注册用户数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dim_user",
       "detail": {
         "definition": "各渠道带来的新增注册用户数",
         "formula": "COUNT(DISTINCT user_id) GROUP BY channel",
@@ -2235,7 +3439,9 @@ window.PLATFORM_KG_DATA = {
         "渠道新增用户"
       ],
       "source_table": "dim_user",
-      "crossRefs": [],
+      "crossRefs": [
+        "tbl:dim_user"
+      ],
       "childrenIds": []
     },
     {
@@ -2245,7 +3451,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "获取一个新增用户的成本",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_channel_daily",
       "detail": {
         "definition": "获取一个新增用户的成本",
         "formula": "渠道投放费用 / 渠道新增用户数",
@@ -2266,7 +3472,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "渠道带来的收入 / 渠道投入费用",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_channel_monthly",
       "detail": {
         "definition": "渠道带来的收入 / 渠道投入费用",
         "formula": "渠道LTV收入 / NULLIF(渠道费用, 0)",
@@ -2287,7 +3493,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "点击数 / 曝光数 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_click_fact / dwd_exposure_fact",
       "detail": {
         "definition": "点击数 / 曝光数 × 100%",
         "formula": "点击数 / NULLIF(曝光数, 0) × 100",
@@ -2308,7 +3514,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "转化数 / 点击数 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_campaign_daily",
       "detail": {
         "definition": "转化数 / 点击数 × 100%",
         "formula": "转化数 / NULLIF(点击数, 0) × 100",
@@ -2329,7 +3535,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "参与活动用户 / 触达用户 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_activity_daily",
       "detail": {
         "definition": "参与活动用户 / 触达用户 × 100%",
         "formula": "参与用户数 / NULLIF(触达用户数, 0) × 100",
@@ -2352,7 +3558,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "活动完成目标转化 / 参与用户 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_activity_daily",
       "detail": {
         "definition": "活动完成目标转化 / 参与用户 × 100%",
         "formula": "转化用户数 / NULLIF(参与用户数, 0) × 100",
@@ -2375,7 +3581,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "活动带来的增量收益 / 活动投入",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_activity_result",
       "detail": {
         "definition": "活动带来的增量收益 / 活动投入",
         "formula": "(活动组收益 - 对照组收益) / 活动成本",
@@ -2398,7 +3604,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "成功触达用户 / 目标用户 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_push_daily",
       "detail": {
         "definition": "成功触达用户 / 目标用户 × 100%",
         "formula": "到达数 / NULLIF(发送数, 0) × 100",
@@ -2419,7 +3625,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "点击打开推送 / 成功触达 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_push_daily",
       "detail": {
         "definition": "点击打开推送 / 成功触达 × 100%",
         "formula": "打开数 / NULLIF(到达数, 0) × 100",
@@ -2440,7 +3646,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "实验组和对照组用户特征分布一致",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/ab_test_config",
       "detail": {
         "definition": "实验组和对照组用户特征分布一致",
         "formula": "卡方检验/KS检验，P值>0.05",
@@ -2461,7 +3667,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "指标差异是否由实验导致而非随机",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/ab_test_result",
       "detail": {
         "definition": "指标差异是否由实验导致而非随机",
         "formula": "P值<0.05为统计显著",
@@ -2482,7 +3688,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "指标提升的可能范围",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/ab_test_result",
       "detail": {
         "definition": "指标提升的可能范围",
         "formula": "均值 ± 1.96×标准误",
@@ -2503,7 +3709,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_营销策略指标",
       "description": "实验能检测出差异的概率",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/ab_test_config",
       "detail": {
         "definition": "实验能检测出差异的概率",
         "formula": "Power > 0.8 为合格",
@@ -2549,7 +3755,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "当期总交易额（含退款）",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_order_fact",
       "detail": {
         "definition": "当期总交易额（含退款）",
         "formula": "SUM(订单金额)",
@@ -2570,7 +3776,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "当期有付费行为的去重用户数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_order_fact",
       "detail": {
         "definition": "当期有付费行为的去重用户数",
         "formula": "COUNT(DISTINCT user_id) WHERE 有支付成功订单",
@@ -2591,7 +3797,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "付费用户 / 活跃用户 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_daily",
       "detail": {
         "definition": "付费用户 / 活跃用户 × 100%",
         "formula": "付费用户数 / NULLIF(DAU, 0) × 100",
@@ -2612,7 +3818,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "平均每活跃用户收入",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_daily",
       "detail": {
         "definition": "平均每活跃用户收入",
         "formula": "总营收 / DAU",
@@ -2635,7 +3841,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "平均每付费用户收入",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_payment_daily",
       "detail": {
         "definition": "平均每付费用户收入",
         "formula": "总营收 / 付费用户数",
@@ -2656,7 +3862,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "当期付费2次及以上用户占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_monthly",
       "detail": {
         "definition": "当期付费2次及以上用户占比",
         "formula": "付费≥2次用户数 / 总付费用户数 × 100",
@@ -2677,7 +3883,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "用户从注册到流失的总贡献价值",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_ltv_cohort",
       "detail": {
         "definition": "用户从注册到流失的总贡献价值",
         "formula": "按Cohort累计付费，生存分析预测全周期",
@@ -2698,7 +3904,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "用户价值 / 获客成本，判断渠道健康度",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_channel_monthly",
       "detail": {
         "definition": "用户价值 / 获客成本，判断渠道健康度",
         "formula": "LTV / NULLIF(CAC, 0)",
@@ -2719,7 +3925,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "获客成本多少天能收回来",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_channel_monthly",
       "detail": {
         "definition": "获客成本多少天能收回来",
         "formula": "CAC / 日均ARPU",
@@ -2740,7 +3946,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "(营收 - 成本) / 营收 × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_finance_monthly",
       "detail": {
         "definition": "(营收 - 成本) / 营收 × 100%",
         "formula": "(营收 - 可变成本) / 营收 × 100",
@@ -2761,7 +3967,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_商业变现指标",
       "description": "用户从注册到流失的平均天数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_user_lifecycle",
       "detail": {
         "definition": "用户从注册到流失的平均天数",
         "formula": "流失日期 - 注册日期",
@@ -2811,7 +4017,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "使用过某功能的用户 / DAU × 100%",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_feature_daily",
       "detail": {
         "definition": "使用过某功能的用户 / DAU × 100%",
         "formula": "功能用户数 / NULLIF(DAU, 0) × 100",
@@ -2832,7 +4038,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "平均每个用户每日使用该功能次数",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_feature_daily",
       "detail": {
         "definition": "平均每个用户每日使用该功能次数",
         "formula": "功能使用总次数 / 功能用户数",
@@ -2853,7 +4059,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "从漏斗起点到终点的转化比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_funnel_analysis",
       "detail": {
         "definition": "从漏斗起点到终点的转化比例",
         "formula": "终点人数 / NULLIF(起点人数, 0) × 100",
@@ -2876,7 +4082,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "漏斗每一步的流失比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_funnel_analysis",
       "detail": {
         "definition": "漏斗每一步的流失比例",
         "formula": "(上一步人数 - 当前步人数) / 上一步人数 × 100",
@@ -2897,7 +4103,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "新用户完成核心Aha行为的比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dws_newuser_activation",
       "detail": {
         "definition": "新用户完成核心Aha行为的比例",
         "formula": "完成核心行为新用户 / 新增用户 × 100",
@@ -2918,7 +4124,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "发生崩溃的启动次数占比",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_crash_log",
       "detail": {
         "definition": "发生崩溃的启动次数占比",
         "formula": "崩溃启动数 / 总启动数 × 100",
@@ -2939,7 +4145,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "应用无响应的比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_crash_log",
       "detail": {
         "definition": "应用无响应的比例",
         "formula": "ANR次数 / 启动数 × 100",
@@ -2960,7 +4166,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "从点击图标到首页加载完成的时间",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_performance_log",
       "detail": {
         "definition": "从点击图标到首页加载完成的时间",
         "formula": "P50/P90/P99启动时长",
@@ -2981,7 +4187,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "网络接口请求成功的比例",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/dwd_api_log",
       "detail": {
         "definition": "网络接口请求成功的比例",
         "formula": "成功请求数 / 总请求数 × 100",
@@ -3002,7 +4208,7 @@ window.PLATFORM_KG_DATA = {
       "category": "internet",
       "parentId": "cat_metric_产品分析指标",
       "description": "用户推荐意愿得分",
-      "href": "dictionary.html",
+      "href": "architecture.html#dict/user_survey",
       "detail": {
         "definition": "用户推荐意愿得分",
         "formula": "推荐者占比 - 贬损者占比",
@@ -3446,6 +4652,55 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_log_launcher_di",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_log_vod_di",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_log_live_di",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_log_cashier_di",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_user_register_di",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_user_unsubscribe_di",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ods",
+      "target": "tbl:ods_order_di",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
       "source": "cat_wh_dim",
       "target": "tbl:dim_region",
       "style": "solid",
@@ -3474,6 +4729,97 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_content_series",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_content_episode",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_channel_category",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_live_channel",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_device_type",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_device_model",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_firmware",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_device",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_user_package",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_user",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_month",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_week",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_date",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
       "source": "cat_wh_dwd",
       "target": "tbl:dwd_act_launcher_di",
       "style": "solid",
@@ -3497,6 +4843,20 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "cat_wh_dwd",
       "target": "tbl:dwd_trade_cashier_di",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:dwd_trade_order_di",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:dwd_user_status_di",
       "style": "solid",
       "cross": false,
       "label": ""
@@ -3628,6 +4988,125 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_rfm",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_channel_analysis",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_user_portrait",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_user_path",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_user_path_session",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_top_paths",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_revenue_structure",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_plan_analysis",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_plan_ltv",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_arpu_trend",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_activity_summary",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_activity_daily_trend",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_health_dashboard",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_health_group_summary",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_user_tag_overview",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_user_tag_detail",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_wh_ads",
+      "target": "tbl:v_user_tag_by_category",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
       "source": "root_metric",
       "target": "cat_metric_用户增长指标",
       "style": "solid",
@@ -3654,6 +5133,13 @@ window.PLATFORM_KG_DATA = {
       "style": "solid",
       "cross": false,
       "label": ""
+    },
+    {
+      "source": "metric:新增用户",
+      "target": "tbl:dim_user",
+      "style": "dashed",
+      "cross": true,
+      "label": "来源表"
     },
     {
       "source": "cat_metric_用户增长指标",
@@ -3705,6 +5191,13 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
+      "source": "metric:沉默用户数",
+      "target": "tbl:dim_user",
+      "style": "dashed",
+      "cross": true,
+      "label": "来源表"
+    },
+    {
       "source": "cat_metric_用户增长指标",
       "target": "metric:人均使用时长",
       "style": "solid",
@@ -3752,6 +5245,13 @@ window.PLATFORM_KG_DATA = {
       "style": "solid",
       "cross": false,
       "label": ""
+    },
+    {
+      "source": "metric:渠道新增用户",
+      "target": "tbl:dim_user",
+      "style": "dashed",
+      "cross": true,
+      "label": "来源表"
     },
     {
       "source": "cat_metric_营销策略指标",
@@ -4013,20 +5513,6 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q01",
-      "target": "dash:overview",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q01",
-      "target": "dash:overview",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q02",
       "target": "dash:overview",
       "style": "dashed",
@@ -4035,14 +5521,7 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q02",
-      "target": "dash:overview",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q03",
-      "target": "dash:order",
+      "target": "dash:tags",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
@@ -4063,20 +5542,6 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q04",
-      "target": "dash:launcher",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q04",
-      "target": "dash:vod",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q04",
       "target": "dash:vod",
       "style": "dashed",
       "cross": true,
@@ -4090,43 +5555,8 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q04",
-      "target": "dash:live",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q05",
       "target": "dash:lifecycle",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q05",
-      "target": "dash:lifecycle",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q05",
-      "target": "dash:lifecycle",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q06",
-      "target": "dash:series",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q06",
-      "target": "dash:series",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
@@ -4147,42 +5577,7 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q07",
-      "target": "dash:overview",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q07",
       "target": "dash:device",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q07",
-      "target": "dash:device",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q08",
-      "target": "dash:retention",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q08",
-      "target": "dash:retention",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q08",
-      "target": "dash:retention",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
@@ -4202,27 +5597,6 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q09",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q10",
-      "target": "dash:funnel",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q10",
-      "target": "dash:funnel",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q10",
       "target": "dash:funnel",
       "style": "dashed",
@@ -4232,27 +5606,6 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "pb:q11",
       "target": "dash:lifecycle",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q11",
-      "target": "dash:lifecycle",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q11",
-      "target": "dash:lifecycle",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q12",
-      "target": "dash:order",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
@@ -4273,35 +5626,7 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q13",
-      "target": "dash:quality",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q13",
       "target": "dash:series",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q13",
-      "target": "dash:series",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q14",
-      "target": "dash:overview",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q14",
-      "target": "dash:overview",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
@@ -4328,27 +5653,6 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q15",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q16",
-      "target": "dash:funnel",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q16",
-      "target": "dash:funnel",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q16",
       "target": "dash:funnel",
       "style": "dashed",
@@ -4363,42 +5667,7 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q17",
-      "target": "dash:lifecycle",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q17",
-      "target": "dash:lifecycle",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q18",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q18",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q18",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q19",
       "target": "dash:order",
       "style": "dashed",
       "cross": true,
@@ -4419,20 +5688,6 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q20",
-      "target": "dash:funnel",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q21",
-      "target": "dash:series",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q21",
       "target": "dash:series",
       "style": "dashed",
@@ -4442,27 +5697,6 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "pb:q21",
       "target": "dash:vod",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q21",
-      "target": "dash:vod",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q22",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q22",
-      "target": "dash:order",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
@@ -4483,20 +5717,6 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q23",
-      "target": "dash:quality",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q23",
-      "target": "dash:episode",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q23",
       "target": "dash:episode",
       "style": "dashed",
       "cross": true,
@@ -4511,28 +5731,7 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q24",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q24",
       "target": "dash:funnel",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q24",
-      "target": "dash:funnel",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q25",
-      "target": "dash:lifecycle",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
@@ -4553,20 +5752,6 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q26",
-      "target": "dash:series",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q26",
-      "target": "dash:vod",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q26",
       "target": "dash:vod",
       "style": "dashed",
       "cross": true,
@@ -4580,35 +5765,7 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q26",
-      "target": "dash:live",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
       "source": "pb:q27",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q27",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q28",
-      "target": "dash:order",
-      "style": "dashed",
-      "cross": true,
-      "label": "相关看板"
-    },
-    {
-      "source": "pb:q28",
       "target": "dash:order",
       "style": "dashed",
       "cross": true,
