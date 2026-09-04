@@ -48,6 +48,7 @@ class DWArchitecture {
   }
 
   init() {
+    this.syncNavHeight();
     this.render();
     this.bindEvents();
     requestAnimationFrame(() => {
@@ -56,12 +57,21 @@ class DWArchitecture {
       requestAnimationFrame(() => this.drawFlows());
     });
     window.addEventListener('resize', () => {
+      this.syncNavHeight();
       clearTimeout(this._resizeTimer);
       this._resizeTimer = setTimeout(() => this.drawFlows(), 200);
     });
     
     this._keyHandler = (e) => this.handleKeydown(e);
     document.addEventListener('keydown', this._keyHandler);
+  }
+
+  syncNavHeight() {
+    const nav = document.querySelector('.top-nav');
+    if (!nav) return;
+    const h = Math.max(40, Math.round(nav.getBoundingClientRect().height));
+    document.documentElement.style.setProperty('--nav-height', h + 'px');
+    document.documentElement.style.setProperty('--fs-nav-h', h + 'px');
   }
 
   destroy() {

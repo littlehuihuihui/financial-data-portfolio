@@ -1075,6 +1075,19 @@
   window.__platformKgApi = null;
 
   document.addEventListener("DOMContentLoaded", function () {
+    function syncNavHeight() {
+      var nav = document.querySelector(".top-nav");
+      if (!nav) return;
+      var h = Math.max(40, Math.round(nav.getBoundingClientRect().height));
+      document.documentElement.style.setProperty("--nav-height", h + "px");
+    }
+    syncNavHeight();
+    window.addEventListener("resize", syncNavHeight);
+    if (typeof ResizeObserver !== "undefined") {
+      var nav = document.querySelector(".top-nav");
+      if (nav) new ResizeObserver(syncNavHeight).observe(nav);
+    }
+
     var started = false;
     function tryInit() {
       if (started) return true;

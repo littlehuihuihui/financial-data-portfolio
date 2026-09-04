@@ -895,6 +895,11 @@ tr.row-alert td { color: #f87171; font-weight: 600; }
   .page-dashboard .chart-row.two-col { grid-template-columns: 1fr; }
   .page-dashboard .table-toolbar { flex-wrap: wrap; }
 
+  .page-dashboard .dash-subnav {
+    top: 0;
+    position: relative;
+  }
+
   .page-dashboard .dashboard-header {
     flex-direction: column;
     align-items: stretch;
@@ -982,6 +987,7 @@ tr.row-alert td { color: #f87171; font-weight: 600; }
   }
   .page-dashboard .dashboard-main {
     padding: 0.75rem;
+    padding-bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
     max-width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
@@ -989,6 +995,15 @@ tr.row-alert td { color: #f87171; font-weight: 600; }
   .page-dashboard .dashboard-page-desc {
     overflow-wrap: anywhere;
     word-break: break-word;
+  }
+  .page-dashboard .dashboard-status-bar {
+    padding-bottom: calc(0.55rem + env(safe-area-inset-bottom, 0px));
+  }
+  .page-dashboard .table-wrap,
+  .page-dashboard .data-table-wrap {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

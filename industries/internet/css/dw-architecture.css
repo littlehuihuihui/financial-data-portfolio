@@ -1574,8 +1574,20 @@
   }
 
   .dw-arch-lanes-main {
-    grid-template-columns: repeat(2, minmax(180px, 1fr));
-    min-width: 400px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-width: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .dw-arch-lanes-main {
+    grid-template-columns: 1fr;
+    min-width: 0 !important;
+    gap: 16px !important;
+  }
+  .dw-arch-v2 .dw-arch-canvas {
+    min-height: 420px;
+    height: min(70vh, 640px);
   }
 }
 
@@ -1586,7 +1598,7 @@
 
   .dw-arch-lanes-main {
     grid-template-columns: 1fr;
-    min-width: 240px;
+    min-width: 0;
   }
 }
 
@@ -1745,8 +1757,8 @@ body.page-architecture-fullscreen .dw-arch-chip {
   font-size: 10px;
 }
 
-/* ---------- 手机端：全景图 / 全屏页可读可滑 ---------- */
-@media (max-width: 768px) {
+/* ---------- 手机 / 平板：全景图 / 全屏页可读可滑 ---------- */
+@media (max-width: 960px) {
   body.page-architecture-fullscreen {
     overflow-x: hidden;
     overflow-y: auto;

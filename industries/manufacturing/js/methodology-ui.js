@@ -249,7 +249,7 @@
     sidebar.querySelectorAll(".q-card[data-id]").forEach(btn => {
       btn.addEventListener("click", () => {
         selectPlaybook(btn.dataset.id);
-        sidebar.classList.remove("open");
+        setSidebarOpen(false);
       });
     });
     sidebar.querySelectorAll("[data-toolbox-id]").forEach((btn) => {
@@ -852,6 +852,7 @@
     renderSidebar(searchInput.value);
     renderDetail(p);
     history.replaceState(null, "", `#${id}`);
+    setSidebarOpen(false);
   }
 
   function selectToolboxMethod(id) {
@@ -861,11 +862,41 @@
       window.AnalysisToolboxUI.renderMethodDetail("detail-panel", id);
     }
     history.replaceState(null, "", `#toolbox-${id}`);
-    sidebar.classList.remove("open");
+    setSidebarOpen(false);
   }
 
   searchInput.addEventListener("input", () => renderSidebar(searchInput.value));
-  mobileToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
+
+  function ensureSidebarScrim() {
+    let scrim = document.getElementById("sidebar-scrim");
+    if (!scrim) {
+      scrim = document.createElement("button");
+      scrim.type = "button";
+      scrim.id = "sidebar-scrim";
+      scrim.className = "sidebar-scrim";
+      scrim.setAttribute("aria-label", "关闭侧栏");
+      document.body.appendChild(scrim);
+      scrim.addEventListener("click", () => setSidebarOpen(false));
+    }
+    return scrim;
+  }
+
+  function setSidebarOpen(open) {
+    if (!sidebar) return;
+    sidebar.classList.toggle("open", !!open);
+    const scrim = ensureSidebarScrim();
+    scrim.classList.toggle("is-on", !!open);
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+
+  if (mobileToggle) {
+    mobileToggle.addEventListener("click", () => {
+      setSidebarOpen(!sidebar.classList.contains("open"));
+    });
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setSidebarOpen(false);
+  });
 
   function normalizeMethodHash(raw) {
     let hash = String(raw || "").replace(/^#/, "");

@@ -448,8 +448,14 @@ code {
 @media (max-width: 640px) {
   .hero { padding: 40px 0 20px; }
   .hero::before, .hero::after { display: none; }
-  .hero-brand { letter-spacing: 0.1em; }
-  .hero h1 { letter-spacing: 0.14em; }
+  .hero-brand {
+    letter-spacing: 0.04em;
+    font-size: clamp(1.5rem, 8vw, 2rem);
+  }
+  .hero h1 {
+    letter-spacing: 0.06em;
+    font-size: clamp(0.95rem, 4.2vw, 1.15rem);
+  }
   .meta-bar {
     font-size: 0.68rem;
     flex-direction: column;
@@ -473,4 +479,8 @@ code {
   .card-desc { overflow-wrap: anywhere; word-break: break-word; }
   .card-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
   .metric b { font-size: 0.85rem; }
+}
+
+@media (max-width: 380px) {
+  .card-metrics { grid-template-columns: 1fr; }
 }

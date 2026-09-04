@@ -65,8 +65,8 @@
     const b = scriptBase();
     const map = {
       echarts: "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js",
-      dwArchData: `${b.industry}/dw-architecture-data.js?v=3.34`,
-      dwArch: `${b.shared}/dw-architecture.js?v=3.35`,
+      dwArchData: `${b.industry}/dw-architecture-data.js?v=3.54`,
+      dwArch: `${b.shared}/dw-architecture.js?v=3.54`,
       dwGraph: `${b.shared}/dw-knowledge-graph.js?v=3.36`,
       erData: `${b.industry}/er-diagram-data.js?v=3.32`,
       er: `${b.shared}/er-diagram-interactive.js?v=1.1`,
@@ -76,7 +76,7 @@
       dictCore: `${b.shared}/data-dictionary-core.js?v=3.29`,
       dictUi: `${b.industry}/data-dictionary.js?v=3.28`,
       etlData: `${b.industry}/etl-lineage-data.js?v=3.34`,
-      etlUi: `${b.shared}/etl-lineage.js?v=3.35`,
+      etlUi: `${b.shared}/etl-lineage.js?v=3.54`,
     };
     const ready = {
       echarts: () => !!window.echarts,
@@ -147,7 +147,7 @@
       return window.__dwArch;
     }
     const b = scriptBase();
-    await loadCss(`${b.cssIndustry}/dw-architecture.css?v=3.53`);
+    await loadCss(`${b.cssIndustry}/dw-architecture.css?v=3.54`);
     await ensureScripts(["dwArchData", "dwArch", "metricCaliber", "etlData"]);
     const root = document.getElementById("dw-architecture-root");
     if (!root || !window.DWArchitecture) return null;

@@ -790,6 +790,10 @@
 @media (max-width: 900px) {
   .nav-inner-with-search {
     flex-wrap: wrap !important;
+    height: auto !important;
+    min-height: var(--nav-height, 56px);
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
   /* slot 才是 flex 子项；order 必须打在 slot 上，不能只打在内部 wrap */
   .nav-inner-with-search #global-search-slot {
