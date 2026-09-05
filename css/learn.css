@@ -1,0 +1,758 @@
+/* 学习路径 · 立体 HUD / 科技感（对齐平台 design-tokens） */
+:root {
+  --learn-accent: var(--color-cyan, #22d3ee);
+  --learn-accent-2: var(--color-emerald, #34d399);
+  --learn-violet: var(--color-violet, #a78bfa);
+  --learn-card: rgba(15, 22, 40, 0.72);
+  --learn-border: rgba(34, 211, 238, 0.28);
+  --learn-depth: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(34, 211, 238, 0.08);
+}
+
+body.page-learn {
+  min-height: 100vh;
+  position: relative;
+  font-family: var(--font-ui, var(--font-sans));
+  color: var(--color-text-primary, #e8edf5);
+  background-color: var(--color-bg-base, #070b16);
+  overflow-x: hidden;
+}
+
+/* 立体场景层 */
+.learn-scene {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.learn-scene__grid {
+  position: absolute;
+  inset: -20%;
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  transform: perspective(600px) rotateX(58deg) translateY(-12%) scale(1.35);
+  transform-origin: 50% 0%;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent 72%);
+  animation: learn-grid-drift 28s linear infinite;
+}
+.learn-scene__glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 45% at 15% -10%, rgba(34, 211, 238, 0.22), transparent 55%),
+    radial-gradient(ellipse 55% 40% at 90% 10%, rgba(77, 163, 255, 0.14), transparent 50%),
+    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(52, 211, 153, 0.1), transparent 55%);
+}
+.learn-scene__orb {
+  position: absolute;
+  width: 42vmin;
+  height: 42vmin;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.35;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.55), transparent 68%);
+  top: 8%;
+  right: -8%;
+  animation: learn-orb 12s ease-in-out infinite alternate;
+}
+.learn-scene__orb--2 {
+  width: 36vmin;
+  height: 36vmin;
+  top: auto;
+  bottom: 5%;
+  left: -10%;
+  right: auto;
+  background: radial-gradient(circle, rgba(77, 163, 255, 0.4), transparent 70%);
+  animation-duration: 16s;
+  animation-direction: alternate-reverse;
+}
+.learn-scene__scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.015) 3px,
+    rgba(255, 255, 255, 0.015) 4px
+  );
+  opacity: 0.5;
+}
+.learn-scene__beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 28%;
+  top: -30%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(34, 211, 238, 0.06),
+    transparent
+  );
+  animation: learn-beam 9s ease-in-out infinite;
+}
+
+@keyframes learn-grid-drift {
+  from { background-position: 0 0; }
+  to { background-position: 0 48px; }
+}
+@keyframes learn-orb {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-4%, 6%, 0) scale(1.08); }
+}
+@keyframes learn-beam {
+  0% { top: -35%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 0.6; }
+  100% { top: 110%; opacity: 0; }
+}
+
+.learn-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px 16px 72px;
+  perspective: 1200px;
+}
+
+/* Hero 立体面板 */
+.learn-hero {
+  position: relative;
+  padding: 1.35rem 1.35rem 1.2rem;
+  border-radius: 16px;
+  border: 1px solid var(--learn-border);
+  background:
+    linear-gradient(155deg, rgba(20, 30, 52, 0.92), rgba(8, 12, 24, 0.88)),
+    radial-gradient(ellipse at 0% 0%, rgba(34, 211, 238, 0.12), transparent 50%);
+  box-shadow: var(--learn-depth), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: translateZ(0);
+  overflow: hidden;
+}
+.learn-hero::before,
+.learn-hero::after {
+  content: "";
+  position: absolute;
+  width: var(--hud-corner, 14px);
+  height: var(--hud-corner, 14px);
+  border-color: var(--learn-accent);
+  border-style: solid;
+  opacity: 0.85;
+  pointer-events: none;
+}
+.learn-hero::before {
+  top: 10px;
+  left: 10px;
+  border-width: 2px 0 0 2px;
+}
+.learn-hero::after {
+  right: 10px;
+  bottom: 10px;
+  border-width: 0 2px 2px 0;
+}
+
+.learn-hero h1,
+.learn-article-head h1 {
+  margin: 0.35rem 0 0.55rem;
+  font-family: var(--font-display, Orbitron, sans-serif);
+  font-size: clamp(1.4rem, 3.2vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text, #e8edf5);
+  text-shadow: 0 0 28px rgba(34, 211, 238, 0.25);
+}
+
+.learn-eyebrow {
+  margin: 0;
+  font-family: var(--font-mono, Consolas, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--learn-accent);
+  text-transform: uppercase;
+}
+
+.learn-sub {
+  margin: 0 0 1rem;
+  color: var(--text-secondary, #8892a4);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  max-width: 52rem;
+}
+
+.learn-stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0.85rem 0 0.35rem;
+}
+.learn-stat {
+  position: relative;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  background: linear-gradient(160deg, rgba(34, 211, 238, 0.1), rgba(10, 15, 28, 0.55));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+.learn-stat__k {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted, #64748b);
+  text-transform: uppercase;
+}
+.learn-stat__v {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: #ecfeff;
+  letter-spacing: 0.03em;
+}
+
+.learn-progress-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.12);
+  overflow: hidden;
+  margin: 14px 0 8px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+.learn-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--learn-accent), #38bdf8, var(--learn-accent-2));
+  background-size: 200% 100%;
+  border-radius: inherit;
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.55);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: learn-progress-shine 3.5s linear infinite;
+}
+@keyframes learn-progress-shine {
+  from { background-position: 0% 0; }
+  to { background-position: 200% 0; }
+}
+
+.learn-progress-meta {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #8892a4);
+}
+
+.learn-pin-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin: 0.85rem 0 0.65rem;
+  font-size: 0.86rem;
+}
+.learn-pin-links a {
+  color: #a5f3fc;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(34, 211, 238, 0.28);
+  background: rgba(34, 211, 238, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+}
+.learn-pin-links a:hover {
+  transform: translateY(-2px);
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow: 0 6px 16px rgba(34, 211, 238, 0.18);
+}
+
+.learn-industry-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.learn-chip {
+  border: 1px solid var(--learn-border);
+  background: rgba(10, 15, 28, 0.55);
+  color: var(--text-secondary, #8892a4);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+.learn-chip:hover {
+  transform: translateY(-1px);
+  color: #e0f2fe;
+}
+.learn-chip.is-on {
+  color: #041016;
+  background: linear-gradient(135deg, var(--learn-accent), #38bdf8);
+  border-color: transparent;
+  font-weight: 700;
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.35);
+}
+
+/* 课表卡片：真·立体悬停 */
+.learn-lesson-list {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform-style: preserve-3d;
+}
+.learn-lesson-card {
+  position: relative;
+  border: 1px solid var(--learn-border);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(22, 32, 54, 0.92), rgba(10, 14, 26, 0.9));
+  box-shadow: var(--learn-depth);
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s, border-color 0.28s;
+}
+.learn-lesson-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--learn-accent), transparent 70%);
+  opacity: 0.85;
+}
+.learn-lesson-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(34, 211, 238, 0.07) 50%, transparent 60%);
+  transform: translateX(-120%);
+  transition: transform 0.55s ease;
+  pointer-events: none;
+}
+.learn-lesson-card:hover {
+  transform: translateY(-4px) rotateX(2deg) scale(1.01);
+  border-color: rgba(34, 211, 238, 0.5);
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.55),
+    0 0 28px rgba(34, 211, 238, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.learn-lesson-card:hover::after {
+  transform: translateX(120%);
+}
+.learn-lesson-card.is-done {
+  border-color: rgba(52, 211, 153, 0.5);
+}
+.learn-lesson-card.is-done::before {
+  background: linear-gradient(180deg, var(--learn-accent-2), transparent 70%);
+}
+
+.learn-lesson-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 16px 15px 18px;
+  text-decoration: none;
+  color: inherit;
+}
+.learn-lesson-idx {
+  font-family: var(--font-mono);
+  color: var(--learn-accent);
+  font-size: 0.82rem;
+  min-width: 2.1rem;
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.35);
+}
+.learn-lesson-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.learn-lesson-title {
+  font-family: var(--font-ui);
+  font-weight: 650;
+  font-size: 1.02rem;
+  color: var(--text, #e8edf5);
+}
+.learn-lesson-meta {
+  font-size: 0.76rem;
+  color: var(--text-secondary, #8892a4);
+}
+.learn-track-pill {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  color: #a5f3fc;
+  background: rgba(34, 211, 238, 0.08);
+}
+.learn-lesson-status {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--learn-accent-2);
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  background: rgba(52, 211, 153, 0.08);
+}
+
+.learn-footnote {
+  margin-top: 28px;
+  font-size: 0.8rem;
+  color: var(--text-secondary, #8892a4);
+}
+
+/* 课文页 */
+.learn-lesson-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  background: rgba(10, 15, 28, 0.65);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+.learn-back {
+  color: var(--learn-accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-right: auto;
+}
+.learn-toolbar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.learn-btn {
+  border: 1px solid var(--learn-border);
+  background: rgba(15, 22, 40, 0.7);
+  color: var(--text, #e8edf5);
+  border-radius: 8px;
+  padding: 7px 13px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.learn-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+.learn-btn-primary {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(56, 189, 248, 0.12));
+  border-color: rgba(34, 211, 238, 0.5);
+  color: #cffafe;
+}
+
+.learn-article {
+  position: relative;
+  padding: 1.25rem 1.35rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--learn-border);
+  background:
+    linear-gradient(165deg, rgba(18, 26, 44, 0.94), rgba(8, 12, 22, 0.92));
+  box-shadow: var(--learn-depth);
+  overflow: hidden;
+}
+.learn-article::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: var(--glow-line);
+  opacity: 0.9;
+}
+
+.learn-jumps,
+.learn-quiz {
+  margin: 1.35rem 0 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(34, 211, 238, 0.28);
+  background:
+    linear-gradient(145deg, rgba(34, 211, 238, 0.08), rgba(10, 15, 28, 0.55));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+.learn-quiz {
+  border-color: rgba(251, 191, 36, 0.35);
+  background: linear-gradient(145deg, rgba(251, 191, 36, 0.08), rgba(10, 15, 28, 0.55));
+}
+.learn-jumps h2,
+.learn-quiz h2 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+.learn-jumps-hint {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #8892a4);
+}
+.learn-jump-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.learn-jump-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  background: rgba(8, 12, 22, 0.65);
+  color: #a5f3fc;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.learn-jump-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(34, 211, 238, 0.2);
+}
+
+.learn-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+.learn-pager a {
+  color: #a5f3fc;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  background: rgba(10, 15, 28, 0.7);
+  max-width: 46%;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.learn-pager a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+}
+
+/* MD body */
+.learn-md-body {
+  line-height: 1.7;
+  color: var(--color-text-primary, #e8edf5);
+}
+.learn-md-body h1,
+.learn-md-body h2,
+.learn-md-body h3,
+.learn-md-body h4 {
+  font-family: var(--font-ui);
+  color: #f1f5f9;
+  line-height: 1.35;
+}
+.learn-md-body h2 {
+  margin-top: 1.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(34, 211, 238, 0.18);
+  font-size: 1.2rem;
+}
+.learn-md-body h3 {
+  margin-top: 1.2rem;
+  font-size: 1.05rem;
+  color: #bae6fd;
+}
+.learn-md-body p { margin: 0.7rem 0; }
+.learn-md-body ul,
+.learn-md-body ol {
+  margin: 0.5rem 0 0.8rem;
+  padding-left: 1.25rem;
+}
+.learn-md-body li { margin: 0.28rem 0; }
+.learn-md-body blockquote {
+  margin: 0.9rem 0;
+  padding: 0.65rem 0.9rem;
+  border-left: 3px solid var(--learn-accent);
+  border-radius: 0 10px 10px 0;
+  background: rgba(34, 211, 238, 0.07);
+  color: #cbd5e1;
+}
+.learn-md-body code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+.learn-code {
+  margin: 0.9rem 0;
+  padding: 0.85rem 1rem;
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  background: #0a1020;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35), 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+.learn-code code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #e2e8f0;
+}
+.learn-table-wrap {
+  overflow-x: auto;
+  margin: 0.8rem 0;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+.learn-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.learn-table th,
+.learn-table td {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.learn-table th {
+  background: rgba(34, 211, 238, 0.12);
+  color: #a5f3fc;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+}
+.learn-answer {
+  margin: 0.9rem 0;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 10px;
+  padding: 0.4rem 0.85rem 0.85rem;
+  background: rgba(16, 185, 129, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+.learn-answer > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #6ee7b7;
+  padding: 0.35rem 0;
+}
+.learn-answer > summary::-webkit-details-marker { display: none; }
+
+.learn-quiz-list {
+  margin: 0.75rem 0 1rem;
+  padding-left: 1.2rem;
+}
+.learn-quiz-item { margin-bottom: 0.85rem; }
+.learn-quiz-q {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+}
+.learn-quiz-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.learn-quiz-choice {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.learn-lab-token {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+.learn-lab-token input {
+  min-width: 16rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.75);
+  color: inherit;
+}
+.learn-gate-status { font-size: 0.88rem; opacity: 0.9; }
+.learn-gate-status.is-pass { color: #34d399; }
+.learn-gate-status.is-fail { color: #f87171; }
+
+.learn-loading,
+.learn-error {
+  padding: 1rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 720px) {
+  .learn-stat-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .learn-lesson-card:hover {
+    transform: translateY(-2px);
+  }
+  .learn-scene__grid {
+    transform: perspective(500px) rotateX(48deg) translateY(-8%) scale(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .learn-scene__grid,
+  .learn-scene__orb,
+  .learn-scene__beam,
+  .learn-progress-fill,
+  .learn-lesson-card,
+  .learn-lesson-card::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media print {
+  .learn-scene,
+  .no-print,
+  .learn-quiz,
+  .top-nav {
+    display: none !important;
+  }
+  body.page-learn {
+    background: #fff;
+    color: #111;
+  }
+  .learn-hero,
+  .learn-article,
+  .learn-lesson-card {
+    box-shadow: none;
+    border-color: #ccc;
+    background: #fff;
+  }
+  .learn-md-body,
+  .learn-hero h1,
+  .learn-article-head h1,
+  .learn-md-body h1,
+  .learn-md-body h2,
+  .learn-md-body h3 {
+    color: #111;
+    text-shadow: none;
+  }
+  .learn-md-body code,
+  .learn-code {
+    background: #f5f5f5;
+    color: #111;
+  }
+  .learn-answer > summary { color: #065f46; }
+  .learn-table th,
+  .learn-table td { border-color: #ccc; }
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    color: #555;
+  }
+  .learn-jump-btn::after { content: none !important; }
+}
