@@ -2,7 +2,7 @@
 
 chcp 65001 >nul
 
-echo 正在启动五个服务（会弹出五个黑色窗口，请勿关闭）...
+echo 正在启动四个服务（会弹出四个黑色窗口，请勿关闭）...
 
 start "零售API-5000" cmd /k "%~dp0启动零售API.bat"
 
@@ -18,15 +18,10 @@ timeout /t 2 /nobreak >nul
 
 start "多行业平台-5100" cmd /k "%~dp0启动多行业平台.bat"
 
-timeout /t 2 /nobreak >nul
-
-start "实战教材-5101" cmd /k "%~dp0启动实战教材.bat"
-
 echo.
 
 echo 已启动。
 echo   平台首页: http://127.0.0.1:5100/
-echo   实战教材: http://127.0.0.1:5101/pages/learn.html
 echo.
 
 pause

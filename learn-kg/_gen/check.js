@@ -1,308 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>数仓与分析实战教材 · 数据知识图谱 · DATA NEXUS</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-  <style>
-    :root {
-      --bg: #070b16;
-      --bg-elevated: #0f1628;
-      --bg-panel: rgba(15, 22, 40, 0.94);
-      --border: #1a2744;
-      --text: #e8edf5;
-      --muted: #8892a4;
-      --accent: #22d3ee;
-      --accent-2: #4da3ff;
-      --accent-soft: rgba(34, 211, 238, 0.12);
-      --violet: #a78bfa;
-      --emerald: #34d399;
-      --amber: #fbbf24;
-      --rose: #fb7185;
-      --radius: 12px;
-      --font: "Rajdhani", "PingFang SC", "Microsoft YaHei", sans-serif;
-      --font-display: "Orbitron", var(--font);
-      --font-mono: "JetBrains Mono", Consolas, monospace;
-      --panel-w: 540px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--font);
-      color: var(--text);
-      background-color: var(--bg);
-      background-image:
-        radial-gradient(ellipse 70% 50% at 15% -10%, rgba(34, 211, 238, 0.12), transparent 55%),
-        radial-gradient(ellipse 60% 45% at 90% 110%, rgba(167, 139, 250, 0.1), transparent 50%),
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: auto, auto, 48px 48px, 48px 48px;
-      min-height: 100vh;
-      overflow: hidden;
-    }
-    ::selection { background: rgba(34, 211, 238, 0.25); color: #fff; }
-    header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 24px; background: rgba(7, 11, 22, 0.82);
-      backdrop-filter: blur(16px); border-bottom: 1px solid var(--border);
-      position: relative; z-index: 10;
-    }
-    header::after {
-      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.7), transparent);
-    }
-    .brand { display: flex; align-items: baseline; gap: 14px; }
-    .brand h1 {
-      font-family: var(--font-display); font-size: 1.15rem; font-weight: 700;
-      letter-spacing: 0.08em; color: var(--accent);
-      text-shadow: 0 0 18px rgba(34, 211, 238, 0.35);
-    }
-    .brand .mono-prefix { font-family: var(--font-mono); color: var(--accent); margin-right: 6px; }
-    .brand span { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
-    .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.78rem; color: var(--muted); font-family: var(--font-mono); }
-    .legend-item { display: flex; align-items: center; gap: 6px; }
-    .legend-dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
-    .layout { display: flex; height: calc(100vh - 52px); position: relative; }
-    #graph { flex: 1; position: relative; cursor: grab; }
-    #graph:active { cursor: grabbing; }
-    #graph svg { width: 100%; height: 100%; display: block; }
-    .hint {
-      position: absolute; left: 18px; bottom: 16px; font-family: var(--font-mono);
-      font-size: 0.72rem; color: var(--muted); background: rgba(15, 22, 40, 0.75);
-      border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; pointer-events: none;
-    }
-    .hint::before { content: ">_ "; color: var(--accent); }
-    .link { fill: none; stroke: #334155; stroke-opacity: 0.55; stroke-width: 1.6; transition: stroke-opacity 0.35s, stroke-width 0.35s, stroke 0.35s; }
-    .link.secondary { stroke-opacity: 0.32; stroke-dasharray: 4 5; stroke-width: 1.15; }
-    .link.active { stroke: var(--accent); stroke-opacity: 0.95; stroke-width: 2.2; stroke-dasharray: none; filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.5)); }
-    .link.dimmed { stroke-opacity: 0.08; stroke-dasharray: none; }
-    .stage-band { fill: rgba(34, 211, 238, 0.03); stroke: rgba(34, 211, 238, 0.08); stroke-width: 1; }
-    .stage-band:nth-child(even) { fill: rgba(77, 163, 255, 0.035); }
-    .stage-label { fill: #64748b; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-anchor: middle; }
-    .lane-label { fill: #475569; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; }
-    .toolbar { position: absolute; top: 14px; left: 18px; display: flex; gap: 8px; z-index: 5; }
-    .toolbar button {
-      font-family: var(--font-mono); font-size: 0.72rem; padding: 6px 12px; border-radius: 6px;
-      border: 1px solid var(--border); background: rgba(15, 22, 40, 0.85); color: var(--muted); cursor: pointer;
-    }
-    .toolbar button:hover { border-color: rgba(34, 211, 238, 0.45); color: var(--accent); }
-    .toolbar button.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
-    .node circle { stroke: rgba(255,255,255,0.25); stroke-width: 2; cursor: pointer; transition: opacity 0.35s, filter 0.35s; filter: drop-shadow(0 0 6px rgba(0,0,0,0.4)); }
-    .node text { font-family: var(--font-mono); font-size: 11px; font-weight: 700; fill: #f1f5f9; pointer-events: none; text-anchor: middle; dominant-baseline: central; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
-    .node .sublabel { font-size: 9px; font-weight: 500; fill: var(--muted); text-shadow: none; }
-    .node.dimmed circle, .node.dimmed text, .node.dimmed .learned-mark { opacity: 0.14; }
-    .node.related circle { animation: pulse 1.4s ease-in-out infinite; }
-    .node.selected circle { stroke: var(--accent); stroke-width: 3; filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.75)); }
-    .node.learned circle { stroke: var(--emerald); stroke-width: 2.5; filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.55)); }
-    .node.learned.selected circle { stroke: var(--accent); }
-    .node .learned-mark {
-      font-family: var(--font-mono); font-size: 11px; font-weight: 700; fill: var(--emerald);
-      pointer-events: none; text-anchor: middle; dominant-baseline: central;
-      text-shadow: 0 0 6px rgba(52, 211, 153, 0.8);
-    }
-    .panel-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-    .panel-actions button {
-      font-family: var(--font-mono); font-size: 0.72rem; padding: 6px 12px; border-radius: 6px;
-      border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--muted); cursor: pointer;
-    }
-    .panel-actions button:hover { border-color: rgba(52, 211, 153, 0.55); color: var(--emerald); }
-    .panel-actions button.learned {
-      border-color: var(--emerald); color: var(--emerald); background: rgba(52, 211, 153, 0.12);
-    }
-    .depth-note {
-      font-family: var(--font-mono); font-size: 0.68rem; color: #64748b; margin: 0 0 10px;
-      padding: 6px 10px; border: 1px dashed var(--border); border-radius: 6px;
-    }
-    @keyframes pulse {
-      0%, 100% { filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.25)); }
-      50% { filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.8)); }
-    }
-    #panel {
-      width: 0; overflow: hidden; background: var(--bg-panel); border-left: 1px solid var(--border);
-      box-shadow: -12px 0 40px rgba(0,0,0,0.35); transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-      display: flex; flex-direction: column; backdrop-filter: blur(20px);
-    }
-    #panel.open { width: min(var(--panel-w), 96vw); }
-    .panel-inner { width: min(var(--panel-w), 96vw); height: 100%; display: flex; flex-direction: column; opacity: 0; transition: opacity 0.25s 0.1s; position: relative; }
-    #panel.open .panel-inner { opacity: 1; }
-    .panel-header {
-      padding: 18px 22px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0;
-      background: linear-gradient(180deg, rgba(34, 211, 238, 0.06), transparent);
-    }
-    .panel-header .cat-badge {
-      display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; padding: 3px 10px;
-      border-radius: 4px; color: #041016; margin-bottom: 8px; font-weight: 700; letter-spacing: 0.06em;
-    }
-    .panel-header h2 { font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 6px; letter-spacing: 0.04em; color: #f8fafc; }
-    .panel-header .subtitle { font-size: 0.84rem; color: var(--muted); line-height: 1.45; }
-    .panel-close {
-      position: absolute; right: 14px; top: 14px; width: 32px; height: 32px; border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03); border-radius: 8px; cursor: pointer; font-size: 1.15rem; color: var(--muted);
-    }
-    .panel-close:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
-    .panel-body { flex: 1; overflow-y: auto; padding: 12px 16px 28px; }
-    .panel-body::-webkit-scrollbar { width: 6px; }
-    .panel-body::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.25); border-radius: 4px; }
-    .mode-tabs, .view-tabs {
-      display: flex; gap: 6px; margin: 0 0 12px; flex-wrap: wrap;
-    }
-    .mode-tabs button, .view-tabs button {
-      font-family: var(--font-mono); font-size: 0.7rem; padding: 5px 10px; border-radius: 6px;
-      border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer;
-    }
-    .mode-tabs button.active, .view-tabs button.active {
-      border-color: var(--accent); color: var(--accent); background: var(--accent-soft);
-    }
-    .engine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 14px; }
-    .engine-card {
-      border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; cursor: pointer;
-      background: rgba(255,255,255,0.02); transition: border-color 0.2s, background 0.2s;
-    }
-    .engine-card:hover { border-color: rgba(34, 211, 238, 0.45); background: var(--accent-soft); }
-    .engine-card.selected { border-color: var(--accent); box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.25); }
-    .engine-card .ename { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: #f1f5f9; }
-    .engine-card .etag { font-size: 0.72rem; color: var(--muted); margin-top: 4px; line-height: 1.4; }
-    .engine-card .echeck { display: none; margin-top: 8px; }
-    .compare-mode .engine-card .echeck { display: block; font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); }
-    .compare-bar {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
-      margin-bottom: 10px; padding: 8px 10px; border: 1px dashed var(--border); border-radius: 8px;
-    }
-    .compare-bar span { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); }
-    .compare-bar button {
-      font-family: var(--font-mono); font-size: 0.7rem; padding: 5px 10px; border-radius: 6px;
-      border: 1px solid var(--accent); background: var(--accent-soft); color: var(--accent); cursor: pointer;
-    }
-    .compare-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
-    .compare-table-wrap { overflow-x: auto; margin-top: 8px; }
-    .compare-table {
-      width: 100%; border-collapse: collapse; font-size: 0.74rem; font-family: var(--font-mono);
-    }
-    .compare-table th, .compare-table td {
-      border: 1px solid var(--border); padding: 7px 8px; text-align: left; vertical-align: top; color: #cbd5e1;
-    }
-    .compare-table th { background: rgba(34, 211, 238, 0.08); color: var(--accent); white-space: nowrap; }
-    .compare-table td.row-label { color: #94a3b8; white-space: nowrap; background: rgba(255,255,255,0.02); }
-    .crumb {
-      font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); margin-bottom: 10px;
-    }
-    .crumb a { color: var(--accent); cursor: pointer; text-decoration: none; }
-    .layer {
-      border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px;
-      overflow: hidden; background: rgba(255,255,255,0.02);
-    }
-    .layer.open { border-color: rgba(34, 211, 238, 0.35); box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.08); }
-    .layer-toggle {
-      width: 100%; display: flex; align-items: center; gap: 10px; padding: 12px 14px;
-      border: none; background: transparent; cursor: pointer; text-align: left; font-family: inherit; color: var(--text);
-    }
-    .layer-toggle:hover { background: var(--accent-soft); }
-    .layer-level {
-      font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
-      padding: 2px 7px; border-radius: 4px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #041016; flex-shrink: 0;
-    }
-    .layer-title { font-size: 0.95rem; font-weight: 700; flex: 1; letter-spacing: 0.03em; }
-    .layer-chevron { font-size: 0.7rem; color: var(--muted); transition: transform 0.25s; font-family: var(--font-mono); }
-    .layer.open .layer-chevron { transform: rotate(180deg); color: var(--accent); }
-    .layer-content { display: none; padding: 0 14px 14px; font-size: 0.86rem; line-height: 1.65; color: #cbd5e1; }
-    .layer.open .layer-content { display: block; }
-    .layer-content h4 {
-      font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); margin: 14px 0 6px;
-      font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-    }
-    .layer-content h4:first-child { margin-top: 0; }
-    .layer-content ul { padding-left: 1.15em; margin: 4px 0; }
-    .layer-content li { margin-bottom: 5px; }
-    .topic-block {
-      margin: 8px 0 12px; padding: 10px 12px; border-left: 2px solid var(--accent);
-      background: rgba(34, 211, 238, 0.05); border-radius: 0 8px 8px 0;
-    }
-    .topic-block .topic-name { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: #f1f5f9; margin-bottom: 4px; }
-    .topic-block p { font-size: 0.82rem; color: #94a3b8; margin: 0; line-height: 1.55; }
-    .deep-tree details {
-      border: 1px solid var(--border); border-radius: 8px; margin: 6px 0;
-      background: rgba(2, 4, 10, 0.35); overflow: hidden;
-    }
-    .deep-tree details details { margin: 6px 8px; background: rgba(34, 211, 238, 0.03); }
-    .deep-tree summary {
-      cursor: pointer; list-style: none; padding: 9px 12px; font-family: var(--font-mono);
-      font-size: 0.78rem; font-weight: 700; color: #e2e8f0; display: flex; align-items: center; gap: 8px; user-select: none;
-    }
-    .deep-tree summary::-webkit-details-marker { display: none; }
-    .deep-tree summary::before { content: "+"; color: var(--accent); font-weight: 700; width: 1em; flex-shrink: 0; }
-    .deep-tree details[open] > summary::before { content: "−"; }
-    .deep-tree summary:hover { background: var(--accent-soft); color: var(--accent); }
-    .deep-body { padding: 0 12px 12px 28px; font-size: 0.82rem; color: #94a3b8; line-height: 1.6; }
-    .deep-body .method-list { margin: 8px 0; padding: 0; list-style: none; }
-    .deep-body .method-list li {
-      margin: 0 0 6px; padding: 6px 8px; border-radius: 6px; background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(26, 39, 68, 0.9); font-family: var(--font-mono); font-size: 0.72rem; color: #cbd5e1;
-    }
-    .deep-body .method-list li strong { color: var(--accent); font-weight: 700; }
-    .deep-hint { font-family: var(--font-mono); font-size: 0.68rem; color: #64748b; margin: 0 0 8px; }
-    .source {
-      display: block; margin-top: 10px; font-size: 0.7rem; color: #64748b; font-family: var(--font-mono);
-      border-top: 1px dashed var(--border); padding-top: 8px; line-height: 1.5;
-    }
-    .source::before { content: "// SRC  "; color: var(--accent); }
-    .code-block {
-      background: #02040a; color: #e2e8f0; border: 1px solid var(--border); border-radius: 8px;
-      padding: 12px 14px; font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
-      overflow-x: auto; margin: 8px 0; white-space: pre;
-    }
-    .resource-link { color: var(--accent); text-decoration: none; border-bottom: 1px dashed rgba(34, 211, 238, 0.4); }
-    .dep-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-    .dep-tag {
-      font-family: var(--font-mono); font-size: 0.7rem; padding: 3px 9px; border-radius: 4px;
-      background: var(--accent-soft); border: 1px solid rgba(34, 211, 238, 0.25); color: var(--accent); font-weight: 600;
-    }
-    @media (max-width: 720px) {
-      header { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 16px; }
-      .layout { height: calc(100vh - 88px); }
-      #panel.open { position: absolute; right: 0; top: 0; bottom: 0; width: 100%; z-index: 20; }
-      .panel-inner { width: 100%; }
-      .engine-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="brand">
-      <a href="../index.html" style="font-family:var(--font-mono);font-size:0.78rem;color:var(--muted);text-decoration:none;margin-right:10px;white-space:nowrap;">← 返回平台</a>
-      <h1><span class="mono-prefix">&gt;_</span>DATA NEXUS</h1>
-      <span>学习路径 · 数据知识图谱 · 流水线分层 · 目录引擎对比 · 深度下钻</span>
-    </div>
-    <div class="legend" id="legend"></div>
-  </header>
-  <div class="layout">
-    <div id="graph">
-      <div class="toolbar" id="depthToolbar" role="group" aria-label="内容深度">
-        <button type="button" id="btnDepthJunior" title="初级：仅概念 L1">初级</button>
-        <button type="button" id="btnDepthMid" class="active" title="中级：概念 + 理解 L1–L2">中级</button>
-        <button type="button" id="btnDepthSenior" title="高级：概念 + 理解 + 实操 L1–L3">高级</button>
-      </div>
-      <div class="hint">左→右：源头→语言→加工→存储→分析→智能 · 全部连线可见 · 深度切换过滤面板 · 「已学习」可本地保存</div>
-    </div>
-    <aside id="panel">
-      <div class="panel-inner">
-        <button class="panel-close" id="btnClose" title="关闭" aria-label="关闭面板">×</button>
-        <div class="panel-header">
-          <span class="cat-badge" id="panelCat"></span>
-          <h2 id="panelTitle"></h2>
-          <p class="subtitle" id="panelSub"></p>
-          <div class="panel-actions">
-            <button type="button" id="btnLearned" title="写入浏览器 localStorage">标记已学习</button>
-          </div>
-        </div>
-        <div class="panel-body" id="panelBody"></div>
-      </div>
-    </aside>
-  </div>
-  <script>
+
 /* =========================================================
  * 数据知识图谱 · DATA NEXUS（单文件 · 硬编码 · D3 流水线布局）
  * ========================================================= */
@@ -1303,172 +999,87 @@
           },
           {
             "name": "B. 数据分析常用库地图",
-            "text": "掌握「库干什么 + 高频方法 + 怎么调用」比背全 API 重要。",
+            "text": "掌握「库干什么 + 高频方法」比背全 API 重要。",
             "children": [
               {
                 "name": "B1 pandas",
-                "text": "内存表 DataFrame：读写、清洗、合并、聚合。数据岗第一库。",
+                "text": "内存表 DataFrame：读写清洗合并聚合。",
                 "methods": [
-                  "pd.read_csv/parquet/sql — 读入",
-                  "df.head/info/describe — 探查",
-                  "df.isna/fillna/dropna — 缺失",
-                  "df.astype / pd.to_datetime — 类型",
-                  "df.loc/iloc/query — 筛选",
-                  "pd.merge / pd.concat — 关联与拼接",
-                  "df.groupby().agg() — 聚合",
-                  "df.pivot_table / melt — 透视与长宽转换",
-                  "df.drop_duplicates — 去重",
-                  "df.to_parquet / to_sql — 写出"
+                  "read_csv/parquet/sql — 读入",
+                  "head/info/describe — 探查",
+                  "isna/fillna/dropna — 缺失",
+                  "astype/to_datetime — 类型",
+                  "loc/iloc/query — 筛选",
+                  "merge/concat — 关联",
+                  "groupby().agg() — 聚合",
+                  "pivot_table/melt — 透视",
+                  "drop_duplicates — 去重",
+                  "to_parquet/to_sql — 写出"
                 ],
-                "code": "import pandas as pd\ndf = pd.read_parquet('orders.parquet')\ndf['dt'] = pd.to_datetime(df['created_at']).dt.date\ngmv = (df.query(\"status=='paid'\")\n        .groupby('dt', as_index=False)['amount'].sum())\nprint(gmv.head())"
+                "code": "import pandas as pd\ndf=pd.read_parquet('orders.parquet')\ndf['dt']=pd.to_datetime(df['created_at']).dt.date\ngmv=(df.query(\"status=='paid'\").groupby('dt',as_index=False)['amount'].sum())"
               },
               {
                 "name": "B2 NumPy",
-                "text": "ndarray 向量化数值计算；pandas 底层常依赖它。",
+                "text": "ndarray 向量化；分位、掩码、广播。",
                 "methods": [
-                  "np.array / np.asarray — 建数组",
-                  "np.mean/std/percentile — 统计",
-                  "np.where — 条件取值",
-                  "broadcasting — 形状对齐运算",
-                  "np.clip / np.isnan — 裁剪与空值"
-                ],
-                "code": "import numpy as np\nx = np.array([1.2, 3.4, 5.0, np.nan])\nclean = x[~np.isnan(x)]\nprint(np.mean(clean), np.percentile(clean, 90))\nprint(np.where(clean > 3, 1, 0))"
+                  "np.mean/std/percentile",
+                  "np.where",
+                  "broadcasting"
+                ]
               },
               {
                 "name": "B3 matplotlib",
-                "text": "底层绑图库：折线/柱/散点/直方；多数库最终可落到它。",
+                "text": "底层绑图：plot/bar/scatter/hist。",
                 "methods": [
-                  "plt.subplots — OO 接口建图",
-                  "ax.plot/bar/scatter/hist — 常见图",
-                  "ax.set_xlabel/title/legend — 标注",
-                  "fig.savefig — 导出"
-                ],
-                "code": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots(figsize=(8,4))\nax.plot(gmv['dt'], gmv['amount'], marker='o')\nax.set_title('Daily GMV'); ax.set_xlabel('date')\nfig.autofmt_xdate(); fig.savefig('gmv.png', dpi=120)"
+                  "plt.subplots OO 接口",
+                  "savefig"
+                ]
               },
               {
                 "name": "B4 seaborn",
-                "text": "统计可视化：分布、类别对比、热力；语法比 matplotlib 更贴近 DataFrame。",
+                "text": "统计图：分布、类别对比、热力。",
                 "methods": [
-                  "sns.histplot / boxplot — 分布",
-                  "sns.barplot / lineplot — 对比与趋势",
-                  "sns.heatmap — 相关/矩阵",
-                  "sns.set_theme — 主题"
-                ],
-                "code": "import seaborn as sns\nsns.lineplot(data=daily, x='dt', y='gmv', hue='region')\nsns.heatmap(corr, annot=True, fmt='.2f')"
+                  "histplot/boxplot/barplot/lineplot/heatmap"
+                ]
               },
               {
                 "name": "B5 plotly",
-                "text": "交互图；适合 Notebook 探索与塞进 Streamlit。",
+                "text": "交互图；适合塞进 Streamlit。",
                 "methods": [
-                  "px.line/bar/scatter — 快速图",
-                  "fig.update_layout — 布局",
-                  "fig.write_html — 导出网页",
-                  "fig.show — 交互预览"
-                ],
-                "code": "import plotly.express as px\nfig = px.line(daily, x='dt', y='gmv', color='region', title='GMV')\nfig.write_html('gmv.html')"
+                  "px.line/bar/scatter",
+                  "write_html"
+                ]
               },
               {
                 "name": "B6 SciPy / statsmodels",
-                "text": "假设检验与回归摘要；A/B、相关性、线性模型常用。",
+                "text": "检验与回归摘要。",
                 "methods": [
-                  "scipy.stats.ttest_ind — 两组均值检验",
-                  "scipy.stats.chi2_contingency — 卡方",
-                  "smf.ols(...).fit().summary() — 回归摘要",
-                  "sm.stats — 更多统计工具"
-                ],
-                "code": "from scipy import stats\nimport statsmodels.formula.api as smf\nt, p = stats.ttest_ind(a, b, equal_var=False)\nmodel = smf.ols('gmv ~ C(region) + dayofweek', data=df).fit()\nprint(p, model.summary())"
+                  "ttest_ind",
+                  "chi2_contingency",
+                  "OLS.summary()"
+                ]
               },
               {
                 "name": "B7 scikit-learn",
-                "text": "经典 ML：划分、预处理、Pipeline、评估；表格模型入门首选。",
+                "text": "划分、预处理、Pipeline、评估。",
                 "methods": [
-                  "train_test_split — 划分",
-                  "StandardScaler / OneHotEncoder — 预处理",
-                  "Pipeline / ColumnTransformer — 串联",
-                  "roc_auc_score / classification_report — 评估",
-                  "cross_val_score — 交叉验证"
-                ],
-                "code": "from sklearn.model_selection import train_test_split\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import roc_auc_score\nXtr,Xte,ytr,yte = train_test_split(X,y,test_size=0.2,shuffle=False)\nclf = Pipeline([('sc', StandardScaler()), ('lr', LogisticRegression())])\nclf.fit(Xtr,ytr); print(roc_auc_score(yte, clf.predict_proba(Xte)[:,1]))"
+                  "train_test_split",
+                  "StandardScaler",
+                  "Pipeline",
+                  "roc_auc_score"
+                ]
               },
               {
                 "name": "B8 SQLAlchemy",
-                "text": "Python 连库标准层：create_engine + pandas read_sql/to_sql。",
-                "methods": [
-                  "create_engine — 建连接",
-                  "engine.connect / begin — 连接与事务",
-                  "pd.read_sql — 查成 DataFrame",
-                  "df.to_sql — 写回表",
-                  "text() — 参数化 SQL"
-                ],
-                "code": "from sqlalchemy import create_engine, text\nimport pandas as pd\nengine = create_engine('postgresql+psycopg2://readonly:@localhost/dw')\ndf = pd.read_sql(text(\"SELECT * FROM dwd.orders WHERE dt >= :d\"), engine, params={'d': '2024-01-01'})"
+                "text": "create_engine + read_sql / to_sql。"
               },
               {
-                "name": "B9 requests / httpx",
-                "text": "拉 HTTP API / JSON；注意 timeout、重试与鉴权。",
-                "methods": [
-                  "requests.get/post — 发请求",
-                  "r.json() — 解析",
-                  "timeout= — 超时",
-                  "headers/Authorization — 鉴权",
-                  "httpx — 异步友好替代"
-                ],
-                "code": "import requests\nr = requests.get('https://api.example.com/orders', params={'limit': 100}, timeout=10, headers={'Authorization': 'Bearer TOKEN'})\nr.raise_for_status()\nrows = r.json()['data']"
+                "name": "B9 requests",
+                "text": "拉 API JSON；timeout 与重试。"
               },
               {
                 "name": "B10 Polars / PySpark",
-                "text": "更大表：Polars 单机加速；PySpark 分布式。",
-                "methods": [
-                  "pl.read_parquet / scan_parquet — 读/懒加载",
-                  "df.filter/select/groupby — 变换",
-                  "spark.read.parquet — Spark 读",
-                  "df.groupBy().agg() — Spark 聚合",
-                  "to_pandas — 回落小结果"
-                ],
-                "code": "import polars as pl\ndf = pl.scan_parquet('orders/*.parquet').filter(pl.col('status')=='paid').group_by('dt').agg(pl.col('amount').sum().alias('gmv')).collect()\n# Spark: spark.read.parquet(...).groupBy('dt').sum('amount')"
-              },
-              {
-                "name": "B11 DuckDB",
-                "text": "进程内 OLAP：直接 SQL 查 Parquet/CSV，分析师友好。",
-                "methods": [
-                  "duckdb.sql / execute — 跑 SQL",
-                  "read_parquet / read_csv — 外部表",
-                  "df = con.sql(...).df() — 出 pandas",
-                  "COPY / WRITE_PARQUET — 导出"
-                ],
-                "code": "import duckdb\ndf = duckdb.sql(\"\"\"\n  SELECT dt, sum(amount) gmv\n  FROM read_parquet('orders.parquet')\n  WHERE status='paid'\n  GROUP BY 1 ORDER BY 1\n\"\"\").df()"
-              },
-              {
-                "name": "B12 openpyxl / xlsxwriter",
-                "text": "Excel 读写与报表输出；业务仍大量要 xlsx。",
-                "methods": [
-                  "pd.read_excel / to_excel — 快读快写",
-                  "openpyxl.load_workbook — 模板填数",
-                  "Workbook / ws['A1'] — 单元格",
-                  "xlsxwriter — 格式化报表"
-                ],
-                "code": "import pandas as pd\ndaily.to_excel('gmv.xlsx', index=False, sheet_name='daily')\n# openpyxl: wb=load_workbook('tpl.xlsx'); ws=wb['Sheet']; ws['B2']=gmv; wb.save('out.xlsx')"
-              },
-              {
-                "name": "B13 pydantic / python-dotenv",
-                "text": "配置与数据契约：环境变量 + 类型校验，避免裸 dict。",
-                "methods": [
-                  "BaseModel — 定义 schema",
-                  "model_validate — 校验",
-                  "Field — 约束",
-                  "load_dotenv / os.getenv — 读密钥"
-                ],
-                "code": "from pydantic import BaseModel, Field\nfrom dotenv import load_dotenv\nimport os\nload_dotenv()\nclass Order(BaseModel):\n    order_id: int\n    amount: float = Field(ge=0)\nrow = Order.model_validate({'order_id': 1, 'amount': 9.9})\nDB_URL = os.getenv('DB_URL')"
-              },
-              {
-                "name": "B14 Streamlit / FastAPI",
-                "text": "交付层：Streamlit 做分析小应用；FastAPI 做数据/模型 API。",
-                "methods": [
-                  "st.selectbox/slider/line_chart — Streamlit 控件",
-                  "st.cache_data — 缓存取数",
-                  "FastAPI() / @app.get — 路由",
-                  "uvicorn app:app — 启动"
-                ],
-                "code": "import streamlit as st\nregion = st.selectbox('地区', df['region'].unique())\nst.line_chart(df.query('region==@region').set_index('dt')['gmv'])\n# FastAPI: from fastapi import FastAPI\n# app=FastAPI();\n# @app.get('/health')\n# def health(): return {'ok': True}"
+                "text": "更大表：Polars 单机加速；Spark 分布式。"
               }
             ]
           },
@@ -1559,18 +1170,17 @@
       },
       "l3": {
         "tools": [
-          "pandas/NumPy/DuckDB",
+          "pandas/NumPy",
           "matplotlib/seaborn/plotly",
           "SciPy/statsmodels",
           "scikit-learn",
-          "SQLAlchemy/requests",
-          "Polars/PySpark",
-          "openpyxl / pydantic / python-dotenv",
+          "SQLAlchemy",
           "Jupyter/VS Code/PyCharm",
-          "Streamlit/FastAPI",
+          "Streamlit/Dash",
+          "Polars/PySpark",
           "Airflow/Prefect"
         ],
-        "code": "import pandas as pd\nimport seaborn as sns\nfrom sqlalchemy import create_engine, text\nengine=create_engine('postgresql+psycopg2://readonly:@localhost/dw')\ndf=pd.read_sql(text(\"SELECT user_id,region,amount,created_at,status FROM dwd.orders WHERE created_at>=CURRENT_DATE-INTERVAL '30 day'\"), con=engine)\ndf['created_at']=pd.to_datetime(df['created_at']); df['dt']=df['created_at'].dt.date\npaid=df.query(\"status=='paid' and amount>0\").drop_duplicates()\ndaily=paid.groupby(['dt','region'],as_index=False).agg(gmv=('amount','sum'),orders=('amount','size'))\nsns.lineplot(data=daily,x='dt',y='gmv',hue='region')",
+        "code": "import pandas as pd\nimport seaborn as sns\nfrom sqlalchemy import create_engine\nengine=create_engine('postgresql+psycopg2://readonly:@localhost/dw')\ndf=pd.read_sql(\"SELECT user_id,region,amount,created_at,status FROM dwd.orders WHERE created_at>=CURRENT_DATE-INTERVAL '30 day'\",con=engine)\ndf['created_at']=pd.to_datetime(df['created_at']); df['dt']=df['created_at'].dt.date\npaid=df.query(\"status=='paid' and amount>0\").drop_duplicates()\ndaily=paid.groupby(['dt','region'],as_index=False).agg(gmv=('amount','sum'),orders=('amount','size'))\nsns.lineplot(data=daily,x='dt',y='gmv',hue='region')",
         "resources": [
           {
             "name": "《利用 Python 进行数据分析》",
@@ -1583,13 +1193,9 @@
           {
             "name": "Streamlit Docs",
             "note": "https://docs.streamlit.io/"
-          },
-          {
-            "name": "DuckDB Docs",
-            "note": "https://duckdb.org/docs/"
           }
         ],
-        "source": "机械工业出版社；pandas / Streamlit / DuckDB 官方文档"
+        "source": "机械工业出版社；pandas / Streamlit 官方文档"
       }
     }
   },
@@ -1653,53 +1259,11 @@
           },
           {
             "name": "加载 Load",
-            "text": "覆盖、追加、合并（MERGE）；分区覆盖保证幂等。",
-            "children": [
-              {
-                "name": "写入策略",
-                "text": "全量覆盖适合小维表；分区 overwrite 适合日分区事实；MERGE/upsert 适合缓慢表。",
-                "methods": [
-                  "INSERT OVERWRITE PARTITION — Hive/Spark",
-                  "MERGE INTO … WHEN MATCHED — 仓内 upsert",
-                  "COPY / COPY INTO — 批量装载"
-                ],
-                "code": "-- 分区幂等覆盖示例\nINSERT OVERWRITE TABLE dwd.orders PARTITION (dt='2024-01-01')\nSELECT * FROM staging.orders_20240101;"
-              },
-              {
-                "name": "落地检查",
-                "text": "行数、金额合计、主键唯一、空值率与源端对账。",
-                "methods": [
-                  "COUNT(*) / SUM(amount) 对账",
-                  "UNIQUE / NOT NULL 测试",
-                  "迟到分区重跑"
-                ]
-              }
-            ]
+            "text": "覆盖、追加、合并（MERGE）；分区覆盖保证幂等。"
           },
           {
             "name": "运维",
-            "text": "失败重试、告警、血缘登记、SLA。",
-            "children": [
-              {
-                "name": "失败与重试",
-                "text": "可重试错误（网络/锁）指数退避；不可重试（脏数据）进死信并告警。",
-                "methods": [
-                  "retry + backoff",
-                  "idempotent task",
-                  "dead-letter queue"
-                ]
-              },
-              {
-                "name": "可观测",
-                "text": "任务时长、数据量、质量门禁、血缘写入目录。",
-                "methods": [
-                  "Airflow SLA / sensor",
-                  "OpenLineage 事件",
-                  "质量门禁阻断下游"
-                ],
-                "code": "# Airflow 概念\n# BashOperator/PythonOperator + retries=3\n# on_failure_callback -> 钉钉/飞书告警"
-              }
-            ]
+            "text": "失败重试、告警、血缘登记、SLA。"
           }
         ],
         "deps": {
@@ -2118,27 +1682,7 @@
           },
           {
             "name": "与质量/血缘",
-            "text": "质检任务挂在关键节点后；运行元数据写入血缘。",
-            "children": [
-              {
-                "name": "门禁任务",
-                "text": "唯一性/空值/行数对账失败则 skip 下游。",
-                "methods": [
-                  "ShortCircuitOperator / Airflow skip",
-                  "Great Expectations checkpoint",
-                  "OpenLineage run event"
-                ],
-                "code": "# Airflow TaskFlow 示意\n# @task\n# def dq_gate(ds):\n#     assert row_count > 0\n#     return 'ok'"
-              },
-              {
-                "name": "SLA",
-                "text": "约定产出时间；miss 告警到值班。",
-                "methods": [
-                  "sla=timedelta(hours=2)",
-                  "on_failure_callback 告警"
-                ]
-              }
-            ]
+            "text": "质检任务挂在关键节点后；运行元数据写入血缘。"
           }
         ],
         "deps": {
@@ -2334,22 +1878,7 @@
           },
           {
             "name": "与湖关系",
-            "text": "仓管高价值结构化；湖存原始与多样；湖仓一体融合。",
-            "children": [
-              {
-                "name": "职责边界",
-                "text": "湖：原始/半结构化/回放；仓：治理后主题与指标底座。"
-              },
-              {
-                "name": "湖仓一体",
-                "text": "同一份 Iceberg/Delta 表既可批读也可引擎加速查询。",
-                "methods": [
-                  "开放表格式 + 仓引擎",
-                  "按热度分层存储与计算"
-                ],
-                "code": "-- dbt 分层示意\n-- staging (ods) -> intermediate (dwd) -> marts (dws/ads)"
-              }
-            ]
+            "text": "仓管高价值结构化；湖存原始与多样；湖仓一体融合。"
           }
         ],
         "deps": {
@@ -2526,22 +2055,7 @@
         "topics": [
           {
             "name": "业务理解",
-            "text": "写清实体、事件、指标口径与生命周期。",
-            "children": [
-              {
-                "name": "业务词汇表",
-                "text": "订单/用户/商品等实体定义与同义词消歧。",
-                "methods": [
-                  "实体-关系草图",
-                  "指标口径一页纸",
-                  "生命周期状态机"
-                ]
-              },
-              {
-                "name": "过程识别",
-                "text": "下单、支付、履约等业务过程对应事实候选。"
-              }
-            ]
+            "text": "写清实体、事件、指标口径与生命周期。"
           },
           {
             "name": "维度建模实务",
@@ -2549,51 +2063,21 @@
             "children": [
               {
                 "name": "总线矩阵",
-                "text": "过程×维度复用，避免烟囱。",
-                "methods": [
-                  "行列：业务过程 × 维度",
-                  "一致性维度优先复用"
-                ]
+                "text": "过程×维度复用，避免烟囱。"
               },
               {
                 "name": "SCD1/2/3",
-                "text": "覆盖、历史行、有限历史列。",
-                "methods": [
-                  "SCD1 直接覆盖",
-                  "SCD2 有效起止日 + 当前标志",
-                  "SCD3 保留上一版列"
-                ],
-                "code": "-- SCD2 示意\n-- dim_user(user_sk, user_id, city, valid_from, valid_to, is_current)"
+                "text": "覆盖、历史行、有限历史列。"
               }
             ]
           },
           {
             "name": "仓外模型",
-            "text": "操作库 3NF；文档模型；宽表反范仅为加速。",
-            "children": [
-              {
-                "name": "3NF / ER",
-                "text": "OLTP 侧减少更新异常。"
-              },
-              {
-                "name": "宽表反范",
-                "text": "分析侧用空间换查询；要有刷新策略。"
-              }
-            ]
+            "text": "操作库 3NF；文档模型；宽表反范仅为加速。"
           },
           {
             "name": "与指标层",
-            "text": "原子指标落模型，派生交给语义层。",
-            "children": [
-              {
-                "name": "原子 vs 派生",
-                "text": "GMV 原子；同比/占比派生不在事实表硬编码。",
-                "methods": [
-                  "原子指标入库",
-                  "派生指标在 dbt/语义层计算"
-                ]
-              }
-            ]
+            "text": "原子指标落模型，派生交给语义层。"
           }
         ],
         "deps": {
@@ -2662,73 +2146,19 @@
         "topics": [
           {
             "name": "指标体系",
-            "text": "原子/派生/维度；避免同名不同义——详见「指标/语义层」。",
-            "children": [
-              {
-                "name": "北极星与过程指标",
-                "text": "先定业务目标，再映射可计算字段。",
-                "methods": [
-                  "指标字典：名称/口径/维度/负责人",
-                  "原子指标入库，派生在语义层"
-                ]
-              },
-              {
-                "name": "同名不同义排查",
-                "text": "对账 GMV：下单金额 vs 支付金额 vs 入账金额。"
-              }
-            ]
+            "text": "原子/派生/维度；避免同名不同义——详见「指标/语义层」。"
           },
           {
             "name": "仪表盘设计",
-            "text": "一屏一主题；北向指标+归因；少而精。",
-            "children": [
-              {
-                "name": "布局",
-                "text": "上总览、中趋势、下明细；避免装饰性图表。",
-                "methods": [
-                  "位置/长度编码优先",
-                  "对比：时间/维度并列",
-                  "交互：筛选→下钻→明细"
-                ]
-              },
-              {
-                "name": "性能",
-                "text": "预聚合、抽取、缓存；大表禁止前端全量拉取。",
-                "code": "SELECT region, DATE(created_at) dt, SUM(amount) paid_gmv\nFROM dws.order_1d WHERE status='paid'\nGROUP BY 1,2;"
-              }
-            ]
+            "text": "一屏一主题；北向指标+归因；少而精。"
           },
           {
             "name": "自助 vs 治理",
-            "text": "受控探索与固定报表平衡。",
-            "children": [
-              {
-                "name": "受控自助",
-                "text": "语义层字段可选；禁止随意连生产库。"
-              },
-              {
-                "name": "认证报表",
-                "text": "关键经营看板走发布与口径评审。"
-              }
-            ]
+            "text": "受控探索与固定报表平衡。"
           },
           {
             "name": "嵌入与订阅",
-            "text": "邮件、告警、嵌入业务系统。",
-            "children": [
-              {
-                "name": "订阅",
-                "text": "按阈值推送 PDF/图片/链接；阈值触发优于定时刷屏。"
-              },
-              {
-                "name": "嵌入",
-                "text": "SSO + RLS；行级权限与数据源一致。",
-                "methods": [
-                  "RLS 用户属性映射",
-                  "嵌入 token 短时有效"
-                ]
-              }
-            ]
+            "text": "邮件、告警、嵌入业务系统。"
           }
         ],
         "deps": {
@@ -3175,33 +2605,11 @@
           },
           {
             "name": "消费方式",
-            "text": "BI 绑定、指标 API、特征派生、实验评估。",
-            "children": [
-              {
-                "name": "指标 API",
-                "text": "按指标名+维度+时间窗查询，后端编译 SQL。",
-                "methods": [
-                  "GET /metrics/{name}?dims=&from=&to=",
-                  "Cube / dbt Semantic Layer query"
-                ],
-                "code": "-- 语义层编译结果示意\nSELECT region, SUM(amount) AS gmv\nFROM fct_orders WHERE dt BETWEEN :from AND :to\nGROUP BY region;"
-              }
-            ]
+            "text": "BI 绑定、指标 API、特征派生、实验评估。"
           },
           {
             "name": "治理",
-            "text": "负责人、变更评审、废弃策略、血缘到报表。",
-            "children": [
-              {
-                "name": "变更流程",
-                "text": "口径 PR 评审；破坏性变更需版本号。",
-                "methods": [
-                  "owner + reviewers",
-                  "deprecated → sunset 日期",
-                  "血缘：指标 → 报表/实验"
-                ]
-              }
-            ]
+            "text": "负责人、变更评审、废弃策略、血缘到报表。"
           }
         ],
         "deps": {
@@ -3271,22 +2679,11 @@
             "children": [
               {
                 "name": "树模型",
-                "text": "XGBoost/LightGBM 表格数据主力。",
-                "methods": [
-                  "fit / predict / predict_proba",
-                  "early_stopping_rounds",
-                  "feature_importances_"
-                ],
-                "code": "import lightgbm as lgb\nclf = lgb.LGBMClassifier(n_estimators=300, learning_rate=0.05)\nclf.fit(X_train, y_train, eval_set=[(X_val, y_val)])\nproba = clf.predict_proba(X_test)[:,1]"
+                "text": "XGBoost/LightGBM 表格数据主力。"
               },
               {
                 "name": "评估",
-                "text": "离线指标 + 校准；分类注意不平衡。",
-                "methods": [
-                  "roc_auc_score / average_precision",
-                  "classification_report",
-                  "calibration_curve"
-                ]
+                "text": "离线指标 + 校准；分类注意不平衡。"
               }
             ]
           },
@@ -3297,47 +2694,16 @@
               {
                 "name": "偏差",
                 "text": "选择偏差、标签延迟。"
-              },
-              {
-                "name": "切分原则",
-                "text": "按时间而非随机；特征只用不晚于预测时刻的信息。",
-                "methods": [
-                  "train_test_split(shuffle=False)",
-                  "点-in-time join 防泄露"
-                ],
-                "code": "X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,shuffle=False)"
               }
             ]
           },
           {
             "name": "深度学习 / LLM",
-            "text": "表征学习；RAG 需向量库。",
-            "children": [
-              {
-                "name": "RAG 链路",
-                "text": "切块→Embedding→向量检索→拼 prompt→生成。",
-                "methods": [
-                  "embedding.encode",
-                  "vector_store.similarity_search",
-                  "chat.completions"
-                ]
-              }
-            ]
+            "text": "表征学习；RAG 需向量库。"
           },
           {
             "name": "上线与监控",
-            "text": "特征漂移、效果衰减、回滚。",
-            "children": [
-              {
-                "name": "MLOps 要点",
-                "text": "模型注册、灰度、影子流量、一键回滚。",
-                "methods": [
-                  "MLflow log_model",
-                  "特征分布 PSI 监控",
-                  "在线指标 vs 离线 AUC"
-                ]
-              }
-            ]
+            "text": "特征漂移、效果衰减、回滚。"
           }
         ],
         "deps": {
@@ -3433,33 +2799,11 @@
           },
           {
             "name": "质量与监控",
-            "text": "空值率、分布漂移 PSI、服务延迟。",
-            "children": [
-              {
-                "name": "漂移检测",
-                "text": "对比训练窗与线上窗分布。",
-                "methods": [
-                  "PSI / KL",
-                  "空值率、覆盖率阈值",
-                  "点查 P99 延迟"
-                ],
-                "code": "# PSI 概念：sum((p-q)*log(p/q)) 分箱后累计"
-              }
-            ]
+            "text": "空值率、分布漂移 PSI、服务延迟。"
           },
           {
             "name": "与指标层关系",
-            "text": "部分特征可从原子指标派生，但不等于报表指标。",
-            "children": [
-              {
-                "name": "可复用",
-                "text": "近 7 日 GMV 既可作看板指标也可作模型特征——注意时间对齐。"
-              },
-              {
-                "name": "不可混用",
-                "text": "报表用入账口径；模型可能用点击瞬间的曝光特征。"
-              }
-            ]
+            "text": "部分特征可从原子指标派生，但不等于报表指标。"
           }
         ],
         "deps": {
@@ -4084,38 +3428,8 @@
     const panelSub = document.getElementById("panelSub");
     const panelBody = document.getElementById("panelBody");
     const btnClose = document.getElementById("btnClose");
-    const btnLearned = document.getElementById("btnLearned");
     let selectedId = null;
     let panelState = { mode: "overview", engineId: null, compareOn: false, compareIds: [] };
-    let depthLevel = "mid"; // junior | mid | senior
-    const LEARNED_KEY = "data-nexus-learned-v1";
-
-    function loadLearned() {
-      try {
-        const raw = localStorage.getItem(LEARNED_KEY);
-        const arr = raw ? JSON.parse(raw) : [];
-        return new Set(Array.isArray(arr) ? arr : []);
-      } catch (e) {
-        return new Set();
-      }
-    }
-    function saveLearned(set) {
-      localStorage.setItem(LEARNED_KEY, JSON.stringify([...set]));
-    }
-    let learnedSet = loadLearned();
-    function isLearned(id) { return learnedSet.has(id); }
-    function toggleLearned(id) {
-      if (!id) return;
-      if (learnedSet.has(id)) learnedSet.delete(id);
-      else learnedSet.add(id);
-      saveLearned(learnedSet);
-      syncLearnedUI();
-    }
-    function depthLabel() {
-      return depthLevel === "junior" ? "初级 · 仅 L1 概念"
-        : depthLevel === "senior" ? "高级 · L1–L3 全量"
-        : "中级 · L1 概念 + L2 理解";
-    }
 
     function escapeHtml(str) {
       return String(str)
@@ -4161,20 +3475,12 @@
     }
 
     function renderLayers(d, openL3) {
-      const showL2 = depthLevel !== "junior";
-      const showL3 = depthLevel === "senior";
-      const depUp = showL2
-        ? ((d.l2.deps.upstream || []).map(n => `<span class="dep-tag">${escapeHtml(n)}</span>`).join("")
-          || "<span class='source' style='border:none;padding:0;margin:0'>// 源头模块</span>")
-        : "";
-      const depDown = showL2
-        ? ((d.l2.deps.downstream || []).map(n => `<span class="dep-tag">${escapeHtml(n)}</span>`).join("") || "—")
-        : "";
-      const resources = showL3
-        ? (d.l3.resources || []).map(r =>
-          `<li><span class="resource-link">${escapeHtml(r.name)}</span> — ${escapeHtml(r.note)}</li>`).join("")
-        : "";
-      const l1 = `
+      const depUp = (d.l2.deps.upstream || []).map(n => `<span class="dep-tag">${escapeHtml(n)}</span>`).join("")
+        || "<span class='source' style='border:none;padding:0;margin:0'>// 源头模块</span>";
+      const depDown = (d.l2.deps.downstream || []).map(n => `<span class="dep-tag">${escapeHtml(n)}</span>`).join("") || "—";
+      const resources = (d.l3.resources || []).map(r =>
+        `<li><span class="resource-link">${escapeHtml(r.name)}</span> — ${escapeHtml(r.note)}</li>`).join("");
+      return `
         <div class="layer open" data-layer="l1">
           <button class="layer-toggle" type="button">
             <span class="layer-level">L1</span><span class="layer-title">概念 CONCEPT</span><span class="layer-chevron">▼</span>
@@ -4184,8 +3490,7 @@
             <h4>为什么重要</h4><p>${escapeHtml(d.l1.why)}</p>
             <span class="source">${escapeHtml(d.l1.source)}</span>
           </div>
-        </div>`;
-      const l2 = showL2 ? `
+        </div>
         <div class="layer open" data-layer="l2">
           <button class="layer-toggle" type="button">
             <span class="layer-level">L2</span><span class="layer-title">理解 UNDERSTAND</span><span class="layer-chevron">▼</span>
@@ -4198,8 +3503,7 @@
             <h4>下游影响</h4><div class="dep-tags">${depDown}</div>
             <span class="source">${escapeHtml(d.l2.source)}</span>
           </div>
-        </div>` : "";
-      const l3 = showL3 ? `
+        </div>
         <div class="layer${openL3 ? " open" : ""}" data-layer="l3">
           <button class="layer-toggle" type="button">
             <span class="layer-level">L3</span><span class="layer-title">实操 PRACTICE</span><span class="layer-chevron">▼</span>
@@ -4210,8 +3514,7 @@
             <h4>学习资源</h4><ul>${resources}</ul>
             <span class="source">${escapeHtml(d.l3.source)}</span>
           </div>
-        </div>` : "";
-      return `<p class="depth-note">// 当前深度：${escapeHtml(depthLabel())} · 点左上角切换</p>${l1}${l2}${l3}`;
+        </div>`;
     }
 
     function bindLayerToggles() {
@@ -4335,59 +3638,36 @@
       }
     }
 
-    function syncLearnedUI() {
-      if (typeof node !== "undefined" && node) {
-        node.classed("learned", d => isLearned(d.id));
-        node.selectAll(".learned-mark").text(d => isLearned(d.id) ? "✓" : "");
-      }
-      if (!selectedId) {
-        btnLearned.textContent = "标记已学习";
-        btnLearned.classList.remove("learned");
-        btnLearned.disabled = true;
-        return;
-      }
-      btnLearned.disabled = false;
-      const on = isLearned(selectedId);
-      btnLearned.textContent = on ? "取消已学习" : "标记已学习";
-      btnLearned.classList.toggle("learned", on);
-    }
-
     function renderPanel(node) {
       const cat = CATEGORIES[node.category];
       panelCat.textContent = cat.label;
       panelCat.style.background = cat.color;
-      selectedId = node.id;
 
       if (node.catalog && node.engines && node.engines.length) {
         renderCatalogPanel(node);
         panel.classList.add("open");
-        syncLearnedUI();
         return;
       }
 
       panelTitle.textContent = node.name;
       panelSub.textContent = node.detail.subtitle;
-      panelBody.innerHTML = renderLayers(node.detail, depthLevel === "senior");
+      panelBody.innerHTML = renderLayers(node.detail, false);
       bindLayerToggles();
       panel.classList.add("open");
-      syncLearnedUI();
     }
 
     function closePanel() {
       selectedId = null;
       panel.classList.remove("open");
       panelState = { mode: "overview", engineId: null, compareOn: false, compareIds: [] };
-      syncLearnedUI();
       resetHighlight();
     }
     btnClose.addEventListener("click", closePanel);
-    btnLearned.addEventListener("click", () => {
-      if (selectedId) toggleLearned(selectedId);
-    });
 
     const graphEl = document.getElementById("graph");
     const width = () => graphEl.clientWidth;
     const height = () => graphEl.clientHeight;
+    let showAllLinks = false;
 
     const svg = d3.select("#graph").append("svg");
     const defs = svg.append("defs");
@@ -4489,7 +3769,6 @@
     const node = nodeG.selectAll("g").data(nodes).join("g")
       .attr("class", "node")
       .attr("transform", d => `translate(${d.x},${d.y})`)
-      .classed("learned", d => isLearned(d.id))
       .call(d3.drag()
         .on("start", (event) => event.sourceEvent.stopPropagation())
         .on("drag", (event, d) => { d.x = d.fx = event.x; d.y = d.fy = event.y; tick(); }));
@@ -4498,8 +3777,6 @@
       .attr("fill", d => CATEGORIES[d.category].color)
       .attr("filter", "url(#node-glow)");
     node.append("text").text(d => shortLabel(d.name));
-    node.append("text").attr("class", "learned-mark").attr("dx", 22).attr("dy", -22)
-      .text(d => isLearned(d.id) ? "✓" : "");
     node.append("text").attr("class", "sublabel").attr("dy", 40)
       .text(d => d.catalog ? "CATALOG" : (d.name.length > 5 ? d.name : ""));
 
@@ -4513,13 +3790,17 @@
     function tick() {
       link.attr("d", linkPath);
       node.attr("transform", d => `translate(${d.x},${d.y})`);
+      applyLinkVisibility();
     }
 
     function applyLinkVisibility() {
-      link.classed("hidden", false)
-        .attr("marker-end", d => "url(#arrow)");
+      link.classed("hidden", d => {
+        if (selectedId) return false;
+        return !showAllLinks && !d.trunk;
+      });
       if (!selectedId) {
-        link.classed("active", false).classed("dimmed", false);
+        link.classed("active", false).classed("dimmed", false)
+          .attr("marker-end", d => (!showAllLinks && !d.trunk) ? null : "url(#arrow)");
       }
     }
 
@@ -4551,23 +3832,21 @@
       selectedId = null;
       node.classed("selected", false).classed("related", false).classed("dimmed", false);
       applyLinkVisibility();
-      syncLearnedUI();
       tick();
     }
 
-    function setDepth(level) {
-      depthLevel = level;
-      document.getElementById("btnDepthJunior").classList.toggle("active", level === "junior");
-      document.getElementById("btnDepthMid").classList.toggle("active", level === "mid");
-      document.getElementById("btnDepthSenior").classList.toggle("active", level === "senior");
-      if (selectedId) {
-        const n = nodes.find(x => x.id === selectedId);
-        if (n) renderPanel(n);
-      }
-    }
-    document.getElementById("btnDepthJunior").addEventListener("click", () => setDepth("junior"));
-    document.getElementById("btnDepthMid").addEventListener("click", () => setDepth("mid"));
-    document.getElementById("btnDepthSenior").addEventListener("click", () => setDepth("senior"));
+    document.getElementById("btnTrunk").addEventListener("click", () => {
+      showAllLinks = false;
+      document.getElementById("btnTrunk").classList.add("active");
+      document.getElementById("btnAll").classList.remove("active");
+      if (!selectedId) applyLinkVisibility();
+    });
+    document.getElementById("btnAll").addEventListener("click", () => {
+      showAllLinks = true;
+      document.getElementById("btnAll").classList.add("active");
+      document.getElementById("btnTrunk").classList.remove("active");
+      if (!selectedId) applyLinkVisibility();
+    });
 
     function relayout() {
       const m = placeNodes();
@@ -4580,11 +3859,7 @@
     }
 
     window.addEventListener("resize", () => relayout());
-    applyLinkVisibility();
-    syncLearnedUI();
     tick();
     relayout();
 
-  </script>
-</body>
-</html>
+  
