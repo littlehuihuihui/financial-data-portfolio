@@ -1,0 +1,86 @@
+{
+  "id": "python-root",
+  "title": "Python",
+  "level": "?",
+  "content": "### Python 数据学习路径\n\n从读写表到可视化与脚本化清洗。再点中心展开领域。",
+  "children": [
+    {
+      "id": "py-pandas",
+      "title": "pandas 数据表",
+      "level": "?",
+      "content": "### pandas\n\n表格数据处理主力。",
+      "children": [
+        {
+          "id": "py-io",
+          "title": "读写与选型",
+          "level": "?",
+          "content": "### 读写与选型 · 章节导读\n\n掌握 CSV/Excel/SQL 读写与 dtypes。",
+          "children": [
+            {
+              "id": "py-read-csv",
+              "title": "read_csv",
+              "level": "?",
+              "content": "### 是什么\n\n- **一句话定义**：用 pandas 把平面文件读成 DataFrame。\n- **核心要素**：路径、分隔符、编码、dtype、parse_dates。\n\n### 怎么写\n\n```python\nimport pandas as pd\ndf = pd.read_csv('orders.csv', parse_dates=['created_at'])\nprint(df.dtypes)\nprint(df.head())\n```\n\n### 用在哪\n\n1. 探索分析起步\n2. ETL 落地前质检\n3. 报表取数脚本\n\n### 注意啥\n\n- 大文件用 chunksize\n- 先抽样再全量\n- 显式指定 dtype 防混型\n",
+              "children": []
+            },
+            {
+              "id": "py-to-sql",
+              "title": "to_sql / read_sql",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：DataFrame 与数据库互转。\n- **核心要素**：SQLAlchemy engine、chunksize、if_exists。\n\n### 怎么写\n\n```python\nfrom sqlalchemy import create_engine\nimport pandas as pd\neng = create_engine('sqlite:///demo.db')\ndf = pd.read_sql('SELECT * FROM orders LIMIT 100', eng)\ndf.to_sql('orders_stg', eng, if_exists='replace', index=False)\n```\n\n### 用在哪\n\n1. 沙箱落表\n2. 指标回写\n3. 联表前拉维表\n\n### 注意啥\n\n- 生产写入注意权限与幂等\n- 分块写入防内存爆\n- 类型映射因引擎而异\n",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "py-agg",
+          "title": "清洗与聚合",
+          "level": "??",
+          "content": "### 清洗与聚合 · 章节导读\n\n过滤、缺失、groupby 是日常三板斧。",
+          "children": [
+            {
+              "id": "py-group",
+              "title": "groupby 聚合",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：按键折叠行并聚合。\n- **核心要素**：by 键、agg 字典、reset_index。\n\n### 怎么写\n\n```python\ngmv = (\n  df[df.status=='paid']\n  .groupby('user_id', as_index=False)\n  .agg(gmv=('amount','sum'), orders=('order_id','count'))\n)\nprint(gmv.head())\n```\n\n### 用在哪\n\n1. 用户汇总\n2. 日报指标\n3. 训练样本标签表\n\n### 注意啥\n\n- 聚合前后核对行数\n- 多键 groupby 注意空值\n- 大数据优先下推到 SQL\n",
+              "children": []
+            },
+            {
+              "id": "py-na",
+              "title": "缺失与类型",
+              "level": "?",
+              "content": "### 是什么\n\n- **一句话定义**：处理 NA 并校正类型，避免脏分析。\n- **核心要素**：isna、fillna、astype、to_datetime。\n\n### 怎么写\n\n```python\ndf['amount'] = pd.to_numeric(df['amount'], errors='coerce')\ndf['created_at'] = pd.to_datetime(df['created_at'], errors='coerce')\ndf = df.dropna(subset=['user_id'])\ndf['channel'] = df['channel'].fillna('unknown')\n```\n\n### 用在哪\n\n1. 入模前清洗\n2. 报表口径统一\n3. 质检脚本\n\n### 注意啥\n\n- 不要盲目 dropna 全表\n- 填充要有业务含义\n- 时间时区要显式\n",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "py-viz",
+      "title": "可视化入门",
+      "level": "??",
+      "content": "### 可视化\n\n用图讲清分布与趋势。",
+      "children": [
+        {
+          "id": "py-plot",
+          "title": "常用图",
+          "level": "??",
+          "content": "### 常用图 · 章节导读\n\n柱状/折线/分布是分析起步三件套。",
+          "children": [
+            {
+              "id": "py-line",
+              "title": "折线趋势",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：按时间展示指标走势。\n- **核心要素**：x 时间、y 指标、分组 hue。\n\n### 怎么写\n\n```python\nimport matplotlib.pyplot as plt\ndaily = df.groupby('dt')['gmv'].sum()\ndaily.plot(figsize=(8,3), title='Daily GMV')\nplt.tight_layout(); plt.show()\n```\n\n### 用在哪\n\n1. 日报复盘\n2. 异常尖刺定位\n3. 实验观察窗\n\n### 注意啥\n\n- 先聚合再画\n- 注意缺失日\n- 双轴慎用\n",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    }
+  ]
+}

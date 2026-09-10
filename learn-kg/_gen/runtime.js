@@ -484,3 +484,5 @@
     window.addEventListener("resize", () => relayout());
     tick();
     relayout();
+
+/* NOTE: Focus-drill runtime is maintained in kg_drill_runtime.js and applied into 数据知识图谱.html by apply_tutorial_upgrade.py / inject_lessons.py */

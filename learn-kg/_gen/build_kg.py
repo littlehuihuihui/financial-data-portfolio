@@ -3,8 +3,8 @@
 import json
 from pathlib import Path
 
-OUT = Path(r"D:\cursor\多行业数据平台\portfolio\pages\learn.html")
-HEAD = Path(r"D:\cursor\多行业数据平台\portfolio\learn-kg\_gen\part1_head.html").read_text(encoding="utf-8")
+OUT = Path(r"D:\cursor\数据学习平台\数据学习平台\数据知识图谱.html")
+HEAD = Path(r"D:\cursor\数据学习平台\数据学习平台\_gen\part1_head.html").read_text(encoding="utf-8")
 
 def n(name, text="", children=None, methods=None, code=None):
     d = {"name": name, "text": text}
@@ -897,6 +897,14 @@ runtime = (RUNTIME
 html = HEAD + runtime + "\n  </script>\n</body>\n</html>\n"
 OUT.write_text(html, encoding="utf-8")
 print("Wrote", OUT, "bytes", OUT.stat().st_size)
+# 教程知识树与焦点下钻在 apply_tutorial_upgrade / inject_lessons 中维护
+inject = Path(r"D:\cursor\数据学习平台\数据学习平台\_gen\inject_lessons.py")
+if inject.exists():
+    import subprocess, sys
+    print("Re-injecting lesson trees via inject_lessons.py ...")
+    subprocess.check_call([sys.executable, str(inject)])
+    print("NOTE: Focus-drill UX lives in 数据知识图谱.html / kg_drill_runtime.js;")
+    print("      after a raw rebuild, re-run _gen/apply_tutorial_upgrade.py if drill UI is missing.")
 print("nodes", len(nodes), "links", len(links))
 ids = [n["id"] for n in nodes]
 print("ids", ids)

@@ -1,0 +1,52 @@
+{
+  "id": "ml-root",
+  "title": "机器学习/算法",
+  "level": "?",
+  "content": "### 机器学习任务地图\n\n再点中心展开任务扇区；进入「核心任务」章节后选择具体讲义。",
+  "children": [
+    {
+      "id": "ml-tasks",
+      "title": "核心任务",
+      "level": "?",
+      "content": "### 机器学习核心任务 · 章节导读\n\n**学习目标**：分清分类 / 预测 / 聚类 / 推荐 / 异常检测的适用边界。\n\n点下方子课进入各任务讲义。",
+      "children": [
+        {
+          "id": "ml-classify",
+          "title": "分类",
+          "level": "??",
+          "content": "### 是什么\n- **一句话定义**：根据已有标签，把样本分到离散类别（如作弊/正常、流失/留存）。\n- **核心要素**：特征 \\(X\\)、类别标签 \\(y\\)、分类器 \\(f(X)\\to y\\)、评估指标（准确率/精确率/召回/F1/AUC）。\n\n### 概念要点\n- **二分类 vs 多分类**：两个类或多于两个类；多分类可用 OvR 或原生多类模型。\n- **概率输出**：`predict_proba` 可设业务阈值，不必死用 0.5。\n- **类别不平衡**：少数类更重要时看 PR-AUC、F1，并考虑 class_weight / 重采样。\n\n### 怎么用\n```python\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import classification_report, roc_auc_score\n\n# 示例：用消费与活跃预测「是否次月留存」\ndf = pd.DataFrame({\n    \"pay_30d\": [120, 0, 80, 200, 15, 0, 90, 40],\n    \"active_days\": [20, 2, 12, 25, 5, 1, 18, 7],\n    \"retained\": [1, 0, 1, 1, 0, 0, 1, 0],\n})\nX = df[[\"pay_30d\", \"active_days\"]]\ny = df[\"retained\"]\nXtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.25, shuffle=False)\n\nclf = Pipeline([\n    (\"sc\", StandardScaler()),\n    (\"lr\", LogisticRegression(class_weight=\"balanced\", max_iter=1000)),\n])\nclf.fit(Xtr, ytr)\nproba = clf.predict_proba(Xte)[:, 1]\npred = (proba >= 0.5).astype(int)\nprint(classification_report(yte, pred))\nprint(\"AUC =\", roc_auc_score(yte, proba))\n```\n\n表格模型主力也可换：`HistGradientBoostingClassifier` / LightGBM / XGBoost。\n\n### 用在哪\n1. **风控审核**：交易是否欺诈 → 输出风险概率，驱动人工复核队列。\n2. **用户分层运营**：是否高意向转化 → 对高分人群发券。\n3. **内容审核**：文本/图像是否违规（常接深度学习分类器）。\n\n### 注意啥\n- **时间切分**：按时间划分训练/测试，禁止随机打乱造成穿越。\n- **阈值要贴业务**：召回优先还是精确率优先，决定阈值与成本。\n- **与聚类区别**：分类有标签；聚类无标签，只做分组。",
+          "children": []
+        },
+        {
+          "id": "ml-predict",
+          "title": "预测",
+          "level": "??",
+          "content": "### 是什么\n- **一句话定义**：用历史特征估计未来连续值或事件结果（销量、时长、概率趋势等）。\n- **常见形态**：回归（连续值）、时序预测、生存/转化概率预测。\n\n### 概念要点\n- **回归**：\\(y\\in\\mathbb{R}\\)，指标 MAE / RMSE / MAPE。\n- **预测不等于因果**：模型拟合相关，上线策略要小心混淆因素。\n- **预测视界**：预测未来 1 天还是 30 天，特征可用截止时间必须对齐。\n\n### 怎么用\n```python\nimport numpy as np\nimport pandas as pd\nfrom sklearn.ensemble import GradientBoostingRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error\n\n# 示例：用近7日销量与价格预测次日销量\nhist = pd.DataFrame({\n    \"sales_7d_avg\": [20, 22, 18, 30, 28, 25, 21, 35],\n    \"price\": [9.9, 9.9, 12.0, 8.5, 8.5, 10.0, 11.0, 7.9],\n    \"promo\": [0, 0, 0, 1, 1, 0, 0, 1],\n    \"sales_next\": [21, 19, 17, 40, 36, 24, 20, 44],\n})\nX = hist[[\"sales_7d_avg\", \"price\", \"promo\"]]\ny = hist[\"sales_next\"]\n# 时间序：前6训、后2测\nXtr, Xte, ytr, yte = X.iloc[:6], X.iloc[6:], y.iloc[:6], y.iloc[6:]\n\nreg = GradientBoostingRegressor(random_state=42)\nreg.fit(Xtr, ytr)\npred = reg.predict(Xte)\nprint(\"MAE\", mean_absolute_error(yte, pred))\nprint(\"RMSE\", mean_squared_error(yte, pred) ** 0.5)\nprint(list(np.round(pred, 2)))\n```\n\n时序场景可再学：Prophet、ARIMA、或仓内按日聚合后用树模型。\n\n### 用在哪\n1. **需求预测**：备货/运力，预测仓或 SKU 销量。\n2. **收入预测**：根据管道与季节性估计 GMV。\n3. **SLA / 耗时预测**：预估配送时长，驱动超时预警。\n\n### 注意啥\n- **泄漏**：特征里不能包含「预测时刻之后」才知道的信息。\n- **评估要对齐业务**：库存场景更关心高估/低估的不对称成本。\n- **与分类关系**：二分类概率也可视为「事件发生预测」，但指标与阈值策略不同。",
+          "children": []
+        },
+        {
+          "id": "ml-cluster",
+          "title": "聚类",
+          "level": "??",
+          "content": "### 是什么\n- **一句话定义**：在无标签情况下，按相似度把样本自动分成若干组。\n- **目标**：组内相似、组间差异大，用于发现结构而非预测既定标签。\n\n### 概念要点\n- **K-Means**：指定 K，适合球状簇；对尺度敏感，需标准化。\n- **层次聚类 / DBSCAN**：不预知 K 或存在噪声时更合适。\n- **评估**：轮廓系数、业务可解释性（看每簇画像），无统一「准确率」。\n\n### 怎么用\n```python\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.cluster import KMeans\nfrom sklearn.metrics import silhouette_score\n\n# 示例：用户价值分群（RFM 简化）\nusers = pd.DataFrame({\n    \"recency_days\": [5, 40, 7, 60, 3, 90, 12, 55],\n    \"freq_90d\": [12, 2, 10, 1, 15, 1, 8, 2],\n    \"monetary\": [800, 50, 600, 30, 1200, 20, 450, 40],\n})\nX = StandardScaler().fit_transform(users)\nkm = KMeans(n_clusters=3, n_init=10, random_state=42)\nlabels = km.fit_predict(X)\nusers[\"cluster\"] = labels\nprint(users.groupby(\"cluster\")[[\"recency_days\", \"freq_90d\", \"monetary\"]].mean())\nprint(\"silhouette\", round(silhouette_score(X, labels), 3))\n```\n\n### 用在哪\n1. **用户分群运营**：高活高消 / 沉睡 / 新客，匹配不同策略。\n2. **商品/内容聚类**：相似品集合，支撑承接与排查。\n3. **异常初筛**：远离主簇的点进入人工核查（也可专用异常检测）。\n\n### 注意啥\n- **K 要业务可解释**：不要只看肘部法则，要能讲清每簇是谁。\n- **特征尺度**：金额与次数量纲不同，必须标准化。\n- **与分类区别**：聚类无标准答案；若已有标签应走分类。",
+          "children": []
+        },
+        {
+          "id": "ml-recommend",
+          "title": "推荐",
+          "level": "??",
+          "content": "### 是什么\n- **一句话定义**：在海量候选中，为用户排序「下一步最可能感兴趣」的物品（商品/内容/广告）。\n- **经典链路**：召回（粗选几百）→ 排序（精排打分）→ 重排（打散/多样性/业务规则）。\n\n### 概念要点\n- **协同过滤**：人与人 / 物与物的行为相似。\n- **内容/画像**：用标签与属性推荐，冷启动更稳。\n- **排序学习**：用点击/转化当标签训练精排模型（树模型或深度模型）。\n- **评估**：离线 AUC/NDCG；在线 CTR、时长、GMV、留存做 A/B。\n\n### 怎么用\n```python\nimport pandas as pd\nfrom sklearn.metrics.pairwise import cosine_similarity\n\n# 示例：基于物品共现的简易协同（演示）\n# 用户-物品隐式反馈（是否点击）\nmatrix = pd.DataFrame(\n    [\n        [1, 1, 0, 0],\n        [1, 0, 1, 0],\n        [0, 1, 1, 0],\n        [0, 0, 1, 1],\n    ],\n    columns=[\"item_A\", \"item_B\", \"item_C\", \"item_D\"],\n    index=[\"u1\", \"u2\", \"u3\", \"u4\"],\n)\nsim = cosine_similarity(matrix.T)\nsim_df = pd.DataFrame(sim, index=matrix.columns, columns=matrix.columns)\nprint(\"物品相似度:\\n\", sim_df.round(2))\n\n# 用户 u1 已消费 A/B，对未消费 C 的推荐分 = 与已消费品相似度之和\nliked = [\"item_A\", \"item_B\"]\nscores = sim_df.loc[liked, [\"item_C\", \"item_D\"]].sum(axis=0).sort_values(ascending=False)\nprint(\"给 u1 的候选排序:\\n\", scores)\n```\n\n工业界精排常见：`LightGBM`/`深度学习排序` + 特征平台（用户/物品/交叉特征）。\n\n### 用在哪\n1. **电商首页/商详**：猜你喜欢、随手购。\n2. **内容 Feed**：短视频/图文分发。\n3. **交叉销售**：购物车「经常一起买」。\n\n### 注意啥\n- **反馈闭环**：只推热门会越来越窄，需要探索与打散。\n- **冷启动**：新用户/新物品要靠内容与热门兜底。\n- **业务约束**：库存、合规、品牌安全要在重排硬过滤。",
+          "children": []
+        },
+        {
+          "id": "ml-anomaly",
+          "title": "异常检测",
+          "level": "??",
+          "content": "### 是什么\n- **一句话定义**：识别偏离正常模式的样本或时间点（欺诈、故障、刷量、指标突刺）。\n- **两种范式**：有少量标签的半监督/监督；无标签的无监督（孤立森林、统计阈值）。\n\n### 概念要点\n- **点异常 / 上下文异常 / 集体异常**：单点离谱、相对时段离谱、一群点共同离谱。\n- **阈值与告警**：检测要接到值班，控制误报率。\n- **解释**：业务要知道「为什么被打成异常」。\n\n### 怎么用\n```python\nimport numpy as np\nimport pandas as pd\nfrom sklearn.ensemble import IsolationForest\n\n# 示例：接口耗时异常点\nrng = np.random.default_rng(42)\nlatency = np.concatenate([rng.normal(120, 15, 80), [400, 520, 80, 600]])\nX = latency.reshape(-1, 1)\nclf = IsolationForest(contamination=0.05, random_state=42)\npred = clf.fit_predict(X)  # -1 异常，1 正常\nout = pd.DataFrame({\"latency_ms\": latency, \"is_outlier\": pred == -1})\nprint(out[out[\"is_outlier\"]].head(10))\nprint(\"异常占比\", out[\"is_outlier\"].mean())\n```\n\n指标类异常也可：同比/环比 + 3σ，或 Prophet 残差告警。\n\n### 用在哪\n1. **风控与反作弊**：异常登录、刷单。\n2. **数仓质量**：分区行数暴跌、空值率突增。\n3. **系统可观测**：延迟、错误率尖刺。\n\n### 注意啥\n- **污染率 contamination** 要按业务调，不是固定 5%。\n- **概念漂移**：大促期间「异常」可能是新常态，模型要重训或调阈值。\n- **与分类**：有可靠标签时，监督分类往往强于纯无监督。",
+          "children": []
+        }
+      ],
+      "lessonParent": true
+    }
+  ]
+}

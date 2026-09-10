@@ -1,0 +1,335 @@
+{
+  "id": "sql-root",
+  "title": "SQL",
+  "level": "?",
+  "content": "### SQL 知识图谱\n\n四层结构：**领域 → 主题 → 知识点**。\n\n- 再点中心展开领域扇区\n- 点主题层层下钻（弧线一对多）\n- **倒数第二层**打开章节导读 + 子课列表\n- **叶节点**打开完整讲义（是什么 / 怎么写 / 用在哪 / 注意啥）",
+  "children": [
+    {
+      "id": "sql-dml-query",
+      "title": "DML & 查询",
+      "level": "?",
+      "content": "### DML & 查询\n\n读写与查询表达：**CRUD → 过滤聚合**。先点主题展开，再学叶节点讲义。",
+      "children": [
+        {
+          "id": "sql-crud",
+          "title": "CRUD基础",
+          "level": "??",
+          "content": "### CRUD 基础 · 章节导读\n\n**学习目标**：能独立完成增删改查，并养成生产安全习惯。\n\n**先修**：表与列的基本概念。\n\n点下方绿色叶节点进入各讲义。",
+          "children": [
+            {
+              "id": "sql-select",
+              "title": "SELECT",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：从一张或多张表中投影列、过滤行，得到结果集。\n- **核心要素**：`SELECT` 列清单、`FROM` 数据源、可选 `WHERE`/`JOIN`/`GROUP BY`。\n\n### 怎么写\n\n```sql\nSELECT user_id, amount, created_at\nFROM orders\nWHERE status = 'paid'\nORDER BY created_at DESC\nLIMIT 100;\n```\n\n### 用在哪\n\n1. **明细抽样**：先看样本再写复杂逻辑。\n2. **报表取数**：固定口径字段列表。\n3. **下游 ETL**：作为中间结果写入临时表。\n\n### 注意啥\n\n- 避免 `SELECT *` 上线到宽表。\n- `LIMIT` 不保证全局顺序，需配合 `ORDER BY`。\n- 大表先过滤再投影，减少 IO。",
+              "children": []
+            },
+            {
+              "id": "sql-insert",
+              "title": "INSERT",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：向表追加一行或多行数据。\n- **常见形态**：单行 VALUES、批量 VALUES、`INSERT … SELECT`。\n\n### 怎么写\n\n```sql\nINSERT INTO orders (order_id, user_id, amount, status)\nVALUES (1001, 42, 99.00, 'created');\n\n-- 批量 / 从查询插入\nINSERT INTO orders_archive\nSELECT * FROM orders WHERE created_at < '2024-01-01';\n```\n\n### 用在哪\n\n1. **补数回填**：历史分区补录。\n2. **结果落地**：把清洗后的结果写入目标表。\n3. **测试造数**：临时表灌入样例。\n\n### 注意啥\n\n- 显式写列名，避免表结构变更导致错位。\n- 注意主键/唯一约束冲突与事务回滚。\n- 大批量插入关注锁与日志膨胀。",
+              "children": []
+            },
+            {
+              "id": "sql-update-delete",
+              "title": "UPDATE/DELETE",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：按条件修改或删除已有行。\n- **风险点**：漏写 `WHERE` 会改/删全表。\n\n### 怎么写\n\n```sql\n-- 先 SELECT 确认影响行\nSELECT COUNT(*) FROM orders WHERE status = 'pending' AND created_at < CURRENT_DATE - INTERVAL 30 DAY;\n\nUPDATE orders\nSET status = 'cancelled'\nWHERE status = 'pending' AND created_at < CURRENT_DATE - INTERVAL 30 DAY;\n\nDELETE FROM sessions WHERE expired_at < NOW();\n```\n\n### 用在哪\n\n1. **状态机流转**：订单取消、会话过期。\n2. **纠错**：修脏数据或回填字段。\n3. **合规清理**：到期删除个人数据。\n\n### 注意啥\n\n- 生产更新前先 `SELECT` 同一条件。\n- 大范围更新分批 + 事务，避免长锁。\n- 优先软删除（状态位）若业务需要可追溯。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-filter-agg",
+          "title": "过滤与聚合",
+          "level": "??",
+          "content": "### 过滤与聚合 · 章节导读\n\n**学习目标**：用 WHERE/ORDER/GROUP BY 把明细收成指标。\n\n**先修**：SELECT 基础。",
+          "children": [
+            {
+              "id": "sql-where-order",
+              "title": "WHERE/ORDER",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：`WHERE` 过滤行，`ORDER BY` 决定结果顺序。\n- **执行直觉**：多数引擎先过滤再排序（视计划而定）。\n\n### 怎么写\n\n```sql\nSELECT user_id, SUM(amount) AS gmv\nFROM orders\nWHERE status = 'paid'\n  AND created_at >= '2024-01-01'\nGROUP BY user_id\nORDER BY gmv DESC;\n```\n\n### 用在哪\n\n1. **看板筛选**：时间窗 + 状态。\n2. **排行榜**：按指标降序。\n3. **抽样质检**：按时间倒序看最新。\n\n### 注意啥\n\n- 对过滤列建合适索引；避免对列套函数导致无法用索引。\n- `ORDER BY` 无索引时可能 filesort。\n- `NULL` 排序行为因引擎而异，需显式处理。",
+              "children": []
+            },
+            {
+              "id": "sql-group-by",
+              "title": "GROUP BY",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：按键折叠行，并对组内做聚合（`COUNT`/`SUM`/`AVG` 等）。\n- **与窗口区别**：`GROUP BY` 合并行；窗口保留明细。\n\n### 怎么写\n\n```sql\nSELECT\n  DATE(created_at) AS dt,\n  COUNT(*) AS orders,\n  SUM(amount) AS gmv\nFROM orders\nWHERE status = 'paid'\nGROUP BY DATE(created_at)\nHAVING SUM(amount) > 1000\nORDER BY dt;\n```\n\n### 用在哪\n\n1. **日报指标**：按日 GMV / 订单数。\n2. **用户汇总**：每用户消费次数。\n3. **漏斗粗算**：按步骤计数。\n\n### 注意啥\n\n- `SELECT` 非聚合列必须在 `GROUP BY`（严格模式）。\n- `HAVING` 过滤聚合结果；行过滤用 `WHERE`。\n- 高基数 `GROUP BY` 注意内存与倾斜。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "sql-ddl",
+      "title": "DDL 与对象",
+      "level": "?",
+      "content": "### DDL 与对象\n\n表、约束、视图与索引——库内对象骨架。",
+      "children": [
+        {
+          "id": "sql-table-constraint",
+          "title": "表与约束",
+          "level": "??",
+          "content": "### 表与约束 · 章节导读\n\n**学习目标**：用 DDL 定义结构与完整性约束。\n\n**先修**：CRUD 读写。",
+          "children": [
+            {
+              "id": "sql-create-table",
+              "title": "CREATE TABLE",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：声明表名、列类型、默认值与约束。\n- **目标**：让数据「有形状」，下游可依赖。\n\n### 怎么写\n\n```sql\nCREATE TABLE users (\n  user_id    BIGINT PRIMARY KEY,\n  email      VARCHAR(255) NOT NULL UNIQUE,\n  status     VARCHAR(16) NOT NULL DEFAULT 'active',\n  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP\n);\n```\n\n### 用在哪\n\n1. **建主题表**：用户/订单落库。\n2. **临时建模**：分析沙箱建表验证。\n3. **分区表**：大表按日/月分区（引擎相关）。\n\n### 注意啥\n\n- 选对类型与长度，避免隐式转换。\n- 主键与业务键策略要想清（代理键 vs 自然键）。\n- 变更用迁移脚本，禁止线上裸改。",
+              "children": []
+            },
+            {
+              "id": "sql-constraints",
+              "title": "主键/外键/唯一",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：约束保证完整性——主键唯一非空、外键引用合法、唯一防重复。\n- **实务**：数仓常弱化外键，用质量校验代替。\n\n### 怎么写\n\n```sql\nALTER TABLE orders\n  ADD CONSTRAINT pk_orders PRIMARY KEY (order_id),\n  ADD CONSTRAINT uq_orders_biz UNIQUE (biz_no),\n  ADD CONSTRAINT fk_orders_user\n    FOREIGN KEY (user_id) REFERENCES users(user_id);\n```\n\n### 用在哪\n\n1. **防脏写**：业务库保证引用完整。\n2. **去重口径**：唯一约束兜底。\n3. **建模评审**：约束即文档。\n\n### 注意啥\n\n- OLAP/数仓批量装载时外键可能拖慢，需权衡。\n- 软删除与外键并存时注意「逻辑删除行仍被引用」。\n- 约束名要可读，方便报错定位。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-view-index-skel",
+          "title": "视图与索引骨架",
+          "level": "??",
+          "content": "### 视图与索引骨架 · 章节导读\n\n**学习目标**：理解逻辑封装与物理加速入口。",
+          "children": [
+            {
+              "id": "sql-view",
+              "title": "VIEW",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：把查询存成虚拟表，简化复用与权限隔离。\n- **形态**：普通视图 / 物化视图（引擎相关）。\n\n### 怎么写\n\n```sql\nCREATE VIEW v_paid_orders AS\nSELECT order_id, user_id, amount, created_at\nFROM orders\nWHERE status = 'paid';\n\nSELECT * FROM v_paid_orders WHERE created_at >= CURRENT_DATE;\n```\n\n### 用在哪\n\n1. **口径封装**：统一「已支付订单」定义。\n2. **权限**：只授视图不授基表。\n3. **复杂 SQL 分层**：下层视图拼装。\n\n### 注意啥\n\n- 视图嵌套过深难优化，注意下推。\n- 普通视图不存数据，基表变更即可见。\n- 物化视图要关心刷新策略与延迟。",
+              "children": []
+            },
+            {
+              "id": "sql-index-intro",
+              "title": "INDEX 入门",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：索引是辅助结构，用空间换查找/排序时间。\n- **常见**：B-Tree 适合等值与范围；注意最左前缀。\n\n### 怎么写\n\n```sql\nCREATE INDEX idx_orders_user_time\nON orders (user_id, created_at);\n\n-- 覆盖查询示例（视引擎）\nSELECT order_id, amount\nFROM orders\nWHERE user_id = 42\n  AND created_at >= '2024-01-01';\n```\n\n### 用在哪\n\n1. **点查加速**：按用户取订单。\n2. **关联键**：JOIN 列建索引。\n3. **排序优化**：匹配 `ORDER BY`。\n\n### 注意啥\n\n- 索引不是越多越好：拖慢写入、占空间。\n- 低选择性列（如性别）单独索引收益低。\n- 先看 `EXPLAIN`，再决定加不加。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "sql-join",
+      "title": "JOIN 关联",
+      "level": "?",
+      "content": "### JOIN 关联\n\n多表拼装是分析与建模日常；先懂语义，再防爆炸。",
+      "children": [
+        {
+          "id": "sql-join-types",
+          "title": "连接类型",
+          "level": "??",
+          "content": "### 连接类型 · 章节导读\n\n点绿色叶节点进入讲义：**是什么 / 怎么写 / 用在哪 / 注意啥**。",
+          "children": [
+            {
+              "id": "sql-inner-join",
+              "title": "INNER",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：只保留两表匹配成功的行。\n- **结果行数**：≤ 两边匹配组合数。\n\n### 怎么写\n\n```sql\nSELECT o.order_id, u.email, o.amount\nFROM orders o\nINNER JOIN users u ON u.user_id = o.user_id\nWHERE o.status = 'paid';\n```\n\n### 用在哪\n\n1. **事实+维度**：订单拼用户属性。\n2. **必须两边都有**：缺维就丢掉。\n3. **质量排查**：对比 INNER vs LEFT 行数差。\n\n### 注意啥\n\n- 关联键类型不一致会导致隐式转换、索引失效。\n- 一对多会放大行数，先想清粒度。\n- `ON` 写错成恒真条件会笛卡尔积。",
+              "children": []
+            },
+            {
+              "id": "sql-left-join",
+              "title": "LEFT",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：保留左表全部行，右表无匹配则填 NULL。\n- **典型用途**：主表完整，维表可缺。\n\n### 怎么写\n\n```sql\nSELECT u.user_id, u.email, o.order_id\nFROM users u\nLEFT JOIN orders o ON o.user_id = u.user_id\nWHERE o.order_id IS NULL;  -- 无订单用户\n```\n\n### 用在哪\n\n1. **主数据完整清单**：用户列表+是否下单。\n2. **反连接**：找「没有」的一侧。\n3. **宽表拼装**：事实保留，维可空。\n\n### 注意啥\n\n- 过滤右表列时，条件放 `ON` 还是 `WHERE` 语义不同。\n- `WHERE right.key IS NULL` 才是反连接写法。\n- 多段 LEFT JOIN 链式放大，注意粒度。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-join-traps",
+          "title": "关联陷阱",
+          "level": "??",
+          "content": "### 关联陷阱 · 章节导读\n\n点绿色叶节点进入讲义：**是什么 / 怎么写 / 用在哪 / 注意啥**。",
+          "children": [
+            {
+              "id": "sql-join-explode",
+              "title": "JOIN爆炸",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：一对多/多对多 JOIN 使行数成倍放大，聚合被重复计算。\n- **识别**：JOIN 后 `COUNT(*)` 远大于主表。\n\n### 怎么写\n\n```sql\n-- 危险：用户×订单明细再 SUM，GMV 被放大\n-- 正确：先按用户聚合订单，再 JOIN 用户维\nWITH order_agg AS (\n  SELECT user_id, SUM(amount) AS gmv\n  FROM orders\n  WHERE status = 'paid'\n  GROUP BY user_id\n)\nSELECT u.user_id, u.email, COALESCE(a.gmv, 0) AS gmv\nFROM users u\nLEFT JOIN order_agg a ON a.user_id = u.user_id;\n```\n\n### 用在哪\n\n1. **指标复核**：JOIN 前后行数对比。\n2. **宽表建设**：先聚合到目标粒度。\n3. **面试高频**：解释为什么 GMV 翻倍。\n\n### 注意啥\n\n- 维表业务键必须唯一，否则当多对多。\n- 一对多：先 `GROUP BY` 再 JOIN。\n- 用 `COUNT(*)` / 抽样核对关联前后。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "sql-window",
+      "title": "窗口函数",
+      "level": "?",
+      "content": "### 窗口函数\n\n不折叠行的排序与累计分析。",
+      "children": [
+        {
+          "id": "sql-window-rank",
+          "title": "排名类",
+          "level": "??",
+          "content": "### 排名类窗口\n\nROW_NUMBER / RANK / DENSE_RANK。",
+          "children": [
+            {
+              "id": "sql-row-number",
+              "title": "ROW_NUMBER",
+              "level": "??",
+              "content": "### ?? 是什么\n\n- **一句话定义**：按排序为分区内每一行生成唯一连续序号。\n- **核心语法结构图**：\n\n```sql\nROW_NUMBER() OVER (\n  [PARTITION BY 分组列...]\n  ORDER BY 排序列 [ASC|DESC]...\n)\n```\n\n### ?? 怎么写\n\n可复制模板（MySQL 8.0+ / DuckDB 均可直接运行）：\n\n```sql\n-- 1) 准备示例表\nCREATE TEMPORARY TABLE orders_demo (\n  order_id   INT,\n  user_id    INT,\n  amount     DECIMAL(10,2),\n  created_at TIMESTAMP\n);\n\nINSERT INTO orders_demo VALUES\n  (101, 1, 80.00,  '2024-01-01 10:00:00'),\n  (102, 1, 120.00, '2024-01-02 11:00:00'),\n  (103, 1, 120.00, '2024-01-03 09:00:00'),  -- 与上一单金额并列\n  (104, 2, 50.00,  '2024-01-01 12:00:00'),\n  (105, 2, 90.00,  '2024-01-04 08:00:00');\n\n-- 2) 每个用户按金额降序、时间升序编号（并列也保证唯一）\nSELECT\n  order_id,\n  user_id,\n  amount,\n  created_at,\n  ROW_NUMBER() OVER (\n    PARTITION BY user_id          -- 每个用户单独编号\n    ORDER BY amount DESC,         -- 金额高者靠前\n             created_at ASC       -- 金额相同时，更早的订单靠前\n  ) AS rn\nFROM orders_demo\nORDER BY user_id, rn;\n```\n\n**输入表 `orders_demo`：**\n\n| order_id | user_id | amount | created_at |\n|---:|---:|---:|---|\n| 101 | 1 | 80.00 | 2024-01-01 10:00:00 |\n| 102 | 1 | 120.00 | 2024-01-02 11:00:00 |\n| 103 | 1 | 120.00 | 2024-01-03 09:00:00 |\n| 104 | 2 | 50.00 | 2024-01-01 12:00:00 |\n| 105 | 2 | 90.00 | 2024-01-04 08:00:00 |\n\n**查询结果示例：**\n\n| order_id | user_id | amount | rn | 说明 |\n|---:|---:|---:|---:|---|\n| 102 | 1 | 120.00 | 1 | 金额最高；与 103 并列时因时间更早得 1 |\n| 103 | 1 | 120.00 | 2 | 并列金额，序号仍连续且唯一 |\n| 101 | 1 | 80.00 | 3 | |\n| 105 | 2 | 90.00 | 1 | 用户 2 重新从 1 起编 |\n| 104 | 2 | 50.00 | 2 | |\n\n### ?? 用在哪\n\n**场景 1：每用户 Top-N 订单（去重取样）**\n\n- **场景描述**：运营要「每个用户金额最高的 2 笔订单」做召回样本，要求行不重复、口径稳定。\n- **SQL 片段**：\n\n```sql\nSELECT *\nFROM (\n  SELECT\n    o.*,\n    ROW_NUMBER() OVER (\n      PARTITION BY user_id\n      ORDER BY amount DESC, order_id ASC\n    ) AS rn\n  FROM orders_demo o\n) t\nWHERE rn <= 2;\n```\n\n- **为什么用 ROW_NUMBER 而非 RANK**：`RANK` 在金额并列时会给出相同名次，过滤 `rank<=2` 可能取出超过 2 行；`ROW_NUMBER` 强制唯一序号，Top-N 行数可控。\n\n**场景 2：明细去重——保留最新一条**\n\n- **场景描述**：同一 `order_id` 因重放出现多条变更日志，分析只要最新快照。\n- **SQL 片段**：\n\n```sql\nCREATE TEMPORARY TABLE order_events (\n  order_id INT,\n  status   VARCHAR(16),\n  updated_at TIMESTAMP\n);\nINSERT INTO order_events VALUES\n  (101, 'created', '2024-01-01 10:00:00'),\n  (101, 'paid',    '2024-01-01 10:05:00'),\n  (101, 'paid',    '2024-01-01 10:05:00'); -- 重复事件\n\nSELECT order_id, status, updated_at\nFROM (\n  SELECT\n    e.*,\n    ROW_NUMBER() OVER (\n      PARTITION BY order_id\n      ORDER BY updated_at DESC, status DESC\n    ) AS rn\n  FROM order_events e\n) t\nWHERE rn = 1;\n```\n\n- **为什么用 ROW_NUMBER 而非 DENSE_RANK**：去重要「恰好一行」；`DENSE_RANK` 在排序键完全相同时仍可能并列并列值，无法用 `=1` 稳定压成单行（除非排序键能严格区分）。`ROW_NUMBER` 即使排序键相同也会任意但确定地保留一行。\n\n### ?? 注意啥\n\n- **性能陷阱**：`ROW_NUMBER` 需要对每个分区做排序。大表上 `PARTITION BY` 高基数列 + 宽 `ORDER BY` 会触发大量内存/磁盘排序。实务建议：① 先 `WHERE` 缩小集合再窗口；② 分区键、排序键尽量有索引支撑（视引擎）；③ Top-N 可考虑引擎专用语法（如部分库的 `QUALIFY`）或预聚合表。\n- **与其他函数的区别**：\n\n| 函数 | 并列值（金额相同） | 名次是否连续 | 典型用途 |\n|---|---|---|---|\n| ROW_NUMBER | 强制不同序号（1,2,3…） | 是 | Top-N、去重留一行 |\n| RANK | 同名次，下一值跳号（1,1,3） | 否 | 「并列第 1，下一名第 3」的竞赛排名 |\n| DENSE_RANK | 同名次，下一值不跳号（1,1,2） | 是 | 需要并列但不跳号的层级 |\n\n- **面试高频追问**\n\n**Q1：`ORDER BY` 键完全相同，`ROW_NUMBER` 谁先谁后？**  \nA：标准不保证哪一行更靠前，只保证序号唯一。生产环境应追加稳定决胜列（如主键 `order_id`），否则同键重跑结果可能漂移。\n\n**Q2：为什么 `WHERE ROW_NUMBER() OVER(...) = 1` 常报错？**  \nA：窗口函数在 `SELECT` 列表阶段计算，不能直接出现在同一层 `WHERE`。正确写法是子查询/`CTE` 包一层，再过滤 `rn = 1`（或在支持 `QUALIFY` 的引擎里用 `QUALIFY`）。",
+              "children": []
+            },
+            {
+              "id": "sql-rank",
+              "title": "RANK",
+              "level": "??",
+              "content": "### 排名类窗口 · 章节导读\n\n**学习目标**：分清 ROW_NUMBER / RANK / DENSE_RANK 的选用。",
+              "children": [],
+              "lessonParent": true
+            },
+            {
+              "id": "sql-dense-rank",
+              "title": "DENSE_RANK",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：并列同名次，但下一值不跳号（1,1,2）。\n- **场景**：需要层级连续、允许并列。\n\n### 怎么写\n\n```sql\nSELECT\n  product_id, score,\n  DENSE_RANK() OVER (ORDER BY score DESC) AS dense_rnk\nFROM product_scores;\n```\n\n### 用在哪\n\n1. **等级分层**：连续档位。\n2. **并列进档**：同分同档且档位紧凑。\n3. **与 RANK 对比讲解**。\n\n### 注意啥\n\n- 仍不能保证「恰好 N 行」。\n- 去重要单行时优先 ROW_NUMBER。\n- 注意分区键是否符合业务口径。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-window-analytic",
+          "title": "分析类",
+          "level": "??",
+          "content": "### 分析类 · 章节导读\n\n点绿色叶节点进入讲义：**是什么 / 怎么写 / 用在哪 / 注意啥**。",
+          "children": [
+            {
+              "id": "sql-lag-lead",
+              "title": "LAG/LEAD",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：取当前行之前/之后第 N 行的值，常用于环比。\n- **要点**：必须有 `ORDER BY` 定义「前后」。\n\n### 怎么写\n\n```sql\nSELECT\n  dt, gmv,\n  LAG(gmv, 1) OVER (ORDER BY dt) AS gmv_yesterday,\n  gmv - LAG(gmv, 1) OVER (ORDER BY dt) AS dod\nFROM daily_gmv;\n```\n\n### 用在哪\n\n1. **日环比 / 周环比**。\n2. **会话内上一步事件**。\n3. **缺口检测**：与上一状态对比。\n\n### 注意啥\n\n- 分区边界上 `LAG` 为 NULL，需 `COALESCE`。\n- 偏移 N 要与业务粒度一致。\n- 不要在无序集合上使用。",
+              "children": []
+            },
+            {
+              "id": "sql-sum-over",
+              "title": "SUM OVER",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：在窗口帧内累计求和，保留明细行。\n- **帧**：常用 `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`。\n\n### 怎么写\n\n```sql\nSELECT\n  dt, gmv,\n  SUM(gmv) OVER (\n    ORDER BY dt\n    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n  ) AS gmv_cumsum\nFROM daily_gmv;\n```\n\n### 用在哪\n\n1. **累计 GMV / 完成度**。\n2. **分区内累计**：按用户累计消费。\n3. **滚动窗口**：近 N 日求和（改帧）。\n\n### 注意啥\n\n- `RANGE` vs `ROWS` 语义不同，并列值要小心。\n- 大窗口耗内存，先缩小集合。\n- 与 `GROUP BY` 选：要明细就窗口，要折叠就分组。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "sql-cte",
+      "title": "CTE 与子查询",
+      "level": "?",
+      "content": "### CTE 与子查询\n\n用 WITH 把复杂逻辑分层。",
+      "children": [
+        {
+          "id": "sql-with-style",
+          "title": "WITH写法",
+          "level": "??",
+          "content": "### WITH写法 · 章节导读\n\n点绿色叶节点进入讲义：**是什么 / 怎么写 / 用在哪 / 注意啥**。",
+          "children": [
+            {
+              "id": "sql-cte-pipeline",
+              "title": "CTE流水线",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：`WITH` 命名中间结果，把长 SQL 拆成步骤。\n- **价值**：可读、可测、易复用同层引用（视引擎）。\n\n### 怎么写\n\n```sql\nWITH paid AS (\n  SELECT * FROM orders WHERE status = 'paid'\n),\nuser_gmv AS (\n  SELECT user_id, SUM(amount) AS gmv\n  FROM paid\n  GROUP BY user_id\n)\nSELECT u.email, g.gmv\nFROM user_gmv g\nJOIN users u ON u.user_id = g.user_id\nORDER BY g.gmv DESC\nLIMIT 20;\n```\n\n### 用在哪\n\n1. **复杂报表**：过滤→聚合→关联→排序。\n2. **替代深层嵌套子查询**。\n3. **团队协作**：每步可单独解释。\n\n### 注意啥\n\n- 某些引擎 CTE 物化/内联策略不同，看计划。\n- 递归 CTE 另算，注意终止条件。\n- 步骤不宜过多导致优化器放弃。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "sql-index-plan",
+      "title": "索引与执行计划",
+      "level": "?",
+      "content": "### 索引与执行计划\n\n先看计划再改 SQL。",
+      "children": [
+        {
+          "id": "sql-read-plan",
+          "title": "读懂计划",
+          "level": "??",
+          "content": "### 读懂计划 · 章节导读\n\n点绿色叶节点进入讲义：**是什么 / 怎么写 / 用在哪 / 注意啥**。",
+          "children": [
+            {
+              "id": "sql-explain",
+              "title": "EXPLAIN",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：让引擎说明将如何执行查询（访问路径、连接、排序等）。\n- **目标**：找到全表扫、坏连接顺序、临时表/文件排序。\n\n### 怎么写\n\n```sql\nEXPLAIN\nSELECT *\nFROM orders\nWHERE user_id = 42\n  AND created_at >= '2024-01-01';\n\n-- 部分引擎\nEXPLAIN ANALYZE SELECT ...;\n```\n\n### 用在哪\n\n1. **慢查询诊断**。\n2. **上线前评审**。\n3. **验证索引是否被使用**。\n\n### 注意啥\n\n- 不同引擎输出字段不同，抓关键：type/rows/key/Extra。\n- `EXPLAIN` 是估计；`ANALYZE` 带实际耗时（若支持）。\n- 统计信息过期会导致离谱计划。",
+              "children": []
+            },
+            {
+              "id": "sql-composite-index",
+              "title": "复合索引",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：多列组成的索引，遵循最左前缀匹配。\n- **设计**：等值列在前，范围列靠后；覆盖常用投影。\n\n### 怎么写\n\n```sql\nCREATE INDEX idx_orders_uid_status_time\nON orders (user_id, status, created_at);\n\n-- 可较好利用：(user_id) / (user_id,status) / 三者都等值或前缀+范围\nSELECT order_id, amount\nFROM orders\nWHERE user_id = 42 AND status = 'paid'\n  AND created_at >= '2024-01-01';\n```\n\n### 用在哪\n\n1. **高频组合过滤**。\n2. **覆盖索引减少回表**。\n3. **对齐 ORDER BY 前缀**。\n\n### 注意啥\n\n- 跳过最左列会导致索引无法完整使用。\n- 列顺序比「感觉上重要」更重要。\n- 用 `EXPLAIN` 验证，不要凭猜测加索引。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "sql-tx-lock",
+      "title": "事务与锁",
+      "level": "?",
+      "content": "### 事务与锁\n\nACID 与显式事务边界。",
+      "children": [
+        {
+          "id": "sql-acid",
+          "title": "ACID基础",
+          "level": "??",
+          "content": "### ACID 入门 · 章节导读\n\n**学习目标**：理解事务边界与提交/回滚。",
+          "children": [
+            {
+              "id": "sql-begin-commit",
+              "title": "BEGIN/COMMIT",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：事务把多步读写变成原子单元——全成或全撤。\n- **ACID**：原子性、一致性、隔离性、持久性。\n\n### 怎么写\n\n```sql\nBEGIN;\nUPDATE accounts SET balance = balance - 100 WHERE id = 1;\nUPDATE accounts SET balance = balance + 100 WHERE id = 2;\nCOMMIT;\n-- 出错则 ROLLBACK;\n```\n\n### 用在哪\n\n1. **转账/库存**：多表必须同成同败。\n2. **批量订正**：可回滚的数据修复。\n3. **读写一致**：报表会话快照（视隔离级别）。\n\n### 注意啥\n\n- 长事务拖锁、拖回收，尽快提交。\n- 隔离级别影响脏读/幻读，按业务选。\n- DDL 在部分引擎会隐式提交。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "sql-tune",
+      "title": "SQL 调优",
+      "level": "?",
+      "content": "### SQL 调优\n\n复现 → 计划 → 改写 → 回归。",
+      "children": [
+        {
+          "id": "sql-tune-loop",
+          "title": "调优闭环",
+          "level": "??",
+          "content": "### 调优闭环 · 章节导读\n\n点绿色叶节点进入讲义：**是什么 / 怎么写 / 用在哪 / 注意啥**。",
+          "children": [
+            {
+              "id": "sql-tune-checklist",
+              "title": "调优检查清单",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：按固定清单缩小慢查询原因，避免盲目加索引。\n- **闭环**：复现 → 计划 → 改写/索引 → 回归验证。\n\n### 怎么写\n\n```sql\n-- 1) 复现并限制代价\nEXPLAIN ANALYZE\nSELECT ...;\n\n-- 2) 先过滤再关联/窗口\nWITH base AS (\n  SELECT * FROM orders\n  WHERE created_at >= CURRENT_DATE - INTERVAL 7 DAY\n)\nSELECT ... FROM base b JOIN ...;\n```\n\n### 用在哪\n\n1. **线上慢查询周报**。\n2. **上线评审**：复杂 SQL 必过清单。\n3. **教学**：把调优步骤标准化。\n\n### 注意啥\n\n- 清单要点：① 过滤是否可推前 ② 是否 JOIN 爆炸 ③ 是否选错索引\n  ④ 是否必要排序/临时表 ⑤ 统计信息是否新鲜 ⑥ 结果粒度是否正确。\n- 先正确后更快；口径错了再快也没用。\n- 改完用同等数据量回归，防「测快线慢」。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    }
+  ]
+}

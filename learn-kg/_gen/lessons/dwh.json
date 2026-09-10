@@ -1,0 +1,63 @@
+{
+  "id": "dwh-root",
+  "title": "数据仓库",
+  "level": "?",
+  "content": "### 数据仓库\n\n分层、主题域与可复用指标底座。",
+  "children": [
+    {
+      "id": "dwh-layer",
+      "title": "数仓分层",
+      "level": "?",
+      "content": "### 数仓分层\n\nODS → DWD → DWS → ADS 的职责边界。",
+      "children": [
+        {
+          "id": "dwh-layers",
+          "title": "层级职责",
+          "level": "?",
+          "content": "### 层级职责 · 章节导读",
+          "children": [
+            {
+              "id": "dwh-ods",
+              "title": "ODS 贴源",
+              "level": "?",
+              "content": "### 是什么\n\n- **一句话定义**：尽量原样落入的操作数据层。\n- **核心要素**：保留源字段、分区、装载时间。\n\n### 怎么写\n\n```sql\nCREATE TABLE ods.orders_di (\n  order_id BIGINT, user_id BIGINT, amount DECIMAL(18,2),\n  status STRING, updated_at TIMESTAMP, dt STRING\n) PARTITIONED BY (dt);\n```\n\n### 用在哪\n\n1. 溯源对账\n2. 重跑原料\n3. 源系统变更缓冲\n\n### 注意啥\n\n- 不要在 ODS 做重业务加工\n- 敏感字段脱敏\n- 分区与生命周期\n",
+              "children": []
+            },
+            {
+              "id": "dwh-dwd",
+              "title": "DWD 明细",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：清洗后的业务明细事实，统一口径字段。\n- **核心要素**：标准化码值、时区、主键、轻度维退化。\n\n### 怎么写\n\n```sql\nINSERT OVERWRITE TABLE dwd.trade_order_di PARTITION (dt='{{ ds }}')\nSELECT order_id, user_id, amount, status_code, created_at\nFROM ods.orders_di WHERE dt='{{ ds }}' AND is_deleted=0;\n```\n\n### 用在哪\n\n1. 分析取数底座\n2. 指标可回溯\n3. 特征明细来源\n\n### 注意啥\n\n- 粒度必须声明\n- 与维表关联键稳定\n- 避免过早宽表爆炸\n",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "dwh-model",
+      "title": "主题与建模",
+      "level": "??",
+      "content": "### 主题与建模\n\n按业务过程建事实，按实体建维度。",
+      "children": [
+        {
+          "id": "dwh-star",
+          "title": "星型入门",
+          "level": "??",
+          "content": "### 星型入门 · 章节导读",
+          "children": [
+            {
+              "id": "dwh-fact",
+              "title": "事实表",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：记录业务过程的度量与外键。\n- **核心要素**：粒度、度量、退化维、分区。\n\n### 怎么写\n\n```sql\n-- 粒度：一笔支付\nSELECT pay_id, order_id, user_id, pay_amount, pay_at, dt\nFROM dwd.pay_di WHERE dt='{{ ds }}';\n```\n\n### 用在哪\n\n1. 交易主题\n2. 流量主题\n3. 履约主题\n\n### 注意啥\n\n- 先定粒度再加字段\n- 事实尽量瘦\n- 避免双计数\n",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    }
+  ]
+}

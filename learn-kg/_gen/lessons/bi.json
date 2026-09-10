@@ -1,0 +1,63 @@
+{
+  "id": "bi-root",
+  "title": "BI",
+  "level": "?",
+  "content": "### BI / 可视化分析\n\n从指标到看板的表达与治理。",
+  "children": [
+    {
+      "id": "bi-metric",
+      "title": "指标设计",
+      "level": "?",
+      "content": "### 指标设计\n\n先定义口径，再绑可视化。",
+      "children": [
+        {
+          "id": "bi-define",
+          "title": "口径要素",
+          "level": "?",
+          "content": "### 口径要素 · 章节导读",
+          "children": [
+            {
+              "id": "bi-atomic",
+              "title": "原子指标",
+              "level": "?",
+              "content": "### 是什么\n\n- **一句话定义**：不可再拆的业务度量（如支付金额）。\n- **核心要素**：业务过程、度量字段、聚合方式。\n\n### 怎么写\n\n```sql\n-- 原子：支付金额\nSELECT SUM(pay_amount) AS pay_amt\nFROM dws.pay_1d\nWHERE dt BETWEEN '{{ start }}' AND '{{ end }}';\n```\n\n### 用在哪\n\n1. GMV/支付\n2. 订单量\n3. 活跃账号数\n\n### 注意啥\n\n- 聚合方式写进文档\n- 时区与删单规则\n- 与主题域 Owner 对齐\n",
+              "children": []
+            },
+            {
+              "id": "bi-derived",
+              "title": "派生指标",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：在原子指标上加时间/修饰/运算。\n- **核心要素**：时间周期、业务限定、四则/比率。\n\n### 怎么写\n\n```sql\n-- 派生：近7日支付转化率\nSELECT pay_uv_7d * 1.0 / NULLIF(visit_uv_7d, 0) AS pay_cvr_7d\nFROM dws.traffic_pay_1d WHERE dt='{{ ds }}';\n```\n\n### 用在哪\n\n1. 转化率\n2. 客单价\n3. 留存率\n\n### 注意啥\n\n- 分母为 0\n- 修饰词要可枚举\n- 避免同名异义\n",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "bi-board",
+      "title": "看板表达",
+      "level": "??",
+      "content": "### 看板表达\n\n一张看板只讲清一个决策问题。",
+      "children": [
+        {
+          "id": "bi-layout",
+          "title": "布局原则",
+          "level": "??",
+          "content": "### 布局原则 · 章节导读",
+          "children": [
+            {
+              "id": "bi-northstar",
+              "title": "北极星与下钻",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：顶栏放北极星，下方按维度下钻解释波动。\n- **核心要素**：主指标、对比、拆解维度、异常注释。\n\n### 怎么写\n\n```text\n布局：\n1) 顶：北极星 + 同比/环比\n2) 中：渠道/地区拆解\n3) 下：明细或漏斗\n交互：点维度 → 过滤全局\n```\n\n### 用在哪\n\n1. 经营周会\n2. 业务值班大屏\n3. 实验看版\n\n### 注意啥\n\n- 避免首屏堆满卡片\n- 过滤条件要可见\n- 口径角标常驻\n",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    }
+  ]
+}
