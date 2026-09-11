@@ -2,32 +2,194 @@
   "id": "etl-root",
   "title": "ETL",
   "level": "?",
-  "content": "### ETL / 数据集成\n\n抽取 → 转换 → 装载。再点中心展开。",
+  "content": "### ETL 知识图谱\n\n四层结构：**领域 → 主题 → 知识点**。\n\n- 再点中心展开领域扇区\n- 点主题层层下钻（弧线一对多）\n- **倒数第二层**打开章节导读 + 子课列表\n- **叶节点**打开完整讲义（是什么 / 怎么写 / 用在哪 / 注意啥）\n\n主线：**认源 → 抽取 → 转换 → 装载 → 校验 → 调度**；并理解 ETL vs ELT 与工具选型。",
   "children": [
     {
-      "id": "etl-batch",
-      "title": "批次 ETL",
+      "id": "etl-source-contract",
+      "title": "认源与契约",
       "level": "?",
-      "content": "### 批次 ETL\n\n按天/小时调度的经典管道。",
+      "content": "### 认源与契约\n\n管道开工前先把源、主键、时间字段与 SLA 说清楚。",
       "children": [
         {
-          "id": "etl-pattern",
-          "title": "常见模式",
-          "level": "?",
-          "content": "### 常见模式 · 章节导读\n\n全量、增量、拉链是三种底座。",
+          "id": "etl-source-inventory",
+          "title": "源与清单",
+          "level": "??",
+          "content": "### 源与清单 · 章节导读\n\n**学习目标**：能列出源系统清单并标出 Owner / 频率 / 主键。\n\n**先修**：会读表结构。",
           "children": [
+            {
+              "id": "etl-source-list",
+              "title": "源表清单",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：把要接入的业务库/API/文件/消息列成可执行清单。\n- **核心要素**：系统、对象、Owner、更新频率、敏感级别。\n\n### 怎么写\n\n```text\n| 源系统 | 对象 | 主键 | 业务时间 | 频率 | Owner | SLA |\n| 交易库 | orders | order_id | updated_at | 近实时 | 交易 | T+0 15min |\n| CRM | users | user_id | updated_at | 小时 | 增长 | T+1 06:00 |\n```\n\n### 用在哪\n\n1. **立项评审**：先盘源再估工期。\n2. **故障定位**：出问题先查清单找 Owner。\n3. **权限申请**：按清单批量开只读账号。\n\n### 注意啥\n\n- 清单过期等于假文档，随变更同步。\n- API/文件也要登记分页与限流约定。\n- 敏感字段单独标注脱敏策略。",
+              "children": []
+            },
+            {
+              "id": "etl-keys-watermark",
+              "title": "主键与水位",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：主键保证唯一身份；水位（watermark）标记「抽到哪」。\n- **核心要素**：业务键、代理键、`updated_at` / binlog 位点。\n\n### 怎么写\n\n```sql\n-- 水位推进：只认「上次成功」边界\nSELECT MAX(updated_at) AS high_watermark\nFROM ods.orders_di\nWHERE dt = '{{ ds }}';\n\n-- 下次抽取窗口\nWHERE updated_at > TIMESTAMP '{{ prev_success }}'\n  AND updated_at <= TIMESTAMP '{{ data_interval_end }}';\n```\n\n### 用在哪\n\n1. **增量任务**：日批/小时批窗口。\n2. **对账**：按主键比对源与目标。\n3. **回填**：按水位切历史区间。\n\n### 注意啥\n\n- 业务键必须稳定；临时单号不能当主键。\n- 时钟回拨、延迟写入会导致漏数，需重叠窗口或 CDC。\n- 水位写入元数据表，勿写死在代码常量。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "etl-contract-sla",
+          "title": "契约与 SLA",
+          "level": "??",
+          "content": "### 契约与 SLA · 章节导读\n\n**学习目标**：把字段语义与就绪时间写成可验证约定。",
+          "children": [
+            {
+              "id": "etl-data-contract",
+              "title": "数据契约",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：上下游对字段类型、空值、枚举、主键的书面约定。\n- **价值**：源端乱改时有阻断依据，而不是「报表自己坏了」。\n\n### 怎么写\n\n```yaml\n# 契约片段示意\ntable: orders\nprimary_key: [order_id]\nfields:\n  status: { type: string, enum: [created, paid, cancelled] }\n  amount: { type: decimal(18,2), null: false }\nsla: ready_by: \"06:00 Asia/Shanghai\"\n```\n\n### 用在哪\n\n1. **源端变更评审**。\n2. **质量测试生成**（not_null / accepted_values）。\n3. **跨团队对齐口径**。\n\n### 注意啥\n\n- 契约要可自动测，不能只贴 Wiki。\n- 破坏性变更走版本号，禁止静默改类型。\n- 空串与 NULL 语义写清。",
+              "children": []
+            },
+            {
+              "id": "etl-sla",
+              "title": "就绪 SLA",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：约定分区/表在何时对下游「可用」。\n- **核心要素**：截止时间、依赖链、失败升级。\n\n### 怎么写\n\n```text\n表 dwd.orders_di(dt)\n- 依赖：ods.orders_di 成功\n- 就绪：工作日 06:00 前\n- 失败：重试 2 次 → 值班群 @Owner\n```\n\n### 用在哪\n\n1. **看板开门时间**。\n2. **特征/训练任务排队**。\n3. **值班与告警阈值**。\n\n### 注意啥\n\n- SLA 要覆盖长假与大促峰值。\n- 「任务成功」≠「数据正确」，需质量门禁。\n- 下游勿隐式依赖未承诺的表。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "etl-extract",
+      "title": "抽取 Extract",
+      "level": "?",
+      "content": "### 抽取 Extract\n\n全量、增量、CDC：按源压力与新鲜度选型。",
+      "children": [
+        {
+          "id": "etl-extract-modes",
+          "title": "抽取策略",
+          "level": "??",
+          "content": "### 抽取策略 · 章节导读\n\n**学习目标**：能判断何时全量、何时增量、何时上 CDC。",
+          "children": [
+            {
+              "id": "etl-full-snapshot",
+              "title": "全量快照",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：每次把对象当前全集拉出并落地。\n- **适用**：小维表、变更难追踪、日切重建。\n\n### 怎么写\n\n```sql\n-- 小维表：覆盖写入当日分区\nINSERT OVERWRITE TABLE ods.dim_city_df PARTITION (dt='{{ ds }}')\nSELECT city_id, city_name, updated_at\nFROM src.dim_city;\n```\n\n### 用在哪\n\n1. **码表/城市维**。\n2. **无法可靠拿增量的源**。\n3. **对账基准日**。\n\n### 注意啥\n\n- 大事实表全量会打爆业务库与网络。\n- 覆盖写要分区清晰，防误覆盖历史。\n- 与增量混用时标清「哪张表哪种策略」。",
+              "children": []
+            },
             {
               "id": "etl-incr",
               "title": "增量抽取",
-              "level": "?",
-              "content": "### 是什么\n\n- **一句话定义**：只拉取自上次成功以来的变化数据。\n- **核心要素**：水位线 watermark、业务时间、幂等写入。\n\n### 怎么写\n\n```sql\nSELECT *\nFROM ods.orders\nWHERE updated_at > TIMESTAMP '{{ prev_success }}'\n  AND updated_at <= TIMESTAMP '{{ data_interval_end }}';\n```\n\n### 用在哪\n\n1. 日更明细入仓\n2. 维表缓慢变化\n3. 下游重跑窗口\n\n### 注意啥\n\n- 时钟回拨与乱序\n- 软删要覆盖\n- 失败重跑必须幂等\n",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：只拉取自上次成功以来的变化数据。\n- **核心要素**：水位线 watermark、业务时间、幂等写入。\n\n### 怎么写\n\n```sql\nSELECT *\nFROM src.orders\nWHERE updated_at > TIMESTAMP '{{ prev_success }}'\n  AND updated_at <= TIMESTAMP '{{ data_interval_end }}';\n```\n\n### 用在哪\n\n1. **日更明细入仓**。\n2. **维表缓慢变化原料**。\n3. **下游重跑窗口**。\n\n### 注意啥\n\n- 时钟回拨与乱序；可设重叠窗口。\n- 软删/状态变更必须能抽到。\n- 失败重跑必须幂等。",
+              "children": []
+            },
+            {
+              "id": "etl-cdc",
+              "title": "CDC 变更捕获",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：从 binlog/WAL 捕获行级变更（I/U/D），近实时同步。\n- **核心要素**：位点、操作类型 op、前后镜像。\n\n### 怎么写\n\n```sql\n-- 落地 CDC 明细示意\nSELECT\n  order_id, user_id, amount, status,\n  op,              -- c/u/d\n  ts_ms,\n  source_file, pos\nFROM cdc.orders_changelog\nWHERE ts_ms >= {{ start_ms }} AND ts_ms < {{ end_ms }};\n```\n\n### 用在哪\n\n1. **库表近实时入湖**。\n2. **删除可感知**（硬删也能追）。\n3. **多下游复用同一变更流**。\n\n### 注意啥\n\n- 源库权限与磁盘、主从延迟要评估。\n- Schema 变更要有兼容策略。\n- 位点提交失败会导致重复或空洞。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "etl-transform",
+      "title": "转换 Transform",
+      "level": "?",
+      "content": "### 转换 Transform\n\n清洗、标准化、去重、关联——把原料变成可分析明细。",
+      "children": [
+        {
+          "id": "etl-cleanse",
+          "title": "清洗标准化",
+          "level": "??",
+          "content": "### 清洗标准化 · 章节导读\n\n**学习目标**：统一类型、码值、时区与命名。",
+          "children": [
+            {
+              "id": "etl-type-normalize",
+              "title": "类型与码值",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：把脏类型与散乱枚举收敛成仓内标准字段。\n- **核心要素**：CAST、字典映射、时区统一。\n\n### 怎么写\n\n```sql\nSELECT\n  order_id,\n  user_id,\n  CAST(amount AS DECIMAL(18,2)) AS amount,\n  LOWER(TRIM(status)) AS status,\n  CONVERT_TZ(created_at, 'UTC', 'Asia/Shanghai') AS created_at_cst\nFROM ods.orders_di\nWHERE dt = '{{ ds }}';\n```\n\n### 用在哪\n\n1. **staging / DWD 入门清洗**。\n2. **多源合并前对齐**。\n3. **dbt staging 模型**。\n\n### 注意啥\n\n- 隐式转换会拖慢且藏错。\n- 未知枚举进「其他」还是阻断，要产品定。\n- 时区只转一次，文档写清「存的是哪区」。",
+              "children": []
+            },
+            {
+              "id": "etl-dedup",
+              "title": "去重取最新",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：同一业务键保留一条「最新」快照，去掉重放与乱序。\n- **常用**：`ROW_NUMBER` + 排序决胜列。\n\n### 怎么写\n\n```sql\nSELECT *\nFROM (\n  SELECT\n    o.*,\n    ROW_NUMBER() OVER (\n      PARTITION BY order_id\n      ORDER BY updated_at DESC, ingest_id DESC\n    ) AS rn\n  FROM staging.orders_raw o\n  WHERE dt = '{{ ds }}'\n) t\nWHERE rn = 1;\n```\n\n### 用在哪\n\n1. **增量窗口重叠去重**。\n2. **CDC 乱序压快照**。\n3. **API 重试导致的重复页**。\n\n### 注意啥\n\n- 排序键必须稳定，否则重跑结果漂移。\n- 去重粒度要等于目标表粒度。\n- 删除事件不要被「旧更新」覆盖回来。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "etl-enrich",
+          "title": "关联与历史",
+          "level": "??",
+          "content": "### 关联与历史 · 章节导读\n\n**学习目标**：维表补全与 SCD 保留历史。",
+          "children": [
+            {
+              "id": "etl-dim-join",
+              "title": "维表关联",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：事实补上维度属性（用户等级、类目等），形成可分析宽/明细。\n- **原则**：关联键稳定；防一对多爆炸。\n\n### 怎么写\n\n```sql\nSELECT\n  f.order_id, f.user_id, f.amount,\n  u.city, u.vip_level\nFROM dwd.orders_di f\nLEFT JOIN dim_user_df u\n  ON f.user_id = u.user_id AND u.dt = '{{ ds }}'\nWHERE f.dt = '{{ ds }}';\n```\n\n### 用在哪\n\n1. **DWD/DWS 轻度退化维**。\n2. **报表宽表预关联**。\n3. **质量：LEFT 后维空率监控**。\n\n### 注意啥\n\n- 维表当日未就绪会大面积 NULL。\n- 多对多维必须先聚合。\n- 历史分析要用拉链表按业务时间点取维。",
               "children": []
             },
             {
               "id": "etl-scd",
               "title": "SCD 拉链",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：保留维度历史版本（生效/失效时间）。\n- **核心要素**：surrogate key、valid_from/to、is_current。\n\n### 怎么写\n\n```sql\n-- 简化：关闭旧版 + 插入新版\nUPDATE dim_user\nSET valid_to = CURRENT_DATE, is_current = 0\nWHERE user_biz_id = :id AND is_current = 1;\n\nINSERT INTO dim_user (sk, user_biz_id, city, valid_from, valid_to, is_current)\nVALUES (:sk, :id, :city, CURRENT_DATE, DATE '9999-12-31', 1);\n```\n\n### 用在哪\n\n1. **用户属性历史**。\n2. **商品类目变更**。\n3. **组织架构演进**。\n\n### 注意啥\n\n- 业务键必须稳定。\n- 同日多变要定规则（末态 / 多版本）。\n- 查询事实必须带「业务发生时点」取维。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "etl-load",
+      "title": "装载 Load",
+      "level": "?",
+      "content": "### 装载 Load\n\n写入目标要幂等：同一分区多跑一次结果不变。",
+      "children": [
+        {
+          "id": "etl-load-patterns",
+          "title": "写入模式",
+          "level": "??",
+          "content": "### 写入模式 · 章节导读\n\n**学习目标**：分清 overwrite、append、MERGE。",
+          "children": [
+            {
+              "id": "etl-overwrite",
+              "title": "分区覆盖",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：保留维度历史版本（生效/失效时间）。\n- **核心要素**：surrogate key、valid_from/to、is_current。\n\n### 怎么写\n\n```sql\n-- 简化：关闭旧版 + 插入新版\nUPDATE dim_user SET valid_to = CURRENT_DATE, is_current = 0\nWHERE user_biz_id = :id AND is_current = 1;\nINSERT INTO dim_user (...)\nVALUES (..., CURRENT_DATE, DATE '9999-12-31', 1);\n```\n\n### 用在哪\n\n1. 用户属性历史\n2. 商品类目变更\n3. 组织架构演进\n\n### 注意啥\n\n- 业务键必须稳定\n- 同日多变要注意\n- 查询要带时间点\n",
+              "content": "### 是什么\n\n- **一句话定义**：按分区整体替换当日（或当小时）数据。\n- **价值**：天然幂等，重跑不堆重复行。\n\n### 怎么写\n\n```sql\nINSERT OVERWRITE TABLE dwd.orders_di PARTITION (dt='{{ ds }}')\nSELECT *\nFROM staging.orders_clean\nWHERE dt = '{{ ds }}';\n```\n\n### 用在哪\n\n1. **日事实表**。\n2. **可按 dt 重算的汇总**。\n3. **回填某日分区**。\n\n### 注意啥\n\n- 分区键写错会覆盖错分区。\n- 动态分区开启时严控源数据 dt。\n- 小文件过多要合并。",
+              "children": []
+            },
+            {
+              "id": "etl-merge-upsert",
+              "title": "MERGE/Upsert",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：按键匹配：有则更新、无则插入（可处理删除）。\n- **适用**：变更维、近实时快照表。\n\n### 怎么写\n\n```sql\nMERGE INTO dwd.user_snapshot t\nUSING staging.user_delta s\nON t.user_id = s.user_id\nWHEN MATCHED AND s.op = 'd' THEN DELETE\nWHEN MATCHED THEN UPDATE SET\n  t.city = s.city, t.updated_at = s.updated_at\nWHEN NOT MATCHED AND s.op <> 'd' THEN INSERT *;\n```\n\n### 用在哪\n\n1. **CDC 落地快照**。\n2. **缓慢变化的当前维**。\n3. **需要按键纠错的主题表**。\n\n### 注意啥\n\n- 源侧同键多变更要先压成末态。\n- 引擎对 MERGE 性能与并发限制不同。\n- 仍建议可按批次回放验证。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "etl-idempotent",
+          "title": "幂等落地",
+          "level": "??",
+          "content": "### 幂等落地 · 章节导读\n\n**学习目标**：设计「重跑安全」的装载。",
+          "children": [
+            {
+              "id": "etl-idempotent-write",
+              "title": "幂等写入",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：同一输入分区执行任意次，目标结果一致。\n- **手段**：分区覆盖、先 staging 再交换、按批次号去重。\n\n### 怎么写\n\n```sql\n-- 模式：写 staging → 校验 → 原子替换分区\nINSERT OVERWRITE TABLE staging.orders_di PARTITION (dt='{{ ds }}')\nSELECT ...;\n\n-- 质量通过后再\nINSERT OVERWRITE TABLE dwd.orders_di PARTITION (dt='{{ ds }}')\nSELECT * FROM staging.orders_di WHERE dt='{{ ds }}';\n```\n\n### 用在哪\n\n1. **调度自动重试**。\n2. **人工回填**。\n3. **蓝绿/双写切换**。\n\n### 注意啥\n\n- append-only 无去重 = 重跑翻倍。\n- 跨表事务能力因引擎而异，用「分区可见性」模拟原子。\n- 元数据水位仅在成功后推进。",
               "children": []
             }
           ],
@@ -38,20 +200,141 @@
     {
       "id": "etl-quality",
       "title": "过程质量",
-      "level": "??",
-      "content": "### 过程质量\n\n装载前后校验，防止脏数据扩散。",
+      "level": "?",
+      "content": "### 过程质量\n\n装载后校验，防止脏数据扩散到看板与模型。",
       "children": [
         {
           "id": "etl-checks",
           "title": "校验清单",
           "level": "??",
-          "content": "### 校验清单 · 章节导读",
+          "content": "### 校验清单 · 章节导读\n\n**学习目标**：行数、唯一、空值、金额对账形成门禁。",
           "children": [
             {
               "id": "etl-rowcount",
               "title": "行数与空值",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：对比源/目标行数与关键空值率。\n- **核心要素**：count、null_rate、主键唯一。\n\n### 怎么写\n\n```sql\nSELECT COUNT(*) AS cnt,\n       AVG(user_id IS NULL) AS null_user\nFROM dwd.orders\nWHERE dt = '{{ ds }}';\n```\n\n### 用在哪\n\n1. 日任务门禁\n2. 回刷验证\n3. 事故定位\n\n### 注意啥\n\n- 阈值要按表分级\n- 只告警不阻断会堆债\n- 与分区裁剪一起看\n",
+              "content": "### 是什么\n\n- **一句话定义**：对比源/目标行数与关键空值率。\n- **核心要素**：count、null_rate、波动阈值。\n\n### 怎么写\n\n```sql\nSELECT\n  COUNT(*) AS cnt,\n  AVG(CASE WHEN user_id IS NULL THEN 1 ELSE 0 END) AS null_user\nFROM dwd.orders_di\nWHERE dt = '{{ ds }}';\n```\n\n### 用在哪\n\n1. **日任务门禁**。\n2. **回刷验证**。\n3. **事故定位**。\n\n### 注意啥\n\n- 阈值按表分级（核心严、日志松）。\n- 只告警不阻断会堆技术债。\n- 与分区裁剪一起看，防扫错分区。",
+              "children": []
+            },
+            {
+              "id": "etl-unique-pk",
+              "title": "主键唯一",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：目标粒度上业务键不得重复。\n- **失败含义**：去重失效或粒度声明错误。\n\n### 怎么写\n\n```sql\nSELECT order_id, COUNT(*) AS c\nFROM dwd.orders_di\nWHERE dt = '{{ ds }}'\nGROUP BY order_id\nHAVING COUNT(*) > 1;\n```\n\n### 用在哪\n\n1. **dbt unique 测试**。\n2. **上线前回归**。\n3. **JOIN 爆炸排查**。\n\n### 注意啥\n\n- 复合主键要整组唯一。\n- 允许「最新一行」的表应用 rn=1 后再测。\n- 重复行要抽样看冲突字段。",
+              "children": []
+            },
+            {
+              "id": "etl-recon",
+              "title": "金额对账",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：源与目标在同一口径下比对 SUM/COUNT。\n- **核心**：时间窗、状态过滤、币种一致。\n\n### 怎么写\n\n```sql\n-- 源\nSELECT SUM(amount) FROM src.orders\nWHERE status='paid' AND DATE(pay_at)='{{ ds }}';\n-- 仓\nSELECT SUM(amount) FROM dwd.orders_di\nWHERE dt='{{ ds }}' AND status='paid';\n```\n\n### 用在哪\n\n1. **财务/经营核心指标**。\n2. **迁移切换验收**。\n3. **重大回填后签字**。\n\n### 注意啥\n\n- 时区与「下单日 vs 支付日」必须对齐。\n- 允许误差要有书面阈值。\n- 对不上先查过滤条件，再查重复。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "etl-schedule",
+      "title": "调度与运维",
+      "level": "?",
+      "content": "### 调度与运维\n\n依赖、重试、SLA、回填——管道要可值班。",
+      "children": [
+        {
+          "id": "etl-orchestrate",
+          "title": "编排基础",
+          "level": "??",
+          "content": "### 编排基础 · 章节导读\n\n**学习目标**：用 DAG 表达抽→转→装→测。",
+          "children": [
+            {
+              "id": "etl-dag",
+              "title": "DAG 依赖",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：任务按有向无环图排队，上游成功才跑下游。\n- **典型链**：extract → transform → load → test → publish。\n\n### 怎么写\n\n```python\n# Airflow 示意\nextract >> transform >> load >> quality_check >> expose\n```\n\n### 用在哪\n\n1. **日批主题链路**。\n2. **跨队表依赖**。\n3. **质量阻断发布**。\n\n### 注意啥\n\n- 避免隐式时间依赖（「差不多 6 点就有」）。\n- 扇出过大要拆层，便于局部重跑。\n- 循环依赖是设计错误。",
+              "children": []
+            },
+            {
+              "id": "etl-retry-alert",
+              "title": "重试与告警",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：瞬时失败自动重试；持续失败升级人。\n- **要素**：次数、间隔、告警渠道、值班人。\n\n### 怎么写\n\n```text\nretries: 2\nretry_delay: 5min\non_failure: 企业微信/电话 → @表 Owner\n```\n\n### 用在哪\n\n1. **源库抖动**。\n2. **资源排队超时**。\n3. **SLA 将破线升级**。\n\n### 注意啥\n\n- 非幂等任务慎侧重试。\n- 告警要可行动（带分区、日志链接）。\n- 避免「刷屏告警」导致忽略。",
+              "children": []
+            },
+            {
+              "id": "etl-backfill",
+              "title": "回填 Backfill",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：按历史分区区间重放任务，补齐或修正数据。\n- **前提**：逻辑幂等 + 分区可覆盖。\n\n### 怎么写\n\n```bash\n# 示意：回填一周\nairflow dags backfill shop_orders --start-date 2024-01-01 --end-date 2024-01-07\n```\n\n### 用在哪\n\n1. **口径变更重算**。\n2. **故障日补数**。\n3. **新表历史灌入**。\n\n### 注意啥\n\n- 控制并发，防打爆源与仓。\n- 先小范围试跑再全量。\n- 回填后跑对账与下游通知。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "etl-elt",
+      "title": "ETL vs ELT",
+      "level": "?",
+      "content": "### ETL vs ELT\n\n变换发生在入仓前还是入仓后，决定工具与职责切分。",
+      "children": [
+        {
+          "id": "etl-vs-elt",
+          "title": "形态对比",
+          "level": "??",
+          "content": "### 形态对比 · 章节导读\n\n**学习目标**：能按合规与算力选择 ETL 或 ELT。",
+          "children": [
+            {
+              "id": "etl-classic",
+              "title": "经典 ETL",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：在源外/中间层完成转换，再加载到目标仓。\n- **特点**：入仓即较干净；中间算力独立。\n\n### 怎么写\n\n```text\n源库 → DataX/脚本清洗 → 数仓主题表\n```\n\n### 用在哪\n\n1. **必须脱敏后才能落仓**。\n2. **目标仓算力弱**。\n3. **传统数仓工具链**。\n\n### 注意啥\n\n- 转换逻辑分散在多脚本，难测试。\n- 迭代慢，分析师不好改。\n- 仍要质量门禁。",
+              "children": []
+            },
+            {
+              "id": "etl-modern-elt",
+              "title": "现代 ELT",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：近原始入湖/仓，用仓算力 + SQL/dbt 变换。\n- **分层**：staging → intermediate → mart。\n\n### 怎么写\n\n```sql\n-- dbt staging 示意\nSELECT\n  order_id,\n  user_id,\n  CAST(amount AS DECIMAL(18,2)) AS amount,\n  LOWER(status) AS status,\n  created_at\nFROM {{ source('ods', 'orders') }}\nWHERE amount IS NOT NULL;\n```\n\n### 用在哪\n\n1. **云仓 / 强 SQL 引擎**。\n2. **分析师迭代模型**。\n3. **测试与文档跟代码走**。\n\n### 注意啥\n\n- 原始层权限与成本要管。\n- 合规不允许落明文时不能硬 ELT。\n- mart 层仍要指标口径治理。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "etl-tools",
+      "title": "工具选型",
+      "level": "?",
+      "content": "### 工具选型\n\n编排、变换、接入、流批——先匹配场景再选品牌。",
+      "children": [
+        {
+          "id": "etl-tool-map",
+          "title": "选型地图",
+          "level": "??",
+          "content": "### 选型地图 · 章节导读\n\n**学习目标**：知道 Airflow / dbt / CDC / DataX 各解决哪一段。",
+          "children": [
+            {
+              "id": "etl-tool-airflow",
+              "title": "编排 Airflow",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：用 DAG 调度依赖任务、重试与 SLA。\n- **不负责**：替代 SQL 变换引擎本身。\n\n### 怎么写\n\n```python\nwith DAG('orders_daily', schedule='@daily') as dag:\n    extract >> transform >> load >> test\n```\n\n### 用在哪\n\n1. **批管道总控**。\n2. **跨系统依赖**。\n3. **回填与告警**。\n\n### 注意啥\n\n- DAG 过胖难维护，按域拆。\n- 业务逻辑尽量下沉到 dbt/SQL。\n- Worker 资源与并发配额。",
+              "children": []
+            },
+            {
+              "id": "etl-tool-dbt",
+              "title": "变换 dbt",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：用 SQL + 版本管理做仓内变换、测试与文档。\n- **核心**：model、source、test、ref。\n\n### 怎么写\n\n```sql\n-- models/marts/fct_orders.sql\nSELECT *\nFROM {{ ref('int_orders_enriched') }}\nWHERE status = 'paid'\n```\n\n### 用在哪\n\n1. **ELT 仓内建模**。\n2. **指标 mart 发布**。\n3. **CI 跑 data test**。\n\n### 注意啥\n\n- 不替代抽取与调度。\n- 模型依赖图要清晰。\n- 大模型注意物化策略（table/incremental）。",
+              "children": []
+            },
+            {
+              "id": "etl-tool-ingest",
+              "title": "接入与 CDC",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：Airbyte/DataX 等做批接入；Flink CDC/Debezium 做变更流。\n- **选型**：异构批导 vs 近实时库表。\n\n### 怎么写\n\n```text\n批：业务库 --DataX/Airbyte--> ODS\n流：binlog --Flink CDC--> Kafka/湖仓\n```\n\n### 用在哪\n\n1. **多源快速接入**。\n2. **国产异构库同步**。\n3. **近实时主题**。\n\n### 注意啥\n\n- 工具默认映射仍要契约与测试。\n- CDC 运维成本高于日批。\n- 画布「工具列表」可对照各引擎卡片。",
               "children": []
             }
           ],

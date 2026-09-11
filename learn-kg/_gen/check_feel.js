@@ -6041,13 +6041,31 @@
       return selectedId;
     }
     function isLearned(id) { return learnedSet.has(id); }
+    function showKgToast(msg, kind) {
+      const host = document.getElementById("kgToastHost");
+      if (!host || !msg) return;
+      const el = document.createElement("div");
+      el.className = "kg-toast" + (kind === "ok" ? " ok" : "");
+      el.textContent = msg;
+      host.appendChild(el);
+      setTimeout(() => {
+        el.classList.add("out");
+        setTimeout(() => el.remove(), 220);
+      }, 1600);
+    }
     function toggleLearned(id) {
       if (!id) return;
-      if (learnedSet.has(id)) learnedSet.delete(id);
-      else learnedSet.add(id);
+      if (learnedSet.has(id)) {
+        learnedSet.delete(id);
+        showKgToast("已取消学习标记");
+      } else {
+        learnedSet.add(id);
+        showKgToast("已标记为学过", "ok");
+      }
       saveLearned(learnedSet);
       syncLearnedUI();
       if (typeof redrawSatellites === "function") redrawSatellites();
+      if (typeof updateNextLessonBtn === "function") updateNextLessonBtn();
     }
     function depthLabel() {
       return depthLevel === "junior" ? "初级 · 仅入门(?)"
@@ -6439,6 +6457,9 @@
       }
       if (typeof satNodeSel !== "undefined" && satNodeSel) {
         satNodeSel.classed("learned", d => isLearned(d.learnId));
+        satNodeSel.select("text.sat-check")
+          .text(d => isLearned(d.learnId) ? "✓" : "")
+          .attr("dy", d => -(typeof baseSatRadius === "function" ? baseSatRadius(d) + 4 : 22));
       }
       if (typeof updateKgProgress === "function" && kgDrill && kgDrill.active) updateKgProgress();
       const lid = currentLearnId(selectedId);
@@ -7850,6 +7871,10 @@
 
     const svg = d3.select("#graph").append("svg");
     const defs = svg.append("defs");
+    const hubGrad = defs.append("radialGradient").attr("id", "hubCoreGrad");
+    hubGrad.append("stop").attr("offset", "0%").attr("stop-color", "#e9d5ff");
+    hubGrad.append("stop").attr("offset", "42%").attr("stop-color", "#a855f7");
+    hubGrad.append("stop").attr("offset", "100%").attr("stop-color", "#4c1d95");
     const glow = defs.append("filter").attr("id", "node-glow");
     glow.append("feGaussianBlur").attr("stdDeviation", "2.5").attr("result", "coloredBlur");
     const feMerge = glow.append("feMerge");
@@ -7893,12 +7918,14 @@
     const linkG = gRoot.append("g").attr("class", "links");
     const nodeG = gRoot.append("g").attr("class", "nodes");
     const satLinkG = gRoot.append("g").attr("class", "sat-links");
+    const satSparkG = gRoot.append("g").attr("class", "sat-sparks");
     const satNodeG = gRoot.append("g").attr("class", "sat-nodes");
     const laneG = gRoot.append("g").attr("class", "lanes");
     let expandedHubId = null;
     let satData = [];
     let satNodeSel = null;
     let satLinkSel = null;
+    let satSparkSel = null;
 
     function layoutMetrics() {
       const w = Math.max(width(), 980);
@@ -8292,6 +8319,136 @@
           (root.children || []).forEach(c => collectSearchNodes(c, path, out));
         }
 
+
+        const KG_SEARCH_ALIASES = {
+          join: ["连接", "关联", "inner", "left", "right"],
+          "连接": ["join", "关联"],
+          "窗口": ["window", "over", "row_number", "rank"],
+          window: ["窗口", "over", "开窗"],
+          "索引": ["index", "执行计划", "explain"],
+          index: ["索引", "btree"],
+          cte: ["with", "子查询", "公共表表达式"],
+          "事务": ["transaction", "锁", "隔离"],
+          "锁": ["lock", "事务", "死锁"],
+          "聚合": ["group by", "count", "sum", "avg"],
+          "过滤": ["where", "having", "筛选"],
+          sql: ["查询", "语句", "select"]
+        };
+
+        function kgSearchTerms(q) {
+          const raw = String(q || "").trim().toLowerCase();
+          if (!raw) return [];
+          const terms = new Set([raw]);
+          Object.keys(KG_SEARCH_ALIASES).forEach(k => {
+            const key = k.toLowerCase();
+            if (raw.includes(key) || key.includes(raw)) {
+              terms.add(key);
+              (KG_SEARCH_ALIASES[k] || []).forEach(a => terms.add(String(a).toLowerCase()));
+            }
+          });
+          return [...terms];
+        }
+
+        function showKgEmptyPanel() {
+          if (!kgDrill.active) return;
+          const hub = nodeById[kgDrill.hubId];
+          const hubName = (hub && hub.name) || "课程";
+          panel.classList.add("side-mode", "open");
+          panel.classList.remove("sec-foundation", "sec-advanced", "sec-practice");
+          panel.setAttribute("aria-hidden", "false");
+          if (panelCard) panelCard.classList.remove("sql-kg-wide");
+          panelCat.textContent = hubName + " · 导览";
+          panelCat.style.background = (hub && CATEGORIES[hub.category]) ? CATEGORIES[hub.category].color : "#a855f7";
+          panelTitle.textContent = "选择知识点";
+          panelSub.textContent = "点一级展开二级 · 再点二级打开讲义";
+          panelBody.innerHTML = `
+            <div class="kg-panel-empty">
+              <div class="orb" aria-hidden="true"></div>
+              <h3>从画布开始探索</h3>
+              <p>先点某个<strong>一级领域</strong>展开其二级主题，再点主题或叶节点查看讲义。</p>
+              <div class="keys">
+                <kbd>Esc</kbd><kbd>/</kbd><kbd>F</kbd>
+              </div>
+            </div>`;
+          kgDrill.panelMode = "empty";
+          kgDrill.selectedLeafId = null;
+          syncLearnedUI();
+          if (typeof updateNextLessonBtn === "function") updateNextLessonBtn();
+        }
+
+        function collapseKgToL1() {
+          if (!kgDrill.active) return;
+          const had = !!(kgDrill.expandedL2 || kgDrill.expandedL3);
+          kgDrill.expandedL2 = null;
+          kgDrill.expandedL3 = null;
+          kgDrill.selectedLeafId = null;
+          kgDrill.panelMode = null;
+          hideKgNodeTip();
+          showKgEmptyPanel();
+          redrawKgDrill();
+          updateKgDrillHint();
+          updateNextLessonBtn();
+          setTimeout(() => { if (kgDrill.active) fitKgFocusView(360); }, 80);
+          if (had) showKgToast("已收起至一级");
+        }
+
+        function handleKgEscape() {
+          if (!kgDrill.active) return;
+          const drop = document.getElementById("kgFocusSearchDrop");
+          if (drop && drop.classList.contains("open")) {
+            drop.classList.remove("open");
+            return;
+          }
+          if (panel.classList.contains("open") && kgDrill.panelMode && kgDrill.panelMode !== "empty") {
+            showKgEmptyPanel();
+            kgDrill.selectedLeafId = null;
+            redrawKgDrill();
+            updateKgDrillHint();
+            return;
+          }
+          if (kgDrill.expandedL2 || kgDrill.expandedL3) {
+            collapseKgToL1();
+            return;
+          }
+          if (kgFocusHistory.length) {
+            popKgFocusHistory();
+            return;
+          }
+          exitKgDrill();
+        }
+
+        function wireKgHotkeys() {
+          if (document._kgHotkeysBound) return;
+          document._kgHotkeysBound = true;
+          document.addEventListener("keydown", (e) => {
+            if (!kgDrill || !kgDrill.active) return;
+            const tag = (e.target && e.target.tagName) || "";
+            const typing = tag === "INPUT" || tag === "TEXTAREA" || (e.target && e.target.isContentEditable);
+            if (e.key === "Escape") {
+              e.preventDefault();
+              handleKgEscape();
+              return;
+            }
+            if (typing) return;
+            if (e.key === "/" || (e.key === "k" && (e.ctrlKey || e.metaKey))) {
+              e.preventDefault();
+              const input = document.getElementById("kgFocusSearch");
+              if (input) { input.focus(); input.select(); }
+              return;
+            }
+            if (e.key === "f" || e.key === "F") {
+              e.preventDefault();
+              fitKgFocusView(420);
+              return;
+            }
+            if (e.key === "Backspace" && !e.metaKey && !e.ctrlKey) {
+              e.preventDefault();
+              if (kgFocusHistory.length) popKgFocusHistory();
+              else handleKgEscape();
+            }
+          });
+        }
+
         function wireKgFocusSearch() {
           const input = document.getElementById("kgFocusSearch");
           const drop = document.getElementById("kgFocusSearchDrop");
@@ -8303,7 +8460,11 @@
             const all = [];
             collectSearchNodes(tree, [], all);
             const qq = q.trim().toLowerCase();
-            const hits = all.filter(x => x.title.toLowerCase().includes(qq) || x.path.toLowerCase().includes(qq)).slice(0, 12);
+            const terms = kgSearchTerms(qq);
+            const hits = all.filter(x => {
+              const blob = (x.title + " " + x.path).toLowerCase();
+              return terms.some(t => blob.includes(t));
+            }).slice(0, 12);
             if (!hits.length) {
               drop.innerHTML = '<button type="button" disabled>无匹配</button>';
               drop.classList.add("open");
@@ -8349,6 +8510,7 @@
           input.addEventListener("input", () => renderDrop(input.value));
           input.addEventListener("focus", () => { if (input.value) renderDrop(input.value); });
           document.addEventListener("click", () => drop.classList.remove("open"));
+          wireKgHotkeys();
         }
 
 
@@ -8530,12 +8692,32 @@
             else hintEl.textContent = "已展开全部一级 · 点某一级查看其二级 · 其它一级的二级不显示";
           }
           if (legEl) {
-            legEl.innerHTML = `<div class="kg-focus-legend-title">扇区图例</div>` + KG_SECTOR_ORDER.map(k => {
+            const secStats = { foundation: { t: 0, d: 0 }, advanced: { t: 0, d: 0 }, practice: { t: 0, d: 0 } };
+            const tree = currentKgTree();
+            if (tree) {
+              const l2s = filterKgChildren(tree.children || []);
+              const keys = assignSectorKeySmart(l2s);
+              const walk = (n, key) => {
+                const kids = n.children || [];
+                if (!kids.length) {
+                  secStats[key].t += 1;
+                  if (isLearned("kg:" + kgDrill.hubId + ":" + n.id)) secStats[key].d += 1;
+                  return;
+                }
+                kids.forEach(c => walk(c, key));
+              };
+              l2s.forEach((c, i) => {
+                const key = keys[i] || "advanced";
+                if (secStats[key]) walk(c, key);
+              });
+            }
+            legEl.innerHTML = `<div class="kg-focus-legend-title">扇区进度</div>` + KG_SECTOR_ORDER.map(k => {
               const s = KG_SECTORS[k];
-              return `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:${s.color};color:${s.color}"></span>${escapeHtml(s.label)} · ${s.angDeg}°</div>`;
+              const st = secStats[k] || { t: 0, d: 0 };
+              const doneCls = st.t && st.d >= st.t ? " is-done" : "";
+              return `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:${s.color};color:${s.color}"></span>${escapeHtml(s.label)}<span class="leg-prog${doneCls}">${st.d}/${st.t}</span></div>`;
             }).join("") +
-              `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:#34d399;color:#34d399"></span>叶节点讲义</div>` +
-              `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:#f59e0b;color:#f59e0b"></span>已展开分支</div>`;
+              `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:#34d399;color:#34d399"></span>已学叶节点<span class="leg-prog">✓</span></div>`;
           }
           if (backBtn) {
             backBtn.textContent = kgFocusHistory.length ? "← 回退一步" : "← 返回总览";
@@ -8549,6 +8731,7 @@
           }
           wireKgFocusSearch();
           wireKgRailsAndZoom();
+          wireKgHotkeys();
           updateKgMoreButtons();
           if (typeof updateKgProgress === "function") updateKgProgress();
           document.body.classList.toggle("is-side-collapsed", !!kgSideCollapsed);
@@ -8676,9 +8859,11 @@
           kgFocusHistory = [];
           kgShowMore = { foundation: 8, advanced: 8, practice: 8 };
           kgShowMoreL3 = 6;
-          kgSideCollapsed = false;
+          const narrow = (typeof window !== "undefined" && window.innerWidth < 900);
+          kgSideCollapsed = !!narrow;
           kgPanelCollapsed = false;
-          document.body.classList.remove("is-side-collapsed", "is-panel-collapsed");
+          document.body.classList.toggle("is-side-collapsed", kgSideCollapsed);
+          document.body.classList.remove("is-panel-collapsed");
           document.body.classList.remove("home-hero");
     
           const cx = width() / 2;
@@ -8737,19 +8922,26 @@
             node.classed("kg-focus-hub", false);
             node.select("circle").style("filter", null);
           }
-          closePanelSoft();
+          closePanelSoft({ hard: true });
           updateKgDrillHint();
           syncKgHubSize();
           if (typeof relayout === "function") relayout();
           else if (typeof tick === "function") tick();
         }
     
-        function closePanelSoft() {
+        function closePanelSoft(opts) {
+          if (panelCard) panelCard.classList.remove("sql-kg-wide");
+          const hard = opts && opts.hard;
+          if (!hard && kgDrill && kgDrill.active) {
+            // 焦点模式保持右栏壳，显示空状态引导
+            showKgEmptyPanel();
+            return;
+          }
           panel.classList.remove("open");
           panel.classList.remove("side-mode");
+          panel.classList.remove("sec-foundation", "sec-advanced", "sec-practice");
           panel.setAttribute("aria-hidden", "true");
-          if (panelCard) panelCard.classList.remove("sql-kg-wide");
-          kgDrill.panelMode = null;
+          if (kgDrill) kgDrill.panelMode = null;
         }
     
         function renderMdBlock(md) {
@@ -8771,6 +8963,91 @@
           });
         }
     
+
+        function flattenKgLeaves(root, out) {
+          if (!root) return out || [];
+          const acc = out || [];
+          const kids = filterKgChildren(root.children || []);
+          if (!kids.length) {
+            acc.push(root);
+            return acc;
+          }
+          kids.forEach(c => flattenKgLeaves(c, acc));
+          return acc;
+        }
+
+        function findNextKgLesson(fromId) {
+          const tree = currentKgTree();
+          if (!tree) return null;
+          const leaves = flattenKgLeaves(tree, []);
+          if (!leaves.length) return null;
+          const idx = leaves.findIndex(n => n.id === fromId);
+          // 优先下一未学；否则顺序下一课
+          for (let i = Math.max(0, idx + 1); i < leaves.length; i++) {
+            const id = "kg:" + kgDrill.hubId + ":" + leaves[i].id;
+            if (!isLearned(id)) return leaves[i];
+          }
+          for (let i = 0; i < leaves.length; i++) {
+            const id = "kg:" + kgDrill.hubId + ":" + leaves[i].id;
+            if (!isLearned(id) && leaves[i].id !== fromId) return leaves[i];
+          }
+          if (idx >= 0 && idx + 1 < leaves.length) return leaves[idx + 1];
+          return null;
+        }
+
+        function jumpToKgLesson(node) {
+          if (!node || !kgDrill.active) return;
+          pushKgFocusHistory();
+          const pathIds = [];
+          (function dfs(n, trail) {
+            const t = trail.concat(n);
+            if (n.id === node.id) { pathIds.push(...t.map(x => x.id)); return true; }
+            for (const c of (n.children || [])) if (dfs(c, t)) return true;
+            return false;
+          })(currentKgTree(), []);
+          if (pathIds.length >= 2) kgDrill.expandedL2 = pathIds[1];
+          if (pathIds.length >= 3) kgDrill.expandedL3 = pathIds[2];
+          kgDrill.selectedLeafId = node.id;
+          redrawKgDrill();
+          openKgSidePanel(node, isLessonParent(node) ? "chapter" : (kgNodeKids(node).length ? "chapter" : "lesson"));
+          updateKgDrillHint();
+          setTimeout(() => { if (kgDrill.active) fitKgFocusView(360); }, 100);
+          showKgToast("已跳转 · " + node.title);
+        }
+
+        function updateNextLessonBtn() {
+          const btn = document.getElementById("btnNextLesson");
+          if (!btn) return;
+          if (!kgDrill.active || !kgDrill.selectedLeafId || kgDrill.panelMode === "empty") {
+            btn.classList.remove("is-on");
+            btn._nextId = null;
+            return;
+          }
+          const next = findNextKgLesson(kgDrill.selectedLeafId);
+          if (!next || next.id === kgDrill.selectedLeafId) {
+            btn.classList.remove("is-on");
+            btn._nextId = null;
+            btn.title = "本课已学完或无下一课";
+            return;
+          }
+          btn.classList.add("is-on");
+          btn._nextId = next.id;
+          btn.textContent = "下一课 · " + (next.title.length > 8 ? next.title.slice(0, 7) + "…" : next.title) + " →";
+          btn.title = "下一课：" + next.title;
+        }
+
+        function wireNextLessonBtn() {
+          const btn = document.getElementById("btnNextLesson");
+          if (!btn || btn._bound) return;
+          btn._bound = true;
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (!btn._nextId) return;
+            const n = findKgNode(btn._nextId);
+            if (n) jumpToKgLesson(n);
+          });
+        }
+
         function openKgSidePanel(kgNode, mode) {
           const hub = nodeById[kgDrill.hubId];
           const kids = kgNodeKids(kgNode);
@@ -8837,6 +9114,8 @@
           }
           syncLearnedUI();
           updateKgDrillHint();
+          wireNextLessonBtn();
+          updateNextLessonBtn();
         }
     
         /** 百科同款极角：y 轴向下时用 -sin，使 135°=左上、45°=右上、270°=正下 */
@@ -8975,6 +9254,7 @@
             if (satLinkSel) {
               satLinkSel.attr("d", d => satArcPath(d.parentX, d.parentY, d.x, d.y, d.layer, d.sibIdx, d.sibTotal, d.parentR, d._r || baseSatRadius(d)));
             }
+            if (typeof updateSatSparks === "function") updateSatSparks();
             if (ticks === 50) {
               kgLiveSim.force("charge", d3.forceManyBody().strength(-10));
               kgLiveSim.force("x", d3.forceX(d => d.tx).strength(0.035));
@@ -8998,6 +9278,40 @@
           if (d.isChapter) return 24;
           if (d.layer === 2) return 26;
           return 20;
+        }
+
+
+        function updateSatSparks() {
+          if (!satSparkSel || !satLinkSel) return;
+          const pathById = {};
+          satLinkSel.each(function (d) { pathById[d.learnId] = this; });
+          satSparkSel.each(function (d) {
+            const el = pathById[d.learnId];
+            if (!el || typeof el.getTotalLength !== "function") return;
+            let len = 0;
+            try { len = el.getTotalLength(); } catch (e) { return; }
+            if (!len) return;
+            d._sparkT = ((d._sparkT == null ? Math.random() : d._sparkT) + 0.0075) % 1;
+            const pt = el.getPointAtLength(d._sparkT * len);
+            d3.select(this).attr("cx", pt.x).attr("cy", pt.y);
+          });
+        }
+
+        function paintSatSparks(items) {
+          if (typeof satSparkG === "undefined") return;
+          const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          const sparks = reduce ? [] : items.filter(d => d.layer === 2 || (d.layer === 3 && d.sibIdx < 2)).slice(0, 16);
+          satSparkSel = satSparkG.selectAll("circle.sat-spark").data(sparks, d => "sp:" + d.learnId)
+            .join(
+              enter => enter.append("circle")
+                .attr("class", "sat-spark")
+                .attr("r", 0)
+                .attr("fill", d => d.color || "#67e8f9")
+                .call(s => s.transition().duration(400).attr("r", 2.3)),
+              update => update.attr("fill", d => d.color || "#67e8f9"),
+              exit => exit.transition().duration(120).attr("r", 0).remove()
+            );
+          updateSatSparks();
         }
 
         function paintSatLayer(items) {
@@ -9041,16 +9355,19 @@
             )
             .attr("d", d => satArcPath(d.parentX, d.parentY, d.x, d.y, d.layer, d.sibIdx, d.sibTotal, d.parentR, d._r || baseSatRadius(d)));
 
+          paintSatSparks(items);
+
           satNodeSel = satNodeG.selectAll("g").data(satData, d => d.learnId)
             .join(
               enter => {
                 const g = enter.append("g").attr("class", "sat-node entering").attr("opacity", 0);
                 g.append("circle").attr("r", 0);
+                g.append("text").attr("class", "sat-check");
                 g.append("text").attr("class", "sat-label");
                 g.append("text").attr("class", "sat-sub").attr("dy", 22);
-                g.transition().duration(420).ease(d3.easeCubicOut).attr("opacity", 1)
+                g.transition().duration(d => d.layer >= 3 ? 520 : 380).ease(d3.easeCubicOut).attr("opacity", 1)
                   .on("end", function () { d3.select(this).classed("entering", false); });
-                g.select("circle").transition().duration(520).ease(d3.easeBackOut.overshoot(1.35))
+                g.select("circle").transition().duration(d => d.layer >= 3 ? 580 : 460).ease(d3.easeBackOut.overshoot(1.55))
                   .attr("r", d => baseSatRadius(d));
                 return g;
               },
@@ -9093,9 +9410,17 @@
               if (d.isBranch) return "已展开";
               return "展开";
             });
+          satNodeSel.select("text.sat-check")
+            .text(d => isLearned(d.learnId) ? "✓" : "")
+            .attr("dy", d => -(baseSatRadius(d) + 4));
 
           satNodeSel.on("click", (event, d) => {
             event.stopPropagation();
+            const g = d3.select(event.currentTarget);
+            g.classed("is-pulse", false);
+            void event.currentTarget.offsetWidth;
+            g.classed("is-pulse", true);
+            setTimeout(() => g.classed("is-pulse", false), 450);
             onKgDrillClick(d);
           });
 
@@ -9132,14 +9457,12 @@
               });
             })
             .on("drag", (event, d) => {
-              const dx = event.x - d.x, dy = event.y - d.y;
               d.fx = d.x = event.x;
               d.fy = d.y = event.y;
-              d.tx = d.x; d.ty = d.y;
+              // 不改 homeX/homeY，松手后回弹到扇区位
               (d._dragKids || []).forEach(k => {
                 k.fx = k.x = d.x + (k._ox || 0);
                 k.fy = k.y = d.y + (k._oy || 0);
-                k.tx = k.x; k.ty = k.y;
                 k.parentX = d.x; k.parentY = d.y;
               });
               items.forEach(n => {
@@ -9152,12 +9475,29 @@
               if (satLinkSel) {
                 satLinkSel.attr("d", n => satArcPath(n.parentX, n.parentY, n.x, n.y, n.layer, n.sibIdx, n.sibTotal, n.parentR, n._r || baseSatRadius(n)));
               }
+              if (typeof updateSatSparks === "function") updateSatSparks();
             })
             .on("end", (event, d) => {
               d.fx = null; d.fy = null;
-              (d._dragKids || []).forEach(k => { k.fx = null; k.fy = null; });
+              d.tx = d.homeX != null ? d.homeX : d.tx;
+              d.ty = d.homeY != null ? d.homeY : d.ty;
+              (d._dragKids || []).forEach(k => {
+                k.fx = null; k.fy = null;
+                k.tx = k.homeX != null ? k.homeX : k.tx;
+                k.ty = k.homeY != null ? k.homeY : k.ty;
+              });
               d._dragKids = null;
-              if (kgLiveSim) kgLiveSim.alphaTarget(0.018);
+              if (kgLiveSim) {
+                kgLiveSim.force("x", d3.forceX(n => n.tx).strength(0.32));
+                kgLiveSim.force("y", d3.forceY(n => n.ty).strength(0.32));
+                kgLiveSim.alpha(0.55).alphaTarget(0.35).restart();
+                setTimeout(() => {
+                  if (!kgLiveSim) return;
+                  kgLiveSim.force("x", d3.forceX(n => n.tx).strength(0.035));
+                  kgLiveSim.force("y", d3.forceY(n => n.ty).strength(0.035));
+                  kgLiveSim.alphaTarget(0.018);
+                }, 650);
+              }
             }));
 
           refreshHoverClasses();
@@ -9169,7 +9509,7 @@
           const hub = nodeById[kgDrill.hubId];
           if (!hub || !tree) return;
           const items = [];
-          const prevPos = new Map((satData || []).map(d => [d.learnId, { x: d.x, y: d.y, tx: d.tx, ty: d.ty }]));
+          const prevPos = new Map((satData || []).map(d => [d.learnId, { x: d.x, y: d.y, tx: d.tx, ty: d.ty, homeX: d.homeX, homeY: d.homeY }]));
 
           function applyPrev(item) {
             const p = prevPos.get(item.learnId);
@@ -9177,10 +9517,14 @@
               item.x = p.x; item.y = p.y;
               item.tx = p.tx != null ? p.tx : p.x;
               item.ty = p.ty != null ? p.ty : p.y;
+              item.homeX = p.homeX != null ? p.homeX : item.tx;
+              item.homeY = p.homeY != null ? p.homeY : item.ty;
               item._kept = true;
             } else {
               // 新节点：从父点弹出再 settle 到扇区目标位
               item.tx = item.x; item.ty = item.y;
+              item.homeX = item.tx;
+              item.homeY = item.ty;
               if (item.parentX != null && item.parentY != null) {
                 item.x = item.parentX;
                 item.y = item.parentY;
@@ -9410,9 +9754,11 @@
       if (kgDrill && kgDrill.active) exitKgDrill();
       satData = [];
       satLinkG.selectAll("*").remove();
+      if (typeof satSparkG !== "undefined") satSparkG.selectAll("*").remove();
       satNodeG.selectAll("*").remove();
       satNodeSel = null;
       satLinkSel = null;
+      satSparkSel = null;
       node.classed("hub-expanded", false);
       syncKgHubSize();
     }
@@ -9507,6 +9853,8 @@
           if (!kgDrill.revealed) {
             kgDrill.revealed = true;
             redrawKgDrill();
+          } else if (kgDrill.expandedL2 || kgDrill.expandedL3 || (kgDrill.panelMode && kgDrill.panelMode !== "empty")) {
+            collapseKgToL1();
           }
           updateKgDrillHint();
           syncKgHubSize();
@@ -9521,7 +9869,18 @@
       if (d.catalog) expandCatalog(d);
       else clearSatellites();
     });
-    svg.on("click", () => { clearSatellites(); closePanel(); });
+    svg.on("click", (event) => {
+      // 焦点模式：单击空白不退出（避免误触）；双击收起二级
+      if (kgDrill && kgDrill.active) return;
+      clearSatellites();
+      closePanel();
+    });
+    svg.on("dblclick", (event) => {
+      if (!(kgDrill && kgDrill.active)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      collapseKgToL1();
+    });
 
     function tick() {
       link.attr("d", linkPath);
@@ -9601,6 +9960,43 @@
       svg.call(zoom.transform, d3.zoomIdentity.translate(Math.max(0, tx), Math.max(0, ty)).scale(scale < 1 ? scale : 1));
     }
 
+
+    function wireHomeHotEntries() {
+      const box = document.getElementById("homeHot");
+      if (!box || box._bound) return;
+      box._bound = true;
+      const entries = [
+        { id: "sql-select", label: "SELECT 查询" },
+        { id: "sql-join", label: "JOIN 关联" },
+        { id: "sql-window", label: "窗口函数" },
+        { id: "sql-group-by", label: "GROUP BY" },
+        { id: "sql-index-intro", label: "索引入门" }
+      ];
+      box.innerHTML = entries.map(e =>
+        `<button type="button" data-hot="${e.id}">${e.label}</button>`
+      ).join("");
+      box.querySelectorAll("[data-hot]").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const id = btn.getAttribute("data-hot");
+          if (!KG_TREES.sql) return;
+          enterKgDrill("sql");
+          // 等焦点舞台就绪后再跳转
+          setTimeout(() => {
+            const n = findKgNode(id);
+            if (n) jumpToKgLesson(n);
+            else showKgToast("未找到该知识点");
+          }, 380);
+        });
+      });
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", wireHomeHotEntries);
+    } else {
+      // deferred: call after KG fns exist — hooked near relayout end
+    }
+
+    wireHomeHotEntries();
     window.addEventListener("resize", () => relayout());
     applyLinkVisibility();
     syncLearnedUI();
