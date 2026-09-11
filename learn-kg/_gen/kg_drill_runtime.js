@@ -1,5 +1,24 @@
     /* —— SQL/ML 画布焦点下钻（行业百科式扇形弧线 + 章节/讲义侧栏） —— */
-    const L2_SECTOR_COLORS = ["#38bdf8", "#f59e0b", "#34d399", "#a78bfa", "#fb7185", "#4da3ff", "#fbbf24", "#22d3ee"];
+    /* 三扇区（对齐行业百科：左上 / 右上 / 正下） */
+    const KG_SECTORS = {
+      foundation: { key: "foundation", label: "基础", color: "#f97316", glow: "rgba(249,115,22,0.55)", angDeg: 135 },
+      advanced:   { key: "advanced",   label: "进阶", color: "#22c55e", glow: "rgba(34,197,94,0.5)",  angDeg: 45 },
+      practice:   { key: "practice",   label: "实战", color: "#3b82f6", glow: "rgba(59,130,246,0.5)", angDeg: 270 }
+    };
+    const KG_SECTOR_ORDER = ["foundation", "advanced", "practice"];
+    /** 已知领域显式扇区；其余按索引三等分或 level */
+    const KG_SECTOR_BY_ID = {
+      "sql-dml-query": "foundation", "sql-ddl": "foundation", "sql-join": "foundation",
+      "sql-window": "advanced", "sql-cte": "advanced", "sql-index-plan": "advanced",
+      "sql-tx-lock": "practice", "sql-txn": "practice", "sql-tune": "practice",
+      "py-pandas": "foundation", "py-viz": "advanced",
+      "etl-batch": "foundation", "etl-quality": "practice",
+      "dwh-layer": "foundation", "dwh-model": "advanced",
+      "bi-metric": "foundation", "bi-board": "advanced",
+      "ml-tasks": "advanced", "ml-classify": "foundation", "ml-predict": "advanced",
+      "ml-cluster": "advanced", "ml-recommend": "practice", "ml-anomaly": "practice"
+    };
+    let kgSettleTimer = null;
 
         function currentKgTree() {
           if (!kgDrill.hubId) return null;
@@ -87,14 +106,64 @@
           return parts;
         }
     
+        function exitFocusToOverview() {
+          clearSatellites();
+          resetHighlight();
+          closePanelSoft();
+        }
+
+        function updateKgFocusChrome() {
+          const side = document.getElementById("kgFocusSide");
+          const titleEl = document.getElementById("kgFocusSideTitle");
+          const pathEl = document.getElementById("kgFocusPath");
+          const hintEl = document.getElementById("kgFocusSideHint");
+          const legEl = document.getElementById("kgFocusLegend");
+          const backBtn = document.getElementById("btnKgFocusBack");
+          if (!side) return;
+          if (!kgDrill.active) {
+            side.setAttribute("hidden", "");
+            return;
+          }
+          side.removeAttribute("hidden");
+          const hub = nodeById[kgDrill.hubId];
+          const hubName = (hub && hub.name) || kgDrill.hubId;
+          if (titleEl) titleEl.textContent = hubName + " · 焦点";
+          if (pathEl) {
+            const titles = kgFocusPathTitles();
+            pathEl.textContent = titles.length ? titles.join(" → ") : hubName;
+          }
+          if (hintEl) {
+            if (!kgDrill.revealed) hintEl.textContent = "再点中心：展开基础 / 进阶 / 实战 三扇区";
+            else if (kgDrill.panelMode === "chapter") hintEl.textContent = "章节导读已打开 · 点绿色叶节点进入讲义";
+            else if (kgDrill.selectedLeafId) hintEl.textContent = "右侧为讲义 · 可标记已学习";
+            else hintEl.textContent = "三扇区辐射 · 弧线一对多 · 倒数第二层出导读";
+          }
+          if (legEl) {
+            legEl.innerHTML = `<div class="kg-focus-legend-title">扇区图例</div>` + KG_SECTOR_ORDER.map(k => {
+              const s = KG_SECTORS[k];
+              return `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:${s.color};color:${s.color}"></span>${escapeHtml(s.label)} · ${s.angDeg}°</div>`;
+            }).join("") +
+              `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:#34d399;color:#34d399"></span>叶节点讲义</div>` +
+              `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:#f59e0b;color:#f59e0b"></span>已展开分支</div>`;
+          }
+          if (backBtn && !backBtn._bound) {
+            backBtn._bound = true;
+            backBtn.addEventListener("click", (event) => {
+              event.stopPropagation();
+              exitFocusToOverview();
+            });
+          }
+        }
+
         function updateKgDrillHint() {
           const el = document.getElementById("sqlDrillHint");
+          updateKgFocusChrome();
           if (!el) return;
           if (!kgDrill.active) { el.hidden = true; return; }
           const hubName = (nodeById[kgDrill.hubId] && nodeById[kgDrill.hubId].name) || kgDrill.hubId;
           let msg;
           if (!kgDrill.revealed) {
-            msg = `焦点模式：<strong>${escapeHtml(hubName)}</strong> · 再点中心展开领域扇区`;
+            msg = `焦点模式：<strong>${escapeHtml(hubName)}</strong> · 再点中心展开三扇区`;
           } else if (kgDrill.panelMode === "chapter") {
             const titles = kgFocusPathTitles();
             msg = `章节：<strong>${titles.map(escapeHtml).join(" → ")}</strong> · 右侧导读，或点绿色叶节点学讲义`;
@@ -105,7 +174,7 @@
             const titles = kgFocusPathTitles();
             msg = `路径：<strong>${titles.map(escapeHtml).join(" → ")}</strong> · 继续点主题 / 知识点`;
           } else {
-            msg = `已展开 <strong>${escapeHtml(hubName)}</strong> · 扇形一对多下钻 · 倒数第二层出导读 · 叶节点出教程`;
+            msg = `已展开 <strong>${escapeHtml(hubName)}</strong> · 基础/进阶/实战三扇区 · 弧线一对多`;
           }
           el.hidden = false;
           el.innerHTML = `${msg} <button type="button" id="btnExitKgFocus">← 返回总览</button>`;
@@ -113,9 +182,7 @@
           if (btn) {
             btn.addEventListener("click", (event) => {
               event.stopPropagation();
-              clearSatellites();
-              resetHighlight();
-              closePanelSoft();
+              exitFocusToOverview();
             });
           }
         }
@@ -203,6 +270,7 @@
     
         function exitKgDrill() {
           stopKgPulse();
+          if (typeof stopKgSettle === "function") stopKgSettle();
           if (kgDrill.active && kgDrill.hubId && kgDrill.savedPos) {
             const hub = nodeById[kgDrill.hubId];
             if (hub) {
@@ -317,6 +385,45 @@
           updateKgDrillHint();
         }
     
+        /** 百科同款极角：y 轴向下时用 -sin，使 135°=左上、45°=右上、270°=正下 */
+        function polarOffset(ang, r) {
+          return { dx: Math.cos(ang) * r, dy: -Math.sin(ang) * r };
+        }
+
+        function sectorAngleRad(key) {
+          const s = KG_SECTORS[key] || KG_SECTORS.advanced;
+          return (s.angDeg * Math.PI) / 180;
+        }
+
+        function assignSectorKey(node, index, total) {
+          if (node && node.sector && KG_SECTORS[node.sector]) return node.sector;
+          if (node && KG_SECTOR_BY_ID[node.id]) return KG_SECTOR_BY_ID[node.id];
+          const rank = levelRank(node && node.level);
+          const levels = []; // filled by caller when mixed — fallback thirds
+          if (total <= 1) return "advanced";
+          // 若调用方传入了多样性，优先用 level；此处默认三等分以形成辐射剪影
+          const third = Math.ceil(total / 3) || 1;
+          if (index < third) return "foundation";
+          if (index < third * 2) return "advanced";
+          return "practice";
+        }
+
+        function assignSectorKeySmart(nodes) {
+          const ranks = nodes.map(n => levelRank(n.level || "??"));
+          const uniq = new Set(ranks);
+          return nodes.map((n, i) => {
+            if (n.sector && KG_SECTORS[n.sector]) return n.sector;
+            if (KG_SECTOR_BY_ID[n.id]) return KG_SECTOR_BY_ID[n.id];
+            if (uniq.size >= 2) {
+              const r = levelRank(n.level || "??");
+              if (r <= 1) return "foundation";
+              if (r >= 3) return "practice";
+              return "advanced";
+            }
+            return assignSectorKey(n, i, nodes.length);
+          });
+        }
+
         /** 二次贝塞尔弧线（顺时针弯，模拟百科 curvedCW） */
         function satArcPath(px, py, x, y, layer, siblingIndex, siblingTotal) {
           const dx = x - px, dy = y - py;
@@ -329,94 +436,56 @@
           const nx = -dy / dist, ny = dx / dist;
           const roundness = layer <= 2 ? 0.28 : 0.35;
           const bend = Math.min(48, dist * roundness) * (siblingTotal > 1 ? 1 : 0.7);
-          // 统一弯向：相对径向的垂直方向取正侧（CW）
           const sign = 1;
           return `M${px},${py}Q${mx + nx * bend * sign},${my + ny * bend * sign} ${tx},${ty}`;
         }
-    
-        function redrawKgDrill() {
-          if (!kgDrill.active) return;
-          const tree = currentKgTree();
-          const hub = nodeById[kgDrill.hubId];
-          if (!hub || !tree) return;
-          const items = [];
-    
-          function pushFan(c, px, py, layer, baseR, idx, total, parentAng, color) {
-            let ang;
-            if (total <= 1) {
-              ang = (parentAng != null) ? parentAng : -Math.PI / 2;
-            } else if (parentAng != null) {
-              const fan = Math.min(1.15, 0.22 * Math.max(total, 1));
-              ang = parentAng - fan / 2 + (fan * idx) / Math.max(total - 1, 1);
-            } else {
-              // L2：扇区分布（非整圆挤满）——留出缺口，一对多更清晰
-              const spread = Math.min(Math.PI * 1.55, 0.42 * Math.max(total, 1));
-              const base = -Math.PI / 2;
-              ang = total === 1 ? base : base - spread / 2 + (spread * idx) / Math.max(total - 1, 1);
+
+        function stopKgSettle() {
+          if (kgSettleTimer) {
+            clearTimeout(kgSettleTimer);
+            kgSettleTimer = null;
+          }
+        }
+
+        /** 短时 forceCollide，保留扇区目标位（百科 BarnesHut settle 的轻量版） */
+        function settleSatPositions(items, hub) {
+          if (!items.length || typeof d3 === "undefined" || !d3.forceSimulation) return items;
+          const nodes = items.map((d, i) => ({
+            index: i,
+            x: d.x,
+            y: d.y,
+            tx: d.x,
+            ty: d.y,
+            r: d.isLeaf ? 18 : (d.isBranch ? 30 : (d.layer === 2 ? 28 : 22))
+          }));
+          const sim = d3.forceSimulation(nodes)
+            .force("collide", d3.forceCollide().radius(d => d.r + 4).strength(0.85).iterations(2))
+            .force("x", d3.forceX(d => d.tx).strength(0.18))
+            .force("y", d3.forceY(d => d.ty).strength(0.18))
+            .stop();
+          for (let i = 0; i < 32; i++) sim.tick();
+          const minDist = 78;
+          nodes.forEach((n, i) => {
+            const dx = n.x - hub.x, dy = n.y - hub.y;
+            const dist = Math.hypot(dx, dy) || 1;
+            if (dist < minDist) {
+              n.x = hub.x + (dx / dist) * minDist;
+              n.y = hub.y + (dy / dist) * minDist;
             }
-            const jitter = (idx % 3) * (layer === 2 ? 22 : 14);
-            const r = baseR + jitter;
-            const x = px + Math.cos(ang) * r;
-            const y = py + Math.sin(ang) * r;
-            const hasKids = !!filterKgChildren(kgNodeKids(c)).length || (!!kgNodeKids(c).length && depthLevel === "senior");
-            // visibility of children already filtered when iterating; hasKids based on raw for expandability
-            const rawKids = kgNodeKids(c);
-            const canExpand = filterKgChildren(rawKids).length > 0;
-            const isL2Exp = layer === 2 && kgDrill.expandedL2 === c.id;
-            const isL3Exp = layer === 3 && kgDrill.expandedL3 === c.id;
-            const expanded = isL2Exp || isL3Exp;
-            const leaf = !rawKids.length;
-            const chapter = isLessonParent(c);
-            items.push({
-              learnId: "kg:" + kgDrill.hubId + ":" + c.id,
-              kgId: c.id,
-              name: c.title,
-              x, y,
-              parentX: px,
-              parentY: py,
-              layer,
-              ang,
-              r,
-              sibIdx: idx,
-              sibTotal: total,
-              isLeaf: leaf,
-              isChapter: chapter && !leaf,
-              isBranch: canExpand && expanded,
-              color: leaf
-                ? "#34d399"
-                : (expanded ? "#f59e0b" : (color || (layer === 2 ? L2_SECTOR_COLORS[idx % L2_SECTOR_COLORS.length] : "#38bdf8")))
-            });
-            return { x, y, ang, r, hasKids: canExpand, expanded, leaf, chapter };
-          }
-    
-          if (kgDrill.revealed) {
-            const l2s = filterKgChildren(tree.children || []);
-            l2s.forEach((c, i) => {
-              const col = L2_SECTOR_COLORS[i % L2_SECTOR_COLORS.length];
-              const placed = pushFan(c, hub.x, hub.y, 2, 190, i, l2s.length, null, col);
-              if (kgDrill.expandedL2 === c.id && placed.hasKids) {
-                const l3s = filterKgChildren(c.children || []);
-                l3s.forEach((c3, j) => {
-                  const p3 = pushFan(c3, placed.x, placed.y, 3, 108, j, l3s.length, placed.ang, col);
-                  if (kgDrill.expandedL3 === c3.id && p3.hasKids) {
-                    const l4s = filterKgChildren(c3.children || []);
-                    l4s.forEach((c4, k) => {
-                      pushFan(c4, p3.x, p3.y, 4, 82, k, l4s.length, p3.ang, col);
-                    });
-                  }
-                });
-              }
-            });
-          }
-    
+            items[i].x = n.x;
+            items[i].y = n.y;
+          });
+          return items;
+        }
+
+        function paintSatLayer(items) {
           satData = items;
-    
           satLinkSel = satLinkG.selectAll("path").data(satData, d => d.learnId)
             .join("path")
             .attr("class", d => `sat-link layer-${d.layer}${d.layer >= 3 ? " dashed" : ""}`)
             .attr("stroke", d => d.color)
             .attr("d", d => satArcPath(d.parentX, d.parentY, d.x, d.y, d.layer, d.sibIdx, d.sibTotal));
-    
+
           satNodeSel = satNodeG.selectAll("g").data(satData, d => d.learnId)
             .join(enter => {
               const g = enter.append("g").attr("class", "sat-node");
@@ -435,7 +504,7 @@
             })
             .classed("selected", d => d.kgId === kgDrill.selectedLeafId)
             .classed("learned", d => isLearned(d.learnId));
-    
+
           satNodeSel.select("circle")
             .attr("r", d => {
               if (d.isLeaf) return 17;
@@ -444,7 +513,10 @@
               if (d.layer === 2) return 26;
               return 20;
             })
-            .attr("fill", d => d.color);
+            .attr("fill", d => d.color)
+            .style("filter", d => d.sectorGlow
+              ? `drop-shadow(0 0 12px ${d.sectorGlow})`
+              : null);
           satNodeSel.select("text.sat-label")
             .text(d => d.name.length > 7 ? d.name.slice(0, 6) + "…" : d.name);
           satNodeSel.select("text.sat-sub")
@@ -455,16 +527,147 @@
               if (d.isBranch) return "已展开";
               return "展开";
             });
-    
+
           satNodeSel.on("click", (event, d) => {
             event.stopPropagation();
             onKgDrillClick(d);
           });
-    
+        }
+
+        function redrawKgDrill() {
+          if (!kgDrill.active) return;
+          const tree = currentKgTree();
+          const hub = nodeById[kgDrill.hubId];
+          if (!hub || !tree) return;
+          const items = [];
+
+          function pushFan(c, px, py, layer, baseR, idx, total, parentAng, color, sectorKey, sectorGlow) {
+            let ang;
+            if (total <= 1) {
+              ang = (parentAng != null) ? parentAng : sectorAngleRad(sectorKey || "advanced");
+            } else if (parentAng != null && layer > 2) {
+              const fan = Math.min(1.15, 0.22 * Math.max(total, 1));
+              ang = parentAng - fan / 2 + (fan * idx) / Math.max(total - 1, 1);
+            } else if (parentAng != null) {
+              const spread = Math.min(0.9, 0.18 * Math.max(total, 1));
+              ang = total === 1 ? parentAng : parentAng - spread / 2 + (spread * idx) / Math.max(total - 1, 1);
+            } else {
+              ang = -Math.PI / 2;
+            }
+            const jitter = (idx % 3) * (layer === 2 ? 22 : 14);
+            const r = baseR + jitter;
+            const off = polarOffset(ang, r);
+            const x = px + off.dx;
+            const y = py + off.dy;
+            const rawKids = kgNodeKids(c);
+            const canExpand = filterKgChildren(rawKids).length > 0;
+            const isL2Exp = layer === 2 && kgDrill.expandedL2 === c.id;
+            const isL3Exp = layer === 3 && kgDrill.expandedL3 === c.id;
+            const expanded = isL2Exp || isL3Exp;
+            const leaf = !rawKids.length;
+            const chapter = isLessonParent(c);
+            const sec = KG_SECTORS[sectorKey] || null;
+            const fill = leaf
+              ? "#34d399"
+              : (expanded ? "#f59e0b" : (color || (sec ? sec.color : "#38bdf8")));
+            items.push({
+              learnId: "kg:" + kgDrill.hubId + ":" + c.id,
+              kgId: c.id,
+              name: c.title,
+              x, y,
+              parentX: px,
+              parentY: py,
+              layer,
+              ang,
+              r,
+              sibIdx: idx,
+              sibTotal: total,
+              isLeaf: leaf,
+              isChapter: chapter && !leaf,
+              isBranch: canExpand && expanded,
+              color: fill,
+              sectorKey: sectorKey || null,
+              sectorGlow: sectorGlow || (sec ? sec.glow : null)
+            });
+            return { x, y, ang, r, hasKids: canExpand, expanded, leaf, chapter };
+          }
+
+          if (kgDrill.revealed) {
+            const l2s = filterKgChildren(tree.children || []);
+            const sectorKeys = assignSectorKeySmart(l2s);
+            const groups = { foundation: [], advanced: [], practice: [] };
+            l2s.forEach((c, i) => {
+              const key = sectorKeys[i] || "advanced";
+              groups[key] = groups[key] || [];
+              groups[key].push({ node: c, sectorKey: key });
+            });
+            KG_SECTOR_ORDER.forEach((key) => {
+              const list = groups[key] || [];
+              if (!list.length) return;
+              const sec = KG_SECTORS[key];
+              const base = sectorAngleRad(key);
+              const n = list.length;
+              const spread = Math.min(0.9, 0.18 * Math.max(n, 1));
+              list.forEach((entry, i) => {
+                const c = entry.node;
+                const ang = n === 1 ? base : base - spread / 2 + (spread * i) / Math.max(n - 1, 1);
+                const baseR = 200 + (i % 3) * 24;
+                const off = polarOffset(ang, baseR);
+                const placed = {
+                  x: hub.x + off.dx,
+                  y: hub.y + off.dy,
+                  ang,
+                  r: baseR
+                };
+                // push via shared item builder (manual parent = hub)
+                const rawKids = kgNodeKids(c);
+                const canExpand = filterKgChildren(rawKids).length > 0;
+                const expanded = kgDrill.expandedL2 === c.id;
+                const leaf = !rawKids.length;
+                const chapter = isLessonParent(c);
+                items.push({
+                  learnId: "kg:" + kgDrill.hubId + ":" + c.id,
+                  kgId: c.id,
+                  name: c.title,
+                  x: placed.x,
+                  y: placed.y,
+                  parentX: hub.x,
+                  parentY: hub.y,
+                  layer: 2,
+                  ang: placed.ang,
+                  r: placed.r,
+                  sibIdx: i,
+                  sibTotal: n,
+                  isLeaf: leaf,
+                  isChapter: chapter && !leaf,
+                  isBranch: canExpand && expanded,
+                  color: leaf ? "#34d399" : (expanded ? "#f59e0b" : sec.color),
+                  sectorKey: key,
+                  sectorGlow: sec.glow
+                });
+                if (kgDrill.expandedL2 === c.id && canExpand) {
+                  const l3s = filterKgChildren(c.children || []);
+                  l3s.forEach((c3, j) => {
+                    const p3 = pushFan(c3, placed.x, placed.y, 3, 108, j, l3s.length, placed.ang, sec.color, key, sec.glow);
+                    if (kgDrill.expandedL3 === c3.id && p3.hasKids) {
+                      const l4s = filterKgChildren(c3.children || []);
+                      l4s.forEach((c4, k) => {
+                        pushFan(c4, p3.x, p3.y, 4, 82, k, l4s.length, p3.ang, sec.color, key, sec.glow);
+                      });
+                    }
+                  });
+                }
+              });
+            });
+          }
+
+          settleSatPositions(items, hub);
+          paintSatLayer(items);
           syncKgHubSize();
           updateKgDrillHint();
+          updateKgFocusChrome();
         }
-    
+
         function onKgDrillClick(sat) {
           const kg = findKgNode(sat.kgId);
           if (!kg) return;

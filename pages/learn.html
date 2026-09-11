@@ -6,7 +6,7 @@
   <title>数仓与分析实战教材 · 数据知识图谱 · DATA NEXUS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" />
@@ -27,7 +27,7 @@
       --amber: #fbbf24;
       --rose: #fb7185;
       --radius: 12px;
-      --font: "Rajdhani", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --font: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Rajdhani", sans-serif;
       --font-display: "Orbitron", var(--font);
       --font-mono: "JetBrains Mono", Consolas, monospace;
       --panel-w: 540px;
@@ -169,9 +169,8 @@
       stroke-width: 3.5;
       filter: drop-shadow(0 0 28px rgba(34, 211, 238, 0.95));
     }
-    body.kg-focus-on .hint,
-    body.kg-focus-on .toolbar {
-      opacity: 0.28;
+    body.kg-focus-on .hint {
+      opacity: 0;
       pointer-events: none;
     }
     .sql-drill-hint {
@@ -629,29 +628,511 @@
     .lesson-card-title { font-weight: 700; font-size: 0.95rem; }
     .lesson-card-meta { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
 
-  </style>
+    /* 焦点左栏（对齐行业百科双栏仪器台的左侧迷你壳） */
+    .kg-focus-side {
+      position: absolute; left: 14px; top: 58px; bottom: 72px;
+      width: min(240px, 32vw); z-index: 8;
+      display: none; flex-direction: column; gap: 12px;
+      padding: 14px 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(168, 85, 247, 0.28);
+      background: rgba(10, 14, 26, 0.88);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      overflow: auto;
+      pointer-events: auto;
+    }
+    body.kg-focus-on .kg-focus-side { display: flex; }
+    body.kg-focus-on .hint { opacity: 0; pointer-events: none; }
+    body.kg-focus-on .toolbar {
+      opacity: 1; pointer-events: auto;
+      left: auto; right: 16px;
+    }
+    .kg-focus-side-head {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .kg-focus-side-head h3 {
+      font-family: "Noto Sans SC", var(--font);
+      font-size: 0.95rem; font-weight: 700; color: #f8fafc; margin: 0;
+    }
+    .kg-focus-side-head button,
+    .kg-focus-side .kg-back-btn {
+      font-family: var(--font-mono); font-size: 0.72rem;
+      padding: 7px 10px; border-radius: 8px; cursor: pointer;
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      background: rgba(168, 85, 247, 0.12); color: #e9d5ff;
+      text-align: left;
+    }
+    .kg-focus-side-head button:hover { background: rgba(168, 85, 247, 0.22); }
+    .kg-focus-legend {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 10px; border-radius: 10px;
+      border: 1px dashed rgba(148, 163, 184, 0.25);
+    }
+    .kg-focus-legend-title {
+      font-family: var(--font-mono); font-size: 0.68rem; color: #94a3b8;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .kg-focus-leg-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.82rem; color: #e2e8f0;
+    }
+    .kg-focus-leg-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .kg-focus-path-label {
+      font-family: var(--font-mono); font-size: 0.68rem; color: #94a3b8;
+      margin-bottom: 6px; letter-spacing: 0.06em;
+    }
+    .kg-focus-path-body {
+      font-family: "Noto Sans SC", var(--font);
+      font-size: 0.82rem; line-height: 1.55; color: #f1f5f9;
+      padding: 10px; border-radius: 10px;
+      background: rgba(34, 211, 238, 0.06);
+      border: 1px solid rgba(34, 211, 238, 0.18);
+      min-height: 3.2em;
+    }
+    .kg-focus-side-hint {
+      font-family: var(--font-mono); font-size: 0.68rem; color: #64748b;
+      line-height: 1.45; margin: 0;
+    }
+    @media (max-width: 720px) {
+      .kg-focus-side {
+        left: 8px; right: 8px; width: auto; bottom: auto; top: 52px;
+        max-height: 28vh;
+      }
+    }
+
+
+
+    /* 焦点舞台：左栏 | 画布 | 右栏（对齐行业百科 kg2-focus） */
+    .kg-workspace {
+      display: block;
+      height: calc(100vh - 52px);
+      position: relative;
+    }
+    body.kg-focus-on .kg-workspace {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      background: #070b16;
+    }
+    body.kg-focus-on .kg-workspace > .layout {
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 100%;
+    }
+    body.kg-focus-on .kg-focus-side {
+      display: flex !important;
+      position: relative;
+      left: auto; top: auto; bottom: auto;
+      width: 240px;
+      flex: 0 0 240px;
+      height: auto;
+      max-height: none;
+      border-radius: 0;
+      border: none;
+      border-right: 1px solid rgba(168, 85, 247, 0.28);
+      z-index: 8;
+    }
+    body.kg-focus-on #panel.side-mode {
+      position: relative;
+      inset: auto;
+      flex: 0 0 min(400px, 34vw);
+      width: min(400px, 34vw) !important;
+      max-width: min(400px, 34vw);
+      height: 100%;
+      display: none;
+      pointer-events: auto;
+      background: rgba(10, 14, 26, 0.96);
+      border-left: 1px solid rgba(34, 211, 238, 0.28);
+      z-index: 9;
+    }
+    body.kg-focus-on #panel.side-mode.open {
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+    body.kg-focus-on #panel.side-mode .panel-inner {
+      width: 100% !important;
+      max-width: none;
+      height: 100%;
+      max-height: none;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+      transform: none;
+      background: transparent;
+      backdrop-filter: none;
+    }
+    body.kg-focus-on .stages,
+    body.kg-focus-on .stage-band,
+    body.kg-focus-on .stage-label,
+    body.kg-focus-on .link,
+    body.kg-focus-on .node:not(.kg-focus-hub) {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    body.kg-focus-on #graph {
+      background:
+        radial-gradient(ellipse 50% 45% at 50% 42%, rgba(168,85,247,0.12), transparent 65%),
+        #070b16;
+    }
+    .kg-focus-path-body .kg-crumb {
+      display: inline;
+      color: var(--accent);
+      cursor: pointer;
+      border-bottom: 1px dashed rgba(34,211,238,0.35);
+    }
+    .kg-focus-path-body .kg-crumb:hover { color: #fff; }
+    .kg-focus-path-body .kg-crumb.is-current {
+      color: #f8fafc; cursor: default; border-bottom: none; font-weight: 700;
+    }
+    .kg-hist-meta {
+      font-size: 0.62rem; color: #64748b; margin-left: 6px;
+    }
+    @media (max-width: 900px) {
+      body.kg-focus-on .kg-workspace { flex-wrap: wrap; }
+      body.kg-focus-on .kg-focus-side {
+        flex: 1 1 100%; width: 100%; max-height: 28vh;
+        border-right: none; border-bottom: 1px solid rgba(168,85,247,0.28);
+      }
+      body.kg-focus-on #panel.side-mode {
+        flex: 1 1 100%; width: 100% !important; max-width: none; height: 42vh;
+      }
+    }
+
+  
+    /* 首屏：只保留一个课程大节点 */
+    body.home-hero:not(.kg-focus-on) .link,
+    body.home-hero:not(.kg-focus-on) .stages,
+    body.home-hero:not(.kg-focus-on) .stage-band,
+    body.home-hero:not(.kg-focus-on) .stage-label,
+    body.home-hero:not(.kg-focus-on) .lane-label {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    body.home-hero:not(.kg-focus-on) .node:not(.home-hero-node) {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    body.home-hero:not(.kg-focus-on) .node.home-hero-node circle {
+      stroke: #e9d5ff;
+      stroke-width: 4;
+      fill: #a855f7 !important;
+      filter: drop-shadow(0 0 32px rgba(168, 85, 247, 0.85));
+    }
+    body.home-hero:not(.kg-focus-on) .node.home-hero-node text {
+      font-size: 18px !important;
+      fill: #fff;
+    }
+    body.home-hero:not(.kg-focus-on) .node.home-hero-node .sublabel {
+      font-size: 12px !important;
+      fill: #c4b5fd;
+      opacity: 1 !important;
+    }
+    body.home-hero:not(.kg-focus-on) .toolbar { opacity: 0.35; }
+
+  
+    /* ===== 95% 手感打磨：对齐行业百科 ===== */
+    body.kg-focus-on {
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    body.kg-focus-on #graph.kg-canvas {
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 30%, rgba(99, 102, 241, 0.14), transparent 70%),
+        radial-gradient(ellipse 40% 40% at 15% 70%, rgba(249, 115, 22, 0.07), transparent 60%),
+        radial-gradient(ellipse 40% 40% at 85% 65%, rgba(16, 185, 129, 0.07), transparent 60%),
+        #0a0e1a;
+    }
+    body.kg-focus-on #graph.kg-canvas::before {
+      content: "";
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(30, 41, 59, 0.28) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 41, 59, 0.28) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 20%, transparent 75%);
+      opacity: 0.45;
+    }
+    .kg-focus-side {
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .kg-search-mini { position: relative; margin-top: 4px; }
+    .kg-search-mini input {
+      width: 100%; box-sizing: border-box;
+      padding: 8px 10px; border-radius: 8px;
+      border: 1px solid rgba(148,163,184,0.22);
+      background: rgba(15,22,40,0.85); color: #e2e8f0;
+      font-size: 0.82rem; outline: none;
+    }
+    .kg-search-mini input:focus { border-color: rgba(168,85,247,0.55); }
+    .kg-search-drop {
+      display: none; position: absolute; left: 0; right: 0; top: 100%;
+      z-index: 20; max-height: 220px; overflow: auto;
+      margin-top: 4px; border-radius: 8px;
+      border: 1px solid rgba(148,163,184,0.2);
+      background: rgba(10,14,26,0.96);
+    }
+    .kg-search-drop.open { display: block; }
+    .kg-search-drop button {
+      display: block; width: 100%; text-align: left;
+      padding: 8px 10px; border: none; background: transparent;
+      color: #e2e8f0; cursor: pointer; font-size: 0.8rem;
+    }
+    .kg-search-drop button:hover { background: rgba(168,85,247,0.15); }
+    .kg-search-drop .meta { color: #94a3b8; font-size: 0.68rem; }
+    .kg-more-btns { display: flex; flex-direction: column; gap: 6px; }
+    .kg-more-btns button {
+      font-size: 0.72rem; padding: 7px 10px; border-radius: 8px; cursor: pointer;
+      border: 1px solid rgba(148,163,184,0.25);
+      background: rgba(255,255,255,0.03); color: #cbd5e1; text-align: left;
+    }
+    .kg-more-btns button:hover { border-color: rgba(34,211,238,0.45); color: #22d3ee; }
+    .kg-canvas-wrap { position: relative; flex: 1; min-width: 0; height: 100%; }
+    body.kg-focus-on .kg-workspace > .layout { position: relative; }
+    .kg-ctrl {
+      position: absolute; right: 16px; bottom: 18px; z-index: 12;
+      display: none; flex-direction: column; gap: 6px;
+    }
+    body.kg-focus-on .kg-ctrl { display: flex; }
+    .kg-ctrl button {
+      width: 36px; height: 36px; border-radius: 10px; cursor: pointer;
+      border: 1px solid rgba(148,163,184,0.28);
+      background: rgba(10,14,26,0.88); color: #e2e8f0; font-size: 1rem;
+    }
+    .kg-ctrl button:hover { border-color: #a855f7; color: #e9d5ff; }
+    .kg-rail-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 14; width: 28px; height: 56px; border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.28);
+      background: rgba(10,14,26,0.9); color: #cbd5e1; cursor: pointer;
+      display: none; align-items: center; justify-content: center;
+    }
+    body.kg-focus-on .kg-rail-btn { display: flex; }
+    .kg-rail-left { left: 8px; }
+    .kg-rail-right { right: 8px; }
+    body.kg-focus-on.is-side-collapsed .kg-focus-side {
+      width: 0 !important; flex: 0 0 0 !important; padding: 0 !important;
+      opacity: 0; overflow: hidden; border: none !important; pointer-events: none;
+    }
+    body.kg-focus-on.is-panel-collapsed #panel.side-mode {
+      width: 0 !important; flex: 0 0 0 !important; max-width: 0 !important;
+      opacity: 0; overflow: hidden; border: none !important; pointer-events: none;
+    }
+    .kg-canvas-hint {
+      position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+      z-index: 11; display: none;
+      font-size: 0.72rem; color: #94a3b8;
+      background: rgba(10,14,26,0.82); border: 1px solid rgba(148,163,184,0.2);
+      padding: 6px 12px; border-radius: 8px; white-space: nowrap;
+      pointer-events: none;
+    }
+    body.kg-focus-on .kg-canvas-hint { display: block; }
+    body.kg-focus-on .sql-drill-hint { bottom: 52px; }
+    .sat-node { cursor: grab; }
+    .sat-node:active { cursor: grabbing; }
+    .sat-node circle {
+      transition: r 0.18s ease, filter 0.18s ease, stroke-width 0.18s ease;
+    }
+    .sat-node.entering { opacity: 0; }
+    .sat-link {
+      transition: stroke-opacity 0.25s ease;
+    }
+    body.kg-focus-on #panel.side-mode .panel-inner {
+      transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.22,1,0.36,1);
+    }
+    body.kg-focus-on #panel.side-mode:not(.open) .panel-inner {
+      opacity: 0; transform: translateX(12px);
+    }
+    body.kg-focus-on #panel.side-mode.open .panel-inner {
+      opacity: 1; transform: none;
+    }
+    .sat-node.selected circle {
+      stroke: #fff !important; stroke-width: 3.2 !important;
+      filter: drop-shadow(0 0 18px rgba(255,255,255,0.4)) !important;
+    }
+    .kg-focus-side-head h3 {
+      background: linear-gradient(90deg, #e2e8f0, #a855f7);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+
+    /* ===== 96%：去粗糙 —— 焦点/过渡/弹簧活感 ===== */
+    body.kg-focus-on .kg-focus-side {
+      transition: width 0.28s ease, flex-basis 0.28s ease, opacity 0.22s ease,
+        padding 0.28s ease, border-color 0.22s ease;
+    }
+    body.kg-focus-on #panel.side-mode {
+      transition: width 0.28s ease, flex-basis 0.28s ease, opacity 0.22s ease,
+        border-color 0.22s ease, max-width 0.28s ease;
+    }
+    body.kg-focus-on.is-side-collapsed .kg-rail-left { left: 10px; }
+    body.kg-focus-on:not(.is-side-collapsed) .kg-rail-left { left: 10px; }
+    .kg-rail-btn:hover {
+      border-color: #22d3ee; color: #a5f3fc;
+      background: rgba(34, 211, 238, 0.12);
+    }
+    .kg-ctrl button {
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .kg-ctrl button:hover { transform: translateY(-1px); }
+    .kg-search-mini input {
+      transition: box-shadow 0.25s, border-color 0.25s;
+    }
+    .kg-search-mini input:focus {
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.18);
+    }
+    .kg-search-drop button mark {
+      background: rgba(168, 85, 247, 0.35); color: #f5f3ff; border-radius: 2px; padding: 0 2px;
+    }
+    .sat-node.is-dimmed { opacity: 0.28; }
+    .sat-node.is-hot circle {
+      stroke: #fff !important; stroke-width: 3 !important;
+    }
+    .sat-link.is-dimmed { stroke-opacity: 0.12 !important; }
+    .sat-link.is-hot {
+      stroke-opacity: 0.85 !important; stroke-width: 2.8px !important;
+    }
+    .sat-node text.sat-label {
+      font-size: 11px; letter-spacing: 0.01em;
+    }
+    .sat-node text.sat-sub {
+      font-family: "Noto Sans SC", var(--font); font-size: 8px; fill: #94a3b8;
+    }
+    .sat-node.layer-2 circle { stroke-width: 2.4; }
+    body.kg-focus-on #panel.side-mode.open {
+      box-shadow: inset 3px 0 0 rgba(168, 85, 247, 0.55);
+    }
+    body.kg-focus-on #panel.side-mode.open.sec-foundation {
+      box-shadow: inset 3px 0 0 #f97316;
+    }
+    body.kg-focus-on #panel.side-mode.open.sec-advanced {
+      box-shadow: inset 3px 0 0 #10b981;
+    }
+    body.kg-focus-on #panel.side-mode.open.sec-practice {
+      box-shadow: inset 3px 0 0 #3b82f6;
+    }
+    #panel.side-mode .panel-inner.kg-swap {
+      animation: kgPanelSwap 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes kgPanelSwap {
+      from { opacity: 0; transform: translateX(14px); }
+      to { opacity: 1; transform: none; }
+    }
+    body.kg-focus-on .node.kg-focus-hub circle {
+      transition: filter 0.05s linear;
+    }
+    .kg-canvas-hint {
+      transition: opacity 0.4s ease;
+      animation: kgHintIn 0.6s ease both;
+    }
+    @keyframes kgHintIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    body.kg-focus-on #graph .kg-particles span {
+      background: rgba(196, 181, 253, 0.45);
+    }
+
+
+
+    /* Tip + 学习进度 */
+    .kg-node-tip {
+      position: absolute; z-index: 20; pointer-events: none;
+      max-width: 240px; padding: 8px 10px; border-radius: 10px;
+      background: rgba(10, 14, 26, 0.94);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+      color: #e2e8f0; font-size: 0.78rem; line-height: 1.45;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      transform: translate(-50%, calc(-100% - 12px));
+      backdrop-filter: blur(8px);
+    }
+    .kg-node-tip .tip-title { font-weight: 700; color: #f8fafc; margin-bottom: 2px; }
+    .kg-node-tip .tip-meta { color: #94a3b8; font-size: 0.7rem; }
+    .kg-node-tip .tip-meta .ok { color: #34d399; }
+    .kg-progress {
+      display: flex; flex-direction: column; gap: 6px;
+      padding: 8px 10px; border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.18);
+      background: rgba(15,22,40,0.55);
+    }
+    .kg-progress-head {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.72rem; color: #94a3b8;
+    }
+    .kg-progress-head #kgProgressMeta { color: #e2e8f0; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .kg-progress-track {
+      height: 6px; border-radius: 999px; overflow: hidden;
+      background: rgba(30,41,59,0.9);
+    }
+    .kg-progress-bar {
+      height: 100%; width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #a855f7, #22d3ee);
+      transition: width 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    </style>
 </head>
 <body>
   <header>
     <div class="brand">
       <a href="../index.html" style="font-family:var(--font-mono);font-size:0.78rem;color:var(--muted);text-decoration:none;margin-right:10px;white-space:nowrap;">← 返回平台</a>
       <h1><span class="mono-prefix">&gt;_</span>DATA NEXUS</h1>
-      <span>学习路径 · 数据知识图谱 · 流水线分层 · 目录引擎对比 · 深度下钻</span>
+      <span>学习路径 · 数据学习教程 · 点击 SQL 展开知识树</span>
     </div>
     <div class="legend" id="legend"></div>
   </header>
-  <div class="layout">
-    <div id="graph" class="kg-canvas"><div class="kg-particles" id="kgParticles" aria-hidden="true"></div>
-      <div class="toolbar" id="depthToolbar" role="group" aria-label="内容深度">
-        <button type="button" id="btnDepthJunior" title="初级：仅入门级(?)知识点">初级</button>
-        <button type="button" id="btnDepthMid" class="active" title="中级：入门 + 进阶(??)">中级</button>
-        <button type="button" id="btnDepthSenior" title="高级：入门 + 进阶 + 高阶(???)">高级</button>
+  <div class="kg-workspace" id="kgWorkspace">
+    <aside id="kgFocusSide" class="kg-focus-side" aria-label="焦点导航" hidden>
+      <div class="kg-focus-side-head">
+        <h3 id="kgFocusSideTitle">课程焦点</h3>
+        <button type="button" class="kg-back-btn" id="btnKgFocusBack">← 返回</button>
       </div>
-      <div class="hint">点击课程节点进入焦点扇区 · 弧线一对多下钻 · 章节导读 / 叶节点讲义 · SQL·Python·ETL·数仓·BI·ML</div>
-      <div class="sql-drill-hint" id="sqlDrillHint" hidden></div>
+      <div class="kg-search-mini">
+        <input id="kgFocusSearch" type="search" placeholder="搜索知识点…" autocomplete="off" />
+        <div class="kg-search-drop" id="kgFocusSearchDrop"></div>
+      </div>
+      <div class="kg-progress" id="kgProgress" aria-label="学习进度">
+        <div class="kg-progress-head">
+          <span>本课进度</span>
+          <span id="kgProgressMeta">0 / 0</span>
+        </div>
+        <div class="kg-progress-track"><div class="kg-progress-bar" id="kgProgressBar"></div></div>
+      </div>
+      <div class="kg-focus-legend" id="kgFocusLegend"></div>
+      <div class="kg-more-btns" id="kgMoreBtns"></div>
+      <div>
+        <div class="kg-focus-path-label">探索路径 <span class="kg-hist-meta" id="kgHistMeta"></span></div>
+        <div id="kgFocusPath" class="kg-focus-path-body">—</div>
+      </div>
+      <p class="kg-focus-side-hint" id="kgFocusSideHint">拖拽节点微调 · 搜索定位 · « » 收起侧栏</p>
+    </aside>
+    <div class="layout" id="kgLayout">
+      <div id="graph" class="kg-canvas"><div class="kg-particles" id="kgParticles" aria-hidden="true"></div>
+        <button type="button" class="kg-rail-btn kg-rail-left" id="kgToggleSide" title="收起左侧栏">«</button>
+        <button type="button" class="kg-rail-btn kg-rail-right" id="kgTogglePanel" title="收起右侧详情">»</button>
+        <div class="kg-ctrl" id="kgZoomCtrl" aria-label="画布缩放">
+          <button type="button" id="kgZoomIn" title="放大">＋</button>
+          <button type="button" id="kgZoomOut" title="缩小">－</button>
+          <button type="button" id="kgFit" title="适配">◎</button>
+        </div>
+        <div class="kg-node-tip" id="kgNodeTip" hidden></div>
+        <div class="kg-canvas-hint" id="kgCanvasHint">点击二级主题打开讲义 · 可拖拽节点 · 左右「« »」腾出画布</div>
+        <div class="toolbar" id="depthToolbar" role="group" aria-label="内容深度">
+          <button type="button" id="btnDepthJunior" title="初级：仅入门级(?)知识点">初级</button>
+          <button type="button" id="btnDepthMid" class="active" title="中级：入门 + 进阶(??)">中级</button>
+          <button type="button" id="btnDepthSenior" title="高级：入门 + 进阶 + 高阶(???)">高级</button>
+        </div>
+        <div class="hint">点击 SQL 大节点 → 展开一级领域 + 二级主题 · 再点主题学讲义</div>
+        <div class="sql-drill-hint" id="sqlDrillHint" hidden></div>
+      </div>
     </div>
-  </div>
-  <div id="panel" aria-hidden="true">
+    <div id="panel" aria-hidden="true">
     <div class="panel-inner" id="panelCard">
       <button class="panel-close" id="btnClose" title="关闭" aria-label="关闭面板">×</button>
       <div class="panel-header">
@@ -665,6 +1146,7 @@
       <div class="panel-body" id="panelBody"></div>
     </div>
   </div>
+  </div>
   <script>
 /* =========================================================
  * 数据知识图谱 · DATA NEXUS（单文件 · 硬编码 · D3 流水线布局）
@@ -676,6 +1158,10 @@
       govern:  { label: "GOVERN 治理",  color: "#a78bfa" },
       intel:   { label: "INTEL 智能",   color: "#fb7185" }
     };
+
+    /** 首屏只展示一个课程入口；点击后展开其一级 + 二级 */
+    const HOME_HUB_ID = "sql";
+    const HOME_HERO_ONLY = true;
 
     const COMPARE_FIELDS = [
       { key: "type", label: "类型" },
@@ -6688,6 +7174,7 @@
       active: false,
       hubId: null,
       revealed: false,
+      expandAllL2: false,
       expandedL2: null,
       expandedL3: null,
       selectedLeafId: null,
@@ -7102,6 +7589,7 @@
       if (typeof satNodeSel !== "undefined" && satNodeSel) {
         satNodeSel.classed("learned", d => isLearned(d.learnId));
       }
+      if (typeof updateKgProgress === "function" && kgDrill && kgDrill.active) updateKgProgress();
       const lid = currentLearnId(selectedId);
       if (!lid) {
         btnLearned.textContent = "标记已学习";
@@ -7158,6 +7646,13 @@
               "level": "??",
               "content": "### 是什么\n\n- **一句话定义**：按条件修改或删除已有行。\n- **风险点**：漏写 `WHERE` 会改/删全表。\n\n### 怎么写\n\n```sql\n-- 先 SELECT 确认影响行\nSELECT COUNT(*) FROM orders WHERE status = 'pending' AND created_at < CURRENT_DATE - INTERVAL 30 DAY;\n\nUPDATE orders\nSET status = 'cancelled'\nWHERE status = 'pending' AND created_at < CURRENT_DATE - INTERVAL 30 DAY;\n\nDELETE FROM sessions WHERE expired_at < NOW();\n```\n\n### 用在哪\n\n1. **状态机流转**：订单取消、会话过期。\n2. **纠错**：修脏数据或回填字段。\n3. **合规清理**：到期删除个人数据。\n\n### 注意啥\n\n- 生产更新前先 `SELECT` 同一条件。\n- 大范围更新分批 + 事务，避免长锁。\n- 优先软删除（状态位）若业务需要可追溯。",
               "children": []
+            },
+            {
+              "id": "sql-upsert",
+              "title": "UPSERT",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：插入或在冲突时更新（幂等写入）。\n- **方言**：MySQL `ON DUPLICATE KEY UPDATE`；PG/DuckDB `ON CONFLICT`。\n\n### 怎么写\n\n```sql\n-- MySQL 8+\nINSERT INTO users (user_id, email, updated_at)\nVALUES (42, 'a@x.com', NOW())\nON DUPLICATE KEY UPDATE\n  email = VALUES(email),\n  updated_at = NOW();\n\n-- PostgreSQL / DuckDB 风格\nINSERT INTO users (user_id, email, updated_at)\nVALUES (42, 'a@x.com', CURRENT_TIMESTAMP)\nON CONFLICT (user_id) DO UPDATE\nSET email = EXCLUDED.email,\n    updated_at = CURRENT_TIMESTAMP;\n```\n\n### 用在哪\n\n1. **维表同步**：上游重复推送同一主键。\n2. **配置覆盖**：按自然键幂等写入。\n3. **计数累加**：冲突时 `cnt = cnt + 1`。\n\n### 注意啥\n\n- 必须有主键或唯一索引，否则冲突检测无效。\n- 分清「覆盖」与「忽略」（`DO NOTHING`）。\n- 高并发下注意死锁与更新列集合最小化。",
+              "children": []
             }
           ],
           "lessonParent": true
@@ -7180,6 +7675,73 @@
               "title": "GROUP BY",
               "level": "??",
               "content": "### 是什么\n\n- **一句话定义**：按键折叠行，并对组内做聚合（`COUNT`/`SUM`/`AVG` 等）。\n- **与窗口区别**：`GROUP BY` 合并行；窗口保留明细。\n\n### 怎么写\n\n```sql\nSELECT\n  DATE(created_at) AS dt,\n  COUNT(*) AS orders,\n  SUM(amount) AS gmv\nFROM orders\nWHERE status = 'paid'\nGROUP BY DATE(created_at)\nHAVING SUM(amount) > 1000\nORDER BY dt;\n```\n\n### 用在哪\n\n1. **日报指标**：按日 GMV / 订单数。\n2. **用户汇总**：每用户消费次数。\n3. **漏斗粗算**：按步骤计数。\n\n### 注意啥\n\n- `SELECT` 非聚合列必须在 `GROUP BY`（严格模式）。\n- `HAVING` 过滤聚合结果；行过滤用 `WHERE`。\n- 高基数 `GROUP BY` 注意内存与倾斜。",
+              "children": []
+            },
+            {
+              "id": "sql-having",
+              "title": "HAVING",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：对 `GROUP BY` 之后的聚合结果再过滤；`WHERE` 过滤行，`HAVING` 过滤组。\n- **记忆**：先分组聚合，再用 HAVING 卡阈值/阈值。\n\n### 怎么写\n\n```sql\nSELECT\n  user_id,\n  COUNT(*) AS order_cnt,\n  SUM(amount) AS gmv\nFROM orders\nWHERE status = 'paid'          -- 行级过滤\nGROUP BY user_id\nHAVING SUM(amount) >= 1000     -- 组级过滤\n   AND COUNT(*) >= 3\nORDER BY gmv DESC;\n```\n\n### 用在哪\n\n1. **高价值用户**：GMV/频次门槛。\n2. **异常组**：某类目订单数暴增。\n3. **质量门禁**：分组后校验完整性。\n\n### 注意啥\n\n- 能在 `WHERE` 做的过滤不要拖到 `HAVING`（更早裁剪更省）。\n- `HAVING` 可引用聚合或分组列；别引擎对别名支持不一。\n- 窗口函数结果过滤通常放外层 `WHERE`，不是 HAVING。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-expr-null",
+          "title": "表达式与空值",
+          "level": "??",
+          "content": "### 表达式与空值 · 章节导读\n\n**学习目标**：正确处理 NULL、分支与常用函数。\n\n**先修**：SELECT / WHERE。\n\n点下方叶节点进入讲义。",
+          "children": [
+            {
+              "id": "sql-null",
+              "title": "NULL处理",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：`NULL` 表示「未知/缺失」，不是 0、空串或 False。\n- **要点**：与 `NULL` 的比较要用 `IS NULL` / `IS NOT NULL`，三值逻辑会影响 `WHERE`/`JOIN`。\n\n### 怎么写\n\n```sql\n-- 样例：补全金额缺失、过滤未知状态\nSELECT\n  order_id,\n  user_id,\n  COALESCE(amount, 0) AS amount_filled,\n  NULLIF(status, '') AS status_clean,\n  IFNULL(note, '无备注') AS note_cn   -- MySQL\nFROM orders\nWHERE amount IS NULL\n   OR status IS NOT NULL;\n```\n\n### 用在哪\n\n1. **脏数据清洗**：缺失金额用默认值。\n2. **外连接结果**：右表无匹配时列为 NULL。\n3. **可选字段**：备注、扩展属性未填。\n\n### 注意啥\n\n- `WHERE col = NULL` 永远不是 TRUE，要用 `IS NULL`。\n- `NOT IN (…含 NULL…)` 结果常为未知，慎用。\n- 聚合时 `COUNT(col)` 忽略 NULL，`COUNT(*)` 计行。",
+              "children": []
+            },
+            {
+              "id": "sql-case",
+              "title": "CASE WHEN",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：按条件分支返回值，相当于 SQL 里的 if-else。\n- **两种写法**：简单 CASE（等值）与搜索 CASE（任意条件）。\n\n### 怎么写\n\n```sql\nSELECT\n  order_id,\n  amount,\n  CASE\n    WHEN amount >= 500 THEN 'VIP'\n    WHEN amount >= 100 THEN 'NORMAL'\n    ELSE 'LOW'\n  END AS tier,\n  CASE status\n    WHEN 'paid' THEN 1\n    WHEN 'refunded' THEN -1\n    ELSE 0\n  END AS status_flag\nFROM orders;\n```\n\n### 用在哪\n\n1. **分档打标**：用户层级、订单区间。\n2. **宽表透视**：把行值映射成多列指标。\n3. **兼容映射**：状态码转可读标签。\n\n### 注意啥\n\n- 条件按书写顺序匹配，先写更具体的分支。\n- `ELSE` 省略时未匹配返回 NULL。\n- 复杂逻辑可拆 CTE，避免嵌套 CASE 难读。",
+              "children": []
+            },
+            {
+              "id": "sql-functions",
+              "title": "常用函数",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：内置标量/聚合函数做类型转换、字符串、日期与数值计算。\n- **原则**：优先引擎内置函数，注意方言差异。\n\n### 怎么写\n\n```sql\nSELECT\n  order_id,\n  UPPER(TRIM(status)) AS status_norm,\n  ROUND(amount, 2) AS amount_2,\n  DATE_FORMAT(created_at, '%Y-%m-%d') AS dt,          -- MySQL\n  CAST(user_id AS CHAR) AS user_id_str,\n  CONCAT('U', user_id) AS user_code\nFROM orders\nWHERE created_at >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY);\n```\n\n### 用在哪\n\n1. **清洗**：去空格、统一大小写。\n2. **报表**：日期截断、金额四舍五入。\n3. **对接**：类型转换喂给下游系统。\n\n### 注意啥\n\n- 函数包列会导致索引难用（见「索引失效」）。\n- MySQL / PG / DuckDB 日期函数名不同，写可移植 SQL 时封装。\n- 聚合函数与窗口函数语义不同，勿混用。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-set-page",
+          "title": "集合与分页",
+          "level": "??",
+          "content": "### 集合与分页 · 章节导读\n\n**学习目标**：去重、纵向合并与稳定分页。\n\n**先修**：SELECT / ORDER BY。",
+          "children": [
+            {
+              "id": "sql-distinct",
+              "title": "DISTINCT",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：去掉结果集中的重复行（或按指定列去重投影）。\n- **对比**：业务「最新一条」去重更常用窗口 `ROW_NUMBER`。\n\n### 怎么写\n\n```sql\n-- 去重用户（有过支付）\nSELECT DISTINCT user_id\nFROM orders\nWHERE status = 'paid';\n\n-- 多列组合去重\nSELECT DISTINCT user_id, DATE(created_at) AS dt\nFROM orders;\n```\n\n### 用在哪\n\n1. **维表去重**：源系统重复维度键。\n2. **快速探查**：有哪些取值。\n3. **集合运算前**：先压扁再 UNION。\n\n### 注意啥\n\n- `DISTINCT` + 大宽表很贵，先缩小列与过滤。\n- 与 `GROUP BY` 可互换场景下，聚合意图更清晰时用 GROUP BY。\n- 「每组留一行」用窗口函数，不要滥用 DISTINCT。",
+              "children": []
+            },
+            {
+              "id": "sql-union",
+              "title": "UNION系",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：纵向合并多个查询结果；`UNION` 去重，`UNION ALL` 保留全部。\n- **要求**：列数、类型兼容，列名以第一段为准。\n\n### 怎么写\n\n```sql\n-- 合并正式单与历史归档（保留重复用 ALL）\nSELECT order_id, user_id, amount, 'live' AS src\nFROM orders\nWHERE status = 'paid'\nUNION ALL\nSELECT order_id, user_id, amount, 'archive' AS src\nFROM orders_archive\nWHERE status = 'paid';\n\n-- 需要唯一集合时用 UNION（隐式去重，更慢）\nSELECT user_id FROM orders\nUNION\nSELECT user_id FROM users WHERE is_staff = 1;\n```\n\n### 用在哪\n\n1. **多源汇总**：直播表 + 归档表。\n2. **白名单合并**：多规则命中用户并集。\n3. **对照集**：A/B 两组样本拼接。\n\n### 注意啥\n\n- 默认优先 `UNION ALL`，确认需要去重再用 `UNION`。\n- 各段 `ORDER BY` 无效于整体，整体排序放最外层。\n- 列对齐失败是常见报错，用 `NULL`/`CAST` 补齐。",
+              "children": []
+            },
+            {
+              "id": "sql-limit-page",
+              "title": "分页LIMIT",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：用 `LIMIT`/`OFFSET`（或键集分页）截取结果页。\n- **要点**：无 `ORDER BY` 的分页不稳定。\n\n### 怎么写\n\n```sql\n-- 偏移分页（简单但深分页慢）\nSELECT order_id, user_id, amount, created_at\nFROM orders\nWHERE status = 'paid'\nORDER BY created_at DESC, order_id DESC\nLIMIT 20 OFFSET 40;   -- 第 3 页，每页 20\n\n-- 键集分页（推荐深翻页）\nSELECT order_id, user_id, amount, created_at\nFROM orders\nWHERE status = 'paid'\n  AND (created_at, order_id) < ('2024-06-01 12:00:00', 9000)\nORDER BY created_at DESC, order_id DESC\nLIMIT 20;\n```\n\n### 用在哪\n\n1. **列表接口**：订单/消息分页。\n2. **批处理**：按页扫描大表。\n3. **导出预览**：先看前 N 行。\n\n### 注意啥\n\n- 深 `OFFSET` 会扫描并丢弃大量行，改用键集。\n- 排序键建议唯一，避免同值页抖动。\n- MySQL 8 / DuckDB 均支持 `LIMIT/OFFSET`；PG 还可用 `FETCH`。",
               "children": []
             }
           ],
@@ -7235,6 +7797,36 @@
               "level": "??",
               "content": "### 是什么\n\n- **一句话定义**：索引是辅助结构，用空间换查找/排序时间。\n- **常见**：B-Tree 适合等值与范围；注意最左前缀。\n\n### 怎么写\n\n```sql\nCREATE INDEX idx_orders_user_time\nON orders (user_id, created_at);\n\n-- 覆盖查询示例（视引擎）\nSELECT order_id, amount\nFROM orders\nWHERE user_id = 42\n  AND created_at >= '2024-01-01';\n```\n\n### 用在哪\n\n1. **点查加速**：按用户取订单。\n2. **关联键**：JOIN 列建索引。\n3. **排序优化**：匹配 `ORDER BY`。\n\n### 注意啥\n\n- 索引不是越多越好：拖慢写入、占空间。\n- 低选择性列（如性别）单独索引收益低。\n- 先看 `EXPLAIN`，再决定加不加。",
               "children": []
+            },
+            {
+              "id": "sql-matview",
+              "title": "物化视图",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：物化视图把查询结果持久化存储，查询读快照而非每次重算（视引擎）。\n- **对比**：普通 VIEW 只是保存 SQL 定义。\n\n### 怎么写\n\n```sql\n-- PostgreSQL 示例\nCREATE MATERIALIZED VIEW mv_user_gmv AS\nSELECT user_id, SUM(amount) AS gmv, COUNT(*) AS cnt\nFROM orders\nWHERE status = 'paid'\nGROUP BY user_id;\n\nREFRESH MATERIALIZED VIEW mv_user_gmv;\n\nSELECT * FROM mv_user_gmv WHERE gmv >= 1000;\n\n-- DuckDB 可用 CREATE TABLE AS 模拟物化\nCREATE TABLE mv_user_gmv AS\nSELECT user_id, SUM(amount) AS gmv\nFROM orders WHERE status = 'paid'\nGROUP BY user_id;\n```\n\n### 用在哪\n\n1. **重报表加速**：复杂聚合结果复用。\n2. **数仓层**：轻度汇总表。\n3. **只读副本对外**：稳定接口。\n\n### 注意啥\n\n- MySQL 无原生物化视图，常用汇总表 + 调度刷新。\n- 刷新策略（全量/增量）决定数据新鲜度。\n- 注意存储与源表一致性窗口。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-type-alter",
+          "title": "类型与变更",
+          "level": "??",
+          "content": "### 类型与变更 · 章节导读\n\n**学习目标**：选对类型，安全变更表结构。\n\n**先修**：CREATE TABLE。",
+          "children": [
+            {
+              "id": "sql-datatypes",
+              "title": "数据类型",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：列的存储类型决定精度、范围与运算符行为。\n- **常用**：整数、小数、字符串、时间、布尔/枚举。\n\n### 怎么写\n\n```sql\nCREATE TABLE orders (\n  order_id    BIGINT PRIMARY KEY,\n  user_id     BIGINT NOT NULL,\n  amount      DECIMAL(12,2) NOT NULL,\n  status      VARCHAR(32) NOT NULL,\n  created_at  TIMESTAMP NOT NULL,\n  meta_json   JSON                  -- MySQL 8 / 部分仓支持\n);\n\n-- 探查类型（MySQL）\n-- SHOW COLUMNS FROM orders;\n```\n\n### 用在哪\n\n1. **建表选型**：金额用 DECIMAL 而非 FLOAT。\n2. **对接契约**：与上游字段对齐。\n3. **存储治理**：过长 VARCHAR 浪费与截断风险。\n\n### 注意啥\n\n- 浮点勿存钱；时间注意时区。\n- 隐式转换会导致索引失效或精度丢失。\n- 仓引擎类型名可能不同（STRING/VARCHAR）。",
+              "children": []
+            },
+            {
+              "id": "sql-alter",
+              "title": "ALTER TABLE",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：在不重建整表业务的前提下变更表结构（列、索引、约束）。\n- **风险**：大表 DDL 可能锁表或长时间复制。\n\n### 怎么写\n\n```sql\nALTER TABLE orders\n  ADD COLUMN pay_channel VARCHAR(16) NULL,\n  MODIFY COLUMN amount DECIMAL(14,2) NOT NULL;   -- MySQL\n\nALTER TABLE orders\n  ADD INDEX idx_orders_user_time (user_id, created_at);\n\n-- 谨慎删除\n-- ALTER TABLE orders DROP COLUMN obsolete_flag;\n```\n\n### 用在哪\n\n1. **迭代加字段**：新业务属性。\n2. **补索引**：上线后按慢查询加。\n3. **约束加固**：补 NOT NULL / 唯一键。\n\n### 注意啥\n\n- 生产 DDL 选低峰，关注锁与复制延迟。\n- 先加可空列再回填，再改 NOT NULL。\n- 与「在线 DDL / gh-ost」等工具策略配合。",
+              "children": []
             }
           ],
           "lessonParent": true
@@ -7266,6 +7858,20 @@
               "level": "??",
               "content": "### 是什么\n\n- **一句话定义**：保留左表全部行，右表无匹配则填 NULL。\n- **典型用途**：主表完整，维表可缺。\n\n### 怎么写\n\n```sql\nSELECT u.user_id, u.email, o.order_id\nFROM users u\nLEFT JOIN orders o ON o.user_id = u.user_id\nWHERE o.order_id IS NULL;  -- 无订单用户\n```\n\n### 用在哪\n\n1. **主数据完整清单**：用户列表+是否下单。\n2. **反连接**：找「没有」的一侧。\n3. **宽表拼装**：事实保留，维可空。\n\n### 注意啥\n\n- 过滤右表列时，条件放 `ON` 还是 `WHERE` 语义不同。\n- `WHERE right.key IS NULL` 才是反连接写法。\n- 多段 LEFT JOIN 链式放大，注意粒度。",
               "children": []
+            },
+            {
+              "id": "sql-self-join",
+              "title": "SELF JOIN",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：同一张表别名两次，关联比较行与行（层级、配对、前后）。\n- **本质**：普通 JOIN，只是左右都来自同一表。\n\n### 怎么写\n\n```sql\n-- 同一用户的「上一单」配对（简化示例）\nSELECT\n  a.order_id AS curr_id,\n  b.order_id AS prev_id,\n  a.user_id,\n  a.created_at AS curr_at,\n  b.created_at AS prev_at\nFROM orders a\nJOIN orders b\n  ON a.user_id = b.user_id\n AND b.created_at < a.created_at\nWHERE a.status = 'paid';\n-- 生产更推荐窗口 LAG；SELF JOIN 适合教学与特定配对\n```\n\n### 用在哪\n\n1. **组织树**：员工-经理（邻接表）。\n2. **配对比较**：同实体两版本。\n3. **教学**：理解别名与笛卡尔风险。\n\n### 注意啥\n\n- 易产生行爆炸，必须写紧连接条件。\n- 多数「上一行」场景优先窗口函数。\n- 别名务必清晰（`emp`/`mgr`）。",
+              "children": []
+            },
+            {
+              "id": "sql-cross-join",
+              "title": "CROSS JOIN",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：笛卡尔积，左表每行配右表每行；无 ON 条件。\n- **用途**：生成日期骨架、维表组合，而非随意连大表。\n\n### 怎么写\n\n```sql\n-- 用户 × 日期骨架（示意：用小维表）\nWITH days AS (\n  SELECT DATE('2024-01-01') AS dt\n  UNION ALL SELECT DATE('2024-01-02')\n  UNION ALL SELECT DATE('2024-01-03')\n)\nSELECT u.user_id, d.dt\nFROM users u\nCROSS JOIN days d\nWHERE u.user_id IN (1, 2);\n```\n\n### 用在哪\n\n1. **补全日历**：活跃用户每日一行。\n2. **参数网格**：实验配置笛卡尔。\n3. **小维表展开**：币种 × 渠道。\n\n### 注意啥\n\n- 大表 CROSS JOIN 会爆炸，必须限制两侧基数。\n- 有意为之再写；误写成隐式逗号连接很危险。\n- 补零场景常再 `LEFT JOIN` 事实表。",
+              "children": []
             }
           ],
           "lessonParent": true
@@ -7281,6 +7887,29 @@
               "title": "JOIN爆炸",
               "level": "??",
               "content": "### 是什么\n\n- **一句话定义**：一对多/多对多 JOIN 使行数成倍放大，聚合被重复计算。\n- **识别**：JOIN 后 `COUNT(*)` 远大于主表。\n\n### 怎么写\n\n```sql\n-- 危险：用户×订单明细再 SUM，GMV 被放大\n-- 正确：先按用户聚合订单，再 JOIN 用户维\nWITH order_agg AS (\n  SELECT user_id, SUM(amount) AS gmv\n  FROM orders\n  WHERE status = 'paid'\n  GROUP BY user_id\n)\nSELECT u.user_id, u.email, COALESCE(a.gmv, 0) AS gmv\nFROM users u\nLEFT JOIN order_agg a ON a.user_id = u.user_id;\n```\n\n### 用在哪\n\n1. **指标复核**：JOIN 前后行数对比。\n2. **宽表建设**：先聚合到目标粒度。\n3. **面试高频**：解释为什么 GMV 翻倍。\n\n### 注意啥\n\n- 维表业务键必须唯一，否则当多对多。\n- 一对多：先 `GROUP BY` 再 JOIN。\n- 用 `COUNT(*)` / 抽样核对关联前后。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-semi-join",
+          "title": "半开连接",
+          "level": "??",
+          "content": "### 半开连接 · 章节导读\n\n**学习目标**：用 EXISTS / IN 做半连接与反半连接。\n\n**先修**：INNER / LEFT。",
+          "children": [
+            {
+              "id": "sql-exists",
+              "title": "EXISTS",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：半连接——主查询行在子查询中「存在」匹配即保留，不展开右表列。\n- **特点**：找到一条即可短路，适合「是否有过…」。\n\n### 怎么写\n\n```sql\nSELECT u.user_id, u.email\nFROM users u\nWHERE EXISTS (\n  SELECT 1\n  FROM orders o\n  WHERE o.user_id = u.user_id\n    AND o.status = 'paid'\n    AND o.amount >= 100\n);\n```\n\n### 用在哪\n\n1. **过滤父集**：有过支付的用户。\n2. **权限/标记**：是否存在违规事件。\n3. **替代 IN**：大结果集时更稳。\n\n### 注意啥\n\n- `SELECT 1` 即可，不必 `SELECT *`。\n- 相关列要能走索引（`orders.user_id`）。\n- `NOT EXISTS` 通常比 `NOT IN` 更安全（NULL）。",
+              "children": []
+            },
+            {
+              "id": "sql-in-notin",
+              "title": "IN与NOT IN",
+              "level": "??",
+              "content": "### 是什么\n\n- **一句话定义**：`IN` 判断值是否落在列表/子查询集合；`NOT IN` 排除集合。\n- **陷阱**：子查询含 NULL 时 `NOT IN` 逻辑易全空。\n\n### 怎么写\n\n```sql\n-- IN 列表\nSELECT * FROM orders\nWHERE status IN ('paid', 'shipped');\n\n-- IN 子查询\nSELECT * FROM users\nWHERE user_id IN (\n  SELECT user_id FROM orders WHERE amount >= 500\n);\n\n-- 更推荐 NOT EXISTS 表达「从未支付」\nSELECT u.*\nFROM users u\nWHERE NOT EXISTS (\n  SELECT 1 FROM orders o WHERE o.user_id = u.user_id AND o.status = 'paid'\n);\n```\n\n### 用在哪\n\n1. **枚举过滤**：状态白名单。\n2. **集合成员**：落在高价值用户集。\n3. **反选**：不在黑名单（小心 NULL）。\n\n### 注意啥\n\n- 列表很长时改临时表/`JOIN`。\n- `NOT IN` + NULL → 意外空结果。\n- 与半连接（EXISTS）语义接近但优化器路径不同。",
               "children": []
             }
           ],
@@ -7344,6 +7973,57 @@
               "level": "??",
               "content": "### 是什么\n\n- **一句话定义**：在窗口帧内累计求和，保留明细行。\n- **帧**：常用 `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`。\n\n### 怎么写\n\n```sql\nSELECT\n  dt, gmv,\n  SUM(gmv) OVER (\n    ORDER BY dt\n    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n  ) AS gmv_cumsum\nFROM daily_gmv;\n```\n\n### 用在哪\n\n1. **累计 GMV / 完成度**。\n2. **分区内累计**：按用户累计消费。\n3. **滚动窗口**：近 N 日求和（改帧）。\n\n### 注意啥\n\n- `RANGE` vs `ROWS` 语义不同，并列值要小心。\n- 大窗口耗内存，先缩小集合。\n- 与 `GROUP BY` 选：要明细就窗口，要折叠就分组。",
               "children": []
+            },
+            {
+              "id": "sql-window-frame",
+              "title": "窗口帧ROWS",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：窗口帧（ROWS/RANGE）限定聚合在分区排序后的行范围，如「近 3 行」。\n- **默认**：许多累计函数默认从分区起点到当前行。\n\n### 怎么写\n\n```sql\nSELECT\n  user_id,\n  created_at,\n  amount,\n  SUM(amount) OVER (\n    PARTITION BY user_id\n    ORDER BY created_at\n    ROWS BETWEEN 2 PRECEDING AND CURRENT ROW\n  ) AS amt_last_3_rows,\n  SUM(amount) OVER (\n    PARTITION BY user_id\n    ORDER BY created_at\n    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n  ) AS running_amt\nFROM orders\nWHERE status = 'paid';\n```\n\n### 用在哪\n\n1. **滑动窗口**：近 N 单金额。\n2. **累计值**：running total。\n3. **去毛刺**：邻域平均。\n\n### 注意啥\n\n- `ROWS` 按物理行，`RANGE` 按值边界，语义不同。\n- 帧写错会导致「整分区」被聚进来。\n- 必须有明确 `ORDER BY` 才谈得上帧。",
+              "children": []
+            },
+            {
+              "id": "sql-ntile",
+              "title": "NTILE",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：把分区内有序行尽量均匀切成 N 桶，返回桶号 1…N。\n- **场景**：分层抽样、分位粗分（非精确百分位）。\n\n### 怎么写\n\n```sql\nSELECT\n  user_id,\n  gmv,\n  NTILE(4) OVER (ORDER BY gmv DESC) AS gmv_quartile\nFROM (\n  SELECT user_id, SUM(amount) AS gmv\n  FROM orders\n  WHERE status = 'paid'\n  GROUP BY user_id\n) t;\n```\n\n### 用在哪\n\n1. **用户分层**：RFM 粗分四档。\n2. **抽样**：每桶抽固定比例。\n3. **对照实验**：分桶后再随机。\n\n### 注意啥\n\n- 行数不能整除时桶大小可差 1。\n- 需要精确百分位用 `PERCENTILE`/`CUME_DIST` 等。\n- 排序键决定分层含义。",
+              "children": []
+            },
+            {
+              "id": "sql-first-value",
+              "title": "FIRST_VALUE",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：在窗口帧内取按排序的第一个值；常配 `IGNORE NULLS`（视引擎）。\n- **配对**：`LAST_VALUE` 需小心默认帧。\n\n### 怎么写\n\n```sql\nSELECT\n  user_id,\n  order_id,\n  amount,\n  created_at,\n  FIRST_VALUE(order_id) OVER (\n    PARTITION BY user_id\n    ORDER BY created_at\n    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING\n  ) AS first_order_id,\n  FIRST_VALUE(amount) OVER (\n    PARTITION BY user_id\n    ORDER BY created_at\n  ) AS first_amount\nFROM orders;\n```\n\n### 用在哪\n\n1. **首单属性**：首次下单渠道/金额。\n2. **会话起点**：会话内第一事件。\n3. **基准对照**：相对首值的变化。\n\n### 注意啥\n\n- `LAST_VALUE` 默认帧只到当前行，常要显式扩帧。\n- 与 `MIN_BY`/`任意值+排序` 方案择优。\n- NULL 是否参与「第一」看引擎选项。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-window-practice",
+          "title": "综合练习",
+          "level": "??",
+          "content": "### 窗口综合练习 · 章节导读\n\n**学习目标**：TopN、去重、环比三类高频题。\n\n**先修**：ROW_NUMBER / LAG。",
+          "children": [
+            {
+              "id": "sql-ex-topn",
+              "title": "TopN练习",
+              "level": "???",
+              "content": "### 是什么\n\n- **题目**：每个用户取支付金额最高的 Top 2 订单（金额相同取更早）。\n- **要求**：结果含 `user_id, order_id, amount, rn`。\n\n### 怎么写\n\n```sql\n-- 题：TopN\n-- 答：\nSELECT user_id, order_id, amount, rn\nFROM (\n  SELECT\n    user_id, order_id, amount,\n    ROW_NUMBER() OVER (\n      PARTITION BY user_id\n      ORDER BY amount DESC, created_at ASC\n    ) AS rn\n  FROM orders\n  WHERE status = 'paid'\n) t\nWHERE rn <= 2\nORDER BY user_id, rn;\n```\n\n### 用在哪\n\n1. **排行榜**：品类 TopN 商品。\n2. **抽样质检**：每组看最大几笔。\n3. **限流展示**：个人主页展示。\n\n### 注意啥\n\n- TopN 必须 `ROW_NUMBER`（或等价），`RANK` 可能超过 N 行。\n- 排序并列规则要写进 `ORDER BY`。\n- 先过滤 `status` 再窗口，减少计算。",
+              "children": []
+            },
+            {
+              "id": "sql-ex-dedupe",
+              "title": "去重练习",
+              "level": "???",
+              "content": "### 是什么\n\n- **题目**：`order_events` 按 `event_id` 可能重复，保留 `event_time` 最新一条。\n- **要求**：输出去重后事件明细。\n\n### 怎么写\n\n```sql\n-- 假设表 order_events(event_id, order_id, event_type, event_time, payload)\n-- 题：去重留最新\n-- 答：\nSELECT event_id, order_id, event_type, event_time, payload\nFROM (\n  SELECT\n    e.*,\n    ROW_NUMBER() OVER (\n      PARTITION BY event_id\n      ORDER BY event_time DESC\n    ) AS rn\n  FROM order_events e\n) t\nWHERE rn = 1;\n```\n\n### 用在哪\n\n1. **日志去重**：Exactly-once 近似。\n2. **拉链前清洗**：同一业务键多版本。\n3. **CDC 合并**：保留最新镜像。\n\n### 注意啥\n\n- 分区键=业务去重键，排序键=新旧判定。\n- 大表去重考虑先按日分区再合并。\n- `QUALIFY`（部分仓）可少一层子查询。",
+              "children": []
+            },
+            {
+              "id": "sql-ex-dod",
+              "title": "环比练习",
+              "level": "???",
+              "content": "### 是什么\n\n- **题目**：按日汇总支付 GMV，并计算日环比（今日 - 昨日）。\n- **要求**：`dt, gmv, gmv_yesterday, dod`。\n\n### 怎么写\n\n```sql\n-- 题：环比\n-- 答：\nWITH daily AS (\n  SELECT DATE(created_at) AS dt, SUM(amount) AS gmv\n  FROM orders\n  WHERE status = 'paid'\n  GROUP BY DATE(created_at)\n)\nSELECT\n  dt,\n  gmv,\n  LAG(gmv, 1) OVER (ORDER BY dt) AS gmv_yesterday,\n  gmv - LAG(gmv, 1) OVER (ORDER BY dt) AS dod\nFROM daily\nORDER BY dt;\n```\n\n### 用在哪\n\n1. **经营日报**：GMV/订单环比。\n2. **告警**：环比跌破阈值。\n3. **复盘**：活动日对比。\n\n### 注意啥\n\n- 缺日会导致「环比」对到非相邻日，先补日历骨架。\n- 同比用 `LAG(..., 7)` 或日期对齐。\n- 比率环比注意分母为 0。",
+              "children": []
             }
           ],
           "lessonParent": true
@@ -7367,6 +8047,52 @@
               "title": "CTE流水线",
               "level": "??",
               "content": "### 是什么\n\n- **一句话定义**：`WITH` 命名中间结果，把长 SQL 拆成步骤。\n- **价值**：可读、可测、易复用同层引用（视引擎）。\n\n### 怎么写\n\n```sql\nWITH paid AS (\n  SELECT * FROM orders WHERE status = 'paid'\n),\nuser_gmv AS (\n  SELECT user_id, SUM(amount) AS gmv\n  FROM paid\n  GROUP BY user_id\n)\nSELECT u.email, g.gmv\nFROM user_gmv g\nJOIN users u ON u.user_id = g.user_id\nORDER BY g.gmv DESC\nLIMIT 20;\n```\n\n### 用在哪\n\n1. **复杂报表**：过滤→聚合→关联→排序。\n2. **替代深层嵌套子查询**。\n3. **团队协作**：每步可单独解释。\n\n### 注意啥\n\n- 某些引擎 CTE 物化/内联策略不同，看计划。\n- 递归 CTE 另算，注意终止条件。\n- 步骤不宜过多导致优化器放弃。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-subquery",
+          "title": "子查询",
+          "level": "??",
+          "content": "### 子查询 · 章节导读\n\n**学习目标**：标量 / EXISTS / 相关子查询及改写意识。\n\n**先修**：JOIN / CTE流水线。",
+          "children": [
+            {
+              "id": "sql-scalar-subq",
+              "title": "标量子查询",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：子查询返回单个标量，嵌入 `SELECT`/`WHERE` 表达式。\n- **约束**：最多一行一列，否则报错。\n\n### 怎么写\n\n```sql\nSELECT\n  o.order_id,\n  o.amount,\n  (SELECT AVG(amount) FROM orders WHERE status = 'paid') AS global_avg_paid\nFROM orders o\nWHERE o.amount > (\n  SELECT AVG(amount) FROM orders WHERE status = 'paid'\n);\n```\n\n### 用在哪\n\n1. **相对阈值**：高于全局均价的订单。\n2. **打标**：附加一个全局指标列。\n3. **简易校验**：`SELECT (SELECT COUNT(*))`。\n\n### 注意啥\n\n- 相关标量子查询可能变成逐行执行，注意计划。\n- 多行时改 `JOIN`/窗口。\n- 空结果标量为 NULL，注意三值逻辑。",
+              "children": []
+            },
+            {
+              "id": "sql-exists-subq",
+              "title": "EXISTS子查询",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：用 `EXISTS` 子查询表达半连接过滤（见半开连接主题，此处强调写法套路）。\n- **模式**：外层行驱动，内层相关匹配。\n\n### 怎么写\n\n```sql\nSELECT o.*\nFROM orders o\nWHERE EXISTS (\n  SELECT 1 FROM users u\n  WHERE u.user_id = o.user_id\n    AND u.email LIKE '%@example.com'\n)\nAND o.status = 'paid';\n```\n\n### 用在哪\n\n1. **跨表条件**：订单侧过滤用户属性。\n2. **反连**：`NOT EXISTS` 找孤儿行。\n3. **权限**：仅存在授权记录时可查。\n\n### 注意啥\n\n- 相关列索引是关键。\n- 与 `IN (SELECT id …)` 择优看基数与计划。\n- 避免在子查询内做无谓聚合。",
+              "children": []
+            },
+            {
+              "id": "sql-corr-subq",
+              "title": "相关子查询",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：子查询引用外层列，对外层每一行（概念上）求值。\n- **利弊**：表达力强，但易写成相关慢查询。\n\n### 怎么写\n\n```sql\nSELECT\n  u.user_id,\n  u.email,\n  (\n    SELECT MAX(o.amount)\n    FROM orders o\n    WHERE o.user_id = u.user_id AND o.status = 'paid'\n  ) AS max_paid_amount\nFROM users u;\n-- 等价窗口/JOIN 聚合往往更快：\n-- SELECT u.*, x.max_paid_amount FROM users u\n-- LEFT JOIN (\n--   SELECT user_id, MAX(amount) max_paid_amount FROM orders\n--   WHERE status='paid' GROUP BY user_id\n-- ) x ON x.user_id = u.user_id;\n```\n\n### 用在哪\n\n1. **按行取关联指标**：每用户最大单。\n2. **教学**：理解相关 vs 非相关。\n3. **小外表**：外表很小时尚可接受。\n\n### 注意啥\n\n- 大外表相关子查询优先改写为 JOIN 聚合。\n- 看 `EXPLAIN` 是否依赖循环执行。\n- 确保相关谓词可索引。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-recursive",
+          "title": "递归",
+          "level": "??",
+          "content": "### 递归 · 章节导读\n\n**学习目标**：读懂并写出带护栏的递归 CTE。\n\n**先修**：WITH 流水线。",
+          "children": [
+            {
+              "id": "sql-recursive-cte",
+              "title": "递归CTE入门",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：`WITH RECURSIVE` 用锚点 + 递归成员展开层级/图路径，直到不产生新行。\n- **结构**：非递归种子 ∪ 递归步进，需终止条件。\n\n### 怎么写\n\n```sql\n-- 邻接表组织树：id, parent_id, name\nWITH RECURSIVE org AS (\n  SELECT user_id, manager_id, email, 1 AS lvl\n  FROM users\n  WHERE manager_id IS NULL          -- 锚点：根\n  UNION ALL\n  SELECT u.user_id, u.manager_id, u.email, org.lvl + 1\n  FROM users u\n  JOIN org ON u.manager_id = org.user_id\n  WHERE org.lvl < 10                -- 护栏，防环\n)\nSELECT * FROM org ORDER BY lvl, user_id;\n```\n\n### 用在哪\n\n1. **组织树/类目树**。\n2. **账单拆分层级**。\n3. **图可达性**（小规模）。\n\n### 注意啥\n\n- 必须设深度上限或访问集合，防环死循环。\n- 大图递归代价高，考虑闭包表。\n- MySQL 8+ / PG / DuckDB 均支持，语法细节略有差异。",
               "children": []
             }
           ],
@@ -7399,6 +8125,27 @@
               "level": "??",
               "content": "### 是什么\n\n- **一句话定义**：多列组成的索引，遵循最左前缀匹配。\n- **设计**：等值列在前，范围列靠后；覆盖常用投影。\n\n### 怎么写\n\n```sql\nCREATE INDEX idx_orders_uid_status_time\nON orders (user_id, status, created_at);\n\n-- 可较好利用：(user_id) / (user_id,status) / 三者都等值或前缀+范围\nSELECT order_id, amount\nFROM orders\nWHERE user_id = 42 AND status = 'paid'\n  AND created_at >= '2024-01-01';\n```\n\n### 用在哪\n\n1. **高频组合过滤**。\n2. **覆盖索引减少回表**。\n3. **对齐 ORDER BY 前缀**。\n\n### 注意啥\n\n- 跳过最左列会导致索引无法完整使用。\n- 列顺序比「感觉上重要」更重要。\n- 用 `EXPLAIN` 验证，不要凭猜测加索引。",
               "children": []
+            },
+            {
+              "id": "sql-index-fail",
+              "title": "索引失效",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：谓词写法导致优化器无法有效使用索引（函数包列、隐式转换、前导模糊等）。\n- **对策**：改写条件，保持「列在左侧原样」。\n\n### 怎么写\n\n```sql\n-- 失效示例 → 改写\n-- BAD: 函数包列\n-- WHERE DATE(created_at) = '2024-06-01'\n-- GOOD:\nWHERE created_at >= '2024-06-01'\n  AND created_at <  '2024-06-02';\n\n-- BAD: 类型隐式转换（user_id 为数字却比字符串）\n-- WHERE user_id = '42'\n-- GOOD: WHERE user_id = 42\n\n-- BAD: 前导通配\n-- WHERE email LIKE '%@example.com'\n-- → 难用 btree；可考虑倒排/专用方案\n```\n\n### 用在哪\n\n1. **慢查询治理**：条件改写即加速。\n2. **Code Review**：ORM 生成 SQL 检查。\n3. **培训**：索引可用前提。\n\n### 注意啥\n\n- `OR`、否定、非前缀 `LIKE` 也常破坏范围扫描。\n- 复合索引要满足最左前缀。\n- 用 `EXPLAIN` 验证是否 `ref`/`range`。",
+              "children": []
+            },
+            {
+              "id": "sql-covering-index",
+              "title": "覆盖索引",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：索引已包含查询所需全部列，可只扫索引不必回表（Index Only Scan）。\n- **做法**：把过滤列 + 投影列纳入复合索引（权衡写入）。\n\n### 怎么写\n\n```sql\n-- 高频查询：按用户取近期订单号与金额\n-- SELECT order_id, amount FROM orders\n-- WHERE user_id = ? AND status = 'paid'\n-- ORDER BY created_at DESC LIMIT 20;\n\n-- 覆盖倾向索引（示例）\nCREATE INDEX idx_orders_covering\nON orders (user_id, status, created_at, order_id, amount);\n\nEXPLAIN\nSELECT order_id, amount\nFROM orders\nWHERE user_id = 42 AND status = 'paid'\nORDER BY created_at DESC\nLIMIT 20;\n```\n\n### 用在哪\n\n1. **热点列表**：个人订单页。\n2. **计数类**：只读索引列。\n3. **降 IO**：宽表避免回表。\n\n### 注意啥\n\n- 索引过宽损害写入与缓存。\n- 覆盖随 `SELECT` 列表变化，勿盲目加列。\n- 统计信息过期会影响是否选中。",
+              "children": []
+            },
+            {
+              "id": "sql-analyze-stats",
+              "title": "ANALYZE统计",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：`ANALYZE`（或等效）收集表/索引统计，供优化器估算基数与选计划。\n    - **时机**：大批导入、倾斜变化、计划突然变差后。\n\n### 怎么写\n\n```sql\n-- MySQL 8\nANALYZE TABLE orders;\nANALYZE TABLE users;\n\n-- PostgreSQL\nANALYZE orders;\n\n-- DuckDB\nANALYZE;\n\nEXPLAIN\nSELECT user_id, SUM(amount)\nFROM orders\nWHERE status = 'paid'\nGROUP BY user_id;\n```\n\n### 用在哪\n\n1. **计划回归**：同样 SQL 变慢时先看统计。\n2. **ETL 后**：灌数完成立即分析。\n3. **调优闭环**：改索引前后对比。\n\n### 注意啥\n\n- 过期统计 → 错误连接顺序/索引选择。\n- 抽样分析与全量成本权衡。\n- 与直方图/扩展统计（PG）配合处理倾斜。",
+              "children": []
             }
           ],
           "lessonParent": true
@@ -7426,6 +8173,52 @@
             }
           ],
           "lessonParent": true
+        },
+        {
+          "id": "sql-isolation",
+          "title": "隔离与并发",
+          "level": "??",
+          "content": "### 隔离与并发 · 章节导读\n\n**学习目标**：隔离级别与读异常。\n\n**先修**：BEGIN/COMMIT。",
+          "children": [
+            {
+              "id": "sql-isolation-levels",
+              "title": "隔离级别",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：事务隔离级别规定并发下「能看到何种中间状态」。\n- **常见四级**：读未提交 → 读已提交 → 可重复读 → 串行化。\n\n### 怎么写\n\n```sql\n-- MySQL\nSET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;\nSTART TRANSACTION;\nSELECT SUM(amount) FROM orders WHERE user_id = 42;\nCOMMIT;\n\n-- 查看\n-- SELECT @@transaction_isolation;\n```\n\n### 用在哪\n\n1. **报表会话**：倾向快照/可重复读。\n2. **高并发写**：常选读已提交降锁冲突。\n3. **资金强一致**：更高隔离或显式锁。\n\n### 注意啥\n\n- 级别越高并发吞吐通常越低。\n- InnoDB 默认 RR，与 PG 默认 RC 不同。\n- 应用重试与幂等要配套。",
+              "children": []
+            },
+            {
+              "id": "sql-anomaly-reads",
+              "title": "脏读幻读",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：脏读、不可重复读、幻读是并发读异常的经典分类。\n- **对照**：隔离级别就是为抑制这些异常。\n\n### 怎么写\n\n```sql\n-- 概念演示（两会话，勿在生产随意试）\n-- 会话A: BEGIN; UPDATE orders SET amount = 1 WHERE order_id = 1;  -- 未提交\n-- 会话B: 在 READ UNCOMMITTED 下可能读到 1 → 脏读\n-- 提交/回滚后，RC 下两次读中间被别人改 → 不可重复读\n-- RR/串行化下插入满足条件的新行可见性差异 → 幻读\n\nSELECT order_id, amount FROM orders WHERE order_id = 1;\n```\n\n### 用在哪\n\n1. **故障复盘**：对账不一致归因。\n2. **选型讨论**：业务能否容忍幻读。\n3. **面试/培训**：理论打底。\n\n### 注意啥\n\n- 引擎实现（MVCC/锁）会影响「理论上的」异常是否出现。\n- 不要只调隔离，也要看事务边界长短。\n- 写写冲突另论（丢更新），需乐观锁版本号等。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-locks",
+          "title": "锁",
+          "level": "??",
+          "content": "### 锁 · 章节导读\n\n**学习目标**：行锁/表锁与死锁重试。\n\n**先修**：事务基础。",
+          "children": [
+            {
+              "id": "sql-row-table-lock",
+              "title": "行锁表锁",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：行锁锁住行级记录；表锁锁住整表（或元数据）。\n- **InnoDB**：DML 多为行锁；特定 DDL/操作为表锁。\n\n### 怎么写\n\n```sql\nBEGIN;\n-- 行锁：锁住匹配行（加锁读示例）\nSELECT * FROM orders WHERE order_id = 1001 FOR UPDATE;\nUPDATE orders SET status = 'shipped' WHERE order_id = 1001;\nCOMMIT;\n\n-- 避免：无索引条件的大范围更新导致大量行锁甚至升级\n-- UPDATE orders SET note = 'x' WHERE DATE(created_at) = CURRENT_DATE;\n```\n\n### 用在哪\n\n1. **库存扣减**：对单行 `FOR UPDATE`。\n2. **避免表锁**：批量更新拆批 + 走索引。\n3. **DDL 窗口**：理解表锁影响。\n\n### 注意啥\n\n- 锁粒度越粗，冲突概率越高。\n- 长事务持锁是雪崩温床。\n- 看 `SHOW ENGINE INNODB STATUS` / 性能_schema 定位。",
+              "children": []
+            },
+            {
+              "id": "sql-deadlock",
+              "title": "死锁重试",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：两个以上事务互相等待对方持有的锁，引擎选择回滚其一。\n- **应用侧**：捕获死锁错误并幂等重试。\n\n### 怎么写\n\n```sql\n-- 预防：统一加锁顺序（先锁 user 再锁 order）\n-- 事务内按主键升序更新多行\nBEGIN;\nUPDATE accounts SET balance = balance - 10 WHERE id = 1;\nUPDATE accounts SET balance = balance + 10 WHERE id = 2;\nCOMMIT;\n\n-- 应用伪代码：catch deadlock → backoff → retry N times\n-- MySQL errno 1213；PG SQLSTATE 40P01\n```\n\n### 用在哪\n\n1. **转账/库存**：多行更新。\n2. **热点商品**：秒杀减库存。\n3. **对账任务**：并发修数。\n\n### 注意啥\n\n- 缩小事务、固定顺序、降隔离或拆分热点。\n- 重试必须幂等，限制次数与抖动。\n- 死锁日志要采集，便于调顺序。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
         }
       ]
     },
@@ -7446,6 +8239,173 @@
               "title": "调优检查清单",
               "level": "??",
               "content": "### 是什么\n\n- **一句话定义**：按固定清单缩小慢查询原因，避免盲目加索引。\n- **闭环**：复现 → 计划 → 改写/索引 → 回归验证。\n\n### 怎么写\n\n```sql\n-- 1) 复现并限制代价\nEXPLAIN ANALYZE\nSELECT ...;\n\n-- 2) 先过滤再关联/窗口\nWITH base AS (\n  SELECT * FROM orders\n  WHERE created_at >= CURRENT_DATE - INTERVAL 7 DAY\n)\nSELECT ... FROM base b JOIN ...;\n```\n\n### 用在哪\n\n1. **线上慢查询周报**。\n2. **上线评审**：复杂 SQL 必过清单。\n3. **教学**：把调优步骤标准化。\n\n### 注意啥\n\n- 清单要点：① 过滤是否可推前 ② 是否 JOIN 爆炸 ③ 是否选错索引\n  ④ 是否必要排序/临时表 ⑤ 统计信息是否新鲜 ⑥ 结果粒度是否正确。\n- 先正确后更快；口径错了再快也没用。\n- 改完用同等数据量回归，防「测快线慢」。",
+              "children": []
+            },
+            {
+              "id": "sql-rewrite-patterns",
+              "title": "常见改写",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：在语义等价前提下改写 SQL，使优化器选更好计划。\n- **常见**：子查询→JOIN、OR→UNION、函数包列→范围、DISTINCT→EXISTS。\n\n### 怎么写\n\n```sql\n-- 相关标量 → JOIN 聚合\n-- BEFORE: SELECT u.*, (SELECT MAX(amount) FROM orders o WHERE o.user_id=u.user_id)\n-- AFTER:\nSELECT u.user_id, u.email, x.max_amt\nFROM users u\nLEFT JOIN (\n  SELECT user_id, MAX(amount) AS max_amt\n  FROM orders GROUP BY user_id\n) x ON x.user_id = u.user_id;\n\n-- OR 两侧难用索引 → UNION ALL 再去重/聚合\n```\n\n### 用在哪\n\n1. **慢查询榜单**第一条手段。\n2. **ORM 生成 SQL**人工改写。\n3. **数仓 SQL**下推过滤。\n\n### 注意啥\n\n- 改写后用同一数据集做结果对比。\n- 以 `EXPLAIN ANALYZE` 验证，不凭感觉。\n- 注意 NULL 与重复行语义是否保持。",
+              "children": []
+            },
+            {
+              "id": "sql-partition-prune",
+              "title": "分区裁剪",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：分区表上谓词能让引擎只扫相关分区，跳过其它分区数据。\n- **关键**：过滤条件命中分区键且不被函数包裹。\n\n### 怎么写\n\n```sql\n-- 假设 orders 按 RANGE (DATE(created_at)) 或 toYYYYMM 分区（示意）\nSELECT user_id, SUM(amount) AS gmv\nFROM orders\nWHERE created_at >= '2024-06-01'\n  AND created_at <  '2024-07-01'\n  AND status = 'paid'\nGROUP BY user_id;\n\n-- BAD: WHERE DATE(created_at) = '2024-06-15' 可能无法裁剪\n```\n\n### 用在哪\n\n1. **明细大表**：按日/月分区查询。\n2. **生命周期**：冷分区归档。\n3. **仓扫描费**：只扫必要分区降本。\n\n### 注意啥\n\n- 分区键选择要贴合查询模式。\n- 跨太多分区等于几乎不裁剪。\n- 与聚簇/排序键（仓）概念区分。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-tune-cases",
+          "title": "场景案例",
+          "level": "??",
+          "content": "### 场景案例 · 章节导读\n\n**学习目标**：慢报表与大 JOIN 的排查套路。\n\n**先修**：EXPLAIN / 改写。",
+          "children": [
+            {
+              "id": "sql-slow-report",
+              "title": "慢报表案例",
+              "level": "???",
+              "content": "### 是什么\n\n- **案例**：日报「每用户 GMV + 近 7 日环比」跑数超时。\n- **思路**：预聚合、减少重复扫、窗口一次算完。\n\n### 怎么写\n\n```sql\n-- 优化后形态示意\nWITH daily AS (\n  SELECT user_id, DATE(created_at) AS dt, SUM(amount) AS gmv\n  FROM orders\n  WHERE status = 'paid'\n    AND created_at >= CURRENT_DATE - INTERVAL 14 DAY\n  GROUP BY user_id, DATE(created_at)\n)\nSELECT\n  user_id, dt, gmv,\n  LAG(gmv, 1) OVER (PARTITION BY user_id ORDER BY dt) AS gmv_yday\nFROM daily;\n-- 进一步：落地 daily 汇总表，报表只读汇总\n```\n\n### 用在哪\n\n1. **经营看板**。\n2. **邮件日报**。\n3. **自助分析加速**。\n\n### 注意啥\n\n- 先 EXPLAIN 找全表扫/大排序。\n- 同一明细被扫多次 → CTE/中间表。\n- 报表可接受 T+1 则物化。",
+              "children": []
+            },
+            {
+              "id": "sql-big-join",
+              "title": "大JOIN案例",
+              "level": "???",
+              "content": "### 是什么\n\n- **案例**：`orders` 亿级 JOIN `users` + 多维表导致内存/时间爆。\n- **思路**：先过滤事实表、广播小维、避免扇出后再聚合。\n\n### 怎么写\n\n```sql\n-- 先压事实再维表\nWITH o AS (\n  SELECT user_id, amount\n  FROM orders\n  WHERE status = 'paid'\n    AND created_at >= '2024-06-01'\n    AND created_at <  '2024-07-01'\n)\nSELECT u.channel, SUM(o.amount) AS gmv\nFROM o\nJOIN users u ON u.user_id = o.user_id\nGROUP BY u.channel;\n```\n\n### 用在哪\n\n1. **大宽表关联**。\n2. **多维下钻报表**。\n3. **反范式前的临时关联**。\n\n### 注意啥\n\n- 检查 JOIN 键类型一致与空值。\n- 防一对多扇出导致指标放大（先聚合再 JOIN）。\n- 仓上注意 shuffle 与广播选择。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-warehouse-patterns",
+          "title": "数仓SQL模式",
+          "level": "??",
+          "content": "### 数仓 SQL 模式 · 章节导读\n\n**学习目标**：增量去重与 SCD2 拉链。\n\n**先修**：窗口去重 / UPSERT。",
+          "children": [
+            {
+              "id": "sql-incremental-dedupe",
+              "title": "增量去重",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：增量任务只处理新到达数据，并与历史合并去重（常按业务键留最新）。\n- **模式**：增量切片 + `ROW_NUMBER`/`MERGE`/`UPSERT`。\n\n### 怎么写\n\n```sql\n-- 当日增量事件去重后合并入目标（示意）\nWITH inc AS (\n  SELECT *\n  FROM order_events\n  WHERE event_time >= CURRENT_DATE\n    AND event_time <  CURRENT_DATE + INTERVAL 1 DAY\n),\ndedup AS (\n  SELECT * FROM (\n    SELECT i.*, ROW_NUMBER() OVER (\n      PARTITION BY event_id ORDER BY event_time DESC\n    ) rn FROM inc i\n  ) t WHERE rn = 1\n)\nINSERT INTO order_events_curated (\n  event_id, order_id, event_type, event_time, payload\n)\nSELECT event_id, order_id, event_type, event_time, payload FROM dedup\nON DUPLICATE KEY UPDATE\n  event_type = VALUES(event_type),\n  event_time = VALUES(event_time),\n  payload = VALUES(payload);\n```\n\n### 用在哪\n\n1. **近实时入仓**。\n2. **Kafka/CDC 落地**。\n3. **日增量 ETL**。\n\n### 注意啥\n\n- 迟到数据要有回刷窗口。\n- 目标表唯一键必须对齐去重键。\n- 与全量对账定期校验。",
+              "children": []
+            },
+            {
+              "id": "sql-scd2",
+              "title": "拉链SCD2",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：缓慢变化维 Type 2——保留历史版本，用生效/失效时间拉链。\n- **字段**：`valid_from, valid_to, is_current`。\n\n### 怎么写\n\n```sql\n-- 查询某时刻用户邮箱（拉链）\nSELECT user_id, email\nFROM dim_users_scd2\nWHERE user_id = 42\n  AND valid_from <= '2024-06-15'\n  AND (valid_to IS NULL OR valid_to > '2024-06-15');\n\n-- 关闭旧链 + 插入新版本（示意，需事务）\nUPDATE dim_users_scd2\nSET valid_to = NOW(), is_current = 0\nWHERE user_id = 42 AND is_current = 1;\n\nINSERT INTO dim_users_scd2 (user_id, email, valid_from, valid_to, is_current)\nVALUES (42, 'new@x.com', NOW(), NULL, 1);\n```\n\n### 用在哪\n\n1. **用户属性史**。\n2. **价格/类目变更追溯**。\n3. **点-in-time 分析**。\n\n### 注意啥\n\n- 时间边界半开区间约定要统一。\n- 并发更新需事务，防双 current。\n- 与 SCD1（覆盖）选型按分析需求。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-security",
+          "title": "安全",
+          "level": "??",
+          "content": "### 安全 · 章节导读\n\n**学习目标**：认清注入并坚持参数化。\n\n**先修**：基础 DML。",
+          "children": [
+            {
+              "id": "sql-injection",
+              "title": "注入与参数化",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：把不可信字符串拼进 SQL，导致语义被篡改（删表、越权读）。\n- **正解**：参数化/预编译绑定，永不拼接用户输入。\n\n### 怎么写\n\n```sql\n-- 危险（示意，勿写）：\n-- \"SELECT * FROM users WHERE email = '\" + userInput + \"'\"\n\n-- MySQL 预编译思想：使用占位符由驱动绑定\n-- PREPARE stmt FROM 'SELECT * FROM users WHERE email = ?';\n-- SET @e = ?; EXECUTE stmt USING @e;\n\n-- 应用层（伪代码）：\n-- db.query('SELECT * FROM orders WHERE user_id = ?', [userId])\n```\n\n### 用在哪\n\n1. **登录/搜索框**。\n2. **动态排序字段**白名单校验。\n3. **管理后台**高危。\n\n### 注意啥\n\n- 即使用 ORM，原生 SQL 拼接同样危险。\n- 标识符（表名/列名）不能绑参，必须白名单。\n- 最小权限账号 + WAF 是纵深，不能替代参数化。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        }
+      ]
+    },
+    {
+      "id": "sql-learning-path",
+      "title": "学习路径",
+      "level": "?",
+      "content": "### 学习路径\n\n按初级→中级→高级推进，配合练习场与方言对照。",
+      "children": [
+        {
+          "id": "sql-roadmap",
+          "title": "路线图",
+          "level": "??",
+          "content": "### 路线图 · 章节导读\n\n**学习目标**：按清单顺序覆盖图谱叶节点。",
+          "children": [
+            {
+              "id": "sql-path-junior",
+              "title": "初级清单",
+              "level": "?",
+              "content": "### 是什么\n\n- **定位**：能独立完成单表查询、基础改写与简单聚合。\n- **建议顺序（对照本图谱叶标题）**：\n\n### 怎么写\n\n```text\n1. SELECT\n2. INSERT\n3. UPDATE/DELETE\n4. WHERE/ORDER\n5. GROUP BY\n6. HAVING\n7. NULL处理\n8. CASE WHEN\n9. 常用函数\n10. DISTINCT\n11. 分页LIMIT\n12. INNER\n13. LEFT\n14. CREATE TABLE\n15. 主键/外键/唯一\n```\n\n### 用在哪\n\n1. **入职首周**：跑通样例库。\n2. **数据分析新人**：取数自助。\n3. **后端新人**：CRUD 与安全更新。\n\n### 注意啥\n\n- 每课至少手敲一遍「怎么写」。\n- 先保证正确，再谈性能。\n- 同步建立 `orders`/`users` 练习库。",
+              "children": []
+            },
+            {
+              "id": "sql-path-mid",
+              "title": "中级清单",
+              "level": "??",
+              "content": "### 是什么\n\n- **定位**：多表关联、窗口、CTE、执行计划入门，能写常见报表 SQL。\n- **建议顺序**：\n\n### 怎么写\n\n```text\n1. UNION系\n2. SELF JOIN\n3. CROSS JOIN\n4. EXISTS\n5. IN与NOT IN\n6. UPSERT\n7. VIEW\n8. INDEX 入门\n9. 数据类型\n10. ALTER TABLE\n11. ROW_NUMBER\n12. RANK\n13. DENSE_RANK\n14. LAG/LEAD\n15. SUM OVER\n16. 窗口帧ROWS\n17. CTE流水线\n18. 标量子查询\n19. EXPLAIN\n20. 复合索引\n```\n\n### 用在哪\n\n1. **数仓初级**。\n2. **业务数据分析师进阶**。\n3. **后端复杂报表**。\n\n### 注意啥\n\n- 窗口三课（TopN/去重/环比）务必完成。\n- 开始养成看 `EXPLAIN` 的习惯。\n- 对照「索引失效」检查自己的 WHERE。",
+              "children": []
+            },
+            {
+              "id": "sql-path-senior",
+              "title": "高级清单",
+              "level": "???",
+              "content": "### 是什么\n\n- **定位**：并发、调优、仓模式与复杂改写，能主导慢 SQL 治理。\n- **建议顺序**：\n\n### 怎么写\n\n```text\n1. EXISTS子查询 / 相关子查询\n2. 递归CTE入门\n3. NTILE / FIRST_VALUE\n4. 物化视图\n5. 覆盖索引 / 索引失效 / ANALYZE统计\n6. BEGIN/COMMIT\n7. 隔离级别 / 脏读幻读\n8. 行锁表锁 / 死锁重试\n9. 调优检查清单\n10. 常见改写 / 分区裁剪\n11. 慢报表案例 / 大JOIN案例\n12. 增量去重 / 拉链SCD2\n13. 注入与参数化\n14. MySQL与PG差异 / 仓SQL注意点\n```\n\n### 用在哪\n\n1. **DBA/后端资深**。\n2. **数仓建模**。\n3. **性能专项**。\n\n### 注意啥\n\n- 结合生产慢日志做真实案例。\n- 隔离与锁建议在测试环境验证。\n- 安全课为上线硬门槛。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-practice-field",
+          "title": "练习场",
+          "level": "??",
+          "content": "### 练习场 · 章节导读\n\n**学习目标**：用同一套 orders/users 完成分级习题。",
+          "children": [
+            {
+              "id": "sql-drill-junior",
+              "title": "初级练习",
+              "level": "?",
+              "content": "### 是什么\n\n- **练习场（初级）**：共用 `users(user_id,email)`、`orders(order_id,user_id,amount,status,created_at)`。\n- **作答**：先自写，再对答案。\n\n### 怎么写\n\n```sql\n-- Q1 查询最近 10 笔 paid 订单\n-- A1\nSELECT order_id, user_id, amount, created_at\nFROM orders WHERE status='paid'\nORDER BY created_at DESC LIMIT 10;\n\n-- Q2 统计每个用户订单数\n-- A2\nSELECT user_id, COUNT(*) AS cnt FROM orders GROUP BY user_id;\n\n-- Q3 找出从未下单的用户\n-- A3\nSELECT u.user_id, u.email FROM users u\nLEFT JOIN orders o ON o.user_id=u.user_id\nWHERE o.order_id IS NULL;\n\n-- Q4 金额缺失视为 0 后求和\n-- A4\nSELECT user_id, SUM(COALESCE(amount,0)) AS s\nFROM orders GROUP BY user_id;\n\n-- Q5 支付用户按 GMV 分档\n-- A5\nSELECT user_id, SUM(amount) AS gmv,\n  CASE WHEN SUM(amount)>=1000 THEN 'H' WHEN SUM(amount)>=100 THEN 'M' ELSE 'L' END AS tier\nFROM orders WHERE status='paid' GROUP BY user_id;\n```\n\n### 用在哪\n\n1. **课堂作业**。\n2. **面试热身**。\n3. **自学打卡**。\n\n### 注意啥\n\n- 先建临时表灌入几行样例再跑。\n- 注意 `LEFT JOIN` 判空用右表主键。\n- 聚合与 CASE 顺序：先 SUM 再分档。",
+              "children": []
+            },
+            {
+              "id": "sql-drill-mid",
+              "title": "中级练习",
+              "level": "??",
+              "content": "### 是什么\n\n- **练习场（中级）**：加入窗口与半连接；表同上，可加 `order_events`。\n- **作答**：对照窗口/EXISTS 课。\n\n### 怎么写\n\n```sql\n-- Q1 每用户金额 Top1 订单\n-- A1\nSELECT * FROM (\n  SELECT o.*, ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY amount DESC) rn\n  FROM orders o WHERE status='paid'\n) t WHERE rn=1;\n\n-- Q2 日 GMV 与昨日环比\n-- A2\nWITH d AS (\n  SELECT DATE(created_at) dt, SUM(amount) gmv FROM orders\n  WHERE status='paid' GROUP BY DATE(created_at)\n)\nSELECT dt, gmv, gmv-LAG(gmv) OVER(ORDER BY dt) AS dod FROM d;\n\n-- Q3 有过退款事件的用户\n-- A3\nSELECT DISTINCT o.user_id FROM orders o\nWHERE EXISTS (\n  SELECT 1 FROM order_events e\n  WHERE e.order_id=o.order_id AND e.event_type='refund'\n);\n\n-- Q4 CTE：paid→user_gmv→Top20\n-- A4\nWITH paid AS (SELECT * FROM orders WHERE status='paid'),\nug AS (SELECT user_id, SUM(amount) gmv FROM paid GROUP BY user_id)\nSELECT * FROM ug ORDER BY gmv DESC LIMIT 20;\n\n-- Q5 事件按 event_id 去重留最新\n-- A5\nSELECT * FROM (\n  SELECT e.*, ROW_NUMBER() OVER(PARTITION BY event_id ORDER BY event_time DESC) rn\n  FROM order_events e\n) t WHERE rn=1;\n```\n\n### 用在哪\n\n1. **进阶作业**。\n2. **报表模拟**。\n3. **窗口专项**。\n\n### 注意啥\n\n- TopN 用 ROW_NUMBER。\n- 环比缺日需补齐（加分项）。\n- EXISTS 不要 `SELECT *`。",
+              "children": []
+            },
+            {
+              "id": "sql-drill-senior",
+              "title": "高级练习",
+              "level": "???",
+              "content": "### 是什么\n\n- **练习场（高级）**：改写、增量、并发意识与安全。\n- **作答**：关注计划与幂等。\n\n### 怎么写\n\n```sql\n-- Q1 改写相关子查询为 JOIN 聚合（每用户最大支付额）\n-- A1\nSELECT u.user_id, u.email, x.max_amt\nFROM users u\nLEFT JOIN (\n  SELECT user_id, MAX(amount) max_amt FROM orders\n  WHERE status='paid' GROUP BY user_id\n) x ON x.user_id=u.user_id;\n\n-- Q2 增量去重合并（当日 event）\n-- A2 见「增量去重」课 UPSERT 模板\n\n-- Q3 解释为何 WHERE YEAR(created_at)=2024 可能索引失效并改写\n-- A3\n-- WHERE created_at>='2024-01-01' AND created_at<'2025-01-01'\n\n-- Q4 死锁重试原则（文字）\n-- A4 捕获 1213/40P01 → 抖动退避 → 幂等重试；事务内统一加锁顺序\n\n-- Q5 参数化查询（伪代码）\n-- A5 db.query('SELECT * FROM orders WHERE user_id=?', [uid])  -- 禁止字符串拼接\n```\n\n### 用在哪\n\n1. **调优演练**。\n2. **数仓作业**。\n3. **安全验收**。\n\n### 注意啥\n\n- 改写前后结果集对比。\n- 结合 EXPLAIN ANALYZE。\n- 安全题零容忍拼接。",
+              "children": []
+            }
+          ],
+          "lessonParent": true
+        },
+        {
+          "id": "sql-dialect",
+          "title": "方言",
+          "level": "??",
+          "content": "### 方言 · 章节导读\n\n**学习目标**：知道 MySQL/PG/仓 SQL 的关键差异。",
+          "children": [
+            {
+              "id": "sql-mysql-pg",
+              "title": "MySQL与PG差异",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：MySQL 与 PostgreSQL 在分页、UPSERT、字符串/日期函数、布尔与 DDL 上差异明显。\n- **迁移**：先锁方言清单，再谈自动改写。\n\n### 怎么写\n\n```sql\n-- 分页：两者均 LIMIT/OFFSET；PG 另有 FETCH FIRST n ROWS ONLY\n-- UPSERT：\n-- MySQL: ON DUPLICATE KEY UPDATE ...\n-- PG:    ON CONFLICT (pk) DO UPDATE SET ...\n\n-- 字符串拼接：MySQL CONCAT()；PG 可用 ||\n-- 布尔：PG 真布尔；MySQL 常用 TINYINT\n\nSELECT VERSION(); -- 两边都有，含义不同\n```\n\n### 用在哪\n\n1. **跨库开发**。\n2. **迁移评估**。\n3. **ORM 方言配置**。\n\n### 注意啥\n\n- 同一业务在两边默认隔离级别不同。\n- JSON/窗口/CTE 支持版本要核对。\n- 保留字与反引号/`\"` 引用规则不同。",
+              "children": []
+            },
+            {
+              "id": "sql-warehouse-dialect",
+              "title": "仓SQL注意点",
+              "level": "???",
+              "content": "### 是什么\n\n- **一句话定义**：仓引擎（BigQuery/Snowflake/DuckDB/Hive 等）SQL 偏分析，强调分区、列存与代价模型。\n- **注意**：临时函数名、QUALIFY、半结构化类型各异。\n\n### 怎么写\n\n```sql\n-- DuckDB / 多数仓：CTAS 物化\nCREATE TABLE user_gmv AS\nSELECT user_id, SUM(amount) AS gmv\nFROM orders\nWHERE status = 'paid'\nGROUP BY user_id;\n\n-- 有 QUALIFY 的引擎可写：\n-- SELECT * FROM (\n--   SELECT *, ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY amount DESC) rn\n--   FROM orders\n-- ) WHERE rn=1;\n-- → QUALIFY ROW_NUMBER() OVER(...) = 1\n```\n\n### 用在哪\n\n1. **数仓建模 SQL**。\n2. **交互分析**。\n3. **跨引擎迁移**。\n\n### 注意啥\n\n- 慎用行式思维的逐行相关子查询。\n- 分区/聚类键决定扫描成本。\n- 时间函数与时区配置先对齐。",
               "children": []
             }
           ],
@@ -8060,12 +9020,14 @@
     (function spawnParticles() {
       const box = document.getElementById("kgParticles");
       if (!box) return;
-      for (let i = 0; i < 18; i++) {
+      for (let i = 0; i < 40; i++) {
         const s = document.createElement("span");
         s.style.left = (Math.random() * 100) + "%";
-        s.style.top = (40 + Math.random() * 60) + "%";
+        s.style.top = (20 + Math.random() * 75) + "%";
         s.style.animationDelay = (Math.random() * 16) + "s";
-        s.style.opacity = String(0.2 + Math.random() * 0.5);
+        s.style.animationDuration = (14 + Math.random() * 10) + "s";
+        s.style.opacity = String(0.18 + Math.random() * 0.55);
+        s.style.width = s.style.height = (1 + Math.random() * 2) + "px";
         box.appendChild(s);
       }
     })();
@@ -8098,6 +9060,20 @@
 
     function placeNodes() {
       const m = layoutMetrics();
+      if (HOME_HERO_ONLY && !(kgDrill && kgDrill.active)) {
+        const cx = (typeof width === "function" ? width() : m.w) / 2;
+        const cy = (typeof height === "function" ? height() : m.h) / 2;
+        nodes.forEach(n => {
+          if (n.id === HOME_HUB_ID) {
+            n.x = n.fx = cx;
+            n.y = n.fy = cy;
+          } else {
+            n.x = n.fx = -4000;
+            n.y = n.fy = -4000;
+          }
+        });
+        return m;
+      }
       nodes.forEach(n => {
         const L = LAYOUT[n.id] || { col: 0, row: 0 };
         const x = m.padX + (L.col + 0.5) * m.colW;
@@ -8166,16 +9142,25 @@
         .on("start", (event) => event.sourceEvent.stopPropagation())
         .on("drag", (event, d) => { d.x = d.fx = event.x; d.y = d.fy = event.y; tick(); }));
 
-    node.append("circle").attr("r", d => d.catalog ? 32 : 26)
+    node.classed("home-hero-node", d => d.id === HOME_HUB_ID);
+    node.append("circle").attr("r", d => {
+        if (HOME_HERO_ONLY && d.id === HOME_HUB_ID) return 78;
+        return d.catalog ? 32 : 26;
+      })
       .attr("fill", d => CATEGORIES[d.category].color)
       .attr("filter", "url(#node-glow)");
     node.append("text")
-      .style("font-size", d => d.catalog ? "12px" : "11px")
+      .style("font-size", d => (HOME_HERO_ONLY && d.id === HOME_HUB_ID) ? "18px" : (d.catalog ? "12px" : "11px"))
       .text(d => shortLabel(d.name));
     node.append("text").attr("class", "learned-mark").attr("dx", 22).attr("dy", -22)
       .text(d => isLearned(d.id) ? "✓" : "");
-    node.append("text").attr("class", "sublabel").attr("dy", 40)
-      .text(d => d.catalog ? "点击展开" : (d.name.length > 5 ? d.name : ""));
+    node.append("text").attr("class", "sublabel").attr("dy", d => (HOME_HERO_ONLY && d.id === HOME_HUB_ID) ? 56 : 40)
+      .text(d => {
+        if (HOME_HERO_ONLY && d.id === HOME_HUB_ID) return "点击展开一级 + 二级";
+        if (KG_TREES && KG_TREES[d.id]) return "点击学教程";
+        return d.catalog ? "点击展开" : (d.name.length > 5 ? d.name : "");
+      });
+    if (HOME_HERO_ONLY) document.body.classList.add("home-hero");
 
     function shortLabel(name) {
       const map = {
@@ -8189,7 +9174,33 @@
 
 
     /* —— SQL/ML 画布焦点下钻（行业百科式扇形弧线 + 章节/讲义侧栏） —— */
-    const L2_SECTOR_COLORS = ["#38bdf8", "#f59e0b", "#34d399", "#a78bfa", "#fb7185", "#4da3ff", "#fbbf24", "#22d3ee"];
+    /* 三扇区（对齐行业百科：左上 / 右上 / 正下） */
+    const KG_SECTORS = {
+      foundation: { key: "foundation", label: "基础", color: "#f97316", glow: "rgba(249,115,22,0.55)", angDeg: 135 },
+      advanced:   { key: "advanced",   label: "进阶", color: "#22c55e", glow: "rgba(34,197,94,0.5)",  angDeg: 45 },
+      practice:   { key: "practice",   label: "实战", color: "#3b82f6", glow: "rgba(59,130,246,0.5)", angDeg: 270 }
+    };
+    const KG_SECTOR_ORDER = ["foundation", "advanced", "practice"];
+    /** 已知领域显式扇区；其余按索引三等分或 level */
+    const KG_SECTOR_BY_ID = {
+      "sql-dml-query": "foundation", "sql-ddl": "foundation", "sql-join": "foundation",
+      "sql-window": "advanced", "sql-cte": "advanced", "sql-index-plan": "advanced",
+      "sql-tx-lock": "practice", "sql-txn": "practice", "sql-tune": "practice",
+      "py-pandas": "foundation", "py-viz": "advanced",
+      "etl-batch": "foundation", "etl-quality": "practice",
+      "dwh-layer": "foundation", "dwh-model": "advanced",
+      "bi-metric": "foundation", "bi-board": "advanced",
+      "ml-tasks": "advanced", "ml-classify": "foundation", "ml-predict": "advanced",
+      "ml-cluster": "advanced", "ml-recommend": "practice", "ml-anomaly": "practice"
+    };
+    let kgSettleTimer = null;
+    let kgFocusHistory = [];
+    let kgShowMore = { foundation: 4, advanced: 4, practice: 4 };
+    let kgShowMoreL3 = 6;
+    let kgSideCollapsed = false;
+    let kgPanelCollapsed = false;
+    let kgLiveSim = null;
+    let kgHoverId = null;
 
         function currentKgTree() {
           if (!kgDrill.hubId) return null;
@@ -8277,35 +9288,432 @@
           return parts;
         }
     
+        function snapshotKgFocus() {
+          return {
+            hubId: kgDrill.hubId,
+            revealed: kgDrill.revealed,
+            expandedL2: kgDrill.expandedL2,
+            expandedL3: kgDrill.expandedL3,
+            selectedLeafId: kgDrill.selectedLeafId,
+            panelMode: kgDrill.panelMode
+          };
+        }
+
+        function pushKgFocusHistory() {
+          if (!kgDrill.active) return;
+          const snap = snapshotKgFocus();
+          const last = kgFocusHistory.length ? kgFocusHistory[kgFocusHistory.length - 1] : null;
+          if (last &&
+              last.expandedL2 === snap.expandedL2 &&
+              last.expandedL3 === snap.expandedL3 &&
+              last.selectedLeafId === snap.selectedLeafId &&
+              last.panelMode === snap.panelMode) return;
+          kgFocusHistory.push(snap);
+          if (kgFocusHistory.length > 40) kgFocusHistory.shift();
+        }
+
+        function restoreKgFocusSnapshot(snap) {
+          if (!snap || !kgDrill.active) return;
+          kgDrill.revealed = snap.revealed !== false;
+          kgDrill.expandedL2 = snap.expandedL2;
+          kgDrill.expandedL3 = snap.expandedL3;
+          kgDrill.selectedLeafId = snap.selectedLeafId;
+          kgDrill.panelMode = snap.panelMode;
+          redrawKgDrill();
+          if (snap.selectedLeafId) {
+            const n = findKgNode(snap.selectedLeafId);
+            if (n) openKgSidePanel(n, snap.panelMode || (isLessonParent(n) ? "chapter" : "lesson"));
+            else closePanelSoft();
+          } else {
+            closePanelSoft();
+          }
+          updateKgDrillHint();
+        }
+
+        function popKgFocusHistory() {
+          if (!kgFocusHistory.length) {
+            exitFocusToOverview();
+            return;
+          }
+          const snap = kgFocusHistory.pop();
+          restoreKgFocusSnapshot(snap);
+        }
+
+        function jumpKgPathDepth(depthIdx) {
+          // depthIdx: 0 = hub only; 1 = L2; 2 = L3; 3 = leaf
+          pushKgFocusHistory();
+          if (depthIdx <= 0) {
+            kgDrill.expandedL2 = null;
+            kgDrill.expandedL3 = null;
+            kgDrill.selectedLeafId = null;
+            closePanelSoft();
+            redrawKgDrill();
+            updateKgDrillHint();
+            return;
+          }
+          if (depthIdx === 1 && kgDrill.expandedL2) {
+            kgDrill.expandedL3 = null;
+            const n = findKgNode(kgDrill.expandedL2);
+            kgDrill.selectedLeafId = isLessonParent(n) ? n.id : null;
+            redrawKgDrill();
+            if (n && isLessonParent(n)) openKgSidePanel(n, "chapter");
+            else closePanelSoft();
+            updateKgDrillHint();
+            return;
+          }
+          if (depthIdx === 2 && kgDrill.expandedL3) {
+            const n = findKgNode(kgDrill.expandedL3);
+            kgDrill.selectedLeafId = n ? n.id : null;
+            redrawKgDrill();
+            if (n) openKgSidePanel(n, isLessonParent(n) ? "chapter" : "lesson");
+            updateKgDrillHint();
+          }
+        }
+
+        function exitFocusToOverview() {
+          kgFocusHistory = [];
+          clearSatellites();
+          resetHighlight();
+          closePanelSoft();
+        }
+
+
+        function updateKgMoreButtons() {
+          const box = document.getElementById("kgMoreBtns");
+          if (!box || !kgDrill.active) return;
+          const tree = currentKgTree();
+          if (!tree) { box.innerHTML = ""; return; }
+          const l2s = filterKgChildren(tree.children || []);
+          const keys = assignSectorKeySmart(l2s);
+          const counts = { foundation: 0, advanced: 0, practice: 0 };
+          l2s.forEach((c, i) => { counts[keys[i] || "advanced"] = (counts[keys[i] || "advanced"] || 0) + 1; });
+          box.innerHTML = "";
+          KG_SECTOR_ORDER.forEach(key => {
+            const total = counts[key] || 0;
+            const shown = kgShowMore[key] || 0;
+            if (total <= shown) return;
+            const sec = KG_SECTORS[key];
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.textContent = `显示更多${sec.label}（${Math.min(shown, total)}/${total}）`;
+            btn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              kgShowMore[key] = Math.min(total, (kgShowMore[key] || 0) + 3);
+              redrawKgDrill();
+              updateKgMoreButtons();
+            });
+            box.appendChild(btn);
+          });
+          const maxL3 = Math.max(0, ...l2s.map(c => filterKgChildren(c.children || []).length));
+          if (maxL3 > kgShowMoreL3) {
+            const btn3 = document.createElement("button");
+            btn3.type = "button";
+            btn3.textContent = `二级主题显示更多（${kgShowMoreL3}/${maxL3}）`;
+            btn3.addEventListener("click", (e) => {
+              e.stopPropagation();
+              kgShowMoreL3 = Math.min(maxL3, kgShowMoreL3 + 4);
+              redrawKgDrill();
+              updateKgMoreButtons();
+            });
+            box.appendChild(btn3);
+          }
+        }
+
+        function collectSearchNodes(root, trail, out) {
+          if (!root) return;
+          const path = trail.concat(root.title);
+          out.push({ id: root.id, title: root.title, path: path.join(" / "), node: root });
+          (root.children || []).forEach(c => collectSearchNodes(c, path, out));
+        }
+
+        function wireKgFocusSearch() {
+          const input = document.getElementById("kgFocusSearch");
+          const drop = document.getElementById("kgFocusSearchDrop");
+          if (!input || !drop || input._bound) return;
+          input._bound = true;
+          const renderDrop = (q) => {
+            const tree = currentKgTree();
+            if (!tree || !q) { drop.classList.remove("open"); drop.innerHTML = ""; return; }
+            const all = [];
+            collectSearchNodes(tree, [], all);
+            const qq = q.trim().toLowerCase();
+            const hits = all.filter(x => x.title.toLowerCase().includes(qq) || x.path.toLowerCase().includes(qq)).slice(0, 12);
+            if (!hits.length) {
+              drop.innerHTML = '<button type="button" disabled>无匹配</button>';
+              drop.classList.add("open");
+              return;
+            }
+            const hilite = (s) => {
+              const i = s.toLowerCase().indexOf(qq);
+              if (i < 0) return escapeHtml(s);
+              return escapeHtml(s.slice(0, i)) + "<mark>" + escapeHtml(s.slice(i, i + qq.length)) + "</mark>" + escapeHtml(s.slice(i + qq.length));
+            };
+            drop.innerHTML = hits.map(h =>
+              `<button type="button" data-sid="${escapeHtml(h.id)}"><div>${hilite(h.title)}</div><div class="meta">${escapeHtml(h.path)}</div></button>`
+            ).join("");
+            drop.classList.add("open");
+            drop.querySelectorAll("[data-sid]").forEach(btn => {
+              btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute("data-sid");
+                const n = findKgNode(id);
+                if (!n) return;
+                drop.classList.remove("open");
+                input.value = n.title;
+                // 展开到该节点：找父链
+                pushKgFocusHistory();
+                const pathIds = [];
+                (function dfs(node, trail) {
+                  const t = trail.concat(node);
+                  if (node.id === id) { pathIds.push(...t.map(x => x.id)); return true; }
+                  for (const c of (node.children || [])) if (dfs(c, t)) return true;
+                  return false;
+                })(currentKgTree(), []);
+                // pathIds[0]=root, [1]=L2 domain, [2]=L3, [3]=leaf
+                if (pathIds.length >= 2) kgDrill.expandedL2 = pathIds[1];
+                if (pathIds.length >= 3) kgDrill.expandedL3 = pathIds[2];
+                kgDrill.selectedLeafId = id;
+                kgDrill.expandAllL2 = true;
+                redrawKgDrill();
+                openKgSidePanel(n, isLessonParent(n) ? "chapter" : (kgNodeKids(n).length ? "chapter" : "lesson"));
+                updateKgDrillHint();
+              });
+            });
+          };
+          input.addEventListener("input", () => renderDrop(input.value));
+          input.addEventListener("focus", () => { if (input.value) renderDrop(input.value); });
+          document.addEventListener("click", () => drop.classList.remove("open"));
+        }
+
+
+        function fitKgFocusView(duration) {
+          if (!kgDrill.active || !satData || !satData.length || typeof zoom === "undefined") return;
+          const pad = 88;
+          let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+          const hubN = nodeById[kgDrill.hubId];
+          if (hubN) {
+            minX = maxX = hubN.x; minY = maxY = hubN.y;
+          }
+          satData.forEach(d => {
+            minX = Math.min(minX, d.x); maxX = Math.max(maxX, d.x);
+            minY = Math.min(minY, d.y); maxY = Math.max(maxY, d.y);
+          });
+          const bw = Math.max(140, maxX - minX + pad * 2);
+          const bh = Math.max(140, maxY - minY + pad * 2);
+          const cx = (minX + maxX) / 2;
+          const cy = (minY + maxY) / 2;
+          const scale = Math.min(1.85, Math.max(0.42, Math.min(width() / bw, height() / bh) * 0.9));
+          const dur = duration == null ? 420 : duration;
+          const t = d3.zoomIdentity.translate(width() / 2, height() / 2).scale(scale).translate(-cx, -cy);
+          if (dur <= 0) svg.call(zoom.transform, t);
+          else svg.transition().duration(dur).ease(d3.easeCubicInOut).call(zoom.transform, t);
+        }
+
+        function countKgLessonStats(root) {
+          let total = 0, done = 0;
+          function walk(n) {
+            if (!n) return;
+            const kids = n.children || [];
+            if (!kids.length) {
+              total += 1;
+              if (isLearned("kg:" + kgDrill.hubId + ":" + n.id)) done += 1;
+              return;
+            }
+            kids.forEach(walk);
+          }
+          walk(root);
+          return { total, done };
+        }
+
+        function showKgNodeTip(d, event) {
+          const tip = document.getElementById("kgNodeTip");
+          const graph = document.getElementById("graph");
+          if (!tip || !graph || !d) return;
+          const kg = findKgNode(d.kgId);
+          const level = kg && kg.level ? sqlKgLevelLabel(kg.level) : "";
+          let kind = "主题";
+          if (d.isLeaf) kind = "讲义";
+          else if (d.isChapter) kind = "章节";
+          else if (d.layer === 2) kind = "一级领域";
+          const learned = isLearned(d.learnId);
+          tip.innerHTML = `<div class="tip-title">${escapeHtml(d.name)}</div>` +
+            `<div class="tip-meta">${escapeHtml(kind)}${level ? " · " + escapeHtml(level) : ""}` +
+            `${learned ? ' · <span class="ok">已学</span>' : ""}</div>`;
+          tip.hidden = false;
+          const rect = graph.getBoundingClientRect();
+          const x = (event && event.clientX != null) ? event.clientX - rect.left : 0;
+          const y = (event && event.clientY != null) ? event.clientY - rect.top : 0;
+          tip.style.left = Math.max(60, Math.min(rect.width - 60, x)) + "px";
+          tip.style.top = Math.max(28, y - 8) + "px";
+        }
+
+        function hideKgNodeTip() {
+          const tip = document.getElementById("kgNodeTip");
+          if (tip) tip.hidden = true;
+        }
+
+        function updateKgProgress() {
+          const meta = document.getElementById("kgProgressMeta");
+          const bar = document.getElementById("kgProgressBar");
+          if (!meta || !bar) return;
+          if (!kgDrill.active) {
+            meta.textContent = "0 / 0";
+            bar.style.width = "0%";
+            return;
+          }
+          const stats = countKgLessonStats(currentKgTree());
+          meta.textContent = stats.done + " / " + stats.total;
+          const pct = stats.total ? Math.round((stats.done / stats.total) * 100) : 0;
+          bar.style.width = pct + "%";
+          bar.title = pct + "%";
+        }
+
+        function wireKgRailsAndZoom() {
+          const sideBtn = document.getElementById("kgToggleSide");
+          const panelBtn = document.getElementById("kgTogglePanel");
+          const zin = document.getElementById("kgZoomIn");
+          const zout = document.getElementById("kgZoomOut");
+          const fit = document.getElementById("kgFit");
+          if (sideBtn && !sideBtn._bound) {
+            sideBtn._bound = true;
+            sideBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              kgSideCollapsed = !kgSideCollapsed;
+              document.body.classList.toggle("is-side-collapsed", kgSideCollapsed);
+              sideBtn.textContent = kgSideCollapsed ? "»" : "«";
+              sideBtn.title = kgSideCollapsed ? "展开左侧栏" : "收起左侧栏";
+              setTimeout(() => { if (typeof relayout === "function") relayout(); redrawKgDrill(); }, 280);
+            });
+          }
+          if (panelBtn && !panelBtn._bound) {
+            panelBtn._bound = true;
+            panelBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              kgPanelCollapsed = !kgPanelCollapsed;
+              document.body.classList.toggle("is-panel-collapsed", kgPanelCollapsed);
+              panelBtn.textContent = kgPanelCollapsed ? "«" : "»";
+              panelBtn.title = kgPanelCollapsed ? "展开右侧详情" : "收起右侧详情";
+              setTimeout(() => { if (typeof relayout === "function") relayout(); redrawKgDrill(); }, 280);
+            });
+          }
+          if (zin && !zin._bound) {
+            zin._bound = true;
+            zin.addEventListener("click", (e) => {
+              e.stopPropagation();
+              svg.transition().duration(200).call(zoom.scaleBy, 1.2);
+            });
+            zout.addEventListener("click", (e) => {
+              e.stopPropagation();
+              svg.transition().duration(200).call(zoom.scaleBy, 1 / 1.2);
+            });
+            fit.addEventListener("click", (e) => {
+              e.stopPropagation();
+              if (kgDrill.active) fitKgFocusView(420);
+              else if (typeof relayout === "function") relayout();
+            });
+          }
+        }
+
+
+        function updateKgFocusChrome() {
+          const side = document.getElementById("kgFocusSide");
+          const titleEl = document.getElementById("kgFocusSideTitle");
+          const pathEl = document.getElementById("kgFocusPath");
+          const hintEl = document.getElementById("kgFocusSideHint");
+          const legEl = document.getElementById("kgFocusLegend");
+          const backBtn = document.getElementById("btnKgFocusBack");
+          const histMeta = document.getElementById("kgHistMeta");
+          if (!side) return;
+          if (!kgDrill.active) {
+            side.setAttribute("hidden", "");
+            return;
+          }
+          side.removeAttribute("hidden");
+          const hub = nodeById[kgDrill.hubId];
+          const hubName = (hub && hub.name) || kgDrill.hubId;
+          if (titleEl) titleEl.textContent = hubName + " · 焦点";
+          if (histMeta) {
+            histMeta.textContent = kgFocusHistory.length
+              ? "· 可回退 " + kgFocusHistory.length + " 步"
+              : "";
+          }
+          if (pathEl) {
+            const titles = kgFocusPathTitles();
+            if (!titles.length) {
+              pathEl.textContent = hubName;
+            } else {
+              pathEl.innerHTML = titles.map((t, i) => {
+                const last = i === titles.length - 1;
+                const cls = last ? "kg-crumb is-current" : "kg-crumb";
+                return `<span class="${cls}" data-path-depth="${i}">${escapeHtml(t)}</span>` +
+                  (last ? "" : " <span style=\"color:#64748b\">→</span> ");
+              }).join("");
+              pathEl.querySelectorAll(".kg-crumb:not(.is-current)").forEach(el => {
+                el.addEventListener("click", (ev) => {
+                  ev.stopPropagation();
+                  const depth = parseInt(el.getAttribute("data-path-depth"), 10);
+                  jumpKgPathDepth(depth);
+                });
+              });
+            }
+          }
+          if (hintEl) {
+            if (kgDrill.panelMode === "chapter") hintEl.textContent = "章节导读 · 点绿色叶节点进入讲义 · 点路径可回退";
+            else if (kgDrill.selectedLeafId) hintEl.textContent = "右侧讲义 · 「返回」先回退历史，空则回总览";
+            else hintEl.textContent = "一级领域 + 二级主题已展开 · 点二级学讲义 · 路径可回退";
+          }
+          if (legEl) {
+            legEl.innerHTML = `<div class="kg-focus-legend-title">扇区图例</div>` + KG_SECTOR_ORDER.map(k => {
+              const s = KG_SECTORS[k];
+              return `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:${s.color};color:${s.color}"></span>${escapeHtml(s.label)} · ${s.angDeg}°</div>`;
+            }).join("") +
+              `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:#34d399;color:#34d399"></span>叶节点讲义</div>` +
+              `<div class="kg-focus-leg-item"><span class="kg-focus-leg-dot" style="background:#f59e0b;color:#f59e0b"></span>已展开分支</div>`;
+          }
+          if (backBtn) {
+            backBtn.textContent = kgFocusHistory.length ? "← 回退一步" : "← 返回总览";
+            if (!backBtn._bound) {
+              backBtn._bound = true;
+              backBtn.addEventListener("click", (event) => {
+                event.stopPropagation();
+                popKgFocusHistory();
+              });
+            }
+          }
+          wireKgFocusSearch();
+          wireKgRailsAndZoom();
+          updateKgMoreButtons();
+          if (typeof updateKgProgress === "function") updateKgProgress();
+          document.body.classList.toggle("is-side-collapsed", !!kgSideCollapsed);
+          document.body.classList.toggle("is-panel-collapsed", !!kgPanelCollapsed);
+        }
+
         function updateKgDrillHint() {
           const el = document.getElementById("sqlDrillHint");
+          updateKgFocusChrome();
           if (!el) return;
           if (!kgDrill.active) { el.hidden = true; return; }
           const hubName = (nodeById[kgDrill.hubId] && nodeById[kgDrill.hubId].name) || kgDrill.hubId;
           let msg;
-          if (!kgDrill.revealed) {
-            msg = `焦点模式：<strong>${escapeHtml(hubName)}</strong> · 再点中心展开领域扇区`;
-          } else if (kgDrill.panelMode === "chapter") {
+          if (kgDrill.panelMode === "chapter") {
             const titles = kgFocusPathTitles();
-            msg = `章节：<strong>${titles.map(escapeHtml).join(" → ")}</strong> · 右侧导读，或点绿色叶节点学讲义`;
+            msg = `章节：<strong>${titles.map(escapeHtml).join(" → ")}</strong> · 右侧导读`;
           } else if (kgDrill.selectedLeafId) {
             const titles = kgFocusPathTitles();
             msg = `路径：<strong>${titles.map(escapeHtml).join(" → ")}</strong>（右侧讲义）`;
           } else if (kgDrill.expandedL2) {
             const titles = kgFocusPathTitles();
-            msg = `路径：<strong>${titles.map(escapeHtml).join(" → ")}</strong> · 继续点主题 / 知识点`;
+            msg = `路径：<strong>${titles.map(escapeHtml).join(" → ")}</strong> · 继续下钻`;
           } else {
-            msg = `已展开 <strong>${escapeHtml(hubName)}</strong> · 扇形一对多下钻 · 倒数第二层出导读 · 叶节点出教程`;
+            msg = `<strong>${escapeHtml(hubName)}</strong> · 基础/进阶/实战三扇区已展开`;
           }
           el.hidden = false;
-          el.innerHTML = `${msg} <button type="button" id="btnExitKgFocus">← 返回总览</button>`;
+          el.innerHTML = `${msg} <button type="button" id="btnExitKgFocus">← 总览</button>`;
           const btn = document.getElementById("btnExitKgFocus");
           if (btn) {
             btn.addEventListener("click", (event) => {
               event.stopPropagation();
-              clearSatellites();
-              resetHighlight();
-              closePanelSoft();
+              exitFocusToOverview();
             });
           }
         }
@@ -8320,22 +9728,24 @@
         function startKgPulse() {
           stopKgPulse();
           if (!kgDrill.active || !kgDrill.hubId) return;
-          let t = 0;
+          let breathe = 0;
           kgPulseTimer = setInterval(() => {
             if (!kgDrill.active || typeof node === "undefined" || !node) return;
-            t += 1;
-            const r = 58 + Math.sin(t / 8) * 3.2;
-            const blur = 22 + Math.sin(t / 8) * 8;
+            breathe = (breathe + 1) % 48;
+            const t = Math.sin((breathe / 48) * Math.PI * 2);
+            const r = 62 + t * 5;
+            const blur = 28 + t * 10;
             node.filter(d => d.id === kgDrill.hubId).select("circle")
               .attr("r", r)
-              .style("filter", `drop-shadow(0 0 ${blur}px rgba(168, 85, 247, 0.85))`);
-          }, 50);
+              .style("filter", `drop-shadow(0 0 ${blur}px rgba(168, 85, 247, 0.65))`);
+          }, 55);
         }
     
         function syncKgHubSize() {
           if (typeof node === "undefined" || !node) return;
           node.select("circle").attr("r", d => {
             if (kgDrill.active && d.id === kgDrill.hubId) return 62;
+            if (HOME_HERO_ONLY && !kgDrill.active && d.id === HOME_HUB_ID) return 78;
             if (KG_TREES[d.id] || d.catalog) return 32;
             return 26;
           });
@@ -8343,7 +9753,7 @@
           node.classed("kg-focus-hub", d => kgDrill.active && d.id === kgDrill.hubId);
           node.select(".sublabel").text(d => {
             if (kgDrill.active && d.id === kgDrill.hubId) {
-              return kgDrill.revealed ? "领域已展开" : "再点展开";
+              return kgDrill.revealed ? "三扇区已展开" : "展开扇区";
             }
             if (KG_TREES[d.id]) return "点击学教程";
             if (d.catalog) return "点击展开";
@@ -8369,13 +9779,21 @@
           kgDrill = {
             active: true,
             hubId,
-            revealed: false,
+            revealed: true,
+            expandAllL2: true,
             expandedL2: null,
             expandedL3: null,
             selectedLeafId: null,
             panelMode: null,
             savedPos: { x: hub.x, y: hub.y }
           };
+          kgFocusHistory = [];
+          kgShowMore = { foundation: 4, advanced: 4, practice: 4 };
+          kgShowMoreL3 = 6;
+          kgSideCollapsed = false;
+          kgPanelCollapsed = false;
+          document.body.classList.remove("is-side-collapsed", "is-panel-collapsed");
+          document.body.classList.remove("home-hero");
     
           const cx = width() / 2;
           const cy = height() / 2;
@@ -8385,14 +9803,30 @@
           document.body.classList.add("kg-focus-on");
           expandedHubId = null;
           closePanelSoft();
-          redrawKgDrill();
-          updateKgDrillHint();
-          syncKgHubSize();
-          if (typeof tick === "function") tick();
+          // flex 舞台改宽后重算画布，再画三扇区
+          const finishEnter = () => {
+            if (typeof relayout === "function") relayout();
+            redrawKgDrill();
+            updateKgDrillHint();
+            syncKgHubSize();
+            if (typeof tick === "function") tick();
+            // settle 几帧后再 fit，避免挤在边缘
+            setTimeout(() => { if (kgDrill.active) fitKgFocusView(520); }, 280);
+            setTimeout(() => { if (kgDrill.active) fitKgFocusView(380); }, 720);
+          };
+          if (typeof requestAnimationFrame === "function") {
+            requestAnimationFrame(() => requestAnimationFrame(finishEnter));
+          } else {
+            setTimeout(finishEnter, 30);
+          }
         }
     
         function exitKgDrill() {
+          hideKgNodeTip();
           stopKgPulse();
+          if (typeof stopKgLiveSim === "function") stopKgLiveSim();
+          else if (typeof stopKgSettle === "function") stopKgSettle();
+          kgFocusHistory = [];
           if (kgDrill.active && kgDrill.hubId && kgDrill.savedPos) {
             const hub = nodeById[kgDrill.hubId];
             if (hub) {
@@ -8404,6 +9838,7 @@
             active: false,
             hubId: null,
             revealed: false,
+            expandAllL2: false,
             expandedL2: null,
             expandedL3: null,
             selectedLeafId: null,
@@ -8411,6 +9846,7 @@
             savedPos: null
           };
           document.body.classList.remove("kg-focus-on");
+          if (HOME_HERO_ONLY) document.body.classList.add("home-hero");
           if (typeof node !== "undefined" && node) {
             node.classed("kg-focus-hub", false);
             node.select("circle").style("filter", null);
@@ -8418,7 +9854,8 @@
           closePanelSoft();
           updateKgDrillHint();
           syncKgHubSize();
-          if (typeof tick === "function") tick();
+          if (typeof relayout === "function") relayout();
+          else if (typeof tick === "function") tick();
         }
     
         function closePanelSoft() {
@@ -8489,6 +9926,7 @@
               const id = btn.getAttribute("data-lesson-id");
               const leaf = findKgNode(id);
               if (!leaf) return;
+              pushKgFocusHistory();
               kgDrill.selectedLeafId = leaf.id;
               if (kgDrill.expandedL3) {
                 /* keep */
@@ -8501,12 +9939,59 @@
           });
     
           selectedId = kgDrill.hubId;
+          panel.classList.remove("sec-foundation", "sec-advanced", "sec-practice");
+          const satHit = (satData || []).find(s => s.kgId === kgNode.id);
+          if (satHit && satHit.sectorKey) panel.classList.add("sec-" + satHit.sectorKey);
           panel.classList.add("open");
           panel.setAttribute("aria-hidden", "false");
+          if (panelCard) {
+            panelCard.classList.remove("kg-swap");
+            void panelCard.offsetWidth;
+            panelCard.classList.add("kg-swap");
+          }
           syncLearnedUI();
           updateKgDrillHint();
         }
     
+        /** 百科同款极角：y 轴向下时用 -sin，使 135°=左上、45°=右上、270°=正下 */
+        function polarOffset(ang, r) {
+          return { dx: Math.cos(ang) * r, dy: -Math.sin(ang) * r };
+        }
+
+        function sectorAngleRad(key) {
+          const s = KG_SECTORS[key] || KG_SECTORS.advanced;
+          return (s.angDeg * Math.PI) / 180;
+        }
+
+        function assignSectorKey(node, index, total) {
+          if (node && node.sector && KG_SECTORS[node.sector]) return node.sector;
+          if (node && KG_SECTOR_BY_ID[node.id]) return KG_SECTOR_BY_ID[node.id];
+          const rank = levelRank(node && node.level);
+          const levels = []; // filled by caller when mixed — fallback thirds
+          if (total <= 1) return "advanced";
+          // 若调用方传入了多样性，优先用 level；此处默认三等分以形成辐射剪影
+          const third = Math.ceil(total / 3) || 1;
+          if (index < third) return "foundation";
+          if (index < third * 2) return "advanced";
+          return "practice";
+        }
+
+        function assignSectorKeySmart(nodes) {
+          const ranks = nodes.map(n => levelRank(n.level || "??"));
+          const uniq = new Set(ranks);
+          return nodes.map((n, i) => {
+            if (n.sector && KG_SECTORS[n.sector]) return n.sector;
+            if (KG_SECTOR_BY_ID[n.id]) return KG_SECTOR_BY_ID[n.id];
+            if (uniq.size >= 2) {
+              const r = levelRank(n.level || "??");
+              if (r <= 1) return "foundation";
+              if (r >= 3) return "practice";
+              return "advanced";
+            }
+            return assignSectorKey(n, i, nodes.length);
+          });
+        }
+
         /** 二次贝塞尔弧线（顺时针弯，模拟百科 curvedCW） */
         function satArcPath(px, py, x, y, layer, siblingIndex, siblingTotal) {
           const dx = x - px, dy = y - py;
@@ -8519,124 +10004,192 @@
           const nx = -dy / dist, ny = dx / dist;
           const roundness = layer <= 2 ? 0.28 : 0.35;
           const bend = Math.min(48, dist * roundness) * (siblingTotal > 1 ? 1 : 0.7);
-          // 统一弯向：相对径向的垂直方向取正侧（CW）
           const sign = 1;
           return `M${px},${py}Q${mx + nx * bend * sign},${my + ny * bend * sign} ${tx},${ty}`;
         }
-    
-        function redrawKgDrill() {
-          if (!kgDrill.active) return;
-          const tree = currentKgTree();
-          const hub = nodeById[kgDrill.hubId];
-          if (!hub || !tree) return;
-          const items = [];
-    
-          function pushFan(c, px, py, layer, baseR, idx, total, parentAng, color) {
-            let ang;
-            if (total <= 1) {
-              ang = (parentAng != null) ? parentAng : -Math.PI / 2;
-            } else if (parentAng != null) {
-              const fan = Math.min(1.15, 0.22 * Math.max(total, 1));
-              ang = parentAng - fan / 2 + (fan * idx) / Math.max(total - 1, 1);
-            } else {
-              // L2：扇区分布（非整圆挤满）——留出缺口，一对多更清晰
-              const spread = Math.min(Math.PI * 1.55, 0.42 * Math.max(total, 1));
-              const base = -Math.PI / 2;
-              ang = total === 1 ? base : base - spread / 2 + (spread * idx) / Math.max(total - 1, 1);
-            }
-            const jitter = (idx % 3) * (layer === 2 ? 22 : 14);
-            const r = baseR + jitter;
-            const x = px + Math.cos(ang) * r;
-            const y = py + Math.sin(ang) * r;
-            const hasKids = !!filterKgChildren(kgNodeKids(c)).length || (!!kgNodeKids(c).length && depthLevel === "senior");
-            // visibility of children already filtered when iterating; hasKids based on raw for expandability
-            const rawKids = kgNodeKids(c);
-            const canExpand = filterKgChildren(rawKids).length > 0;
-            const isL2Exp = layer === 2 && kgDrill.expandedL2 === c.id;
-            const isL3Exp = layer === 3 && kgDrill.expandedL3 === c.id;
-            const expanded = isL2Exp || isL3Exp;
-            const leaf = !rawKids.length;
-            const chapter = isLessonParent(c);
-            items.push({
-              learnId: "kg:" + kgDrill.hubId + ":" + c.id,
-              kgId: c.id,
-              name: c.title,
-              x, y,
-              parentX: px,
-              parentY: py,
-              layer,
-              ang,
-              r,
-              sibIdx: idx,
-              sibTotal: total,
-              isLeaf: leaf,
-              isChapter: chapter && !leaf,
-              isBranch: canExpand && expanded,
-              color: leaf
-                ? "#34d399"
-                : (expanded ? "#f59e0b" : (color || (layer === 2 ? L2_SECTOR_COLORS[idx % L2_SECTOR_COLORS.length] : "#38bdf8")))
-            });
-            return { x, y, ang, r, hasKids: canExpand, expanded, leaf, chapter };
+
+        function stopKgSettle() {
+          if (kgSettleTimer) {
+            clearTimeout(kgSettleTimer);
+            kgSettleTimer = null;
           }
-    
-          if (kgDrill.revealed) {
-            const l2s = filterKgChildren(tree.children || []);
-            l2s.forEach((c, i) => {
-              const col = L2_SECTOR_COLORS[i % L2_SECTOR_COLORS.length];
-              const placed = pushFan(c, hub.x, hub.y, 2, 190, i, l2s.length, null, col);
-              if (kgDrill.expandedL2 === c.id && placed.hasKids) {
-                const l3s = filterKgChildren(c.children || []);
-                l3s.forEach((c3, j) => {
-                  const p3 = pushFan(c3, placed.x, placed.y, 3, 108, j, l3s.length, placed.ang, col);
-                  if (kgDrill.expandedL3 === c3.id && p3.hasKids) {
-                    const l4s = filterKgChildren(c3.children || []);
-                    l4s.forEach((c4, k) => {
-                      pushFan(c4, p3.x, p3.y, 4, 82, k, l4s.length, p3.ang, col);
-                    });
-                  }
-                });
+        }
+
+        function stopKgLiveSim() {
+          if (kgLiveSim) {
+            kgLiveSim.stop();
+            kgLiveSim = null;
+          }
+          stopKgSettle();
+        }
+
+        /** 弹簧 + 软持续物理（对齐百科 BarnesHut 稳定后不关死） */
+        function settleSatPositions(items, hub, animate) {
+          if (!items.length || typeof d3 === "undefined" || !d3.forceSimulation) return items;
+          stopKgLiveSim();
+          const byId = new Map(items.map(d => [d.learnId, d]));
+          items.forEach(d => {
+            if (d.tx == null) d.tx = d.x;
+            if (d.ty == null) d.ty = d.y;
+            d._r = baseSatRadius(d);
+            // 同步父子端点：用当前父节点坐标（拖动后仍跟手）
+            if (d.parentId && byId.has(d.parentId)) {
+              const p = byId.get(d.parentId);
+              d.parentX = p.x; d.parentY = p.y;
+            } else {
+              d.parentX = hub.x; d.parentY = hub.y;
+            }
+          });
+          const springs = items
+            .filter(d => d.parentId && byId.has(d.parentId))
+            .map(d => ({
+              source: byId.get(d.parentId),
+              target: d,
+              dist: Math.max(70, (d.r || 100) * 0.55)
+            }));
+          // hub 虚拟锚：layer2 拉向目标扇区位
+          const minDist = 86;
+          kgLiveSim = d3.forceSimulation(items)
+            .force("collide", d3.forceCollide().radius(d => (d._r || 20) + 8).strength(0.85).iterations(2))
+            .force("x", d3.forceX(d => d.tx).strength(0.14))
+            .force("y", d3.forceY(d => d.ty).strength(0.14))
+            .force("charge", d3.forceManyBody().strength(d => d.layer === 2 ? -42 : -22))
+            .force("link", d3.forceLink(springs).distance(d => d.dist).strength(0.45).iterations(1))
+            .velocityDecay(0.42)
+            .alpha(0.85)
+            .alphaDecay(0.028)
+            .alphaMin(0.001);
+
+          let ticks = 0;
+          kgLiveSim.on("tick", () => {
+            ticks += 1;
+            items.forEach(d => {
+              if (d.parentId && byId.has(d.parentId)) {
+                const p = byId.get(d.parentId);
+                d.parentX = p.x; d.parentY = p.y;
+              } else {
+                d.parentX = hub.x; d.parentY = hub.y;
+              }
+              const dx = d.x - hub.x, dy = d.y - hub.y;
+              const dist = Math.hypot(dx, dy) || 1;
+              if (dist < minDist) {
+                d.x = hub.x + (dx / dist) * minDist;
+                d.y = hub.y + (dy / dist) * minDist;
               }
             });
+            if (satNodeSel) satNodeSel.attr("transform", d => `translate(${d.x},${d.y})`);
+            if (satLinkSel) {
+              satLinkSel.attr("d", d => satArcPath(d.parentX, d.parentY, d.x, d.y, d.layer, d.sibIdx, d.sibTotal));
+            }
+            if (ticks === 50) {
+              kgLiveSim.force("charge", d3.forceManyBody().strength(-10));
+              kgLiveSim.force("x", d3.forceX(d => d.tx).strength(0.035));
+              kgLiveSim.force("y", d3.forceY(d => d.ty).strength(0.035));
+              kgLiveSim.force("link", d3.forceLink(springs).distance(d => d.dist).strength(0.18));
+              kgLiveSim.alphaDecay(0.012);
+              // 不 stop：保留极低活感（百科稳定后仍开物理）
+              kgLiveSim.alphaTarget(0.018);
+            }
+          });
+          if (!animate) {
+            for (let i = 0; i < 48; i++) kgLiveSim.tick();
+            kgLiveSim.alphaTarget(0.018);
           }
-    
+          return items;
+        }
+
+        function baseSatRadius(d) {
+          if (d.isLeaf) return 17;
+          if (d.isBranch) return 28;
+          if (d.isChapter) return 24;
+          if (d.layer === 2) return 26;
+          return 20;
+        }
+
+        function paintSatLayer(items) {
           satData = items;
-    
+          const byId = new Map(items.map(d => [d.learnId, d]));
+
+          function refreshHoverClasses() {
+            if (!satNodeSel) return;
+            const hot = kgHoverId;
+            const hotNode = hot ? byId.get(hot) : null;
+            const related = new Set();
+            if (hotNode) {
+              related.add(hot);
+              if (hotNode.parentId) related.add(hotNode.parentId);
+              items.forEach(d => { if (d.parentId === hot) related.add(d.learnId); });
+            }
+            satNodeSel
+              .classed("is-hot", d => !!hot && d.learnId === hot)
+              .classed("is-dimmed", d => !!hot && !related.has(d.learnId));
+            if (satLinkSel) {
+              satLinkSel
+                .classed("is-hot", d => !!hot && (d.learnId === hot || d.parentId === hot || (hotNode && d.learnId === hotNode.parentId)))
+                .classed("is-dimmed", d => {
+                  if (!hot) return false;
+                  return !(d.learnId === hot || d.parentId === hot || (hotNode && (d.learnId === hotNode.parentId || d.parentId === hotNode.parentId)));
+                });
+            }
+          }
+
           satLinkSel = satLinkG.selectAll("path").data(satData, d => d.learnId)
-            .join("path")
-            .attr("class", d => `sat-link layer-${d.layer}${d.layer >= 3 ? " dashed" : ""}`)
-            .attr("stroke", d => d.color)
+            .join(
+              enter => enter.append("path")
+                .attr("class", d => `sat-link layer-${d.layer}${d.layer >= 3 ? " dashed" : ""}`)
+                .attr("stroke", d => d.color)
+                .attr("opacity", 0)
+                .call(s => s.transition().duration(520).ease(d3.easeCubicOut).attr("opacity", 1)),
+              update => update
+                .attr("class", d => `sat-link layer-${d.layer}${d.layer >= 3 ? " dashed" : ""}`)
+                .attr("stroke", d => d.color),
+              exit => exit.transition().duration(160).attr("opacity", 0).remove()
+            )
             .attr("d", d => satArcPath(d.parentX, d.parentY, d.x, d.y, d.layer, d.sibIdx, d.sibTotal));
-    
+
           satNodeSel = satNodeG.selectAll("g").data(satData, d => d.learnId)
-            .join(enter => {
-              const g = enter.append("g").attr("class", "sat-node");
-              g.append("circle");
-              g.append("text").attr("class", "sat-label");
-              g.append("text").attr("class", "sat-sub").attr("dy", 20);
-              return g;
-            })
+            .join(
+              enter => {
+                const g = enter.append("g").attr("class", "sat-node entering").attr("opacity", 0);
+                g.append("circle").attr("r", 0);
+                g.append("text").attr("class", "sat-label");
+                g.append("text").attr("class", "sat-sub").attr("dy", 22);
+                g.transition().duration(420).ease(d3.easeCubicOut).attr("opacity", 1)
+                  .on("end", function () { d3.select(this).classed("entering", false); });
+                g.select("circle").transition().duration(520).ease(d3.easeBackOut.overshoot(1.35))
+                  .attr("r", d => baseSatRadius(d));
+                return g;
+              },
+              update => update,
+              exit => exit.transition().duration(140).attr("opacity", 0).remove()
+            )
             .attr("transform", d => `translate(${d.x},${d.y})`)
             .attr("class", d => {
               let cls = `sat-node layer-${d.layer}`;
               if (d.isLeaf) cls += " is-leaf";
               if (d.isChapter) cls += " is-chapter";
               if (d.isBranch) cls += " is-branch";
+              if (d.sectorKey) cls += " sec-" + d.sectorKey;
               return cls;
             })
             .classed("selected", d => d.kgId === kgDrill.selectedLeafId)
             .classed("learned", d => isLearned(d.learnId));
-    
+
           satNodeSel.select("circle")
+            .attr("fill", d => d.color)
+            .style("filter", d => d.sectorGlow
+              ? `drop-shadow(0 0 14px ${d.sectorGlow})`
+              : null);
+          satNodeSel.filter(function () { return !d3.select(this).classed("entering"); })
+            .select("circle")
             .attr("r", d => {
-              if (d.isLeaf) return 17;
-              if (d.isBranch) return 28;
-              if (d.isChapter) return 24;
-              if (d.layer === 2) return 26;
-              return 20;
-            })
-            .attr("fill", d => d.color);
+              if (kgHoverId && d.learnId === kgHoverId) return baseSatRadius(d) * 1.22;
+              if (d.kgId === kgDrill.selectedLeafId) return baseSatRadius(d) * 1.08;
+              return baseSatRadius(d);
+            });
+
           satNodeSel.select("text.sat-label")
-            .text(d => d.name.length > 7 ? d.name.slice(0, 6) + "…" : d.name);
+            .text(d => d.name.length > 8 ? d.name.slice(0, 7) + "…" : d.name);
           satNodeSel.select("text.sat-sub")
             .text(d => {
               if (d.isLeaf) return "讲义";
@@ -8645,22 +10198,245 @@
               if (d.isBranch) return "已展开";
               return "展开";
             });
-    
+
           satNodeSel.on("click", (event, d) => {
             event.stopPropagation();
             onKgDrillClick(d);
           });
-    
+
+          satNodeSel.on("mouseenter", function (event, d) {
+            kgHoverId = d.learnId;
+            refreshHoverClasses();
+            showKgNodeTip(d, event);
+            d3.select(this).select("circle")
+              .transition().duration(140)
+              .attr("r", baseSatRadius(d) * 1.22);
+          });
+          satNodeSel.on("mousemove", function (event, d) {
+            showKgNodeTip(d, event);
+          });
+          satNodeSel.on("mouseleave", function (event, d) {
+            if (kgHoverId === d.learnId) kgHoverId = null;
+            refreshHoverClasses();
+            hideKgNodeTip();
+            d3.select(this).select("circle")
+              .transition().duration(160)
+              .attr("r", d.kgId === kgDrill.selectedLeafId ? baseSatRadius(d) * 1.08 : baseSatRadius(d));
+          });
+
+          satNodeSel.call(d3.drag()
+            .on("start", (event, d) => {
+              event.sourceEvent.stopPropagation();
+              hideKgNodeTip();
+              if (kgLiveSim) kgLiveSim.alphaTarget(0.35).restart();
+              d.fx = d.x; d.fy = d.y;
+              d._dragKids = items.filter(n => n.parentId === d.learnId);
+              d._dragKids.forEach(k => {
+                k._ox = k.x - d.x; k._oy = k.y - d.y;
+                k.fx = k.x; k.fy = k.y;
+              });
+            })
+            .on("drag", (event, d) => {
+              const dx = event.x - d.x, dy = event.y - d.y;
+              d.fx = d.x = event.x;
+              d.fy = d.y = event.y;
+              d.tx = d.x; d.ty = d.y;
+              (d._dragKids || []).forEach(k => {
+                k.fx = k.x = d.x + (k._ox || 0);
+                k.fy = k.y = d.y + (k._oy || 0);
+                k.tx = k.x; k.ty = k.y;
+                k.parentX = d.x; k.parentY = d.y;
+              });
+              items.forEach(n => {
+                if (n.parentId && byId.has(n.parentId)) {
+                  const p = byId.get(n.parentId);
+                  n.parentX = p.x; n.parentY = p.y;
+                }
+              });
+              if (satNodeSel) satNodeSel.attr("transform", n => `translate(${n.x},${n.y})`);
+              if (satLinkSel) {
+                satLinkSel.attr("d", n => satArcPath(n.parentX, n.parentY, n.x, n.y, n.layer, n.sibIdx, n.sibTotal));
+              }
+            })
+            .on("end", (event, d) => {
+              d.fx = null; d.fy = null;
+              (d._dragKids || []).forEach(k => { k.fx = null; k.fy = null; });
+              d._dragKids = null;
+              if (kgLiveSim) kgLiveSim.alphaTarget(0.018);
+            }));
+
+          refreshHoverClasses();
+        }
+
+        function redrawKgDrill() {
+          if (!kgDrill.active) return;
+          const tree = currentKgTree();
+          const hub = nodeById[kgDrill.hubId];
+          if (!hub || !tree) return;
+          const items = [];
+          const prevPos = new Map((satData || []).map(d => [d.learnId, { x: d.x, y: d.y, tx: d.tx, ty: d.ty }]));
+
+          function applyPrev(item) {
+            const p = prevPos.get(item.learnId);
+            if (p) {
+              item.x = p.x; item.y = p.y;
+              item.tx = p.tx != null ? p.tx : p.x;
+              item.ty = p.ty != null ? p.ty : p.y;
+              item._kept = true;
+            } else {
+              // 新节点：从父点弹出再 settle 到扇区目标位
+              item.tx = item.x; item.ty = item.y;
+              if (item.parentX != null && item.parentY != null) {
+                item.x = item.parentX;
+                item.y = item.parentY;
+              }
+              item._kept = false;
+            }
+            return item;
+          }
+
+          function pushFan(c, px, py, layer, baseR, idx, total, parentAng, color, sectorKey, sectorGlow, parentLearnId) {
+            let ang;
+            if (total <= 1) {
+              ang = (parentAng != null) ? parentAng : sectorAngleRad(sectorKey || "advanced");
+            } else if (parentAng != null && layer > 2) {
+              const fan = Math.min(1.15, 0.22 * Math.max(total, 1));
+              ang = parentAng - fan / 2 + (fan * idx) / Math.max(total - 1, 1);
+            } else if (parentAng != null) {
+              const spread = Math.min(0.9, 0.18 * Math.max(total, 1));
+              ang = total === 1 ? parentAng : parentAng - spread / 2 + (spread * idx) / Math.max(total - 1, 1);
+            } else {
+              ang = -Math.PI / 2;
+            }
+            const jitter = (idx % 3) * (layer === 2 ? 22 : 14);
+            const r = baseR + jitter;
+            const off = polarOffset(ang, r);
+            const x = px + off.dx;
+            const y = py + off.dy;
+            const rawKids = kgNodeKids(c);
+            const canExpand = filterKgChildren(rawKids).length > 0;
+            const isL2Exp = layer === 2 && kgDrill.expandedL2 === c.id;
+            const isL3Exp = layer === 3 && kgDrill.expandedL3 === c.id;
+            const expanded = isL2Exp || isL3Exp;
+            const leaf = !rawKids.length;
+            const chapter = isLessonParent(c);
+            const sec = KG_SECTORS[sectorKey] || null;
+            const fill = leaf
+              ? "#34d399"
+              : (expanded ? "#f59e0b" : (color || (sec ? sec.color : "#38bdf8")));
+            const item = applyPrev({
+              learnId: "kg:" + kgDrill.hubId + ":" + c.id,
+              kgId: c.id,
+              name: c.title,
+              x, y,
+              parentX: px,
+              parentY: py,
+              parentId: parentLearnId || null,
+              layer,
+              ang,
+              r,
+              sibIdx: idx,
+              sibTotal: total,
+              isLeaf: leaf,
+              isChapter: chapter && !leaf,
+              isBranch: canExpand && expanded,
+              color: fill,
+              sectorKey: sectorKey || null,
+              sectorGlow: sectorGlow || (sec ? sec.glow : null)
+            });
+            items.push(item);
+            return { x: item.x, y: item.y, ang, r, hasKids: canExpand, expanded, leaf, chapter, learnId: item.learnId };
+          }
+
+          if (kgDrill.revealed) {
+            const l2s = filterKgChildren(tree.children || []);
+            const sectorKeys = assignSectorKeySmart(l2s);
+            const groups = { foundation: [], advanced: [], practice: [] };
+            l2s.forEach((c, i) => {
+              const key = sectorKeys[i] || "advanced";
+              groups[key] = groups[key] || [];
+              groups[key].push({ node: c, sectorKey: key });
+            });
+            KG_SECTOR_ORDER.forEach((key) => {
+              const full = groups[key] || [];
+              if (!full.length) return;
+              const limit = (kgShowMore && kgShowMore[key]) || full.length;
+              const list = full.slice(0, Math.min(limit, full.length));
+              const sec = KG_SECTORS[key];
+              const base = sectorAngleRad(key);
+              const n = list.length;
+              const spread = Math.min(0.9, 0.18 * Math.max(n, 1));
+              list.forEach((entry, i) => {
+                const c = entry.node;
+                const ang = n === 1 ? base : base - spread / 2 + (spread * i) / Math.max(n - 1, 1);
+                const baseR = 200 + (i % 3) * 24;
+                const off = polarOffset(ang, baseR);
+                const placed = {
+                  x: hub.x + off.dx,
+                  y: hub.y + off.dy,
+                  ang,
+                  r: baseR
+                };
+                // push via shared item builder (manual parent = hub)
+                const rawKids = kgNodeKids(c);
+                const canExpand = filterKgChildren(rawKids).length > 0;
+                const expanded = kgDrill.expandAllL2 || kgDrill.expandedL2 === c.id;
+                const leaf = !rawKids.length;
+                const chapter = isLessonParent(c);
+                items.push(applyPrev({
+                  learnId: "kg:" + kgDrill.hubId + ":" + c.id,
+                  kgId: c.id,
+                  name: c.title,
+                  x: placed.x,
+                  y: placed.y,
+                  parentX: hub.x,
+                  parentY: hub.y,
+                  parentId: null,
+                  layer: 2,
+                  ang: placed.ang,
+                  r: placed.r,
+                  sibIdx: i,
+                  sibTotal: n,
+                  isLeaf: leaf,
+                  isChapter: chapter && !leaf,
+                  isBranch: canExpand && expanded,
+                  color: leaf ? "#34d399" : (expanded ? "#f59e0b" : sec.color),
+                  sectorKey: key,
+                  sectorGlow: sec.glow
+                }));
+                const l2Node = items[items.length - 1];
+                // 一级领域展开后立刻带出二级主题（expandAllL2 或单选 expandedL2）
+                if (expanded && canExpand) {
+                  const l3All = filterKgChildren(c.children || []);
+                  const l3s = l3All.slice(0, kgShowMoreL3 || l3All.length);
+                  l3s.forEach((c3, j) => {
+                    const p3 = pushFan(c3, l2Node.x, l2Node.y, 3, 108, j, l3s.length, l2Node.ang, sec.color, key, sec.glow, l2Node.learnId);
+                    if (kgDrill.expandedL3 === c3.id && p3.hasKids) {
+                      const l4s = filterKgChildren(c3.children || []);
+                      l4s.forEach((c4, k) => {
+                        pushFan(c4, p3.x, p3.y, 4, 82, k, l4s.length, p3.ang, sec.color, key, sec.glow, p3.learnId);
+                      });
+                    }
+                  });
+                }
+              });
+            });
+          }
+
+          paintSatLayer(items);
+          settleSatPositions(items, hub, true);
           syncKgHubSize();
           updateKgDrillHint();
+          updateKgFocusChrome();
         }
-    
+
         function onKgDrillClick(sat) {
           const kg = findKgNode(sat.kgId);
           if (!kg) return;
           const kids = filterKgChildren(kgNodeKids(kg));
           const rawKids = kgNodeKids(kg);
-    
+          pushKgFocusHistory();
+
           // 叶节点 → 讲义
           if (!rawKids.length) {
             kgDrill.selectedLeafId = kg.id;
@@ -8670,21 +10446,7 @@
           }
     
           if (sat.layer === 2) {
-            if (kgDrill.expandedL2 === kg.id) {
-              // 已展开：若是章节父级，再次点击打开/刷新导读；否则收起
-              if (isLessonParent(kg)) {
-                kgDrill.selectedLeafId = kg.id;
-                redrawKgDrill();
-                openKgSidePanel(kg, "chapter");
-                return;
-              }
-              kgDrill.expandedL2 = null;
-              kgDrill.expandedL3 = null;
-              kgDrill.selectedLeafId = null;
-              closePanelSoft();
-              redrawKgDrill();
-              return;
-            }
+            // 一级领域：保持全部二级可见；点领域可打开章节导读或聚焦该支
             kgDrill.expandedL2 = kg.id;
             kgDrill.expandedL3 = null;
             if (isLessonParent(kg)) {
@@ -8692,6 +10454,7 @@
               redrawKgDrill();
               openKgSidePanel(kg, "chapter");
             } else {
+              // 非章节父：仅聚焦，二级主题已由 expandAllL2 展示
               kgDrill.selectedLeafId = null;
               closePanelSoft();
               redrawKgDrill();
@@ -8737,6 +10500,8 @@
         function clearSatellites() {
       expandedHubId = null;
       if (typeof stopKgPulse === "function") stopKgPulse();
+      if (typeof stopKgLiveSim === "function") stopKgLiveSim();
+      else if (typeof stopKgSettle === "function") stopKgSettle();
       if (kgDrill && kgDrill.active) exitKgDrill();
       satData = [];
       satLinkG.selectAll("*").remove();
@@ -8823,7 +10588,7 @@
       event.stopPropagation();
       panelState = { mode: d.catalog ? "list" : "overview", engineId: null, compareOn: false, compareIds: [] };
       if (KG_TREES[d.id]) {
-        // 行业百科式：焦点模式 — 首次进中心；再点中心揭示 L2
+        // 行业百科式：进入焦点即展开三扇区
         selectedId = d.id;
         const related = neighbors[d.id] || new Set();
         node.classed("selected", n => n.id === d.id)
@@ -8837,9 +10602,9 @@
           if (!kgDrill.revealed) {
             kgDrill.revealed = true;
             redrawKgDrill();
-            updateKgDrillHint();
-            syncKgHubSize();
           }
+          updateKgDrillHint();
+          syncKgHubSize();
         } else {
           enterKgDrill(d.id);
         }
