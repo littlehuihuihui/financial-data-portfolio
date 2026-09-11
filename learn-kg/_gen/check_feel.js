@@ -10,7 +10,7 @@
       intel:   { label: "INTEL 智能",   color: "#fb7185" }
     };
 
-    /** 首屏只展示一个课程入口；点击后展开其一级 + 二级 */
+    /** 首屏只展示一个课程入口；点击后展开全部一级，再点某一级看其二级 */
     const HOME_HUB_ID = "sql";
     const HOME_HERO_ONLY = true;
 
@@ -7925,6 +7925,21 @@
         });
         return m;
       }
+      // 焦点模式：中心锁定 hub，其它节点移出视野（避免流水线坐标把一级卫星挤没）
+      if (kgDrill && kgDrill.active && kgDrill.hubId) {
+        const cx = (typeof width === "function" ? width() : m.w) / 2;
+        const cy = (typeof height === "function" ? height() : m.h) / 2;
+        nodes.forEach(n => {
+          if (n.id === kgDrill.hubId) {
+            n.x = n.fx = cx;
+            n.y = n.fy = cy;
+          } else {
+            n.x = n.fx = -4000;
+            n.y = n.fy = -4000;
+          }
+        });
+        return m;
+      }
       nodes.forEach(n => {
         const L = LAYOUT[n.id] || { col: 0, row: 0 };
         const x = m.padX + (L.col + 0.5) * m.colW;
@@ -7995,19 +8010,19 @@
 
     node.classed("home-hero-node", d => d.id === HOME_HUB_ID);
     node.append("circle").attr("r", d => {
-        if (HOME_HERO_ONLY && d.id === HOME_HUB_ID) return 78;
+        if (HOME_HERO_ONLY && d.id === HOME_HUB_ID) return 46;
         return d.catalog ? 32 : 26;
       })
       .attr("fill", d => CATEGORIES[d.category].color)
       .attr("filter", "url(#node-glow)");
     node.append("text")
-      .style("font-size", d => (HOME_HERO_ONLY && d.id === HOME_HUB_ID) ? "18px" : (d.catalog ? "12px" : "11px"))
+      .style("font-size", d => (HOME_HERO_ONLY && d.id === HOME_HUB_ID) ? "13px" : (d.catalog ? "12px" : "11px"))
       .text(d => shortLabel(d.name));
     node.append("text").attr("class", "learned-mark").attr("dx", 22).attr("dy", -22)
       .text(d => isLearned(d.id) ? "✓" : "");
-    node.append("text").attr("class", "sublabel").attr("dy", d => (HOME_HERO_ONLY && d.id === HOME_HUB_ID) ? 56 : 40)
+    node.append("text").attr("class", "sublabel").attr("dy", d => (HOME_HERO_ONLY && d.id === HOME_HUB_ID) ? 38 : 34)
       .text(d => {
-        if (HOME_HERO_ONLY && d.id === HOME_HUB_ID) return "点击展开一级 + 二级";
+        if (HOME_HERO_ONLY && d.id === HOME_HUB_ID) return "点击展开一级";
         if (KG_TREES && KG_TREES[d.id]) return "点击学教程";
         return d.catalog ? "点击展开" : (d.name.length > 5 ? d.name : "");
       });
@@ -8046,7 +8061,7 @@
     };
     let kgSettleTimer = null;
     let kgFocusHistory = [];
-    let kgShowMore = { foundation: 4, advanced: 4, practice: 4 };
+    let kgShowMore = { foundation: 8, advanced: 8, practice: 8 };
     let kgShowMoreL3 = 6;
     let kgSideCollapsed = false;
     let kgPanelCollapsed = false;
@@ -8324,7 +8339,7 @@
                 if (pathIds.length >= 2) kgDrill.expandedL2 = pathIds[1];
                 if (pathIds.length >= 3) kgDrill.expandedL3 = pathIds[2];
                 kgDrill.selectedLeafId = id;
-                kgDrill.expandAllL2 = true;
+                kgDrill.expandAllL2 = false;
                 redrawKgDrill();
                 openKgSidePanel(n, isLessonParent(n) ? "chapter" : (kgNodeKids(n).length ? "chapter" : "lesson"));
                 updateKgDrillHint();
@@ -8511,7 +8526,8 @@
           if (hintEl) {
             if (kgDrill.panelMode === "chapter") hintEl.textContent = "章节导读 · 点绿色叶节点进入讲义 · 点路径可回退";
             else if (kgDrill.selectedLeafId) hintEl.textContent = "右侧讲义 · 「返回」先回退历史，空则回总览";
-            else hintEl.textContent = "一级领域 + 二级主题已展开 · 点二级学讲义 · 路径可回退";
+            else if (kgDrill.expandedL2) hintEl.textContent = "已展开一支一级 · 点二级学讲义 · 再点该一级可收起";
+            else hintEl.textContent = "已展开全部一级 · 点某一级查看其二级 · 其它一级的二级不显示";
           }
           if (legEl) {
             legEl.innerHTML = `<div class="kg-focus-legend-title">扇区图例</div>` + KG_SECTOR_ORDER.map(k => {
@@ -8556,7 +8572,7 @@
             const titles = kgFocusPathTitles();
             msg = `路径：<strong>${titles.map(escapeHtml).join(" → ")}</strong> · 继续下钻`;
           } else {
-            msg = `<strong>${escapeHtml(hubName)}</strong> · 基础/进阶/实战三扇区已展开`;
+            msg = `<strong>${escapeHtml(hubName)}</strong> · 已展开全部一级 · 点某一级查看其二级`;
           }
           el.hidden = false;
           el.innerHTML = `${msg} <button type="button" id="btnExitKgFocus">← 总览</button>`;
@@ -8584,8 +8600,8 @@
             if (!kgDrill.active || typeof node === "undefined" || !node) return;
             breathe = (breathe + 1) % 48;
             const t = Math.sin((breathe / 48) * Math.PI * 2);
-            const r = 62 + t * 5;
-            const blur = 28 + t * 10;
+            const r = hubFocusRadius() + t * 2.2;
+            const blur = 16 + t * 6;
             node.filter(d => d.id === kgDrill.hubId).select("circle")
               .attr("r", r)
               .style("filter", `drop-shadow(0 0 ${blur}px rgba(168, 85, 247, 0.65))`);
@@ -8595,16 +8611,35 @@
         function syncKgHubSize() {
           if (typeof node === "undefined" || !node) return;
           node.select("circle").attr("r", d => {
-            if (kgDrill.active && d.id === kgDrill.hubId) return 62;
-            if (HOME_HERO_ONLY && !kgDrill.active && d.id === HOME_HUB_ID) return 78;
+            if (kgDrill.active && d.id === kgDrill.hubId) return hubFocusRadius();
+            if (HOME_HERO_ONLY && !kgDrill.active && d.id === HOME_HUB_ID) return 46;
             if (KG_TREES[d.id] || d.catalog) return 32;
             return 26;
+          });
+          // 科技感双环
+          node.each(function (d) {
+            const g = d3.select(this);
+            const isHub = (kgDrill.active && d.id === kgDrill.hubId) || (HOME_HERO_ONLY && !kgDrill.active && d.id === HOME_HUB_ID);
+            let ring = g.select("circle.hub-ring");
+            let ring2 = g.select("circle.hub-ring-dash");
+            if (isHub) {
+              const rr = kgDrill.active && d.id === kgDrill.hubId ? hubFocusRadius() : 46;
+              if (ring.empty()) ring = g.insert("circle", "circle").attr("class", "hub-ring");
+              if (ring2.empty()) ring2 = g.insert("circle", "circle").attr("class", "hub-ring-dash");
+              ring.attr("r", rr + 8).attr("fill", "none");
+              ring2.attr("r", rr + 14).attr("fill", "none");
+            } else {
+              ring.remove();
+              ring2.remove();
+            }
           });
           node.classed("hub-expanded", d => (kgDrill.active && d.id === kgDrill.hubId) || d.id === expandedHubId);
           node.classed("kg-focus-hub", d => kgDrill.active && d.id === kgDrill.hubId);
           node.select(".sublabel").text(d => {
             if (kgDrill.active && d.id === kgDrill.hubId) {
-              return kgDrill.revealed ? "三扇区已展开" : "展开扇区";
+              return kgDrill.revealed
+                ? (kgDrill.expandedL2 ? "已展开一支二级" : "点某一级展开二级")
+                : "展开扇区";
             }
             if (KG_TREES[d.id]) return "点击学教程";
             if (d.catalog) return "点击展开";
@@ -8631,7 +8666,7 @@
             active: true,
             hubId,
             revealed: true,
-            expandAllL2: true,
+            expandAllL2: false,
             expandedL2: null,
             expandedL3: null,
             selectedLeafId: null,
@@ -8639,7 +8674,7 @@
             savedPos: { x: hub.x, y: hub.y }
           };
           kgFocusHistory = [];
-          kgShowMore = { foundation: 4, advanced: 4, practice: 4 };
+          kgShowMore = { foundation: 8, advanced: 8, practice: 8 };
           kgShowMoreL3 = 6;
           kgSideCollapsed = false;
           kgPanelCollapsed = false;
@@ -8660,10 +8695,10 @@
             redrawKgDrill();
             updateKgDrillHint();
             syncKgHubSize();
-            if (typeof tick === "function") tick();
-            // settle 几帧后再 fit，避免挤在边缘
-            setTimeout(() => { if (kgDrill.active) fitKgFocusView(520); }, 280);
-            setTimeout(() => { if (kgDrill.active) fitKgFocusView(380); }, 720);
+            // 强制卫星可见（防止进场 attr 被打断）
+            if (satNodeSel) satNodeSel.attr("opacity", 1).classed("entering", false);
+            setTimeout(() => { if (kgDrill.active) fitKgFocusView(480); }, 120);
+            setTimeout(() => { if (kgDrill.active) fitKgFocusView(360); }, 520);
           };
           if (typeof requestAnimationFrame === "function") {
             requestAnimationFrame(() => requestAnimationFrame(finishEnter));
@@ -8843,20 +8878,28 @@
           });
         }
 
-        /** 二次贝塞尔弧线（顺时针弯，模拟百科 curvedCW） */
-        function satArcPath(px, py, x, y, layer, siblingIndex, siblingTotal) {
+        /** 二次贝塞尔弧线：从父圆边缘到子圆边缘（不穿心、不压在圆上） */
+        function satArcPath(px, py, x, y, layer, siblingIndex, siblingTotal, parentR, childR) {
           const dx = x - px, dy = y - py;
           const dist = Math.hypot(dx, dy) || 1;
-          const pad = layer >= 4 ? 16 : layer === 3 ? 18 : 22;
-          const tx = x - (dx / dist) * pad;
-          const ty = y - (dy / dist) * pad;
-          const mx = (px + tx) / 2;
-          const my = (py + ty) / 2;
+          const pr = parentR != null ? parentR : (layer <= 2 ? hubFocusRadius() : 22);
+          const cr = childR != null ? childR : (layer >= 4 ? 15 : layer === 3 ? 17 : 20);
+          const gap = 3;
+          const sx = px + (dx / dist) * (pr + gap);
+          const sy = py + (dy / dist) * (pr + gap);
+          const tx = x - (dx / dist) * (cr + gap);
+          const ty = y - (dy / dist) * (cr + gap);
+          const mx = (sx + tx) / 2;
+          const my = (sy + ty) / 2;
           const nx = -dy / dist, ny = dx / dist;
-          const roundness = layer <= 2 ? 0.28 : 0.35;
-          const bend = Math.min(48, dist * roundness) * (siblingTotal > 1 ? 1 : 0.7);
-          const sign = 1;
-          return `M${px},${py}Q${mx + nx * bend * sign},${my + ny * bend * sign} ${tx},${ty}`;
+          const roundness = layer <= 2 ? 0.32 : 0.38;
+          const bend = Math.min(56, dist * roundness) * (siblingTotal > 1 ? 1 : 0.75);
+          const sign = ((siblingIndex || 0) % 2 === 0) ? 1 : -1;
+          return `M${sx},${sy}Q${mx + nx * bend * sign},${my + ny * bend * sign} ${tx},${ty}`;
+        }
+
+        function hubFocusRadius() {
+          return 36;
         }
 
         function stopKgSettle() {
@@ -8930,7 +8973,7 @@
             });
             if (satNodeSel) satNodeSel.attr("transform", d => `translate(${d.x},${d.y})`);
             if (satLinkSel) {
-              satLinkSel.attr("d", d => satArcPath(d.parentX, d.parentY, d.x, d.y, d.layer, d.sibIdx, d.sibTotal));
+              satLinkSel.attr("d", d => satArcPath(d.parentX, d.parentY, d.x, d.y, d.layer, d.sibIdx, d.sibTotal, d.parentR, d._r || baseSatRadius(d)));
             }
             if (ticks === 50) {
               kgLiveSim.force("charge", d3.forceManyBody().strength(-10));
@@ -8996,7 +9039,7 @@
                 .attr("stroke", d => d.color),
               exit => exit.transition().duration(160).attr("opacity", 0).remove()
             )
-            .attr("d", d => satArcPath(d.parentX, d.parentY, d.x, d.y, d.layer, d.sibIdx, d.sibTotal));
+            .attr("d", d => satArcPath(d.parentX, d.parentY, d.x, d.y, d.layer, d.sibIdx, d.sibTotal, d.parentR, d._r || baseSatRadius(d)));
 
           satNodeSel = satNodeG.selectAll("g").data(satData, d => d.learnId)
             .join(
@@ -9011,10 +9054,11 @@
                   .attr("r", d => baseSatRadius(d));
                 return g;
               },
-              update => update,
+              update => update.attr("opacity", 1).classed("entering", false),
               exit => exit.transition().duration(140).attr("opacity", 0).remove()
             )
             .attr("transform", d => `translate(${d.x},${d.y})`)
+            .attr("opacity", 1)
             .attr("class", d => {
               let cls = `sat-node layer-${d.layer}`;
               if (d.isLeaf) cls += " is-leaf";
@@ -9106,7 +9150,7 @@
               });
               if (satNodeSel) satNodeSel.attr("transform", n => `translate(${n.x},${n.y})`);
               if (satLinkSel) {
-                satLinkSel.attr("d", n => satArcPath(n.parentX, n.parentY, n.x, n.y, n.layer, n.sibIdx, n.sibTotal));
+                satLinkSel.attr("d", n => satArcPath(n.parentX, n.parentY, n.x, n.y, n.layer, n.sibIdx, n.sibTotal, n.parentR, n._r || baseSatRadius(n)));
               }
             })
             .on("end", (event, d) => {
@@ -9183,6 +9227,7 @@
               parentX: px,
               parentY: py,
               parentId: parentLearnId || null,
+              parentR: (layer <= 3 ? 22 : 18),
               layer,
               ang,
               r,
@@ -9220,7 +9265,7 @@
               list.forEach((entry, i) => {
                 const c = entry.node;
                 const ang = n === 1 ? base : base - spread / 2 + (spread * i) / Math.max(n - 1, 1);
-                const baseR = 200 + (i % 3) * 24;
+                const baseR = 155 + (i % 3) * 18;
                 const off = polarOffset(ang, baseR);
                 const placed = {
                   x: hub.x + off.dx,
@@ -9231,7 +9276,8 @@
                 // push via shared item builder (manual parent = hub)
                 const rawKids = kgNodeKids(c);
                 const canExpand = filterKgChildren(rawKids).length > 0;
-                const expanded = kgDrill.expandAllL2 || kgDrill.expandedL2 === c.id;
+                // 仅当前选中的一级展开其二级；其它一级不带二级
+                const expanded = kgDrill.expandedL2 === c.id;
                 const leaf = !rawKids.length;
                 const chapter = isLessonParent(c);
                 items.push(applyPrev({
@@ -9243,6 +9289,7 @@
                   parentX: hub.x,
                   parentY: hub.y,
                   parentId: null,
+                  parentR: hubFocusRadius(),
                   layer: 2,
                   ang: placed.ang,
                   r: placed.r,
@@ -9256,7 +9303,7 @@
                   sectorGlow: sec.glow
                 }));
                 const l2Node = items[items.length - 1];
-                // 一级领域展开后立刻带出二级主题（expandAllL2 或单选 expandedL2）
+                // 仅 expandedL2 对应一级带出二级主题
                 if (expanded && canExpand) {
                   const l3All = filterKgChildren(c.children || []);
                   const l3s = l3All.slice(0, kgShowMoreL3 || l3All.length);
@@ -9297,7 +9344,15 @@
           }
     
           if (sat.layer === 2) {
-            // 一级领域：保持全部二级可见；点领域可打开章节导读或聚焦该支
+            // 一级领域：展开「仅这一支」的二级；再点同一一级则收起二级
+            if (kgDrill.expandedL2 === kg.id) {
+              kgDrill.expandedL2 = null;
+              kgDrill.expandedL3 = null;
+              kgDrill.selectedLeafId = null;
+              closePanelSoft();
+              redrawKgDrill();
+              return;
+            }
             kgDrill.expandedL2 = kg.id;
             kgDrill.expandedL3 = null;
             if (isLessonParent(kg)) {
@@ -9305,7 +9360,6 @@
               redrawKgDrill();
               openKgSidePanel(kg, "chapter");
             } else {
-              // 非章节父：仅聚焦，二级主题已由 expandAllL2 展示
               kgDrill.selectedLeafId = null;
               closePanelSoft();
               redrawKgDrill();
@@ -9472,7 +9526,9 @@
     function tick() {
       link.attr("d", linkPath);
       node.attr("transform", d => `translate(${d.x},${d.y})`);
-      if ((kgDrill && kgDrill.active) || expandedHubId) redrawSatellites();
+      // 焦点模式下禁止整图重绘（会把卫星 opacity 卡死 / 打断进场）
+      if (kgDrill && kgDrill.active) return;
+      if (expandedHubId) redrawSatellites();
     }
 
     function applyLinkVisibility() {
@@ -9532,6 +9588,13 @@
       const m = placeNodes();
       drawStages(m);
       tick();
+      if (kgDrill && kgDrill.active) {
+        svg.call(zoom.transform, d3.zoomIdentity);
+        if (typeof fitKgFocusView === "function" && satData && satData.length) {
+          fitKgFocusView(0);
+        }
+        return;
+      }
       const scale = Math.min(1, width() / m.w, height() / m.h);
       const tx = (width() - m.w * scale) / 2;
       const ty = (height() - m.h * scale) / 2;
