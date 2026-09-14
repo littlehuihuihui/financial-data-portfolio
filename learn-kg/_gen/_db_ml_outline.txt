@@ -1,0 +1,143 @@
+DATABASE planned tree (from patch_database_kg.py):
+L0|数据库|db-root
+  L1|学习路径|db-learning-path
+    L2|教程宪法|db-constitution-sec
+      L3|统一样例与课模板|db-constitution
+    L2|路线清单|db-roadmap
+      L3|初级清单|db-path-junior
+      L3|中级清单|db-path-mid
+      L3|高级清单|db-path-senior
+    L2|练习场|db-practice-field
+      L3|初级练习|db-drill-junior
+  L1|核心概念|db-concepts
+    L2|负载与模型|db-workload
+      L3|OLTP vs OLAP|db-oltp-olap
+      L3|ACID|db-acid
+      L3|存储引擎直觉|db-engine
+    L2|表与约束|db-schema
+      L3|主键与约束|db-pk-constraint
+  L1|索引与访问路径|db-access
+    L2|索引|db-index-sec
+      L3|BTree 索引入门|db-btree-index
+      L3|EXPLAIN 直觉|db-explain-intro
+  L1|事务与并发|db-txn
+    L2|事务基础|db-txn-basic
+      L3|事务边界|db-begin-commit
+      L3|隔离级别要点|db-isolation-brief
+    L2|锁|db-lock-sec
+      L3|行锁与死锁|db-row-lock
+  L1|高可用与运维|db-ops
+    L2|复制与备份|db-ha
+      L3|复制与读写分离|db-replication
+      L3|备份与恢复|db-backup
+    L2|引擎方言|db-dialect
+      L3|MySQL 与 PostgreSQL|db-mysql-pg
+  L1|多引擎选型|db-polyglot
+    L2|典型引擎|db-engines
+      L3|Redis 缓存/键值|db-redis
+      L3|文档模型直觉|db-mongo
+      L3|列存 OLAP 直觉|db-clickhouse
+
+ML tree:
+L2|基础范式|ml-foundation|leaves_under=0
+  L3|学习范式|ml-paradigm|leaves_under=0
+    L4|监督学习|ml-supervised|leaves_under=1
+    L4|无监督学习|ml-unsupervised|leaves_under=1
+    L4|半监督学习|ml-semisupervised|leaves_under=1
+    L4|强化学习入门|ml-rl-intro|leaves_under=1
+  L3|训练纪律|ml-train-discipline|leaves_under=0
+    L4|训练流水线|ml-pipeline|leaves_under=1
+    L4|偏差与方差|ml-bias-variance|leaves_under=1
+    L4|过拟合与正则|ml-overfit-reg|leaves_under=1
+    L4|训练/验证/测试|ml-train-val-test|leaves_under=1
+L2|特征工程|ml-feature|leaves_under=0
+  L3|特征构建|ml-feature-build|leaves_under=0
+    L4|特征工程总览|ml-feature-eng|leaves_under=1
+    L4|缺失值处理|ml-missing|leaves_under=1
+    L4|类别编码|ml-encoding|leaves_under=1
+    L4|标准化与缩放|ml-scaling|leaves_under=1
+  L3|特征风险|ml-feature-risk|leaves_under=0
+    L4|数据泄露|ml-leakage|leaves_under=1
+    L4|特征选择|ml-feat-selection|leaves_under=1
+    L4|特征漂移|ml-feat-drift|leaves_under=1
+L2|核心任务|ml-tasks|leaves_under=0
+  L3|分类|ml-classify-ch|leaves_under=0
+    L4|分类总览|ml-classify|leaves_under=1
+    L4|多分类|ml-multiclass|leaves_under=1
+    L4|阈值与决策|ml-threshold|leaves_under=1
+    L4|样本不平衡|ml-imbalance|leaves_under=1
+    L4|分类指标|ml-metrics-clf|leaves_under=1
+  L3|回归|ml-regress-ch|leaves_under=0
+    L4|回归预测|ml-predict|leaves_under=1
+    L4|回归指标|ml-metrics-reg|leaves_under=1
+    L4|分位数回归|ml-quantile-reg|leaves_under=1
+  L3|聚类|ml-cluster-ch|leaves_under=0
+    L4|聚类总览|ml-cluster|leaves_under=1
+    L4|K-Means 实务|ml-cluster-k|leaves_under=1
+    L4|密度聚类 DBSCAN|ml-dbscan|leaves_under=1
+  L3|排序学习|ml-rank-ch|leaves_under=0
+    L4|Learning to Rank|ml-ltr-intro|leaves_under=1
+    L4|NDCG 与排序指标|ml-ndcg|leaves_under=1
+L2|经典模型|ml-models|leaves_under=0
+  L3|线性族|ml-linear-ch|leaves_under=0
+    L4|逻辑回归|ml-logreg|leaves_under=1
+    L4|线性回归|ml-linear-reg|leaves_under=1
+    L4|Ridge / Lasso|ml-ridge-lasso|leaves_under=1
+  L3|树与提升|ml-tree-ch|leaves_under=0
+    L4|决策树|ml-decision-tree|leaves_under=1
+    L4|随机森林|ml-random-forest|leaves_under=1
+    L4|GBDT / 梯度提升|ml-gbdt|leaves_under=1
+    L4|特征重要性|ml-feat-importance|leaves_under=1
+  L3|近邻与SVM|ml-other-models|leaves_under=0
+    L4|K 近邻|ml-knn|leaves_under=1
+    L4|支持向量机|ml-svm|leaves_under=1
+L2|深度学习入门|ml-deep|leaves_under=0
+  L3|神经网络基础|ml-nn-ch|leaves_under=0
+    L4|多层感知机 MLP|ml-mlp|leaves_under=1
+    L4|Embedding 嵌入|ml-embedding|leaves_under=1
+    L4|Dropout 与早停|ml-nn-regularize|leaves_under=1
+L2|推荐系统|ml-recsys|leaves_under=0
+  L3|推荐总览|ml-rec-ch|leaves_under=0
+    L4|推荐总览|ml-recommend|leaves_under=1
+    L4|协同过滤|ml-cf|leaves_under=1
+    L4|内容推荐|ml-content-rec|leaves_under=1
+  L3|召回与精排|ml-rec-funnel|leaves_under=0
+    L4|召回与精排|ml-recall-rank|leaves_under=1
+    L4|冷启动|ml-cold-start|leaves_under=1
+    L4|多样性与打散|ml-diversity|leaves_under=1
+L2|文本挖掘|ml-nlp|leaves_under=0
+  L3|文本表示与分类|ml-text-ch|leaves_under=0
+    L4|词袋与 TF-IDF|ml-tfidf|leaves_under=1
+    L4|文本分类|ml-text-clf|leaves_under=1
+    L4|情感分析|ml-sentiment|leaves_under=1
+L2|时序预测|ml-timeseries|leaves_under=0
+  L3|时序基础|ml-ts-ch|leaves_under=0
+    L4|时序切分|ml-ts-split|leaves_under=1
+    L4|滞后与窗口特征|ml-lag-features|leaves_under=1
+    L4|业务预测闭环|ml-ts-forecast|leaves_under=1
+L2|异常检测|ml-anomaly-domain|leaves_under=0
+  L3|检测方法|ml-anomaly-ch|leaves_under=0
+    L4|异常检测总览|ml-anomaly|leaves_under=1
+    L4|隔离森林|ml-isolation-forest|leaves_under=1
+    L4|告警阈值|ml-alert-threshold|leaves_under=1
+L2|评估与落地|ml-eval-ops|leaves_under=0
+  L3|离线评估|ml-eval-ch|leaves_under=0
+    L4|时间切分评估|ml-time-split|leaves_under=1
+    L4|概率校准|ml-calibration|leaves_under=1
+    L4|上线与A/B|ml-ab-test|leaves_under=1
+  L3|MLOps入门|ml-mlops-ch|leaves_under=0
+    L4|训练与推理|ml-train-serve|leaves_under=1
+    L4|监控与漂移|ml-monitor|leaves_under=1
+    L4|特征仓库入门|ml-feature-store|leaves_under=1
+
+Per-domain leaf counts:
+  基础范式: 8
+  特征工程: 7
+  核心任务: 13
+  经典模型: 9
+  深度学习入门: 3
+  推荐系统: 6
+  文本挖掘: 3
+  时序预测: 3
+  异常检测: 3
+  评估与落地: 6

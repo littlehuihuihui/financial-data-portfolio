@@ -6,7 +6,7 @@ import json
 import re
 from pathlib import Path
 
-p = Path(r"D:\cursor\数据学习平台\数据学习平台\数据知识图谱.html")
+p = Path(r"D:\cursor\数据学习平台\数据知识图谱.html")
 text = p.read_text(encoding="utf-8")
 
 
@@ -21,16 +21,28 @@ def gold(scene, goal, prereq, sample, what, code, result, uses, traps, drill, la
 - **场景**：{scene}
 - **目标**：{goal}
 - **先修**：{prereq}
+- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。
 
 ### 样例输入
 
 {sample}
 
+> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。
+
 ### 是什么
 
 {what}
 
+**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。
+
 ### 怎么写
+
+**建议步骤**
+
+1. 对齐源表主键 / 水位 / 分区 dt  
+2. 按下述模板改到你的库表名  
+3. 用「查询结果」做行数或金额闭合  
+4. 对照易错表排除反模式后再排进 DAG  
 
 ```{lang}
 {code}
@@ -43,6 +55,8 @@ def gold(scene, goal, prereq, sample, what, code, result, uses, traps, drill, la
 ### 用在哪
 
 {uses}
+
+**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。
 
 ### 易错对照
 
@@ -57,20 +71,27 @@ def gold(scene, goal, prereq, sample, what, code, result, uses, traps, drill, la
 CONST = lesson("""
 ### 课前 · 这是什么
 
-本页是 **ETL 教程公约**：认源→抽取→转换→装载→校验→调度，与 SQL/数仓/Python **同源样例**（`users` / `orders` / `order_items` / `order_events`）。先读本页，再按清单上课。
+本页是 **ETL 教程公约**：认源→抽取→转换→装载→校验→调度。与 SQL / 数仓 / Python **同源样例**（`users` / `orders` / `order_items` / `order_events`）。先读本页，再按清单上课；所有金课的验收数字都以本页为准。
 
 ### 统一样例（源系统视角）
 
 把四表当成业务库 OLTP；ETL 日作业产出仓表（示意）：
 
-| 层 | 表示意 | 来源 |
-|---|---|---|
-| ODS | `ods_orders_di` | 贴源 orders + dt |
-| DWD | `dwd_trade_pay_di` | 清洗后的 paid 明细 |
-| DIM | `dim_user` | users（可 SCD2） |
-| DQ | 对账结果 | 行数/金额闭合 |
+| 层 | 表示意 | 来源 | ETL 职责 |
+|---|---|---|---|
+| ODS | `ods_orders_di` | 贴源 orders + dt | 保真落地、可重抽 |
+| DWD | `dwd_trade_pay_di` | 清洗后的 paid 明细 | 去重/空值/口径 |
+| DIM | `dim_user` | users（可 SCD2） | 维表日批/闭链 |
+| DQ | 对账结果 | 行数/金额闭合 | 门禁，失败不放行 |
 
-验收种子：users=4，orders=8，events=7，items=5。
+**验收种子**：users=4，orders=8，order_events=7，order_items=5。  
+**支付口径**：`status='paid'` + `SUM(COALESCE(amount,0))`（含 amount 为 NULL 的单记 0）。
+
+### 三条铁律（贯穿全树）
+
+1. **契约先于代码**：主键、水位、枚举、空值语义写进清单。  
+2. **幂等先于重试**：同一窗口重跑结果不变，才能开自动重试。  
+3. **门禁先于消费**：行数/唯一/金额对账通过后，下游才可读。
 
 ### 金标准课模板
 
@@ -80,8 +101,10 @@ CONST = lesson("""
 
 ```text
 宪法 → 认源/契约/SLA → 全量/增量/CDC
-→ 清洗去重/维关联/SCD → 覆盖·MERGE·幂等
-→ 行数唯一对账 → DAG·重试·回填 → ETL vs ELT → 工具选型 → 练习场
+→ 清洗去重/维关联/SCD/脱敏 → 覆盖·MERGE·幂等
+→ 行数唯一对账 → DAG·重试·回填·迟到
+→ ETL vs ELT → Airflow/dbt/DataX/Airbyte/Flink CDC
+→ 血缘·发布回滚 → 练习场
 ```
 """)
 
@@ -128,7 +151,22 @@ TREE = {
 ### 课前
 
 - **定位**：能说清端到端步骤；会写增量水位与分区覆盖；会做行数/金额对账。
-- **顺序**：宪法 → 源清单/主键水位 → 全量/增量 → 类型空值/去重 → 分区覆盖 → 行数对账 → 初级练习
+- **学完标准**：独立画出「抽→转→装→验」四框，并用同源样例跑通一日批。
+
+### 必学顺序
+
+1. 教程宪法（验收种子与三条铁律）  
+2. 源表清单 → 主键与水位  
+3. 全量快照 → 增量抽取  
+4. 类型空值 → 去重取最新  
+5. 分区覆盖 → 行数对账 / 金额对账  
+6. 初级练习场
+
+### 验收口令
+
+- 能解释：为什么先成功装载再推进水位  
+- 能写出：`paid` + `COALESCE(amount,0)` 的 GMV 闭合  
+- 能指出：追加写入不覆盖会导致什么
 """),
                             "children": [],
                         },
@@ -140,7 +178,23 @@ TREE = {
 ### 课前
 
 - **定位**：CDC、SCD、MERGE 幂等、DAG 重试回填、ETL vs ELT。
-- **顺序**：CDC → 维关联/SCD → MERGE/幂等 → 唯一与源仓对账 → DAG/告警/回填 → ELT
+- **学完标准**：能设计可重跑日批，并处理维表历史与失败恢复。
+
+### 必学顺序
+
+1. CDC 变更捕获  
+2. 维表关联（防 JOIN 爆炸）→ SCD 拉链 → 脱敏  
+3. MERGE / Upsert → 幂等写入  
+4. 主键唯一 → 源仓对账  
+5. DAG 依赖 → 重试告警 → 回填 → 迟到数据  
+6. 经典 ETL vs 现代 ELT  
+7. 中级练习场
+
+### 验收口令
+
+- SCD2 变更日能口述「闭链 + 插入」  
+- 同一 `order_id` MERGE 两次行数不变  
+- 回填单日不与增量水位打架
 """),
                             "children": [],
                         },
@@ -151,8 +205,23 @@ TREE = {
                             "content": lesson("""
 ### 课前
 
-- **定位**：契约治理、迟到数据、脱敏、工具选型（Airflow/dbt/CDC/DataX）。
-- **原则**：幂等可重跑；质量门禁在下游消费前。
+- **定位**：契约治理、迟到数据、脱敏、工具选型、血缘与发布回滚。
+- **原则**：幂等可重跑；质量门禁在下游消费前；变更可回滚。
+
+### 必学顺序
+
+1. 数据契约 + 产出 SLA（含升级路径）  
+2. 迟到数据 lookback / 重述策略  
+3. Airflow 编排边界 vs dbt 变换  
+4. DataX / Airbyte / Flink CDC 选型  
+5. 血缘影响分析 → 发布与回滚  
+6. 高级练习场
+
+### 验收口令
+
+- 能画一张「工具职责图」（谁抽、谁转、谁编排）  
+- 能写发布检查单：契约、DQ、血缘、回滚点  
+- 能解释：为何 CDC 不应直写 ADS
 """),
                             "children": [],
                         },
@@ -214,6 +283,32 @@ SELECT SUM(COALESCE(amount,0)) gmv FROM orders WHERE status='paid';
                                 "1. 上线评审  2. 故障演练",
                                 "| 错法 | 纠正 |\n|---|---|\n| 回填无锁水位 | 漏数/重数 |\n| SCD 不闭链 | 多 current |",
                                 "画出 DAG：抽orders→抽users→转DWD→测DQ→出ADS。",
+                            ),
+                            "children": [],
+                        },
+                        {
+                            "id": "etl-drill-senior",
+                            "title": "高级练习",
+                            "level": "???",
+                            "content": gold(
+                                "口径变更要上线：涉及契约、血缘、发布对照与回滚。",
+                                "完成影响分析清单 + 发布对照 SQL + 回滚策略口述。",
+                                "高级清单 / 血缘 / 发布",
+                                "orders → dwd → dws → ADS。",
+                                "- **练习场（高级）**：治理闭环，不只是会写 SQL。",
+                                """-- Q1 血缘：列出 amount 空值语义变更的下游
+-- Q2 对照：v2 与源 paid GMV drift
+SELECT ABS(
+  (SELECT SUM(COALESCE(amount,0)) FROM orders WHERE status='paid')
+- (SELECT SUM(COALESCE(amount,0)) FROM orders WHERE status='paid')
+) AS drift_should_be_0;
+
+-- Q3 若 drift 超阈值：如何切回上一版本视图？文字题
+-- Q4 迟到 lookback=2 时，回填与增量如何避免双写？""",
+                                "Q2 drift=0；Q3 有明确回滚点；Q4 按 dt 覆盖且锁水位。",
+                                "1. 上线评审  2. 事故演练  3. 大促冻结",
+                                "| 错法 | 纠正 |\n|---|---|\n| 无血缘就改口径 | 先影响分析 |\n| 无对照发布 | 双边 diff |\n| 无法回滚 | 版本/视图 |",
+                                "写一份「支付口径变更」五步发布单。",
                             ),
                             "children": [],
                         },
@@ -974,6 +1069,143 @@ SELECT * FROM orders WHERE created_at >= :wm;
                             ),
                             "children": [],
                         },
+                        {
+                            "id": "etl-tool-datax",
+                            "title": "DataX 批同步",
+                            "level": "???",
+                            "content": gold(
+                                "大表/文件窗口同步进仓，团队已有 DataX 作业规范。",
+                                "会配置 Reader/Writer 与速度限流；明白它不替代建模。",
+                                "同步总览 → Airbyte",
+                                "orders 按水位增量抽到 ODS。",
+                                "- **定位**：阿里开源批同步框架，JSON 描述 Reader→Writer。\n- **擅长**：库表/文件大批量、可限流、可断点（视插件）。\n- **不擅长**：复杂变换、近实时 CDC（应配 Flink CDC/Debezium）。",
+                                """-- DataX 语义等价：增量 SQL Reader
+SELECT order_id, user_id, amount, status, created_at
+FROM orders
+WHERE created_at >  :last_wm
+  AND created_at <= :batch_end;
+-- Writer：写入 ods_orders_di 对应分区；成功后再推进水位""",
+                                "ODS 窗口内行与源一致；失败不推进水位。",
+                                "1. 异构库同步  2. 数仓 ODS 进仓  3. 离线补数",
+                                "| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 变换全写在 DataX | 难测难版本 | 轻同步+仓内/脚本变换 |\n| 无限速打满源库 | 业务抖动 | channel/限流 |\n| 失败仍推进水位 | 丢数 | 先成功再推进 |",
+                                "为 order_items 设计 DataX 增量字段：用什么做水位？",
+                            ),
+                            "children": [],
+                        },
+                        {
+                            "id": "etl-tool-airbyte",
+                            "title": "Airbyte 连接器",
+                            "level": "???",
+                            "content": gold(
+                                "要快速把 SaaS/DB 接到仓，不想从零写连接器。",
+                                "理解 Airbyte：标准化 Extract，变换仍交给 dbt/仓。",
+                                "DataX → Flink CDC",
+                                "orders 源 → 仓 ODS。",
+                                "- **定位**：开源数据移动平台，连接器目录化。\n- **模式**：全量+增量（视源）；落地原始层再 ELT。\n- **边界**：不是指标层；规范与 DQ 仍要自建。",
+                                """-- Airbyte 落地后仓内 staging（示意）
+CREATE VIEW stg_orders AS
+SELECT order_id, user_id, amount, status, created_at
+FROM raw_airbyte_orders
+WHERE _airbyte_active IS DISTINCT FROM false;
+-- 再由 dbt 生成 dwd_trade_pay_di""",
+                                "raw 可重同步；mart 由版本化 SQL 产出。",
+                                "1. 快速接入  2. 多源统一  3. 与 dbt 搭配",
+                                "| 错法 | 现象 | 纠正 |\n|---|---|---|\n| raw 直接给业务 | 口径乱 | 分层 |\n| 忽略 schema 漂移 | 任务挂 | 契约+告警 |\n| 当 CDC 银弹 | 源不支持 | 看连接器能力 |",
+                                "Airbyte 与 DataX 怎么分工？给本样例一句选型理由。",
+                            ),
+                            "children": [],
+                        },
+                        {
+                            "id": "etl-tool-flink-cdc",
+                            "title": "Flink CDC",
+                            "level": "???",
+                            "content": gold(
+                                "订单状态要分钟级进仓，批窗口不够。",
+                                "理解 Flink CDC：读 binlog/WAL，流式入湖/仓。",
+                                "Airbyte → 血缘",
+                                "orders 状态变更事件。",
+                                "- **定位**：基于 Flink 的 CDC，捕获行级变更（I/U/D）。\n- **适合**：近实时维表/事实、操作审计。\n- **纪律**：先入 ODS/变更层，再合流批；仍要幂等与去重。",
+                                """-- 概念模型（非完整作业）
+-- source: mysql-cdc orders
+-- sink: ods_orders_cdc (op, before, after, ts)
+-- 日终：与批抽对账；DWD 读权威合并视图
+SELECT order_id, status, created_at
+FROM orders
+WHERE status = 'paid';""",
+                                "变更可订阅；与日批对账闭合。",
+                                "1. 近实时看板  2. 缓存失效  3. 微服务解耦读",
+                                "| 错法 | 现象 | 纠正 |\n|---|---|---|\n| CDC 直写 ADS | 难回放 | 分层 |\n| 无主键/无序保证 | 乱序覆盖 | 主键+事件时间 |\n| 不做批流对账 | 静默漂 | 日终闭合 |",
+                                "paid 事件重复投递时，DWD 如何保持一单一行？",
+                            ),
+                            "children": [],
+                        },
+                    ],
+                }
+            ],
+        },
+        {
+            "id": "etl-meta",
+            "title": "血缘与发布",
+            "level": "???",
+            "content": "### 血缘与发布\n\n改一列之前先看谁在用；上线必须可回滚。",
+            "children": [
+                {
+                    "id": "etl-meta-ops",
+                    "title": "治理动作",
+                    "level": "???",
+                    "content": "### 治理动作 · 章节导读",
+                    "lessonParent": True,
+                    "children": [
+                        {
+                            "id": "etl-lineage",
+                            "title": "数据血缘",
+                            "level": "???",
+                            "content": gold(
+                                "改 orders.amount 空值语义，不知会砸哪些看板。",
+                                "会用表级/列级血缘做影响分析。",
+                                "工具选型 → 发布回滚",
+                                "dwd_trade_pay_di → dws_user_pay_gmv → ADS/BI。",
+                                "- **血缘**：数据从哪来、到哪去、经谁变换。\n- **用途**：变更评审、故障定界、合规审计。\n- **粒度**：作业/表级够排障；指标口径争议要到列/表达式。",
+                                """-- 文档化血缘（最小可用）
+-- orders.amount
+--   -> dwd_trade_pay_di.pay_amt (COALESCE)
+--     -> dws_user_pay_gmv.gmv (SUM)
+--       -> ads_ops_daily / FineBI 经营日报
+SELECT 'orders.amount' AS src,
+       'dws_user_pay_gmv.gmv' AS downstream;""",
+                                "变更 amount 空值语义前能列出全部下游。",
+                                "1. 变更评审  2. 故障「从哪断」  3. 合规",
+                                "| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 只靠人口头 | 漏下游 | 工具+清单 |\n| 只有表级 | 口径仍不清 | 关键列补文档 |\n| 血缘从不更新 | 误导 | 与发布绑定 |",
+                                "若删除 order_events 的重复 paid，列出至少两个受影响节点。",
+                            ),
+                            "children": [],
+                        },
+                        {
+                            "id": "etl-publish",
+                            "title": "发布与回滚",
+                            "level": "???",
+                            "content": gold(
+                                "口径 SQL 周五上线，周一发现 GMV 全错。",
+                                "建立发布检查单与回滚点（版本/分区）。",
+                                "血缘 → 高级练习",
+                                "替换 dwd 支付口径的一次发布。",
+                                "- **发布**：契约检查 → DQ → 小流量/对照 → 切换读。\n- **回滚**：保留上一版本表/分区或 Git 标签可重跑。\n- **冻结**：大促窗口限制高风险变更。",
+                                """-- 蓝绿示意：先写新版本表，对照后再切视图
+-- dwd_trade_pay_di_v2 计算完毕
+-- 对照：
+SELECT ABS(
+  (SELECT SUM(pay_amt) FROM dwd_trade_pay_di_v2 WHERE dt='2024-01-07')
+- (SELECT SUM(COALESCE(amount,0)) FROM orders WHERE status='paid'
+    AND created_at>='2024-01-07' AND created_at<'2024-01-08')
+) AS drift;
+-- drift 可接受再 ALTER VIEW 切换；异常则继续读 v1""",
+                                "drift≈0 才切；出问题分钟级切回 v1。",
+                                "1. 口径变更  2. 大促保障  3. 事故恢复",
+                                "| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 周五下午直接改生产 | 周末无人修 | 变更窗口 |\n| 无对照发布 | 静默错数 | 双边 diff |\n| 无法回滚 | 长故障 | 版本/视图切换 |",
+                                "写 5 条「支付 DWD 发布」检查项（含 DQ 与血缘）。",
+                            ),
+                            "children": [],
+                        },
                     ],
                 }
             ],
@@ -1114,9 +1346,16 @@ for eid in [
     "etl-modern-elt",
     "etl-tool-dbt",
     "etl-late-data",
+    "etl-tool-datax",
+    "etl-tool-airbyte",
+    "etl-tool-flink-cdc",
+    "etl-lineage",
+    "etl-publish",
+    "etl-drill-senior",
 ]:
     assert find_node(tree, eid), eid
 assert "易错对照" in find_node(tree, "etl-incr")["content"]
+assert "三条铁律" in find_node(tree, "etl-constitution")["content"]
 # dwh still has snowflake
 _, _, dwh = extract_object(t2, "const DWH_KNOWLEDGE_TREE = ")
 assert find_node(dwh, "dwh-snowflake")

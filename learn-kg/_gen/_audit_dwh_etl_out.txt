@@ -1,0 +1,216 @@
+const SQL_SAMPLE present: True
+const DWH_SAMPLE present: True
+const ETL_SAMPLE present: True
+const BI_SAMPLE present: True
+const DB_SAMPLE present: True
+sharedWith values: ['SQL_SAMPLE']
+DWH_KNOWLEDGE_TREE mentions 'users': 32
+DWH_KNOWLEDGE_TREE mentions 'orders': 47
+DWH_KNOWLEDGE_TREE mentions 'order_items': 11
+DWH_KNOWLEDGE_TREE mentions 'order_events': 9
+DWH_KNOWLEDGE_TREE mentions 'SQL_SAMPLE': 0
+DWH_KNOWLEDGE_TREE mentions 'DWH_SAMPLE': 0
+DWH_KNOWLEDGE_TREE mentions 'ETL_SAMPLE': 0
+ETL_KNOWLEDGE_TREE mentions 'users': 1
+ETL_KNOWLEDGE_TREE mentions 'orders': 24
+ETL_KNOWLEDGE_TREE mentions 'order_items': 0
+ETL_KNOWLEDGE_TREE mentions 'order_events': 0
+ETL_KNOWLEDGE_TREE mentions 'SQL_SAMPLE': 0
+ETL_KNOWLEDGE_TREE mentions 'DWH_SAMPLE': 0
+ETL_KNOWLEDGE_TREE mentions 'ETL_SAMPLE': 0
+======================================================================
+DWH root id dwh-root title 数据仓库
+counts L1/L2/L3/L4/leaves/maxDepth: 5 14 37 0 37 3
+leaf content_len min/med/max/avg: 72 691 1034 680
+leaf key frequencies: {'children': 37, 'content': 37, 'id': 37, 'level': 37, 'title': 37}
+--- FULL OUTLINE (depth>=1) ---
+  L1 学习路径 | id=dwh-learning-path | len=46 | NODE
+    L2 教程宪法 | id=dwh-constitution-sec | len=40 | CH
+      L3 统一样例与课模板 | id=dwh-constitution | len=658 | LEAF
+    L2 路线清单 | id=dwh-roadmap | len=8 | CH
+      L3 初级清单 | id=dwh-path-junior | len=98 | LEAF
+      L3 中级清单 | id=dwh-path-mid | len=123 | LEAF
+      L3 高级清单 | id=dwh-path-senior | len=72 | LEAF
+    L2 练习场 | id=dwh-practice-field | len=7 | CH
+      L3 初级练习 | id=dwh-drill-junior | len=900 | LEAF
+      L3 中级练习 | id=dwh-drill-mid | len=839 | LEAF
+  L1 仓是什么 | id=dwh-why | len=27 | NODE
+    L2 定位与边界 | id=dwh-ssot-sec | len=16 | CH
+      L3 仓是干什么的 | id=dwh-what | len=684 | LEAF
+      L3 SSOT 单一事实来源 | id=dwh-ssot | len=723 | LEAF
+    L2 主题域与集市 | id=dwh-domain-sec | len=68 | CH
+      L3 主题域划分 | id=dwh-subject-domain | len=540 | LEAF
+      L3 仓库与集市 | id=dwh-mart-vs-wh | len=554 | LEAF
+  L1 数仓分层 | id=dwh-layer | len=37 | NODE
+    L2 层级职责 | id=dwh-layers | len=32 | CH
+      L3 ODS 贴源 | id=dwh-ods | len=844 | LEAF
+      L3 DWD 明细 | id=dwh-dwd | len=758 | LEAF
+      L3 DWS 汇总 | id=dwh-dws | len=722 | LEAF
+      L3 ADS 应用 | id=dwh-ads | len=683 | LEAF
+  L1 维度建模 | id=dwh-model | len=46 | NODE
+    L2 粒度与总线 | id=dwh-grain-bus | len=16 | CH
+      L3 事实粒度 | id=dwh-grain | len=737 | LEAF
+      L3 总线矩阵 | id=dwh-bus-matrix | len=684 | LEAF
+    L2 模型形态 | id=dwh-schema-styles | len=81 | CH
+      L3 星型模型 | id=dwh-star-schema | len=877 | LEAF
+      L3 雪花模型 | id=dwh-snowflake | len=1034 | LEAF
+      L3 星系/星座模型 | id=dwh-constellation | len=966 | LEAF
+    L2 方法论与选型 | id=dwh-method-styles | len=98 | CH
+      L3 何时用星型/雪花/星系 | id=dwh-schema-choose | len=632 | LEAF
+      L3 Kimball 与 Inmon | id=dwh-kimball-inmon | len=758 | LEAF
+      L3 Data Vault 直觉 | id=dwh-datavault | len=861 | LEAF
+    L2 星型构件 | id=dwh-star | len=37 | CH
+      L3 事实表 | id=dwh-fact | len=600 | LEAF
+      L3 维度表 | id=dwh-dim | len=631 | LEAF
+      L3 代理键 | id=dwh-surrogate-key | len=707 | LEAF
+      L3 事实表类型 | id=dwh-fact-types | len=750 | LEAF
+      L3 宽表与指标表 | id=dwh-wide-vs-metric | len=843 | LEAF
+      L3 一致性维度 | id=dwh-conformed-dim | len=658 | LEAF
+    L2 缓慢变化维 | id=dwh-scd-sec | len=16 | CH
+      L3 SCD1 覆盖 | id=dwh-scd1 | len=521 | LEAF
+      L3 SCD2 拉链表 | id=dwh-scd2 | len=942 | LEAF
+      L3 SCD3 保留前值 | id=dwh-scd3 | len=691 | LEAF
+  L1 加工与质量 | id=dwh-pipeline | len=20 | NODE
+    L2 调度与回刷 | id=dwh-schedule-sec | len=66 | CH
+      L3 调度与依赖 | id=dwh-schedule | len=631 | LEAF
+      L3 装载顺序 | id=dwh-load-order | len=598 | LEAF
+      L3 回刷与重跑 | id=dwh-backfill | len=585 | LEAF
+    L2 增量与分区 | id=dwh-incr-sec | len=16 | CH
+      L3 增量策略 | id=dwh-incremental | len=765 | LEAF
+      L3 分区与裁剪 | id=dwh-partition | len=625 | LEAF
+    L2 质量与对账 | id=dwh-dq-sec | len=16 | CH
+      L3 对账质检 | id=dwh-reconcile | len=868 | LEAF
+--- SAMPLE LEAVES ---
+LEAF dwh-path-senior | 高级清单 | path: 学习路径 > 路线清单 > 高级清单
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 72 h3: ['课前']
+  tags_present: ['课前']
+  field_lens: {'content': 72}
+  content_preview: '### 课前\\n\\n- **定位**：主题域治理、指标下沉、湖仓一体边界、回刷策略。\\n- **注意**：与 BI 指标口径、ETL 调度课交叉学习。'
+LEAF dwh-partition | 分区与裁剪 | path: 加工与质量 > 增量与分区 > 分区与裁剪
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 625 h3: ['课前', '样例输入', '是什么', '怎么写', '查询结果', '用在哪', '易错对照', '动手']
+  tags_present: ['课前', '样例', '是什么', '怎么写', '查询结果', '用在哪', '易错', '动手']
+  field_lens: {'content': 625}
+  content_preview: '### 课前\\n\\n- **场景**：查一个月 GMV 却扫了三年分区。\\n- **目标**：分区键放时间；谓词写成可裁剪范围。\\n- **先修**：增量策略 → 下一课：对账质检\\n\\n### 样例输入\\n\\n按 dt 分区的思维套在 orders.created_at。\\n\\n### 是什么\\n\\n- **分区**：物理切分，利裁剪与生命周期。\\n- **裁剪**：WHERE 能定位分区才省扫。\\n- **常见**：按日 dt。\\n\\n### 怎么写\\n\\n```sq'
+LEAF dwh-scd3 | SCD3 保留前值 | path: 维度建模 > 缓慢变化维 > SCD3 保留前值
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 691 h3: ['课前', '样例输入', '是什么', '怎么写', '查询结果', '用在哪', '易错对照', '动手']
+  tags_present: ['课前', '样例', '是什么', '怎么写', '查询结果', '用在哪', '易错', '动手']
+  field_lens: {'content': 691}
+  content_preview: '### 课前\\n\\n- **场景**：只要「当前城市 + 上一次城市」，不要完整历史链。\\n- **目标**：掌握 SCD3：有限历史（通常一列 previous）。\\n- **先修**：SCD2 → 选型：字段要不要完整时光旅行\\n\\n### 样例输入\\n\\nusers.city 变更。\\n\\n### 是什么\\n\\n- **SCD3**：在同行保留当前值与前值（或有限 N 次）。\\n- **适用**：只要对比「新旧」，不要任意时点回放。\\n- **对比**：SC'
+LEAF dwh-drill-mid | 中级练习 | path: 学习路径 > 练习场 > 中级练习
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 839 h3: ['课前', '样例输入', '是什么', '怎么写', '查询结果', '用在哪', '易错对照', '动手']
+  tags_present: ['课前', '样例', '是什么', '怎么写', '查询结果', '用在哪', '易错', '动手']
+  field_lens: {'content': 839}
+  content_preview: '### 课前\\n\\n- **场景**：用户城市变更要可时光旅行；事件要去重后入仓。\\n- **目标**：完成 SCD2 闭链思维 + 事件去重 + 防爆炸汇总。\\n- **先修**：中级清单 / SCD2 / 增量去重\\n\\n### 样例输入\\n\\nusers、order_events、order_items。\\n\\n### 是什么\\n\\n- **练习场（中级）**：维表历史 + 事实质量。\\n\\n### 怎么写\\n\\n```sql\\n-- Q1 事件权威行（同 SQL'
+LEAF dwh-snowflake | 雪花模型 | path: 维度建模 > 模型形态 > 雪花模型
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 1034 h3: ['课前', '样例输入', '是什么', '怎么写', '查询结果', '用在哪', '易错对照', '动手']
+  tags_present: ['课前', '样例', '是什么', '怎么写', '查询结果', '用在哪', '易错', '动手']
+  field_lens: {'content': 1034}
+  content_preview: '### 课前\\n\\n- **场景**：用户维里城市还要挂「城市→省份→大区」层级，想省存储、强约束。\\n- **目标**：理解雪花=维度再规范化分层；会算多一跳 JOIN 的代价。\\n- **先修**：星型模型 → 下一课：星系模型\\n\\n### 样例输入\\n\\n把 users.city 扩展为地区层级（示意表）。\\n\\n### 是什么\\n\\n- **雪花（Snowflake）**：维度表继续拆成子维，呈雪花状。\\n- **相对星型**：更省空间、更易维护层级；'
+======================================================================
+ETL root id etl-root title ETL
+counts L1/L2/L3/L4/leaves/maxDepth: 8 11 25 0 25 3
+leaf content_len min/med/max/avg: 222 346 494 371
+leaf key frequencies: {'children': 25, 'content': 25, 'id': 25, 'level': 25, 'title': 25}
+--- FULL OUTLINE (depth>=1) ---
+  L1 认源与契约 | id=etl-source-contract | len=37 | NODE
+    L2 源与清单 | id=etl-source-inventory | len=69 | CH
+      L3 源表清单 | id=etl-source-list | len=421 | LEAF
+      L3 主键与水位 | id=etl-keys-watermark | len=491 | LEAF
+    L2 契约与 SLA | id=etl-contract-sla | len=47 | CH
+      L3 数据契约 | id=etl-data-contract | len=452 | LEAF
+      L3 就绪 SLA | id=etl-sla | len=296 | LEAF
+  L1 抽取 Extract | id=etl-extract | len=37 | NODE
+    L2 抽取策略 | id=etl-extract-modes | len=47 | CH
+      L3 全量快照 | id=etl-full-snapshot | len=346 | LEAF
+      L3 增量抽取 | id=etl-incr | len=339 | LEAF
+      L3 CDC 变更捕获 | id=etl-cdc | len=432 | LEAF
+  L1 转换 Transform | id=etl-transform | len=43 | NODE
+    L2 清洗标准化 | id=etl-cleanse | len=41 | CH
+      L3 类型与码值 | id=etl-type-normalize | len=447 | LEAF
+      L3 去重取最新 | id=etl-dedup | len=444 | LEAF
+    L2 关联与历史 | id=etl-enrich | len=42 | CH
+      L3 维表关联 | id=etl-dim-join | len=412 | LEAF
+      L3 SCD 拉链 | id=etl-scd | len=494 | LEAF
+  L1 装载 Load | id=etl-load | len=34 | NODE
+    L2 写入模式 | id=etl-load-patterns | len=52 | CH
+      L3 分区覆盖 | id=etl-overwrite | len=318 | LEAF
+      L3 MERGE/Upsert | id=etl-merge-upsert | len=460 | LEAF
+    L2 幂等落地 | id=etl-idempotent | len=38 | CH
+      L3 幂等写入 | id=etl-idempotent-write | len=467 | LEAF
+  L1 过程质量 | id=etl-quality | len=30 | NODE
+    L2 校验清单 | id=etl-checks | len=44 | CH
+      L3 行数与空值 | id=etl-rowcount | len=334 | LEAF
+      L3 主键唯一 | id=etl-unique-pk | len=317 | LEAF
+      L3 金额对账 | id=etl-recon | len=384 | LEAF
+  L1 调度与运维 | id=etl-schedule | len=32 | NODE
+    L2 编排基础 | id=etl-orchestrate | len=42 | CH
+      L3 DAG 依赖 | id=etl-dag | len=309 | LEAF
+      L3 重试与告警 | id=etl-retry-alert | len=260 | LEAF
+      L3 回填 Backfill | id=etl-backfill | len=283 | LEAF
+  L1 ETL vs ELT | id=etl-elt | len=40 | NODE
+    L2 形态对比 | id=etl-vs-elt | len=46 | CH
+      L3 经典 ETL | id=etl-classic | len=222 | LEAF
+      L3 现代 ELT | id=etl-modern-elt | len=428 | LEAF
+  L1 工具选型 | id=etl-tools | len=33 | NODE
+    L2 选型地图 | id=etl-tool-map | len=64 | CH
+      L3 编排 Airflow | id=etl-tool-airflow | len=302 | LEAF
+      L3 变换 dbt | id=etl-tool-dbt | len=333 | LEAF
+      L3 接入与 CDC | id=etl-tool-ingest | len=291 | LEAF
+--- SAMPLE LEAVES ---
+LEAF etl-classic | 经典 ETL | path: ETL vs ELT > 形态对比 > 经典 ETL
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 222 h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  tags_present: ['是什么', '怎么写', '用在哪', '注意啥']
+  field_lens: {'content': 222}
+  content_preview: '### 是什么\\n\\n- **一句话定义**：在源外/中间层完成转换，再加载到目标仓。\\n- **特点**：入仓即较干净；中间算力独立。\\n\\n### 怎么写\\n\\n```text\\n源库 → DataX/脚本清洗 → 数仓主题表\\n```\\n\\n### 用在哪\\n\\n1. **必须脱敏后才能落仓**。\\n2. **目标仓算力弱**。\\n3. **传统数仓工具链**。\\n\\n### 注意啥\\n\\n- 转换逻辑分散在多脚本，难测试。\\n- 迭代慢，分析师不好改。\\n- 仍要质量门'
+LEAF etl-dag | DAG 依赖 | path: 调度与运维 > 编排基础 > DAG 依赖
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 309 h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  tags_present: ['是什么', '怎么写', '用在哪', '注意啥']
+  field_lens: {'content': 309}
+  content_preview: '### 是什么\\n\\n- **一句话定义**：任务按有向无环图排队，上游成功才跑下游。\\n- **典型链**：extract → transform → load → test → publish。\\n\\n### 怎么写\\n\\n```python\\n# Airflow 示意\\nextract >> transform >> load >> quality_check >> expose\\n```\\n\\n### 用在哪\\n\\n1. **日批主题链路**。\\n2. **'
+LEAF etl-full-snapshot | 全量快照 | path: 抽取 Extract > 抽取策略 > 全量快照
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 346 h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  tags_present: ['是什么', '怎么写', '用在哪', '注意啥']
+  field_lens: {'content': 346}
+  content_preview: "### 是什么\\n\\n- **一句话定义**：每次把对象当前全集拉出并落地。\\n- **适用**：小维表、变更难追踪、日切重建。\\n\\n### 怎么写\\n\\n```sql\\n-- 小维表：覆盖写入当日分区\\nINSERT OVERWRITE TABLE ods.dim_city_df PARTITION (dt='{{ ds }}')\\nSELECT city_id, city_name, updated_at\\nFROM src.dim_city;\\n```"
+LEAF etl-dedup | 去重取最新 | path: 转换 Transform > 清洗标准化 > 去重取最新
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 444 h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  tags_present: ['是什么', '怎么写', '用在哪', '注意啥']
+  field_lens: {'content': 444}
+  content_preview: '### 是什么\\n\\n- **一句话定义**：同一业务键保留一条「最新」快照，去掉重放与乱序。\\n- **常用**：`ROW_NUMBER` + 排序决胜列。\\n\\n### 怎么写\\n\\n```sql\\nSELECT *\\nFROM (\\n  SELECT\\n    o.*,\\n    ROW_NUMBER() OVER (\\n      PARTITION BY order_id\\n      ORDER BY updated_at DESC, ingest_i'
+LEAF etl-scd | SCD 拉链 | path: 转换 Transform > 关联与历史 > SCD 拉链
+  keys: ['children', 'content', 'id', 'level', 'title']
+  content_len: 494 h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  tags_present: ['是什么', '怎么写', '用在哪', '注意啥']
+  field_lens: {'content': 494}
+  content_preview: '### 是什么\\n\\n- **一句话定义**：保留维度历史版本（生效/失效时间）。\\n- **核心要素**：surrogate key、valid_from/to、is_current。\\n\\n### 怎么写\\n\\n```sql\\n-- 简化：关闭旧版 + 插入新版\\nUPDATE dim_user\\nSET valid_to = CURRENT_DATE, is_current = 0\\nWHERE user_biz_id = :id AND is_cur'
+======================================================================
+SQL GOLD (longest leaf): sql-row-number ROW_NUMBER len= 3297
+  h3: ['?? 是什么', '?? 怎么写', '?? 用在哪', '?? 注意啥']
+  tags: ['是什么', '怎么写', '查询结果', '用在哪', '注意啥']
+  keys: ['children', 'content', 'id', 'level', 'title']
+  field_lens: {'content': 3297}
+SQL leaf content_len min/med/max/avg/count: 65 429 3297 544 22
+======================================================================
+RENDER SNIPPETS
+  pattern kgNode\.content: 1 hits
+  pattern node\.content: 2 hits
+  pattern \.drills: 0 hits
+  pattern \.sections: 0 hits
+  pattern \.body: 11 hits
+  pattern renderMdBlock: 2 hits
+  pattern sqlKgDrawer: 11 hits
+SQL_SAMPLE top keys: ['ddl', 'seed', 'tables', 'goldLessons', 'juniorAligned', 'midAligned', 'seniorAligned']
+SQL_SAMPLE json chars: 3362
+DWH_SAMPLE top keys: ['tables', 'sharedWith', 'constitutionId', 'hubId', 'layers', 'schemas']
+DWH_SAMPLE json chars: 235
+ETL_SAMPLE top keys: ['tables', 'sharedWith', 'constitutionId', 'hubId', 'pipeline']
+ETL_SAMPLE json chars: 223

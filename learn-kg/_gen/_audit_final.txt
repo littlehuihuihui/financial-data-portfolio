@@ -1,0 +1,258 @@
+HTML size 1233910
+SQL_SAMPLE present True
+DWH_SAMPLE present True
+ETL_SAMPLE present True
+============================================================
+DWH L1/L2/L3/L4/leaves/maxD 5 14 37 0 37 3
+DWH leaf len min/med/max/avg 72 691 1034 680
+DWH styles gold8/short4/other 33 0 4
+DWH leaf keys {'children': 37, 'content': 37, 'id': 37, 'level': 37, 'title': 37}
+DWH OUTLINE
+    L1 学习路径 | dwh-learning-path | 46 | NODE
+      L2 教程宪法 | dwh-constitution-sec | 40 | CH
+        L3 统一样例与课模板 | dwh-constitution | 658 | LEAF
+      L2 路线清单 | dwh-roadmap | 8 | CH
+        L3 初级清单 | dwh-path-junior | 98 | LEAF
+        L3 中级清单 | dwh-path-mid | 123 | LEAF
+        L3 高级清单 | dwh-path-senior | 72 | LEAF
+      L2 练习场 | dwh-practice-field | 7 | CH
+        L3 初级练习 | dwh-drill-junior | 900 | LEAF
+        L3 中级练习 | dwh-drill-mid | 839 | LEAF
+    L1 仓是什么 | dwh-why | 27 | NODE
+      L2 定位与边界 | dwh-ssot-sec | 16 | CH
+        L3 仓是干什么的 | dwh-what | 684 | LEAF
+        L3 SSOT 单一事实来源 | dwh-ssot | 723 | LEAF
+      L2 主题域与集市 | dwh-domain-sec | 68 | CH
+        L3 主题域划分 | dwh-subject-domain | 540 | LEAF
+        L3 仓库与集市 | dwh-mart-vs-wh | 554 | LEAF
+    L1 数仓分层 | dwh-layer | 37 | NODE
+      L2 层级职责 | dwh-layers | 32 | CH
+        L3 ODS 贴源 | dwh-ods | 844 | LEAF
+        L3 DWD 明细 | dwh-dwd | 758 | LEAF
+        L3 DWS 汇总 | dwh-dws | 722 | LEAF
+        L3 ADS 应用 | dwh-ads | 683 | LEAF
+    L1 维度建模 | dwh-model | 46 | NODE
+      L2 粒度与总线 | dwh-grain-bus | 16 | CH
+        L3 事实粒度 | dwh-grain | 737 | LEAF
+        L3 总线矩阵 | dwh-bus-matrix | 684 | LEAF
+      L2 模型形态 | dwh-schema-styles | 81 | CH
+        L3 星型模型 | dwh-star-schema | 877 | LEAF
+        L3 雪花模型 | dwh-snowflake | 1034 | LEAF
+        L3 星系/星座模型 | dwh-constellation | 966 | LEAF
+      L2 方法论与选型 | dwh-method-styles | 98 | CH
+        L3 何时用星型/雪花/星系 | dwh-schema-choose | 632 | LEAF
+        L3 Kimball 与 Inmon | dwh-kimball-inmon | 758 | LEAF
+        L3 Data Vault 直觉 | dwh-datavault | 861 | LEAF
+      L2 星型构件 | dwh-star | 37 | CH
+        L3 事实表 | dwh-fact | 600 | LEAF
+        L3 维度表 | dwh-dim | 631 | LEAF
+        L3 代理键 | dwh-surrogate-key | 707 | LEAF
+        L3 事实表类型 | dwh-fact-types | 750 | LEAF
+        L3 宽表与指标表 | dwh-wide-vs-metric | 843 | LEAF
+        L3 一致性维度 | dwh-conformed-dim | 658 | LEAF
+      L2 缓慢变化维 | dwh-scd-sec | 16 | CH
+        L3 SCD1 覆盖 | dwh-scd1 | 521 | LEAF
+        L3 SCD2 拉链表 | dwh-scd2 | 942 | LEAF
+        L3 SCD3 保留前值 | dwh-scd3 | 691 | LEAF
+    L1 加工与质量 | dwh-pipeline | 20 | NODE
+      L2 调度与回刷 | dwh-schedule-sec | 66 | CH
+        L3 调度与依赖 | dwh-schedule | 631 | LEAF
+        L3 装载顺序 | dwh-load-order | 598 | LEAF
+        L3 回刷与重跑 | dwh-backfill | 585 | LEAF
+      L2 增量与分区 | dwh-incr-sec | 16 | CH
+        L3 增量策略 | dwh-incremental | 765 | LEAF
+        L3 分区与裁剪 | dwh-partition | 625 | LEAF
+      L2 质量与对账 | dwh-dq-sec | 16 | CH
+        L3 对账质检 | dwh-reconcile | 868 | LEAF
+============================================================
+ETL L1/L2/L3/L4/leaves/maxD 8 11 25 0 25 3
+ETL leaf len min/med/max/avg 222 346 494 371
+ETL styles gold8/short4/other 0 25 0
+ETL leaf keys {'children': 25, 'content': 25, 'id': 25, 'level': 25, 'title': 25}
+ETL OUTLINE
+    L1 认源与契约 | etl-source-contract | 37 | NODE
+      L2 源与清单 | etl-source-inventory | 69 | CH
+        L3 源表清单 | etl-source-list | 421 | LEAF
+        L3 主键与水位 | etl-keys-watermark | 491 | LEAF
+      L2 契约与 SLA | etl-contract-sla | 47 | CH
+        L3 数据契约 | etl-data-contract | 452 | LEAF
+        L3 就绪 SLA | etl-sla | 296 | LEAF
+    L1 抽取 Extract | etl-extract | 37 | NODE
+      L2 抽取策略 | etl-extract-modes | 47 | CH
+        L3 全量快照 | etl-full-snapshot | 346 | LEAF
+        L3 增量抽取 | etl-incr | 339 | LEAF
+        L3 CDC 变更捕获 | etl-cdc | 432 | LEAF
+    L1 转换 Transform | etl-transform | 43 | NODE
+      L2 清洗标准化 | etl-cleanse | 41 | CH
+        L3 类型与码值 | etl-type-normalize | 447 | LEAF
+        L3 去重取最新 | etl-dedup | 444 | LEAF
+      L2 关联与历史 | etl-enrich | 42 | CH
+        L3 维表关联 | etl-dim-join | 412 | LEAF
+        L3 SCD 拉链 | etl-scd | 494 | LEAF
+    L1 装载 Load | etl-load | 34 | NODE
+      L2 写入模式 | etl-load-patterns | 52 | CH
+        L3 分区覆盖 | etl-overwrite | 318 | LEAF
+        L3 MERGE/Upsert | etl-merge-upsert | 460 | LEAF
+      L2 幂等落地 | etl-idempotent | 38 | CH
+        L3 幂等写入 | etl-idempotent-write | 467 | LEAF
+    L1 过程质量 | etl-quality | 30 | NODE
+      L2 校验清单 | etl-checks | 44 | CH
+        L3 行数与空值 | etl-rowcount | 334 | LEAF
+        L3 主键唯一 | etl-unique-pk | 317 | LEAF
+        L3 金额对账 | etl-recon | 384 | LEAF
+    L1 调度与运维 | etl-schedule | 32 | NODE
+      L2 编排基础 | etl-orchestrate | 42 | CH
+        L3 DAG 依赖 | etl-dag | 309 | LEAF
+        L3 重试与告警 | etl-retry-alert | 260 | LEAF
+        L3 回填 Backfill | etl-backfill | 283 | LEAF
+    L1 ETL vs ELT | etl-elt | 40 | NODE
+      L2 形态对比 | etl-vs-elt | 46 | CH
+        L3 经典 ETL | etl-classic | 222 | LEAF
+        L3 现代 ELT | etl-modern-elt | 428 | LEAF
+    L1 工具选型 | etl-tools | 33 | NODE
+      L2 选型地图 | etl-tool-map | 64 | CH
+        L3 编排 Airflow | etl-tool-airflow | 302 | LEAF
+        L3 变换 dbt | etl-tool-dbt | 333 | LEAF
+        L3 接入与 CDC | etl-tool-ingest | 291 | LEAF
+============================================================
+SQL L1/L2/L3/L4/leaves/maxD 8 12 22 0 22 3
+SQL leaf len min/med/max/avg 716 1251 1946 1291
+SQL styles gold8/short4/other 22 0 0
+SQL leaf keys {'children': 22, 'content': 22, 'id': 22, 'level': 22, 'title': 22, 'lessonParent': 1}
+SQL OUTLINE
+    L1 DML & 查询 | sql-dml-query | 53 | NODE
+      L2 CRUD基础 | sql-crud | 154 | CH
+        L3 SELECT | sql-select | 1725 | LEAF
+        L3 INSERT | sql-insert | 1760 | LEAF
+        L3 UPDATE/DELETE | sql-update-delete | 1488 | LEAF
+      L2 过滤与聚合 | sql-filter-agg | 144 | CH
+        L3 WHERE/ORDER | sql-where-order | 1397 | LEAF
+        L3 GROUP BY | sql-group-by | 1405 | LEAF
+    L1 DDL 与对象 | sql-ddl | 32 | NODE
+      L2 表与约束 | sql-table-constraint | 144 | CH
+        L3 CREATE TABLE | sql-create-table | 1191 | LEAF
+        L3 主键/外键/唯一 | sql-constraints | 1474 | LEAF
+      L2 视图与索引骨架 | sql-view-index-skel | 139 | CH
+        L3 VIEW | sql-view | 1034 | LEAF
+        L3 INDEX 入门 | sql-index-intro | 1053 | LEAF
+    L1 JOIN 关联 | sql-join | 36 | NODE
+      L2 连接类型 | sql-join-types | 133 | CH
+        L3 INNER | sql-inner-join | 1057 | LEAF
+        L3 LEFT | sql-left-join | 1288 | LEAF
+      L2 关联陷阱 | sql-join-traps | 127 | CH
+        L3 JOIN爆炸 | sql-join-explode | 1946 | LEAF
+    L1 窗口函数 | sql-window | 23 | NODE
+      L2 排名类 | sql-window-rank | 150 | CH
+        L3 ROW_NUMBER | sql-row-number | 1683 | LEAF
+        L3 RANK | sql-rank | 1324 | LEAF
+        L3 DENSE_RANK | sql-dense-rank | 835 | LEAF
+      L2 分析类 | sql-window-analytic | 139 | CH
+        L3 LAG/LEAD | sql-lag-lead | 1251 | LEAF
+        L3 SUM OVER | sql-sum-over | 1176 | LEAF
+    L1 CTE 与子查询 | sql-cte | 29 | NODE
+      L2 WITH写法 | sql-with-style | 129 | CH
+        L3 CTE流水线 | sql-cte-pipeline | 1171 | LEAF
+    L1 索引与执行计划 | sql-index-plan | 24 | NODE
+      L2 读懂计划 | sql-read-plan | 135 | CH
+        L3 EXPLAIN | sql-explain | 1200 | LEAF
+        L3 复合索引 | sql-composite-index | 1201 | LEAF
+    L1 事务与锁 | sql-tx-lock | 23 | NODE
+      L2 ACID基础 | sql-acid | 135 | CH
+        L3 BEGIN/COMMIT | sql-begin-commit | 1025 | LEAF
+    L1 SQL 调优 | sql-tune | 30 | NODE
+      L2 调优闭环 | sql-tune-loop | 127 | CH
+        L3 调优检查清单 | sql-tune-checklist | 716 | LEAF
+============================================================ DWH SAMPLES
+LEAF dwh-path-senior | 高级清单 | len=72 | gold8=False short4=False
+  h3: ['课前']
+  sec[课前]=72
+LEAF dwh-partition | 分区与裁剪 | len=625 | gold8=True short4=False
+  h3: ['课前', '样例输入', '是什么', '怎么写', '查询结果', '用在哪', '易错对照', '动手']
+  sec[课前]=88
+  sec[样例输入]=43
+  sec[是什么]=75
+  sec[怎么写]=216
+  sec[查询结果]=31
+  sec[用在哪]=38
+  sec[易错对照]=97
+  sec[动手]=37
+LEAF dwh-scd3 | SCD3 保留前值 | len=691 | gold8=True short4=False
+  h3: ['课前', '样例输入', '是什么', '怎么写', '查询结果', '用在哪', '易错对照', '动手']
+  sec[课前]=113
+  sec[样例输入]=26
+  sec[是什么]=107
+  sec[怎么写]=233
+  sec[查询结果]=35
+  sec[用在哪]=40
+  sec[易错对照]=101
+  sec[动手]=36
+LEAF dwh-drill-mid | 中级练习 | len=839 | gold8=True short4=False
+  h3: ['课前', '样例输入', '是什么', '怎么写', '查询结果', '用在哪', '易错对照', '动手']
+  sec[课前]=107
+  sec[样例输入]=43
+  sec[是什么]=37
+  sec[怎么写]=452
+  sec[查询结果]=48
+  sec[用在哪]=29
+  sec[易错对照]=88
+  sec[动手]=35
+LEAF dwh-snowflake | 雪花模型 | len=1034 | gold8=True short4=False
+  h3: ['课前', '样例输入', '是什么', '怎么写', '查询结果', '用在哪', '易错对照', '动手']
+  sec[课前]=114
+  sec[样例输入]=38
+  sec[是什么]=126
+  sec[怎么写]=520
+  sec[查询结果]=39
+  sec[用在哪]=45
+  sec[易错对照]=108
+  sec[动手]=44
+============================================================ ETL SAMPLES
+LEAF etl-classic | 经典 ETL | len=222 | gold8=False short4=True
+  h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  sec[是什么]=67
+  sec[怎么写]=46
+  sec[用在哪]=59
+  sec[注意啥]=50
+LEAF etl-dag | DAG 依赖 | len=309 | gold8=False short4=True
+  h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  sec[是什么]=98
+  sec[怎么写]=93
+  sec[用在哪]=54
+  sec[注意啥]=64
+LEAF etl-full-snapshot | 全量快照 | len=346 | gold8=False short4=True
+  h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  sec[是什么]=63
+  sec[怎么写]=159
+  sec[用在哪]=57
+  sec[注意啥]=67
+LEAF etl-dedup | 去重取最新 | len=444 | gold8=False short4=True
+  h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  sec[是什么]=78
+  sec[怎么写]=236
+  sec[用在哪]=66
+  sec[注意啥]=64
+LEAF etl-scd | SCD 拉链 | len=494 | gold8=False short4=True
+  h3: ['是什么', '怎么写', '用在哪', '注意啥']
+  sec[是什么]=92
+  sec[怎么写]=285
+  sec[用在哪]=55
+  sec[注意啥]=62
+============================================================ SQL GOLD sql-join-explode JOIN爆炸 1946
+  gold8 True short4 False h3 ['课前', '样例输入', '是什么', '怎么写', '查询结果（示意）', '用在哪', '易错对照', '动手']
+  sec[课前]=151
+  sec[样例输入]=282
+  sec[是什么]=149
+  sec[怎么写]=773
+  sec[查询结果（示意）]=180
+  sec[用在哪]=114
+  sec[易错对照]=205
+  sec[动手]=92
+DWH_KNOWLEDGE_TREE table mentions {'users': 32, 'orders': 47, 'order_items': 11, 'order_events': 9, 'SQL_SAMPLE': 0}
+ETL_KNOWLEDGE_TREE table mentions {'users': 1, 'orders': 24, 'order_items': 0, 'order_events': 0, 'SQL_SAMPLE': 0}
+SQL_SAMPLE keys ['ddl', 'seed', 'tables', 'goldLessons', 'juniorAligned', 'midAligned', 'seniorAligned']
+SQL_SAMPLE.tables ['users', 'orders', 'order_events', 'order_items']
+SQL_SAMPLE.goldLessons ['sql-select', 'sql-null', 'sql-join-explode', 'sql-row-number', 'sql-isolation-levels']
+DWH_SAMPLE {'tables': ['users', 'orders', 'order_events', 'order_items'], 'sharedWith': 'SQL_SAMPLE', 'constitutionId': 'dwh-constitution', 'hubId': 'dwh', 'layers': ['ODS', 'DWD', 'DWS', 'ADS'], 'schemas': ['star', 'snowflake', 'constellation']}
+ETL_SAMPLE {'tables': ['users', 'orders', 'order_events', 'order_items'], 'sharedWith': 'SQL_SAMPLE', 'constitutionId': 'etl-constitution', 'hubId': 'etl', 'pipeline': ['source', 'extract', 'transform', 'load', 'quality', 'schedule']}
+etl has constitution False
+etl has learning-path False

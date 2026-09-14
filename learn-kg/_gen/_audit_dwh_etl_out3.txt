@@ -1,0 +1,78 @@
+SQL rich sql-row-number ROW_NUMBER 3297 ['?? 是什么', '?? 怎么写', '?? 用在哪', '?? 注意啥']
+ROW_NUMBER headings:
+  '?? 是什么'
+  '?? 怎么写'
+  '?? 用在哪'
+  '?? 注意啥'
+total 3297
+SQL top sql-row-number ROW_NUMBER 3297
+SQL top sql-join-explode JOIN爆炸 555
+SQL top sql-update-delete UPDATE/DELETE 519
+SQL top sql-cte-pipeline CTE流水线 497
+SQL top sql-tune-checklist 调优检查清单 480
+DWH leaves:
+  dwh-constitution	658	统一样例与课模板
+  dwh-path-junior	98	初级清单
+  dwh-path-mid	123	中级清单
+  dwh-path-senior	72	高级清单
+  dwh-drill-junior	900	初级练习
+  dwh-drill-mid	839	中级练习
+  dwh-what	684	仓是干什么的
+  dwh-ssot	723	SSOT 单一事实来源
+  dwh-subject-domain	540	主题域划分
+  dwh-mart-vs-wh	554	仓库与集市
+  dwh-ods	844	ODS 贴源
+  dwh-dwd	758	DWD 明细
+  dwh-dws	722	DWS 汇总
+  dwh-ads	683	ADS 应用
+  dwh-grain	737	事实粒度
+  dwh-bus-matrix	684	总线矩阵
+  dwh-star-schema	877	星型模型
+  dwh-snowflake	1034	雪花模型
+  dwh-constellation	966	星系/星座模型
+  dwh-schema-choose	632	何时用星型/雪花/星系
+  dwh-kimball-inmon	758	Kimball 与 Inmon
+  dwh-datavault	861	Data Vault 直觉
+  dwh-fact	600	事实表
+  dwh-dim	631	维度表
+  dwh-surrogate-key	707	代理键
+  dwh-fact-types	750	事实表类型
+  dwh-wide-vs-metric	843	宽表与指标表
+  dwh-conformed-dim	658	一致性维度
+  dwh-scd1	521	SCD1 覆盖
+  dwh-scd2	942	SCD2 拉链表
+  dwh-scd3	691	SCD3 保留前值
+  dwh-schedule	631	调度与依赖
+  dwh-load-order	598	装载顺序
+  dwh-backfill	585	回刷与重跑
+  dwh-incremental	765	增量策略
+  dwh-partition	625	分区与裁剪
+  dwh-reconcile	868	对账质检
+ETL leaves:
+  etl-source-list	421	源表清单
+  etl-keys-watermark	491	主键与水位
+  etl-data-contract	452	数据契约
+  etl-sla	296	就绪 SLA
+  etl-full-snapshot	346	全量快照
+  etl-incr	339	增量抽取
+  etl-cdc	432	CDC 变更捕获
+  etl-type-normalize	447	类型与码值
+  etl-dedup	444	去重取最新
+  etl-dim-join	412	维表关联
+  etl-scd	494	SCD 拉链
+  etl-overwrite	318	分区覆盖
+  etl-merge-upsert	460	MERGE/Upsert
+  etl-idempotent-write	467	幂等写入
+  etl-rowcount	334	行数与空值
+  etl-unique-pk	317	主键唯一
+  etl-recon	384	金额对账
+  etl-dag	309	DAG 依赖
+  etl-retry-alert	260	重试与告警
+  etl-backfill	283	回填 Backfill
+  etl-classic	222	经典 ETL
+  etl-modern-elt	428	现代 ELT
+  etl-tool-airflow	302	编排 Airflow
+  etl-tool-dbt	333	变换 dbt
+  etl-tool-ingest	291	接入与 CDC
+SQL_SAMPLE.tables=['users', 'orders', 'order_events', 'order_items']
+SQL_SAMPLE.goldLessons=['sql-select', 'sql-null', 'sql-join-explode', 'sql-row-number', 'sql-isolation-levels']

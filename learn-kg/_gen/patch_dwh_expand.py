@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-p = Path(r"D:\cursor\数据学习平台\数据学习平台\数据知识图谱.html")
+p = Path(r"D:\cursor\数据学习平台\数据知识图谱.html")
 text = p.read_text(encoding="utf-8")
 
 
@@ -20,16 +20,28 @@ def gold(scene, goal, prereq, sample, what, code, result, uses, traps, drill, la
 - **场景**：{scene}
 - **目标**：{goal}
 - **先修**：{prereq}
+- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。
 
 ### 样例输入
 
 {sample}
 
+> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。
+
 ### 是什么
 
 {what}
 
+**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。
+
 ### 怎么写
+
+**建议步骤**
+
+1. 先写清粒度与分区（dt）  
+2. 按下述 SQL/DDL 改到你的主题域  
+3. 用「查询结果」与源或上一层做闭合  
+4. 对照易错表，确认没有把口径写进错误的层  
 
 ```{lang}
 {code}
@@ -42,6 +54,8 @@ def gold(scene, goal, prereq, sample, what, code, result, uses, traps, drill, la
 ### 用在哪
 
 {uses}
+
+**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。
 
 ### 易错对照
 
@@ -56,23 +70,30 @@ def gold(scene, goal, prereq, sample, what, code, result, uses, traps, drill, la
 CONST = lesson("""
 ### 课前 · 这是什么
 
-本页是 **数据仓库教程公约**：分层、建模、增量与质量课共用同一业务域——与 SQL/Python/数据库同源的交易样例（`users` / `orders` / `order_items` / `order_events`）。先读本页，再按学习路径推进。
+本页是 **数据仓库教程公约**：分层、建模、增量与质量课共用同一业务域——与 SQL / Python / ETL / 数据库 **同源样例**（`users` / `orders` / `order_items` / `order_events`）。先读本页，再按学习路径推进；金课里的验收数字以本页为准。
 
 ### 统一业务域（贴到仓分层）
 
-| 源表（OLTP/样例） | 仓中典型落点 |
-|---|---|
-| `orders` / `order_items` / `order_events` | ODS 贴源 → DWD 订单/支付明细事实 |
-| `users` | ODS 贴源 → DIM 用户维（可 SCD2） |
-| 按日 GMV / 用户汇总 | DWS 轻度汇总 → ADS 看板接口 |
+| 源表（OLTP/样例） | 仓中典型落点 | 教义要点 |
+|---|---|---|
+| `orders` / `order_items` / `order_events` | ODS → DWD 订单/支付事实 | 先定粒度，防 JOIN 爆炸 |
+| `users` | ODS → DIM 用户维（可 SCD2） | 历史属性用拉链表 |
+| 按日 GMV / 用户汇总 | DWS → ADS 看板接口 | 指标下沉，看板少写私有 SQL |
 
-**验收种子**（与 SQL 宪法一致）：users=4，orders=8，order_events=7，order_items=5。
+**验收种子**：users=4，orders=8，order_events=7，order_items=5。  
+**支付口径**：`status='paid'` + `SUM(COALESCE(amount,0))`。
 
 ### 分层一句话
 
 ```text
 ODS 尽量像源  →  DWD 干净可复用明细  →  DWS 按主题汇总  →  ADS 直接服务应用
 ```
+
+### 三条铁律
+
+1. **粒度写在表名前**：一行代表什么业务事件，写不清就不建表。  
+2. **口径沉在可复用层**：SSOT 在 DWD/DWS，不在每个看板私有 SQL。  
+3. **重跑必须安全**：分区覆盖 / 幂等装载，和 ETL 课同一纪律。
 
 ### 金标准课模板
 
@@ -81,9 +102,10 @@ ODS 尽量像源  →  DWD 干净可复用明细  →  DWS 按主题汇总  → 
 ### 学习主线
 
 ```text
-宪法 → 仓是什么/SSOT → ODS→DWD→DWS→ADS
-→ 粒度/总线 → 事实/维度/代理键 → SCD2
-→ 增量与分区 → 对账质检 → 练习场
+宪法 → 仓是什么/SSOT → 主题域/集市
+→ ODS→DWD→DWS→ADS → 粒度/总线
+→ 星型/雪花/星系 → Kimball·Inmon·Vault
+→ 事实/维度/代理键/SCD → 增量分区对账 → 练习场
 ```
 """)
 
@@ -130,7 +152,21 @@ TREE = {
 ### 课前
 
 - **定位**：能讲清仓与业务库区别，画出 ODS→ADS，写清一层明细事实粒度。
-- **顺序**：宪法 → 仓是什么 → 四层职责 → 粒度 → 事实/维度入门 → 初级练习
+- **学完标准**：用同源样例说出每一层「放什么 / 不放什么」。
+
+### 必学顺序
+
+1. 教程宪法  
+2. 仓是什么 → SSOT  
+3. ODS → DWD → DWS → ADS  
+4. 粒度 → 事实 / 维度入门  
+5. 初级练习场
+
+### 验收口令
+
+- 能解释：为何 BI 不直连生产库  
+- 能指出：GMV 权威口径应落在哪一层  
+- 能写出：paid 明细与按用户汇总的两段 SQL
 """),
                             "children": [],
                         },
@@ -142,7 +178,22 @@ TREE = {
 ### 课前
 
 - **定位**：星型/总线、代理键、SCD2、增量分区、对账。
-- **顺序**：总线矩阵 → **星型/雪花/星系** → Kimball·Inmon·Vault → 代理键 → SCD2 → 增量/CDC → 分区 → 对账
+- **学完标准**：能画星型示意，并完成维表历史与日批幂等设计。
+
+### 必学顺序
+
+1. 总线矩阵 → **星型 / 雪花 / 星系**  
+2. Kimball · Inmon · Data Vault 选型感  
+3. 代理键 → 事实类型 → 一致性维度  
+4. SCD1/2/3（重点 SCD2）  
+5. 增量 / 分区 / 装载顺序 / 回刷  
+6. 对账质检 → 中级练习场
+
+### 验收口令
+
+- 星型与雪花各说一个适用场景  
+- SCD2 变更日能口述闭链 + 插入  
+- DWS.gmv 合计能与 DWD 闭合
 """),
                             "children": [],
                         },
@@ -154,7 +205,21 @@ TREE = {
 ### 课前
 
 - **定位**：主题域治理、指标下沉、湖仓一体边界、回刷策略。
-- **注意**：与 BI 指标口径、ETL 调度课交叉学习。
+- **注意**：与 BI 指标口径、ETL 调度 / 血缘 / 发布课交叉学习。
+
+### 必学顺序
+
+1. 主题域 vs 集市边界  
+2. 宽表 vs 指标下沉取舍  
+3. 回刷 / 重述与分区策略  
+4. 与 ETL 契约、SLA、发布回滚对齐  
+5. 与 BI 语义层 / 认证数据集对齐
+
+### 验收口令
+
+- 能画「域 → 总线 → 集市 → 看板」责任图  
+- 能说明何时不该上雪花、何时不该上 Vault  
+- 能写出一次口径变更的回刷影响面
 """),
                             "children": [],
                         },

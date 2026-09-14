@@ -7,11 +7,12 @@ ROOT = Path(__file__).resolve().parent.parent
 HTML = ROOT / "数据知识图谱.html"
 LESSONS = Path(__file__).resolve().parent / "lessons"
 
-ORDER = ["sql", "ml", "python", "etl", "dwh", "bi"]
+ORDER = ["sql", "python", "database", "ml", "etl", "dwh", "bi"]
 VAR = {
     "sql": "SQL_KNOWLEDGE_TREE",
-    "ml": "ML_KNOWLEDGE_TREE",
     "python": "PYTHON_KNOWLEDGE_TREE",
+    "database": "DATABASE_KNOWLEDGE_TREE",
+    "ml": "ML_KNOWLEDGE_TREE",
     "etl": "ETL_KNOWLEDGE_TREE",
     "dwh": "DWH_KNOWLEDGE_TREE",
     "bi": "BI_KNOWLEDGE_TREE",

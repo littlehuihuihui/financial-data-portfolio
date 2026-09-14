@@ -1,0 +1,112 @@
+DWH leaves 37 gold8 33 short4 0 other 4
+  other samples: [('dwh-constitution', '统一样例与课模板', 658, ['课前 · 这是什么', '统一业务域（贴到仓分层）', '分层一句话', '金标准课模板', '学习主线']), ('dwh-path-junior', '初级清单', 98, ['课前']), ('dwh-path-mid', '中级清单', 123, ['课前']), ('dwh-path-senior', '高级清单', 72, ['课前'])]
+ETL leaves 25 gold8 0 short4 25 other 0
+  other samples: []
+SQL leaves 22 gold8 0 short4 21 other 1
+  other samples: [('sql-rank', 'RANK', 65, ['排名类窗口 · 章节导读'])]
+================================================== sql-row-number ROW_NUMBER total 3297
+  section [?? 是什么] chars=147
+  section [?? 怎么写] chars=1326
+  section [?? 用在哪] chars=1124
+  section [?? 注意啥] chars=700
+sql-constitution MISSING
+================================================== sql-inner-join INNER total 356
+  section [是什么] chars=57
+  section [怎么写] chars=141
+  section [用在哪] chars=87
+  section [注意啥] chars=71
+================================================== sql-select SELECT total 402
+  section [是什么] chars=110
+  section [怎么写] chars=126
+  section [用在哪] chars=83
+  section [注意啥] chars=83
+================================================== dwh-snowflake 雪花模型 total 1034
+  section [课前] chars=114
+  section [样例输入] chars=38
+  section [是什么] chars=126
+  section [怎么写] chars=520
+  section [查询结果] chars=39
+  section [用在哪] chars=45
+  section [易错对照] chars=108
+  section [动手] chars=44
+================================================== dwh-constitution 统一样例与课模板 total 658
+  section [课前 · 这是什么] chars=146
+  section [统一业务域（贴到仓分层）] chars=273
+  section [分层一句话] chars=78
+  section [金标准课模板] chars=59
+  section [学习主线] chars=102
+================================================== dwh-ods ODS 贴源 total 844
+  section [课前] chars=93
+  section [样例输入] chars=30
+  section [是什么] chars=107
+  section [怎么写] chars=379
+  section [查询结果] chars=37
+  section [用在哪] chars=37
+  section [易错对照] chars=118
+  section [动手] chars=43
+================================================== dwh-path-senior 高级清单 total 72
+  section [课前] chars=72
+================================================== etl-scd SCD 拉链 total 494
+  section [是什么] chars=92
+  section [怎么写] chars=285
+  section [用在哪] chars=55
+  section [注意啥] chars=62
+================================================== etl-incr 增量抽取 total 339
+  section [是什么] chars=75
+  section [怎么写] chars=153
+  section [用在哪] chars=57
+  section [注意啥] chars=54
+================================================== etl-classic 经典 ETL total 222
+  section [是什么] chars=67
+  section [怎么写] chars=46
+  section [用在哪] chars=59
+  section [注意啥] chars=50
+================================================== etl-keys-watermark 主键与水位 total 491
+  section [是什么] chars=98
+  section [怎么写] chars=241
+  section [用在哪] chars=73
+  section [注意啥] chars=79
+etl-constitution MISSING
+write path nested exists: False size None
+workspace html exists: True size 1069776
+DWH_SAMPLE {
+  "tables": [
+    "users",
+    "orders",
+    "order_events",
+    "order_items"
+  ],
+  "sharedWith": "SQL_SAMPLE",
+  "constitutionId": "dwh-constitution",
+  "hubId": "dwh",
+  "layers": [
+    "ODS",
+    "DWD",
+    "DWS",
+    "ADS"
+  ],
+  "schemas": [
+    "star",
+    "snowflake",
+    "constellation"
+  ]
+}
+ETL_SAMPLE {
+  "tables": [
+    "users",
+    "orders",
+    "order_events",
+    "order_items"
+  ],
+  "sharedWith": "SQL_SAMPLE",
+  "constitutionId": "etl-constitution",
+  "hubId": "etl",
+  "pipeline": [
+    "source",
+    "extract",
+    "transform",
+    "load",
+    "quality",
+    "schedule"
+  ]
+}
