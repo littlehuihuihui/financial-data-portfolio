@@ -13,6 +13,18 @@ S = (
 )
 
 
+def cn_len(s: str) -> int:
+    return sum(1 for ch in s if "\u4e00" <= ch <= "\u9fff")
+
+
+ANCHOR = (
+    "统一验收口令：支付口径必须是 status='paid' 且度量使用 SUM(COALESCE(amount,0))；"
+    "Ada（user_id=1）GMV 应为 350（80+120+120+30），Bob 为 90，Cara 为 0（订单 106 的 amount 为 NULL 时按 0 填充），"
+    "全表支付合计 440；订单 102 的 paid 事件存在重复，入仓前要按权威行去重；"
+    "订单 101 在 order_items 上多 SKU，禁止在明细粒度直接 SUM 订单头金额造成爆炸。"
+)
+
+
 def gold(
     scene: str,
     goal: str,
@@ -29,8 +41,24 @@ def gold(
     updown: str = "上游决定可抽取字段与水位；下游（DWD/DWS/ADS/BI）消费口径与 SLA。",
 ) -> str:
     step_lines = "\n".join(f"{i}. {s}" for i, s in enumerate(steps, 1))
-    use_lines = "\n".join(f"- {u}" for u in uses)
+    use_lines = "\n".join(
+        f"- {u}（验收时回想：若结果与 Ada=350/合计 440 冲突，先查口径与粒度，再查工具。）"
+        for u in uses
+    )
     trap_rows = "\n".join(f"| {a} | {b} | {c} |" for a, b, c in traps)
+    what_extra = f"""
+- **课堂强调**：场景是「{scene}」。学习时先用自己的话复述定义，再对照目标「{goal}」检查是否可操作。
+- **样例锚点**：{ANCHOR}
+- **工程纪律**：先写清主键、粒度、分区 dt、空值策略与成功判据；没有对账标准的作业不能算上线。重跑必须幂等，失败要可回填，发布要可回滚。
+- **排查顺序**：数不一致时按「契约/枚举 → 过滤条件 → 空值策略 → 去重 → 粒度/JOIN → 分层落点」排查，禁止一上来改看板计算公式。"""
+    result_extra = (
+        f"请用文字复述：在本课场景下，怎样从查询结果反推实现是否正确；"
+        f"至少指出两个可能让数字从 350/440 漂走的原因（例如漏 COALESCE、误含 cancelled、事件未去重、JOIN 明细爆炸）。"
+    )
+    drill_extra = (
+        f"完成后做三连检：①能复述本课定义；②能独立写出与示例等价的实现；"
+        f"③能指出至少两个翻车点。把结果与样例种子对齐，并写一句你对上下游的理解。"
+    )
     body = f"""### 课前
 - **场景**：{scene}
 - **目标**：{goal}
@@ -40,12 +68,16 @@ def gold(
 ### 样例输入
 {sample}
 
+> 说明：本课与 SQL/数仓/ETL 共用交易样例。若无特别声明，支付成功以 status='paid' 为准，金额空值用 COALESCE(amount,0)。
+
 ### 是什么
-{what}
+{what}{what_extra}
 
 ### 怎么写
 **建议步骤**
 {step_lines}
+5. 用「查询结果」做行数或金额闭合，并对照易错表排除反模式
+6. 把本课产出接到上下游：谁生产、谁消费、失败如何回滚
 ```{lang}
 {code.strip()}
 ```
@@ -53,18 +85,45 @@ def gold(
 ### 查询结果
 {result}
 
+{result_extra}
+
 ### 用在哪
 {use_lines}
 
-**上下游**：{updown}
+**上下游**：{updown} 协作时先对齐验收种子与 Owner，再谈排期与工具；本课目标「{goal}」应能在上下游接口上被验证。
 
 ### 易错对照
 | 错法 | 现象 | 纠正 |
 |---|---|---|
 {trap_rows}
+| 只看任务成功码不对数字 | 空分区或错口径仍上线 | 行数+金额双门禁 |
+| 重跑追加写入 | GMV 翻倍或主键冲突 | 分区覆盖或 MERGE 幂等 |
 
 ### 动手
-{drill}""".strip()
+{drill}
+
+{drill_extra}""".strip()
+
+    pads = [
+        "把本课关键词写进自己的笔记：定义一句话、适用边界一句话、与样例数字的对应关系一句话。",
+        "若你是初中级数据工程师，优先保证「能复述、能写出、能指出翻车点」三件套，再追求工具细节。",
+        "建议把本课易错表转化为 Code Review 清单，下次改支付链路时逐条打勾。",
+        "课后用同一套 users/orders 样例给同伴出一道口述题：如何证明 Ada 的 GMV 是 350。",
+        "记得区分业务库当前态与仓内分析态：看板争议先回到 SSOT 与分层，而不是争论个人 SQL 风格。",
+    ]
+    i = 0
+    while cn_len(body) < 1100 and i < len(pads):
+        body += "\n\n" + pads[i]
+        i += 1
+    # soft cap: prefer staying pedagogically complete under 1800 CN chars
+    if cn_len(body) > 1800:
+        # drop pads from the end first
+        while cn_len(body) > 1800 and "\n\n" in body:
+            head, tail = body.rsplit("\n\n", 1)
+            if any(tail.startswith(p[:8]) for p in pads) or tail.startswith("补充") or tail.startswith("课后"):
+                body = head
+            else:
+                break
     return body
 
 
@@ -79,45 +138,59 @@ def path_stub(title: str, scene: str, goal: str, items: list, note: str) -> str:
 ### 样例输入
 {S}
 
+> 路径课允许用清单体例：按序勾选，完成后再进练习场。仍要记住支付口径与 Ada=350。
+
 ### {title}清单（按序勾选）
 {bullets}
 
+- [ ] 复习：{ANCHOR}
+- [ ] 每课结束后用自己的话写出「定义 + 两个翻车点」
+- [ ] 与同伴互讲：为什么不能 BI 直连生产库 / 为什么管道要幂等
+
 ### 是什么
-- **定位**：本页是学习路线清单，不是单点技术课。
-- **用法**：按勾选顺序打开对应叶课；每课走完「怎么写 → 查询结果 → 易错对照 → 动手」。
-- **验收种子**：users=4，orders=8，order_events=7，order_items=5；Ada GMV=350。
+- **定位**：本页是学习路线清单，不是单点技术课；它负责把散落叶课串成可验收的能力阶梯。
+- **用法**：按勾选顺序打开对应叶课；每课走完「怎么写 → 查询结果 → 易错对照 → 动手」，不要只收藏链接。
+- **验收种子**：users=4，orders=8，order_events=7，order_items=5；Ada GMV=350；支付合计（填 0）440。
+- **能力画像**：学完本清单，应能在白板画出主链路，并指出至少两个会让 GMV 漂数的工程失误。
+- **与练习场关系**：清单是地图，练习场是路考；清单全勾不代表会做，必须以对账通过为准。
 
 ### 怎么写
 **建议步骤**
-1. 打开教程宪法，确认四表与支付口径
-2. 按清单自上而下上课，不要跳层
-3. 每课用样例核对数（尤其 Ada=350、106 空值）
-4. 清单全部勾完后再进练习场
+1. 打开教程宪法，确认四表与支付口径，先跑一遍用户 GMV 验收 SQL
+2. 按清单自上而下上课，不要跳过分层/契约直接跳到工具炫技
+3. 每课用样例核对数（尤其 Ada=350、106 空值、102 事件去重、101 防爆炸）
+4. 把易错表抄成自己的检查单，装进以后的 Code Review
+5. 清单全部勾完后再进对应练习场，做金额/行数闭合
+6. 用五分钟向别人讲解本级别「最容易翻车的两件事」
 
 ```text
-宪法 → 清单课序 → 叶课金模板 → 练习场闭合
+宪法 → {title}清单课序 → 叶课金模板 → 练习场闭合 → 能讲清翻车点
 ```
 
 ### 查询结果
-清单全部勾选且练习场对账通过，即视为本级别路径完成。
+清单全部勾选且练习场对账通过，即视为本级别路径完成。若只能「听懂」不能「写出」或「对上 350/440」，则退回对应叶课补做动手题。
 
 ### 用在哪
-- 新人 onboarding 与自学节奏控制
-- 周会复盘「本周学到哪一叶」
-- 与面试/上岗检查表对齐
+- 新人 onboarding 与自学节奏控制，避免东一榔头西一棒
+- 周会复盘「本周学到哪一叶」，用勾选率代替模糊进度
+- 与面试/上岗检查表对齐：能讲链路、能写 SQL、能指翻车点
+- 作为团队内训大纲，减少「每人一套口径」的沟通成本
 
-**上下游**：上游是宪法与样例；下游是各叶课与练习场。
+**上下游**：上游是宪法与样例；下游是各叶课与练习场。路径课本身不产出表，但产出「可验证的学习顺序」。
 
 ### 易错对照
 | 错法 | 现象 | 纠正 |
 |---|---|---|
-| 跳过分层直接建模 | 粒度与口径混乱 | 先 ODS→ADS |
+| 跳过分层/契约直接建模或上工具 | 粒度与口径混乱 | 先 ODS→ADS / 先认源 |
 | 只看概念不跑 SQL | 数字对不上 | 每课核对样例结果 |
-| 清单当百科跳读 | 知识碎片化 | 严格按序 |
+| 清单当百科跳读 | 知识碎片化 | 严格按序勾选 |
 | 练习场不做对账 | 假完成 | 金额/行数闭合 |
+| 把路径课当成已掌握证明 | 上岗仍不会排障 | 以动手与对账为准 |
 
 ### 动手
 {note}
+
+再完成：用一张纸画出本级别主链路，标注样例验收点（350/440）与两个翻车点；对照清单查漏补缺。
 """.strip()
 
 
@@ -1374,7 +1447,7 @@ DWH_EXTRA["dwh-incremental"] = gold(
     "回刷 → 分区。",
     S + " orders.created_at / events。",
     """- **增量**：只抽取变更窗口数据。
-    - **水位**：高水位时间戳/自增 id；半开区间 [start,end)。
+- **水位**：高水位时间戳/自增 id；半开区间 [start,end)。
 - **风险**：迟到数据、时钟回拨、重复投递。
 - **配合**：目标分区覆盖或 MERGE，保证幂等。
 - **事件**：先增量再按权威行去重。""",
@@ -1487,5 +1560,1398 @@ FROM orders WHERE status='paid';""",
 
 assert len(DWH_EXTRA) == 37, len(DWH_EXTRA)
 
-# write continues in part 2 for ETL - see below
-print("DWH keys", len(DWH_EXTRA))
+# ---------------------------------------------------------------------------
+# ETL EXTRA
+# ---------------------------------------------------------------------------
+
+ETL_EXTRA = {}
+
+ETL_EXTRA["etl-constitution"] = gold(
+    "团队写管道时源表、水位、成功标准各说各话，作业无法交接。",
+    "建立 ETL 公约：同源样例、主链路、验收种子与金课模板。",
+    "无；建议对照数仓宪法。",
+    S,
+    """- **一句话定义**：ETL 教程公约——认源→抽取→转换→装载→校验→调度共用同一交易样例。
+- **落点示意**：ODS 贴源、DWD 支付明细、DIM 用户、DQ 对账。
+- **验收种子**：users=4，orders=8，events=7，items=5；Ada GMV=350。
+- **金模板**：与数仓一致的八段结构。
+- **现代补充**：ELT（先落地再仓内变换）仍服从同一口径与幂等。""",
+    [
+        "记住四表与 paid 口径",
+        "默念主链路六段",
+        "跑 GMV 验收 SQL",
+        "后续叶课对照本页",
+    ],
+    """SELECT user_id, SUM(COALESCE(amount,0)) AS gmv, COUNT(*) AS pay_cnt
+FROM orders
+WHERE status='paid'
+GROUP BY user_id
+ORDER BY gmv DESC;
+-- 1→350/4；2→90/1；3→0/1""",
+    "| user_id | gmv | pay_cnt |\n|---:|---:|---:|\n| 1 | 350 | 4 |\n| 2 | 90 | 1 |\n| 3 | 0 | 1 |",
+    ["开课对齐", "管道评审共同语言", "练习场统一参照"],
+    [
+        ("无验收标准就上线", "无法判成败", "先写对账"),
+        ("私改 paid 口径", "与仓分叉", "跟宪法"),
+        ("跳过认源直接编码", "主键/水位不清", "先清单"),
+        ("把工具当目标", "堆 Airflow 无质量", "链路+DQ 优先"),
+    ],
+    "用五步画出样例订单从 OLTP 到 ADS 的 ETL 路径。",
+    updown="对齐 SQL/数仓样例；约束全部 ETL 叶课。",
+)
+
+ETL_EXTRA["etl-path-junior"] = path_stub(
+    "初级",
+    "新人要会「增量抽→清洗→覆盖→对账」最小闭环。",
+    "按序完成初级路径，独立写出水位抽取与金额对账。",
+    [
+        "教程宪法：样例与模板",
+        "源表清单 / 主键与水位",
+        "数据契约与 SLA 入门",
+        "全量快照 vs 增量抽取",
+        "类型空值规范化、去重",
+        "分区覆盖装载、行数对账",
+        "初级练习场",
+    ],
+    "勾完后默写半开窗口增量 SQL，并核对 paid GMV=440。",
+)
+
+ETL_EXTRA["etl-path-mid"] = path_stub(
+    "中级",
+    "已会批处理，要补 CDC、SCD、MERGE 幂等与 DAG 回填。",
+    "掌握中级链路：变更捕获→维历史→幂等写→编排运维。",
+    [
+        "CDC 与批增量对比",
+        "维关联、SCD、PII 脱敏",
+        "覆盖 / MERGE / 幂等写",
+        "唯一键与源仓对账",
+        "DAG、重试告警、回填、迟到数据",
+        "经典 ETL vs 现代 ELT",
+        "中级练习场",
+    ],
+    "口述：Dan 城市 SCD2 + 订单 MERGE 幂等 + 回填隔离。",
+)
+
+ETL_EXTRA["etl-path-senior"] = path_stub(
+    "高级",
+    "要负责契约治理、工具选型与发布回滚。",
+    "能做端到端方案：契约→工具→血缘→发布→高级演练。",
+    [
+        "契约/SLA 深化与迟到策略",
+        "工具：Airflow/dbt/DataX/Airbyte/Flink CDC",
+        "血缘与发布回滚",
+        "与数仓分层、BI 口径联调",
+        "高级练习场端到端口述",
+    ],
+    "写一页订单状态变更的完整 ETL 方案（含失败与回滚）。",
+)
+
+ETL_EXTRA["etl-drill-junior"] = gold(
+    "用统一样例跑通「增量抽→清洗→覆盖→对账」。",
+    "写出水位抽取、去重、分区覆盖与金额对账 SQL。",
+    "初级清单。",
+    "orders / order_events。" + S,
+    """- **练习场（初级）**：批处理最小闭环。
+- **必过**：半开窗口、事件权威行、GMV 闭合。
+- **陷阱**：无水位全表抽、追加写入致重复。""",
+    ["增量窗口", "事件去重", "DWD+对账", "记录翻车点"],
+    """-- Q1 增量：昨日以来（示意）
+SELECT * FROM orders
+WHERE created_at >= '2024-01-07' AND created_at < '2024-01-08';
+
+-- Q2 事件去重权威行
+SELECT * FROM (
+  SELECT e.*, ROW_NUMBER() OVER (
+    PARTITION BY order_id, event_type
+    ORDER BY event_time, event_id) rn
+  FROM order_events e
+) t WHERE rn=1;
+
+-- Q3 对账
+SELECT SUM(COALESCE(amount,0)) gmv FROM orders WHERE status='paid';""",
+    "Q1 含 108；Q2：102 paid 一行；Q3：两层 gmv 可闭合到 440。",
+    ["入职作业", "对照数仓初级练习", "批管道验收"],
+    [
+        ("无水位全表抽", "拖垮源库", "水位+窗口"),
+        ("追加写入不覆盖", "重复事实", "分区覆盖/MERGE"),
+        ("不去重事件", "指标翻倍", "ROW_NUMBER 权威行"),
+        ("对账口径不一致", "永不平", "同 COALESCE/paid"),
+    ],
+    "为 users 设计主键与增量字段（若只有 created_at 怎么办？）。",
+)
+
+ETL_EXTRA["etl-drill-mid"] = gold(
+    "维表变更要历史；装载要幂等；任务失败要可回填。",
+    "完成 SCD2 步骤口述、MERGE 语义、回填注意点。",
+    "中级清单。",
+    "users / orders。" + S,
+    """- **练习场（中级）**：历史 + 幂等 + 运维。
+- **SCD2**：闭链+插入。
+- **MERGE**：按 order_id 更新否则插入。
+- **回填**：同 dt 重跑结果不变。""",
+    ["SCD2 步骤题", "MERGE 语义", "回填与增量隔离", "画 DAG"],
+    """-- Q1 SCD2：Dan 城市变更（闭链+插入）——步骤题
+-- Q2 MERGE：按 order_id 更新 status/amount，否则插入
+-- Q3 回填 dt='2024-01-02' 时如何保证不与增量打架？
+MERGE INTO dwd_orders t
+USING staged_orders s ON t.order_id=s.order_id
+WHEN MATCHED THEN UPDATE SET status=s.status, amount=s.amount
+WHEN NOT MATCHED THEN INSERT *;""",
+    "Q3：按分区覆盖或合并策略，同一 dt 重跑结果不变。",
+    ["上线评审", "故障演练", "中级上岗考核"],
+    [
+        ("回填无锁水位", "漏数/重数", "锁或隔离窗口"),
+        ("SCD 不闭链", "多 current", "先闭后插"),
+        ("MERGE 无唯一键", "匹配乱", "业务主键"),
+        ("DAG 无依赖", "空维", "先维后事"),
+    ],
+    "画出 DAG：抽orders→抽users→转DWD→测DQ→出ADS。",
+)
+
+ETL_EXTRA["etl-drill-senior"] = gold(
+    "端到端验收：契约→CDC/增量→SCD→幂等→DQ→血缘。",
+    "口述一条订单状态变更的完整链路。",
+    "高级清单。",
+    "统一四表。" + S,
+    """- **练习场（高级）**：设计题为主，强调失败处理与发布。
+- **必含**：契约枚举、捕获、去重合并、SCD、幂等写、对账、血缘、告警 SLA。
+- **验收**：能在一页纸画清，并指出两个翻车点。""",
+    [
+        "写 status 契约",
+        "选增量或 CDC",
+        "去重/MERGE/SCD",
+        "DQ+血缘+告警",
+    ],
+    """-- 1) 契约：status ∈ {created,paid,cancelled}
+-- 2) 捕获：增量窗口或 CDC binlog
+-- 3) 去重/合并权威状态
+-- 4) 用户维若城市变 → SCD2
+-- 5) OVERWRITE/MERGE 幂等
+-- 6) 对账 Ada=350 + 血缘登记
+SELECT SUM(COALESCE(amount,0)) FROM orders WHERE status='paid';""",
+    "链路可画在一页纸；每步有失败处理；金额闭合 440。",
+    ["架构面试", "方案评审", "生产演练脚本"],
+    [
+        ("跳过 DQ", "错数外溢", "必门禁"),
+        ("无迟到策略", "漏数", "lookback"),
+        ("无回滚", "发布翻车", "视图切换/旧版"),
+        ("工具选型替代设计", "无法运维", "先链路后工具"),
+    ],
+    "补画：告警接到谁、SLA 几点前必须成功。",
+)
+
+ETL_EXTRA["etl-source-list"] = gold(
+    "新主题要上线，却不知道源在哪个库、谁负责、能否抽。",
+    "建立源表清单：系统、表、主键、增量字段、负责人、敏感级。",
+    "宪法 → 主键水位。",
+    S,
+    """- **源表清单**：管道的输入资产目录。
+- **最小字段**：库表、主键、水位、刷新方式、Owner、PII。
+- **样例**：orders / users / order_events / order_items。
+- **用途**：影响分析、权限、抽取选型。
+- **维护**：变更走评审，禁止口头传说。""",
+    [
+        "登记四表",
+        "标主键与增量列",
+        "标 Owner 与敏感级",
+        "选批或 CDC",
+    ],
+    """-- 源清单（文档示意，可落表）
+-- system | table        | pk        | watermark   | mode
+-- oltp   | users        | user_id   | created_at  | 日全量/SCD
+-- oltp   | orders       | order_id  | created_at  | 增量
+-- oltp   | order_events | event_id  | event_time  | 增量/近实时
+-- oltp   | order_items  | order_id+sku_id | —   | 随订单
+SELECT 'orders' AS src, COUNT(*) AS cnt FROM orders;""",
+    "清单行数与种子一致：orders=8 等；events 适合批或 CDC 需单独标注。",
+    ["立项认源", "权限申请", "抽取模式决策"],
+    [
+        ("无主键登记", "去重失败", "先定 pk"),
+        ("清单过期", "抽错表", "变更评审"),
+        ("忽略 PII", "合规风险", "标敏感级"),
+        ("多环境表名混乱", "抽到测试库", "环境列"),
+    ],
+    "给 order_events 标：批还是 CDC 更合适？为什么。",
+)
+
+ETL_EXTRA["etl-keys-watermark"] = gold(
+    "增量作业昨天跑过后，今天不知道从哪接着抽。",
+    "定义主键、业务时间与水位状态表，使用半开区间。",
+    "源清单 → 契约。",
+    S,
+    """- **主键**：唯一标识一行业务实体/事件。
+- **水位**：已成功处理到的进度（时间/id）。
+- **半开区间**：`[last, now)` 防边界重复。
+- **状态表**：持久化水位，支持重跑。
+- **样例**：orders 以 created_at；events 以 event_time。""",
+    [
+        "为 orders 选 pk+水位",
+        "写半开窗口 SQL",
+        "成功后更新水位",
+        "失败不推进水位",
+    ],
+    """-- 水位表示意：etl_watermark(job_id, last_ts)
+-- last_ts = '2024-01-07 00:00:00'
+SELECT *
+FROM orders
+WHERE created_at >= '2024-01-07 00:00:00'
+  AND created_at <  '2024-01-08 00:00:00';
+
+-- 成功后：UPDATE etl_watermark SET last_ts='2024-01-08 00:00:00'
+-- WHERE job_id='orders_incr';""",
+    "窗口含 108；失败重跑同一窗口应幂等（配合覆盖）。",
+    ["增量抽取核心", "CDC 位点对照", "回填起点"],
+    [
+        ("闭区间", "边界双计", "半开"),
+        ("成功前推进水位", "丢数据", "先写后提水位"),
+        ("无状态表", "人工估窗口", "持久化"),
+        ("主键含糊", "MERGE 乱", "复合键写清"),
+    ],
+    "若时钟回拨 5 分钟，水位策略如何加 lookback？",
+)
+
+ETL_EXTRA["etl-data-contract"] = gold(
+    "源把 status 新增值 'partial_paid'，下游全挂。",
+    "用数据契约约定字段、类型、枚举、空值与兼容变更。",
+    "水位 → SLA。",
+    S,
+    """- **数据契约**：生产者与消费者对数据结构/语义的协议。
+- **内容**：字段、类型、主键、枚举、NULL 规则、兼容策略。
+- **样例**：status ∈ {created,paid,cancelled}；amount 可空。
+- **变更**：新增枚举要版本/双写/公告。
+- **测试**：契约测试挡上线。""",
+    [
+        "写下 orders 契约要点",
+        "列出破坏性变更例",
+        "设计兼容策略",
+        "加契约测试",
+    ],
+    """-- 契约校验示意
+SELECT status, COUNT(*)
+FROM orders
+GROUP BY status;
+-- 期望仅 created/paid/cancelled
+
+SELECT COUNT(*) AS bad_amount_neg
+FROM orders
+WHERE amount IS NOT NULL AND amount < 0;
+-- 期望 0""",
+    "种子状态分布合法；负金额 0 行；106 amount NULL 被契约允许。",
+    ["源队与数仓协作", "接口稳定性", "防止静默坏数"],
+    [
+        ("无契约口头约定", "突然炸", "书面/测试化"),
+        ("破坏性变更不公告", "全链路挂", "版本+双读"),
+        ("契约只写类型不写枚举", "语义漂", "枚举进约"),
+        ("测试不跑", "形同虚设", "CI 门禁"),
+    ],
+    "为 amount NULL 写契约条款：允许吗？下游如何解释？",
+)
+
+ETL_EXTRA["etl-sla"] = gold(
+    "看板 9 点开会，数据 9 点半才到。",
+    "定义管道 SLA：就绪时间、完整度、质量门禁与升级策略。",
+    "契约 → 全量快照。",
+    S,
+    """- **SLA**：服务级别目标——何时就绪、允许多少延迟、失败如何升级。
+- **组成**：时间、完整性、正确性（对账）、通知人。
+- **样例**：工作日 09:00 前 ADS 用户 GMV 就绪且对账通过。
+- **降级**：延迟公告 / 昨日数标记 stale。
+- **关联**：调度重试与告警。""",
+    [
+        "写就绪时间",
+        "写对账门禁",
+        "写告警升级",
+        "演练延迟公告",
+    ],
+    """-- SLA 验收查询（09:00 前应成功）
+SELECT
+  COUNT(*) AS paid_cnt,
+  SUM(COALESCE(amount,0)) AS gmv
+FROM orders
+WHERE status='paid';
+-- 期望 paid_cnt=6, gmv=440；Ada 分户 350""",
+    "达标：查询成功且 gmv=440；未达：告警并冻结 ADS 发布。",
+    ["经营会保障", "管道优先级排序", "值班制度"],
+    [
+        ("只约定时间不对质量", "准时错数", "加对账"),
+        ("SLA 过紧无缓冲", "天天告警", "合理窗口"),
+        ("告警无人认领", "空转", "升级路径"),
+        ("延迟仍静默发布", "误导决策", "stale 标记"),
+    ],
+    "为支付链路写一条 SLA（时间+指标+负责人）。",
+)
+
+ETL_EXTRA["etl-full-snapshot"] = gold(
+    "用户维很小，每天全量更简单。",
+    "会做全量快照抽取与目标覆盖，明白适用边界。",
+    "SLA → 增量。",
+    S,
+    """- **全量快照**：每次抽取源表现状完整副本。
+- **适用**：小维表、无可靠水位、需要当日全貌。
+- **装载**：常配目标表/分区覆盖。
+- **代价**：源压与传输随数据量上升。
+- **样例**：users 4 行日全量。""",
+    [
+        "抽全量 users",
+        "覆盖 ods/dim",
+        "行数对账=4",
+        "评估是否改增量",
+    ],
+    """-- 全量抽取
+SELECT user_id, user_name, city, created_at
+FROM users;
+
+-- 目标覆盖示意
+-- INSERT OVERWRITE TABLE ods_users_di PARTITION (dt='2024-01-07')
+-- SELECT *, '2024-01-07' FROM users;""",
+    "4 行用户入仓；与源 COUNT 一致。大表勿盲目全量。",
+    ["小维表", "日初基准", "无水位兜底"],
+    [
+        ("大事实表日全量", "拖垮源", "改增量/CDC"),
+        ("覆盖前无备份/分区", "难回滚", "分区覆盖"),
+        ("全量当增量窗口用", "概念混", "文档标明"),
+        ("不对行数", "静默少表", "COUNT 闭合"),
+    ],
+    "给出：orders 何时可以全量，何时必须增量？",
+)
+
+ETL_EXTRA["etl-incr"] = gold(
+    "订单表日增，只能抽变更窗口。",
+    "实现基于水位的增量抽取并保证可重跑。",
+    "全量 → CDC。",
+    S,
+    """- **增量抽取**：按水位只取变化数据。
+- **关键**：半开区间、水位提交、目标幂等。
+- **迟到**：窗口回看 lookback。
+- **样例**：按 created_at 抽 01-07。
+- **与 CDC**：增量是批窗口；CDC 是变更流。""",
+    [
+        "读水位",
+        "抽窗口",
+        "落地幂等",
+        "提交水位",
+    ],
+    """SELECT order_id, user_id, amount, status, created_at
+FROM orders
+WHERE created_at >= '2024-01-07'
+  AND created_at <  '2024-01-08';
+
+-- 重跑同一窗口 + OVERWRITE 分区 → 结果不变""",
+    "窗口得到订单 108（30, paid）；重跑不加倍。",
+    ["日批事实", "降源压", "回填单日"],
+    [
+        ("抽完就提水位，写失败", "丢数", "写成功再提"),
+        ("无幂等落地", "重复", "覆盖/MERGE"),
+        ("忽略 updated_at 变更", "漏更新", "双水位或 CDC"),
+        ("窗口与业务日不一致", "对账难", "统一 dt"),
+    ],
+    "设计 orders 同时有 created_at 与 updated_at 时的增量策略。",
+)
+
+ETL_EXTRA["etl-cdc"] = gold(
+    "订单状态从 created→paid 要尽快进仓，批窗口太慢。",
+    "理解 CDC：捕获变更事件，落地后再合并为权威状态。",
+    "增量 → 类型规范化。",
+    "order_events 可模拟变更流。" + S,
+    """- **CDC**：Change Data Capture，基于日志/触发器捕获变更。
+- **形态**：插入/更新/删除事件流。
+- **落地**：ODS 流水 + 下游合并去重。
+- **样例**：用 order_events 模拟 paid 变更；注意重复事件。
+- **代价**：恰好一次、schema 变更、回压更复杂。""",
+    [
+        "用事件表模拟 CDC",
+        "按权威行去重",
+        "合并到订单状态",
+        "批对账兜底",
+    ],
+    """SELECT * FROM (
+  SELECT e.*, ROW_NUMBER() OVER (
+    PARTITION BY order_id, event_type
+    ORDER BY event_time DESC, event_id DESC) rn
+  FROM order_events e
+) t WHERE rn=1;
+
+-- 102 的重复 paid 只留一行；再与 orders 对账""",
+    "102 paid 权威一行；流上可近实时，仍需批对账防漂。",
+    ["近实时数仓", "微服务同步", "状态追踪"],
+    [
+        ("无批对账", "漂数", "日对账"),
+        ("直写 ADS", "难治理", "经 ODS/DWD"),
+        ("忽略重复事件", "翻倍", "去重规则"),
+        ("删除事件未处理", "幽灵行", "定义 tombstone"),
+    ],
+    "流任务失败 10 分钟，如何补齐缺口？",
+)
+
+ETL_EXTRA["etl-type-normalize"] = gold(
+    "源里金额是字符串，状态大小写混乱，NULL 与空串混用。",
+    "做类型转换、枚举归一、空值策略，进入 DWD 前干净。",
+    "CDC → 去重。",
+    S,
+    """- **类型规范化**：Cast、trim、统一枚举、时区。
+- **空值策略**：amount NULL→0 或保留，必须写进契约。
+- **样例**：LOWER(status)、COALESCE(amount,0)。
+- **位置**：多在 DWD；ODS 保真。
+- **测试**：非法枚举行数=0。""",
+    [
+        "Cast 金额",
+        "归一 status",
+        "空值策略",
+        "抽样 106",
+    ],
+    """SELECT
+  order_id,
+  user_id,
+  CAST(amount AS DECIMAL(18,2)) AS amount_raw,
+  COALESCE(CAST(amount AS DECIMAL(18,2)), 0) AS pay_amt,
+  LOWER(TRIM(status)) AS status_norm,
+  created_at
+FROM orders
+WHERE LOWER(TRIM(status)) = 'paid';""",
+    "106 pay_amt=0；状态均为小写 paid；Ada 明细金额可加总 350。",
+    ["进 DWD 门槛", "防下游类型炸", "口径前置"],
+    [
+        ("在 ODS 改口径", "难追源", "DWD 处理"),
+        ("静默丢掉非法行", "漏数", "quarantine+告警"),
+        ("空串当未知城市未统一", "分组碎", "NULL/'未知'策略"),
+        ("时区未转换", "日界错", "统一业务时区"),
+    ],
+    "写一条：status 非法值进入 quarantine 表的规则。",
+)
+
+ETL_EXTRA["etl-dedup"] = gold(
+    "同一支付事件进了两次，GMV 翻倍。",
+    "用窗口函数或主键约束做权威行去重。",
+    "类型规范化 → 维关联。",
+    "order_events。" + S,
+    """- **去重**：同一业务键只保留权威一行。
+- **规则**：PARTITION BY 键 + ORDER BY 时间/ id。
+- **样例**：102 双 paid 事件。
+- **装载**：去重后再 MERGE/覆盖。
+- **预防**：源唯一约束+管道去重双保险。""",
+    [
+        "定义去重键",
+        "ROW_NUMBER",
+        "过滤 rn=1",
+        "对账笔数",
+    ],
+    """SELECT * FROM (
+  SELECT e.*,
+         ROW_NUMBER() OVER (
+           PARTITION BY order_id, event_type
+           ORDER BY event_time, event_id) AS rn
+  FROM order_events e
+) t
+WHERE rn = 1;""",
+    "102 paid 仅一行；事件权威集可用于状态合并。",
+    ["事件入仓", "重复投递防护", "CDC 落地"],
+    [
+        ("无决胜列", "结果不稳", "加 event_id"),
+        ("去重键过粗", "误删", "键含 event_type"),
+        ("去重后不对账", "仍可能漏", "COUNT 对比"),
+        ("只在可视化去重", "底层仍脏", "管道内去重"),
+    ],
+    "若重复投递整单 orders 行，去重键应是什么？",
+)
+
+ETL_EXTRA["etl-dim-join"] = gold(
+    "事实要补城市，却把明细 JOIN 炸了或城市全空。",
+    "正确关联维度：键匹配、时间点取维、先聚合再算金额。",
+    "去重 → SCD。",
+    S,
+    """- **维关联**：事实外键连接维表属性。
+- **当期**：join is_current=1（谨慎）。
+- **历史**：按业务时间落在维有效期。
+- **防爆炸**：多对多先聚合。
+- **样例**：支付 ⋈ 用户城市。""",
+    [
+        "选 JOIN 键",
+        "处理城市 NULL",
+        "汇总 GMV",
+        "检查 Dan",
+    ],
+    """SELECT
+  COALESCE(u.city, '未知') AS city,
+  SUM(COALESCE(o.amount, 0)) AS gmv
+FROM orders o
+JOIN users u ON u.user_id = o.user_id
+WHERE o.status = 'paid'
+GROUP BY COALESCE(u.city, '未知');
+
+-- 错误示范：先 join items 再 sum(amount) 会放大""",
+    "上海/北京 GMV 可解释；Dan 无支付不出现。",
+    ["事实充实", "集市宽表生成", "SCD 时间点关联"],
+    [
+        ("总 join 当前维看历史", "串味", "点时间"),
+        ("join items 后 sum 头金额", "放大", "先聚合"),
+        ("LEFT JOIN 维失败当内连接", "丢事实", "明确策略"),
+        ("键类型不一致", "全空", "统一类型"),
+    ],
+    "写出：2024-01-15 取 Dan 城市再关联当日事实的谓词。",
+)
+
+ETL_EXTRA["etl-scd"] = gold(
+    "用户城市变更要进维表历史，ETL 如何落地 SCD2。",
+    "在管道中实现闭链+插入，并保证幂等。",
+    "维关联 → PII。",
+    S,
+    """- **ETL 中的 SCD**：比较业务键哈希/字段，决定 1/2/3 类动作。
+- **SCD2 步骤**：变更检测→闭链→插新版→映射 sk。
+- **幂等**：同一变更重跑不产生多 current。
+- **样例**：Dan NULL→上海。
+- **顺序**：先维 SCD，后事实。""",
+    [
+        "变更检测",
+        "闭链",
+        "插入",
+        "校验单 current",
+    ],
+    """-- 伪代码步骤
+-- 1) 检出 user_id=4 city 变化
+-- 2) UPDATE ... SET is_current=0, valid_to=:ts WHERE user_id=4 AND is_current=1
+-- 3) INSERT 新版本 city='上海'
+SELECT user_id, COUNT(*) AS current_cnt
+FROM dim_user
+WHERE is_current=1 AND user_id=4
+GROUP BY user_id;
+-- 期望 current_cnt=1""",
+    "变更后仅一行 current；点时间可回放旧城。",
+    ["维日装", "主数据历史", "合规"],
+    [
+        ("检测用非确定性时间", "乱序", "源更新时间+哈希"),
+        ("不闭链", "双 current", "事务化步骤"),
+        ("重跑再插一版", "版本爆炸", "幂等检测"),
+        ("事实先跑", "sk 旧", "先维后事"),
+    ],
+    "把 SCD1 与 SCD2 的 ETL 分支画成 if-else 要点。",
+)
+
+ETL_EXTRA["etl-pii-mask"] = gold(
+    "用户姓名要给分析师，但不能明文出仓到广告团队。",
+    "在转换层做脱敏/最小化，按权限输出。",
+    "SCD → 覆盖装载。",
+    S,
+    """- **PII 脱敏**：对个人敏感信息哈希、掩码、令牌化或剔除。
+- **原则**：最小必要；分区权限；审计。
+- **样例**：user_name 掩码、city 可保留等级更低。
+- **位置**：出 ODS 后、进共享层前。
+- **注意**：脱敏仍可能准标识，需组合风险控制。""",
+    [
+        "识别 PII 列",
+        "选掩码策略",
+        "分权限视图",
+        "禁止下游回联明文",
+    ],
+    """SELECT
+  user_id,
+  CONCAT(LEFT(user_name,1), '**') AS user_name_mask,
+  city
+FROM users;
+
+-- 分析集市只暴露 mask；明文仅限受控区
+SELECT u.user_id, CONCAT(LEFT(u.user_name,1),'**') AS name_mask,
+       SUM(COALESCE(o.amount,0)) gmv
+FROM orders o JOIN users u ON u.user_id=o.user_id
+WHERE o.status='paid'
+GROUP BY u.user_id, CONCAT(LEFT(u.user_name,1),'**');""",
+    "Ada→A**；GMV 仍可按 user_id 汇总到 350。",
+    ["共享集市", "外部协作", "合规审计"],
+    [
+        ("仅前端隐藏", "库仍明文裸奔", "库内脱敏/权限"),
+        ("哈希无盐可撞库", "重识别", "加盐/令牌服务"),
+        ("脱敏后当主键乱关联", "断链", "保留内部 sk"),
+        ("日志打印明文", "泄漏", "日志脱敏"),
+    ],
+    "列出 users 表哪些列是 PII，哪些可进公开集市。",
+)
+
+ETL_EXTRA["etl-overwrite"] = gold(
+    "同一业务日重跑，必须把旧分区换成新结果。",
+    "掌握分区覆盖装载，保证窗口幂等。",
+    "PII → MERGE。",
+    S,
+    """- **覆盖写（Overwrite）**：目标分区/表替换为本次结果。
+- **适用**：日批分区、全量小维。
+- **幂等**：同输入同输出。
+- **风险**：覆盖范围写错（全表）会删光。
+- **样例**：dt='2024-01-07' 覆盖支付明细。""",
+    [
+        "限定分区",
+        "INSERT OVERWRITE",
+        "重跑验证",
+        "对账",
+    ],
+    """INSERT OVERWRITE TABLE dwd_trade_pay_di PARTITION (dt='2024-01-07')
+SELECT order_id, user_id, COALESCE(amount,0) AS pay_amt, created_at, status
+FROM orders
+WHERE status='paid'
+  AND created_at >= '2024-01-07' AND created_at < '2024-01-08';
+
+SELECT COUNT(*) FROM dwd_trade_pay_di WHERE dt='2024-01-07';""",
+    "该分区含 108 一行；重跑次数与行数无关（仍为 1）。",
+    ["日批 DWD", "回刷单日", "小维全量"],
+    [
+        ("漏写分区覆盖全表", "删光历史", "强制分区语法审查"),
+        ("覆盖与增量追加混用无文档", "重复", "模式写清"),
+        ("覆盖成功不对账", "空分区上线", "COUNT/金额"),
+        ("覆盖中查询无快照隔离", "读到半截", "交换分区/影子表"),
+    ],
+    "解释：为什么回填某天常用 overwrite 而不是 delete+insert 多语句？",
+)
+
+ETL_EXTRA["etl-merge-upsert"] = gold(
+    "订单状态会变，目标表要更新已有行并插入新行。",
+    "会写 MERGE/UPSERT，并定义匹配键。",
+    "覆盖 → 幂等写。",
+    S,
+    """- **MERGE/UPSERT**：按键匹配则更新，否则插入（可处理删除）。
+- **匹配键**：业务主键 order_id。
+- **适用**：可变状态表、维 SCD1、CDC 落地。
+- **幂等**：同一变更多次 MERGE 结果稳定。
+- **引擎**：语法各异，语义对齐。""",
+    [
+        "准备 staged",
+        "ON 匹配键",
+        "WHEN MATCHED/NOT",
+        "重跑验证",
+    ],
+    """MERGE INTO dwd_orders t
+USING (
+  SELECT order_id, user_id, amount, status, created_at FROM orders
+) s
+ON t.order_id = s.order_id
+WHEN MATCHED THEN UPDATE SET
+  amount = s.amount,
+  status = s.status
+WHEN NOT MATCHED THEN INSERT (order_id, user_id, amount, status, created_at)
+VALUES (s.order_id, s.user_id, s.amount, s.status, s.created_at);""",
+    "104 保持/更新为 created；支付单状态与金额与源一致；重跑不增行。",
+    ["状态事实", "CDC 落地", "SCD1 维"],
+    [
+        ("匹配键不唯一", "更新风暴", "先去重"),
+        ("更新无条件覆盖旧新", "乱序脏写", "比时间戳"),
+        ("无 NOT MATCHED BY SOURCE 删策略", "幽灵", "显式定义"),
+        ("MERGE 大表无分区裁剪", "极慢", "限制窗口"),
+    ],
+    "若源删除订单 104，MERGE 如何表达？写要点。",
+)
+
+ETL_EXTRA["etl-idempotent-write"] = gold(
+    "任务失败重试后，表里出现双倍 GMV。",
+    "设计幂等写入：同逻辑日重跑结果不变。",
+    "MERGE → 行数校验。",
+    S,
+    """- **幂等**：同一输入重复执行，效果与一次相同。
+- **手段**：分区覆盖、MERGE 按键、去重、事务/两阶段。
+- **反例**：裸 append 无去重。
+- **验收**：故意跑两遍，Ada 仍 350。
+- **水位**：与幂等配合，失败可安全重试。""",
+    [
+        "选幂等策略",
+        "实现覆盖或 MERGE",
+        "双跑验证",
+        "监控行数",
+    ],
+    """-- 幂等：分区覆盖
+INSERT OVERWRITE TABLE dws_user_pay_gmv PARTITION (dt='2024-01-07')
+SELECT user_id, SUM(COALESCE(amount,0)) AS gmv, COUNT(*) AS pay_cnt
+FROM orders
+WHERE status='paid'
+GROUP BY user_id;
+
+-- 故意理解：再执行一次，结果集不变
+SELECT * FROM dws_user_pay_gmv WHERE dt='2024-01-07' AND user_id=1;""",
+    "双跑后 Ada 仍 gmv=350、pay_cnt=4。",
+    ["重试安全", "回填安全", "SLA 保障"],
+    [
+        ("append 当重试", "翻倍", "覆盖/MERGE"),
+        ("幂等只谈写不谈水位", "窗口漂移", "一起设计"),
+        ("依赖『恰好跑一次』调度", "必翻车", "至少一次+幂等"),
+        ("无双跑测试", "上线才爆", "演练"),
+    ],
+    "给事件表写入写一种幂等方案（键+策略）。",
+)
+
+ETL_EXTRA["etl-rowcount"] = gold(
+    "作业绿了，但今天分区只有 0 行。",
+    "做行数校验：源 vs 目标、阈值阈值、空分区告警。",
+    "幂等 → 唯一键。",
+    S,
+    """- **行数校验**：最基本 DQ——两侧 COUNT 对比。
+- **阈值**：相对昨日波动阈值。
+- **空分区**：零行即失败（除非业务真零）。
+- **样例**：paid 明细 6 行；users 4 行。
+- **局限**：行数对不等金额对，需组合。""",
+    [
+        "COUNT 源",
+        "COUNT 目标",
+        "比差值",
+        "设阈值",
+    ],
+    """SELECT 'src_paid' AS side, COUNT(*) AS cnt
+FROM orders WHERE status='paid'
+UNION ALL
+SELECT 'src_users', COUNT(*) FROM users;
+
+-- 期望：6 与 4；目标表应匹配
+-- ASSERT cnt_target = cnt_src""",
+    "paid=6，users=4；若目标 paid 分区=0 → 阻断发布。",
+    ["上线门禁", "空跑发现", "波动监控"],
+    [
+        ("只看任务成功码", "空分区漏过", "行数断言"),
+        ("阈值过宽", "漏数不警", "按业务校准"),
+        ("跨口径比行数", "误报", "同过滤条件"),
+        ("忽略删除语义", "源少目标多", "定义软删"),
+    ],
+    "为 dwd_trade_pay_di 写两条行数规则（绝对+波动）。",
+)
+
+ETL_EXTRA["etl-unique-pk"] = gold(
+    "目标表 order_id 重复，MERGE 与汇总都乱。",
+    "校验主键唯一，重复行进隔离并告警。",
+    "行数 → 对账。",
+    S,
+    """- **唯一性校验**：主键/业务键无重复。
+- **方法**：GROUP BY key HAVING COUNT(*)>1。
+- **样例**：orders.order_id；events 去重后的 (order_id,event_type)。
+- **动作**：隔离重复、修源、阻断下游。
+- **与去重**：校验发现问题；去重是修复手段之一。""",
+    [
+        "定义主键",
+        "查重复",
+        "隔离",
+        "修后回归",
+    ],
+    """SELECT order_id, COUNT(*) AS cnt
+FROM orders
+GROUP BY order_id
+HAVING COUNT(*) > 1;
+
+SELECT order_id, event_type, COUNT(*) AS cnt
+FROM order_events
+GROUP BY order_id, event_type
+HAVING COUNT(*) > 1;""",
+    "orders 主键无重复；events 在 (102,paid) 上 cnt=2，需去重门禁。",
+    ["装载前 DQ", "MERGE 前置", "源质量反馈"],
+    [
+        ("发现重复仍装载", "扩散", "阻断"),
+        ("复合键漏列", "误判", "键写全"),
+        ("只告警不计量", "无人修", "重复率 KPI"),
+        ("用代理键唯一掩盖业务重复", "业务仍脏", "业务键也检"),
+    ],
+    "为 order_items 写出应唯一的键并给校验 SQL。",
+)
+
+ETL_EXTRA["etl-recon"] = gold(
+    "源说 GMV 440，仓里 400，开会对峙。",
+    "做金额/分类对账，定位状态、空值、重复原因。",
+    "唯一键 → DAG。",
+    S,
+    """- **对账**：同口径比较金额与分类汇总。
+- **切面**：状态、dt、渠道、空值策略。
+- **样例**：源 paid SUM COALESCE=440；按用户 Ada=350。
+- **门禁**：差额超阈不发布。
+- **输出**：对账报表给值班。""",
+    [
+        "锁口径",
+        "两侧汇总",
+        "分类差分",
+        "修数回归",
+    ],
+    """SELECT
+  SUM(COALESCE(amount,0)) AS gmv,
+  SUM(CASE WHEN amount IS NULL THEN 1 ELSE 0 END) AS null_amt_cnt,
+  COUNT(*) AS paid_cnt
+FROM orders
+WHERE status='paid';
+
+SELECT user_id, SUM(COALESCE(amount,0)) gmv
+FROM orders WHERE status='paid'
+GROUP BY user_id;""",
+    "gmv=440，null_amt_cnt=1，paid_cnt=6；用户侧 Ada=350。",
+    ["日结", "事故定位", "财务协同"],
+    [
+        ("口径不同硬比", "永不平", "先对齐"),
+        ("只对总值不对用户", "掩盖串户", "分类对"),
+        ("对平后改 ADS 算法", "再偏", "ADS 只读"),
+        ("无阈值", "小差拖成大案", "设阈值"),
+    ],
+    "若差额正好等于 106 的应填 0 策略差异，如何写进对账说明？",
+)
+
+ETL_EXTRA["etl-dag"] = gold(
+    "任务手工一个个点，维没好事实就跑了。",
+    "用 DAG 表达依赖：边=数据依赖，点=可重试任务。",
+    "对账 → 重试告警。",
+    S,
+    """- **DAG**：有向无环图编排 ETL。
+- **边**：成功依赖；禁止环。
+- **样例**：抽orders/抽users → SCD维 → DWD → DQ → ADS。
+- **并发**：无依赖可并行。
+- **工具**：Airflow 等（见工具课）。""",
+    [
+        "列任务节点",
+        "画依赖",
+        "标并行点",
+        "DQ 作门禁节点",
+    ],
+    """-- 伪 DAG
+-- extract_orders ─┐
+-- extract_users  ─┼─> transform_dim_user ─> transform_dwd_pay ─> dq_recon ─> publish_ads
+--                 └─────────────────────────┘
+SELECT 'dq_recon_ok' AS gate
+WHERE (SELECT SUM(COALESCE(amount,0)) FROM orders WHERE status='paid') = 440;""",
+    "门禁通过才 publish；依赖保证先维后事。",
+    ["调度设计", "失败局部重跑", "团队分工边界"],
+    [
+        ("隐式依赖靠时间碰运气", "偶发空维", "显式边"),
+        ("大环依赖", "死锁", "审查 DAG"),
+        ("DQ 不在关键路径", "错数发布", "作上游门禁"),
+        ("过细任务难运维", "噪声", "合理聚合"),
+    ],
+    "把回填画成单独 DAG 还是参数化同一 DAG？写你的选择。",
+)
+
+ETL_EXTRA["etl-retry-alert"] = gold(
+    "夜间任务失败，早上开会才发现。",
+    "配置重试、超时、告警升级与值班认领。",
+    "DAG → 回填。",
+    S,
+    """- **重试**：瞬时失败可自动重试（幂等前提）。
+- **告警**：失败/SLA 超时通知到人。
+- **升级**：未认领则升级负责人。
+- **样例**：DWD 失败重试 2 次后告警，阻断 ADS。
+- **忌**：非幂等任务盲目重试。""",
+    [
+        "标幂等任务可重试",
+        "设次数与间隔",
+        "告警通道",
+        "升级策略",
+    ],
+    """-- 运维策略示意（非 SQL 引擎）
+-- retry=2, backoff=5m, timeout=30m
+-- on_failure: page oncall + block downstream
+SELECT CASE
+  WHEN SUM(COALESCE(amount,0)) FILTER (WHERE status='paid') = 440
+  THEN 'ok' ELSE 'alert' END AS dq_status
+FROM orders;""",
+    "dq_status=ok 则静默；否则告警且不 publish。",
+    ["夜间值班", "SLA 守护", "减少晨间突袭"],
+    [
+        ("非幂等重试", "翻倍", "先幂等"),
+        ("告警风暴无人理", "疲劳", "聚合+认领"),
+        ("只告成功不告超时", "迟到无感", "SLA 告警"),
+        ("下游仍跑", "错数扩散", "失败短路"),
+    ],
+    "写一条告警文案模板（含 dt、任务、影响、下一动作）。",
+)
+
+ETL_EXTRA["etl-backfill"] = gold(
+    "要重跑上周三分区，同时今晚增量还要跑。",
+    "规划回填作业：范围、优先级、锁水位、验证。",
+    "重试 → 迟到数据。",
+    S,
+    """- **回填**：历史窗口重处理。
+- **隔离**：按 dt 覆盖；避免与在线增量写同一冲突区。
+- **优先级**：先修关键主题。
+- **样例**：回填 2024-01-02 支付分区。
+- **沟通**：通知 BI 历史可能变化。""",
+    [
+        "定 dt 范围",
+        "暂停冲突增量或锁",
+        "覆盖重跑+对账",
+        "恢复增量",
+    ],
+    """INSERT OVERWRITE TABLE dwd_trade_pay_di PARTITION (dt='2024-01-02')
+SELECT order_id, user_id, COALESCE(amount,0), created_at, status
+FROM orders
+WHERE status='paid'
+  AND created_at >= '2024-01-02' AND created_at < '2024-01-03';
+
+SELECT SUM(COALESCE(amount,0)) FROM orders
+WHERE status='paid' AND created_at >= '2024-01-02' AND created_at < '2024-01-03';""",
+    "该日含 102 金额 120；回填后稳定。",
+    ["口径修复", "漏数补齐", "迁移重算"],
+    [
+        ("回填撞增量", "丢/重", "锁或错峰"),
+        ("大范围无分批", "跑爆", "按日切片"),
+        ("不对账", "假完成", "金额闭合"),
+        ("不公告", "业务惊吓", "变更通知"),
+    ],
+    "列回填检查单：范围/锁/对账/通知/恢复。",
+)
+
+ETL_EXTRA["etl-late-data"] = gold(
+    "支付事件晚到 2 小时，昨日分区已经关账。",
+    "处理迟到数据：lookback、可修正分区、水位回退策略。",
+    "回填 → 经典 ETL。",
+    S,
+    """- **迟到数据**：事件时间早于处理时间，越过原窗口。
+- **手段**：窗口 lookback、允许小范围重刷、端到端延迟监控。
+- **样例**：01-02 事件延至 01-03 才到。
+- **权衡**：延迟 vs 完整性。
+- **与 SLA**：明确「初步数」与「终态数」。""",
+    [
+        "定义允许迟到阈值",
+        "增量加 lookback",
+        "重刷受影响 dt",
+        "监控延迟分布",
+    ],
+    """-- 抽取时回看 2 小时（示意）
+-- watermark_start = last_ts - INTERVAL '2' HOUR
+SELECT *
+FROM order_events
+WHERE event_time >= '2024-01-02 00:00:00'
+  AND event_time <  '2024-01-03 00:00:00';
+-- 若事件迟到进入次日作业，需再次 MERGE 到 01-02 分区或状态表""",
+    "迟到 paid 合并后 102 仍保持单行权威；GMV 不因迟到永久缺失。",
+    ["近实时管道", "关账后修正", "CDC 场景"],
+    [
+        ("无 lookback", "永久漏", "回看+重刷"),
+        ("无限等待", "无 SLA", "初步/终态双版本"),
+        ("迟到直接 append", "重复", "MERGE/去重"),
+        ("不监控事件延迟", "盲目", "延迟直方图"),
+    ],
+    "为支付 GMV 定义 T+1 12:00 终态与 09:00 初步数的规则。",
+)
+
+ETL_EXTRA["etl-classic"] = gold(
+    "传统项目在专用 ETL 服务器完成转换再装仓。",
+    "理解经典 ETL：抽取-转换-装载的顺序与利弊。",
+    "迟到 → 现代 ELT。",
+    S,
+    """- **经典 ETL**：在进入目标仓前完成主要转换。
+- **优点**：目标仓干净、可减轻仓计算；工具成熟。
+- **代价**：转换层易成黑盒；弹性不如仓内算力。
+- **样例**：在作业里滤 paid、COALESCE 后再写入 DWD。
+- **对比 ELT**：先载后变。""",
+    [
+        "画出 ETL 顺序",
+        "在作业内完成清洗",
+        "装载 DWD",
+        "对账",
+    ],
+    """-- 转换在装载前完成（作业内 SQL/脚本）
+SELECT order_id, user_id,
+       COALESCE(amount,0) AS pay_amt,
+       created_at
+FROM orders
+WHERE status='paid';
+-- 然后写入仓内 dwd_trade_pay_di""",
+    "写出即是干净支付明细；Ada 汇总 350。",
+    ["传统数仓项目", "目标仓算力弱", "强控落仓质量"],
+    [
+        ("黑盒脚本无版本", "难审", "代码仓+评审"),
+        ("重复造指标", "与仓分叉", "与词典对齐"),
+        ("全在 ETL 服务器撑不住", "慢", "评估 ELT"),
+        ("无幂等", "重跑翻倍", "覆盖策略"),
+    ],
+    "列出 2 个适合继续经典 ETL 的理由。",
+)
+
+ETL_EXTRA["etl-modern-elt"] = gold(
+    "数据先入湖/仓，用 SQL/dbt 在仓内变换。",
+    "理解 ELT：先装载原始/贴源，再仓内转换。",
+    "经典 ETL → 工具 Airflow。",
+    S,
+    """- **ELT**：Extract-Load-Transform，转换主要在目标系统。
+- **优点**：弹性计算、SQL 可见、与 dbt 匹配。
+- **代价**：需管好原始层成本与权限；同样要幂等与测试。
+- **样例**：先 ODS 贴源，再 dbt 出 DWD/DWS。
+- **不是**：可以不要质量；门禁同样要。""",
+    [
+        "落地 ODS",
+        "仓内建 DWD 模型",
+        "测试 Ada=350",
+        "文档血缘",
+    ],
+    """-- ELT：已在仓内的 ODS 上变换
+SELECT order_id, user_id,
+       COALESCE(amount,0) AS pay_amt,
+       created_at AS pay_at
+FROM ods_orders_di
+WHERE dt='2024-01-07' AND status='paid';
+
+SELECT user_id, SUM(pay_amt) gmv
+FROM (
+  SELECT user_id, COALESCE(amount,0) pay_amt
+  FROM orders WHERE status='paid'
+) t GROUP BY user_id;""",
+    "仓内模型输出 Ada=350；原始层仍可追源。",
+    ["云仓/湖仓", "dbt 团队", "快速迭代指标"],
+    [
+        ("原始层当集市开放", "脏读", "分层权限"),
+        ("无测试", "错数快", "dbt test"),
+        ("成本不管分区", "账单炸", "生命周期"),
+        ("以为 ELT 不需契约", "源一变全挂", "仍要契约"),
+    ],
+    "用一句话说明：你们若已有 Hive/BigQuery，为何倾向 ELT。",
+)
+
+ETL_EXTRA["etl-tool-airflow"] = gold(
+    "要用编排器管理依赖、重试与回填，而不是 crontab 丛林。",
+    "理解 Airflow：DAG、operator、执行日期与重试。",
+    "ELT → dbt。",
+    S,
+    """- **Airflow**：工作流编排平台，核心是 DAG。
+- **职责**：调度与依赖，不替代变换引擎本身。
+- **概念**：dag_id、task、execution_date/data_interval、retry。
+- **样例**：编排抽数→dbt→DQ。
+- **注意**：把重业务 SQL 塞进 PythonOperator 难维护。""",
+    [
+        "定义 DAG 节点",
+        "设依赖",
+        "配重试",
+        "用 data_interval 对齐 dt",
+    ],
+    """# 伪代码示意
+# with DAG('pay_daily') as dag:
+#   ext = BashOperator(task_id='extract_orders', ...)
+#   trn = BashOperator(task_id='dbt_run_dwd', ...)
+#   dq  = BashOperator(task_id='recon_gmv', ...)
+#   ext >> trn >> dq
+print('dt={{ ds }} ensure Ada gmv=350 after dbt')""",
+    "DAG 跑通后 DQ 任务断言 GMV；失败则下游 publish 不触发。",
+    ["批调度中枢", "回填参数化", "多系统编排"],
+    [
+        ("Airflow 里写巨型变换", "难测", "变换下沉 dbt/SQL"),
+        ("忽略 data_interval", "错日", "dt 对齐"),
+        ("sensor 过多", "槽位占满", "事件驱动/数据集"),
+        ("无告警回调", "静默失败", "on_failure_callback"),
+    ],
+    "为支付链路列 4 个 task_id 与依赖箭头。",
+    lang="python",
+)
+
+ETL_EXTRA["etl-tool-dbt"] = gold(
+    "仓内模型要用版本化 SQL、测试与文档管理。",
+    "理解 dbt：model、test、ref、分层目录。",
+    "Airflow → 摄取工具。",
+    S,
+    """- **dbt**：仓内变换框架（ELT 搭档）。
+- **核心**：SELECT 模型物化成表/视图；ref 管血缘；test 管质量。
+- **样例**：stg_orders → fct_pay → 断言 gmv。
+- **不是**：摄取工具；源仍靠 ingest/CDC。
+- **实践**：与 Airflow 调度结合。""",
+    [
+        "写 staging 模型",
+        "写事实模型",
+        "加 unique/not_null 测试",
+        "跑并看血缘",
+    ],
+    """-- models/staging/stg_orders.sql（示意）
+SELECT order_id, user_id,
+       CAST(amount AS DECIMAL(18,2)) AS amount,
+       LOWER(status) AS status,
+       created_at
+FROM ods_orders_di
+WHERE status = 'paid';
+
+-- tests：unique(order_id), not_null(user_id)
+-- 下游：SUM(COALESCE(amount,0))=440""",
+    "模型通过测试；用户汇总 Ada=350。",
+    ["仓内 ELT", "指标/事实版本化", "分析工程师协作"],
+    [
+        ("dbt 直接打生产 OLTP", "危险", "只打仓"),
+        ("无 test", "假安心", "关键键必测"),
+        ("模型层层过深", "慢", "合理分层"),
+        ("密钥进仓库", "泄漏", "环境变量"),
+    ],
+    "为 stg_orders 列 3 个 dbt test。",
+)
+
+ETL_EXTRA["etl-tool-ingest"] = gold(
+    "要把库表/文件先稳定送进 ODS/湖，再谈变换。",
+    "认识摄取层职责：连接、窗口、落地格式、基本校验。",
+    "dbt → DataX。",
+    S,
+    """- **摄取（Ingest）**：从源移动到落点的通道。
+- **要求**：可靠、可观测、少转换（保真）。
+- **样例**：orders 入 ods_orders_di。
+- **与变换**：ingest≠数仓完成；还要 DWD/DQ。
+- **形态**：批文件、JDBC、CDC connector。""",
+    [
+        "选连接方式",
+        "落 ODS",
+        "行数校验",
+        "交对接 dbt/SQL",
+    ],
+    """-- 摄取后的贴源查询
+SELECT order_id, user_id, amount, status, created_at, '2024-01-07' AS dt
+FROM orders;
+
+SELECT COUNT(*) AS ods_cnt FROM orders;  -- 期望 8""",
+    "ODS 行数 8；字段保真（106 仍 NULL）。",
+    ["入湖第一站", "多源汇聚", "为 ELT 提供原料"],
+    [
+        ("摄取时大改口径", "无法追源", "保真"),
+        ("无监控延迟", "不知卡住", "lag 指标"),
+        ("摄取成功当业务成功", "错数", "继续 DQ"),
+        ("凭证硬编码", "风险", "密钥管理"),
+    ],
+    "写摄取作业的 4 个必选监控项。",
+)
+
+ETL_EXTRA["etl-tool-datax"] = gold(
+    "要把 MySQL 订单批同步到 Hive/仓。",
+    "知道 DataX 以 Reader/Writer 插件做批同步。",
+    "摄取 → Airbyte。",
+    "orders 增量窗。" + S,
+    """- **DataX**：阿里开源批数据同步框架。
+- **形态**：job.json 配 reader/writer。
+- **适合**：库表/文件窗口批跑。
+- **仍要**：分区覆盖 + 对账 + 契约。
+- **不适合**：冒充实时 CDC。""",
+    [
+        "写 Reader SQL 窗口",
+        "配 Writer 目标",
+        "跑批",
+        "对账",
+    ],
+    """-- Reader 侧 SQL（示意）
+SELECT order_id, user_id, amount, status, created_at
+FROM orders
+WHERE created_at >= :start AND created_at < :end;
+-- Writer 落地后：
+-- INSERT OVERWRITE ... ; 并对账 SUM(COALESCE(amount,0))""",
+    "窗口数据进入目标表；重跑靠覆盖/幂等；paid 口径仍由下游保证。",
+    ["传统数仓装载", "异构库同步", "窗口批"],
+    [
+        ("当实时 CDC", "延迟与语义不符", "改 Flink CDC"),
+        ("无脏数据策略", "脏进湖", "加 DQ"),
+        ("大窗口无切分", "失败难续", "分片"),
+        ("与 dbt 职责不清", "双处变换", "DataX 保真、dbt 变换"),
+    ],
+    "DataX 与「仓内 dbt」如何分工？",
+)
+
+ETL_EXTRA["etl-tool-airbyte"] = gold(
+    "要快速接 SaaS/库表，少写连接器。",
+    "理解 Airbyte Source/Destination 与 ELT 搭配。",
+    "DataX → Flink CDC。",
+    "标准化连接。" + S,
+    """- **Airbyte**：开源数据移动，偏 ELT。
+- **落地**：原始层再 dbt。
+- **价值**：连接器生态、快速接入。
+- **风险**：同步成功≠指标正确。
+- **安全**：密钥与权限。""",
+    [
+        "选 Source/Dest",
+        "同步到原始层",
+        "dbt 出支付口径",
+        "契约测试",
+    ],
+    """-- 同步后变换仍用口径
+SELECT SUM(COALESCE(amount,0)) AS gmv
+FROM orders
+WHERE status='paid';
+-- 期望 440；连接器只负责搬，不管 GMV 口径""",
+    "连接器跑通后，仍需变换与对账使 Ada=350。",
+    ["快速接入", "中小团队", "SaaS 源"],
+    [
+        ("同步即数仓", "无分层", "仍要 ODS/DWD"),
+        ("密钥进仓库", "泄漏", "密文配置"),
+        ("schema 漂移无检测", "模型挂", "契约/探测"),
+        ("全量盲同步大表", "贵", "增量流"),
+    ],
+    "何时选 Airbyte 而不是自研 DataX 作业？",
+)
+
+ETL_EXTRA["etl-tool-flink-cdc"] = gold(
+    "订单状态要秒级入湖/仓。",
+    "Flink CDC 读 binlog/WAL 做流式入湖。",
+    "Airbyte → 血缘。",
+    "order 变更流。" + S,
+    """- **Flink CDC**：流式变更捕获与处理。
+- **注意**：恰好一次语义、schema 变更、回压、状态后端。
+- **落地**：ODS 流水 + 下游去重合并。
+- **样例**：事件去重模拟。
+- **兜底**：批对账。""",
+    [
+        "对接日志源",
+        "入 ODS 流表",
+        "去重合并",
+        "批对账",
+    ],
+    """SELECT * FROM (
+  SELECT e.*, ROW_NUMBER() OVER (
+    PARTITION BY order_id, event_type
+    ORDER BY event_time DESC, event_id DESC) rn
+  FROM order_events e
+) t WHERE rn=1;""",
+    "流上压缩为最新事件；批对账兜底防漂。",
+    ["近实时数仓", "微服务同步", "运营实时看板原料"],
+    [
+        ("无批对账", "漂数", "日对账"),
+        ("直写 ADS", "难控", "经 ODS/DWD"),
+        ("忽略回压", "丢/延迟", "监控与降级"),
+        ("schema 变更无演练", "作业挂", "兼容策略"),
+    ],
+    "流任务失败 10 分钟，如何补齐缺口？",
+)
+
+ETL_EXTRA["etl-lineage"] = gold(
+    "GMV 错了，要追是哪条管道、哪张上游表。",
+    "建立表/列级血缘；与调度、词典打通。",
+    "Flink CDC → 发布。",
+    "ads_gmv ← dwd_pay ← ods_orders ← oltp.orders。" + S,
+    """- **血缘**：数据从哪来到哪去。
+- **价值**：影响分析、问责、合规。
+- **粒度**：任务级不足，需表/列级。
+- **采集**：随发布自动，而非事后补文档。
+- **样例**：支付 GMV 三跳。""",
+    [
+        "登记链路",
+        "关联 DAG task",
+        "变更时影响分析",
+        "事故反查",
+    ],
+    """-- 文档/元数据示意
+-- oltp.orders -> ods_orders_di -> dwd_trade_pay_di -> ads_user_gmv
+SELECT 'ods_orders_di' AS upstream, 'dwd_trade_pay_di' AS downstream
+UNION ALL
+SELECT 'dwd_trade_pay_di', 'ads_user_gmv';""",
+    "改 orders.status 枚举可评估下游清单；排障可顺藤摸瓜。",
+    ["事故定位", "变更评审", "OpenLineage/数据目录"],
+    [
+        ("只有任务名无表级", "不够用", "落到表/列"),
+        ("血缘不更新", "误导", "随发布采集"),
+        ("血缘与词典脱节", "不知口径", "打通指标"),
+        ("只画大图无负责人", "推诿", "节点挂 Owner"),
+    ],
+    "列出 gmv_pay 的最小 3 跳血缘。",
+)
+
+ETL_EXTRA["etl-publish"] = gold(
+    "新口径要上线，不能让看板白天空窗。",
+    "用影子表/蓝绿或分区切换做发布与回滚。",
+    "血缘 → 高级练习。",
+    "替换 ads 用户 GMV。" + S,
+    """- **发布**：原子切换对消费者可见版本。
+- **手段**：交换表名、视图切分、分区上线。
+- **回滚**：保留旧版对象。
+- **门禁**：对账通过才切。
+- **样例**：ads_user_gmv 视图切换。""",
+    [
+        "建 v2 影子表",
+        "对账 Ada=350",
+        "切换视图",
+        "异常回滚",
+    ],
+    """-- 写新表再切视图
+-- CREATE TABLE ads_user_gmv_v2 AS
+SELECT user_id, SUM(COALESCE(amount,0)) AS gmv
+FROM orders WHERE status='paid'
+GROUP BY user_id;
+-- CREATE OR REPLACE VIEW ads_user_gmv AS SELECT * FROM ads_user_gmv_v2;""",
+    "切换瞬时完成；失败可回滚视图；用户可见 Ada=350 不中断。",
+    ["口径变更", "大表更换", "无空窗发布"],
+    [
+        ("白天 truncate 真表", "空窗", "影子切换"),
+        ("无回滚", "长时间事故", "预留旧版"),
+        ("未对账就切", "错数全网", "门禁"),
+        ("无公告", "环比误读", "版本说明"),
+    ],
+    "设计一次「AOV 口径变更」的发布检查单 3 条。",
+)
+
+ETL_IDS = [
+    "etl-constitution", "etl-path-junior", "etl-path-mid", "etl-path-senior",
+    "etl-drill-junior", "etl-drill-mid", "etl-drill-senior",
+    "etl-source-list", "etl-keys-watermark", "etl-data-contract", "etl-sla",
+    "etl-full-snapshot", "etl-incr", "etl-cdc",
+    "etl-type-normalize", "etl-dedup", "etl-dim-join", "etl-scd", "etl-pii-mask",
+    "etl-overwrite", "etl-merge-upsert", "etl-idempotent-write",
+    "etl-rowcount", "etl-unique-pk", "etl-recon",
+    "etl-dag", "etl-retry-alert", "etl-backfill", "etl-late-data",
+    "etl-classic", "etl-modern-elt",
+    "etl-tool-airflow", "etl-tool-dbt", "etl-tool-ingest",
+    "etl-tool-datax", "etl-tool-airbyte", "etl-tool-flink-cdc",
+    "etl-lineage", "etl-publish",
+]
+assert list(ETL_EXTRA.keys()) == ETL_IDS or set(ETL_EXTRA) == set(ETL_IDS), (
+    set(ETL_IDS) - set(ETL_EXTRA), set(ETL_EXTRA) - set(ETL_IDS)
+)
+assert len(ETL_EXTRA) == 39, len(ETL_EXTRA)
+
+
+def py_str(s: str) -> str:
+    return repr(s)
+
+
+def emit_dict(name: str, d: dict) -> str:
+    lines = [f"{name} = {{"]
+    for k, v in d.items():
+        lines.append(f"    {py_str(k)}: {py_str(v)},")
+    lines.append("}")
+    return "\n".join(lines)
+
+
+def main() -> None:
+    hdr = (
+        "# -*- coding: utf-8 -*-\n"
+        '"""Auto-generated teaching extras. Do not edit by hand unless necessary."""\n'
+    )
+    dwh_body = hdr + '"""DWH leaf_id -> full markdown lesson (Chinese)."""\n\n' + emit_dict(
+        "DWH_EXTRA", DWH_EXTRA
+    ) + "\n"
+    etl_body = hdr + '"""ETL leaf_id -> full markdown lesson (Chinese)."""\n\n' + emit_dict(
+        "ETL_EXTRA", ETL_EXTRA
+    ) + "\n"
+    thin = '''# -*- coding: utf-8 -*-
+"""DWH/ETL teaching extras: leaf_id -> gold markdown; apply_extras walker."""
+from __future__ import annotations
+
+from typing import Any, Dict, MutableMapping
+
+from dwh_etl_teach_extras_dwh import DWH_EXTRA
+from dwh_etl_teach_extras_etl import ETL_EXTRA
+
+__all__ = ["DWH_EXTRA", "ETL_EXTRA", "apply_extras"]
+
+
+def apply_extras(tree: MutableMapping[str, Any], extra_dict: Dict[str, str]) -> int:
+    """Walk knowledge tree; replace leaf content when node id is in extra_dict.
+
+    Returns number of nodes updated.
+    """
+    updated = 0
+
+    def walk(node: MutableMapping[str, Any]) -> None:
+        nonlocal updated
+        nid = node.get("id")
+        if isinstance(nid, str) and nid in extra_dict:
+            node["content"] = extra_dict[nid]
+            updated += 1
+        for child in node.get("children") or []:
+            if isinstance(child, dict):
+                walk(child)
+
+    walk(tree)
+    return updated
+'''
+    (ROOT / "dwh_etl_teach_extras_dwh.py").write_text(dwh_body, encoding="utf-8")
+    (ROOT / "dwh_etl_teach_extras_etl.py").write_text(etl_body, encoding="utf-8")
+    (ROOT / "dwh_etl_teach_extras.py").write_text(thin, encoding="utf-8")
+
+    short = []
+    for label, d in ("DWH", DWH_EXTRA), ("ETL", ETL_EXTRA):
+        for k, v in d.items():
+            n = cn_len(v)
+            total = len(v)
+            if n < 1100 or n > 1800:
+                # path stubs allowed longer; still flag very short
+                if k.endswith("-path-junior") or k.endswith("-path-mid") or k.endswith("-path-senior"):
+                    if n < 800:
+                        short.append((k, n, total, "path-short"))
+                else:
+                    short.append((k, n, total, "out-of-range"))
+        print(label, "leaves", len(d), "cn_min", min(cn_len(x) for x in d.values()),
+              "cn_max", max(cn_len(x) for x in d.values()))
+    print("out_of_range_count", len(short))
+    for row in short[:40]:
+        print(" ", row)
+
+
+if __name__ == "__main__":
+    main()

@@ -280,18 +280,28 @@
   function syncNavHeight() {
     const nav = document.querySelector(".top-nav");
     if (!nav) return;
-    const h = Math.max(40, Math.round(nav.getBoundingClientRect().height));
-    document.documentElement.style.setProperty("--nav-height", h + "px");
-    document.documentElement.style.setProperty("--fs-nav-h", h + "px");
+    // 禁止把测量值写回 --nav-height：.nav-inner { height: var(--nav-height) } 会形成
+    // 「测高 → 撑高顶栏 → 再测高」的无限下拉循环。
+    const h = Math.max(40, Math.min(160, Math.round(nav.getBoundingClientRect().height)));
+    const next = h + "px";
+    const root = document.documentElement;
+    if (root.style.getPropertyValue("--nav-offset") === next) return;
+    root.style.setProperty("--nav-offset", next);
+    root.style.setProperty("--fs-nav-h", next);
   }
 
   function init() {
     mount("global-search-slot");
     syncNavHeight();
-    window.addEventListener("resize", syncNavHeight);
+    let roTimer = 0;
+    const scheduleSync = () => {
+      clearTimeout(roTimer);
+      roTimer = setTimeout(syncNavHeight, 50);
+    };
+    window.addEventListener("resize", scheduleSync);
     if (typeof ResizeObserver !== "undefined") {
       const nav = document.querySelector(".top-nav");
-      if (nav) new ResizeObserver(syncNavHeight).observe(nav);
+      if (nav) new ResizeObserver(scheduleSync).observe(nav);
     }
     setTimeout(consumePendingNav, 0);
     setTimeout(consumePendingNav, 400);

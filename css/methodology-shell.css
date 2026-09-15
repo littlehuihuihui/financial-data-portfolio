@@ -88,7 +88,7 @@
 
     /* Sidebar · glass HUD */
     .sidebar {
-      position: sticky; top: 68px;
+      position: sticky; top: var(--nav-offset, var(--nav-height, 56px));
       max-height: calc(100vh - 80px);
       overflow-y: auto;
       background: linear-gradient(165deg, rgba(20, 27, 45, 0.92), rgba(10, 15, 26, 0.96));
@@ -261,7 +261,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      top: var(--nav-height, 56px);
+      top: var(--nav-offset, var(--nav-height, 56px));
       background: rgba(2, 6, 23, 0.55);
       z-index: 140;
       border: 0;
@@ -274,7 +274,7 @@
       .layout { grid-template-columns: 1fr; padding: 0 12px 32px; }
       .sidebar {
         position: fixed;
-        top: var(--nav-height, 56px);
+        top: var(--nav-offset, var(--nav-height, 56px));
         left: 0;
         bottom: 0;
         width: min(320px, 88vw);

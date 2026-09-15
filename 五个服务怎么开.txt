@@ -1,4 +1,4 @@
-多行业平台 · 五个服务怎么开
+多行业平台 · 四个服务怎么开
 ========================
 
 端口一览：
@@ -7,30 +7,26 @@
   5001  互联网 API         internet-analytics\app.py
   5002  制造业 API         manufacturing-analytics\app.py
   5100  多行业平台入口     portfolio\portfolio_app.py   ← 看板/架构看这个
-  5101  实战教材           portfolio\learn_app.py       ← 教材课表看这个
 
 【最省事】
 双击：portfolio\一键启动.bat
 浏览器：
-  http://127.0.0.1:5100/                    （平台首页，也可从首页进教材）
-  http://127.0.0.1:5101/pages/learn.html    （教材专用入口）
+  http://127.0.0.1:5100/                    （平台首页）
 
 【PyCharm】
 已预置 Run Configuration（工程根 .idea/runConfigurations/，已纳入 Git）：
-  - All Services (5000+5001+5002+5100+5101)
+  - All Services (5000+5001+5002+5100)
   - Portfolio Platform 5100
-  - Learn Textbook 5101
   - Retail API 5000 / Internet API 5001 / Manufacturing API 5002
 
-Compound「All Services」一次启动五个进程。
+Compound「All Services」一次启动四个进程。
 
 【为什么不要用 :8080】
 8080 只是文档里「临时 python -m http.server」示例端口。
 若没在 portfolio 目录手动起过 http.server，浏览器会连接失败。
-日常请用 5100 / 5101。
+日常请用 5100。
 
 【前端说明】
-所有 HTML/CSS/JS/教材 MD 只在 portfolio/ 维护，推 Git 即带上。
+所有 HTML/CSS/JS 只在 portfolio/ 维护，推 Git 即带上。
 零售看板：http://127.0.0.1:5100/industries/retail/retail_dashboard.html
 数仓架构：http://127.0.0.1:5100/industries/retail/pages/architecture.html
-实战教材：http://127.0.0.1:5101/pages/learn.html

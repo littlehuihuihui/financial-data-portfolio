@@ -69,9 +69,13 @@ class DWArchitecture {
   syncNavHeight() {
     const nav = document.querySelector('.top-nav');
     if (!nav) return;
-    const h = Math.max(40, Math.round(nav.getBoundingClientRect().height));
-    document.documentElement.style.setProperty('--nav-height', h + 'px');
-    document.documentElement.style.setProperty('--fs-nav-h', h + 'px');
+    // 只更新偏移量，避免与 .nav-inner { height: var(--nav-height) } 形成反馈环
+    const h = Math.max(40, Math.min(160, Math.round(nav.getBoundingClientRect().height)));
+    const next = h + 'px';
+    const root = document.documentElement;
+    if (root.style.getPropertyValue('--nav-offset') === next) return;
+    root.style.setProperty('--nav-offset', next);
+    root.style.setProperty('--fs-nav-h', next);
   }
 
   destroy() {

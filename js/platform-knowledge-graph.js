@@ -1078,14 +1078,24 @@
     function syncNavHeight() {
       var nav = document.querySelector(".top-nav");
       if (!nav) return;
-      var h = Math.max(40, Math.round(nav.getBoundingClientRect().height));
-      document.documentElement.style.setProperty("--nav-height", h + "px");
+      // 禁止回写 --nav-height，否则顶栏会持续被撑高（自动下拉）
+      var h = Math.max(40, Math.min(160, Math.round(nav.getBoundingClientRect().height)));
+      var next = h + "px";
+      var root = document.documentElement;
+      if (root.style.getPropertyValue("--nav-offset") === next) return;
+      root.style.setProperty("--nav-offset", next);
+      root.style.setProperty("--fs-nav-h", next);
     }
     syncNavHeight();
-    window.addEventListener("resize", syncNavHeight);
+    var roTimer = 0;
+    function scheduleSync() {
+      clearTimeout(roTimer);
+      roTimer = setTimeout(syncNavHeight, 50);
+    }
+    window.addEventListener("resize", scheduleSync);
     if (typeof ResizeObserver !== "undefined") {
       var nav = document.querySelector(".top-nav");
-      if (nav) new ResizeObserver(syncNavHeight).observe(nav);
+      if (nav) new ResizeObserver(scheduleSync).observe(nav);
     }
 
     var started = false;

@@ -1,0 +1,116 @@
+# 作品集复盘审计
+
+- HTML: `数据知识图谱.html` (1,417,749 bytes)
+- Leaf medians: {'sql': 1251, 'python': 1719, 'database': 1641, 'ml': 1692, 'etl': 1374, 'dwh': 1486, 'bi': 519}
+
+## Issues
+
+- **P2** `sample` — ML_SAMPLE missing
+- **P2** `ux` — database still in auto-prefer jump chain — verify it does not skip L2 fan
+- **P1** `sql` — thin domain sql-dml-query len=53
+- **P1** `sql` — thin chapter sql-crud len=154
+- **P1** `sql` — thin chapter sql-filter-agg len=144
+- **P1** `sql` — thin domain sql-ddl len=32
+- **P1** `sql` — thin chapter sql-table-constraint len=144
+- **P1** `sql` — thin chapter sql-view-index-skel len=139
+- **P1** `sql` — thin domain sql-join len=36
+- **P1** `sql` — thin chapter sql-join-types len=133
+- **P1** `sql` — thin chapter sql-join-traps len=127
+- **P1** `sql` — thin domain sql-window len=23
+- **P1** `sql` — thin chapter sql-window-rank len=150
+- **P0** `structure` — sql/sql-rank lessonParent with empty children
+- **P1** `sql` — thin chapter sql-window-analytic len=139
+- **P1** `sql` — thin domain sql-cte len=29
+- **P1** `sql` — thin chapter sql-with-style len=129
+- **P1** `sql` — thin domain sql-index-plan len=24
+- **P1** `sql` — thin chapter sql-read-plan len=135
+- **P1** `sql` — thin domain sql-tx-lock len=23
+- **P1** `sql` — thin chapter sql-acid len=135
+- **P1** `sql` — thin domain sql-tune len=30
+- **P1** `sql` — thin chapter sql-tune-loop len=127
+- **P1** `etl` — thin domain etl-learning-path len=35
+- **P1** `etl` — thin chapter etl-constitution-sec len=66
+- **P1** `etl` — thin chapter etl-roadmap len=59
+- **P1** `etl` — thin chapter etl-practice-field len=58
+- **P1** `etl` — thin domain etl-source-contract len=24
+- **P1** `etl` — thin chapter etl-source-inventory len=66
+- **P1** `etl` — thin chapter etl-contract-sla len=69
+- **P1** `etl` — thin domain etl-extract len=18
+- **P1** `etl` — thin chapter etl-extract-modes len=66
+- **P1** `etl` — thin domain etl-transform len=21
+- **P1** `etl` — thin chapter etl-cleanse len=68
+- **P1** `etl` — thin chapter etl-enrich len=67
+- **P1** `etl` — thin domain etl-load len=20
+- **P1** `etl` — thin chapter etl-load-patterns len=66
+- **P1** `etl` — thin domain etl-quality len=18
+- **P1** `etl` — thin chapter etl-checks len=66
+- **P1** `etl` — thin domain etl-schedule len=21
+- **P1** `etl` — thin chapter etl-orchestrate len=66
+- **P1** `etl` — thin domain etl-elt len=26
+- **P1** `etl` — thin chapter etl-vs-elt len=66
+- **P1** `etl` — thin domain etl-tools len=23
+- **P1** `etl` — thin chapter etl-tool-map len=66
+- **P1** `etl` — thin domain etl-meta len=30
+- **P1** `etl` — thin chapter etl-meta-ops len=66
+- **P1** `dwh` — thin domain dwh-learning-path len=46
+- **P1** `dwh` — thin chapter dwh-constitution-sec len=91
+- **P1** `dwh` — thin chapter dwh-roadmap len=59
+- **P1** `dwh` — thin chapter dwh-practice-field len=58
+- **P1** `dwh` — thin domain dwh-why len=27
+- **P1** `dwh` — thin chapter dwh-ssot-sec len=67
+- **P1** `dwh` — thin chapter dwh-domain-sec len=56
+- **P1** `dwh` — thin domain dwh-layer len=37
+- **P1** `dwh` — thin chapter dwh-layers len=83
+- **P1** `dwh` — thin domain dwh-model len=46
+- **P1** `dwh` — thin chapter dwh-grain-bus len=67
+- **P1** `dwh` — thin chapter dwh-schema-styles len=113
+- **P1** `dwh` — thin chapter dwh-star len=88
+- **P1** `dwh` — thin chapter dwh-scd-sec len=67
+- **P1** `dwh` — thin domain dwh-pipeline len=20
+- **P1** `dwh` — thin chapter dwh-schedule-sec len=47
+- **P1** `dwh` — thin chapter dwh-incr-sec len=67
+- **P1** `dwh` — thin chapter dwh-dq-sec len=67
+- **P1** `bi` — thin domain bi-orient len=43
+- **P1** `bi` — thin chapter bi-orient-basics len=153
+- **P1** `bi` — thin domain bi-metric len=39
+- **P1** `bi` — thin chapter bi-define len=147
+- **P1** `bi` — thin chapter bi-northstar-chapter len=142
+- **P1** `bi` — thin domain bi-dimension len=38
+- **P1** `bi` — thin chapter bi-dim-basics len=132
+- **P1** `bi` — thin chapter bi-olap-ops len=139
+- **P1** `bi` — thin domain bi-governance len=34
+- **P1** `bi` — thin chapter bi-dict len=155
+- **P1** `bi` — thin domain bi-semantic len=34
+- **P1** `bi` — thin chapter bi-semantic-core len=141
+- **P1** `bi` — thin domain bi-data-prep len=37
+- **P1** `bi` — thin chapter bi-connect len=139
+- **P1** `bi` — thin chapter bi-calc len=137
+- **P1** `bi` — thin domain bi-viz len=28
+- **P1** `bi` — thin chapter bi-encoding len=143
+- **P1** `bi` — thin domain bi-board len=32
+- **P1** `bi` — thin chapter bi-layout len=151
+- **P1** `bi` — thin domain bi-interact len=25
+- **P1** `bi` — thin chapter bi-interact-core len=140
+- **P1** `bi` — thin domain bi-perf len=27
+- **P1** `bi` — thin chapter bi-perf-core len=148
+- **P1** `bi` — thin domain bi-self-serve len=28
+- **P1** `bi` — thin chapter bi-govern-modes len=141
+- **P1** `bi` — thin domain bi-security len=27
+- **P1** `bi` — thin chapter bi-acl len=147
+- **P1** `bi` — thin domain bi-embed len=21
+- **P1** `bi` — thin chapter bi-delivery len=142
+- **P1** `bi` — thin domain bi-tools len=38
+- **P1** `bi` — thin chapter bi-tool-commercial len=151
+- **P1** `bi` — thin chapter bi-tool-oss-cn len=160
+- **P1** `bi` — thin domain bi-scenarios len=32
+- **P1** `bi` — thin chapter bi-scene-biz len=141
+- **P2** `bi` — thin leaf bi-scene-growth len=397
+- **P1** `content` — bi leaf median 519 far behind peers (max=1719)
+- **P0** `sql` — sql-rank lessonParent empty children
+- **P1** `repo` — nested duplicate dir `数据学习平台/` exists — easy to edit wrong copy
+- **P1** `tooling` — 22 patch scripts write files without __main__ guard (import side-effect risk)
+- **P2** `content` — heading mix 查询结果=149 vs 运行结果=116
+- **P1** `etl` — 24 thin domain/chapter guides e.g. ['etl-learning-path', 'etl-constitution-sec', 'etl-roadmap', 'etl-practice-field', 'etl-source-contract', 'etl-source-inventory']
+- **P1** `dwh` — 18 thin domain/chapter guides e.g. ['dwh-learning-path', 'dwh-constitution-sec', 'dwh-roadmap', 'dwh-practice-field', 'dwh-why', 'dwh-ssot-sec']
+- **P1** `bi` — 34 thin domain/chapter guides e.g. ['bi-orient', 'bi-orient-basics', 'bi-metric', 'bi-define', 'bi-northstar-chapter', 'bi-dimension']
+- **P1** `sql` — 20 thin domain/chapter guides e.g. ['sql-dml-query', 'sql-crud', 'sql-filter-agg', 'sql-ddl', 'sql-table-constraint', 'sql-view-index-skel']

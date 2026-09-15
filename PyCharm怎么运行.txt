@@ -5,16 +5,14 @@
 双击：portfolio\一键启动.bat
 浏览器：
   http://127.0.0.1:5100/                 （平台）
-  http://127.0.0.1:5101/pages/learn.html （实战教材）
 
 
 【PyCharm · 推荐】
 
 1. File → Open → D:\cursor\多行业数据平台
-2. 右上角运行配置保留这 6 个（.idea/runConfigurations，已进 Git）：
-   - All Services (5000+5001+5002+5100+5101)  ← 一次全开
+2. 右上角运行配置保留这些（.idea/runConfigurations，已进 Git）：
+   - All Services (5000+5001+5002+5100)  ← 一次全开
    - Portfolio Platform 5100
-   - Learn Textbook 5101
    - Retail API 5000
    - Internet API 5001
    - Manufacturing API 5002
@@ -22,7 +20,6 @@
 3. 选「All Services」→ Run
 4. 浏览器：
    - 平台 http://127.0.0.1:5100/
-   - 教材 http://127.0.0.1:5101/pages/learn.html
 
 解释器：
   Retail → retail-finance-analysis\venv\Scripts\python.exe
@@ -31,11 +28,10 @@
 
 【前端唯一目录】
   portfolio/industries/{retail|internet|manufacturing}/
-  portfolio/learn/ 、portfolio/pages/learn*.html  （实战教材）
   retail-finance-analysis/docs/ 已删除
 
 
 【不要】
-- 不要用旧配置名：app / 启动全部 / Portfolio Platform（无端口号）
+- 不要用旧配置名：app / 启动全部 / Portfolio Platform（无端口号） / Learn Textbook 5101
 - 不要只开 :5000 当作品集入口（UI 用 :5100）
 - 不要默认用 :8080（除非你自己起了 http.server）

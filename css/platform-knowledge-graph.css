@@ -12,7 +12,7 @@
 }
 
 .kg2-page {
-  min-height: calc(100dvh - var(--nav-height, 56px));
+  min-height: calc(100dvh - var(--nav-offset, var(--nav-height, 56px)));
   margin-top: 0; /* 作品集页已有 .top-nav，勿再叠一层 margin */
   background: var(--kg2-bg);
   color: var(--kg2-text);
@@ -22,10 +22,10 @@
   overflow-y: auto;
 }
 body.page-platform-graph .kg2-page {
-  min-height: calc(100dvh - var(--nav-height, 56px));
+  min-height: calc(100dvh - var(--nav-offset, var(--nav-height, 56px)));
 }
 body.page-platform-graph .kg2-focus {
-  height: calc(100dvh - var(--nav-height, 56px));
+  height: calc(100dvh - var(--nav-offset, var(--nav-height, 56px)));
   min-height: 0;
 }
 
@@ -70,7 +70,7 @@ body.page-platform-graph .kg2-focus {
 .kg2-stage {
   position: relative;
   z-index: 1;
-  min-height: calc(100vh - var(--nav-height, 60px));
+  min-height: calc(100vh - var(--nav-offset, var(--nav-height, 60px)));
 }
 
 .kg2-landing {
@@ -79,7 +79,7 @@ body.page-platform-graph .kg2-focus {
   align-items: center;
   justify-content: center;
   padding: 48px 24px 64px;
-  min-height: calc(100vh - var(--nav-height, 60px));
+  min-height: calc(100vh - var(--nav-offset, var(--nav-height, 60px)));
   box-sizing: border-box;
 }
 .kg2-landing--under-header {
@@ -540,7 +540,7 @@ body.page-platform-graph .kg2-focus {
 
 .kg2-focus {
   display: flex;
-  height: calc(100dvh - var(--nav-height, 56px));
+  height: calc(100dvh - var(--nav-offset, var(--nav-height, 56px)));
   min-height: 520px;
 }
 .kg2-side {
@@ -878,7 +878,7 @@ body.page-platform-graph .kg2-focus {
     height: auto;
   }
   .kg2-stage {
-    min-height: calc(100dvh - var(--nav-height, 56px));
+    min-height: calc(100dvh - var(--nav-offset, var(--nav-height, 56px)));
   }
 
   .kg2-landing {
@@ -945,12 +945,12 @@ body.page-platform-graph .kg2-focus {
     position: relative;
     flex-direction: column;
     height: auto;
-    min-height: calc(100dvh - var(--nav-height, 56px));
+    min-height: calc(100dvh - var(--nav-offset, var(--nav-height, 56px)));
     overflow: visible;
   }
   body.page-platform-graph .kg2-focus {
     height: auto;
-    min-height: calc(100dvh - var(--nav-height, 56px));
+    min-height: calc(100dvh - var(--nav-offset, var(--nav-height, 56px)));
   }
   .kg2-canvas-wrap {
     flex: 1 1 auto;
@@ -996,7 +996,7 @@ body.page-platform-graph .kg2-focus {
   .kg2-side {
     position: fixed;
     left: 0;
-    top: var(--nav-height, 56px);
+    top: var(--nav-offset, var(--nav-height, 56px));
     bottom: 0;
     width: min(300px, 86vw) !important;
     max-width: 86vw;
@@ -1071,7 +1071,7 @@ body.page-platform-graph .kg2-focus {
   .kg2-scrim {
     display: none;
     position: fixed;
-    inset: var(--nav-height, 56px) 0 0;
+    inset: var(--nav-offset, var(--nav-height, 56px)) 0 0;
     background: rgba(2, 6, 23, 0.55);
     z-index: 35;
     border: 0;
@@ -1246,7 +1246,7 @@ body.page-platform-graph .kg2-search-item mark {
   justify-content: center;
   padding: 12px 16px 0;
   position: sticky;
-  top: var(--nav-height, 60px);
+  top: var(--nav-offset, var(--nav-height, 60px));
   z-index: 40;
 }
 .view-switch {
@@ -1313,7 +1313,7 @@ body.page-platform-graph #pkgRoot,
 body.page-platform-graph .pkg-standalone,
 body.page-platform-graph .pkg-root {
   display: block !important;
-  min-height: calc(100vh - var(--nav-height, 56px));
+  min-height: calc(100vh - var(--nav-offset, var(--nav-height, 56px)));
 }
 
 /* 作品集四模块入口 */

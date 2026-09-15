@@ -10516,59 +10516,143 @@
   "id": "etl-root",
   "title": "ETL",
   "level": "?",
-  "content": "### ETL 知识图谱\n\n四层结构：**领域 → 主题 → 知识点**。\n\n- 再点中心展开领域扇区\n- 点主题层层下钻（弧线一对多）\n- **倒数第二层**打开章节导读 + 子课列表\n- **叶节点**打开完整讲义（是什么 / 怎么写 / 用在哪 / 注意啥）\n\n主线：**认源 → 抽取 → 转换 → 装载 → 校验 → 调度**；并理解 ETL vs ELT 与工具选型。",
+  "content": "### ETL 知识图谱\n\n1. 先打开 **学习路径 → 教程宪法**\n2. 按「认源→抽→转→装→验→调度」推进\n3. 对照数仓分层与 SQL 增量/SCD 金课\n\n现代常见 **ELT**：先落地再仓内变换（dbt）。",
   "children": [
+    {
+      "id": "etl-learning-path",
+      "title": "学习路径",
+      "level": "?",
+      "content": "### 学习路径\n\n**教程宪法 → 初/中/高清单 → 练习场**。",
+      "children": [
+        {
+          "id": "etl-constitution-sec",
+          "title": "教程宪法",
+          "level": "?",
+          "content": "### 教程宪法 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
+          "children": [
+            {
+              "id": "etl-constitution",
+              "title": "统一样例与课模板",
+              "level": "?",
+              "content": "### 课前 · 这是什么\n\n本页是 **ETL 教程公约**：认源→抽取→转换→装载→校验→调度。与 SQL / 数仓 / Python **同源样例**（`users` / `orders` / `order_items` / `order_events`）。先读本页，再按清单上课；所有金课的验收数字都以本页为准。\n\n### 统一样例（源系统视角）\n\n把四表当成业务库 OLTP；ETL 日作业产出仓表（示意）：\n\n| 层 | 表示意 | 来源 | ETL 职责 |\n|---|---|---|---|\n| ODS | `ods_orders_di` | 贴源 orders + dt | 保真落地、可重抽 |\n| DWD | `dwd_trade_pay_di` | 清洗后的 paid 明细 | 去重/空值/口径 |\n| DIM | `dim_user` | users（可 SCD2） | 维表日批/闭链 |\n| DQ | 对账结果 | 行数/金额闭合 | 门禁，失败不放行 |\n\n**验收种子**：users=4，orders=8，order_events=7，order_items=5。  \n**支付口径**：`status='paid'` + `SUM(COALESCE(amount,0))`（含 amount 为 NULL 的单记 0）。\n\n### 三条铁律（贯穿全树）\n\n1. **契约先于代码**：主键、水位、枚举、空值语义写进清单。  \n2. **幂等先于重试**：同一窗口重跑结果不变，才能开自动重试。  \n3. **门禁先于消费**：行数/唯一/金额对账通过后，下游才可读。\n\n### 金标准课模板\n\n课前 → 样例输入 → 是什么 → 怎么写 → 结果 → 用在哪 → 易错对照 → 动手。\n\n### 学习主线\n\n```text\n宪法 → 认源/契约/SLA → 全量/增量/CDC\n→ 清洗去重/维关联/SCD/脱敏 → 覆盖·MERGE·幂等\n→ 行数唯一对账 → DAG·重试·回填·迟到\n→ ETL vs ELT → Airflow/dbt/DataX/Airbyte/Flink CDC\n→ 血缘·发布回滚 → 练习场\n```\n\n\n### 教义深讲\n\n围绕「统一样例与课模板」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "etl-roadmap",
+          "title": "路线清单",
+          "level": "?",
+          "content": "### 路线清单\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
+          "children": [
+            {
+              "id": "etl-path-junior",
+              "title": "初级清单",
+              "level": "?",
+              "content": "### 课前\n\n- **定位**：能说清端到端步骤；会写增量水位与分区覆盖；会做行数/金额对账。\n- **学完标准**：独立画出「抽→转→装→验」四框，并用同源样例跑通一日批。\n\n### 必学顺序\n\n1. 教程宪法（验收种子与三条铁律）  \n2. 源表清单 → 主键与水位  \n3. 全量快照 → 增量抽取  \n4. 类型空值 → 去重取最新  \n5. 分区覆盖 → 行数对账 / 金额对账  \n6. 初级练习场\n\n### 验收口令\n\n- 能解释：为什么先成功装载再推进水位  \n- 能写出：`paid` + `COALESCE(amount,0)` 的 GMV 闭合  \n- 能指出：追加写入不覆盖会导致什么\n\n\n### 教义深讲\n\n围绕「初级清单」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n",
+              "children": []
+            },
+            {
+              "id": "etl-path-mid",
+              "title": "中级清单",
+              "level": "??",
+              "content": "### 课前\n\n- **定位**：CDC、SCD、MERGE 幂等、DAG 重试回填、ETL vs ELT。\n- **学完标准**：能设计可重跑日批，并处理维表历史与失败恢复。\n\n### 必学顺序\n\n1. CDC 变更捕获  \n2. 维表关联（防 JOIN 爆炸）→ SCD 拉链 → 脱敏  \n3. MERGE / Upsert → 幂等写入  \n4. 主键唯一 → 源仓对账  \n5. DAG 依赖 → 重试告警 → 回填 → 迟到数据  \n6. 经典 ETL vs 现代 ELT  \n7. 中级练习场\n\n### 验收口令\n\n- SCD2 变更日能口述「闭链 + 插入」  \n- 同一 `order_id` MERGE 两次行数不变  \n- 回填单日不与增量水位打架\n\n\n### 教义深讲\n\n围绕「中级清单」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n",
+              "children": []
+            },
+            {
+              "id": "etl-path-senior",
+              "title": "高级清单",
+              "level": "???",
+              "content": "### 课前\n\n- **定位**：契约治理、迟到数据、脱敏、工具选型、血缘与发布回滚。\n- **原则**：幂等可重跑；质量门禁在下游消费前；变更可回滚。\n\n### 必学顺序\n\n1. 数据契约 + 产出 SLA（含升级路径）  \n2. 迟到数据 lookback / 重述策略  \n3. Airflow 编排边界 vs dbt 变换  \n4. DataX / Airbyte / Flink CDC 选型  \n5. 血缘影响分析 → 发布与回滚  \n6. 高级练习场\n\n### 验收口令\n\n- 能画一张「工具职责图」（谁抽、谁转、谁编排）  \n- 能写发布检查单：契约、DQ、血缘、回滚点  \n- 能解释：为何 CDC 不应直写 ADS\n\n\n### 教义深讲\n\n围绕「高级清单」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "etl-practice-field",
+          "title": "练习场",
+          "level": "??",
+          "content": "### 练习场\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
+          "children": [
+            {
+              "id": "etl-drill-junior",
+              "title": "初级练习",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：用统一样例跑通「增量抽→清洗→覆盖→对账」。\n- **目标**：写出水位抽取、去重、分区覆盖与金额对账 SQL。\n- **先修**：初级清单\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders / order_events。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **练习场（初级）**：批处理最小闭环。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- Q1 增量：昨日以来（示意）\nSELECT * FROM orders\nWHERE created_at >= '2024-01-07' AND created_at < '2024-01-08';\n\n-- Q2 事件去重权威行\nSELECT * FROM (\n  SELECT e.*, ROW_NUMBER() OVER (\n    PARTITION BY order_id, event_type\n    ORDER BY event_time, event_id) rn\n  FROM order_events e\n) t WHERE rn=1;\n\n-- Q3 DWD paid + 对账\nSELECT SUM(COALESCE(amount,0)) gmv FROM orders WHERE status='paid';\n-- 应与按用户汇总后再 SUM 一致\n```\n\n### 查询结果\n\nQ2：102 paid 一行；Q3：两层 gmv 闭合。\n\n### 用在哪\n\n1. 入职作业  2. 对照数仓练习\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 无水位全表抽 | 拖垮源库 |\n| 追加写入不覆盖 | 重复事实 |\n\n\n\n### 教义深讲\n\n围绕「初级练习」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 users 设计主键与增量字段（若只有 created_at 怎么办？）。",
+              "children": []
+            },
+            {
+              "id": "etl-drill-mid",
+              "title": "中级练习",
+              "level": "??",
+              "content": "### 课前\n\n- **场景**：维表变更要历史；装载要幂等；任务失败要可回填。\n- **目标**：完成 SCD2 步骤口述、MERGE 语义、回填注意点。\n- **先修**：中级清单\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers / orders。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **练习场（中级）**：历史 + 幂等 + 运维。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- Q1 SCD2：Dan 城市变更（闭链+插入）——步骤题\n-- Q2 MERGE 语义：按 order_id 更新 status/amount，否则插入\n-- Q3 回填 dt='2024-01-02' 时如何保证不与增量打架？\n```\n\n### 查询结果\n\nQ3：按分区覆盖或合并策略，同一 dt 重跑结果不变。\n\n### 用在哪\n\n1. 上线评审  2. 故障演练\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 回填无锁水位 | 漏数/重数 |\n| SCD 不闭链 | 多 current |\n\n\n\n### 教义深讲\n\n围绕「中级练习」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n画出 DAG：抽orders→抽users→转DWD→测DQ→出ADS。",
+              "children": []
+            },
+            {
+              "id": "etl-drill-senior",
+              "title": "高级练习",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：口径变更要上线：涉及契约、血缘、发布对照与回滚。\n- **目标**：完成影响分析清单 + 发布对照 SQL + 回滚策略口述。\n- **先修**：高级清单 / 血缘 / 发布\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders → dwd → dws → ADS。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **练习场（高级）**：治理闭环，不只是会写 SQL。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- Q1 血缘：列出 amount 空值语义变更的下游\n-- Q2 对照：v2 与源 paid GMV drift\nSELECT ABS(\n  (SELECT SUM(COALESCE(amount,0)) FROM orders WHERE status='paid')\n- (SELECT SUM(COALESCE(amount,0)) FROM orders WHERE status='paid')\n) AS drift_should_be_0;\n\n-- Q3 若 drift 超阈值：如何切回上一版本视图？文字题\n-- Q4 迟到 lookback=2 时，回填与增量如何避免双写？\n```\n\n### 查询结果\n\nQ2 drift=0；Q3 有明确回滚点；Q4 按 dt 覆盖且锁水位。\n\n### 用在哪\n\n1. 上线评审  2. 事故演练  3. 大促冻结\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 无血缘就改口径 | 先影响分析 |\n| 无对照发布 | 双边 diff |\n| 无法回滚 | 版本/视图 |\n\n\n\n### 教义深讲\n\n围绕「高级练习」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n写一份「支付口径变更」五步发布单。",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
     {
       "id": "etl-source-contract",
       "title": "认源与契约",
       "level": "?",
-      "content": "### 认源与契约\n\n管道开工前先把源、主键、时间字段与 SLA 说清楚。",
+      "content": "### 认源与契约\n\n先有清单与口径，再写管道。",
       "children": [
         {
           "id": "etl-source-inventory",
-          "title": "源与清单",
-          "level": "??",
-          "content": "### 源与清单 · 章节导读\n\n**学习目标**：能列出源系统清单并标出 Owner / 频率 / 主键。\n\n**先修**：会读表结构。",
+          "title": "源表清单",
+          "level": "?",
+          "content": "### 源表清单 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-source-list",
               "title": "源表清单",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：把要接入的业务库/API/文件/消息列成可执行清单。\n- **核心要素**：系统、对象、Owner、更新频率、敏感级别。\n\n### 怎么写\n\n```text\n| 源系统 | 对象 | 主键 | 业务时间 | 频率 | Owner | SLA |\n| 交易库 | orders | order_id | updated_at | 近实时 | 交易 | T+0 15min |\n| CRM | users | user_id | updated_at | 小时 | 增长 | T+1 06:00 |\n```\n\n### 用在哪\n\n1. **立项评审**：先盘源再估工期。\n2. **故障定位**：出问题先查清单找 Owner。\n3. **权限申请**：按清单批量开只读账号。\n\n### 注意啥\n\n- 清单过期等于假文档，随变更同步。\n- API/文件也要登记分页与限流约定。\n- 敏感字段单独标注脱敏策略。",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：新主题要接入交易库，不知有哪些表、谁负责。\n- **目标**：产出源表清单：系统、表、Owner、频率、主键。\n- **先修**：教程宪法 → 下一课：主键与水位\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n统一四表即最小源清单。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **认源**：列出可抽对象与责任人。\n- **字段**：更新频率、是否可增量、敏感级别。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 源清单（文档/表）\n-- system | table        | owner | freq | pk\n-- oltp   | users        | u-a   |日批  | user_id\n-- oltp   | orders       | u-a   |日批  | order_id\n-- oltp   | order_items  | u-a   |日批  | (order_id,sku_id)\n-- oltp   | order_events | u-a   |近实时| event_id\n```\n\n### 查询结果\n\n四表齐备且有 Owner；缺表不进入开发。\n\n### 用在哪\n\n1. 立项  2. 交接  3. 影响分析\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 口头约定无清单 | 丢表 | 书面清单 |\n| 无 Owner | 故障无人认 | 指定人 |\n\n\n\n### 教义深讲\n\n围绕「源表清单」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n给 order_events 标：批还是 CDC 更合适？为什么。",
               "children": []
             },
             {
               "id": "etl-keys-watermark",
               "title": "主键与水位",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：主键保证唯一身份；水位（watermark）标记「抽到哪」。\n- **核心要素**：业务键、代理键、`updated_at` / binlog 位点。\n\n### 怎么写\n\n```sql\n-- 水位推进：只认「上次成功」边界\nSELECT MAX(updated_at) AS high_watermark\nFROM ods.orders_di\nWHERE dt = '{{ ds }}';\n\n-- 下次抽取窗口\nWHERE updated_at > TIMESTAMP '{{ prev_success }}'\n  AND updated_at <= TIMESTAMP '{{ data_interval_end }}';\n```\n\n### 用在哪\n\n1. **增量任务**：日批/小时批窗口。\n2. **对账**：按主键比对源与目标。\n3. **回填**：按水位切历史区间。\n\n### 注意啥\n\n- 业务键必须稳定；临时单号不能当主键。\n- 时钟回拨、延迟写入会导致漏数，需重叠窗口或 CDC。\n- 水位写入元数据表，勿写死在代码常量。",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：增量任务跑完发现漏单，因为用了错的时间字段。\n- **目标**：选定业务主键与水位字段（updated_at/业务时间）。\n- **先修**：源表清单 → 下一课：数据契约\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders：主键 order_id；可用 created_at 作示意水位。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **主键**：唯一标识一行，去重与 MERGE 依赖它。\n- **水位**：增量窗口上界/下界；成功后推进。\n- **注意**：业务时间 ≠ 入库时间，迟到数据要补数策略。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 水位增量\nSELECT *\nFROM orders\nWHERE created_at >  :last_success_ts\n  AND created_at <= :batch_end_ts;\n\n-- 成功后：把 last_success_ts 更新为 batch_end_ts（元数据表）\n```\n\n### 查询结果\n\n窗口内行可重复抽取；结合目标幂等写入。\n\n### 用在哪\n\n1. 增量抽取  2. 对账切片  3. 回填窗口\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 用不确定字段当水位 | 漏数 | 选稳定单调字段 |\n| 推进水位早于装载成功 | 丢数 | 先成功再推进 |\n\n\n\n### 教义深讲\n\n围绕「主键与水位」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n若只有 created_at 无 updated_at，更新单如何捕获？",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
         },
         {
           "id": "etl-contract-sla",
           "title": "契约与 SLA",
           "level": "??",
-          "content": "### 契约与 SLA · 章节导读\n\n**学习目标**：把字段语义与就绪时间写成可验证约定。",
+          "content": "### 契约与 SLA · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-data-contract",
               "title": "数据契约",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：上下游对字段类型、空值、枚举、主键的书面约定。\n- **价值**：源端乱改时有阻断依据，而不是「报表自己坏了」。\n\n### 怎么写\n\n```yaml\n# 契约片段示意\ntable: orders\nprimary_key: [order_id]\nfields:\n  status: { type: string, enum: [created, paid, cancelled] }\n  amount: { type: decimal(18,2), null: false }\nsla: ready_by: \"06:00 Asia/Shanghai\"\n```\n\n### 用在哪\n\n1. **源端变更评审**。\n2. **质量测试生成**（not_null / accepted_values）。\n3. **跨团队对齐口径**。\n\n### 注意啥\n\n- 契约要可自动测，不能只贴 Wiki。\n- 破坏性变更走版本号，禁止静默改类型。\n- 空串与 NULL 语义写清。",
+              "content": "### 课前\n\n- **场景**：源端偷偷把 status 改成数字码，下游全挂。\n- **目标**：约定字段类型、枚举、空值语义，变更需通知。\n- **先修**：主键水位 → 下一课：SLA\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders.status ∈ {created,paid,cancelled}；amount 可空。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **数据契约**：生产方与消费方对 schema/语义的协议。\n- **内容**：类型、主键、枚举、空值、兼容策略。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 契约断言（装载后测）\nSELECT COUNT(*) AS bad_status\nFROM orders\nWHERE status NOT IN ('created','paid','cancelled');\n-- 期望 0\n\nSELECT COUNT(*) AS null_pk FROM orders WHERE order_id IS NULL;\n-- 期望 0\n```\n\n### 查询结果\n\n样例库 bad_status=0，null_pk=0。\n\n### 用在哪\n\n1. 防静默破坏  2. 跨团队协作  3. Schema Registry\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 无版本乱改字段 | 下游炸 | 契约+兼容窗口 |\n| 只测类型不测语义 | 口径漂 | 枚举/范围断言 |\n\n\n\n### 教义深讲\n\n围绕「数据契约」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 amount 写一条契约：类型与空值是否允许。",
               "children": []
             },
             {
               "id": "etl-sla",
-              "title": "就绪 SLA",
+              "title": "产出 SLA",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：约定分区/表在何时对下游「可用」。\n- **核心要素**：截止时间、依赖链、失败升级。\n\n### 怎么写\n\n```text\n表 dwd.orders_di(dt)\n- 依赖：ods.orders_di 成功\n- 就绪：工作日 06:00 前\n- 失败：重试 2 次 → 值班群 @Owner\n```\n\n### 用在哪\n\n1. **看板开门时间**。\n2. **特征/训练任务排队**。\n3. **值班与告警阈值**。\n\n### 注意啥\n\n- SLA 要覆盖长假与大促峰值。\n- 「任务成功」≠「数据正确」，需质量门禁。\n- 下游勿隐式依赖未承诺的表。",
+              "content": "### 课前\n\n- **场景**：运营 9 点要看昨日 GMV，表经常 9:20 才到。\n- **目标**：定义就绪时间与失败升级路径。\n- **先修**：数据契约 → 下一课：全量快照\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nT+1 报表依赖 dwd 支付表。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **SLA**：最晚就绪时间、完整度、负责人。\n- **联动**：超时告警、降级读昨日。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 就绪检查（示意）\n-- SELECT MAX(etl_time) FROM dwd_trade_pay_di WHERE dt='{{ ds }}';\n-- 若 NOW()>'09:00' AND 未就绪 → Pager/飞书告警\n```\n\n### 查询结果\n\nSLA 示例：工作日 08:30 前 dt=昨日分区就绪。\n\n### 用在哪\n\n1. 看板承诺  2. 值班  3. 容量规划\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 无 SLA 只看「大概好了」 | 扯皮 | 写明时钟点 |\n| 告警无处理人 | 噪声 | on-call |\n\n\n\n### 教义深讲\n\n围绕「产出 SLA」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为「用户维日更」设一个合理 SLA 并说明依据。",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
         }
       ]
     },
@@ -10576,283 +10660,340 @@
       "id": "etl-extract",
       "title": "抽取 Extract",
       "level": "?",
-      "content": "### 抽取 Extract\n\n全量、增量、CDC：按源压力与新鲜度选型。",
+      "content": "### 抽取\n\n全量、增量、CDC。",
       "children": [
         {
           "id": "etl-extract-modes",
           "title": "抽取策略",
-          "level": "??",
-          "content": "### 抽取策略 · 章节导读\n\n**学习目标**：能判断何时全量、何时增量、何时上 CDC。",
+          "level": "?",
+          "content": "### 抽取策略 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-full-snapshot",
               "title": "全量快照",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：每次把对象当前全集拉出并落地。\n- **适用**：小维表、变更难追踪、日切重建。\n\n### 怎么写\n\n```sql\n-- 小维表：覆盖写入当日分区\nINSERT OVERWRITE TABLE ods.dim_city_df PARTITION (dt='{{ ds }}')\nSELECT city_id, city_name, updated_at\nFROM src.dim_city;\n```\n\n### 用在哪\n\n1. **码表/城市维**。\n2. **无法可靠拿增量的源**。\n3. **对账基准日**。\n\n### 注意啥\n\n- 大事实表全量会打爆业务库与网络。\n- 覆盖写要分区清晰，防误覆盖历史。\n- 与增量混用时标清「哪张表哪种策略」。",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：维表很小，每天全量最简单。\n- **目标**：会做全量导出/查询；知道大表成本。\n- **先修**：SLA → 下一课：增量抽取\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers 仅 4 行。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **全量**：每次拉整表快照。\n- **适合**：小维表、无可靠水位。\n- **风险**：大表拖垮源库、窗口长。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\nSELECT * FROM users;\n-- 落地：ods_users_di PARTITION(dt='2024-01-07')\n```\n\n### 查询结果\n\n4 行完整镜像。\n\n### 用在哪\n\n1. 小维表  2. 初始化  3. 对账基准\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 大事实表每日全量 | 源库打满 | 增量/CDC |\n| 全量无 dt | 无法回放 | 分区 |\n\n\n\n### 教义深讲\n\n围绕「全量快照」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n估算：orders 若 1 亿行，全量一次的风险点列 3 条。",
               "children": []
             },
             {
               "id": "etl-incr",
               "title": "增量抽取",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：只拉取自上次成功以来的变化数据。\n- **核心要素**：水位线 watermark、业务时间、幂等写入。\n\n### 怎么写\n\n```sql\nSELECT *\nFROM src.orders\nWHERE updated_at > TIMESTAMP '{{ prev_success }}'\n  AND updated_at <= TIMESTAMP '{{ data_interval_end }}';\n```\n\n### 用在哪\n\n1. **日更明细入仓**。\n2. **维表缓慢变化原料**。\n3. **下游重跑窗口**。\n\n### 注意啥\n\n- 时钟回拨与乱序；可设重叠窗口。\n- 软删/状态变更必须能抽到。\n- 失败重跑必须幂等。",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：订单表很大，只要昨天变更。\n- **目标**：按水位窗口抽取；结合目标幂等。\n- **先修**：全量 → 下一课：CDC\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders.created_at 示意。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **增量**：只拉变化切片。\n- **关键**：水位字段 + 成功后推进 + 迟到补数。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\nSELECT *\nFROM orders\nWHERE created_at >= '2024-01-07'\n  AND created_at <  '2024-01-08';\n```\n\n### 查询结果\n\n窗口内含 108 等行。\n\n### 用在哪\n\n1. 日批事实  2. 成本控制\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 用本地时钟当水位 | 漏数 | 用源字段 |\n| 装载失败仍推进 | 永久漏 | 事务化元数据 |\n\n\n\n### 教义深讲\n\n围绕「增量抽取」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n设计：更新单只有 updated_at 时的 WHERE。",
               "children": []
             },
             {
               "id": "etl-cdc",
               "title": "CDC 变更捕获",
               "level": "???",
-              "content": "### 是什么\n\n- **一句话定义**：从 binlog/WAL 捕获行级变更（I/U/D），近实时同步。\n- **核心要素**：位点、操作类型 op、前后镜像。\n\n### 怎么写\n\n```sql\n-- 落地 CDC 明细示意\nSELECT\n  order_id, user_id, amount, status,\n  op,              -- c/u/d\n  ts_ms,\n  source_file, pos\nFROM cdc.orders_changelog\nWHERE ts_ms >= {{ start_ms }} AND ts_ms < {{ end_ms }};\n```\n\n### 用在哪\n\n1. **库表近实时入湖**。\n2. **删除可感知**（硬删也能追）。\n3. **多下游复用同一变更流**。\n\n### 注意啥\n\n- 源库权限与磁盘、主从延迟要评估。\n- Schema 变更要有兼容策略。\n- 位点提交失败会导致重复或空洞。",
+              "content": "### 课前\n\n- **场景**：要近实时同步订单状态，又不能轮询整表。\n- **目标**：理解 CDC 读日志（binlog/WAL）；知道排序与去重。\n- **先修**：增量 → 下一课：类型与空值\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norder_events 可模拟变更流。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **CDC**：从数据库日志捕获增删改。\n- **组件**：Debezium / Flink CDC → Kafka → 装载。\n- **注意**：schema 变更、恰好一次、乱序。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 用事件表模拟「变更流」并取最新\nSELECT * FROM (\n  SELECT e.*, ROW_NUMBER() OVER (\n    PARTITION BY order_id, event_type\n    ORDER BY event_time DESC, event_id DESC) rn\n  FROM order_events e\n) t WHERE rn=1;\n```\n\n### 查询结果\n\n每组事件类型保留最新一条（演示流上的压缩）。\n\n### 用在哪\n\n1. 近实时数仓  2. 微服务同步  3. 审计\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 当银弹替代建模 | 仍要分层 | CDC+仓模型 |\n| 忽略删事件 | 目标脏 | 处理 DELETE |\n\n\n\n### 教义深讲\n\n围绕「CDC 变更捕获」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n说明：CDC 后为何还要 ODS/DWD，而不是直写看板。",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
         }
       ]
     },
     {
       "id": "etl-transform",
       "title": "转换 Transform",
-      "level": "?",
-      "content": "### 转换 Transform\n\n清洗、标准化、去重、关联——把原料变成可分析明细。",
+      "level": "??",
+      "content": "### 转换\n\n清洗、去重、关联、SCD。",
       "children": [
         {
           "id": "etl-cleanse",
-          "title": "清洗标准化",
+          "title": "清洗与标准化",
           "level": "??",
-          "content": "### 清洗标准化 · 章节导读\n\n**学习目标**：统一类型、码值、时区与命名。",
+          "content": "### 清洗与标准化 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-type-normalize",
-              "title": "类型与码值",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：把脏类型与散乱枚举收敛成仓内标准字段。\n- **核心要素**：CAST、字典映射、时区统一。\n\n### 怎么写\n\n```sql\nSELECT\n  order_id,\n  user_id,\n  CAST(amount AS DECIMAL(18,2)) AS amount,\n  LOWER(TRIM(status)) AS status,\n  CONVERT_TZ(created_at, 'UTC', 'Asia/Shanghai') AS created_at_cst\nFROM ods.orders_di\nWHERE dt = '{{ ds }}';\n```\n\n### 用在哪\n\n1. **staging / DWD 入门清洗**。\n2. **多源合并前对齐**。\n3. **dbt staging 模型**。\n\n### 注意啥\n\n- 隐式转换会拖慢且藏错。\n- 未知枚举进「其他」还是阻断，要产品定。\n- 时区只转一次，文档写清「存的是哪区」。",
+              "title": "类型与空值",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：源端 amount 是字符串，status 大小写混乱。\n- **目标**：统一类型、枚举大小写与空值策略。\n- **先修**：CDC → 下一课：去重\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **标准化**：类型、命名、码值、时区。\n- **空值**：保留、填充或拒绝，要写进契约。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\nSELECT\n  order_id,\n  user_id,\n  CAST(amount AS DECIMAL(18,2)) AS amount,\n  LOWER(status) AS status,\n  created_at\nFROM orders;\n```\n\n### 查询结果\n\n类型统一；status 小写。\n\n### 用在哪\n\n1. staging 层  2. dbt staging\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 静默 CAST 失败变 NULL | 监控坏行 |\n| 随意 fillna(0) | 语义错 | 按指标定 |\n\n\n\n### 教义深讲\n\n围绕「类型与空值」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n对 city NULL：填「未知」还是保留？写选择。",
               "children": []
             },
             {
               "id": "etl-dedup",
               "title": "去重取最新",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：同一业务键保留一条「最新」快照，去掉重放与乱序。\n- **常用**：`ROW_NUMBER` + 排序决胜列。\n\n### 怎么写\n\n```sql\nSELECT *\nFROM (\n  SELECT\n    o.*,\n    ROW_NUMBER() OVER (\n      PARTITION BY order_id\n      ORDER BY updated_at DESC, ingest_id DESC\n    ) AS rn\n  FROM staging.orders_raw o\n  WHERE dt = '{{ ds }}'\n) t\nWHERE rn = 1;\n```\n\n### 用在哪\n\n1. **增量窗口重叠去重**。\n2. **CDC 乱序压快照**。\n3. **API 重试导致的重复页**。\n\n### 注意啥\n\n- 排序键必须稳定，否则重跑结果漂移。\n- 去重粒度要等于目标表粒度。\n- 删除事件不要被「旧更新」覆盖回来。",
+              "content": "### 课前\n\n- **场景**：事件表 102 的 paid 重复，入仓会双计。\n- **目标**：按业务键 ROW_NUMBER 取权威行。\n- **先修**：类型空值 → 下一课：维表关联\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norder_events。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **去重**：同一业务键只留一条权威记录。\n- **决胜列**：时间 + 自增 id。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\nSELECT event_id, order_id, event_type, event_time FROM (\n  SELECT e.*, ROW_NUMBER() OVER (\n    PARTITION BY order_id, event_type\n    ORDER BY event_time ASC, event_id ASC) rn\n  FROM order_events e\n) t WHERE rn = 1;\n```\n\n### 查询结果\n\n102+paid 仅留较早 event_id。\n\n### 用在哪\n\n1. CDC 落地  2. 重复报文  3. 对照 SQL 去重金课\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| DISTINCT * | 业务键仍重 |\n| 无决胜列 | 结果不稳 |\n\n\n\n### 教义深讲\n\n围绕「去重取最新」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n改成取**最新**事件（ORDER BY DESC）。",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
         },
         {
           "id": "etl-enrich",
           "title": "关联与历史",
           "level": "??",
-          "content": "### 关联与历史 · 章节导读\n\n**学习目标**：维表补全与 SCD 保留历史。",
+          "content": "### 关联与历史 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-dim-join",
               "title": "维表关联",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：事实补上维度属性（用户等级、类目等），形成可分析宽/明细。\n- **原则**：关联键稳定；防一对多爆炸。\n\n### 怎么写\n\n```sql\nSELECT\n  f.order_id, f.user_id, f.amount,\n  u.city, u.vip_level\nFROM dwd.orders_di f\nLEFT JOIN dim_user_df u\n  ON f.user_id = u.user_id AND u.dt = '{{ ds }}'\nWHERE f.dt = '{{ ds }}';\n```\n\n### 用在哪\n\n1. **DWD/DWS 轻度退化维**。\n2. **报表宽表预关联**。\n3. **质量：LEFT 后维空率监控**。\n\n### 注意啥\n\n- 维表当日未就绪会大面积 NULL。\n- 多对多维必须先聚合。\n- 历史分析要用拉链表按业务时间点取维。",
+              "content": "### 课前\n\n- **场景**：事实要带城市，但直接 JOIN 明细会炸 GMV。\n- **目标**：先定粒度；维关联用键；一对多先聚合。\n- **先修**：去重 → 下一课：SCD\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders ⋈ users；orders ⋈ items。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **关联**：补维度属性。\n- **纪律**：防 JOIN 爆炸（先聚合 items）。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 安全：订单头 + 用户\nSELECT o.order_id, o.amount, u.city\nFROM orders o\nLEFT JOIN users u ON u.user_id=o.user_id\nWHERE o.status='paid';\n\n-- 危险对照：先 JOIN items 再 SUM(amount)\n-- 正确：items 先 COUNT 再关联\n```\n\n### 查询结果\n\n城市补全；金额不被 items 放大。\n\n### 用在哪\n\n1. DWD 宽出  2. 特征拼接\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 多事实互 JOIN 再 SUM | 分过程汇总 |\n| 丢失维用 inner | 视需求 left |\n\n\n\n### 教义深讲\n\n围绕「维表关联」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n写出 sku_cnt 关联的正确 SQL。",
               "children": []
             },
             {
               "id": "etl-scd",
               "title": "SCD 拉链",
               "level": "???",
-              "content": "### 是什么\n\n- **一句话定义**：保留维度历史版本（生效/失效时间）。\n- **核心要素**：surrogate key、valid_from/to、is_current。\n\n### 怎么写\n\n```sql\n-- 简化：关闭旧版 + 插入新版\nUPDATE dim_user\nSET valid_to = CURRENT_DATE, is_current = 0\nWHERE user_biz_id = :id AND is_current = 1;\n\nINSERT INTO dim_user (sk, user_biz_id, city, valid_from, valid_to, is_current)\nVALUES (:sk, :id, :city, CURRENT_DATE, DATE '9999-12-31', 1);\n```\n\n### 用在哪\n\n1. **用户属性历史**。\n2. **商品类目变更**。\n3. **组织架构演进**。\n\n### 注意啥\n\n- 业务键必须稳定。\n- 同日多变要定规则（末态 / 多版本）。\n- 查询事实必须带「业务发生时点」取维。",
+              "content": "### 课前\n\n- **场景**：用户城市变更，历史报表要旧值。\n- **目标**：掌握 SCD1/SCD2；ETL 日批闭链插入。\n- **先修**：维表关联 → 下一课：分区覆盖\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers / users_scd2。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **SCD1** 覆盖；**SCD2** 拉链表保留历史。\n- **ETL 步骤**：比对自然键 → 闭链 → 插新版本。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- SCD2 变更日伪代码\n-- 1) 今日快照 vs is_current=1\n-- 2) 有变化：UPDATE SET valid_to=:ds, is_current=0\n-- 3) INSERT 新版本 is_current=1, valid_from=:ds\n-- 详见数仓「SCD2」课同构示例\n```\n\n### 查询结果\n\n点时间可查到变更前城市。\n\n### 用在哪\n\n1. 维表日批  2. 审计  3. 对接数仓 SCD 课\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 不闭链 | 多 current |\n| 事实未存代理键/版本 | 无法时光旅行 |\n\n\n\n### 教义深讲\n\n围绕「SCD 拉链」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n判断手机号纠错用 SCD1 还是 2。",
+              "children": []
+            },
+            {
+              "id": "etl-pii-mask",
+              "title": "脱敏与合规",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：手机号不能明文进分析域。\n- **目标**：在变换层哈希/掩码；权限最小化。\n- **先修**：SCD → 装载 或 高级清单\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n假设 users 有 phone 字段（示意）。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **脱敏**：不可逆哈希或掩码。\n- **位置**：尽早在进入广泛可访问层前处理。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 示意\n-- SELECT user_id, SHA2(phone,256) AS phone_hash FROM users;\nSELECT user_id, user_name FROM users; -- 样例库无手机号，强调原则\n```\n\n### 查询结果\n\n分析域不可见明文敏感列。\n\n### 用在哪\n\n1. 合规  2. 出域共享  3. 开发环境\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 日志打印明文 | 打码 |\n| 可逆加密当脱敏 | 密钥即泄露 |\n\n\n\n### 教义深讲\n\n围绕「脱敏与合规」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n列出本样例中若新增身份证号应落在哪一层脱敏。",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
         }
       ]
     },
     {
       "id": "etl-load",
       "title": "装载 Load",
-      "level": "?",
-      "content": "### 装载 Load\n\n写入目标要幂等：同一分区多跑一次结果不变。",
+      "level": "??",
+      "content": "### 装载\n\n覆盖、MERGE、幂等。",
       "children": [
         {
           "id": "etl-load-patterns",
           "title": "写入模式",
           "level": "??",
-          "content": "### 写入模式 · 章节导读\n\n**学习目标**：分清 overwrite、append、MERGE。",
+          "content": "### 写入模式 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-overwrite",
               "title": "分区覆盖",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：按分区整体替换当日（或当小时）数据。\n- **价值**：天然幂等，重跑不堆重复行。\n\n### 怎么写\n\n```sql\nINSERT OVERWRITE TABLE dwd.orders_di PARTITION (dt='{{ ds }}')\nSELECT *\nFROM staging.orders_clean\nWHERE dt = '{{ ds }}';\n```\n\n### 用在哪\n\n1. **日事实表**。\n2. **可按 dt 重算的汇总**。\n3. **回填某日分区**。\n\n### 注意啥\n\n- 分区键写错会覆盖错分区。\n- 动态分区开启时严控源数据 dt。\n- 小文件过多要合并。",
+              "content": "### 课前\n\n- **场景**：同一天任务重跑，不能越跑行越多。\n- **目标**：用分区 OVERWRITE 保证日批幂等。\n- **先修**：转换 → 下一课：MERGE\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\ndt='2024-01-07' 的支付明细。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **覆盖**：替换某分区全部内容。\n- **幂等**：同一 dt 多次跑结果相同。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 示意\nINSERT OVERWRITE TABLE dwd_trade_pay_di PARTITION (dt='2024-01-07')\nSELECT order_id, user_id, COALESCE(amount,0) AS pay_amt, created_at\nFROM orders\nWHERE status='paid'\n  AND created_at >= '2024-01-07'\n  AND created_at <  '2024-01-08';\n```\n\n### 查询结果\n\n该分区仅含窗口内支付单；重跑不追加。\n\n### 用在哪\n\n1. 日事实表  2. 回填单日\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| INSERT INTO 无分区 | 重复 | OVERWRITE/MERGE |\n| 覆盖错分区 | 丢历史 | 严格 dt 参数 |\n\n\n\n### 教义深讲\n\n围绕「分区覆盖」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n回填 01-02 时，作业参数应如何传？",
               "children": []
             },
             {
               "id": "etl-merge-upsert",
               "title": "MERGE/Upsert",
               "level": "???",
-              "content": "### 是什么\n\n- **一句话定义**：按键匹配：有则更新、无则插入（可处理删除）。\n- **适用**：变更维、近实时快照表。\n\n### 怎么写\n\n```sql\nMERGE INTO dwd.user_snapshot t\nUSING staging.user_delta s\nON t.user_id = s.user_id\nWHEN MATCHED AND s.op = 'd' THEN DELETE\nWHEN MATCHED THEN UPDATE SET\n  t.city = s.city, t.updated_at = s.updated_at\nWHEN NOT MATCHED AND s.op <> 'd' THEN INSERT *;\n```\n\n### 用在哪\n\n1. **CDC 落地快照**。\n2. **缓慢变化的当前维**。\n3. **需要按键纠错的主题表**。\n\n### 注意啥\n\n- 源侧同键多变更要先压成末态。\n- 引擎对 MERGE 性能与并发限制不同。\n- 仍建议可按批次回放验证。",
+              "content": "### 课前\n\n- **场景**：订单状态会变，目标表要按主键更新或插入。\n- **目标**：理解 MERGE 匹配更新/未匹配插入。\n- **先修**：分区覆盖 → 下一课：幂等写入\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders 主键 order_id。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **Upsert**：有则更新，无则插入。\n- **方言**：MERGE INTO / ON DUPLICATE / ON CONFLICT。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- SQL 标准示意\n-- MERGE INTO dwd_orders t\n-- USING staging_orders s ON t.order_id=s.order_id\n-- WHEN MATCHED THEN UPDATE SET status=s.status, amount=s.amount\n-- WHEN NOT MATCHED THEN INSERT (...);\n\n-- MySQL 教程库近似\nINSERT INTO orders (order_id,user_id,amount,status,created_at)\nVALUES (104,2,50.00,'paid','2024-01-01 12:00:00')\nON DUPLICATE KEY UPDATE status=VALUES(status), amount=VALUES(amount);\n```\n\n### 查询结果\n\n104 若存在则状态更新为 paid。\n\n### 用在哪\n\n1. 变更维/快照表  2. CDC 落地\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 无唯一键 MERGE | 语义乱 | 先建主键 |\n| 更新列写漏 | 静默旧值 | 明确 SET 列表 |\n\n\n\n### 教义深讲\n\n围绕「MERGE/Upsert」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n对比：日分区事实为何更常用 OVERWRITE 而不是 MERGE？",
               "children": []
-            }
-          ],
-          "lessonParent": true
-        },
-        {
-          "id": "etl-idempotent",
-          "title": "幂等落地",
-          "level": "??",
-          "content": "### 幂等落地 · 章节导读\n\n**学习目标**：设计「重跑安全」的装载。",
-          "children": [
+            },
             {
               "id": "etl-idempotent-write",
               "title": "幂等写入",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：同一输入分区执行任意次，目标结果一致。\n- **手段**：分区覆盖、先 staging 再交换、按批次号去重。\n\n### 怎么写\n\n```sql\n-- 模式：写 staging → 校验 → 原子替换分区\nINSERT OVERWRITE TABLE staging.orders_di PARTITION (dt='{{ ds }}')\nSELECT ...;\n\n-- 质量通过后再\nINSERT OVERWRITE TABLE dwd.orders_di PARTITION (dt='{{ ds }}')\nSELECT * FROM staging.orders_di WHERE dt='{{ ds }}';\n```\n\n### 用在哪\n\n1. **调度自动重试**。\n2. **人工回填**。\n3. **蓝绿/双写切换**。\n\n### 注意啥\n\n- append-only 无去重 = 重跑翻倍。\n- 跨表事务能力因引擎而异，用「分区可见性」模拟原子。\n- 元数据水位仅在成功后推进。",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：任务成功但 ack 丢了，调度重跑一次。\n- **目标**：设计「同一输入多次执行结果不变」。\n- **先修**：MERGE → 下一课：行数波动\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n分区覆盖 / 去重装载。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **幂等**：重试安全。\n- **手段**：覆盖分区、目标先删后插、幂等键去重。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 模式 A：覆盖分区（见上）\n-- 模式 B：写入前删除窗口\n-- DELETE FROM dwd_trade_pay_di WHERE dt='2024-01-07';\n-- INSERT INTO ... SELECT ...;\n```\n\n### 查询结果\n\n重跑后 COUNT 不变。\n\n### 用在哪\n\n1. 自动重试  2. 回填  3. Exactly-once 近似\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 纯追加 | 重复 | 覆盖/去重 |\n| 依赖「刚好跑一次」 | 必炸 | 幂等设计 |\n\n\n\n### 教义深讲\n\n围绕「幂等写入」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n事件装载如何用 (order_id,event_type) 做幂等？",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
         }
       ]
     },
     {
       "id": "etl-quality",
-      "title": "过程质量",
-      "level": "?",
-      "content": "### 过程质量\n\n装载后校验，防止脏数据扩散到看板与模型。",
+      "title": "质量门禁",
+      "level": "??",
+      "content": "### 质量门禁\n\n装载后、消费前。",
       "children": [
         {
           "id": "etl-checks",
           "title": "校验清单",
           "level": "??",
-          "content": "### 校验清单 · 章节导读\n\n**学习目标**：行数、唯一、空值、金额对账形成门禁。",
+          "content": "### 校验清单 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-rowcount",
-              "title": "行数与空值",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：对比源/目标行数与关键空值率。\n- **核心要素**：count、null_rate、波动阈值。\n\n### 怎么写\n\n```sql\nSELECT\n  COUNT(*) AS cnt,\n  AVG(CASE WHEN user_id IS NULL THEN 1 ELSE 0 END) AS null_user\nFROM dwd.orders_di\nWHERE dt = '{{ ds }}';\n```\n\n### 用在哪\n\n1. **日任务门禁**。\n2. **回刷验证**。\n3. **事故定位**。\n\n### 注意啥\n\n- 阈值按表分级（核心严、日志松）。\n- 只告警不阻断会堆技术债。\n- 与分区裁剪一起看，防扫错分区。",
+              "title": "行数与波动",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：今日分区行数骤降 80%，可能抽空了。\n- **目标**：做行数阈值/环比检查并告警。\n- **先修**：幂等 → 下一课：主键唯一\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n按日计数思维。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **波动检测**：相对昨日/上周。\n- **动作**：超阈阻断下游。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\nSELECT DATE(created_at) dt, COUNT(*) cnt\nFROM orders GROUP BY 1 ORDER BY 1;\n-- 规则示意：|cnt_today/cnt_yday - 1| > 0.5 → fail\n```\n\n### 查询结果\n\n样例各日行数可见；规则在生产配阈值。\n\n### 用在哪\n\n1. 晨检  2. 门禁\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 大促当异常 | 动态基线 |\n| 只告警不阻断 | 脏数下流 |\n\n\n\n### 教义深讲\n\n围绕「行数与波动」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 paid 金额 SUM 也设一个波动规则。",
               "children": []
             },
             {
               "id": "etl-unique-pk",
               "title": "主键唯一",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：目标粒度上业务键不得重复。\n- **失败含义**：去重失效或粒度声明错误。\n\n### 怎么写\n\n```sql\nSELECT order_id, COUNT(*) AS c\nFROM dwd.orders_di\nWHERE dt = '{{ ds }}'\nGROUP BY order_id\nHAVING COUNT(*) > 1;\n```\n\n### 用在哪\n\n1. **dbt unique 测试**。\n2. **上线前回归**。\n3. **JOIN 爆炸排查**。\n\n### 注意啥\n\n- 复合主键要整组唯一。\n- 允许「最新一行」的表应用 rn=1 后再测。\n- 重复行要抽样看冲突字段。",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：事实表出现重复 order_id，指标翻倍。\n- **目标**：装载后断言主键唯一。\n- **先修**：行数波动 → 下一课：源仓对账\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders.order_id。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **唯一性**：主键 COUNT=COUNT DISTINCT。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\nSELECT order_id, COUNT(*) c\nFROM orders\nGROUP BY order_id\nHAVING COUNT(*) > 1;\n-- 期望空\n```\n\n### 查询结果\n\n样例无重复主键。\n\n### 用在哪\n\n1. dbt unique 测试  2. DQ 平台\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 复合键漏测 | 整键测试 |\n| 去重掩盖根因 | 先修抽取 |\n\n\n\n### 教义深讲\n\n围绕「主键唯一」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 order_items 写复合主键唯一测试。",
               "children": []
             },
             {
               "id": "etl-recon",
-              "title": "金额对账",
-              "level": "???",
-              "content": "### 是什么\n\n- **一句话定义**：源与目标在同一口径下比对 SUM/COUNT。\n- **核心**：时间窗、状态过滤、币种一致。\n\n### 怎么写\n\n```sql\n-- 源\nSELECT SUM(amount) FROM src.orders\nWHERE status='paid' AND DATE(pay_at)='{{ ds }}';\n-- 仓\nSELECT SUM(amount) FROM dwd.orders_di\nWHERE dt='{{ ds }}' AND status='paid';\n```\n\n### 用在哪\n\n1. **财务/经营核心指标**。\n2. **迁移切换验收**。\n3. **重大回填后签字**。\n\n### 注意啥\n\n- 时区与「下单日 vs 支付日」必须对齐。\n- 允许误差要有书面阈值。\n- 对不上先查过滤条件，再查重复。",
+              "title": "源仓对账",
+              "level": "??",
+              "content": "### 课前\n\n- **场景**：财务说 GMV 少了，要证明抽转装没错。\n- **目标**：源与目标金额/笔数闭合。\n- **先修**：主键唯一 → 下一课：DAG\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n源 orders vs 目标汇总。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **对账**：同源指标在两端一致（允许已知差异清单）。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\nSELECT 'source' AS side, SUM(COALESCE(amount,0)) gmv, COUNT(*) cnt\nFROM orders WHERE status='paid'\nUNION ALL\nSELECT 'target', SUM(gmv), SUM(pay_cnt) FROM (\n  SELECT user_id, SUM(COALESCE(amount,0)) gmv, COUNT(*) pay_cnt\n  FROM orders WHERE status='paid' GROUP BY user_id\n) t;\n```\n\n### 查询结果\n\n两侧 gmv/cnt 一致。\n\n### 用在哪\n\n1. 上线验收  2. 事故定位  3. 对数仓对账课\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 只对行数不对金额 | 双对 |\n| 时区窗口不一致 | 统一窗口 |\n\n\n\n### 教义深讲\n\n围绕「源仓对账」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n列出 3 条「允许的差异」例（如时区、剔除测试单）。",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
         }
       ]
     },
     {
       "id": "etl-schedule",
       "title": "调度与运维",
-      "level": "?",
-      "content": "### 调度与运维\n\n依赖、重试、SLA、回填——管道要可值班。",
+      "level": "???",
+      "content": "### 调度与运维\n\nDAG、重试、回填。",
       "children": [
         {
           "id": "etl-orchestrate",
           "title": "编排基础",
-          "level": "??",
-          "content": "### 编排基础 · 章节导读\n\n**学习目标**：用 DAG 表达抽→转→装→测。",
+          "level": "???",
+          "content": "### 编排基础 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-dag",
               "title": "DAG 依赖",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：任务按有向无环图排队，上游成功才跑下游。\n- **典型链**：extract → transform → load → test → publish。\n\n### 怎么写\n\n```python\n# Airflow 示意\nextract >> transform >> load >> quality_check >> expose\n```\n\n### 用在哪\n\n1. **日批主题链路**。\n2. **跨队表依赖**。\n3. **质量阻断发布**。\n\n### 注意啥\n\n- 避免隐式时间依赖（「差不多 6 点就有」）。\n- 扇出过大要拆层，便于局部重跑。\n- 循环依赖是设计错误。",
+              "content": "### 课前\n\n- **场景**：转换跑在抽取完成前，读到半成品。\n- **目标**：用 DAG 表达依赖：抽→转→装→测。\n- **先修**：对账 → 下一课：重试告警\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n订单日批链路。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **DAG**：有向无环依赖图。\n- **边**：上游成功才下游。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```python\n# Airflow 示意\n# extract_orders >> transform_dwd >> dq_tests >> publish_ads\n# extract_users  >> transform_dwd\nprint('extract_orders, extract_users -> transform_dwd -> dq -> ads')\n```\n\n### 查询结果\n\n用户与订单都到齐才转换。\n\n### 用在哪\n\n1. Airflow/Dagster  2. 仓内作业依赖\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 全靠时间碰运气 | 显式依赖 |\n| 环依赖 | 拆层 |\n\n\n\n### 教义深讲\n\n围绕「DAG 依赖」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n画：CDC 流与日批对账如何汇合。",
               "children": []
             },
             {
               "id": "etl-retry-alert",
               "title": "重试与告警",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：瞬时失败自动重试；持续失败升级人。\n- **要素**：次数、间隔、告警渠道、值班人。\n\n### 怎么写\n\n```text\nretries: 2\nretry_delay: 5min\non_failure: 企业微信/电话 → @表 Owner\n```\n\n### 用在哪\n\n1. **源库抖动**。\n2. **资源排队超时**。\n3. **SLA 将破线升级**。\n\n### 注意啥\n\n- 非幂等任务慎侧重试。\n- 告警要可行动（带分区、日志链接）。\n- 避免「刷屏告警」导致忽略。",
+              "content": "### 课前\n\n- **场景**：源库抖动导致任务偶发失败。\n- **目标**：配置有限重试 + 失败告警；依赖幂等。\n- **先修**：DAG → 下一课：回填\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n任意抽数任务。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **重试**：暂时性错误可恢复。\n- **告警**：永久性失败人工介入。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```python\n# retries=2, retry_delay=5min\n# on_failure_callback → 飞书/电话\n# 前提：写入幂等\nprint('retry only if idempotent')\n```\n\n### 查询结果\n\n瞬时失败自动恢复；连续失败叫人。\n\n### 用在哪\n\n1. 夜间批  2. API 限流\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 非幂等狂重试 | 重复数据 |\n| 告警无路由 | 无人理 |\n\n\n\n### 教义深讲\n\n围绕「重试与告警」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n哪些错误不该重试？举 2 例。",
               "children": []
             },
             {
               "id": "etl-backfill",
               "title": "回填 Backfill",
               "level": "???",
-              "content": "### 是什么\n\n- **一句话定义**：按历史分区区间重放任务，补齐或修正数据。\n- **前提**：逻辑幂等 + 分区可覆盖。\n\n### 怎么写\n\n```bash\n# 示意：回填一周\nairflow dags backfill shop_orders --start-date 2024-01-01 --end-date 2024-01-07\n```\n\n### 用在哪\n\n1. **口径变更重算**。\n2. **故障日补数**。\n3. **新表历史灌入**。\n\n### 注意啥\n\n- 控制并发，防打爆源与仓。\n- 先小范围试跑再全量。\n- 回填后跑对账与下游通知。",
+              "content": "### 课前\n\n- **场景**：口径改了，要重刷过去 30 天分区。\n- **目标**：按 dt 回填；控制并发；冻结水位策略。\n- **先修**：重试 → 下一课：ETL vs ELT\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n历史 dt 列表。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **回填**：对历史分区重跑。\n- **风险**：与增量并发、打满源/仓。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```python\n-- 对每个 ds in 历史:\n-- INSERT OVERWRITE ... PARTITION(dt=ds) SELECT ... WHERE dt窗口=ds;\nprint('backfill day by day; overwrite per dt')\n```\n\n### 查询结果\n\n各历史 dt 结果与新口径一致。\n\n### 用在哪\n\n1. 口径变更  2. 修数  3. 补数\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 巨型并发回填 | 打崩 |\n| 回填改水位乱序 | 锁窗口 |\n\n\n\n### 教义深讲\n\n围绕「回填 Backfill」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n回填时增量任务应暂停还是跳过冲突 dt？给方案。",
+              "children": []
+            },
+            {
+              "id": "etl-late-data",
+              "title": "迟到数据",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：订单 1 号创建，3 号才进库，日批已关窗。\n- **目标**：设计补数窗口与重述（restate）策略。\n- **先修**：回填 → 高级/ELT\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n水位与业务时间不一致。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **迟到**：事件时间晚于处理时间。\n- **策略**：延长 lookback、定期重述近 N 天、流上允许乱序水印。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 每日增量额外 lookback 2 天\nSELECT * FROM orders\nWHERE created_at >= :batch_end - INTERVAL 2 DAY\n  AND created_at <  :batch_end;\n-- 目标仍按 dt 覆盖，吸收迟到\n```\n\n### 查询结果\n\n迟到单在后续日被覆盖进正确业务日或修订日（按口径定）。\n\n### 用在哪\n\n1. 跨时区  2. 源延迟  3. 流批一体\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| lookback=0 | 永久漏 |\n| 无限 lookback | 成本爆 |\n\n\n\n### 教义深讲\n\n围绕「迟到数据」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为支付 GMV 选 lookback=1 还是 3？说明业务理由。",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
         }
       ]
     },
     {
       "id": "etl-elt",
       "title": "ETL vs ELT",
-      "level": "?",
-      "content": "### ETL vs ELT\n\n变换发生在入仓前还是入仓后，决定工具与职责切分。",
+      "level": "??",
+      "content": "### ETL vs ELT\n\n算力与合规决定形态。",
       "children": [
         {
           "id": "etl-vs-elt",
           "title": "形态对比",
           "level": "??",
-          "content": "### 形态对比 · 章节导读\n\n**学习目标**：能按合规与算力选择 ETL 或 ELT。",
+          "content": "### 形态对比 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-classic",
               "title": "经典 ETL",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：在源外/中间层完成转换，再加载到目标仓。\n- **特点**：入仓即较干净；中间算力独立。\n\n### 怎么写\n\n```text\n源库 → DataX/脚本清洗 → 数仓主题表\n```\n\n### 用在哪\n\n1. **必须脱敏后才能落仓**。\n2. **目标仓算力弱**。\n3. **传统数仓工具链**。\n\n### 注意啥\n\n- 转换逻辑分散在多脚本，难测试。\n- 迭代慢，分析师不好改。\n- 仍要质量门禁。",
+              "content": "### 课前\n\n- **场景**：源端不能出明文，必须先脱敏再入仓。\n- **目标**：理解源外/中间层先变换再加载。\n- **先修**：调度 → 下一课：现代 ELT\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n合规约束场景。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **ETL**：Extract → Transform → Load。\n- **适合**：强脱敏、目标仓弱、传统数仓工具链。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 中间层清洗后再装\n-- staging_clean = transform(extract(source))\n-- load(warehouse, staging_clean)\nSELECT order_id, user_id, COALESCE(amount,0) amount, status\nFROM orders WHERE status='paid';\n```\n\n### 查询结果\n\n入仓已是干净可消费结构。\n\n### 用在哪\n\n1. 合规前置  2. DataX 清洗  3. 老数仓\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 变换逻辑散落脚本 | 难测 | 版本化 |\n| 与 ELT 对立宗教化 | 按约束选 |\n\n\n\n### 教义深讲\n\n围绕「经典 ETL」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n举一个必须 ETL 不能 ELT 的合规例子。",
               "children": []
             },
             {
               "id": "etl-modern-elt",
               "title": "现代 ELT",
               "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：近原始入湖/仓，用仓算力 + SQL/dbt 变换。\n- **分层**：staging → intermediate → mart。\n\n### 怎么写\n\n```sql\n-- dbt staging 示意\nSELECT\n  order_id,\n  user_id,\n  CAST(amount AS DECIMAL(18,2)) AS amount,\n  LOWER(status) AS status,\n  created_at\nFROM {{ source('ods', 'orders') }}\nWHERE amount IS NOT NULL;\n```\n\n### 用在哪\n\n1. **云仓 / 强 SQL 引擎**。\n2. **分析师迭代模型**。\n3. **测试与文档跟代码走**。\n\n### 注意啥\n\n- 原始层权限与成本要管。\n- 合规不允许落明文时不能硬 ELT。\n- mart 层仍要指标口径治理。",
+              "content": "### 课前\n\n- **场景**：云仓算力强，分析师要用 SQL 迭代模型。\n- **目标**：先近原始落地，再用 dbt/SQL 变换。\n- **先修**：经典 ETL → 下一课：工具选型\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nODS 贴源 + dbt staging/mart。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **ELT**：Extract → Load → Transform（仓内）。\n- **适合**：Snowflake/BQ/Doris 等；dbt 测试文档。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- Load 近原始后\n-- dbt: staging → intermediate → mart\nSELECT user_id, SUM(COALESCE(amount,0)) gmv\nFROM orders WHERE status='paid'\nGROUP BY user_id;\n```\n\n### 查询结果\n\n变换在仓内完成；版本与测试可放在 git。\n\n### 用在哪\n\n1. 云仓  2. 分析师自助  3. 快速迭代\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 原始层无治理 | 湖变沼泽 | 分层+DQ |\n| 忽略成本 | 扫爆 | 分区/物化 |\n\n\n\n### 教义深讲\n\n围绕「现代 ELT」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n本教程样例用 ELT 时，ODS 与 DWD 分别谁写？",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
         }
       ]
     },
     {
       "id": "etl-tools",
       "title": "工具选型",
-      "level": "?",
-      "content": "### 工具选型\n\n编排、变换、接入、流批——先匹配场景再选品牌。",
+      "level": "???",
+      "content": "### 工具选型\n\n编排、变换、抽取各司其职。",
       "children": [
         {
           "id": "etl-tool-map",
           "title": "选型地图",
-          "level": "??",
-          "content": "### 选型地图 · 章节导读\n\n**学习目标**：知道 Airflow / dbt / CDC / DataX 各解决哪一段。",
+          "level": "???",
+          "content": "### 选型地图 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
           "children": [
             {
               "id": "etl-tool-airflow",
               "title": "编排 Airflow",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：用 DAG 调度依赖任务、重试与 SLA。\n- **不负责**：替代 SQL 变换引擎本身。\n\n### 怎么写\n\n```python\nwith DAG('orders_daily', schedule='@daily') as dag:\n    extract >> transform >> load >> test\n```\n\n### 用在哪\n\n1. **批管道总控**。\n2. **跨系统依赖**。\n3. **回填与告警**。\n\n### 注意啥\n\n- DAG 过胖难维护，按域拆。\n- 业务逻辑尽量下沉到 dbt/SQL。\n- Worker 资源与并发配额。",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：要用依赖、重试、回填管住日批。\n- **目标**：知道 Airflow 管调度不是变换引擎。\n- **先修**：ELT → 下一课：dbt\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nDAG：抽→转→测。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **定位**：编排与运维。\n- **不负责**：替代 SQL 引擎。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```python\n# from airflow import DAG\n# with DAG('etl_orders', schedule='@daily') as dag:\n#     extract >> transform >> dq\nprint('Airflow = orchestrate')\n```\n\n### 查询结果\n\n按时触发且依赖正确。\n\n### 用在哪\n\n1. 批调度  2. 回填  3. SLA 传感器\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 在 Operator 里写巨逻辑 | 下沉脚本/dbt |\n| 不管幂等 | 重试翻倍 |\n\n\n\n### 教义深讲\n\n围绕「编排 Airflow」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\nAirflow 与仓内定时哪个做「抽数」更合适？",
               "children": []
             },
             {
               "id": "etl-tool-dbt",
               "title": "变换 dbt",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：用 SQL + 版本管理做仓内变换、测试与文档。\n- **核心**：model、source、test、ref。\n\n### 怎么写\n\n```sql\n-- models/marts/fct_orders.sql\nSELECT *\nFROM {{ ref('int_orders_enriched') }}\nWHERE status = 'paid'\n```\n\n### 用在哪\n\n1. **ELT 仓内建模**。\n2. **指标 mart 发布**。\n3. **CI 跑 data test**。\n\n### 注意啥\n\n- 不替代抽取与调度。\n- 模型依赖图要清晰。\n- 大模型注意物化策略（table/incremental）。",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：希望 SQL 模型有测试、文档与血缘。\n- **目标**：理解 dbt：仓内 ELT 变换框架。\n- **先修**：Airflow → 下一课：CDC 工具\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nstaging/mart 模型。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **定位**：Transform as Code。\n- **能力**：ref、test、docs、建血缘。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- models/marts/fct_pay.sql 示意\nSELECT order_id, user_id, COALESCE(amount,0) AS pay_amt, created_at\nFROM {{ ref('stg_orders') }}\nWHERE status = 'paid';\n-- schema.yml: unique order_id / not_null user_id\n```\n\n### 查询结果\n\n模型可编译运行；测试失败阻断。\n\n### 用在哪\n\n1. ELT 主力  2. 指标下沉  3. 协作\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 当抽取工具 | 配 Airbyte/CDC |\n| 无测试 | 补 unique/not_null |\n\n\n\n### 教义深讲\n\n围绕「变换 dbt」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 gmv mart 写两条 dbt test 点子。",
               "children": []
             },
             {
               "id": "etl-tool-ingest",
-              "title": "接入与 CDC",
-              "level": "??",
-              "content": "### 是什么\n\n- **一句话定义**：Airbyte/DataX 等做批接入；Flink CDC/Debezium 做变更流。\n- **选型**：异构批导 vs 近实时库表。\n\n### 怎么写\n\n```text\n批：业务库 --DataX/Airbyte--> ODS\n流：binlog --Flink CDC--> Kafka/湖仓\n```\n\n### 用在哪\n\n1. **多源快速接入**。\n2. **国产异构库同步**。\n3. **近实时主题**。\n\n### 注意啥\n\n- 工具默认映射仍要契约与测试。\n- CDC 运维成本高于日批。\n- 画布「工具列表」可对照各引擎卡片。",
+              "title": "同步与 CDC 工具",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：要把 MySQL 同步到仓/湖，可选 DataX / Airbyte / Debezium。\n- **目标**：按批/流与运维成本选型。\n- **先修**：dbt → 练习场\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders 源。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n| 类型 | 例子 | 适合 |\n|---|---|---|\n| 批同步 | DataX / 仓库 COPY | 文件/大表窗口 |\n| 标准连接器 | Airbyte / Fivetran | SaaS/快速接入 |\n| 日志 CDC | Debezium / Flink CDC | 近实时 |\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 批：增量 SQL 抽（DataX reader 亦可）\nSELECT * FROM orders WHERE created_at >= :wm;\n-- 流：CDC 订阅 binlog（工具侧配置）\n```\n\n### 查询结果\n\n选对工具后仍要分层与 DQ。\n\n### 用在哪\n\n1. 接入加速  2. 实时  3. 异构源\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 只买工具不建模 | 湖沼泽 |\n| CDC 直写 ADS | 跳层 |\n\n\n\n### 教义深讲\n\n围绕「同步与 CDC 工具」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n本样例「订单状态近实时」优先哪类工具？",
+              "children": []
+            },
+            {
+              "id": "etl-tool-datax",
+              "title": "DataX 批同步",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：大表/文件窗口同步进仓，团队已有 DataX 作业规范。\n- **目标**：会配置 Reader/Writer 与速度限流；明白它不替代建模。\n- **先修**：同步总览 → Airbyte\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders 按水位增量抽到 ODS。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **定位**：阿里开源批同步框架，JSON 描述 Reader→Writer。\n- **擅长**：库表/文件大批量、可限流、可断点（视插件）。\n- **不擅长**：复杂变换、近实时 CDC（应配 Flink CDC/Debezium）。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- DataX 语义等价：增量 SQL Reader\nSELECT order_id, user_id, amount, status, created_at\nFROM orders\nWHERE created_at >  :last_wm\n  AND created_at <= :batch_end;\n-- Writer：写入 ods_orders_di 对应分区；成功后再推进水位\n```\n\n### 查询结果\n\nODS 窗口内行与源一致；失败不推进水位。\n\n### 用在哪\n\n1. 异构库同步  2. 数仓 ODS 进仓  3. 离线补数\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 变换全写在 DataX | 难测难版本 | 轻同步+仓内/脚本变换 |\n| 无限速打满源库 | 业务抖动 | channel/限流 |\n| 失败仍推进水位 | 丢数 | 先成功再推进 |\n\n\n\n### 教义深讲\n\n围绕「DataX 批同步」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 order_items 设计 DataX 增量字段：用什么做水位？",
+              "children": []
+            },
+            {
+              "id": "etl-tool-airbyte",
+              "title": "Airbyte 连接器",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：要快速把 SaaS/DB 接到仓，不想从零写连接器。\n- **目标**：理解 Airbyte：标准化 Extract，变换仍交给 dbt/仓。\n- **先修**：DataX → Flink CDC\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders 源 → 仓 ODS。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **定位**：开源数据移动平台，连接器目录化。\n- **模式**：全量+增量（视源）；落地原始层再 ELT。\n- **边界**：不是指标层；规范与 DQ 仍要自建。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- Airbyte 落地后仓内 staging（示意）\nCREATE VIEW stg_orders AS\nSELECT order_id, user_id, amount, status, created_at\nFROM raw_airbyte_orders\nWHERE _airbyte_active IS DISTINCT FROM false;\n-- 再由 dbt 生成 dwd_trade_pay_di\n```\n\n### 查询结果\n\nraw 可重同步；mart 由版本化 SQL 产出。\n\n### 用在哪\n\n1. 快速接入  2. 多源统一  3. 与 dbt 搭配\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| raw 直接给业务 | 口径乱 | 分层 |\n| 忽略 schema 漂移 | 任务挂 | 契约+告警 |\n| 当 CDC 银弹 | 源不支持 | 看连接器能力 |\n\n\n\n### 教义深讲\n\n围绕「Airbyte 连接器」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\nAirbyte 与 DataX 怎么分工？给本样例一句选型理由。",
+              "children": []
+            },
+            {
+              "id": "etl-tool-flink-cdc",
+              "title": "Flink CDC",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：订单状态要分钟级进仓，批窗口不够。\n- **目标**：理解 Flink CDC：读 binlog/WAL，流式入湖/仓。\n- **先修**：Airbyte → 血缘\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders 状态变更事件。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **定位**：基于 Flink 的 CDC，捕获行级变更（I/U/D）。\n- **适合**：近实时维表/事实、操作审计。\n- **纪律**：先入 ODS/变更层，再合流批；仍要幂等与去重。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 概念模型（非完整作业）\n-- source: mysql-cdc orders\n-- sink: ods_orders_cdc (op, before, after, ts)\n-- 日终：与批抽对账；DWD 读权威合并视图\nSELECT order_id, status, created_at\nFROM orders\nWHERE status = 'paid';\n```\n\n### 查询结果\n\n变更可订阅；与日批对账闭合。\n\n### 用在哪\n\n1. 近实时看板  2. 缓存失效  3. 微服务解耦读\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| CDC 直写 ADS | 难回放 | 分层 |\n| 无主键/无序保证 | 乱序覆盖 | 主键+事件时间 |\n| 不做批流对账 | 静默漂 | 日终闭合 |\n\n\n\n### 教义深讲\n\n围绕「Flink CDC」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\npaid 事件重复投递时，DWD 如何保持一单一行？",
               "children": []
             }
-          ],
-          "lessonParent": true
+          ]
+        }
+      ]
+    },
+    {
+      "id": "etl-meta",
+      "title": "血缘与发布",
+      "level": "???",
+      "content": "### 血缘与发布\n\n改一列之前先看谁在用；上线必须可回滚。",
+      "children": [
+        {
+          "id": "etl-meta-ops",
+          "title": "治理动作",
+          "level": "???",
+          "content": "### 治理动作 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
+          "lessonParent": true,
+          "children": [
+            {
+              "id": "etl-lineage",
+              "title": "数据血缘",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：改 orders.amount 空值语义，不知会砸哪些看板。\n- **目标**：会用表级/列级血缘做影响分析。\n- **先修**：工具选型 → 发布回滚\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\ndwd_trade_pay_di → dws_user_pay_gmv → ADS/BI。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **血缘**：数据从哪来、到哪去、经谁变换。\n- **用途**：变更评审、故障定界、合规审计。\n- **粒度**：作业/表级够排障；指标口径争议要到列/表达式。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 文档化血缘（最小可用）\n-- orders.amount\n--   -> dwd_trade_pay_di.pay_amt (COALESCE)\n--     -> dws_user_pay_gmv.gmv (SUM)\n--       -> ads_ops_daily / FineBI 经营日报\nSELECT 'orders.amount' AS src,\n       'dws_user_pay_gmv.gmv' AS downstream;\n```\n\n### 查询结果\n\n变更 amount 空值语义前能列出全部下游。\n\n### 用在哪\n\n1. 变更评审  2. 故障「从哪断」  3. 合规\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 只靠人口头 | 漏下游 | 工具+清单 |\n| 只有表级 | 口径仍不清 | 关键列补文档 |\n| 血缘从不更新 | 误导 | 与发布绑定 |\n\n\n\n### 教义深讲\n\n围绕「数据血缘」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n若删除 order_events 的重复 paid，列出至少两个受影响节点。",
+              "children": []
+            },
+            {
+              "id": "etl-publish",
+              "title": "发布与回滚",
+              "level": "???",
+              "content": "### 课前\n\n- **场景**：口径 SQL 周五上线，周一发现 GMV 全错。\n- **目标**：建立发布检查单与回滚点（版本/分区）。\n- **先修**：血缘 → 高级练习\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n替换 dwd 支付口径的一次发布。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/数仓一致）。\n\n### 是什么\n\n- **发布**：契约检查 → DQ → 小流量/对照 → 切换读。\n- **回滚**：保留上一版本表/分区或 Git 标签可重跑。\n- **冻结**：大促窗口限制高风险变更。\n\n**教义锚点**：先定主键、粒度、时间字段与成功判据，再写管道；没有验收标准的作业不算上线。\n\n### 怎么写\n\n**建议步骤**\n\n1. 对齐源表主键 / 水位 / 分区 dt  \n2. 按下述模板改到你的库表名  \n3. 用「查询结果」做行数或金额闭合  \n4. 对照易错表排除反模式后再排进 DAG  \n\n```sql\n-- 蓝绿示意：先写新版本表，对照后再切视图\n-- dwd_trade_pay_di_v2 计算完毕\n-- 对照：\nSELECT ABS(\n  (SELECT SUM(pay_amt) FROM dwd_trade_pay_di_v2 WHERE dt='2024-01-07')\n- (SELECT SUM(COALESCE(amount,0)) FROM orders WHERE status='paid'\n    AND created_at>='2024-01-07' AND created_at<'2024-01-08')\n) AS drift;\n-- drift 可接受再 ALTER VIEW 切换；异常则继续读 v1\n```\n\n### 查询结果\n\ndrift≈0 才切；出问题分钟级切回 v1。\n\n### 用在哪\n\n1. 口径变更  2. 大促保障  3. 事故恢复\n\n**上下游**：上游契约决定你能抽到什么；下游（DWD/ADS/BI）决定口径、SLA 与能否重跑。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 周五下午直接改生产 | 周末无人修 | 变更窗口 |\n| 无对照发布 | 静默错数 | 双边 diff |\n| 无法回滚 | 长故障 | 版本/视图切换 |\n\n\n\n### 教义深讲\n\n围绕「发布与回滚」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n写 5 条「支付 DWD 发布」检查项（含 DQ 与血缘）。",
+              "children": []
+            }
+          ]
         }
       ]
     }
@@ -10863,7 +11004,7 @@
   "id": "dwh-root",
   "title": "数据仓库",
   "level": "?",
-  "content": "### 数据仓库知识图谱\n\n四层结构：**领域 → 主题 → 知识点**（对齐 SQL）。\n\n1. **学习路径**：宪法与清单  \n2. **数仓是什么**：SSOT、主题域与集市  \n3. **数仓分层**：ODS→DWD→DWS→ADS  \n4. **维度建模**：粒度/形态/方法论/事实维/SCD  \n5. **加工与调度**：依赖、装载顺序、回刷、增量、对账  \n\n建议：先宪法与分层，再建模，最后调度与质量。",
+  "content": "### 数据仓库知识图谱\n\n1. 先打开 **学习路径 → 教程宪法**，对齐统一交易样例\n2. 吃透分层 ODS→ADS，再学星型建模与 SCD\n3. 最后做增量、对账与练习场\n\n交互：再点中心展开领域；叶子打开讲义。",
   "children": [
     {
       "id": "dwh-learning-path",
@@ -10875,14 +11016,14 @@
           "id": "dwh-constitution-sec",
           "title": "教程宪法",
           "level": "?",
-          "content": "### 教程宪法 · 章节导读\n\n统一样例如何映射到仓分层。点下方叶子打开全文。",
+          "content": "### 教程宪法 · 章节导读\n\n统一样例如何映射到仓分层。点下方叶子打开全文。\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-constitution",
               "title": "统一样例与课模板",
               "level": "?",
-              "content": "### 课前 · 这是什么\n\n本页是 **数据仓库教程公约**：分层、建模、增量与质量课共用同一业务域——与 SQL/Python/数据库同源的交易样例（`users` / `orders` / `order_items` / `order_events`）。先读本页，再按学习路径推进。\n\n### 统一业务域（贴到仓分层）\n\n| 源表（OLTP/样例） | 仓中典型落点 |\n|---|---|\n| `orders` / `order_items` / `order_events` | ODS 贴源 → DWD 订单/支付明细事实 |\n| `users` | ODS 贴源 → DIM 用户维（可 SCD2） |\n| 按日 GMV / 用户汇总 | DWS 轻度汇总 → ADS 看板接口 |\n\n**验收种子**（与 SQL 宪法一致）：users=4，orders=8，order_events=7，order_items=5。\n\n### 分层一句话\n\n```text\nODS 尽量像源  →  DWD 干净可复用明细  →  DWS 按主题汇总  →  ADS 直接服务应用\n```\n\n### 金标准课模板\n\n课前 → 样例输入 → 是什么 → 怎么写 → 结果 → 用在哪 → 易错对照 → 动手。\n\n### 学习主线\n\n```text\n宪法 → 仓是什么/SSOT → ODS→DWD→DWS→ADS\n→ 粒度/总线 → 事实/维度/代理键 → SCD2\n→ 增量与分区 → 对账质检 → 练习场\n```",
+              "content": "### 课前 · 这是什么\n\n本页是 **数据仓库教程公约**：分层、建模、增量与质量课共用同一业务域——与 SQL / Python / ETL / 数据库 **同源样例**（`users` / `orders` / `order_items` / `order_events`）。先读本页，再按学习路径推进；金课里的验收数字以本页为准。\n\n### 统一业务域（贴到仓分层）\n\n| 源表（OLTP/样例） | 仓中典型落点 | 教义要点 |\n|---|---|---|\n| `orders` / `order_items` / `order_events` | ODS → DWD 订单/支付事实 | 先定粒度，防 JOIN 爆炸 |\n| `users` | ODS → DIM 用户维（可 SCD2） | 历史属性用拉链表 |\n| 按日 GMV / 用户汇总 | DWS → ADS 看板接口 | 指标下沉，看板少写私有 SQL |\n\n**验收种子**：users=4，orders=8，order_events=7，order_items=5。  \n**支付口径**：`status='paid'` + `SUM(COALESCE(amount,0))`。\n\n### 分层一句话\n\n```text\nODS 尽量像源  →  DWD 干净可复用明细  →  DWS 按主题汇总  →  ADS 直接服务应用\n```\n\n### 三条铁律\n\n1. **粒度写在表名前**：一行代表什么业务事件，写不清就不建表。  \n2. **口径沉在可复用层**：SSOT 在 DWD/DWS，不在每个看板私有 SQL。  \n3. **重跑必须安全**：分区覆盖 / 幂等装载，和 ETL 课同一纪律。\n\n### 金标准课模板\n\n课前 → 样例输入 → 是什么 → 怎么写 → 结果 → 用在哪 → 易错对照 → 动手。\n\n### 学习主线\n\n```text\n宪法 → 仓是什么/SSOT → 主题域/集市\n→ ODS→DWD→DWS→ADS → 粒度/总线\n→ 星型/雪花/星系 → Kimball·Inmon·Vault\n→ 事实/维度/代理键/SCD → 增量分区对账 → 练习场\n```\n\n\n### 教义深讲\n\n围绕「统一样例与课模板」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n",
               "children": []
             }
           ]
@@ -10891,28 +11032,28 @@
           "id": "dwh-roadmap",
           "title": "路线清单",
           "level": "?",
-          "content": "### 路线清单",
+          "content": "### 路线清单\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-path-junior",
               "title": "初级清单",
               "level": "?",
-              "content": "### 课前\n\n- **定位**：能讲清仓与业务库区别，画出 ODS→ADS，写清一层明细事实粒度。\n- **顺序**：宪法 → 仓是什么 → 四层职责 → 粒度 → 事实/维度入门 → 初级练习",
+              "content": "### 课前\n\n- **定位**：能讲清仓与业务库区别，画出 ODS→ADS，写清一层明细事实粒度。\n- **学完标准**：用同源样例说出每一层「放什么 / 不放什么」。\n\n### 必学顺序\n\n1. 教程宪法  \n2. 仓是什么 → SSOT  \n3. ODS → DWD → DWS → ADS  \n4. 粒度 → 事实 / 维度入门  \n5. 初级练习场\n\n### 验收口令\n\n- 能解释：为何 BI 不直连生产库  \n- 能指出：GMV 权威口径应落在哪一层  \n- 能写出：paid 明细与按用户汇总的两段 SQL\n\n\n### 教义深讲\n\n围绕「初级清单」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n",
               "children": []
             },
             {
               "id": "dwh-path-mid",
               "title": "中级清单",
               "level": "??",
-              "content": "### 课前\n\n- **定位**：星型/总线、代理键、SCD2、增量分区、对账。\n- **顺序**：总线矩阵 → **星型/雪花/星系** → Kimball·Inmon·Vault → 代理键 → SCD2 → 增量/CDC → 分区 → 对账",
+              "content": "### 课前\n\n- **定位**：星型/总线、代理键、SCD2、增量分区、对账。\n- **学完标准**：能画星型示意，并完成维表历史与日批幂等设计。\n\n### 必学顺序\n\n1. 总线矩阵 → **星型 / 雪花 / 星系**  \n2. Kimball · Inmon · Data Vault 选型感  \n3. 代理键 → 事实类型 → 一致性维度  \n4. SCD1/2/3（重点 SCD2）  \n5. 增量 / 分区 / 装载顺序 / 回刷  \n6. 对账质检 → 中级练习场\n\n### 验收口令\n\n- 星型与雪花各说一个适用场景  \n- SCD2 变更日能口述闭链 + 插入  \n- DWS.gmv 合计能与 DWD 闭合\n\n\n### 教义深讲\n\n围绕「中级清单」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n",
               "children": []
             },
             {
               "id": "dwh-path-senior",
               "title": "高级清单",
               "level": "???",
-              "content": "### 课前\n\n- **定位**：主题域治理、指标下沉、湖仓一体边界、回刷策略。\n- **注意**：与 BI 指标口径、ETL 调度课交叉学习。",
+              "content": "### 课前\n\n- **定位**：主题域治理、指标下沉、湖仓一体边界、回刷策略。\n- **注意**：与 BI 指标口径、ETL 调度 / 血缘 / 发布课交叉学习。\n\n### 必学顺序\n\n1. 主题域 vs 集市边界  \n2. 宽表 vs 指标下沉取舍  \n3. 回刷 / 重述与分区策略  \n4. 与 ETL 契约、SLA、发布回滚对齐  \n5. 与 BI 语义层 / 认证数据集对齐\n\n### 验收口令\n\n- 能画「域 → 总线 → 集市 → 看板」责任图  \n- 能说明何时不该上雪花、何时不该上 Vault  \n- 能写出一次口径变更的回刷影响面\n\n\n### 教义深讲\n\n围绕「高级清单」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n",
               "children": []
             }
           ]
@@ -10921,27 +11062,26 @@
           "id": "dwh-practice-field",
           "title": "练习场",
           "level": "??",
-          "content": "### 练习场",
+          "content": "### 练习场\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-drill-junior",
               "title": "初级练习",
               "level": "?",
-              "content": "### 课前\n\n- **场景**：用统一样例搭一条最小「贴源→明细→汇总」链路。\n- **目标**：写出 ODS/DWD/DWS 三层表意 SQL，并核对 GMV。\n- **先修**：初级清单\n\n### 样例输入\n\norders / users 种子数据。\n\n### 是什么\n\n- **练习场（初级）**：分层 + 粒度 + 汇总口径。\n\n### 怎么写\n\n```sql\n-- Q1 ODS：贴源（示意加 dt）\n-- SELECT *, '2024-01-07' AS dt FROM orders;\n\n-- Q2 DWD：支付成功明细（粒度=一笔订单支付）\nSELECT order_id, user_id, amount, created_at AS pay_at, status\nFROM orders WHERE status='paid';\n\n-- Q3 DWS：用户日 GMV（示例忽略日，按用户）\nSELECT user_id, SUM(COALESCE(amount,0)) AS gmv, COUNT(*) AS pay_cnt\nFROM orders WHERE status='paid'\nGROUP BY user_id;\n\n-- Q4 对账：DWS.gmv 合计 == DWD.amount 合计（fillna）\n-- 两边都应接近 440（非空金额之和；含 106→0 则为 440）\n```\n\n### 查询结果\n\n| 题 | 要点 |\n|---|---|\n| Q2 | 含 106（amount NULL） |\n| Q3 | Ada 350 |\n| Q4 | 口径一致才算过 |\n\n### 用在哪\n\n1. 入职搭建  2. 与 SQL 聚合金课对照\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| DWS 直接 JOIN items 后 SUM(amount) | 先按订单粒度再汇总 |\n| ODS 里改业务口径 | 口径放 DWD/DWS |\n\n### 动手\n\n加一张 ADS：输出 tier=H/M/L 的用户清单（阈值同 SQL 初级）。",
+              "content": "### 课前\n\n- **场景**：用统一样例搭一条最小「贴源→明细→汇总」链路。\n- **目标**：写出 ODS/DWD/DWS 三层表意 SQL，并核对 GMV。\n- **先修**：初级清单\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders / users 种子数据。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **练习场（初级）**：分层 + 粒度 + 汇总口径。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- Q1 ODS：贴源（示意加 dt）\n-- SELECT *, '2024-01-07' AS dt FROM orders;\n\n-- Q2 DWD：支付成功明细（粒度=一笔订单支付）\nSELECT order_id, user_id, amount, created_at AS pay_at, status\nFROM orders WHERE status='paid';\n\n-- Q3 DWS：用户日 GMV（示例忽略日，按用户）\nSELECT user_id, SUM(COALESCE(amount,0)) AS gmv, COUNT(*) AS pay_cnt\nFROM orders WHERE status='paid'\nGROUP BY user_id;\n\n-- Q4 对账：DWS.gmv 合计 == DWD.amount 合计（fillna）\n-- 两边都应接近 440（非空金额之和；含 106→0 则为 440）\n```\n\n### 查询结果\n\n| 题 | 要点 |\n|---|---|\n| Q2 | 含 106（amount NULL） |\n| Q3 | Ada 350 |\n| Q4 | 口径一致才算过 |\n\n### 用在哪\n\n1. 入职搭建  2. 与 SQL 聚合金课对照\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| DWS 直接 JOIN items 后 SUM(amount) | 先按订单粒度再汇总 |\n| ODS 里改业务口径 | 口径放 DWD/DWS |\n\n\n\n### 教义深讲\n\n围绕「初级练习」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n加一张 ADS：输出 tier=H/M/L 的用户清单（阈值同 SQL 初级）。",
               "children": []
             },
             {
               "id": "dwh-drill-mid",
               "title": "中级练习",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：用户城市变更要可时光旅行；事件要去重后入仓。\n- **目标**：完成 SCD2 闭链思维 + 事件去重 + 防爆炸汇总。\n- **先修**：中级清单 / SCD2 / 增量去重\n\n### 样例输入\n\nusers、order_events、order_items。\n\n### 是什么\n\n- **练习场（中级）**：维表历史 + 事实质量。\n\n### 怎么写\n\n```sql\n-- Q1 事件权威行（同 SQL 增量去重）\nSELECT * FROM (\n  SELECT e.*, ROW_NUMBER() OVER (\n    PARTITION BY order_id, event_type\n    ORDER BY event_time, event_id\n  ) rn FROM order_events e\n) t WHERE rn=1;\n\n-- Q2 订单×明细防爆炸\nSELECT o.order_id, o.amount, i.sku_cnt\nFROM orders o\nJOIN (\n  SELECT order_id, COUNT(*) sku_cnt FROM order_items GROUP BY order_id\n) i ON i.order_id=o.order_id\nWHERE o.status='paid';\n\n-- Q3 SCD2 文字题：Dan city NULL→上海，写出闭链+插入步骤\n```\n\n### 查询结果\n\nQ1：102 paid 只留一行；Q2：101 amount 不被放大。\n\n### 用在哪\n\n1. 维表变更  2. 明细质量门禁\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 多条 is_current=1 | 先闭链再插入 |\n| 事实直接 JOIN 多行维 | 点时间取维 |\n\n### 动手\n\n写出 2024-01-15 查询 Dan 城市的谓词。",
+              "content": "### 课前\n\n- **场景**：用户城市变更要可时光旅行；事件要去重后入仓。\n- **目标**：完成 SCD2 闭链思维 + 事件去重 + 防爆炸汇总。\n- **先修**：中级清单 / SCD2 / 增量去重\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers、order_events、order_items。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **练习场（中级）**：维表历史 + 事实质量。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- Q1 事件权威行（同 SQL 增量去重）\nSELECT * FROM (\n  SELECT e.*, ROW_NUMBER() OVER (\n    PARTITION BY order_id, event_type\n    ORDER BY event_time, event_id\n  ) rn FROM order_events e\n) t WHERE rn=1;\n\n-- Q2 订单×明细防爆炸\nSELECT o.order_id, o.amount, i.sku_cnt\nFROM orders o\nJOIN (\n  SELECT order_id, COUNT(*) sku_cnt FROM order_items GROUP BY order_id\n) i ON i.order_id=o.order_id\nWHERE o.status='paid';\n\n-- Q3 SCD2 文字题：Dan city NULL→上海，写出闭链+插入步骤\n```\n\n### 查询结果\n\nQ1：102 paid 只留一行；Q2：101 amount 不被放大。\n\n### 用在哪\n\n1. 维表变更  2. 明细质量门禁\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 纠正 |\n|---|---|\n| 多条 is_current=1 | 先闭链再插入 |\n| 事实直接 JOIN 多行维 | 点时间取维 |\n\n\n\n### 教义深讲\n\n围绕「中级练习」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n写出 2024-01-15 查询 Dan 城市的谓词。",
               "children": []
             }
           ]
         }
-      ],
-      "sector": "practice"
+      ]
     },
     {
       "id": "dwh-why",
@@ -10953,21 +11093,21 @@
           "id": "dwh-ssot-sec",
           "title": "定位与边界",
           "level": "?",
-          "content": "### 定位与边界 · 章节导读",
+          "content": "### 定位与边界 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-what",
               "title": "仓是干什么的",
               "level": "?",
-              "content": "### 课前\n\n- **场景**：业务库里也能 SELECT GMV，为什么还要数仓？\n- **目标**：一句话说清仓的职责：面向主题、集成、相对稳定、反映历史。\n- **先修**：教程宪法 → 下一课：SSOT\n\n### 样例输入\n\n统一样例的「支付 GMV」需求。\n\n### 是什么\n\n- **一句话定义**：面向分析的集成数据集合，强调主题、整合、稳定与历史。\n- **对比业务库**：业务库答「当前订单状态」；仓答「历史经营过程」。\n- **价值**：口径可复用、与交易负载隔离、可时光旅行。\n\n### 怎么写\n\n```sql\n-- 业务库视角：当前状态（OLTP）\nSELECT status FROM orders WHERE order_id=104;\n\n-- 仓/分析视角：可复用的支付事实（示意 DWD）\nSELECT order_id, user_id, COALESCE(amount,0) AS pay_amt, created_at\nFROM orders WHERE status='paid';\n```\n\n### 查询结果\n\n104 看状态；paid 集合支撑 GMV/漏斗等多下游。\n\n### 用在哪\n\n1. 向业务解释「为何不直连生产库」  2. 立项边界\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| BI 直连生产库 | 拖垮交易 | 走仓/只读副本 |\n| 仓内保留全部交易过程态无设计 | 混乱 | 分层+粒度 |\n\n### 动手\n\n用两句话向运营解释：为什么 GMV 以仓口径为准。",
+              "content": "### 课前\n\n- **场景**：业务库里也能 SELECT GMV，为什么还要数仓？\n- **目标**：一句话说清仓的职责：面向主题、集成、相对稳定、反映历史。\n- **先修**：教程宪法 → 下一课：SSOT\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n统一样例的「支付 GMV」需求。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **一句话定义**：面向分析的集成数据集合，强调主题、整合、稳定与历史。\n- **对比业务库**：业务库答「当前订单状态」；仓答「历史经营过程」。\n- **价值**：口径可复用、与交易负载隔离、可时光旅行。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 业务库视角：当前状态（OLTP）\nSELECT status FROM orders WHERE order_id=104;\n\n-- 仓/分析视角：可复用的支付事实（示意 DWD）\nSELECT order_id, user_id, COALESCE(amount,0) AS pay_amt, created_at\nFROM orders WHERE status='paid';\n```\n\n### 查询结果\n\n104 看状态；paid 集合支撑 GMV/漏斗等多下游。\n\n### 用在哪\n\n1. 向业务解释「为何不直连生产库」  2. 立项边界\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| BI 直连生产库 | 拖垮交易 | 走仓/只读副本 |\n| 仓内保留全部交易过程态无设计 | 混乱 | 分层+粒度 |\n\n\n\n### 教义深讲\n\n围绕「仓是干什么的」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n用两句话向运营解释：为什么 GMV 以仓口径为准。",
               "children": []
             },
             {
               "id": "dwh-ssot",
               "title": "SSOT 单一事实来源",
               "level": "?",
-              "content": "### 课前\n\n- **场景**：营销、财务、数据三套 GMV 对不上。\n- **目标**：理解 SSOT：同一指标应追溯到同一层定义。\n- **先修**：仓是什么 → 下一课：ODS\n\n### 样例输入\n\npaid GMV 应用户汇总。\n\n### 是什么\n\n- **SSOT**：Single Source of Truth——可审计的权威口径落点。\n- **实践**：原子指标沉在 DWD/DWS，ADS 只做取用与展示。\n- **不是**：强行只留一张物理表，而是**治理上的权威定义**。\n\n### 怎么写\n\n```sql\n-- 权威口径示意（DWS）\nCREATE VIEW dws_user_pay_gmv AS\nSELECT user_id,\n       SUM(COALESCE(amount,0)) AS gmv,\n       COUNT(*) AS pay_cnt\nFROM orders\nWHERE status='paid'\nGROUP BY user_id;\n\n-- ADS/看板应读视图，而不是各自重写 WHERE\n```\n\n### 查询结果\n\n三方都读 `dws_user_pay_gmv` 时 Ada=350 对齐。\n\n### 用在哪\n\n1. 指标治理  2. 口径争议仲裁  3. 与 BI 课衔接\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 每个看板私有 SQL | 数不一致 | 下沉公共汇总 |\n| 把 ODS 当 SSOT | 源脏/无业务清洗 | SSOT 在清洗后层 |\n\n### 动手\n\n列出你们公司一个「必须 SSOT」的指标，并说它应落在哪一层。",
+              "content": "### 课前\n\n- **场景**：营销、财务、数据三套 GMV 对不上。\n- **目标**：理解 SSOT：同一指标应追溯到同一层定义。\n- **先修**：仓是什么 → 下一课：ODS\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\npaid GMV 应用户汇总。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **SSOT**：Single Source of Truth——可审计的权威口径落点。\n- **实践**：原子指标沉在 DWD/DWS，ADS 只做取用与展示。\n- **不是**：强行只留一张物理表，而是**治理上的权威定义**。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 权威口径示意（DWS）\nCREATE VIEW dws_user_pay_gmv AS\nSELECT user_id,\n       SUM(COALESCE(amount,0)) AS gmv,\n       COUNT(*) AS pay_cnt\nFROM orders\nWHERE status='paid'\nGROUP BY user_id;\n\n-- ADS/看板应读视图，而不是各自重写 WHERE\n```\n\n### 查询结果\n\n三方都读 `dws_user_pay_gmv` 时 Ada=350 对齐。\n\n### 用在哪\n\n1. 指标治理  2. 口径争议仲裁  3. 与 BI 课衔接\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 每个看板私有 SQL | 数不一致 | 下沉公共汇总 |\n| 把 ODS 当 SSOT | 源脏/无业务清洗 | SSOT 在清洗后层 |\n\n\n\n### 教义深讲\n\n围绕「SSOT 单一事实来源」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n列出你们公司一个「必须 SSOT」的指标，并说它应落在哪一层。",
               "children": []
             }
           ]
@@ -10975,28 +11115,27 @@
         {
           "id": "dwh-domain-sec",
           "title": "主题域与集市",
-          "level": "??",
-          "content": "### 主题域与集市 · 章节导读\n\n**学习目标**：会按主题域划分责任，并分清仓库与集市。\n\n**先修**：仓是什么 / SSOT。",
+          "level": "?",
+          "content": "### 主题域与集市 · 章节导读\n\n> **教义提示**：域是治理边界，集市是消费边界，不要混成一张大宽表。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-subject-domain",
-              "title": "主题域划分",
-              "level": "??",
-              "content": "### 课前\n\n- **场景**：交易、用户、流量、财务各搞一套表，同名指标对不上。\n- **目标**：按业务过程/数据域划分主题，明确 Owner 与公共维。\n- **先修**：SSOT → 下一课：仓库与集市\n\n### 样例输入\n\n交易样例（订单/用户）。\n\n### 是什么\n\n- **主题域**：围绕业务能力划分的数据责任边界（交易、用户……）。\n- **产出**：域内明细/汇总 + 供给公共维。\n- **协作**：跨域指标走总线与字典。\n\n### 怎么写\n\n```text\n-- 域责任示意\n-- 用户域：DIM 用户、注册事实\n-- 交易域：支付/退款事实、订单明细\n-- 公共：日期维、日历、汇率\n\n-- 跨域取数：用一致性维键拼接，而不是复制用户属性进每张事实\n```\n\n### 查询结果\n\n边界清晰后，重复建设与口径冲突下降。\n\n### 用在哪\n\n1. 数仓规划  2. 团队分工  3. 指标治理入口\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 按系统源划分域 | 业务说不清 | 按业务过程 |\n| 域墙过死 | 取数极难 | 公共维+发布接口 |\n\n### 动手\n\n给本样例切两个主题域，并各列 1 张核心事实。",
+              "title": "主题域",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：交易、用户、营销各写各的表，口径无法复用。\n- **目标**：按业务主题划分可治理边界，明确 Owner 与共用维度。\n- **先修**：仓是什么 / SSOT\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n交易域：orders/items/events；用户域：users。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`。\n\n### 是什么\n\n- **主题域**：按业务能力切分的数据责任边界（如交易、用户、存货）。\n- **不是**：物理库名的同义词；也不是「一张超级宽表」。\n- **价值**：总线矩阵、一致性维度、跨域指标才有谈判桌。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）\n2. 按下述 SQL/DDL 改到你的主题域\n3. 用「查询结果」与源或上一层做闭合\n4. 对照易错表，确认没有把口径写进错误的层\n\n```sql\n-- 域清单（文档）\n-- domain | owner | core_tables\n-- trade  | de-a  | orders, order_items, order_events\n-- user   | de-b  | users\nSELECT 'trade' AS domain, COUNT(*) AS orders_n FROM orders;\n```\n\n### 查询结果\n\n域有 Owner；跨域取数走一致性维度，而不是复制私有用户维。\n\n### 用在哪\n\n1. 立项拆域  2. 总线建模  3. 与组织职责对齐\n\n**上下游**：与 ETL 调度/对账课、BI 指标课对照学习。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 按团队随便拆表 | 同名不同义 | 按业务能力定域 |\n| 域内私有用户维 | 城市对不上 | 一致性维度 |\n| 域=全部历史明细无治理 | 沼泽 | 分层+粒度 |\n\n### 教义深讲\n\n围绕「主题域」记住：可复现、可重跑、可追溯。支付口径统一 `status='paid'` + `COALESCE(amount,0)`。\n\n### 动手\n\n给本样例画交易域/用户域两框，并标出共用维度。",
               "children": []
             },
             {
               "id": "dwh-mart-vs-wh",
-              "title": "仓库与集市",
-              "level": "??",
-              "content": "### 课前\n\n- **场景**：业务要快速出「营销集市」，平台要建企业仓。\n- **目标**：分清 EDW 与 Data Mart：范围、粒度、治理强度不同。\n- **先修**：主题域划分 → 分层\n\n### 样例输入\n\n企业支付主题 vs 单部门看板。\n\n### 是什么\n\n- **仓库（EDW）**：企业级、可复用、强治理。\n- **集市（Mart）**：部门/主题级、交付快，可基于仓或独立。\n- **建议**：集市消费仓的一致性维与认证明细，避免烟囱。\n\n### 怎么写\n\n```text\n-- 集市表可以是 ADS 薄层\n-- ads_mkt_user_day(dt, user_id, gmv, coupon_cnt)\n-- 其来源应能追溯到 DWD/DWS，而不是直连生产库\n```\n\n### 查询结果\n\n集市快，但不该绕过 SSOT。\n\n### 用在哪\n\n1. 部门敏捷交付  2. 平台化沉淀  3. 烟囱系统治理\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 集市直连生产 | 把库打挂/口径乱 | 经 ODS/DWD |\n| 只有集市无仓 | 重复建设 | 逐步沉淀公共层 |\n\n### 动手\n\n举一个「该做集市」和一个「该沉淀进仓」的需求。",
+              "title": "集市 vs 仓库",
+              "level": "?",
+              "content": "### 课前\n\n- **场景**：业务要「营销专用宽表」，数据团队担心变成烟囱。\n- **目标**：分清企业仓（可复用）与集市（部门消费）的边界。\n- **先修**：主题域\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nADS 营销看板 vs DWD 支付明细。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`。\n\n### 是什么\n\n- **仓库**：面向主题、可共享的集成层（DWD/DWS 主力）。\n- **集市**：面向部门/应用的消费集（常落 ADS）。\n- **纪律**：集市可以快，但不能成为第二套 SSOT。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）\n2. 按下述 SQL/DDL 改到你的主题域\n3. 用「查询结果」与源或上一层做闭合\n4. 对照易错表，确认没有把口径写进错误的层\n\n```sql\n-- 仓：可复用支付事实\nSELECT order_id, user_id, COALESCE(amount,0) pay_amt\nFROM orders WHERE status='paid';\n-- 集市：营销只要高价值用户清单（ADS）\nSELECT user_id, SUM(COALESCE(amount,0)) gmv\nFROM orders WHERE status='paid'\nGROUP BY user_id HAVING SUM(COALESCE(amount,0))>=200;\n```\n\n### 查询结果\n\n仓侧明细可复用；集市只是过滤/展示，不改支付定义。\n\n### 用在哪\n\n1. 需求评审  2. 防止烟囱指标  3. 与 BI 工作区治理\n\n**上下游**：与 ETL 调度/对账课、BI 指标课对照学习。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 集市重定义 GMV | 数对不上 | 读 DWS |\n| 拒绝一切集市 | 交付慢 | ADS 允许、口径下沉 |\n| 集市直连 ODS | 脏口径 | 经 DWD |\n\n### 教义深讲\n\n围绕「集市 vs 仓库」记住：可复现、可重跑、可追溯。支付口径统一 `status='paid'` + `COALESCE(amount,0)`。\n\n### 动手\n\n判断「运营日报」应是仓还是集市，一句话理由。",
               "children": []
             }
           ]
         }
-      ],
-      "sector": "foundation"
+      ]
     },
     {
       "id": "dwh-layer",
@@ -11008,41 +11147,40 @@
           "id": "dwh-layers",
           "title": "层级职责",
           "level": "?",
-          "content": "### 层级职责 · 章节导读\n\n一层只做一类事，爆炸时好回放。",
+          "content": "### 层级职责 · 章节导读\n\n一层只做一类事，爆炸时好回放。\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-ods",
               "title": "ODS 贴源",
               "level": "?",
-              "content": "### 课前\n\n- **场景**：源库订单变更要先落一份可追溯快照/流水。\n- **目标**：知道 ODS 尽量保真，不做重业务加工。\n- **先修**：SSOT → 下一课：DWD\n\n### 样例输入\n\nOLTP `orders` 作为源。\n\n### 是什么\n\n- **一句话定义**：操作数据存储，贴源落地，便于重跑与对账。\n- **保留**：源字段名、源更新时间、装载时间、分区 dt。\n- **禁止**：在 ODS 改 GMV 口径或做复杂维退化。\n\n### 怎么写\n\n```sql\nCREATE TABLE ods_orders_di (\n  order_id BIGINT,\n  user_id BIGINT,\n  amount DECIMAL(18,2),\n  status VARCHAR(16),\n  created_at TIMESTAMP,\n  src_updated_at TIMESTAMP,\n  etl_time TIMESTAMP,\n  dt VARCHAR(10)\n);\n-- 装载示意\nINSERT INTO ods_orders_di\nSELECT order_id, user_id, amount, status, created_at,\n       created_at, CURRENT_TIMESTAMP, '2024-01-07'\nFROM orders;\n```\n\n### 查询结果\n\nODS 行数与源当日映像一致（全量日则 8 行）。\n\n### 用在哪\n\n1. 源系统解耦  2. 重跑原料  3. 审计追溯\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| ODS 里写 CASE 分档 | 口径难追 | 放到 DWD/DWS |\n| 无分区/无装载时间 | 无法回放 | dt + etl_time |\n\n### 动手\n\n为 `users` 设计一张 `ods_users_di` 字段清单。",
+              "content": "### 课前\n\n- **场景**：源库订单变更要先落一份可追溯快照/流水。\n- **目标**：知道 ODS 尽量保真，不做重业务加工。\n- **先修**：SSOT → 下一课：DWD\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nOLTP `orders` 作为源。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **一句话定义**：操作数据存储，贴源落地，便于重跑与对账。\n- **保留**：源字段名、源更新时间、装载时间、分区 dt。\n- **禁止**：在 ODS 改 GMV 口径或做复杂维退化。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\nCREATE TABLE ods_orders_di (\n  order_id BIGINT,\n  user_id BIGINT,\n  amount DECIMAL(18,2),\n  status VARCHAR(16),\n  created_at TIMESTAMP,\n  src_updated_at TIMESTAMP,\n  etl_time TIMESTAMP,\n  dt VARCHAR(10)\n);\n-- 装载示意\nINSERT INTO ods_orders_di\nSELECT order_id, user_id, amount, status, created_at,\n       created_at, CURRENT_TIMESTAMP, '2024-01-07'\nFROM orders;\n```\n\n### 查询结果\n\nODS 行数与源当日映像一致（全量日则 8 行）。\n\n### 用在哪\n\n1. 源系统解耦  2. 重跑原料  3. 审计追溯\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| ODS 里写 CASE 分档 | 口径难追 | 放到 DWD/DWS |\n| 无分区/无装载时间 | 无法回放 | dt + etl_time |\n\n\n\n### 教义深讲\n\n围绕「ODS 贴源」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 `users` 设计一张 `ods_users_di` 字段清单。",
               "children": []
             },
             {
               "id": "dwh-dwd",
               "title": "DWD 明细",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：分析师要稳定的「支付成功订单明细」，不要源库脏状态。\n- **目标**：写出清洗后的明细事实：统一码值、空值策略、业务时间。\n- **先修**：ODS → 下一课：DWS\n\n### 样例输入\n\nods/orders 中的 paid 行。\n\n### 是什么\n\n- **一句话定义**：清洗一致后的明细事实/明细维，可被多方复用。\n- **动作**：标准码、空值、去重、时区、轻度退化维。\n- **粒度**：必须写清（如一笔支付订单一行）。\n\n### 怎么写\n\n```sql\n-- 粒度：一笔 paid 订单一行\nINSERT OVERWRITE TABLE dwd_trade_pay_di PARTITION (dt='2024-01-07')\nSELECT\n  order_id,\n  user_id,\n  COALESCE(amount, 0) AS pay_amt,\n  created_at AS pay_at,\n  status\nFROM orders\nWHERE status = 'paid';\n-- 生产中通常 FROM ods_orders_di WHERE dt=...\n```\n\n### 查询结果\n\n含 Ada/Bob/Cara 的支付单；106 的 pay_amt=0（若选 fill）。\n\n### 用在哪\n\n1. 自助取数底座  2. 指标原子层  3. 机器学习样本明细\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 粒度不清 | JOIN 爆炸 | 先写「一行代表什么」 |\n| 与源字段同名但语义已变 | 误解 | 重命名+词典 |\n\n### 动手\n\n若粒度改成「一笔订单一行 SKU」，表名/主键会怎么变？",
+              "content": "### 课前\n\n- **场景**：分析师要稳定的「支付成功订单明细」，不要源库脏状态。\n- **目标**：写出清洗后的明细事实：统一码值、空值策略、业务时间。\n- **先修**：ODS → 下一课：DWS\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nods/orders 中的 paid 行。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **一句话定义**：清洗一致后的明细事实/明细维，可被多方复用。\n- **动作**：标准码、空值、去重、时区、轻度退化维。\n- **粒度**：必须写清（如一笔支付订单一行）。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 粒度：一笔 paid 订单一行\nINSERT OVERWRITE TABLE dwd_trade_pay_di PARTITION (dt='2024-01-07')\nSELECT\n  order_id,\n  user_id,\n  COALESCE(amount, 0) AS pay_amt,\n  created_at AS pay_at,\n  status\nFROM orders\nWHERE status = 'paid';\n-- 生产中通常 FROM ods_orders_di WHERE dt=...\n```\n\n### 查询结果\n\n含 Ada/Bob/Cara 的支付单；106 的 pay_amt=0（若选 fill）。\n\n### 用在哪\n\n1. 自助取数底座  2. 指标原子层  3. 机器学习样本明细\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 粒度不清 | JOIN 爆炸 | 先写「一行代表什么」 |\n| 与源字段同名但语义已变 | 误解 | 重命名+词典 |\n\n\n\n### 教义深讲\n\n围绕「DWD 明细」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n若粒度改成「一笔订单一行 SKU」，表名/主键会怎么变？",
               "children": []
             },
             {
               "id": "dwh-dws",
               "title": "DWS 汇总",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：看板每天都算「用户 GMV、支付笔数」，不想每次扫明细。\n- **目标**：按主题建轻度汇总；保持与 DWD 可对账。\n- **先修**：DWD → 下一课：ADS\n\n### 样例输入\n\ndwd 支付明细或直接 orders paid。\n\n### 是什么\n\n- **一句话定义**：面向主题的汇总数据层（用户/商品/渠道等）。\n- **原则**：公共汇总下沉；与明细可对上。\n- **注意**：汇总键与时间周期（日/周）写进表名或字段。\n\n### 怎么写\n\n```sql\n-- 用户支付汇总（示意 DWS）\nSELECT\n  user_id,\n  SUM(COALESCE(amount,0)) AS gmv,\n  COUNT(*) AS pay_cnt\nFROM orders\nWHERE status='paid'\nGROUP BY user_id\nORDER BY gmv DESC;\n```\n\n### 查询结果\n\n| user_id | gmv | pay_cnt |\n|---:|---:|---:|\n| 1 | 350 | 4 |\n| 2 | 90 | 1 |\n| 3 | 0 | 1 |\n\n### 用在哪\n\n1. 高频看板  2. 主题宽表  3. 减少重复计算\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 汇总后无法还原争议 | 扯皮 | 保留 DWD 对账路径 |\n| 主题混杂一张上帝表 | 难维护 | 按域拆分 |\n\n### 动手\n\n加一列 `gmv_nonnull`：只对 amount IS NOT NULL 求和，与 fill 0 对比。",
+              "content": "### 课前\n\n- **场景**：看板每天都算「用户 GMV、支付笔数」，不想每次扫明细。\n- **目标**：按主题建轻度汇总；保持与 DWD 可对账。\n- **先修**：DWD → 下一课：ADS\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\ndwd 支付明细或直接 orders paid。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **一句话定义**：面向主题的汇总数据层（用户/商品/渠道等）。\n- **原则**：公共汇总下沉；与明细可对上。\n- **注意**：汇总键与时间周期（日/周）写进表名或字段。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 用户支付汇总（示意 DWS）\nSELECT\n  user_id,\n  SUM(COALESCE(amount,0)) AS gmv,\n  COUNT(*) AS pay_cnt\nFROM orders\nWHERE status='paid'\nGROUP BY user_id\nORDER BY gmv DESC;\n```\n\n### 查询结果\n\n| user_id | gmv | pay_cnt |\n|---:|---:|---:|\n| 1 | 350 | 4 |\n| 2 | 90 | 1 |\n| 3 | 0 | 1 |\n\n### 用在哪\n\n1. 高频看板  2. 主题宽表  3. 减少重复计算\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 汇总后无法还原争议 | 扯皮 | 保留 DWD 对账路径 |\n| 主题混杂一张上帝表 | 难维护 | 按域拆分 |\n\n\n\n### 教义深讲\n\n围绕「DWS 汇总」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n加一列 `gmv_nonnull`：只对 amount IS NOT NULL 求和，与 fill 0 对比。",
               "children": []
             },
             {
               "id": "dwh-ads",
               "title": "ADS 应用",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：运营只要「高价值用户名单」，不要自己写汇总 SQL。\n- **目标**：在 ADS 提供接近产品的接口表/视图。\n- **先修**：DWS → 下一课：粒度\n\n### 样例输入\n\nDWS 用户 GMV。\n\n### 是什么\n\n- **一句话定义**：面向应用/报表的数据服务层。\n- **特点**：强业务语义、可含展示字段、可适度冗余。\n- **纪律**：尽量读 DWS/DWD，不直连 ODS 拼口径。\n\n### 怎么写\n\n```sql\nSELECT user_id, gmv,\n  CASE WHEN gmv>=300 THEN 'H' WHEN gmv>=100 THEN 'M' ELSE 'L' END AS tier\nFROM (\n  SELECT user_id, SUM(COALESCE(amount,0)) AS gmv\n  FROM orders WHERE status='paid' GROUP BY user_id\n) t\nORDER BY gmv DESC;\n```\n\n### 查询结果\n\nAda=H，Bob=L，Cara=L。\n\n### 用在哪\n\n1. 看板数据集  2. 服务 API 表  3. 运营圈选\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| ADS 各自算原子指标 | 口径漂移 | 原子在 DWD/DWS |\n| ADS 很重又被多人改 | 不稳定 | 权限+发布 |\n\n### 动手\n\n设计一张 ADS：近 7 日每日 GMV（用样例日期）。",
+              "content": "### 课前\n\n- **场景**：运营只要「高价值用户名单」，不要自己写汇总 SQL。\n- **目标**：在 ADS 提供接近产品的接口表/视图。\n- **先修**：DWS → 下一课：粒度\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nDWS 用户 GMV。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **一句话定义**：面向应用/报表的数据服务层。\n- **特点**：强业务语义、可含展示字段、可适度冗余。\n- **纪律**：尽量读 DWS/DWD，不直连 ODS 拼口径。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\nSELECT user_id, gmv,\n  CASE WHEN gmv>=300 THEN 'H' WHEN gmv>=100 THEN 'M' ELSE 'L' END AS tier\nFROM (\n  SELECT user_id, SUM(COALESCE(amount,0)) AS gmv\n  FROM orders WHERE status='paid' GROUP BY user_id\n) t\nORDER BY gmv DESC;\n```\n\n### 查询结果\n\nAda=H，Bob=L，Cara=L。\n\n### 用在哪\n\n1. 看板数据集  2. 服务 API 表  3. 运营圈选\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| ADS 各自算原子指标 | 口径漂移 | 原子在 DWD/DWS |\n| ADS 很重又被多人改 | 不稳定 | 权限+发布 |\n\n\n\n### 教义深讲\n\n围绕「ADS 应用」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n设计一张 ADS：近 7 日每日 GMV（用样例日期）。",
               "children": []
             }
           ]
         }
-      ],
-      "sector": "foundation"
+      ]
     },
     {
       "id": "dwh-model",
@@ -11054,21 +11192,21 @@
           "id": "dwh-grain-bus",
           "title": "粒度与总线",
           "level": "??",
-          "content": "### 粒度与总线 · 章节导读",
+          "content": "### 粒度与总线 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-grain",
               "title": "事实粒度",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：「订单事实」到底一行是订单头还是订单行？搞错就 JOIN 爆炸。\n- **目标**：能先写清粒度再建模；用样例对比两种粒度。\n- **先修**：ADS → 下一课：总线矩阵\n\n### 样例输入\n\norders vs order_items。\n\n### 是什么\n\n- **粒度**：事实表一行代表的业务事件。\n- **法则**：粒度定错，后面指标全歪。\n- **检查**：主键/唯一键能否表达该粒度。\n\n### 怎么写\n\n```sql\n-- 粒度 A：订单头（1 行=1 单）\nSELECT order_id, user_id, amount FROM orders;\n\n-- 粒度 B：订单行（1 行=1 SKU）\nSELECT order_id, sku_id, qty FROM order_items;\n\n-- 错误：在 B 上直接 SUM(A.amount) 会放大\nSELECT SUM(o.amount) AS wrong_gmv\nFROM orders o JOIN order_items i ON i.order_id=o.order_id\nWHERE o.status='paid';\n```\n\n### 查询结果\n\nwrong_gmv 大于真实订单头 GMV（101 被算两次）。\n\n### 用在哪\n\n1. 建模评审第一问  2. 对接 SQL JOIN 爆炸金课\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 不写粒度文档 | 下游误解 | 表注释写清 |\n| 混粒度进一表 | 无法聚合 | 拆表 |\n\n### 动手\n\n为 `order_events` 选粒度并写出唯一键。",
+              "content": "### 课前\n\n- **场景**：「订单事实」到底一行是订单头还是订单行？搞错就 JOIN 爆炸。\n- **目标**：能先写清粒度再建模；用样例对比两种粒度。\n- **先修**：ADS → 下一课：总线矩阵\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders vs order_items。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **粒度**：事实表一行代表的业务事件。\n- **法则**：粒度定错，后面指标全歪。\n- **检查**：主键/唯一键能否表达该粒度。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 粒度 A：订单头（1 行=1 单）\nSELECT order_id, user_id, amount FROM orders;\n\n-- 粒度 B：订单行（1 行=1 SKU）\nSELECT order_id, sku_id, qty FROM order_items;\n\n-- 错误：在 B 上直接 SUM(A.amount) 会放大\nSELECT SUM(o.amount) AS wrong_gmv\nFROM orders o JOIN order_items i ON i.order_id=o.order_id\nWHERE o.status='paid';\n```\n\n### 查询结果\n\nwrong_gmv 大于真实订单头 GMV（101 被算两次）。\n\n### 用在哪\n\n1. 建模评审第一问  2. 对接 SQL JOIN 爆炸金课\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 不写粒度文档 | 下游误解 | 表注释写清 |\n| 混粒度进一表 | 无法聚合 | 拆表 |\n\n\n\n### 教义深讲\n\n围绕「事实粒度」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 `order_events` 选粒度并写出唯一键。",
               "children": []
             },
             {
               "id": "dwh-bus-matrix",
               "title": "总线矩阵",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：交易、流量、客服多主题都要用「用户」「日期」维，如何避免各建各的？\n- **目标**：用总线矩阵对齐公共维度与事实过程。\n- **先修**：粒度 → 下一课：星型模型（形态）\n\n### 样例输入\n\n过程：支付；维：用户、日期、状态。\n\n### 是什么\n\n- **总线矩阵**：行=业务过程，列=公共维度，打勾表示关联。\n- **目的**：一致性维度（Conformed Dimensions）。\n- **收益**：主题可拼接、指标可对比。\n\n### 怎么写\n\n```sql\n-- 示意矩阵（文本）\n--               用户  日期  商品  渠道\n-- 支付成功订单    ✓    ✓    △     ·\n-- 加购           ✓    ✓    ✓     ✓\n\n-- 公共用户维键在事实中统一\nSELECT o.order_id, o.user_id, DATE(o.created_at) AS dt\nFROM orders o WHERE o.status='paid';\n```\n\n### 查询结果\n\n支付过程挂上用户与日期；商品维对订单头可选（经 items）。\n\n### 用在哪\n\n1. 多主题规划  2. 主数据对齐  3. 评审材料\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 每主题自建 user 维 | 对不齐 | 公共维一张 |\n| 矩阵只画不落地 | 仍混乱 | 维表真有主人 |\n\n### 动手\n\n补一行「退款」过程，标它需要哪些维。",
+              "content": "### 课前\n\n- **场景**：交易、流量、客服多主题都要用「用户」「日期」维，如何避免各建各的？\n- **目标**：用总线矩阵对齐公共维度与事实过程。\n- **先修**：粒度 → 下一课：星型模型（形态）\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n过程：支付；维：用户、日期、状态。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **总线矩阵**：行=业务过程，列=公共维度，打勾表示关联。\n- **目的**：一致性维度（Conformed Dimensions）。\n- **收益**：主题可拼接、指标可对比。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 示意矩阵（文本）\n--               用户  日期  商品  渠道\n-- 支付成功订单    ✓    ✓    △     ·\n-- 加购           ✓    ✓    ✓     ✓\n\n-- 公共用户维键在事实中统一\nSELECT o.order_id, o.user_id, DATE(o.created_at) AS dt\nFROM orders o WHERE o.status='paid';\n```\n\n### 查询结果\n\n支付过程挂上用户与日期；商品维对订单头可选（经 items）。\n\n### 用在哪\n\n1. 多主题规划  2. 主数据对齐  3. 评审材料\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 每主题自建 user 维 | 对不齐 | 公共维一张 |\n| 矩阵只画不落地 | 仍混乱 | 维表真有主人 |\n\n\n\n### 教义深讲\n\n围绕「总线矩阵」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n补一行「退款」过程，标它需要哪些维。",
               "children": []
             }
           ]
@@ -11077,58 +11215,49 @@
           "id": "dwh-schema-styles",
           "title": "模型形态",
           "level": "??",
-          "content": "### 模型形态 · 章节导读\n\n**学习目标**：分清星型 / 雪花 / 星系（星座）三种物理形态。\n\n**先修**：总线矩阵。\n\n点下方绿色叶节点进入各讲义。",
+          "content": "### 模型形态 · 章节导读\n\n星型、雪花、星系（星座）怎么选；并对照 Kimball/Inmon/Data Vault。\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-star-schema",
               "title": "星型模型",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：支付主题要让分析师少 JOIN、好理解。\n- **目标**：画出「事实居中、维度一层环绕」的星型；对照样例表。\n- **先修**：总线矩阵 → 下一课：雪花模型\n\n### 样例输入\n\n事实：支付订单；维：用户、日期（可用退化/日期维）。\n\n### 是什么\n\n- **星型（Star）**：一张事实表 + 一组**反范式**维度表，维表通常一层直接连事实。\n- **直觉**：太阳=事实，行星=维度。\n- **优点**：查询路径短、对 BI 友好；**代价**：维表有冗余。\n\n### 怎么写\n\n```sql\n-- 星型查询：事实直接连用户维（一层）\nSELECT\n  COALESCE(u.city, '未知') AS city,\n  SUM(COALESCE(o.amount, 0)) AS gmv\nFROM orders o                    -- 事实（支付）\nJOIN users u ON u.user_id = o.user_id   -- 维度（用户，扁平）\nWHERE o.status = 'paid'\nGROUP BY COALESCE(u.city, '未知');\n\n-- 形态示意\n--          dim_user\n--             \\\n--  dim_date — fact_pay — dim_status\n--             /\n--        (其它维…)\n```\n\n### 查询结果\n\n按城市汇总 GMV；JOIN 次数少（事实↔维）。\n\n### 用在哪\n\n1. 主题集市默认形态  2. 看板数据集  3. Kimball 维度建模主流\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 维表再拆很多层却叫星型 | 实际已是雪花 | 正名或扁平化 |\n| 多个事实硬塞一张 | 粒度崩溃 | 一事一事实，用星系 |\n\n### 动手\n\n用文本画出本样例「支付」星型：列出事实与至少 2 个维。",
+              "content": "### 课前\n\n- **场景**：支付主题要让分析师少 JOIN、好理解。\n- **目标**：画出「事实居中、维度一层环绕」的星型；对照样例表。\n- **先修**：总线矩阵 → 下一课：雪花模型\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n事实：支付订单；维：用户、日期（可用退化/日期维）。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **星型（Star）**：一张事实表 + 一组**反范式**维度表，维表通常一层直接连事实。\n- **直觉**：太阳=事实，行星=维度。\n- **优点**：查询路径短、对 BI 友好；**代价**：维表有冗余。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 星型查询：事实直接连用户维（一层）\nSELECT\n  COALESCE(u.city, '未知') AS city,\n  SUM(COALESCE(o.amount, 0)) AS gmv\nFROM orders o                    -- 事实（支付）\nJOIN users u ON u.user_id = o.user_id   -- 维度（用户，扁平）\nWHERE o.status = 'paid'\nGROUP BY COALESCE(u.city, '未知');\n\n-- 形态示意\n--          dim_user\n--             \\\n--  dim_date — fact_pay — dim_status\n--             /\n--        (其它维…)\n```\n\n### 查询结果\n\n按城市汇总 GMV；JOIN 次数少（事实↔维）。\n\n### 用在哪\n\n1. 主题集市默认形态  2. 看板数据集  3. Kimball 维度建模主流\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 维表再拆很多层却叫星型 | 实际已是雪花 | 正名或扁平化 |\n| 多个事实硬塞一张 | 粒度崩溃 | 一事一事实，用星系 |\n\n\n\n### 教义深讲\n\n围绕「星型模型」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n用文本画出本样例「支付」星型：列出事实与至少 2 个维。",
               "children": []
             },
             {
               "id": "dwh-snowflake",
               "title": "雪花模型",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：用户维里城市还要挂「城市→省份→大区」层级，想省存储、强约束。\n- **目标**：理解雪花=维度再规范化分层；会算多一跳 JOIN 的代价。\n- **先修**：星型模型 → 下一课：星系模型\n\n### 样例输入\n\n把 users.city 扩展为地区层级（示意表）。\n\n### 是什么\n\n- **雪花（Snowflake）**：维度表继续拆成子维，呈雪花状。\n- **相对星型**：更省空间、更易维护层级；**查询多 JOIN**，对分析师不友好。\n- **现代实践**：很多团队仍用星型，层级用桥接表/扁平属性折中。\n\n### 怎么写\n\n```sql\n-- 雪花示意：用户 → 城市 → 省份\n-- dim_user(user_id, user_name, city_id)\n-- dim_city(city_id, city_name, province_id)\n-- dim_province(province_id, province_name)\n\n-- 等价查询（比星型多一跳）\n-- SELECT p.province_name, SUM(f.pay_amt)\n-- FROM fact_pay f\n-- JOIN dim_user u ON u.user_sk = f.user_sk\n-- JOIN dim_city c ON c.city_id = u.city_id\n-- JOIN dim_province p ON p.province_id = c.province_id\n-- GROUP BY p.province_name;\n\n-- 样例库扁平写法（星型友好）：城市直接挂在 users\nSELECT COALESCE(city,'未知') city, COUNT(*) \nFROM users GROUP BY 1;\n```\n\n### 查询结果\n\n雪花路径更长；本教程样例用扁平 city 模拟星型侧。\n\n### 用在哪\n\n1. 深层级地理/组织  2. 存储敏感  3. 规范化要求高的场景\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 无必要全面雪花化 | SQL 又长又慢 | 默认星型，热点层级再拆 |\n| 雪花与星型混叫 | 沟通混乱 | 评审写明形态 |\n\n### 动手\n\n若「SKU→品类→大类」三层，画雪花与「品类属性打平进商品维」两种方案。",
+              "content": "### 课前\n\n- **场景**：用户维里城市还要挂「城市→省份→大区」层级，想省存储、强约束。\n- **目标**：理解雪花=维度再规范化分层；会算多一跳 JOIN 的代价。\n- **先修**：星型模型 → 下一课：星系模型\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n把 users.city 扩展为地区层级（示意表）。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **雪花（Snowflake）**：维度表继续拆成子维，呈雪花状。\n- **相对星型**：更省空间、更易维护层级；**查询多 JOIN**，对分析师不友好。\n- **现代实践**：很多团队仍用星型，层级用桥接表/扁平属性折中。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 雪花示意：用户 → 城市 → 省份\n-- dim_user(user_id, user_name, city_id)\n-- dim_city(city_id, city_name, province_id)\n-- dim_province(province_id, province_name)\n\n-- 等价查询（比星型多一跳）\n-- SELECT p.province_name, SUM(f.pay_amt)\n-- FROM fact_pay f\n-- JOIN dim_user u ON u.user_sk = f.user_sk\n-- JOIN dim_city c ON c.city_id = u.city_id\n-- JOIN dim_province p ON p.province_id = c.province_id\n-- GROUP BY p.province_name;\n\n-- 样例库扁平写法（星型友好）：城市直接挂在 users\nSELECT COALESCE(city,'未知') city, COUNT(*) \nFROM users GROUP BY 1;\n```\n\n### 查询结果\n\n雪花路径更长；本教程样例用扁平 city 模拟星型侧。\n\n### 用在哪\n\n1. 深层级地理/组织  2. 存储敏感  3. 规范化要求高的场景\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 无必要全面雪花化 | SQL 又长又慢 | 默认星型，热点层级再拆 |\n| 雪花与星型混叫 | 沟通混乱 | 评审写明形态 |\n\n\n\n### 教义深讲\n\n围绕「雪花模型」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n若「SKU→品类→大类」三层，画雪花与「品类属性打平进商品维」两种方案。",
               "children": []
             },
             {
               "id": "dwh-constellation",
               "title": "星系/星座模型",
               "level": "???",
-              "content": "### 课前\n\n- **场景**：支付事实与加购事实都要连同一张用户维、日期维。\n- **目标**：理解多事实共享维的星系（星座）模型；对接总线矩阵。\n- **先修**：雪花 → 下一课：何时用哪种\n\n### 样例输入\n\n过程：支付 +（想象）加购；共享 users。\n\n### 是什么\n\n- **星系/星座（Fact Constellation）**：多张事实表共享一致性维度。\n- **与总线**：总线矩阵正是规划「哪些过程共享哪些维」。\n- **注意**：不同事实粒度不同，不可随意 UNION 度量。\n\n### 怎么写\n\n```sql\n-- 事实1：支付（订单头粒度）\n-- fact_pay(order_id, user_id, dt, pay_amt)\n\n-- 事实2：订单行（SKU 粒度）——同构样例 order_items\n-- fact_order_item(order_id, sku_id, user_id, dt, qty)\n\n-- 共享维：users / 日期\nSELECT u.user_name,\n       SUM(COALESCE(o.amount,0)) AS gmv,\n       SUM(i.qty) AS qty_sum\nFROM users u\nLEFT JOIN orders o\n  ON o.user_id=u.user_id AND o.status='paid'\nLEFT JOIN order_items i ON i.order_id=o.order_id\nGROUP BY u.user_name;\n-- 注意：qty 与 gmv 同查时要防 amount 被 items 放大（应分事实分别汇总再外连）\n```\n\n### 查询结果\n\n星系允许多过程并存；混粒度 JOIN 仍可能爆炸——分过程汇总是纪律。\n\n### 用在哪\n\n1. 企业级多主题  2. 总线落地  3. 跨过程对比分析\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 多事实直接互 JOIN 再 SUM | 放大 | 各事实先聚合到维键 |\n| 维表各主题翻版 | 对不齐 | 一致性维 |\n\n### 动手\n\n用总线矩阵为「支付」「退款」打两行，标共享维。",
+              "content": "### 课前\n\n- **场景**：支付事实与加购事实都要连同一张用户维、日期维。\n- **目标**：理解多事实共享维的星系（星座）模型；对接总线矩阵。\n- **先修**：雪花 → 下一课：何时用哪种\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n过程：支付 +（想象）加购；共享 users。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **星系/星座（Fact Constellation）**：多张事实表共享一致性维度。\n- **与总线**：总线矩阵正是规划「哪些过程共享哪些维」。\n- **注意**：不同事实粒度不同，不可随意 UNION 度量。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 事实1：支付（订单头粒度）\n-- fact_pay(order_id, user_id, dt, pay_amt)\n\n-- 事实2：订单行（SKU 粒度）——同构样例 order_items\n-- fact_order_item(order_id, sku_id, user_id, dt, qty)\n\n-- 共享维：users / 日期\nSELECT u.user_name,\n       SUM(COALESCE(o.amount,0)) AS gmv,\n       SUM(i.qty) AS qty_sum\nFROM users u\nLEFT JOIN orders o\n  ON o.user_id=u.user_id AND o.status='paid'\nLEFT JOIN order_items i ON i.order_id=o.order_id\nGROUP BY u.user_name;\n-- 注意：qty 与 gmv 同查时要防 amount 被 items 放大（应分事实分别汇总再外连）\n```\n\n### 查询结果\n\n星系允许多过程并存；混粒度 JOIN 仍可能爆炸——分过程汇总是纪律。\n\n### 用在哪\n\n1. 企业级多主题  2. 总线落地  3. 跨过程对比分析\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 多事实直接互 JOIN 再 SUM | 放大 | 各事实先聚合到维键 |\n| 维表各主题翻版 | 对不齐 | 一致性维 |\n\n\n\n### 教义深讲\n\n围绕「星系/星座模型」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n用总线矩阵为「支付」「退款」打两行，标共享维。",
               "children": []
-            }
-          ]
-        },
-        {
-          "id": "dwh-method-styles",
-          "title": "方法论与选型",
-          "level": "???",
-          "content": "### 方法论与选型 · 章节导读\n\n**学习目标**：会在星型/雪花/星系之间选型，并理解 Kimball / Inmon / Data Vault 的定位差异。\n\n**先修**：三种模型形态。",
-          "lessonParent": true,
-          "children": [
+            },
             {
               "id": "dwh-schema-choose",
               "title": "何时用星型/雪花/星系",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：评审会上有人坚持雪花省空间，有人坚持星型好查。\n- **目标**：能按场景选型并一句话说清取舍。\n- **先修**：星系 → 下一课：事实表（构件）或 Kimball/Inmon\n\n### 样例输入\n\n统一交易样例的分析需求。\n\n### 是什么\n\n| 形态 | 优先场景 | 主要代价 |\n|---|---|---|\n| 星型 | 集市/BI 自助、查询简单 | 维冗余 |\n| 雪花 | 深层级、强规范化 | 多 JOIN |\n| 星系 | 多业务过程共存 | 治理与粒度纪律 |\n\n- **默认建议**：主题集市用**星型**；多过程用**星系+总线**；雪花只在层级痛点处局部使用。\n\n### 怎么写\n\n```sql\n-- 决策清单（文字）\n-- 1) 几个业务过程？→ 1 个星型 / 多个星系\n-- 2) 维是否深层级且频繁变更？→ 局部雪花或桥接\n-- 3) 主力消费方是 BI 还是 ETL？→ BI 偏星型\n```\n\n### 查询结果\n\n对本样例「支付 GMV 看板」：选星型即可。\n\n### 用在哪\n\n1. 建模评审  2. 培训对齐语言\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 为炫技全面雪花 | 分析师不会写 | 回到星型 |\n| 只有星型却塞多过程 | 表膨胀 | 拆事实成星系 |\n\n### 动手\n\n写 3 条：你们域里各举一个适合星型/雪花/星系的例子。",
+              "content": "### 课前\n\n- **场景**：评审会上有人坚持雪花省空间，有人坚持星型好查。\n- **目标**：能按场景选型并一句话说清取舍。\n- **先修**：星系 → 下一课：事实表（构件）或 Kimball/Inmon\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n统一交易样例的分析需求。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n| 形态 | 优先场景 | 主要代价 |\n|---|---|---|\n| 星型 | 集市/BI 自助、查询简单 | 维冗余 |\n| 雪花 | 深层级、强规范化 | 多 JOIN |\n| 星系 | 多业务过程共存 | 治理与粒度纪律 |\n\n- **默认建议**：主题集市用**星型**；多过程用**星系+总线**；雪花只在层级痛点处局部使用。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 决策清单（文字）\n-- 1) 几个业务过程？→ 1 个星型 / 多个星系\n-- 2) 维是否深层级且频繁变更？→ 局部雪花或桥接\n-- 3) 主力消费方是 BI 还是 ETL？→ BI 偏星型\n```\n\n### 查询结果\n\n对本样例「支付 GMV 看板」：选星型即可。\n\n### 用在哪\n\n1. 建模评审  2. 培训对齐语言\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 为炫技全面雪花 | 分析师不会写 | 回到星型 |\n| 只有星型却塞多过程 | 表膨胀 | 拆事实成星系 |\n\n\n\n### 教义深讲\n\n围绕「何时用星型/雪花/星系」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n写 3 条：你们域里各举一个适合星型/雪花/星系的例子。",
               "children": []
             },
             {
               "id": "dwh-kimball-inmon",
               "title": "Kimball 与 Inmon",
               "level": "???",
-              "content": "### 课前\n\n- **场景**：有人说先建企业仓再下发集市，有人说先总线集市再整合。\n- **目标**：分清 Kimball（维度/总线）与 Inmon（范式企业仓）的路线差异。\n- **先修**：形态选型 → 下一课：Data Vault 直觉\n\n### 样例输入\n\n概念课；用「支付 GMV」想象两种落地顺序。\n\n### 是什么\n\n- **Kimball**：维度建模、总线矩阵、**自下而上**集市→整合；星型为主。\n- **Inmon**：企业级 EDW **范式（3NF）**、自上而下，集市从 EDW 衍生。\n- **现实**：多数互联网/零售偏 Kimball 或混合；金融核心常更 Inmon/Vault。\n\n### 怎么写\n\n```sql\n-- Kimball 路径（本教程主线）\n-- ODS → DWD 明细事实(星型) → DWS/ADS\n\n-- Inmon 路径（示意）\n-- ODS → 范式 EDW（集成实体） → 主题集市（再星型化）\n\n-- 同一指标：用户 GMV\nSELECT user_id, SUM(COALESCE(amount,0)) gmv\nFROM orders WHERE status='paid' GROUP BY user_id;\n```\n\n### 查询结果\n\n口径结果可相同；组织与表形态不同。\n\n### 用在哪\n\n1. 架构选型讨论  2. 读经典著作时不迷路\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 把两种对立成宗教 | 项目撕逼 | 按组织与数据成熟度混合 |\n| 范式 EDW 直接给分析师 | 不会用 | 集市层星型化 |\n\n### 动手\n\n用一句话说明：本平台数仓课为什么更贴近 Kimball。",
+              "content": "### 课前\n\n- **场景**：有人说先建企业仓再下发集市，有人说先总线集市再整合。\n- **目标**：分清 Kimball（维度/总线）与 Inmon（范式企业仓）的路线差异。\n- **先修**：形态选型 → 下一课：Data Vault 直觉\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n概念课；用「支付 GMV」想象两种落地顺序。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **Kimball**：维度建模、总线矩阵、**自下而上**集市→整合；星型为主。\n- **Inmon**：企业级 EDW **范式（3NF）**、自上而下，集市从 EDW 衍生。\n- **现实**：多数互联网/零售偏 Kimball 或混合；金融核心常更 Inmon/Vault。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- Kimball 路径（本教程主线）\n-- ODS → DWD 明细事实(星型) → DWS/ADS\n\n-- Inmon 路径（示意）\n-- ODS → 范式 EDW（集成实体） → 主题集市（再星型化）\n\n-- 同一指标：用户 GMV\nSELECT user_id, SUM(COALESCE(amount,0)) gmv\nFROM orders WHERE status='paid' GROUP BY user_id;\n```\n\n### 查询结果\n\n口径结果可相同；组织与表形态不同。\n\n### 用在哪\n\n1. 架构选型讨论  2. 读经典著作时不迷路\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 把两种对立成宗教 | 项目撕逼 | 按组织与数据成熟度混合 |\n| 范式 EDW 直接给分析师 | 不会用 | 集市层星型化 |\n\n\n\n### 教义深讲\n\n围绕「Kimball 与 Inmon」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n用一句话说明：本平台数仓课为什么更贴近 Kimball。",
               "children": []
             },
             {
               "id": "dwh-datavault",
               "title": "Data Vault 直觉",
               "level": "???",
-              "content": "### 课前\n\n- **场景**：源系统多、变更频繁，既要审计历史又要可扩展。\n- **目标**：建立 Hub/Link/Satellite 直觉；知道它偏集成层而非直接 BI。\n- **先修**：Kimball/Inmon → 下一课：事实表构件\n\n### 样例输入\n\n订单-用户关系可映射 Vault 构件。\n\n### 是什么\n\n- **Hub**：业务键（user、order）。\n- **Link**：业务键之间的关系（user-order）。\n- **Satellite**：描述属性与历史（城市、状态时间线）。\n- **位置**：常作原始集成层，之上再出维度集市。\n\n### 怎么写\n\n```sql\n-- 概念映射（非完整 DV 实现）\n-- Hub_User(user_hk, user_id, load_dts)\n-- Hub_Order(order_hk, order_id, load_dts)\n-- Link_User_Order(link_hk, user_hk, order_hk, load_dts)\n-- Sat_Order_Detail(order_hk, amount, status, load_dts, hash_diff)\n\n-- 分析层仍可能回到星型：\nSELECT user_id, SUM(COALESCE(amount,0)) FROM orders WHERE status='paid' GROUP BY 1;\n```\n\n### 查询结果\n\nVault 强调可审计可扩展；BI 仍常读星型集市。\n\n### 用在哪\n\n1. 多源整合  2. 强审计  3. 敏捷加源\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 让业务直接查 Vault | 难用 | 上再建模集市 |\n| 与雪花混为一谈 | 概念错 | Vault≠雪花 |\n\n### 动手\n\n把 `order_events` 想成某种 Satellite 更新，写一句理由。",
+              "content": "### 课前\n\n- **场景**：源系统多、变更频繁，既要审计历史又要可扩展。\n- **目标**：建立 Hub/Link/Satellite 直觉；知道它偏集成层而非直接 BI。\n- **先修**：Kimball/Inmon → 下一课：事实表构件\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n订单-用户关系可映射 Vault 构件。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **Hub**：业务键（user、order）。\n- **Link**：业务键之间的关系（user-order）。\n- **Satellite**：描述属性与历史（城市、状态时间线）。\n- **位置**：常作原始集成层，之上再出维度集市。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 概念映射（非完整 DV 实现）\n-- Hub_User(user_hk, user_id, load_dts)\n-- Hub_Order(order_hk, order_id, load_dts)\n-- Link_User_Order(link_hk, user_hk, order_hk, load_dts)\n-- Sat_Order_Detail(order_hk, amount, status, load_dts, hash_diff)\n\n-- 分析层仍可能回到星型：\nSELECT user_id, SUM(COALESCE(amount,0)) FROM orders WHERE status='paid' GROUP BY 1;\n```\n\n### 查询结果\n\nVault 强调可审计可扩展；BI 仍常读星型集市。\n\n### 用在哪\n\n1. 多源整合  2. 强审计  3. 敏捷加源\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 让业务直接查 Vault | 难用 | 上再建模集市 |\n| 与雪花混为一谈 | 概念错 | Vault≠雪花 |\n\n\n\n### 教义深讲\n\n围绕「Data Vault 直觉」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n把 `order_events` 想成某种 Satellite 更新，写一句理由。",
               "children": []
             }
           ]
@@ -11137,49 +11266,49 @@
           "id": "dwh-star",
           "title": "星型构件",
           "level": "??",
-          "content": "### 星型构件 · 章节导读\n\n事实表、维度表、代理键——星型里的零件。",
+          "content": "### 星型构件 · 章节导读\n\n事实表、维度表、代理键——星型里的零件。\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-fact",
               "title": "事实表",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：要把支付过程沉淀为可累加指标表。\n- **目标**：区分事务事实；度量可加；外键连维。\n- **先修**：形态选型 / 总线 → 下一课：维度表\n\n### 样例输入\n\npaid 订单。\n\n### 是什么\n\n- **事实表**：记录业务过程，含外键 + 可加度量。\n- **类型**：事务事实、周期快照、累计快照（先掌握事务）。\n- **度量**：`pay_amt`、`pay_cnt`（常为 1）。\n\n### 怎么写\n\n```sql\n-- 事务事实：支付成功\nSELECT\n  order_id AS pay_id,\n  user_id,\n  DATE(created_at) AS dt,\n  COALESCE(amount,0) AS pay_amt,\n  1 AS pay_cnt\nFROM orders\nWHERE status='paid';\n```\n\n### 查询结果\n\n每笔支付一行；Ada 四笔度量可 SUM。\n\n### 用在哪\n\n1. 主题明细  2. 汇总来源  3. 对账\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 把不可加指标当度量乱 SUM | 比率错误 | 比率放 ADS/计算 |\n| 事实表塞大量文本 | 膨胀 | 进维表 |\n\n### 动手\n\n说明：订单「状态」更适合当维属性还是度量？",
+              "content": "### 课前\n\n- **场景**：要把支付过程沉淀为可累加指标表。\n- **目标**：区分事务事实；度量可加；外键连维。\n- **先修**：形态选型 / 总线 → 下一课：维度表\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\npaid 订单。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **事实表**：记录业务过程，含外键 + 可加度量。\n- **类型**：事务事实、周期快照、累计快照（先掌握事务）。\n- **度量**：`pay_amt`、`pay_cnt`（常为 1）。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 事务事实：支付成功\nSELECT\n  order_id AS pay_id,\n  user_id,\n  DATE(created_at) AS dt,\n  COALESCE(amount,0) AS pay_amt,\n  1 AS pay_cnt\nFROM orders\nWHERE status='paid';\n```\n\n### 查询结果\n\n每笔支付一行；Ada 四笔度量可 SUM。\n\n### 用在哪\n\n1. 主题明细  2. 汇总来源  3. 对账\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 把不可加指标当度量乱 SUM | 比率错误 | 比率放 ADS/计算 |\n| 事实表塞大量文本 | 膨胀 | 进维表 |\n\n\n\n### 教义深讲\n\n围绕「事实表」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n说明：订单「状态」更适合当维属性还是度量？",
               "children": []
             },
             {
               "id": "dwh-dim",
               "title": "维度表",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：报表要按城市看 GMV，需要用户维。\n- **目标**：会设计维表字段；理解退化维。\n- **先修**：事实表 → 下一课：代理键\n\n### 样例输入\n\nusers + 支付事实。\n\n### 是什么\n\n- **维度表**：描述「谁/何处/何时/何物」的上下文。\n- **退化维**：订单号等可直接放事实的短码。\n- **查询**：事实 JOIN 维再按维属性 GROUP。\n\n### 怎么写\n\n```sql\nSELECT\n  COALESCE(u.city, '未知') AS city,\n  SUM(COALESCE(o.amount,0)) AS gmv\nFROM orders o\nJOIN users u ON u.user_id = o.user_id\nWHERE o.status='paid'\nGROUP BY COALESCE(u.city, '未知');\n```\n\n### 查询结果\n\n上海 / 北京 等城市 GMV；Dan 无支付不出现。\n\n### 用在哪\n\n1. 下钻分析  2. 一致性维  3. 标签来源\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 维表无主键 | 一对多放大 | 用户一行（或 SCD 版本行） |\n| 城市在事实里重复字符串 | 难变更历史 | 维表+键 |\n\n### 动手\n\n把 `status` 做成退化维还是小维表？写你的选择理由。",
+              "content": "### 课前\n\n- **场景**：报表要按城市看 GMV，需要用户维。\n- **目标**：会设计维表字段；理解退化维。\n- **先修**：事实表 → 下一课：代理键\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers + 支付事实。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **维度表**：描述「谁/何处/何时/何物」的上下文。\n- **退化维**：订单号等可直接放事实的短码。\n- **查询**：事实 JOIN 维再按维属性 GROUP。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\nSELECT\n  COALESCE(u.city, '未知') AS city,\n  SUM(COALESCE(o.amount,0)) AS gmv\nFROM orders o\nJOIN users u ON u.user_id = o.user_id\nWHERE o.status='paid'\nGROUP BY COALESCE(u.city, '未知');\n```\n\n### 查询结果\n\n上海 / 北京 等城市 GMV；Dan 无支付不出现。\n\n### 用在哪\n\n1. 下钻分析  2. 一致性维  3. 标签来源\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 维表无主键 | 一对多放大 | 用户一行（或 SCD 版本行） |\n| 城市在事实里重复字符串 | 难变更历史 | 维表+键 |\n\n\n\n### 教义深讲\n\n围绕「维度表」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n把 `status` 做成退化维还是小维表？写你的选择理由。",
               "children": []
             },
             {
               "id": "dwh-surrogate-key",
               "title": "代理键",
               "level": "???",
-              "content": "### 课前\n\n- **场景**：源系统 user_id 可能复用/合并，维表历史版本如何稳定关联？\n- **目标**：理解代理键（仓库生成）与自然键（业务键）分工。\n- **先修**：维度表 → 下一课：SCD2\n\n### 样例输入\n\nusers 自然键 user_id。\n\n### 是什么\n\n- **自然键**：源业务主键（user_id）。\n- **代理键**：仓内无意义整型键，标识维行版本。\n- **事实存代理键**：SCD2 时点关联才稳。\n\n### 怎么写\n\n```sql\n-- 维表示意\n-- user_sk | user_id | city | valid_from | valid_to | is_current\n-- 1001   | 4       | NULL | 2024-01-10 | 2024-02-01 | 0\n-- 1002   | 4       | 上海 | 2024-02-01 | 9999-12-31 | 1\n\n-- 事实持有 user_sk=1001/1002，而不是只存 user_id+后期城市\n```\n\n### 查询结果\n\n同一自然键多行版本；事实按事件时间选 sk。\n\n### 用在哪\n\n1. SCD2 落地  2. 源键不稳定  3. 多源整合\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 事实只存自然键且维无历史 | 无法时光旅行 | SCD2+代理键 |\n| 代理键用业务编码 | 冲突 | 仓内序列 |\n\n### 动手\n\n说明支付事实应存 `user_id` 还是 `user_sk`，或两者都存的理由。",
+              "content": "### 课前\n\n- **场景**：源系统 user_id 可能复用/合并，维表历史版本如何稳定关联？\n- **目标**：理解代理键（仓库生成）与自然键（业务键）分工。\n- **先修**：维度表 → 下一课：SCD2\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers 自然键 user_id。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **自然键**：源业务主键（user_id）。\n- **代理键**：仓内无意义整型键，标识维行版本。\n- **事实存代理键**：SCD2 时点关联才稳。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 维表示意\n-- user_sk | user_id | city | valid_from | valid_to | is_current\n-- 1001   | 4       | NULL | 2024-01-10 | 2024-02-01 | 0\n-- 1002   | 4       | 上海 | 2024-02-01 | 9999-12-31 | 1\n\n-- 事实持有 user_sk=1001/1002，而不是只存 user_id+后期城市\n```\n\n### 查询结果\n\n同一自然键多行版本；事实按事件时间选 sk。\n\n### 用在哪\n\n1. SCD2 落地  2. 源键不稳定  3. 多源整合\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 事实只存自然键且维无历史 | 无法时光旅行 | SCD2+代理键 |\n| 代理键用业务编码 | 冲突 | 仓内序列 |\n\n\n\n### 教义深讲\n\n围绕「代理键」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n说明支付事实应存 `user_id` 还是 `user_sk`，或两者都存的理由。",
               "children": []
             },
             {
               "id": "dwh-fact-types",
-              "title": "事实表类型",
+              "title": "事实类型",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：支付要留每笔明细，库存只要每日快照，履约要看累计状态。\n- **目标**：分清事务事实 / 周期快照 / 累积快照，并选对粒度。\n- **先修**：事实表 → 下一课：宽表与指标表\n\n### 样例输入\n\norders 支付；想象库存日终、订单履约里程碑。\n\n### 是什么\n\n- **事务事实**：每笔事件一行（支付、点击）。\n- **周期快照**：固定周期末状态一行（日库存）。\n- **累积快照**：生命周期里程碑列（下单/支付/发货/签收时间）。\n\n### 怎么写\n\n```sql\n-- 事务：支付成功一行\nSELECT order_id, user_id, DATE(created_at) dt, amount AS pay_amt\nFROM orders WHERE status='paid';\n\n-- 周期快照示意：每日用户累计支付（日终）\n-- dt, user_id, pay_amt_td, order_cnt_td\n\n-- 累积快照示意：订单进度\n-- order_id, created_at, paid_at, shipped_at, signed_at\n```\n\n### 查询结果\n\n三种事实服务不同问题；不要混在一张无说明粒度的表里。\n\n### 用在哪\n\n1. 明细对账用事务  2. 库存/余额用周期快照  3. 履约漏斗用累积快照\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 用事务表硬算「日终余额」 | 重算成本高且易错 | 单独周期快照 |\n| 累积快照乱改历史里程碑 | 不可复现 | 只追加/校正并留痕 |\n\n### 动手\n\n判断：退款事件更适合进事务事实还是改累积快照上的列？",
+              "content": "### 课前\n\n- **场景**：支付、下单、快照库存混在一张「事实」里。\n- **目标**：区分事务事实、周期快照、累积快照。\n- **先修**：事实表 / 粒度\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders 支付可作事务事实；若跟踪订单状态流转可作累积快照。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`。\n\n### 是什么\n\n- **事务事实**：业务事件发生即记一行（支付成功）。\n- **周期快照**：固定时间点切片（每日库存）。\n- **累积快照**：生命周期里程碑列（下单/支付/发货时间）。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）\n2. 按下述 SQL/DDL 改到你的主题域\n3. 用「查询结果」与源或上一层做闭合\n4. 对照易错表，确认没有把口径写进错误的层\n\n```sql\n-- 事务事实（支付）\nSELECT order_id, user_id, COALESCE(amount,0) AS pay_amt, created_at AS pay_at\nFROM orders WHERE status='paid';\n-- 累积快照示意：订单里程碑\n-- order_id, created_at, paid_at, cancelled_at\n```\n\n### 查询结果\n\n支付事实一行一事件；不要把库存日快照塞进同一粒度。\n\n### 用在哪\n\n1. 建模评审  2. 选择分区键  3. 与过程分析\n\n**上下游**：与 ETL 调度/对账课、BI 指标课对照学习。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 混粒度一张表 | 汇总错 | 拆事实 |\n| 用事务表硬模拟快照 | 补数难 | 独立快照作业 |\n| 累积快照无闭链规则 | 状态乱 | 明确更新列 |\n\n### 教义深讲\n\n围绕「事实类型」记住：可复现、可重跑、可追溯。支付口径统一 `status='paid'` + `COALESCE(amount,0)`。\n\n### 动手\n\norder_events 更像哪类事实？为什么。",
               "children": []
             },
             {
               "id": "dwh-wide-vs-metric",
-              "title": "宽表与指标表",
+              "title": "宽表 vs 指标下沉",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：分析师想要一张「用户日」大宽表；看板只要 GMV/UV 几个指标。\n- **目标**：分清明细宽表（多维属性打平）与指标/汇总表（少列可加总）。\n- **先修**：事实表类型 → 下一课：维度表\n\n### 样例输入\n\n支付事实 + 用户维。\n\n### 是什么\n\n- **宽表**：一行主体+大量属性/标签，便于探索，易膨胀。\n- **指标表（汇总）**：按固定维度预聚合，服务看板与 SLA。\n- **原则**：可加总指标进汇总；高基数明细留 DWD/DWS。\n\n### 怎么写\n\n```sql\n-- 指标表示意：城市日 GMV\nSELECT DATE(o.created_at) AS dt,\n       COALESCE(u.city,'未知') AS city,\n       SUM(COALESCE(o.amount,0)) AS gmv,\n       COUNT(*) AS pay_cnt\nFROM orders o\nJOIN users u ON u.user_id=o.user_id\nWHERE o.status='paid'\nGROUP BY 1,2;\n\n-- 宽表示意：订单行打平用户城市（仍是明细粒度）\nSELECT o.*, u.user_name, u.city\nFROM orders o JOIN users u ON u.user_id=o.user_id;\n```\n\n### 查询结果\n\n指标表行少、口径稳定；宽表灵活但贵。\n\n### 用在哪\n\n1. ADS 看板接口  2. 特征宽表（谨慎）  3. 即席分析出口\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 把宽表当唯一真相 | 口径漂移 | 指标字典+认证汇总 |\n| 宽表无限加列 | 任务变慢 | 分层：热列 ADS，冷列明细 |\n\n### 动手\n\n写出「用户日」宽表主键，并列出 3 个不该进宽表的字段。",
+              "content": "### 课前\n\n- **场景**：有人要「一张覆盖所有字段的宽表」，有人要指标平台。\n- **目标**：会在宽出与指标下沉之间做取舍。\n- **先修**：DWS / ADS / SSOT\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n用户日 GMV 既可宽表字段，也可指标服务。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`。\n\n### 是什么\n\n- **宽表**：少 JOIN、取数快，易膨胀与口径漂移。\n- **指标下沉**：原子/派生指标沉在 DWS/语义层，消费方组合。\n- **实践**：明细保粒度；高频指标物化；避免「万能宽表」。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）\n2. 按下述 SQL/DDL 改到你的主题域\n3. 用「查询结果」与源或上一层做闭合\n4. 对照易错表，确认没有把口径写进错误的层\n\n```sql\n-- 下沉：可复用汇总\nCREATE VIEW dws_user_pay_gmv AS\nSELECT user_id, SUM(COALESCE(amount,0)) gmv, COUNT(*) pay_cnt\nFROM orders WHERE status='paid' GROUP BY user_id;\n-- 宽出：仅 ADS 组装展示字段，不改 gmv 定义\n```\n\n### 查询结果\n\nAda gmv=350 来自同一视图，不论几个看板。\n\n### 用在哪\n\n1. 性能与治理平衡  2. BI 语义层  3. 防止烟囱\n\n**上下游**：与 ETL 调度/对账课、BI 指标课对照学习。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 万能宽表私有口径 | 对不齐 | 指标下沉 |\n| 只有指标没有明细 | 无法下钻 | 保留 DWD |\n| 宽表当 ODS | 难重跑 | 分层 |\n\n### 教义深讲\n\n围绕「宽表 vs 指标下沉」记住：可复现、可重跑、可追溯。支付口径统一 `status='paid'` + `COALESCE(amount,0)`。\n\n### 动手\n\n列出 2 个该下沉的指标、1 个可留在 ADS 的展示字段。",
               "children": []
             },
             {
               "id": "dwh-conformed-dim",
               "title": "一致性维度",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：交易主题与流量主题都要按「用户」拼接，但两边 user 维字段不一致。\n- **目标**：理解一致性维（Conformed Dimension）：跨主题可共享的公共维。\n- **先修**：总线矩阵 → 可与代理键对照\n\n### 样例输入\n\nusers 作为公共用户维。\n\n### 是什么\n\n- **一致性维**：同一含义、同一键、同一属性定义，被多事实复用。\n- **来源**：总线矩阵里的公共列。\n- **治理**：有 Owner；变更要公告。\n\n### 怎么写\n\n```sql\n-- 支付与（示意）加购都用同一 user_id / 用户维\nSELECT u.user_id, u.city,\n       SUM(COALESCE(o.amount,0)) AS gmv\nFROM users u\nLEFT JOIN orders o ON o.user_id=u.user_id AND o.status='paid'\nGROUP BY u.user_id, u.city;\n```\n\n### 查询结果\n\n跨过程对比城市 GMV 才有意义。\n\n### 用在哪\n\n1. 多主题拼接  2. 企业指标对齐  3. 主数据落地\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 每主题复制 user 维 | 对不齐 | 公共维一张 |\n| 同名不同义 | 吵口径 | 字典登记 |\n\n### 动手\n\n列出本样例里至少 2 个可做一致性维的候选。",
+              "content": "### 课前\n\n- **场景**：交易域与营销域各自有一份 users，城市对不上。\n- **目标**：理解一致性维度：跨主题可对齐的公共维。\n- **先修**：维度 / 总线矩阵\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers 作为公共用户维。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`。\n\n### 是什么\n\n- **一致性维度**：多事实/多集市共用、属性同名同义。\n- **手段**：公共 DIM、代理键、变更走 SCD 规范。\n- **总线**：事实挂到同一组一致性维上才能跨域分析。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）\n2. 按下述 SQL/DDL 改到你的主题域\n3. 用「查询结果」与源或上一层做闭合\n4. 对照易错表，确认没有把口径写进错误的层\n\n```sql\n-- 两事实都挂同一用户维\nSELECT o.order_id, u.city, COALESCE(o.amount,0) pay_amt\nFROM orders o\nJOIN users u ON u.user_id=o.user_id\nWHERE o.status='paid';\n```\n\n### 查询结果\n\n城市来自同一维，跨报表可比。\n\n### 用在哪\n\n1. 跨域分析  2. 总线实施  3. 治理争议仲裁\n\n**上下游**：与 ETL 调度/对账课、BI 指标课对照学习。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 每集市复制维 | 同名不同义 | 公共 DIM |\n| 自然键当唯一真相 | 源合并冲突 | 代理键 |\n| 维属性随意改名 | 报表裂 | 词典治理 |\n\n### 教义深讲\n\n围绕「一致性维度」记住：可复现、可重跑、可追溯。支付口径统一 `status='paid'` + `COALESCE(amount,0)`。\n\n### 动手\n\ndate_dim / user_dim 哪个必须一致性？举例。",
               "children": []
             }
           ]
@@ -11188,34 +11317,33 @@
           "id": "dwh-scd-sec",
           "title": "缓慢变化维",
           "level": "???",
-          "content": "### 缓慢变化维 · 章节导读",
+          "content": "### 缓慢变化维 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-scd1",
               "title": "SCD1 覆盖",
               "level": "??",
-              "content": "### 课前\n\n- **场景**：用户改名，历史报表不需要旧名。\n- **目标**：掌握 SCD1：直接覆盖，不保留历史。\n- **先修**：代理键 → 下一课：SCD2\n\n### 样例输入\n\nusers.user_name 变更场景。\n\n### 是什么\n\n- **SCD1**：新值覆盖旧值，无历史。\n- **适用**：纠错、不关心历史属性。\n- **代价**：无法回答「当时叫什么」。\n\n### 怎么写\n\n```sql\n-- SCD1 示意\nUPDATE users SET user_name = 'Ada Lovelace' WHERE user_id=1;\nSELECT * FROM users WHERE user_id=1;\n```\n\n### 查询结果\n\n只见新名；旧名消失。\n\n### 用在哪\n\n1. 主数据纠错  2. 不需要历史的属性\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 该留历史却用 SCD1 | 审计失败 | 改 SCD2 |\n| 全字段 SCD1 | 误覆盖关键史 | 按字段策略 |\n\n### 动手\n\n判断：手机号纠错 vs 会员等级变迁，谁更适合 SCD1？",
+              "content": "### 课前\n\n- **场景**：用户改名，历史报表不需要旧名。\n- **目标**：掌握 SCD1：直接覆盖，不保留历史。\n- **先修**：代理键 → 下一课：SCD2\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers.user_name 变更场景。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **SCD1**：新值覆盖旧值，无历史。\n- **适用**：纠错、不关心历史属性。\n- **代价**：无法回答「当时叫什么」。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- SCD1 示意\nUPDATE users SET user_name = 'Ada Lovelace' WHERE user_id=1;\nSELECT * FROM users WHERE user_id=1;\n```\n\n### 查询结果\n\n只见新名；旧名消失。\n\n### 用在哪\n\n1. 主数据纠错  2. 不需要历史的属性\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 该留历史却用 SCD1 | 审计失败 | 改 SCD2 |\n| 全字段 SCD1 | 误覆盖关键史 | 按字段策略 |\n\n\n\n### 教义深讲\n\n围绕「SCD1 覆盖」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n判断：手机号纠错 vs 会员等级变迁，谁更适合 SCD1？",
               "children": []
             },
             {
               "id": "dwh-scd2",
               "title": "SCD2 拉链表",
               "level": "???",
-              "content": "### 课前\n\n- **场景**：Dan 城市从空变为上海，下单时城市要可回放。\n- **目标**：会闭链旧行 + 插入新行；点时间查询。\n- **先修**：SCD1 → 下一课：增量策略\n\n### 样例输入\n\nusers_scd2 练习表（勿破坏分析用 users 主数据时可另建）。\n\n### 是什么\n\n- **SCD2**：保留历史版本（valid_from/to, is_current）。\n- **动作**：变更时闭链，再插新版本。\n- **关联**：事实按事件时间找维版本。\n\n### 怎么写\n\n```sql\nCREATE TABLE IF NOT EXISTS users_scd2 (\n  user_id INT, user_name VARCHAR(32), city VARCHAR(32),\n  valid_from TIMESTAMP, valid_to TIMESTAMP, is_current INT,\n  PRIMARY KEY(user_id, valid_from)\n);\n-- 初始 + 变更步骤见 SQL「拉链表 SCD2」金课同构写法\nUPDATE users_scd2 SET valid_to='2024-02-01', is_current=0\nWHERE user_id=4 AND is_current=1;\n-- INSERT 新版本 city='上海' ...\n\nSELECT * FROM users_scd2\nWHERE user_id=4\n  AND valid_from <= '2024-01-15'\n  AND valid_to   >  '2024-01-15';\n```\n\n### 查询结果\n\n点 2024-01-15 得到旧城市；当前行是上海。\n\n### 用在哪\n\n1. 地址/等级历史  2. 价格维  3. 合规审计\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 不闭链 | 多个 current | 先闭链 |\n| 用 NULL 当无限终点 | 比较别扭 | 远未来哨兵 |\n\n### 动手\n\n为 Ada 模拟一次城市变更，并查她 2024-01-02 的城市。",
+              "content": "### 课前\n\n- **场景**：Dan 城市从空变为上海，下单时城市要可回放。\n- **目标**：会闭链旧行 + 插入新行；点时间查询。\n- **先修**：SCD1 → 下一课：增量策略\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers_scd2 练习表（勿破坏分析用 users 主数据时可另建）。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **SCD2**：保留历史版本（valid_from/to, is_current）。\n- **动作**：变更时闭链，再插新版本。\n- **关联**：事实按事件时间找维版本。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\nCREATE TABLE IF NOT EXISTS users_scd2 (\n  user_id INT, user_name VARCHAR(32), city VARCHAR(32),\n  valid_from TIMESTAMP, valid_to TIMESTAMP, is_current INT,\n  PRIMARY KEY(user_id, valid_from)\n);\n-- 初始 + 变更步骤见 SQL「拉链表 SCD2」金课同构写法\nUPDATE users_scd2 SET valid_to='2024-02-01', is_current=0\nWHERE user_id=4 AND is_current=1;\n-- INSERT 新版本 city='上海' ...\n\nSELECT * FROM users_scd2\nWHERE user_id=4\n  AND valid_from <= '2024-01-15'\n  AND valid_to   >  '2024-01-15';\n```\n\n### 查询结果\n\n点 2024-01-15 得到旧城市；当前行是上海。\n\n### 用在哪\n\n1. 地址/等级历史  2. 价格维  3. 合规审计\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 不闭链 | 多个 current | 先闭链 |\n| 用 NULL 当无限终点 | 比较别扭 | 远未来哨兵 |\n\n\n\n### 教义深讲\n\n围绕「SCD2 拉链表」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 Ada 模拟一次城市变更，并查她 2024-01-02 的城市。",
               "children": []
             },
             {
               "id": "dwh-scd3",
               "title": "SCD3 保留前值",
-              "level": "???",
-              "content": "### 课前\n\n- **场景**：只要「当前城市 + 上一次城市」，不要完整历史链。\n- **目标**：掌握 SCD3：有限历史（通常一列 previous）。\n- **先修**：SCD2 → 选型：字段要不要完整时光旅行\n\n### 样例输入\n\nusers.city 变更。\n\n### 是什么\n\n- **SCD3**：在同行保留当前值与前值（或有限 N 次）。\n- **适用**：只要对比「新旧」，不要任意时点回放。\n- **对比**：SCD1 无历史；SCD2 全历史；SCD3 折中。\n\n### 怎么写\n\n```sql\n-- SCD3 示意\n-- user_id | city | city_prev | city_updated_at\n-- 4       | 上海 | NULL      | 2024-02-01\n\nUPDATE users_scd3\nSET city_prev = city,\n    city = '上海',\n    city_updated_at = '2024-02-01'\nWHERE user_id = 4;\n```\n\n### 查询结果\n\n可回答「现在哪、以前哪」；不能回答任意历史日。\n\n### 用在哪\n\n1. 简单新旧对比  2. 存储敏感  3. 不需审计全链\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 用 SCD3 做合规追溯 | 证据不足 | SCD2 |\n| 所有字段 SCD3 | 列爆炸 | 仅关键属性 |\n\n### 动手\n\n会员等级只要「当前+上次」，选 SCD1/2/3 哪个？",
+              "level": "??",
+              "content": "### 课前\n\n- **场景**：只要「当前城市 + 上一城市」，不要完整历史。\n- **目标**：会用 SCD3：有限历史列，而不是无限拉链。\n- **先修**：SCD1 / SCD2\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers.city 与 previous_city。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`。\n\n### 是什么\n\n- **SCD3**：在行上保留当前值与有限个历史列。\n- **适合**：只要「前值」对比，不要任意时点时光旅行。\n- **对比**：完整审计仍选 SCD2。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）\n2. 按下述 SQL/DDL 改到你的主题域\n3. 用「查询结果」与源或上一层做闭合\n4. 对照易错表，确认没有把口径写进错误的层\n\n```sql\n-- SCD3 示意\n-- city='上海', previous_city=NULL → 变更后\n-- city='北京', previous_city='上海'\nSELECT user_id, city AS current_city, previous_city\nFROM users;\n```\n\n### 查询结果\n\n能回答「现在 vs 上一版」，不能回答任意历史日。\n\n### 用在哪\n\n1. 简单对比报表  2. 存储敏感场景  3. 与 SCD2 搭配\n\n**上下游**：与 ETL 调度/对账课、BI 指标课对照学习。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 用 SCD3 冒充审计 | 缺历史 | SCD2 |\n| 历史列无限加 | 表很宽 | 改 SCD2 |\n| 与事实点时间混用 | 对不齐 | 选对类型 |\n\n### 教义深讲\n\n围绕「SCD3」记住：可复现、可重跑、可追溯。支付口径统一 `status='paid'` + `COALESCE(amount,0)`。\n\n### 动手\n\n手机号纠错、城市变更、会员等级，分别倾向 SCD1/2/3？",
               "children": []
             }
           ]
         }
-      ],
-      "sector": "advanced"
+      ]
     },
     {
       "id": "dwh-pipeline",
@@ -11226,29 +11354,29 @@
         {
           "id": "dwh-schedule-sec",
           "title": "调度与回刷",
-          "level": "???",
-          "content": "### 调度与回刷 · 章节导读\n\n**学习目标**：理解 DAG 依赖、装载顺序与回刷窗口。\n\n**先修**：分层职责、增量策略。",
+          "level": "??",
+          "content": "### 调度与回刷 · 章节导读\n\n> **教义提示**：仓表依赖有顺序；回刷要按分区幂等。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-schedule",
-              "title": "调度与依赖",
-              "level": "???",
-              "content": "### 课前\n\n- **场景**：DWS 依赖 DWD，DWD 依赖 ODS；ODS 晚到会导致下游空跑。\n- **目标**：用 DAG 表达依赖；失败重试与告警要可行动。\n- **先修**：分层 → 下一课：装载顺序\n\n### 样例输入\n\n日批：ODS→DWD→DWS→ADS。\n\n### 是什么\n\n- **调度**：按时间/事件触发任务。\n- **依赖**：上游成功才跑下游（DAG）。\n- **SLA**：最晚产出时间；超时告警。\n\n### 怎么写\n\n```text\n# 伪 DAG\n# ods_orders_di  -> dwd_fact_pay_di -> dws_user_day -> ads_gmv_board\n#                 \\-> dwd_dim_user_scd2（可并行）\n\n# 规则：下游 set_upstream(上游成功)\n# 分区 ds='{{ ds }}' 全链路透传\n```\n\n### 查询结果\n\n依赖清晰后，空跑与脏读显著下降。\n\n### 用在哪\n\n1. 日批链路  2. 小时级近实时  3. 质量门禁插在关键边\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 全点时间齐发无依赖 | 下游读到半成品 | 显式 upstream |\n| 失败只重跑最末 | 口径错 | 从断裂点下游级联 |\n\n### 动手\n\n画出本教程四层任务的最小 DAG（4～6 个节点）。",
+              "title": "调度依赖",
+              "level": "??",
+              "content": "### 课前\n\n- **场景**：ADS 跑完了 DWD 还没好，看板先空后跳。\n- **目标**：按层与表依赖编排：维先于事实，明细先于汇总。\n- **先修**：分层 / ETL DAG\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\ndim_user → dwd_pay → dws_gmv → ads。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`。\n\n### 是什么\n\n- **依赖**：下游任务等待上游就绪（分区/标志位）。\n- **仓内顺序**：DIM/ODS → DWD → DWS → ADS。\n- **与 ETL**：编排工具（Airflow）管顺序，仓模型管语义。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）\n2. 按下述 SQL/DDL 改到你的主题域\n3. 用「查询结果」与源或上一层做闭合\n4. 对照易错表，确认没有把口径写进错误的层\n\n```sql\n-- 伪依赖\n-- 1) dim_user_dt\n-- 2) dwd_trade_pay_di\n-- 3) dws_user_pay_gmv\n-- 4) ads_ops_daily\nSELECT 'dim' AS step1, 'dwd' AS step2, 'dws' AS step3;\n```\n\n### 查询结果\n\nADS 读到的是完整日分区，而不是半成品。\n\n### 用在哪\n\n1. 日批设计  2. SLA  3. 故障定界\n\n**上下游**：与 ETL 调度/对账课、BI 指标课对照学习。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 定时钟点盲跑 | 空窗 | 传感器/依赖 |\n| 汇总先于明细 | 错数 | 分层依赖 |\n| 维表后到 | 未知成员泛滥 | 维先跑/晚到补 |\n\n### 教义深讲\n\n围绕「调度依赖」记住：可复现、可重跑、可追溯。支付口径统一 `status='paid'` + `COALESCE(amount,0)`。\n\n### 动手\n\n画出本样例四层任务依赖箭头。",
               "children": []
             },
             {
               "id": "dwh-load-order",
               "title": "装载顺序",
-              "level": "???",
-              "content": "### 课前\n\n- **场景**：先灌事实再灌维，或维未就绪就关联，会出现未知维。\n- **目标**：掌握「维先于事实 / 贴源先于清洗」等常见顺序。\n- **先修**：调度与依赖 → 下一课：回刷与重跑\n\n### 样例输入\n\ndim_user + fact_pay。\n\n### 是什么\n\n- **常见顺序**：ODS 贴源 → 维表（SCD）→ 事实明细 → 汇总 → ADS。\n- **未知维**：事实先到维后到时进「未知成员」稍后修补。\n- **幂等**：同分区重跑结果一致。\n\n### 怎么写\n\n```text\n-- 日批示意顺序\n-- 1) ODS.orders_di / ODS.users_di\n-- 2) DIM.user（SCD2 闭链+插入）\n-- 3) DWD.fact_pay（映射 user_sk）\n-- 4) DWS / ADS 汇总\n```\n\n### 查询结果\n\n按序装载后，事实维键可解析。\n\n### 用在哪\n\n1. 日批编排  2. 维晚到兜底  3. 重跑设计\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 事实先写死业务键无代理键 | SCD2 无法时光旅行 | 映射 sk |\n| 汇总与明细并行无门禁 | 对不上 | 汇总等明细成功 |\n\n### 动手\n\n若用户维延迟 2 小时，支付事实怎么落？写一种兜底策略。",
+              "level": "??",
+              "content": "### 课前\n\n- **场景**：事实先入，维表后到，出现大量 unknown 城市。\n- **目标**：掌握「维→事实→汇总」装载顺序与晚到维补救。\n- **先修**：调度依赖\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nusers 与 orders 同日批。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`。\n\n### 是什么\n\n- **原则**：先保证维度成员存在，再挂事实代理键。\n- **晚到维**：先占位 unknown，次日回补或重述近 N 天。\n- **汇总**：必须在明细稳定后。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）\n2. 按下述 SQL/DDL 改到你的主题域\n3. 用「查询结果」与源或上一层做闭合\n4. 对照易错表，确认没有把口径写进错误的层\n\n```sql\n-- 1) 装维\n-- INSERT dim_user ... FROM users\n-- 2) 装事实（找代理键）\nSELECT o.order_id, u.user_id, COALESCE(o.amount,0) pay_amt\nFROM orders o\nLEFT JOIN users u ON u.user_id=o.user_id\nWHERE o.status='paid';\n```\n\n### 查询结果\n\n事实行能关联到维；未知成员可计量。\n\n### 用在哪\n\n1. 日批  2. 回填  3. 质量门禁\n\n**上下游**：与 ETL 调度/对账课、BI 指标课对照学习。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 事实先写死自然键不管维 | 报表破洞 | 维优先/占位 |\n| 汇总读未完成分区 | 跳动 | 就绪标志 |\n| 忽略迟到维 | 长期 unknown | lookback 重述 |\n\n### 教义深讲\n\n围绕「装载顺序」记住：可复现、可重跑、可追溯。支付口径统一 `status='paid'` + `COALESCE(amount,0)`。\n\n### 动手\n\n维晚到 2 小时，给出两种补救策略。",
               "children": []
             },
             {
               "id": "dwh-backfill",
-              "title": "回刷与重跑",
+              "title": "回刷历史",
               "level": "???",
-              "content": "### 课前\n\n- **场景**：口径改了，要重算过去 30 天 DWS；或某天 ODS 晚到需补数。\n- **目标**：会设计回刷窗口、幂等覆盖与影响面评估。\n- **先修**：装载顺序 → 下一课：增量策略\n\n### 样例输入\n\n按 dt 分区的汇总表。\n\n### 是什么\n\n- **回刷**：对历史分区重新计算并覆盖。\n- **补数**：上游迟到后的定向重跑。\n- **纪律**：先评估下游消费方；保留变更说明。\n\n### 怎么写\n\n```text\n-- 回刷 2024-01-01..2024-01-30\n-- for ds in range:\n--   rerun dwd_fact_pay_di(ds)\n--   rerun dws_user_day(ds)\n-- 要求：目标分区 DELETE/OVERWRITE 后再写，保证幂等\n```\n\n### 查询结果\n\n历史分区与线上口径重新对齐。\n\n### 用在哪\n\n1. 口径变更  2. 故障补数  3. 活动复盘重算\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 只回刷 ADS 不回刷 DWD | 治标不治本 | 从正确层开始 |\n| 无窗口无限回刷 | 成本爆炸 | 定窗口+采样验收 |\n\n### 动手\n\n列出回刷前要通知的 3 类下游（看板/模型/导出）。",
+              "content": "### 课前\n\n- **场景**：支付口径改了，要重刷 30 天 DWS。\n- **目标**：按 dt 回刷；控制并发；与增量互斥策略清晰。\n- **先修**：分区 / 增量 / ETL 回填\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n历史 dt 列表重跑 dwd/dws。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`。\n\n### 是什么\n\n- **回刷**：对历史分区按新逻辑重算。\n- **幂等**：分区覆盖或可重跑 MERGE。\n- **风险**：打满集群、与增量冲突、下游未通知。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）\n2. 按下述 SQL/DDL 改到你的主题域\n3. 用「查询结果」与源或上一层做闭合\n4. 对照易错表，确认没有把口径写进错误的层\n\n```sql\n-- 对每个 ds:\n-- INSERT OVERWRITE dwd_trade_pay_di PARTITION (dt=ds)\n-- SELECT ... WHERE 业务日=ds;\n-- 然后再刷 dws 对应 dt\nSELECT 'backfill' AS mode, 'overwrite_by_dt' AS strategy;\n```\n\n### 查询结果\n\n历史 dt 新口径一致；增量水位不被打乱。\n\n### 用在哪\n\n1. 口径变更  2. 修数  3. 补数\n\n**上下游**：与 ETL 调度/对账课、BI 指标课对照学习。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 巨型并发回刷 | 打崩 | 限流按日 |\n| 不通知 BI | 对照期混乱 | 变更公告 |\n| 回刷改错分区 | 丢历史 | 参数审查 |\n\n### 教义深讲\n\n围绕「回刷历史」记住：可复现、可重跑、可追溯。支付口径统一 `status='paid'` + `COALESCE(amount,0)`。\n\n### 动手\n\n回刷时增量任务暂停还是跳过冲突 dt？给方案。",
               "children": []
             }
           ]
@@ -11257,21 +11385,21 @@
           "id": "dwh-incr-sec",
           "title": "增量与分区",
           "level": "???",
-          "content": "### 增量与分区 · 章节导读",
+          "content": "### 增量与分区 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-incremental",
               "title": "增量策略",
               "level": "???",
-              "content": "### 课前\n\n- **场景**：每天重刷全年订单太贵，只要昨天变更。\n- **目标**：分清全量、增量、CDC；设计水位与幂等。\n- **先修**：SCD2 → 下一课：分区裁剪\n\n### 样例输入\n\norders / order_events。\n\n### 是什么\n\n- **全量**：简单但贵。\n- **增量**：按时间/水位拉新变。\n- **CDC**：基于日志的变更捕获。\n- **幂等**：同一天重跑结果一致（常用覆盖分区）。\n\n### 怎么写\n\n```sql\n-- 增量：昨日新支付（示意）\nSELECT *\nFROM orders\nWHERE status='paid'\n  AND created_at >= '2024-01-07'\n  AND created_at <  '2024-01-08';\n\n-- 事件去重后再入 DWD（权威行）\nSELECT * FROM (\n  SELECT e.*, ROW_NUMBER() OVER (\n    PARTITION BY order_id, event_type\n    ORDER BY event_time, event_id\n  ) rn FROM order_events e\n) t WHERE rn=1;\n```\n\n### 查询结果\n\n增量窗口内行可重复跑；去重后 102 paid 一行。\n\n### 用在哪\n\n1. 日批作业  2. 近实时入仓  3. 成本治理\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 无水位乱抽 | 漏数/重数 | 明确水位+补数 |\n| 追加不覆盖 | 重复事实 | 分区覆盖或 merge |\n\n### 动手\n\n为 orders 设计一个「迟到数据」补数策略（一句话）。",
+              "content": "### 课前\n\n- **场景**：每天重刷全年订单太贵，只要昨天变更。\n- **目标**：分清全量、增量、CDC；设计水位与幂等。\n- **先修**：SCD2 → 下一课：分区裁剪\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\norders / order_events。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **全量**：简单但贵。\n- **增量**：按时间/水位拉新变。\n- **CDC**：基于日志的变更捕获。\n- **幂等**：同一天重跑结果一致（常用覆盖分区）。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 增量：昨日新支付（示意）\nSELECT *\nFROM orders\nWHERE status='paid'\n  AND created_at >= '2024-01-07'\n  AND created_at <  '2024-01-08';\n\n-- 事件去重后再入 DWD（权威行）\nSELECT * FROM (\n  SELECT e.*, ROW_NUMBER() OVER (\n    PARTITION BY order_id, event_type\n    ORDER BY event_time, event_id\n  ) rn FROM order_events e\n) t WHERE rn=1;\n```\n\n### 查询结果\n\n增量窗口内行可重复跑；去重后 102 paid 一行。\n\n### 用在哪\n\n1. 日批作业  2. 近实时入仓  3. 成本治理\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 无水位乱抽 | 漏数/重数 | 明确水位+补数 |\n| 追加不覆盖 | 重复事实 | 分区覆盖或 merge |\n\n\n\n### 教义深讲\n\n围绕「增量策略」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 orders 设计一个「迟到数据」补数策略（一句话）。",
               "children": []
             },
             {
               "id": "dwh-partition",
               "title": "分区与裁剪",
               "level": "???",
-              "content": "### 课前\n\n- **场景**：查一个月 GMV 却扫了三年分区。\n- **目标**：分区键放时间；谓词写成可裁剪范围。\n- **先修**：增量策略 → 下一课：对账质检\n\n### 样例输入\n\n按 dt 分区的思维套在 orders.created_at。\n\n### 是什么\n\n- **分区**：物理切分，利裁剪与生命周期。\n- **裁剪**：WHERE 能定位分区才省扫。\n- **常见**：按日 dt。\n\n### 怎么写\n\n```sql\n-- 可裁剪\nSELECT SUM(COALESCE(amount,0))\nFROM orders\nWHERE status='paid'\n  AND created_at >= '2024-01-01'\n  AND created_at <  '2024-02-01';\n\n-- 风险：对分区键套函数\n-- WHERE DATE(created_at)=...  （视引擎可能无法裁剪）\n```\n\n### 查询结果\n\n一月支付金额汇总；扫描应落在一月范围。\n\n### 用在哪\n\n1. 大表 SQL  2. 生命周期掉数  3. 成本\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 分区过碎 | 小文件/元数据炸 | 合理粒度 |\n| 谓词不带分区键 | 全扫 | 强制模板带 dt |\n\n### 动手\n\n解释 HASH(user_id) 分区能否靠时间谓词裁剪。",
+              "content": "### 课前\n\n- **场景**：查一个月 GMV 却扫了三年分区。\n- **目标**：分区键放时间；谓词写成可裁剪范围。\n- **先修**：增量策略 → 下一课：对账质检\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\n按 dt 分区的思维套在 orders.created_at。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **分区**：物理切分，利裁剪与生命周期。\n- **裁剪**：WHERE 能定位分区才省扫。\n- **常见**：按日 dt。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 可裁剪\nSELECT SUM(COALESCE(amount,0))\nFROM orders\nWHERE status='paid'\n  AND created_at >= '2024-01-01'\n  AND created_at <  '2024-02-01';\n\n-- 风险：对分区键套函数\n-- WHERE DATE(created_at)=...  （视引擎可能无法裁剪）\n```\n\n### 查询结果\n\n一月支付金额汇总；扫描应落在一月范围。\n\n### 用在哪\n\n1. 大表 SQL  2. 生命周期掉数  3. 成本\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 分区过碎 | 小文件/元数据炸 | 合理粒度 |\n| 谓词不带分区键 | 全扫 | 强制模板带 dt |\n\n\n\n### 教义深讲\n\n围绕「分区与裁剪」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n解释 HASH(user_id) 分区能否靠时间谓词裁剪。",
               "children": []
             }
           ]
@@ -11280,20 +11408,19 @@
           "id": "dwh-dq-sec",
           "title": "质量与对账",
           "level": "???",
-          "content": "### 质量与对账 · 章节导读",
+          "content": "### 质量与对账 · 章节导读\n\n> **教义提示**：先点开下方叶子精读；每课按「定义→写法→验收→易错」闭环，不要只收藏标题。\n",
           "lessonParent": true,
           "children": [
             {
               "id": "dwh-reconcile",
               "title": "对账质检",
               "level": "???",
-              "content": "### 课前\n\n- **场景**：DWS 上线后财务说 GMV 少了 8%。\n- **目标**：建立层间对账与基础 DQ（唯一、空值、波动）。\n- **先修**：分区 → 练习场\n\n### 样例输入\n\nDWD 明细 vs DWS 汇总。\n\n### 是什么\n\n- **对账**：同源不同层的指标闭合。\n- **DQ**：主键唯一、空值率、行数波动、枚举合法。\n- **门禁**：失败阻断下游 ADS。\n\n### 怎么写\n\n```sql\n-- 层间对账\nSELECT 'dwd' AS layer, SUM(COALESCE(amount,0)) AS gmv\nFROM orders WHERE status='paid'\nUNION ALL\nSELECT 'dws', SUM(gmv) FROM (\n  SELECT user_id, SUM(COALESCE(amount,0)) gmv\n  FROM orders WHERE status='paid' GROUP BY user_id\n) t;\n\n-- 唯一性\nSELECT order_id, COUNT(*) c FROM orders GROUP BY order_id HAVING COUNT(*)>1;\n\n-- 空值率\nSELECT AVG(CASE WHEN amount IS NULL THEN 1 ELSE 0 END) AS null_rate\nFROM orders WHERE status='paid';\n```\n\n### 查询结果\n\n两层 gmv 应一致；order_id 无重复；paid 空值率=1/6。\n\n### 用在哪\n\n1. 上线验收  2. 晨检  3. 事故定位\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 只看行数不对金额 | 漏口径 | 金额+笔数双对 |\n| 质检不阻断 | 脏数进看板 | 门禁 |\n\n### 动手\n\n为 order_items 写一条「孤儿订单行」质检 SQL。",
+              "content": "### 课前\n\n- **场景**：DWS 上线后财务说 GMV 少了 8%。\n- **目标**：建立层间对账与基础 DQ（唯一、空值、波动）。\n- **先修**：分区 → 练习场\n- **学完标准**：能复述定义、独立写出等价实现、指出至少两个翻车点。\n\n### 样例输入\n\nDWD 明细 vs DWS 汇总。\n\n> 同源四表：`users` / `orders` / `order_items` / `order_events`（与 SQL/ETL 一致）。\n\n### 是什么\n\n- **对账**：同源不同层的指标闭合。\n- **DQ**：主键唯一、空值率、行数波动、枚举合法。\n- **门禁**：失败阻断下游 ADS。\n\n**教义锚点**：仓内每一层都要能回答「一行代表什么、口径谁负责、重跑是否安全」。\n\n### 怎么写\n\n**建议步骤**\n\n1. 先写清粒度与分区（dt）  \n2. 按下述 SQL/DDL 改到你的主题域  \n3. 用「查询结果」与源或上一层做闭合  \n4. 对照易错表，确认没有把口径写进错误的层  \n\n```sql\n-- 层间对账\nSELECT 'dwd' AS layer, SUM(COALESCE(amount,0)) AS gmv\nFROM orders WHERE status='paid'\nUNION ALL\nSELECT 'dws', SUM(gmv) FROM (\n  SELECT user_id, SUM(COALESCE(amount,0)) gmv\n  FROM orders WHERE status='paid' GROUP BY user_id\n) t;\n\n-- 唯一性\nSELECT order_id, COUNT(*) c FROM orders GROUP BY order_id HAVING COUNT(*)>1;\n\n-- 空值率\nSELECT AVG(CASE WHEN amount IS NULL THEN 1 ELSE 0 END) AS null_rate\nFROM orders WHERE status='paid';\n```\n\n### 查询结果\n\n两层 gmv 应一致；order_id 无重复；paid 空值率=1/6。\n\n### 用在哪\n\n1. 上线验收  2. 晨检  3. 事故定位\n\n**上下游**：ODS/DWD 服务可复用明细；DWS/ADS 服务指标与产品；ETL 负责按时按质送数。\n\n### 易错对照\n\n| 错法 | 现象 | 纠正 |\n|---|---|---|\n| 只看行数不对金额 | 漏口径 | 金额+笔数双对 |\n| 质检不阻断 | 脏数进看板 | 门禁 |\n\n\n\n### 教义深讲\n\n围绕「对账质检」记住三条落地纪律：\n\n1. **可复现**：换一个人、同一输入，能得到同一输出（含 NULL、去重、时间窗规则）。\n2. **可重跑**：同一分区 / 窗口跑两次结果不变；做不到就先别开自动重试。\n3. **可追溯**：口径争议能指到层、任务、契约版本与样例验收数。\n\n**同源样例对照（务必会）**\n\n- 支付口径：`status='paid'` + `SUM(COALESCE(amount,0))`\n- 防爆炸：`order_items` 先按 `order_id` 聚合，再关联订单头\n- 事件权威：`order_events` 按 `(order_id, event_type)` 去重取最新\n- 验收种子：users=4，orders=8，events=7，items=5\n\n**岗位分层**\n\n| 级别 | 你应该能做到 |\n|---|---|\n| 初级 | 照模板改表名，完成行数/金额闭合 |\n| 中级 | 设计增量水位、SCD/MERGE、失败可回填 |\n| 高级 | 定 SLA/契约，做血缘影响分析与可回滚发布 |\n\n### 动手\n\n为 order_items 写一条「孤儿订单行」质检 SQL。",
               "children": []
             }
           ]
         }
-      ],
-      "sector": "practice"
+      ]
     }
   ]
 };
@@ -14520,8 +14647,10 @@
           setTimeout(() => {
             const prefer = hub === "sql" ? "sql-constitution"
               : hub === "python" ? "py-constitution"
+              : hub === "database" ? "db-constitution"
               : hub === "dwh" ? "dwh-constitution"
-              : null;
+              : hub === "etl" ? "etl-constitution"
+              : hub === "bi" ? "bi-constitution" : null;
             if (!prefer || typeof findKgNode !== "function") return;
             const n = findKgNode(prefer);
             if (n && typeof jumpToKgLesson === "function") jumpToKgLesson(n);
