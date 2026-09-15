@@ -1078,25 +1078,22 @@
     function syncNavHeight() {
       var nav = document.querySelector(".top-nav");
       if (!nav) return;
-      // 禁止回写 --nav-height，否则顶栏会持续被撑高（自动下拉）
-      var h = Math.max(40, Math.min(160, Math.round(nav.getBoundingClientRect().height)));
+      // 只量 .nav-inner；禁止回写 --nav-height；勿对顶栏 ResizeObserver（会反馈死循环）
+      var inner = nav.querySelector(".nav-inner") || nav;
+      var h = Math.max(40, Math.min(96, Math.round(inner.getBoundingClientRect().height)));
       var next = h + "px";
       var root = document.documentElement;
       if (root.style.getPropertyValue("--nav-offset") === next) return;
       root.style.setProperty("--nav-offset", next);
-      root.style.setProperty("--fs-nav-h", next);
     }
     syncNavHeight();
-    var roTimer = 0;
+    var resizeTimer = 0;
     function scheduleSync() {
-      clearTimeout(roTimer);
-      roTimer = setTimeout(syncNavHeight, 50);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(syncNavHeight, 100);
     }
     window.addEventListener("resize", scheduleSync);
-    if (typeof ResizeObserver !== "undefined") {
-      var nav = document.querySelector(".top-nav");
-      if (nav) new ResizeObserver(scheduleSync).observe(nav);
-    }
+    setTimeout(syncNavHeight, 0);
 
     var started = false;
     function tryInit() {

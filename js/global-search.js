@@ -280,29 +280,31 @@
   function syncNavHeight() {
     const nav = document.querySelector(".top-nav");
     if (!nav) return;
-    // 禁止把测量值写回 --nav-height：.nav-inner { height: var(--nav-height) } 会形成
-    // 「测高 → 撑高顶栏 → 再测高」的无限下拉循环。
-    const h = Math.max(40, Math.min(160, Math.round(nav.getBoundingClientRect().height)));
+    // 只量 .nav-inner（固定 chrome），不要量整条 .top-nav：
+    // 绝对定位下拉/换行溢出会把外层测高抬高；再写 CSS 变量触发重排，易和滚动条宽度抖动死循环。
+    // 禁止回写 --nav-height（.nav-inner { height: var(--nav-height) }）。
+    const inner = nav.querySelector(".nav-inner") || nav;
+    const h = Math.max(40, Math.min(96, Math.round(inner.getBoundingClientRect().height)));
     const next = h + "px";
     const root = document.documentElement;
     if (root.style.getPropertyValue("--nav-offset") === next) return;
     root.style.setProperty("--nav-offset", next);
-    root.style.setProperty("--fs-nav-h", next);
+    if (document.body?.classList?.contains("page-architecture-fullscreen")) {
+      root.style.setProperty("--fs-nav-h", next);
+    }
   }
 
   function init() {
     mount("global-search-slot");
     syncNavHeight();
-    let roTimer = 0;
+    let resizeTimer = 0;
     const scheduleSync = () => {
-      clearTimeout(roTimer);
-      roTimer = setTimeout(syncNavHeight, 50);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(syncNavHeight, 100);
     };
+    // 不要 ResizeObserver(.top-nav)：测高→写变量→侧栏 sticky/滚动条变化→再测高，会表现为顶栏一直下拉。
     window.addEventListener("resize", scheduleSync);
-    if (typeof ResizeObserver !== "undefined") {
-      const nav = document.querySelector(".top-nav");
-      if (nav) new ResizeObserver(scheduleSync).observe(nav);
-    }
+    setTimeout(syncNavHeight, 0);
     setTimeout(consumePendingNav, 0);
     setTimeout(consumePendingNav, 400);
   }

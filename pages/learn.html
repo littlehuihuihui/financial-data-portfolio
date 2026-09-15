@@ -31,6 +31,8 @@
       --font-display: "Orbitron", var(--font);
       --font-mono: "JetBrains Mono", Consolas, monospace;
       --panel-w: 540px;
+      --kg-panel-w: 520px;
+      --panel-side-w: 480px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -234,12 +236,52 @@
     #panel.side-mode.open { display: flex; }
     #panel.side-mode .panel-inner {
       pointer-events: auto;
-      width: min(420px, 92vw); max-width: 420px; height: 100%; max-height: none;
+      width: min(var(--panel-side-w, 480px), 92vw);
+      max-width: min(75vw, 960px);
+      height: 100%; max-height: none;
       border-radius: 0; border: none; border-left: 1px solid rgba(34, 211, 238, 0.28);
       box-shadow: -16px 0 48px rgba(0,0,0,0.45);
       transform: translateX(100%);
-      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), width 0.15s ease;
       background: rgba(10, 14, 26, 0.94); backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+    }
+    /* 右侧讲义：左缘拖拽拉宽 */
+    .panel-resize {
+      display: none;
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 10px;
+      cursor: col-resize;
+      z-index: 30;
+      touch-action: none;
+      background: transparent;
+    }
+    .panel-resize::after {
+      content: "";
+      position: absolute;
+      left: 3px; top: 50%;
+      transform: translateY(-50%);
+      width: 3px; height: 48px;
+      border-radius: 999px;
+      background: rgba(34, 211, 238, 0.35);
+      opacity: 0;
+      transition: opacity 0.15s, background 0.15s, height 0.15s;
+    }
+    #panel.side-mode.open .panel-resize { display: block; pointer-events: auto; }
+    #panel.side-mode .panel-resize:hover::after,
+    #panel.side-mode.is-resizing .panel-resize::after {
+      opacity: 1;
+      background: rgba(34, 211, 238, 0.85);
+      height: 72px;
+    }
+    #panel.side-mode.is-resizing {
+      transition: none !important;
+      user-select: none;
+    }
+    #panel.side-mode.is-resizing .panel-inner {
+      transition: none !important;
     }
     #panel.side-mode.open .panel-inner { transform: translateX(0); }
     #panel.side-mode .panel-header {
@@ -740,9 +782,9 @@
     body.kg-focus-on #panel.side-mode {
       position: relative;
       inset: auto;
-      flex: 0 0 min(400px, 34vw);
-      width: min(400px, 34vw) !important;
-      max-width: min(400px, 34vw);
+      flex: 0 0 var(--kg-panel-w, 520px);
+      width: var(--kg-panel-w, 520px) !important;
+      max-width: min(75vw, 960px);
       height: 100%;
       display: none;
       pointer-events: auto;
@@ -2054,12 +2096,12 @@
           <button type="button" id="btnDepthSenior" title="高级：入门 + 进阶 + 高阶(???)">高级</button>
         </div>
         <div class="home-hot" id="homeHot" aria-label="热门入口"></div>
-        <div class="hint home-caption">点上方学科入口 · 或点画布大节点进入教程</div>
         <div class="sql-drill-hint" id="sqlDrillHint" hidden></div>
       </div>
     </div>
     <div id="panel" aria-hidden="true">
     <div class="panel-inner" id="panelCard">
+      <div class="panel-resize" id="panelResize" title="向左拖拽加宽讲义" role="separator" aria-orientation="vertical" aria-label="调整讲义面板宽度"></div>
       <button class="panel-close" id="btnClose" title="关闭" aria-label="关闭面板">×</button>
       <div class="panel-header">
         <span class="cat-badge" id="panelCat"></span>
@@ -12383,6 +12425,88 @@
     const panelCard = document.getElementById("panelCard");
     panel.addEventListener("click", () => closePanel());
     if (panelCard) panelCard.addEventListener("click", (e) => e.stopPropagation());
+
+    /* 右侧讲义面板：左缘拖拽加宽 */
+    (function wirePanelResize() {
+      const handle = document.getElementById("panelResize");
+      if (!handle || !panel) return;
+      const MIN_W = 320;
+      const MAX_W = () => Math.min(Math.floor(window.innerWidth * 0.75), 960);
+      const root = document.documentElement;
+      try {
+        const savedKg = Number(localStorage.getItem("kgPanelW") || 0);
+        const savedSide = Number(localStorage.getItem("panelSideW") || 0);
+        if (savedKg >= MIN_W) root.style.setProperty("--kg-panel-w", savedKg + "px");
+        if (savedSide >= MIN_W) root.style.setProperty("--panel-side-w", savedSide + "px");
+      } catch (_) {}
+
+      let dragging = false;
+      const onMove = (ev) => {
+        if (!dragging) return;
+        const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+        const next = Math.max(MIN_W, Math.min(MAX_W(), window.innerWidth - clientX));
+        const px = Math.round(next) + "px";
+        if (document.body.classList.contains("kg-focus-on")) {
+          root.style.setProperty("--kg-panel-w", px);
+        } else {
+          root.style.setProperty("--panel-side-w", px);
+        }
+        if (ev.cancelable) ev.preventDefault();
+      };
+      const onUp = () => {
+        if (!dragging) return;
+        dragging = false;
+        panel.classList.remove("is-resizing");
+        document.body.style.cursor = "";
+        document.body.style.userSelect = "";
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerup", onUp);
+        window.removeEventListener("touchmove", onMove);
+        window.removeEventListener("touchend", onUp);
+        try {
+          if (document.body.classList.contains("kg-focus-on")) {
+            const w = parseInt(getComputedStyle(root).getPropertyValue("--kg-panel-w"), 10);
+            if (w) localStorage.setItem("kgPanelW", String(w));
+          } else {
+            const w = parseInt(getComputedStyle(root).getPropertyValue("--panel-side-w"), 10);
+            if (w) localStorage.setItem("panelSideW", String(w));
+          }
+        } catch (_) {}
+        if (typeof relayout === "function") {
+          try { relayout(); } catch (_) {}
+        }
+      };
+      const onDown = (ev) => {
+        if (!panel.classList.contains("open") || !panel.classList.contains("side-mode")) return;
+        dragging = true;
+        panel.classList.add("is-resizing");
+        document.body.style.cursor = "col-resize";
+        document.body.style.userSelect = "none";
+        window.addEventListener("pointermove", onMove, { passive: false });
+        window.addEventListener("pointerup", onUp);
+        window.addEventListener("touchmove", onMove, { passive: false });
+        window.addEventListener("touchend", onUp);
+        ev.preventDefault();
+        ev.stopPropagation();
+      };
+      handle.addEventListener("pointerdown", onDown);
+      handle.addEventListener("click", (e) => e.stopPropagation());
+      handle.addEventListener("dblclick", (e) => {
+        e.stopPropagation();
+        const def = document.body.classList.contains("kg-focus-on") ? 520 : 480;
+        const px = def + "px";
+        if (document.body.classList.contains("kg-focus-on")) {
+          root.style.setProperty("--kg-panel-w", px);
+          try { localStorage.setItem("kgPanelW", String(def)); } catch (_) {}
+        } else {
+          root.style.setProperty("--panel-side-w", px);
+          try { localStorage.setItem("panelSideW", String(def)); } catch (_) {}
+        }
+        if (typeof relayout === "function") {
+          try { relayout(); } catch (_) {}
+        }
+      });
+    })();
 
     const graphEl = document.getElementById("graph");
     const width = () => graphEl.clientWidth;

@@ -22,9 +22,18 @@
       color: var(--text, var(--color-text-primary, #e8edf5));
       line-height: 1.55;
       min-height: 100vh;
+      scrollbar-gutter: stable;
+    }
+    /* 锁定顶栏单行，避免 wrap + sticky 偏移测高形成「一直下拉」 */
+    .top-nav {
+      overflow: hidden;
     }
     .top-nav .nav-inner {
       max-width: 1600px;
+      height: var(--nav-height, 56px) !important;
+      max-height: var(--nav-height, 56px);
+      flex-wrap: nowrap !important;
+      overflow: hidden;
     }
     .brand {
       font-family: var(--font-display, var(--font-ui, sans-serif));
@@ -35,8 +44,9 @@
       text-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
     }
     .nav-export { border: 1px solid var(--border); }
-    .nav-inner-with-search { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .nav-inner-with-search .nav-tabs { flex-shrink: 0; }
+    .nav-inner-with-search { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap !important; }
+    .nav-inner-with-search .nav-tabs { flex-shrink: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+    .nav-inner-with-search .nav-tabs::-webkit-scrollbar { display: none; }
 
     .hero {
       max-width: 1600px; margin: 0 auto;
@@ -89,7 +99,7 @@
     /* Sidebar · glass HUD */
     .sidebar {
       position: sticky; top: var(--nav-offset, var(--nav-height, 56px));
-      max-height: calc(100vh - 80px);
+      max-height: calc(100dvh - var(--nav-offset, var(--nav-height, 56px)) - 12px);
       overflow-y: auto;
       background: linear-gradient(165deg, rgba(20, 27, 45, 0.92), rgba(10, 15, 26, 0.96));
       border: 1px solid color-mix(in srgb, var(--color-cyan, #22d3ee) 22%, var(--border));

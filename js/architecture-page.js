@@ -66,7 +66,7 @@
     const map = {
       echarts: "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js",
       dwArchData: `${b.industry}/dw-architecture-data.js?v=3.54`,
-      dwArch: `${b.shared}/dw-architecture.js?v=3.56`,
+      dwArch: `${b.shared}/dw-architecture.js?v=3.57`,
       dwGraph: `${b.shared}/dw-knowledge-graph.js?v=3.36`,
       erData: `${b.industry}/er-diagram-data.js?v=3.32`,
       er: `${b.shared}/er-diagram-interactive.js?v=1.1`,
