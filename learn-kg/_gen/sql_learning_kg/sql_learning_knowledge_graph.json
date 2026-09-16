@@ -14,7 +14,7 @@
       "layer_name": "环境与基础认知",
       "layer_name_en": "Foundation",
       "order": 0,
-      "goal": "知道 SQL 是什么、在哪里用、怎么跑起来",
+      "goal": "知道 SQL 是什么、数据库类型、环境搭建、首条查询与示例数据",
       "prerequisites": [],
       "estimated_hours": 3,
       "nodes": [
@@ -31,7 +31,7 @@
       "layer_name": "基础查询",
       "layer_name_en": "Basic Query",
       "order": 1,
-      "goal": "掌握单表查询：投影、过滤、排序、限流与表达式",
+      "goal": "掌握 SELECT、WHERE、ORDER BY、LIMIT、计算列与注释",
       "prerequisites": [
         "L0"
       ],
@@ -51,7 +51,7 @@
       "layer_name": "聚合与分组",
       "layer_name_en": "Aggregation",
       "order": 2,
-      "goal": "用聚合与分组把明细收成指标，并理解执行顺序",
+      "goal": "掌握 COUNT/SUM/AVG/MAX/MIN、GROUP BY、HAVING、执行顺序与 COUNT(DISTINCT)",
       "prerequisites": [
         "L0",
         "L1"
@@ -71,7 +71,7 @@
       "layer_name": "多表连接",
       "layer_name_en": "Multi-table",
       "order": 3,
-      "goal": "掌握连接、子查询与集合操作，正确控制粒度",
+      "goal": "掌握 INNER/LEFT/RIGHT/FULL/CROSS JOIN、自连接、多表连接、子查询、EXISTS 与 UNION",
       "prerequisites": [
         "L0",
         "L1",
@@ -95,7 +95,7 @@
       "layer_name": "进阶查询",
       "layer_name_en": "Advanced Query",
       "order": 4,
-      "goal": "窗口、CTE、条件表达式与常用函数",
+      "goal": "掌握窗口函数、CTE、递归 CTE、CASE、Pivot/Unpivot、日期/字符串函数与 NULL 处理",
       "prerequisites": [
         "L1",
         "L2",
@@ -119,7 +119,7 @@
       "layer_name": "数据库设计与性能",
       "layer_name_en": "Design & Performance",
       "order": 5,
-      "goal": "表设计、索引计划、事务并发与对象权限",
+      "goal": "掌握表设计与范式、索引与 EXPLAIN、事务锁与隔离、视图/存储过程、权限及数据变更对象",
       "prerequisites": [
         "L1",
         "L3"
@@ -142,7 +142,7 @@
       "layer_name": "实战与工程化",
       "layer_name_en": "Practice & Engineering",
       "order": 6,
-      "goal": "分析套路、面试、跨系统集成与反模式治理",
+      "goal": "掌握数据分析套路、面试高频题、SQL+Python/BI、版本迁移、方言差异与反模式",
       "prerequisites": [
         "L2",
         "L3",
@@ -1311,22 +1311,24 @@
     {
       "node_id": "L4.N7",
       "layer_id": "L4",
-      "title": "CASE",
-      "title_en": "CASE Expression",
+      "title": "CASE 与 Pivot/Unpivot",
+      "title_en": "CASE / Pivot / Unpivot",
       "type": "syntax",
       "difficulty": 3,
       "estimated_minutes": 30,
-      "description": "CASE 在 SQL 中做条件表达式，用于分档、映射与条件聚合。",
+      "description": "CASE 做条件表达式与分档；配合条件聚合可实现行转列（Pivot），配合 UNION ALL / UNPIVOT 可实现列转行（Unpivot），统一在 employees/orders/products 上练习。",
       "key_points": [
-        "简单 CASE 与搜索 CASE 两种形式",
-        "必须有结果类型一致的分支",
-        "ELSE 缺省则为 NULL",
-        "常与 SUM(CASE...) 做透视"
+        "简单 CASE 与搜索 CASE；分支结果类型需一致，缺省 ELSE 为 NULL",
+        "Pivot：用 SUM/COUNT(CASE WHEN ...) 把类别行展开为多列指标",
+        "Unpivot：用 UNION ALL 或 UNPIVOT 把多列指标折回长表",
+        "透视前后注意粒度与空值：无匹配类别应显式补 0 或保留 NULL",
+        "报表宽表适合展示，分析长表更适合 JOIN/窗口与复用"
       ],
-      "syntax_example": "SELECT full_name, salary,\n  CASE\n    WHEN salary >= 11000 THEN 'senior'\n    WHEN salary >= 9000 THEN 'mid'\n    ELSE 'junior'\n  END AS salary_band\nFROM employees;",
+      "syntax_example": "-- Pivot: 各部门订单金额按状态展开\nSELECT e.department,\n       SUM(CASE WHEN o.status = 'paid' THEN o.amount ELSE 0 END) AS paid_amt,\n       SUM(CASE WHEN o.status = 'refund' THEN o.amount ELSE 0 END) AS refund_amt\nFROM employees e\nJOIN orders o ON o.employee_id = e.employee_id\nGROUP BY e.department;\n\n-- Unpivot: 宽表折回长表\nSELECT product_id, 'q1' AS quarter, q1_sales AS sales FROM products\nUNION ALL\nSELECT product_id, 'q2', q2_sales FROM products;",
       "common_mistakes": [
-        "分支重叠导致不符合预期的命中顺序",
-        "忘记 ELSE 导致大量 NULL 分档"
+        "Pivot 忘记 ELSE 0，导致 SUM 出现 NULL",
+        "把筛选条件写在 WHERE 里却期望保留未命中类别的列",
+        "Unpivot 后未统一列类型/列名导致 UNION 失败"
       ],
       "prerequisites": [
         "L1.N5"
@@ -1336,15 +1338,17 @@
         "L4.N8"
       ],
       "practice": {
-        "exercise_count": 3,
-        "sample_question": "把商品按单价分为 high/mid/low 三档。"
+        "exercise_count": 4,
+        "sample_question": "基于 orders 按 department 做 status 透视；再把 products 的 q1_sales/q2_sales Unpivot 成长表。"
       },
-      "mastery_criteria": "能用 CASE 做分档与条件聚合。",
+      "mastery_criteria": "能独立写出 CASE 条件聚合 Pivot，并用 UNION ALL/UNPIVOT 完成列转行，说明宽表与长表适用场景。",
       "tags": [
         "case",
-        "expression"
+        "pivot",
+        "unpivot",
+        "conditional-aggregation"
       ],
-      "dialect_notes": "标准 CASE；部分库另有 IIF/DECODE 等方言函数。"
+      "dialect_notes": "SQL Server/Oracle 有 PIVOT/UNPIVOT 语法；PostgreSQL/MySQL 常用 CASE 聚合 + UNION ALL；BigQuery 有 PIVOT/UNPIVOT 扩展。"
     },
     {
       "node_id": "L4.N8",
@@ -1394,7 +1398,7 @@
       "type": "concept",
       "difficulty": 4,
       "estimated_minutes": 45,
-      "description": "通过主键、外键、范式与合理冗余设计稳定的表结构，服务查询与一致性。",
+      "description": "围绕 employees/orders/products 做表设计与范式权衡：通过主键、外键、范式与合理冗余设计稳定的表结构，服务查询与一致性。",
       "key_points": [
         "1NF/2NF/3NF 降低冗余与更新异常",
         "主键稳定、外键表达关系",
@@ -1504,22 +1508,24 @@
     {
       "node_id": "L5.N4",
       "layer_id": "L5",
-      "title": "视图",
-      "title_en": "View",
+      "title": "视图与存储过程",
+      "title_en": "Views & Stored Procedures",
       "type": "syntax",
       "difficulty": 3,
       "estimated_minutes": 30,
-      "description": "视图是保存的查询定义，查询时展开；用于封装逻辑、权限控制与简化接口。",
+      "description": "视图是保存的查询定义，用于封装逻辑与权限隔离；存储过程把多语句业务逻辑固化在库端。二者都常与 GRANT/REVOKE 权限模型一起使用。",
       "key_points": [
-        "普通视图通常不存数据",
-        "可隐藏底层表结构变化",
-        "复杂视图可能不可更新",
-        "与物化视图的差异在于是否持久化结果"
+        "普通视图通常不存数据，查询时展开；可隐藏底层表并做列级权限封装",
+        "存储过程适合事务型多步骤写入与固定批处理，但会增加耦合与迁移成本",
+        "权限：GRANT/REVOKE 控制表/视图/过程的访问，最小权限原则",
+        "复杂视图可能不可更新；过程要注意注入风险与参数校验",
+        "与物化视图对比：是否持久化结果集、是否需要刷新策略"
       ],
-      "syntax_example": "CREATE VIEW v_employee_sales AS\nSELECT e.employee_id, e.full_name, COALESCE(SUM(o.amount), 0) AS total_sales\nFROM employees e\nLEFT JOIN orders o ON e.employee_id = o.employee_id\nGROUP BY e.employee_id, e.full_name;\nSELECT * FROM v_employee_sales;",
+      "syntax_example": "-- 视图：仅开放销售相关列\nCREATE VIEW v_order_summary AS\nSELECT o.order_id, e.department, o.amount, o.status\nFROM orders o\nJOIN employees e ON e.employee_id = o.employee_id;\n\nGRANT SELECT ON v_order_summary TO analyst_role;\n\n-- 存储过程（PostgreSQL 风格示意）\nCREATE PROCEDURE sp_mark_paid(p_order_id INT)\nLANGUAGE plpgsql\nAS $$\nBEGIN\n  UPDATE orders SET status = 'paid' WHERE order_id = p_order_id;\nEND;\n$$;",
       "common_mistakes": [
-        "把视图当成一定物化的缓存",
-        "嵌套过深视图导致性能黑盒"
+        "把视图当成一定物化的缓存表",
+        "在应用层与存储过程重复实现同一业务规则导致不一致",
+        "直接把底层表权限授给所有人，而不是通过视图最小化暴露"
       ],
       "prerequisites": [
         "L3.N2",
@@ -1531,14 +1537,16 @@
       ],
       "practice": {
         "exercise_count": 3,
-        "sample_question": "创建员工销售汇总视图并查询。"
+        "sample_question": "创建只暴露 department/amount 的订单视图，授予只读角色；再写一个将订单标为 paid 的过程草稿。"
       },
-      "mastery_criteria": "能创建与使用视图，并说明其非物化特性。",
+      "mastery_criteria": "能解释视图与存储过程的适用边界，并写出带 GRANT 的视图权限封装示例。",
       "tags": [
         "view",
-        "ddl"
+        "procedure",
+        "security",
+        "grant"
       ],
-      "dialect_notes": "各库支持 CREATE VIEW；可更新视图规则差异较大。"
+      "dialect_notes": "MySQL 用 CREATE PROCEDURE；SQL Server 用 T-SQL；PostgreSQL 常用 FUNCTION/PROCEDURE；权限对象与角色模型各方言细节不同。"
     },
     {
       "node_id": "L5.N5",
@@ -2636,8 +2644,8 @@
         "L0.N1",
         "L0.N2",
         "L0.N3",
-        "L0.N5",
         "L0.N4",
+        "L0.N5",
         "L1.N1",
         "L1.N2",
         "L1.N3",
@@ -2662,13 +2670,14 @@
     },
     {
       "path_id": "analyst",
-      "name": "数据分析师路径",
+      "name": "数据分析路径",
       "node_sequence": [
         "L1.N1",
         "L1.N2",
         "L1.N3",
         "L1.N4",
         "L1.N5",
+        "L1.N6",
         "L2.N1",
         "L2.N2",
         "L2.N3",
@@ -2676,6 +2685,7 @@
         "L2.N5",
         "L3.N1",
         "L3.N2",
+        "L3.N3",
         "L3.N4",
         "L3.N5",
         "L3.N6",
@@ -2694,13 +2704,14 @@
     },
     {
       "path_id": "engineer",
-      "name": "后端工程师路径",
+      "name": "数据工程路径",
       "node_sequence": [
         "L1.N1",
         "L1.N2",
         "L1.N3",
         "L1.N4",
         "L1.N5",
+        "L1.N6",
         "L2.N1",
         "L2.N2",
         "L2.N3",

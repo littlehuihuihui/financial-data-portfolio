@@ -24,16 +24,16 @@
       min-height: 100vh;
       scrollbar-gutter: stable;
     }
-    /* 锁定顶栏单行，避免 wrap + sticky 偏移测高形成「一直下拉」 */
+    /* 锁定顶栏高度，但允许搜索下拉浮出（结果框改用 fixed，此处 visible 作兜底） */
     .top-nav {
-      overflow: hidden;
+      overflow: visible;
     }
     .top-nav .nav-inner {
       max-width: 1600px;
       height: var(--nav-height, 56px) !important;
       max-height: var(--nav-height, 56px);
       flex-wrap: nowrap !important;
-      overflow: hidden;
+      overflow: visible;
     }
     .brand {
       font-family: var(--font-display, var(--font-ui, sans-serif));

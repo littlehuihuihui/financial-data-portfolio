@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../../css/dashboard-base.css?v=3.54">
   <link rel="stylesheet" href="css/dashboard.css?v=3.40">
   <link rel="stylesheet" href="css/shell.css?v=3.52">
-  <link rel="stylesheet" href="css/platform-features.css?v=3.52">
+  <link rel="stylesheet" href="css/platform-features.css?v=3.58">
   <link rel="stylesheet" href="css/industry-overrides.css">
   <link rel="prefetch" href="pages/architecture.html">
   <link rel="prefetch" href="pages/platform-graph.html">
@@ -20,6 +20,7 @@
       <h1>广东移动 OTT · 视频活跃数据分析体系</h1>
       <p class="header-sub">17 主题看板 · 分阶段北极星 · 有效MAU · ODS→ADS · STB+Speaker</p>
     </div>
+    <div id="global-search-slot"></div>
     <nav class="site-nav">
       <a href="internet_dashboard.html" class="nav-tab active">数据展示</a>
       <a href="pages/methodology.html" class="nav-tab">分析方法论</a>
@@ -46,12 +47,20 @@
       }
     })();
   </script>
-  <script src="js/state.js" defer></script>
-  <script src="js/dashboard-core.js" defer></script>
-  <script src="js/loaders.js" defer></script>
-  <script src="js/nav.js" defer></script>
+  <script src="js/state.js?v=3.59" defer></script>
+  <script src="js/dashboard-core.js?v=3.59" defer></script>
+  <script src="js/loaders.js?v=3.59" defer></script>
+  <script src="js/nav.js?v=3.59" defer></script>
   <script src="js/northstar-phases-data.js?v=1.1" defer></script>
   <script src="../../js/northstar-phases.js?v=1.2" defer></script>
-  <script src="js/shell.js" defer></script>
+  <script src="js/shell.js?v=3.59" defer></script>
+  <script src="js/data-dictionary-data.js" defer></script>
+  <script src="js/search-index-data.js" defer></script>
+  <script src="../../js/global-search.js?v=3.58" defer></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      window.GlobalSearch && window.GlobalSearch.mount && window.GlobalSearch.mount("global-search-slot");
+    });
+  </script>
 </body>
 </html>

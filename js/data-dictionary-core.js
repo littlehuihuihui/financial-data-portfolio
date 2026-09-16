@@ -24,7 +24,14 @@
 
   function tableNameCn(t) {
     if (!t) return "";
-    return String(t.name_cn || t.title_cn || t.cn_name || "").trim();
+    const explicit = String(t.name_cn || t.title_cn || t.cn_name || "").trim();
+    if (explicit) return explicit;
+    // 零售等数据源常用 purpose 作中文表名展示
+    const purpose = String(t.purpose || "").trim();
+    if (purpose && /[\u4e00-\u9fff]/.test(purpose) && purpose !== t.name) {
+      return purpose.replace(/^(ODS|DIM|DWD|DWS|ADS)[·.\s]*/i, "").trim() || purpose;
+    }
+    return "";
   }
 
   /** 展示名：英文表名 + 中文名 */
@@ -34,6 +41,42 @@
     const cn = tableNameCn(t);
     if (cn && cn !== t.name) return `${t.name}（${cn}）`;
     return t.name || "";
+  }
+
+  /** 搜索归一化：忽略大小写、下划线/连字符/空格差异 */
+  function searchNorm(s) {
+    return String(s || "")
+      .toLowerCase()
+      .replace(/[_\-\s.·]+/g, "");
+  }
+
+  function tableSearchParts(table) {
+    if (!table) return [];
+    const dashParts = (table.used_by_dashboards || []).flatMap((d) => [
+      d && d.title, d && d.id, d && d.description, d && d.code,
+    ]);
+    const fieldParts = (Array.isArray(table.fields) ? table.fields : []).flatMap((f) => {
+      if (!f || typeof f !== "object") return [];
+      return [
+        f.name, f.name_en, f.en_name, f.name_cn, f.cn_name, f.label_cn,
+        f.code, f.id, f.alias, f.type, f.role, f.desc, f.business, f.technical, f.caliber_id,
+      ];
+    });
+    const aliasParts = Array.isArray(table.aliases)
+      ? table.aliases
+      : (table.alias ? [table.alias] : []);
+    return [
+      table.name, table.name_en, table.en_name, table.id, table.code,
+      tableNameCn(table), table.title_cn, table.cn_name,
+      table.layer, table.type, table.purpose, table.summary, table.source,
+      table.title, table.api, table.description,
+      ...aliasParts,
+      ...(table.lineage || []),
+      ...(table.downstream || []),
+      ...dashParts,
+      ...fieldParts,
+      ...((table.adsViews || []).map((v) => (v && v.name) || v)),
+    ].filter((x) => x != null && String(x).trim() !== "").map(String);
   }
 
   function fieldNameCn(f) {
@@ -115,12 +158,23 @@
     const key = String(raw || "").trim();
     if (!key) return null;
     const lower = key.toLowerCase();
+    const nkey = searchNorm(key);
     const pool = [...(tables || []), ...(appTables || [])];
     let hit = pool.find((t) => t.name === key);
     if (hit) return hit;
     hit = pool.find((t) => String(t.name).toLowerCase() === lower);
     if (hit) return hit;
+    hit = pool.find((t) => searchNorm(t.name) === nkey);
+    if (hit) return hit;
+    hit = pool.find((t) => {
+      const id = String(t.id || "").toLowerCase();
+      const code = String(t.code || "").toLowerCase();
+      return (id && id === lower) || (code && code === lower);
+    });
+    if (hit) return hit;
     hit = pool.find((t) => tableNameCn(t) === key || String(t.purpose || "") === key);
+    if (hit) return hit;
+    hit = pool.find((t) => matchFullText(t, lower));
     if (hit) return hit;
     hit = pool.find((t) => {
       const cn = tableNameCn(t);
@@ -145,19 +199,28 @@
     return bits.join(" · ") || base;
   }
 
-  /** 全文检索：表名 / 用途 / 字段名 / 业务含义 / 口径 / 看板 */
+  /** 全文检索：英文/中文表名、别名、id/code、用途、字段、口径、看板（大小写不敏感） */
   function matchFullText(table, kw) {
     if (!kw) return true;
-    const blob = [
-      table.name, tableNameCn(table), table.layer, table.type, table.purpose, table.summary, table.source,
-      table.title, table.api, table.description,
-      ...(table.lineage || []),
-      ...(table.downstream || []),
-      ...((table.used_by_dashboards || []).map(d => [d.title, d.id, d.description].filter(Boolean).join(" "))),
-      ...((table.fields || []).flatMap(f => [f.name, f.name_cn, f.type, f.role, f.desc, f.business, f.technical, f.caliber_id])),
-      ...((table.adsViews || []).map(v => v.name || v)),
-    ].filter(Boolean).join(" ").toLowerCase();
-    return blob.includes(kw);
+    const raw = String(kw).trim().toLowerCase();
+    if (!raw) return true;
+    const parts = tableSearchParts(table);
+    const blob = parts.join(" ").toLowerCase();
+    if (blob.includes(raw)) return true;
+
+    const nkw = searchNorm(raw);
+    if (nkw && parts.some((p) => searchNorm(p).includes(nkw))) return true;
+
+    // 多词：全部 token 都要命中（支持 "dim province" ↔ dim_province）
+    const tokens = raw.split(/\s+/).filter(Boolean);
+    if (tokens.length > 1) {
+      return tokens.every((tok) => {
+        if (blob.includes(tok)) return true;
+        const nt = searchNorm(tok);
+        return nt && parts.some((p) => searchNorm(p).includes(nt));
+      });
+    }
+    return false;
   }
 
   function buildAppLayerItems() {
@@ -278,7 +341,7 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.35-4.35"></path>
               </svg>
-              <input type="text" class="dd-search-input" placeholder="全文搜索：表名、用途、字段、业务含义…" />
+              <input type="text" class="dd-search-input" placeholder="搜索中英文表名、别名、字段、用途…" />
             </div>
           </div>
         </div>
@@ -336,7 +399,7 @@
       });
 
       if (filter && !html) {
-        html = `<div class="dd-tree-empty">未找到匹配项（可搜表名、用途、字段、业务含义）</div>`;
+        html = `<div class="dd-tree-empty">未找到匹配项（可搜中/英文表名、别名、id、字段）</div>`;
       }
 
       return html;

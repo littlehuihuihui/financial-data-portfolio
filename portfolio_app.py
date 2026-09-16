@@ -39,7 +39,15 @@ MANUFACTURING_API_ROOTS = frozenset({
 
 
 def _resolve_api_base(subpath: str) -> str:
-    """按 Referer 优先解析行业后端，避免同名 dashboard_* 路由串台。"""
+    """按 X-Industry / Referer 优先解析行业后端，避免同名 dashboard_* 路由串台。"""
+    industry_hdr = (request.headers.get("X-Industry") or request.args.get("industry") or "").strip().lower()
+    if industry_hdr in {"manufacturing", "mfg"}:
+        return MANUFACTURING_API_BASE
+    if industry_hdr in {"internet", "ott"}:
+        return INTERNET_API_BASE
+    if industry_hdr in {"retail"}:
+        return RETAIL_API_BASE
+
     referer = request.headers.get("Referer", "")
     root = subpath.split("/")[0] if subpath else ""
     if "/industries/manufacturing/" in referer:

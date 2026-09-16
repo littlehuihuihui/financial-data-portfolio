@@ -128,10 +128,29 @@
     const input = slot.querySelector("#global-search-input");
     const results = slot.querySelector("#global-search-results");
 
+    function placeResults() {
+      if (!results.classList.contains("open")) return;
+      const rect = input.getBoundingClientRect();
+      const width = Math.max(rect.width, 280);
+      let left = rect.left;
+      if (left + width > window.innerWidth - 8) {
+        left = Math.max(8, window.innerWidth - width - 8);
+      }
+      const maxH = Math.min(420, Math.max(160, window.innerHeight - rect.bottom - 16));
+      results.style.position = "fixed";
+      results.style.top = Math.round(rect.bottom + 6) + "px";
+      results.style.left = Math.round(left) + "px";
+      results.style.width = Math.round(width) + "px";
+      results.style.right = "auto";
+      results.style.maxHeight = maxH + "px";
+      results.style.zIndex = "10050";
+    }
+
     function search(q) {
       const kw = q.trim().toLowerCase();
       if (!kw) {
         results.classList.remove("open");
+        results.style.display = "none";
         return;
       }
       const index = window.SEARCH_INDEX || [];
@@ -149,6 +168,8 @@
       if (!limited.length) {
         results.innerHTML = '<div class="gs-empty">无匹配结果</div>';
         results.classList.add("open");
+        results.style.display = "block";
+        placeResults();
         return;
       }
       const groups = {};
@@ -185,6 +206,8 @@
       });
       results.innerHTML = html;
       results.classList.add("open");
+      results.style.display = "block";
+      placeResults();
 
       results.querySelectorAll(".gs-item").forEach((a) => {
         a.addEventListener("click", (e) => {
@@ -201,6 +224,7 @@
               if (api?.enterFocus) api.enterFocus("tbl:" + table, true);
               else location.search = "?node=" + encodeURIComponent("tbl:" + table);
               results.classList.remove("open");
+              results.style.display = "none";
             }
             return;
           }
@@ -211,6 +235,7 @@
             let h = (href.split("#")[1] || "").replace(/^playbook\//, "");
             if (h) location.hash = h;
             results.classList.remove("open");
+            results.style.display = "none";
             return;
           }
 
@@ -219,12 +244,14 @@
               e.preventDefault();
               openDictOnArchitecture(table, field, fk);
               results.classList.remove("open");
+              results.style.display = "none";
               return;
             }
             if (window.DataDictionaryUI?.navigateTo) {
               e.preventDefault();
               window.DataDictionaryUI.navigateTo(table, field || undefined);
               results.classList.remove("open");
+              results.style.display = "none";
               return;
             }
             sessionStorage.setItem("dictNav", JSON.stringify({ table, field: field || null }));
@@ -236,11 +263,18 @@
       });
     }
 
+    function closeResults() {
+      results.classList.remove("open");
+      results.style.display = "none";
+    }
+
     input.addEventListener("input", () => search(input.value));
     input.addEventListener("focus", () => { if (input.value) search(input.value); });
     document.addEventListener("click", (e) => {
-      if (!slot.contains(e.target)) results.classList.remove("open");
+      if (!slot.contains(e.target) && !results.contains(e.target)) closeResults();
     });
+    window.addEventListener("resize", () => placeResults(), { passive: true });
+    window.addEventListener("scroll", () => placeResults(), { passive: true, capture: true });
   }
 
   function consumePendingNav() {

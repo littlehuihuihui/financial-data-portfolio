@@ -1,7 +1,6 @@
 /**
  * 架构页统一初始化：字典 / 全景 / ER / ETL 按需懒加载
  * 首屏只挂搜索与 TOC，避免同步解析 100KB+ 数据脚本。
- * 数据分析答疑仅保留平台页 pages/data-faq.html。
  */
 (function () {
   "use strict";

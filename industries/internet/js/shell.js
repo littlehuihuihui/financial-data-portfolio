@@ -103,7 +103,9 @@
     try {
       const cfg = await DashNav.initConfig();
       const state = DashState.load();
-      roleConfig = DashNav.getRoleConfig(state.role || cfg.defaultRole);
+      const roleId = DashNav.resolveRoleId?.(state.role) || state.role || cfg.defaultRole;
+      if (roleId !== state.role) DashState.save({ role: roleId });
+      roleConfig = DashNav.getRoleConfig(roleId);
       try {
         meta = await DashCore.api("/api/meta");
       } catch {
@@ -127,6 +129,10 @@
       window.addEventListener("resize", () => DashCore.resizeAll());
     } catch (e) {
       setStatus("初始化失败: " + e.message, true);
+      const el = contentEl();
+      if (el) {
+        el.innerHTML = `<div class="empty-hint error">初始化失败：${e.message || e}<br><small>可尝试清除本页 localStorage 键 <code>internet_dashboard_state</code> 后刷新。</small></div>`;
+      }
     }
   }
   document.addEventListener("DOMContentLoaded", boot);

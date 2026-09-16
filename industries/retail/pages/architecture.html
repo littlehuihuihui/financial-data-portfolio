@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="../../../css/platform-shell.css?v=3.57">
   <link rel="stylesheet" href="../css/industry-overrides.css">
   <link rel="stylesheet" href="../css/platform-features.css?v=3.55">
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="../css/dw-architecture.css">
+  <link rel="stylesheet" href="../css/dw-knowledge-graph.css">
+  <link rel="stylesheet" href="../../../css/data-dictionary.css">
 </head>
 <body class="page-architecture" data-industry="retail">
 
@@ -34,65 +36,125 @@
         <span class="arch-page-badge">sql6 · Kimball 五层数仓</span>
       </div>
       <p class="page-intro">ODS → DIM → DWD → DWS → ADS 五层架构，覆盖订单/支付/库存/费用/预算全链路；主题看板与方法论视图直接消费 DWS/ADS 层数据。</p>
+      <div class="arch-stats-row">
+        <div class="arch-stat-item">
+          <span class="arch-stat-num">5</span>
+          <span class="arch-stat-label">层数架构</span>
+        </div>
+        <div class="arch-stat-item">
+          <span class="arch-stat-num">29+</span>
+          <span class="arch-stat-label">表/视图</span>
+        </div>
+        <div class="arch-stat-item">
+          <span class="arch-stat-num">14</span>
+          <span class="arch-stat-label">业务看板</span>
+        </div>
+        <div class="arch-stat-item">
+          <span class="arch-stat-num">3</span>
+          <span class="arch-stat-label">行业模板</span>
+        </div>
+      </div>
     </div>
             <nav class="arch-toc" aria-label="页内导航">
-      <a href="#data-dictionary-section">数据字典</a>
       <a href="#dw-architecture-section">分层全景图</a>
-      <a href="platform-graph.html">平台知识图谱</a>
+      <a href="#data-dictionary-section">数据字典</a>
+      <a href="#dw-graph-section">知识图谱</a>
       <a href="#er-diagram-section">实体关系图</a>
       <a href="#etl-lineage-section">ETL与血缘</a>
-      <a href="#data-source-section">分层与数据来源</a>
+      <a href="#layer-details-section">分层详解</a>
+      <a href="#source-tech-section">数据源与技术栈</a>
     </nav>
-
-
-
-<!-- 区块：数据字典（第一项 · 可折叠） -->
-    <details class="arch-interactive-accordion" id="data-dictionary-section">
-      <summary>数据字典 <a class="arch-fullscreen-link" href="dictionary.html" onclick="event.stopPropagation()">全屏打开 ↗</a></summary>
-      <div class="arch-accordion-body arch-interactive-body">
-      <p class="star-schema-desc">左树按 ODS → DIM → DWD → DWS → ADS → 应用层 浏览；右侧表名 / 字段名可跳转平台知识图谱辐射图；支持全文搜索。</p>
-      <div id="data-dictionary-root" class="data-dictionary"></div>
-      </div>
-    </details>
-
 
 <!-- 区块1：交互式分层全景图 -->
     <details class="arch-interactive-accordion" id="dw-architecture-section">
-      <summary>数仓分层全景图 · 交互式 <a class="arch-fullscreen-link" href="panorama.html" onclick="event.stopPropagation()">全屏打开 ↗</a></summary>
+      <summary>数仓分层全景图 · 交互式</summary>
       <div class="arch-accordion-body arch-interactive-body">
       <p class="star-schema-desc">
-        主链路四列 ODS → DWD → DWS → ADS；默认层间主箭头，点表查看上下游与内嵌详情；可跳转数据字典 / 平台知识图谱。支持搜索、缩放与分层筛选。DIM 维度表见数据字典。
+        主链路四列 ODS → DWD → DWS → ADS，DIM 在左侧可折叠侧栏；默认仅层间主箭头，点表查看上下游与内嵌详情；可跳转数据字典 / 知识图谱。支持搜索、缩放与分层筛选。
       </p>
       <div id="dw-architecture-root"></div>
       </div>
     </details>
 
+<!-- 区块2：数据字典（Master-Detail） -->
+    <section class="arch-section" id="data-dictionary-section">
+      <div class="arch-section-title-row" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <h3 style="margin:0;">数据字典</h3>
+        <a class="arch-fullscreen-link" href="dictionary.html" style="font-size:13px;color:var(--primary,#4da3ff);text-decoration:none;white-space:nowrap;">全屏打开 ↗</a>
+      </div>
+      <p class="star-schema-desc">左树为数仓五层；点字段可看业务/技术口径与排除规则；表详情展示关联看板；应用层看板↔ADS 映射见字典区顶部折叠面板。</p>
+      <p class="star-schema-desc">
+        零售财务 sql6 权威模型（ODS/DIM/DWD/DWS/ADS）；左侧按层浏览表，右侧查看字段、用途与血缘。深链格式 <code>#dict/表名</code> 或 <code>#dict/表名/字段</code>；亦可从全景图侧栏与顶栏全局搜索直达。
+      </p>
+      <div id="data-dictionary-root" class="data-dictionary"></div>
+    </section>
 
+<!-- 区块1b：数仓知识图谱 -->
+    <details class="arch-interactive-accordion" id="dw-graph-section">
+      <summary>数仓知识图谱 · 力导向关系图</summary>
+      <div class="arch-accordion-body arch-interactive-body">
+      <p class="star-schema-desc">
+        力导向布局展示表与表之间的血缘关系网络；拖拽节点调整位置，滚轮缩放，点击节点高亮所有上下游链路；支持分层筛选与搜索定位，直观理解数据流转脉络。
+      </p>
+      <div id="dw-graph-root"></div>
+      </div>
+    </details>
 
 <!-- 区块1d：实体关系图 -->
     <details class="arch-interactive-accordion" id="er-diagram-section">
-      <summary>实体关系图（ER） <a class="arch-fullscreen-link" href="er-diagram.html" onclick="event.stopPropagation()">全屏打开 ↗</a></summary>
+      <summary>实体关系图（ER）</summary>
       <div class="arch-accordion-body arch-interactive-body">
       <p class="star-schema-desc">基于零售 sql6 / 维度建模绘制的关系示意；展示核心事实与维度关联及 DWS→ADS 出口。</p>
       <div id="er-diagram-root" class="er-diagram-wrap"></div>
       </div>
     </details>
 
-
 <!-- 区块：ETL与数据血缘 -->
     <details class="arch-static-accordion" id="etl-lineage-section">
       <summary>ETL调度与数据血缘</summary>
       <div class="arch-accordion-body">
-      <div id="etl-lineage-root" class="etl-lineage-root"></div>
+
+      <h4>ETL调度策略</h4>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>任务</th><th>执行频率</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>dim_date 初始化</td><td>重建时</td><td><code>sql6_portfolio_model/02_dim.sql</code> · 2020–2030</td></tr>
+            <tr><td>CSV → ODS</td><td>按需</td><td><code>scripts/seed_sql6_from_csv.py</code></td></tr>
+            <tr><td>ODS → DWD 宽表</td><td>灌入后</td><td>JOIN dim_* 冗余品牌/渠道/品类/门店名称</td></tr>
+            <tr><td>DWD → DWS 汇总</td><td>灌入后</td><td>日/月 × 品牌 × 渠道 × 品类预聚合</td></tr>
+            <tr><td>ADS 视图</td><td>实时</td><td><code>05_ads.sql</code> 仅读 DWS/DIM</td></tr>
+          </tbody>
+        </table>
       </div>
+      <p class="etl-impl-note">重建命令：<code>python scripts/rebuild_retail_finance.py</code> → <code>python scripts/seed_sql6_from_csv.py</code>（库 <code>retail_finance</code>）</p>
+      <h4>血缘应用：问题溯源与变更影响</h4>
+      <p class="lineage-usage"><strong>问题溯源（自下而上）</strong>：看板指标异常时，从 ADS 定位月份/维度 → 下钻 DWS → 回查 DWD 宽表 → 对比 ODS 原始单据，逐层锁定口径、清洗或源数据问题。</p>
+      <p class="lineage-usage"><strong>变更影响（自上而下）</strong>：改 ETL 或指标口径前查下游 ADS 与 13 主题看板；变更后重跑灌数并对账（差异≤2%），回归 API(:5000)。</p>
+          </div>
     </details>
 
-
-<!-- 区块：分层表清单与业务数据来源（答疑仅保留平台页） -->
-    <details class="arch-static-accordion" id="data-source-section">
-      <summary>分层表清单与业务数据来源</summary>
+<!-- 区块：数仓分层详解 -->
+    <details class="arch-static-accordion" id="layer-details-section">
+      <summary>数仓分层详解</summary>
       <div class="arch-accordion-body">
-<h4>本行业 · 分层表清单速览</h4>
+
+      <p class="star-schema-desc">ODS → DIM → DWD → DWS → ADS 五层架构（Kimball）；看板 SQL 只读 DWS/ADS。</p>
+      <h4>分层定义与数据粒度</h4>
+      <dl class="layer-glossary-list">
+        <dt>ODS · 操作数据层</dt>
+        <dd><strong>颗粒度：原始单据级。</strong>8 张表：ods_orders / payment / purchase / inventory / expense / store_pnl / ad_cost / budget，贴源 ERP/CSV。</dd>
+        <dt>DIM · 维度层</dt>
+        <dd><strong>颗粒度：主数据实体。</strong>5 张表：dim_brand / channel / category / store / date，统一编码映射。</dd>
+        <dt>DWD · 明细宽表层</dt>
+        <dd><strong>颗粒度：清洗后明细。</strong>3 张宽表：dwd_sales_wide / expense_wide / inventory_wide（宽表优先，冗余维度名称）。</dd>
+        <dt>DWS · 汇总数据层</dt>
+        <dd><strong>颗粒度：日/月预聚合。</strong>5 张表：dws_sales_daily/monthly · expense_monthly · inventory_daily · store_daily。</dd>
+        <dt>ADS · 应用数据层</dt>
+        <dd><strong>颗粒度：看板指标切片。</strong>8+ 视图封装经营/品牌/渠道/杜邦/现金流/预算/库存等口径。</dd>
+      </dl>
+      <p class="layer-glossary-foot">记忆口诀：<strong>ODS 存原始 → DIM 定口径 → DWD 宽表洗 → DWS 先算好 → ADS 给业务用</strong>。</p>
+      <h4>分层表清单速览</h4>
       <div class="table-wrap">
         <table class="data-table dw-layer-table">
           <thead><tr><th>层级</th><th>表名</th><th>说明</th><th>更新频率</th></tr></thead>
@@ -105,8 +167,24 @@
           </tbody>
         </table>
       </div>
+      <h4>宽表建模思路</h4>
+      <p class="star-schema-desc">retail_finance 采用<strong>宽表优先</strong>：品牌/渠道/品类/门店名称冗余进 DWD，看板查询少 JOIN。</p>
+      <ul class="star-schema-list">
+        <li><code>brand_code</code> → <strong>dim_brand</strong></li>
+        <li><code>channel_code</code> → <strong>dim_channel</strong></li>
+        <li><code>category_code</code> → <strong>dim_category</strong></li>
+        <li><code>store_code</code> → <strong>dim_store</strong></li>
+        <li><code>order_date</code> → <strong>dim_date</strong></li>
+      </ul>
+          </div>
+    </details>
 
-      <h4 id="erp-datasource">业务数据来源</h4>
+<!-- 区块：数据源与技术栈 -->
+    <details class="arch-static-accordion" id="source-tech-section">
+      <summary>数据源与技术栈</summary>
+      <div class="arch-accordion-body">
+
+      <h4>业务数据来源</h4>
       <p class="star-schema-desc">数仓底座为零售经营与财务单据（订单/支付/采购/库存/费用/预算），样例灌入见 <code>scripts/seed_sql6_from_csv.py</code>。</p>
       <div class="source-stack-grid">
         <article class="source-card"><h5>ERP / 财务</h5><p>销售订单、应收应付、凭证 · 经营与报表底座</p><span class="source-tag">T+1</span></article>
@@ -116,7 +194,6 @@
         <article class="source-card"><h5>银行流水</h5><p>收付对账 · 现金流勾稽</p><span class="source-tag">T+1</span></article>
         <article class="source-card"><h5>主数据</h5><p>品牌、渠道、品类、门店</p><span class="source-tag">日更</span></article>
       </div>
-
       <h4>数据库与计算引擎选型</h4>
       <div class="table-wrap table-scroll-wrap">
         <table class="data-table">
@@ -130,14 +207,34 @@
         </table>
       </div>
       <ul class="fpb-reconcile-list">
-        <li><strong>本作品集落点：</strong><code>retail_finance</code> MySQL = 生产分层数仓的 SQL 原型（sql6_portfolio_model）。API :5000。</li>
+        <li><strong>本作品集落点：</strong><code>retail_finance</code> MySQL = 生产分层数仓的 SQL 原型（sql6_portfolio_model）。</li>
       </ul>
-</div>
+      <h4>作品集落地技术栈</h4>
+      <ul class="arch-tech-list">
+        <li>Python 3.9+ / Flask（API :5000）</li>
+        <li>MySQL 8.0 数仓（retail_finance）</li>
+        <li>SQL DDL + Python ETL（rebuild / seed）</li>
+        <li>Tableau / ECharts 可视化</li>
+        <li>HTML / CSS / JS 前端作品集</li>
+      </ul>
+          </div>
     </details>
 
 </main>
 
-  <script src="../js/search-index-data.js" defer></script>
-  <script src="../../../js/global-search.js?v=3.57" defer></script>
-  <script src="../../../js/architecture-page.js?v=3.57" defer></script>
+  <script src="../js/er-diagram-data.js?v=2.16"></script>
+  <script src="../js/er-diagram.js?v=2.16"></script>
+  <script src="../js/data-dictionary-data.js"></script>
+  <script src="../js/metric-caliber-data.js"></script>
+  <script src="../js/methodology-playbook-data.js"></script>
+  <script src="../js/search-index-data.js"></script>
+  <script src="../../../js/data-dictionary-core.js"></script>
+  <script src="../js/data-dictionary.js"></script>
+  <script src="../../../js/global-search.js?v=3.57"></script>
+  <script src="../js/dw-architecture-data.js"></script>
+  <script src="../../../js/dw-architecture.js?v=3.57"></script>
+  <script src="../js/echarts.min.js"></script>
+  <script src="../js/dw-knowledge-graph.js"></script>
+  <script src="../js/dashboard-config.js"></script>
+  <script src="../../../js/architecture-page.js?v=3.57"></script>
 </body>

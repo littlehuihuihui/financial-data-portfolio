@@ -34,7 +34,7 @@
   border: 1px solid var(--gs-border);
   border-radius: 10px;
   box-shadow: 0 12px 32px rgba(0,0,0,0.45);
-  z-index: 500;
+  z-index: 10050;
 }
 .global-search-results.open { display: block; }
 .gs-group-title {

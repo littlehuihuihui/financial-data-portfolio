@@ -117,8 +117,19 @@
   gap: 0.75rem;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 300;
+  overflow: visible;
   /* sticky 已建立 containing block，供底部光带定位 */
+}
+
+.page-dashboard #global-search-slot {
+  flex: 1 1 180px;
+  min-width: 140px;
+  max-width: 300px;
+}
+.page-dashboard #global-search-slot .global-search-wrap {
+  max-width: 100%;
+  width: 100%;
 }
 
 .page-dashboard .dashboard-header::after {
