@@ -8871,14 +8871,15 @@
 };
 
     /* —— 课树懒加载：首屏不内联 7 棵大树，进入学科时再 fetch —— */
+    const KG_DATA_VER = "20260917b";
     const KG_TREE_FILES = {
-      sql: "kg-data/sql.json",
-      python: "kg-data/python.json",
-      database: "kg-data/database.json",
-      ml: "kg-data/ml.json",
-      etl: "kg-data/etl.json",
-      dwh: "kg-data/dwh.json",
-      bi: "kg-data/bi.json"
+      sql: "kg-data/sql.json?v=" + KG_DATA_VER,
+      python: "kg-data/python.json?v=" + KG_DATA_VER,
+      database: "kg-data/database.json?v=" + KG_DATA_VER,
+      ml: "kg-data/ml.json?v=" + KG_DATA_VER,
+      etl: "kg-data/etl.json?v=" + KG_DATA_VER,
+      dwh: "kg-data/dwh.json?v=" + KG_DATA_VER,
+      bi: "kg-data/bi.json?v=" + KG_DATA_VER
     };
     const KG_TREES = {
       sql: null,
@@ -8897,12 +8898,17 @@
       if (!hubId) return null;
       if (KG_TREES[hubId]) return KG_TREES[hubId];
       if (KG_TREE_LOADING[hubId]) return KG_TREE_LOADING[hubId];
-      const url = KG_TREE_FILES[hubId];
-      if (!url) return null;
+      const rel = KG_TREE_FILES[hubId];
+      if (!rel) return null;
+      const url = new URL(rel, window.location.href).toString();
       KG_TREE_LOADING[hubId] = (async () => {
-        const res = await fetch(url, { cache: "force-cache" });
+        let res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) {
+          res = await fetch(url, { cache: "reload" });
+        }
         if (!res.ok) throw new Error("HTTP " + res.status + " " + url);
         const tree = await res.json();
+        if (!tree || typeof tree !== "object") throw new Error("invalid kg tree " + hubId);
         KG_TREES[hubId] = tree;
         delete KG_TREE_LOADING[hubId];
         return tree;
