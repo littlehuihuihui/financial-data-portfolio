@@ -1,0 +1,1750 @@
+{
+  "graph_meta": {
+    "name": "SQL Layered Learning Graph",
+    "version": "1.0",
+    "dimensions": {
+      "levels": [
+        "Low",
+        "Mid",
+        "High"
+      ],
+      "granularities": [
+        "G1",
+        "G2",
+        "G3",
+        "G4",
+        "G5"
+      ],
+      "topics": [
+        "SQL体系",
+        "查询语法",
+        "JOIN关联",
+        "聚合分析"
+      ]
+    },
+    "total_nodes": 60,
+    "total_edges": 88,
+    "design_notes": {
+      "orthogonal_dimensions": [
+        "level=能力等级（学多深）",
+        "granularity=认知粒度（从何切入）",
+        "topic=知识点（横切主题）"
+      ],
+      "topic_strategy": "4 个横切 topic 在 3×5 全矩阵展开，保证 level_up 与 drill_down 完备"
+    }
+  },
+  "nodes": [
+    {
+      "node_id": "Low.G1.SQL体系",
+      "level": "Low",
+      "granularity": "G1",
+      "topic": "SQL体系",
+      "title": "SQL 是什么，以及它在数据链路中的位置",
+      "description": "建立「SQL=与关系型数据对话的语言」心智模型，弄清它在业务库→仓→分析中的角色。",
+      "key_points": [
+        "SQL 用于声明「要什么数据」，引擎决定「怎么取」",
+        "常见位置：业务库查询、报表取数、数仓加工脚本",
+        "学会 SQL 不等于懂数据库全部，但能独立查数"
+      ],
+      "example": "类比：SQL 像点菜菜单（说明要什么），厨房（引擎）负责做菜。",
+      "learning_goal": "能一句话说清 SQL 是什么，并指出它在「录入→存储→取数→分析」链路中的位置。",
+      "next_drill": "Low.G2.SQL体系",
+      "next_level_up": "Mid.G1.SQL体系",
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "Low.G2.SQL体系",
+      "level": "Low",
+      "granularity": "G2",
+      "topic": "SQL体系",
+      "title": "SQL 四大类：DDL / DML / DQL / DCL",
+      "description": "用分类框架理解 SQL 能力边界，避免把「查数据」和「改结构」混为一谈。",
+      "key_points": [
+        "DQL：SELECT 查询（分析师最常用）",
+        "DML：INSERT/UPDATE/DELETE 改数据",
+        "DDL：CREATE/ALTER/DROP 改结构；DCL：权限 GRANT/REVOKE"
+      ],
+      "example": "查订单用 DQL；改订单状态用 DML；新建订单表用 DDL。",
+      "learning_goal": "看到一条 SQL 能判断它属于哪一类，并说出主要用途。",
+      "next_drill": "Low.G3.SQL体系",
+      "next_level_up": "Mid.G2.SQL体系",
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "Low.G3.SQL体系",
+      "level": "Low",
+      "granularity": "G3",
+      "topic": "SQL体系",
+      "title": "最小可用语句骨架与库表对象名",
+      "description": "认识库、表、列的命名与最简语句形态，为写 SELECT 做准备。",
+      "key_points": [
+        "对象层级：数据库/Schema → 表 → 列",
+        "语句以分号结束；关键字大小写不敏感（方言有例外）",
+        "注释：`--` 单行与 `/* */` 块注释"
+      ],
+      "example": "`SELECT order_id FROM orders;`",
+      "learning_goal": "能正确写出指向某张表某几列的最小 SELECT。",
+      "next_drill": "Low.G4.SQL体系",
+      "next_level_up": "Mid.G3.SQL体系",
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "Low.G4.SQL体系",
+      "level": "Low",
+      "granularity": "G4",
+      "topic": "SQL体系",
+      "title": "库表权限、只读账号与安全边界",
+      "description": "初级使用者最易踩的「能连库但查不了/误操作」边界。",
+      "key_points": [
+        "生产环境优先只读账号，禁止随意 UPDATE/DELETE",
+        "无权限会报 permission denied，不是 SQL 写错",
+        "不要在不确定 WHERE 时执行写操作"
+      ],
+      "example": "同一条 SELECT，只读账号可跑，写账号误删则不可逆。",
+      "learning_goal": "知道何时该用只读权限，以及写操作的风险意识。",
+      "next_drill": "Low.G5.SQL体系",
+      "next_level_up": "Mid.G4.SQL体系",
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "Low.G5.SQL体系",
+      "level": "Low",
+      "granularity": "G5",
+      "topic": "SQL体系",
+      "title": "第一次连库查数：从业务问题到一张结果表",
+      "description": "把「我想看昨天支付订单」翻译成一次可运行的取数动作。",
+      "key_points": [
+        "先确认：库/表/字段口径（什么叫 paid）",
+        "先小样本 LIMIT 验证，再扩大范围",
+        "结果要能回答业务问题，而不是「跑通就算」"
+      ],
+      "example": "问题：昨天支付了多少单？→ 查 orders 中 status=paid 且日期=昨天。",
+      "learning_goal": "能独立完成「连库→选表→出结果→对照业务问题」闭环。",
+      "next_drill": null,
+      "next_level_up": "Mid.G5.SQL体系",
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "Mid.G1.SQL体系",
+      "level": "Mid",
+      "granularity": "G1",
+      "topic": "SQL体系",
+      "title": "数据分析完整链路中的 SQL 角色",
+      "description": "把 SQL 放进「取数→清洗→聚合→可视化/建模」闭环，明确每段输入输出。",
+      "key_points": [
+        "取数：从源/仓拉出分析所需粒度",
+        "清洗与口径：过滤、去重、统一状态码",
+        "聚合与交付：指标表/宽表供 BI 或模型使用"
+      ],
+      "example": "漏斗分析：事件明细(SQL取)→会话清洗→步骤聚合→看板。",
+      "learning_goal": "能画出一条分析链路，并标明 SQL 负责哪几步。",
+      "next_drill": "Mid.G2.SQL体系",
+      "next_level_up": "High.G1.SQL体系",
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "Mid.G2.SQL体系",
+      "level": "Mid",
+      "granularity": "G2",
+      "topic": "SQL体系",
+      "title": "分析层对象：明细、汇总、主题宽表",
+      "description": "区分明细事实、汇总指标与面向看板的宽表，选择合适的查询对象。",
+      "key_points": [
+        "明细：可下钻、可重算，体积大",
+        "汇总：按日/用户预聚合，查询快但粒度固定",
+        "宽表：多维拼宽，便于 BI，但更新成本高"
+      ],
+      "example": "日报 GMV 扫汇总表；排查异常订单回明细。",
+      "learning_goal": "面对指标需求，能判断该查明细还是汇总。",
+      "next_drill": "Mid.G3.SQL体系",
+      "next_level_up": "High.G2.SQL体系",
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "Mid.G3.SQL体系",
+      "level": "Mid",
+      "granularity": "G3",
+      "topic": "SQL体系",
+      "title": "可复用取数脚本：参数化日期与口径注释",
+      "description": "把一次性查询升级为可复跑脚本：日期变量、口径注释、结果验收。",
+      "key_points": [
+        "日期用参数/变量，避免改脚本四处找字面量",
+        "在注释中写清指标定义与过滤条件",
+        "固定输出列名，方便下游对接"
+      ],
+      "example": "`-- GMV=paid 订单金额合计；时区=业务本地日`",
+      "learning_goal": "能交付一份他人可复跑、口径可读的取数 SQL。",
+      "next_drill": "Mid.G4.SQL体系",
+      "next_level_up": "High.G3.SQL体系",
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "Mid.G4.SQL体系",
+      "level": "Mid",
+      "granularity": "G4",
+      "topic": "SQL体系",
+      "title": "口径漂移、重复计算与脏数据入口",
+      "description": "分析者常踩的「数对不上」：口径不一致、重复关联、未过滤测试单。",
+      "key_points": [
+        "同一指标多名定义：先对齐字典再写 SQL",
+        "JOIN 爆炸导致 GMV 翻倍",
+        "测试用户/刷单需在清洗层剔除"
+      ],
+      "example": "订单⋈明细后 SUM(amount) 虚高 → 先按订单聚合再关联。",
+      "learning_goal": "遇到指标对不上，能按清单排查口径与关联问题。",
+      "next_drill": "Mid.G5.SQL体系",
+      "next_level_up": "High.G4.SQL体系",
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "Mid.G5.SQL体系",
+      "level": "Mid",
+      "granularity": "G5",
+      "topic": "SQL体系",
+      "title": "从需求到看板：一次完整取数交付",
+      "description": "承接产品/运营需求，交付可复用查询与验收用例。",
+      "key_points": [
+        "澄清：时间窗、人群、成功事件定义",
+        "输出：日级结果 + 抽检明细",
+        "验收：与已知样例或旧报表对拍"
+      ],
+      "example": "「近 7 日新客首单率」：注册日队列 × 首单事件。",
+      "learning_goal": "能独立承接一个中等分析取数需求并完成验收。",
+      "next_drill": null,
+      "next_level_up": "High.G5.SQL体系",
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "High.G1.SQL体系",
+      "level": "High",
+      "granularity": "G1",
+      "topic": "SQL体系",
+      "title": "数据建模与 OLTP vs OLAP 中的 SQL 取舍",
+      "description": "从架构视角看 SQL：事务库、分析仓、湖仓一体各自适合什么负载。",
+      "key_points": [
+        "OLTP：短事务、点查点写、强一致",
+        "OLAP：大范围扫、聚合、可接受延迟",
+        "SQL 方言与引擎能力决定可下推的复杂度"
+      ],
+      "example": "主库扛下单；日报扫仓/列存，避免拖垮 OLTP。",
+      "learning_goal": "能按负载画像决定 SQL 应打在哪类系统上。",
+      "next_drill": "High.G2.SQL体系",
+      "next_level_up": null,
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "High.G2.SQL体系",
+      "level": "High",
+      "granularity": "G2",
+      "topic": "SQL体系",
+      "title": "范式 vs 反范式、主题域与数仓分层",
+      "description": "设计层结构：规范化降低冗余，分析层适度反范式换查询效率。",
+      "key_points": [
+        "3NF 适合事务写入；星型/宽表适合分析",
+        "ODS/DWD/DWS/ADS 分层职责不同",
+        "总线矩阵统一跨域维度"
+      ],
+      "example": "订单行留明细层；日 GMV 进 DWS；看板读 ADS。",
+      "learning_goal": "能解释为何同一业务在 OLTP 与仓中表结构不同。",
+      "next_drill": "High.G3.SQL体系",
+      "next_level_up": null,
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "High.G3.SQL体系",
+      "level": "High",
+      "granularity": "G3",
+      "topic": "SQL体系",
+      "title": "面向治理的 DDL：约束、分区与物化对象",
+      "description": "用 DDL 表达完整性与物理组织：主键、分区、物化视图。",
+      "key_points": [
+        "约束是数据质量的第一道闸",
+        "分区服务生命周期与裁剪",
+        "物化视图固化高成本聚合"
+      ],
+      "example": "`PARTITION BY RANGE (dt)` + 日物化汇总。",
+      "learning_goal": "能草拟一张事实表的关键 DDL 设计要点。",
+      "next_drill": "High.G4.SQL体系",
+      "next_level_up": null,
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "High.G4.SQL体系",
+      "level": "High",
+      "granularity": "G4",
+      "topic": "SQL体系",
+      "title": "分布式 SQL 的一致性、本地性与方言陷阱",
+      "description": "跨分片/跨引擎时 SQL「能写」不等于「语义与性能符合预期」。",
+      "key_points": [
+        "跨分片 JOIN/事务成本陡增",
+        "不同引擎 NULL/排序/类型规则有差异",
+        "下推失败会导致计算上移、性能悬崖"
+      ],
+      "example": "同一 SQL 在单机 PG 秒级，在错误分片键上分钟级。",
+      "learning_goal": "能识别哪些写法在分布式下高风险。",
+      "next_drill": "High.G5.SQL体系",
+      "next_level_up": null,
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "High.G5.SQL体系",
+      "level": "High",
+      "granularity": "G5",
+      "topic": "SQL体系",
+      "title": "亿级表与跨库方案的设计评审清单",
+      "description": "用架构 checklist 评审：分片键、分区、冷热、查询路由。",
+      "key_points": [
+        "分片键对齐高频查询谓词",
+        "冷热分离与归档策略",
+        "明确禁止的跨库大 JOIN 模式"
+      ],
+      "example": "按 user_id 分片；报表走仓；禁止线上扫全库 GROUP BY。",
+      "learning_goal": "能输出一份面向亿级表的 SQL/存储方案评审意见。",
+      "next_drill": null,
+      "next_level_up": null,
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "Low.G1.查询语法",
+      "level": "Low",
+      "granularity": "G1",
+      "topic": "查询语法",
+      "title": "为什么需要查询语言：从表格到结果集",
+      "description": "理解「声明式查询」相对手工筛选的价值。",
+      "key_points": [
+        "用条件描述子集，而不是写循环扫表",
+        "结果集是一张临时表，可再被加工",
+        "同一问题可有多种写法，先求正确"
+      ],
+      "example": "Excel 筛选 ≈ WHERE；透视 ≈ GROUP BY（后学）。",
+      "learning_goal": "能解释为何用 SQL 查数比导出全表手工筛更可靠。",
+      "next_drill": "Low.G2.查询语法",
+      "next_level_up": "Mid.G1.查询语法",
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "Low.G2.查询语法",
+      "level": "Low",
+      "granularity": "G2",
+      "topic": "查询语法",
+      "title": "SELECT 子句积木：选列、过滤、排序、限制行数",
+      "description": "拆开一条查询的组成部分及各自职责。",
+      "key_points": [
+        "SELECT 投影列；FROM 数据源",
+        "WHERE 行过滤；ORDER BY 排序；LIMIT/OFFSET 分页",
+        "书写顺序 ≠ 执行直觉，但初级先按书写学"
+      ],
+      "example": "`SELECT a,b FROM t WHERE ... ORDER BY ... LIMIT n`",
+      "learning_goal": "能指认语句中每一段的作用。",
+      "next_drill": "Low.G3.查询语法",
+      "next_level_up": "Mid.G2.查询语法",
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "Low.G3.查询语法",
+      "level": "Low",
+      "granularity": "G3",
+      "topic": "查询语法",
+      "title": "SELECT / WHERE / ORDER BY / LIMIT 写法",
+      "description": "掌握最常用的四段语法，能写单表查询。",
+      "key_points": [
+        "比较与逻辑：`= <> >`、`AND/OR`、`IN`、`BETWEEN`、`LIKE`",
+        "排序多列与 ASC/DESC",
+        "LIMIT 控制预览与分页"
+      ],
+      "example": "`SELECT * FROM orders WHERE status='paid' ORDER BY created_at DESC LIMIT 20;`",
+      "learning_goal": "能独立写出带过滤、排序、限行的单表查询。",
+      "next_drill": "Low.G4.查询语法",
+      "next_level_up": "Mid.G3.查询语法",
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "Low.G4.查询语法",
+      "level": "Low",
+      "granularity": "G4",
+      "topic": "查询语法",
+      "title": "NULL、类型转换与大小写敏感陷阱",
+      "description": "初级最常见的「结果不对」来自三值逻辑与隐式转换。",
+      "key_points": [
+        "`= NULL` 永假，应使用 `IS NULL`",
+        "字符串与数值比较可能隐式转换导致索引失效或报错",
+        "LIKE 大小写、排序规则依赖校对集"
+      ],
+      "example": "`WHERE city = NULL` 筛不出空城；应 `city IS NULL`。",
+      "learning_goal": "能识别并改写 NULL 与类型相关的错误条件。",
+      "next_drill": "Low.G5.查询语法",
+      "next_level_up": "Mid.G4.查询语法",
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "Low.G5.查询语法",
+      "level": "Low",
+      "granularity": "G5",
+      "topic": "查询语法",
+      "title": "实战：查一张表做简单筛选与排序",
+      "description": "完成三个小任务：列表、条件筛选、Top 预览。",
+      "key_points": [
+        "先 DESC 表结构再写列名",
+        "用 LIMIT 抽样确认口径",
+        "把业务问题写成 WHERE 谓词"
+      ],
+      "example": "查金额>100 的支付单，按时间倒序前 50 行。",
+      "learning_goal": "能在真实样例表上独立完成单表取数。",
+      "next_drill": null,
+      "next_level_up": "Mid.G5.查询语法",
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "Mid.G1.查询语法",
+      "level": "Mid",
+      "granularity": "G1",
+      "topic": "查询语法",
+      "title": "查询在分析中的位置：正确性优先于炫技",
+      "description": "中级分析者把查询当作可验证的数据处理步骤。",
+      "key_points": [
+        "每条查询应对齐明确粒度（订单/用户/天）",
+        "复杂逻辑拆 CTE，便于验收",
+        "可读性是团队资产"
+      ],
+      "example": "先 CTE 滤 paid，再聚合，避免一层嵌套黑盒。",
+      "learning_goal": "能说明如何把复杂需求拆成可测的查询步骤。",
+      "next_drill": "Mid.G2.查询语法",
+      "next_level_up": "High.G1.查询语法",
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "Mid.G2.查询语法",
+      "level": "Mid",
+      "granularity": "G2",
+      "topic": "查询语法",
+      "title": "逻辑执行顺序与聚合 vs 明细",
+      "description": "理解 FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BY 的逻辑顺序。",
+      "key_points": [
+        "WHERE 在聚合前；HAVING 在聚合后",
+        "SELECT 别名通常不能被 WHERE 直接引用（方言差）",
+        "明细查询与聚合查询目标不同，勿混用"
+      ],
+      "example": "先按用户过滤再算 GMV：条件放 WHERE 而非 HAVING。",
+      "learning_goal": "能解释为何某些「看起来能写」的别名用法会报错。",
+      "next_drill": "Mid.G3.查询语法",
+      "next_level_up": "High.G2.查询语法",
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "Mid.G3.查询语法",
+      "level": "Mid",
+      "granularity": "G3",
+      "topic": "查询语法",
+      "title": "GROUP BY / HAVING / 子查询 / CTE / CASE",
+      "description": "掌握中级核心语法工具箱。",
+      "key_points": [
+        "GROUP BY 与聚合函数；HAVING 过滤组",
+        "标量子查询 / IN / EXISTS；CTE 提升可读性",
+        "CASE 做分桶与条件度量"
+      ],
+      "example": "`WITH paid AS (...) SELECT user_id, SUM(amount) FROM paid GROUP BY 1`",
+      "learning_goal": "能用 CTE+聚合+CASE 表达常见分析逻辑。",
+      "next_drill": "Mid.G4.查询语法",
+      "next_level_up": "High.G3.查询语法",
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "Mid.G4.查询语法",
+      "level": "Mid",
+      "granularity": "G4",
+      "topic": "查询语法",
+      "title": "聚合中的 NULL、重复行与分组陷阱",
+      "description": "COUNT/SUM 对 NULL 的行为、只选非分组列等易错点。",
+      "key_points": [
+        "`COUNT(*)` vs `COUNT(col)`；SUM 忽略 NULL",
+        "SELECT 非聚合列必须出现在 GROUP BY（严格模式）",
+        "DISTINCT 与 GROUP BY 的语义重叠需刻意选择"
+      ],
+      "example": "amount 有 NULL 时 SUM 仍可用，AVG 分母不含 NULL。",
+      "learning_goal": "能预判聚合结果在含 NULL 时的行为。",
+      "next_drill": "Mid.G5.查询语法",
+      "next_level_up": "High.G4.查询语法",
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "Mid.G5.查询语法",
+      "level": "Mid",
+      "granularity": "G5",
+      "topic": "查询语法",
+      "title": "实战：同环比与条件指标",
+      "description": "用日期对齐与 CASE 完成同比/环比与比率类指标。",
+      "key_points": [
+        "先统一业务日（时区/日切）",
+        "自关联或日历表做对比期",
+        "比率分母为 0 要保护"
+      ],
+      "example": "日 GMV 环比 = 今日/昨日 - 1。",
+      "learning_goal": "能交付一个同环比或转化率类查询并说明口径。",
+      "next_drill": null,
+      "next_level_up": "High.G5.查询语法",
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "High.G1.查询语法",
+      "level": "High",
+      "granularity": "G1",
+      "topic": "查询语法",
+      "title": "查询作为系统契约：稳定性、可下推与成本",
+      "description": "高级视角把 SQL 当作服务契约：变更、缓存、资源隔离。",
+      "key_points": [
+        "稳定列契约优于 `SELECT *`",
+        "代价模型指导是否物化/预聚合",
+        "在线与离线查询隔离"
+      ],
+      "example": "看板 SQL 禁止无界扫；大任务进批处理队列。",
+      "learning_goal": "能从系统稳定性角度评审一条「能跑」的 SQL。",
+      "next_drill": "High.G2.查询语法",
+      "next_level_up": null,
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "High.G2.查询语法",
+      "level": "High",
+      "granularity": "G2",
+      "topic": "查询语法",
+      "title": "过程化扩展：存储过程、触发器、递归与物化",
+      "description": "认识声明式 SQL 之外的过程与物化结构及其适用边界。",
+      "key_points": [
+        "存储过程：事务编排，但可移植性差",
+        "触发器：隐式副作用，需谨慎",
+        "递归 CTE：层次/图；物化视图：空间换时间"
+      ],
+      "example": "组织树用递归 CTE；高频看板用物化视图。",
+      "learning_goal": "能判断需求该用纯查询、过程还是物化。",
+      "next_drill": "High.G3.查询语法",
+      "next_level_up": null,
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "High.G3.查询语法",
+      "level": "High",
+      "granularity": "G3",
+      "topic": "查询语法",
+      "title": "递归 CTE、存储过程与物化视图语法要点",
+      "description": "掌握高级对象的关键语法骨架与限制。",
+      "key_points": [
+        "递归：锚点 + 递归成员 + 终止条件",
+        "过程：参数、异常、事务边界",
+        "刷新策略：即时/定时/手动"
+      ],
+      "example": "`WITH RECURSIVE subordinates AS (...) SELECT ...`",
+      "learning_goal": "能写出递归 CTE 或物化视图的最小可行示例。",
+      "next_drill": "High.G4.查询语法",
+      "next_level_up": null,
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "High.G4.查询语法",
+      "level": "High",
+      "granularity": "G4",
+      "topic": "查询语法",
+      "title": "执行引擎、查询重写与下推失败",
+      "description": "理解优化器重写、谓词下推与计算上移的边界。",
+      "key_points": [
+        "视图/CTE 可能被内联或物化，计划因引擎而异",
+        "函数包裹列阻碍下推与索引",
+        "重写前后语义等价性要人工确认"
+      ],
+      "example": "`WHERE DATE(created_at)=...` 常导致无法用 created_at 索引。",
+      "learning_goal": "能指出阻碍优化器的典型写法并给出改写。",
+      "next_drill": "High.G5.查询语法",
+      "next_level_up": null,
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "High.G5.查询语法",
+      "level": "High",
+      "granularity": "G5",
+      "topic": "查询语法",
+      "title": "实战：慢查询治理与语句级优化闭环",
+      "description": "从慢日志到改写、验证、回归的工程闭环。",
+      "key_points": [
+        "基线：频率×延迟×影响面",
+        "改写与索引/分区协同",
+        "用前后计划与业务验收固化"
+      ],
+      "example": "将相关子查询改为 JOIN/半连接，延迟下降一个数量级。",
+      "learning_goal": "能主导一次语句级慢查询优化并沉淀规范。",
+      "next_drill": null,
+      "next_level_up": null,
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "Low.G1.JOIN关联",
+      "level": "Low",
+      "granularity": "G1",
+      "topic": "JOIN关联",
+      "title": "为什么要关联：数据拆表存放",
+      "description": "理解拆表降低冗余后，必须通过关联还原业务视图。",
+      "key_points": [
+        "一笔订单的用户信息存在 users，金额在 orders",
+        "关联键是桥梁（如 user_id）",
+        "先理解业务关系再写 JOIN"
+      ],
+      "example": "通讯录（用户）+ 快递单（订单）按手机号对上。",
+      "learning_goal": "能说明为何需要 JOIN 以及关联键是什么。",
+      "next_drill": "Low.G2.JOIN关联",
+      "next_level_up": "Mid.G1.JOIN关联",
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "Low.G2.JOIN关联",
+      "level": "Low",
+      "granularity": "G2",
+      "topic": "JOIN关联",
+      "title": "关联类型直觉：内连接与左连接",
+      "description": "用韦恩图直觉区分只保留匹配 vs 保留左表全部。",
+      "key_points": [
+        "INNER：两边都匹配才保留",
+        "LEFT：左表全保留，右表无匹配则 NULL",
+        "初级先精通这两种"
+      ],
+      "example": "找从未下单用户：users LEFT JOIN orders … WHERE orders.id IS NULL。",
+      "learning_goal": "能按业务选择 INNER 或 LEFT。",
+      "next_drill": "Low.G3.JOIN关联",
+      "next_level_up": "Mid.G2.JOIN关联",
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "Low.G3.JOIN关联",
+      "level": "Low",
+      "granularity": "G3",
+      "topic": "JOIN关联",
+      "title": "简单 JOIN 语法：ON 条件与两表查询",
+      "description": "写出两表等值连接的标准写法。",
+      "key_points": [
+        "`FROM a JOIN b ON a.k = b.k`",
+        "选列时用表别名避免歧义",
+        "先等值连接，再 WHERE 过滤"
+      ],
+      "example": "`SELECT u.user_name, o.amount FROM users u JOIN orders o ON u.user_id=o.user_id;`",
+      "learning_goal": "能独立完成两表等值 JOIN 查询。",
+      "next_drill": "Low.G4.JOIN关联",
+      "next_level_up": "Mid.G3.JOIN关联",
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "Low.G4.JOIN关联",
+      "level": "Low",
+      "granularity": "G4",
+      "topic": "JOIN关联",
+      "title": "关联键类型不一致与重复匹配",
+      "description": "键类型不同、一对多导致行膨胀的初级陷阱。",
+      "key_points": [
+        "INT 与 VARCHAR 关联可能隐式转换",
+        "一对多会复制左表行",
+        "先确认关系基数再 SUM"
+      ],
+      "example": "用户⋈订单明细后对用户数 COUNT 会偏大。",
+      "learning_goal": "能发现并解释一次「行数变多」的 JOIN。",
+      "next_drill": "Low.G5.JOIN关联",
+      "next_level_up": "Mid.G4.JOIN关联",
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "Low.G5.JOIN关联",
+      "level": "Low",
+      "granularity": "G5",
+      "topic": "JOIN关联",
+      "title": "实战：查两张表回答业务问题",
+      "description": "完成用户维 + 订单事的组合取数。",
+      "key_points": [
+        "明确要「有单用户」还是「全部用户」",
+        "输出可读列：姓名+金额+时间",
+        "LIMIT 抽检关联是否正确"
+      ],
+      "example": "列出上海用户的支付订单明细。",
+      "learning_goal": "能用两表 JOIN 完成一个真实小需求。",
+      "next_drill": null,
+      "next_level_up": "Mid.G5.JOIN关联",
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "Mid.G1.JOIN关联",
+      "level": "Mid",
+      "granularity": "G1",
+      "topic": "JOIN关联",
+      "title": "关联是分析组装器：维表、事实与防爆炸",
+      "description": "中级把 JOIN 当作组装分析宽表的核心操作，并警惕基数爆炸。",
+      "key_points": [
+        "事实表关联多个维度",
+        "先聚合再 JOIN 是防爆炸默认策略",
+        "多键关联要写全"
+      ],
+      "example": "订单事实 + 用户维 + 商品维 → 分析宽表。",
+      "learning_goal": "能设计「先聚合后关联」的组装顺序。",
+      "next_drill": "Mid.G2.JOIN关联",
+      "next_level_up": "High.G1.JOIN关联",
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "Mid.G2.JOIN关联",
+      "level": "Mid",
+      "granularity": "G2",
+      "topic": "JOIN关联",
+      "title": "连接家族：INNER/LEFT/RIGHT/FULL/CROSS 与半连接",
+      "description": "系统认识连接类型与半连接（EXISTS）的适用场景。",
+      "key_points": [
+        "FULL 少见但需知语义；CROSS 做笛卡尔需谨慎",
+        "EXISTS/IN 表达「存在性」常优于先 JOIN 再 DISTINCT",
+        "自关联解决同比、层级"
+      ],
+      "example": "筛「至少一笔退款」用户用 EXISTS。",
+      "learning_goal": "能根据问题选择连接或半连接形态。",
+      "next_drill": "Mid.G3.JOIN关联",
+      "next_level_up": "High.G2.JOIN关联",
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "Mid.G3.JOIN关联",
+      "level": "Mid",
+      "granularity": "G3",
+      "topic": "JOIN关联",
+      "title": "多表 JOIN、自关联与派生表",
+      "description": "写多表连接、自连接与子查询派生表。",
+      "key_points": [
+        "别名清晰；ON 与 WHERE 职责分离",
+        "自关联：对比期、父子",
+        "派生表/CTE 作为连接源"
+      ],
+      "example": "`FROM orders o LEFT JOIN (...聚合...) t ON ...`",
+      "learning_goal": "能写出三表以内、含自关联的正确查询。",
+      "next_drill": "Mid.G4.JOIN关联",
+      "next_level_up": "High.G3.JOIN关联",
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "Mid.G4.JOIN关联",
+      "level": "Mid",
+      "granularity": "G4",
+      "topic": "JOIN关联",
+      "title": "JOIN 爆炸、过滤下推与空匹配",
+      "description": "诊断行数膨胀、错误的 WHERE 把 LEFT 变 INNER、空键。",
+      "key_points": [
+        "LEFT 后对右表列用 WHERE 非空条件 ≈ INNER",
+        "空关联键匹配行为要验证",
+        "用中间 COUNT 验收每步行数"
+      ],
+      "example": "`LEFT JOIN` 后 `WHERE r.id IS NOT NULL` 变成只要匹配行。",
+      "learning_goal": "能用行数验收法定位 JOIN 逻辑错误。",
+      "next_drill": "Mid.G5.JOIN关联",
+      "next_level_up": "High.G4.JOIN关联",
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "Mid.G5.JOIN关联",
+      "level": "Mid",
+      "granularity": "G5",
+      "topic": "JOIN关联",
+      "title": "实战：漏斗/路径中的多表事件组装",
+      "description": "把曝光、点击、下单等事件按用户与时间窗关联成漏斗。",
+      "key_points": [
+        "统一 user_id 与事件时间",
+        "逐步 LEFT JOIN 或条件聚合",
+        "定义窗口内归因规则"
+      ],
+      "example": "注册→首览→首购 7 日内转化。",
+      "learning_goal": "能交付一个简化漏斗取数 SQL。",
+      "next_drill": null,
+      "next_level_up": "High.G5.JOIN关联",
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "High.G1.JOIN关联",
+      "level": "High",
+      "granularity": "G1",
+      "topic": "JOIN关联",
+      "title": "连接算法与分布式关联的成本本质",
+      "description": "从引擎视角理解 Nested Loop / Hash / Merge 与数据重分布。",
+      "key_points": [
+        "算法选择依赖统计信息与数据量",
+        "分布式下关联常伴随 shuffle",
+        "广播小表 vs 重分布大表"
+      ],
+      "example": "小维表广播 + 大事实 hash join。",
+      "learning_goal": "能结合计划解释为何某次 JOIN 昂贵。",
+      "next_drill": "High.G2.JOIN关联",
+      "next_level_up": null,
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "High.G2.JOIN关联",
+      "level": "High",
+      "granularity": "G2",
+      "topic": "JOIN关联",
+      "title": "物理连接结构：索引嵌套、哈希构建与有序归并",
+      "description": "把执行计划中的连接节点映射到数据结构与内存/磁盘行为。",
+      "key_points": [
+        "NLJ 依赖内表索引点查",
+        "Hash Join 要估构建端内存",
+        "Merge Join 依赖有序输入"
+      ],
+      "example": "缺索引导致 NLJ 变全表嵌套，延迟爆炸。",
+      "learning_goal": "能读懂计划中的连接节点并说出含义。",
+      "next_drill": "High.G3.JOIN关联",
+      "next_level_up": null,
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "High.G3.JOIN关联",
+      "level": "High",
+      "granularity": "G3",
+      "topic": "JOIN关联",
+      "title": "提示、重写与半连接/反连接表达",
+      "description": "在需要时用计划提示或标准重写控制关联形态（慎用）。",
+      "key_points": [
+        "优先改写 SQL/索引，提示是最后手段",
+        "NOT EXISTS 反连接删除匹配",
+        "保证重写语义等价"
+      ],
+      "example": "相关子查询改为 `LEFT JOIN ... IS NULL` 反连接。",
+      "learning_goal": "能完成一次以等价重写为目标的 JOIN 优化。",
+      "next_drill": "High.G4.JOIN关联",
+      "next_level_up": null,
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "High.G4.JOIN关联",
+      "level": "High",
+      "granularity": "G4",
+      "topic": "JOIN关联",
+      "title": "数据倾斜、统计过期与错误基数估计",
+      "description": "关联性能悬崖常见根因。",
+      "key_points": [
+        "热点键导致某 reducer 倾斜",
+        "统计信息过期选错算法",
+        "用采样/直方图辅助"
+      ],
+      "example": "status 倾斜值 'paid' 上的大表自关联。",
+      "learning_goal": "能提出倾斜与统计问题的排查步骤。",
+      "next_drill": "High.G5.JOIN关联",
+      "next_level_up": null,
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "High.G5.JOIN关联",
+      "level": "High",
+      "granularity": "G5",
+      "topic": "JOIN关联",
+      "title": "实战：跨库/分片场景下的关联方案",
+      "description": "避免跨分片大 JOIN：应用层组装、宽表、仓内关联。",
+      "key_points": [
+        "分片键对齐关联键",
+        "在线禁止无界跨片 JOIN",
+        "分析类关联下沉到仓"
+      ],
+      "example": "订单与明细同 user 分片；用户维每日同步到仓。",
+      "learning_goal": "能给出跨库关联的可落地方案与禁令。",
+      "next_drill": null,
+      "next_level_up": null,
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "Low.G1.聚合分析",
+      "level": "Low",
+      "granularity": "G1",
+      "topic": "聚合分析",
+      "title": "为什么要汇总：从明细到指标",
+      "description": "业务要的是「多少、平均、排名」，不是每一行明细。",
+      "key_points": [
+        "聚合把多行压成指标",
+        "常见：计数、求和、平均、最大最小",
+        "先有正确明细过滤，再聚合"
+      ],
+      "example": "100 行订单 → 1 个 GMV 数字。",
+      "learning_goal": "能区分「查明细」与「算指标」两类问题。",
+      "next_drill": "Low.G2.聚合分析",
+      "next_level_up": "Mid.G1.聚合分析",
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "Low.G2.聚合分析",
+      "level": "Low",
+      "granularity": "G2",
+      "topic": "聚合分析",
+      "title": "聚合函数与分组维度",
+      "description": "认识 SUM/COUNT/AVG 与「按什么分组」。",
+      "key_points": [
+        "无 GROUP BY：全表一个结果",
+        "有 GROUP BY：每个组成一行",
+        "选的维度决定指标含义"
+      ],
+      "example": "按 status 分组的订单数。",
+      "learning_goal": "能说出指标的分组维度是什么。",
+      "next_drill": "Low.G3.聚合分析",
+      "next_level_up": "Mid.G2.聚合分析",
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "Low.G3.聚合分析",
+      "level": "Low",
+      "granularity": "G3",
+      "topic": "聚合分析",
+      "title": "入门聚合写法：COUNT / SUM + GROUP BY",
+      "description": "写出最早的一组聚合查询。",
+      "key_points": [
+        "`COUNT(*)`、`SUM(col)` 基本形式",
+        "`GROUP BY` 列与 SELECT 一致（严格模式）",
+        "可先 WHERE 再聚合"
+      ],
+      "example": "`SELECT status, COUNT(*) FROM orders GROUP BY status;`",
+      "learning_goal": "能按某一维度统计行数或金额。",
+      "next_drill": "Low.G4.聚合分析",
+      "next_level_up": "Mid.G3.聚合分析",
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "Low.G4.聚合分析",
+      "level": "Low",
+      "granularity": "G4",
+      "topic": "聚合分析",
+      "title": "空值与重复对聚合结果的影响",
+      "description": "初级在汇总时忽略 NULL/重复导致数不对。",
+      "key_points": [
+        "SUM/AVG 跳过 NULL；COUNT(col) 也跳过 NULL",
+        "重复订单未去重会虚高",
+        "先抽检明细再相信汇总"
+      ],
+      "example": "两笔退款重复入账导致 SUM 偏大。",
+      "learning_goal": "聚合前知道要检查 NULL 与重复。",
+      "next_drill": "Low.G5.聚合分析",
+      "next_level_up": "Mid.G4.聚合分析",
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "Low.G5.聚合分析",
+      "level": "Low",
+      "granularity": "G5",
+      "topic": "聚合分析",
+      "title": "实战：一张表上的简单指标",
+      "description": "计算支付单量、GMV、客单价等入门指标。",
+      "key_points": [
+        "先过滤 paid",
+        "输出指标名清晰",
+        "与手算小样本对拍"
+      ],
+      "example": "paid 订单 GMV 与订单数。",
+      "learning_goal": "能独立算出并解释 1~2 个业务指标。",
+      "next_drill": null,
+      "next_level_up": "Mid.G5.聚合分析",
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "Mid.G1.聚合分析",
+      "level": "Mid",
+      "granularity": "G1",
+      "topic": "聚合分析",
+      "title": "窗口函数 vs GROUP BY：分析语法的两种范式",
+      "description": "理解何时压行（聚合），何时保留明细并附加分析列（窗口）。",
+      "key_points": [
+        "GROUP BY 改变粒度；窗口保持行集",
+        "排名、累计、占比常用窗口",
+        "二者可组合：先聚合再窗口"
+      ],
+      "example": "每用户订单明细上算该用户累计 GMV。",
+      "learning_goal": "能判断需求该用 GROUP BY 还是窗口函数。",
+      "next_drill": "Mid.G2.聚合分析",
+      "next_level_up": "High.G1.聚合分析",
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "Mid.G2.聚合分析",
+      "level": "Mid",
+      "granularity": "G2",
+      "topic": "聚合分析",
+      "title": "分析模式：漏斗、留存、TopN、同环比结构",
+      "description": "把常见分析题映射到「队列、事件、窗口、排名」结构。",
+      "key_points": [
+        "漏斗：多步事件存在性",
+        "留存：队列日 × 回流日",
+        "TopN：分区排名截断"
+      ],
+      "example": "日活新客 次日留存 = 次日仍活跃的新客 / 新客。",
+      "learning_goal": "能把业务题拆成标准分析模式。",
+      "next_drill": "Mid.G3.聚合分析",
+      "next_level_up": "High.G2.聚合分析",
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "Mid.G3.聚合分析",
+      "level": "Mid",
+      "granularity": "G3",
+      "topic": "聚合分析",
+      "title": "窗口函数与分组增强：OVER / 排名 / 累计",
+      "description": "掌握 ROW_NUMBER/RANK、SUM() OVER、分区与排序帧。",
+      "key_points": [
+        "`OVER(PARTITION BY ... ORDER BY ...)`",
+        "ROW_NUMBER 去重首行；RANK 处理并列",
+        "累计与滑动窗口帧"
+      ],
+      "example": "`ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY created_at)`",
+      "learning_goal": "能写出排名与累计类窗口查询。",
+      "next_drill": "Mid.G4.聚合分析",
+      "next_level_up": "High.G3.聚合分析",
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "Mid.G4.聚合分析",
+      "level": "Mid",
+      "granularity": "G4",
+      "topic": "聚合分析",
+      "title": "执行计划、索引命中与聚合性能",
+      "description": "让中级分析者会看计划：是否排序、临时表、索引范围扫。",
+      "key_points": [
+        "GROUP BY/ORDER BY 可能引发 sort 或 hashaggregate",
+        "过滤列索引减少扫描",
+        "大结果集聚合优先下推仓"
+      ],
+      "example": "无索引的 status 过滤 + 大表聚合 → 长耗时。",
+      "learning_goal": "能结合 EXPLAIN 提出一项聚合查询改进。",
+      "next_drill": "Mid.G5.聚合分析",
+      "next_level_up": "High.G4.聚合分析",
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "Mid.G5.聚合分析",
+      "level": "Mid",
+      "granularity": "G5",
+      "topic": "聚合分析",
+      "title": "实战：漏斗、留存、同环比、TopN",
+      "description": "四类中级必会实战题的最小实现。",
+      "key_points": [
+        "每类先定义粒度与时间窗",
+        "用 CTE 分步验收",
+        "输出可供可视化的长/宽表"
+      ],
+      "example": "类目 Top10 SKU by GMV；新客 7 日留存曲线。",
+      "learning_goal": "能独立完成其中至少两类完整取数。",
+      "next_drill": null,
+      "next_level_up": "High.G5.聚合分析",
+      "granularity_label": "实战(Apply)"
+    },
+    {
+      "node_id": "High.G1.聚合分析",
+      "level": "High",
+      "granularity": "G1",
+      "topic": "聚合分析",
+      "title": "分析系统中的预聚合、立方体与成本权衡",
+      "description": "高级设计：何时预计算、何时即时聚合、如何服务 SLA。",
+      "key_points": [
+        "预聚合换空间与新鲜度",
+        "立方体/物化服务固定下钻路径",
+        "即席分析保留明细弹性"
+      ],
+      "example": "固定日报进 DWS；探索性分析打明细/OLAP 引擎。",
+      "learning_goal": "能权衡预聚合与即席查询的取舍。",
+      "next_drill": "High.G2.聚合分析",
+      "next_level_up": null,
+      "granularity_label": "全局(Why)"
+    },
+    {
+      "node_id": "High.G2.聚合分析",
+      "level": "High",
+      "granularity": "G2",
+      "topic": "聚合分析",
+      "title": "索引、分区与聚合路径的物理设计",
+      "description": "让聚合命中分区裁剪与合适索引/排序键（列存）。",
+      "key_points": [
+        "分区键对齐时间过滤",
+        "列存按查询选投影",
+        "排序键/聚簇影响聚合局部性"
+      ],
+      "example": "按 dt 分区的事实表 + 日聚合任务。",
+      "learning_goal": "能为高频聚合查询提出物理设计建议。",
+      "next_drill": "High.G3.聚合分析",
+      "next_level_up": null,
+      "granularity_label": "结构(What)"
+    },
+    {
+      "node_id": "High.G3.聚合分析",
+      "level": "High",
+      "granularity": "G3",
+      "topic": "聚合分析",
+      "title": "物化视图、近似聚合与高级分析 SQL",
+      "description": "物化、HyperLogLog 等近似、高级分析函数的使用边界。",
+      "key_points": [
+        "物化视图刷新与一致性",
+        "近似去重换性能",
+        "了解引擎特有分析函数"
+      ],
+      "example": "`COUNT(DISTINCT)` 昂贵时用近似 UV。",
+      "learning_goal": "能在精度与性能间选择合适聚合手段。",
+      "next_drill": "High.G4.聚合分析",
+      "next_level_up": null,
+      "granularity_label": "语法(How)"
+    },
+    {
+      "node_id": "High.G4.聚合分析",
+      "level": "High",
+      "granularity": "G4",
+      "topic": "聚合分析",
+      "title": "分区裁剪、聚合下推与错误计划",
+      "description": "计划层细节：裁剪失败、过早物化、内存溢出 spill。",
+      "key_points": [
+        "函数包裹分区键导致无法裁剪",
+        "CTE 物化策略影响内存",
+        "监控 spill/临时盘"
+      ],
+      "example": "`WHERE toDate(ts)=today()` 可能无法裁剪 ts 分区。",
+      "learning_goal": "能定位聚合慢查询的计划层原因。",
+      "next_drill": "High.G5.聚合分析",
+      "next_level_up": null,
+      "granularity_label": "细节(Edge)"
+    },
+    {
+      "node_id": "High.G5.聚合分析",
+      "level": "High",
+      "granularity": "G5",
+      "topic": "聚合分析",
+      "title": "实战：分析型慢查询与亿级汇总治理",
+      "description": "从明细扫到分层汇总、增量聚合的治理路径。",
+      "key_points": [
+        "禁止在线扫亿级明细做灵活 GROUP BY",
+        "增量日汇总 + 月滚雪球",
+        "建立查询分级与限流"
+      ],
+      "example": "ADS 日表服务看板；临时分析走独立集群。",
+      "learning_goal": "能制定亿级汇总场景的治理方案。",
+      "next_drill": null,
+      "next_level_up": null,
+      "granularity_label": "实战(Apply)"
+    }
+  ],
+  "edges": [
+    {
+      "from": "Low.G1.SQL体系",
+      "to": "Low.G2.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 Low 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "Low.G2.SQL体系",
+      "to": "Low.G3.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 Low 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "Low.G3.SQL体系",
+      "to": "Low.G4.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 Low 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "Low.G4.SQL体系",
+      "to": "Low.G5.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 Low 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "Mid.G1.SQL体系",
+      "to": "Mid.G2.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 Mid 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "Mid.G2.SQL体系",
+      "to": "Mid.G3.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 Mid 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "Mid.G3.SQL体系",
+      "to": "Mid.G4.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 Mid 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "Mid.G4.SQL体系",
+      "to": "Mid.G5.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 Mid 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "High.G1.SQL体系",
+      "to": "High.G2.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 High 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "High.G2.SQL体系",
+      "to": "High.G3.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 High 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "High.G3.SQL体系",
+      "to": "High.G4.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 High 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "High.G4.SQL体系",
+      "to": "High.G5.SQL体系",
+      "type": "drill_down",
+      "description": "「SQL体系」在 High 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "Low.G1.SQL体系",
+      "to": "Mid.G1.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G1 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G1.SQL体系",
+      "to": "High.G1.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G1 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G2.SQL体系",
+      "to": "Mid.G2.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G2 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G2.SQL体系",
+      "to": "High.G2.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G2 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G3.SQL体系",
+      "to": "Mid.G3.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G3 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G3.SQL体系",
+      "to": "High.G3.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G3 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G4.SQL体系",
+      "to": "Mid.G4.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G4 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G4.SQL体系",
+      "to": "High.G4.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G4 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G5.SQL体系",
+      "to": "Mid.G5.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G5 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G5.SQL体系",
+      "to": "High.G5.SQL体系",
+      "type": "level_up",
+      "description": "「SQL体系」在 G5 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G1.查询语法",
+      "to": "Low.G2.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 Low 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "Low.G2.查询语法",
+      "to": "Low.G3.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 Low 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "Low.G3.查询语法",
+      "to": "Low.G4.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 Low 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "Low.G4.查询语法",
+      "to": "Low.G5.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 Low 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "Mid.G1.查询语法",
+      "to": "Mid.G2.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 Mid 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "Mid.G2.查询语法",
+      "to": "Mid.G3.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 Mid 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "Mid.G3.查询语法",
+      "to": "Mid.G4.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 Mid 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "Mid.G4.查询语法",
+      "to": "Mid.G5.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 Mid 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "High.G1.查询语法",
+      "to": "High.G2.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 High 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "High.G2.查询语法",
+      "to": "High.G3.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 High 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "High.G3.查询语法",
+      "to": "High.G4.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 High 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "High.G4.查询语法",
+      "to": "High.G5.查询语法",
+      "type": "drill_down",
+      "description": "「查询语法」在 High 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "Low.G1.查询语法",
+      "to": "Mid.G1.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G1 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G1.查询语法",
+      "to": "High.G1.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G1 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G2.查询语法",
+      "to": "Mid.G2.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G2 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G2.查询语法",
+      "to": "High.G2.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G2 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G3.查询语法",
+      "to": "Mid.G3.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G3 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G3.查询语法",
+      "to": "High.G3.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G3 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G4.查询语法",
+      "to": "Mid.G4.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G4 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G4.查询语法",
+      "to": "High.G4.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G4 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G5.查询语法",
+      "to": "Mid.G5.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G5 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G5.查询语法",
+      "to": "High.G5.查询语法",
+      "type": "level_up",
+      "description": "「查询语法」在 G5 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G1.JOIN关联",
+      "to": "Low.G2.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 Low 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "Low.G2.JOIN关联",
+      "to": "Low.G3.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 Low 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "Low.G3.JOIN关联",
+      "to": "Low.G4.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 Low 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "Low.G4.JOIN关联",
+      "to": "Low.G5.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 Low 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "Mid.G1.JOIN关联",
+      "to": "Mid.G2.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 Mid 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "Mid.G2.JOIN关联",
+      "to": "Mid.G3.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 Mid 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "Mid.G3.JOIN关联",
+      "to": "Mid.G4.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 Mid 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "Mid.G4.JOIN关联",
+      "to": "Mid.G5.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 Mid 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "High.G1.JOIN关联",
+      "to": "High.G2.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 High 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "High.G2.JOIN关联",
+      "to": "High.G3.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 High 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "High.G3.JOIN关联",
+      "to": "High.G4.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 High 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "High.G4.JOIN关联",
+      "to": "High.G5.JOIN关联",
+      "type": "drill_down",
+      "description": "「JOIN关联」在 High 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "Low.G1.JOIN关联",
+      "to": "Mid.G1.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G1 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G1.JOIN关联",
+      "to": "High.G1.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G1 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G2.JOIN关联",
+      "to": "Mid.G2.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G2 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G2.JOIN关联",
+      "to": "High.G2.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G2 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G3.JOIN关联",
+      "to": "Mid.G3.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G3 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G3.JOIN关联",
+      "to": "High.G3.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G3 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G4.JOIN关联",
+      "to": "Mid.G4.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G4 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G4.JOIN关联",
+      "to": "High.G4.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G4 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G5.JOIN关联",
+      "to": "Mid.G5.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G5 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G5.JOIN关联",
+      "to": "High.G5.JOIN关联",
+      "type": "level_up",
+      "description": "「JOIN关联」在 G5 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G1.聚合分析",
+      "to": "Low.G2.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 Low 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "Low.G2.聚合分析",
+      "to": "Low.G3.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 Low 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "Low.G3.聚合分析",
+      "to": "Low.G4.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 Low 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "Low.G4.聚合分析",
+      "to": "Low.G5.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 Low 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "Mid.G1.聚合分析",
+      "to": "Mid.G2.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 Mid 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "Mid.G2.聚合分析",
+      "to": "Mid.G3.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 Mid 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "Mid.G3.聚合分析",
+      "to": "Mid.G4.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 Mid 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "Mid.G4.聚合分析",
+      "to": "Mid.G5.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 Mid 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "High.G1.聚合分析",
+      "to": "High.G2.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 High 层从 全局(Why) 下钻到 结构(What)"
+    },
+    {
+      "from": "High.G2.聚合分析",
+      "to": "High.G3.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 High 层从 结构(What) 下钻到 语法(How)"
+    },
+    {
+      "from": "High.G3.聚合分析",
+      "to": "High.G4.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 High 层从 语法(How) 下钻到 细节(Edge)"
+    },
+    {
+      "from": "High.G4.聚合分析",
+      "to": "High.G5.聚合分析",
+      "type": "drill_down",
+      "description": "「聚合分析」在 High 层从 细节(Edge) 下钻到 实战(Apply)"
+    },
+    {
+      "from": "Low.G1.聚合分析",
+      "to": "Mid.G1.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G1 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G1.聚合分析",
+      "to": "High.G1.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G1 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G2.聚合分析",
+      "to": "Mid.G2.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G2 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G2.聚合分析",
+      "to": "High.G2.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G2 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G3.聚合分析",
+      "to": "Mid.G3.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G3 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G3.聚合分析",
+      "to": "High.G3.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G3 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G4.聚合分析",
+      "to": "Mid.G4.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G4 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G4.聚合分析",
+      "to": "High.G4.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G4 从分析者升级到设计者"
+    },
+    {
+      "from": "Low.G5.聚合分析",
+      "to": "Mid.G5.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G5 从使用者升级到分析者"
+    },
+    {
+      "from": "Mid.G5.聚合分析",
+      "to": "High.G5.聚合分析",
+      "type": "level_up",
+      "description": "「聚合分析」在 G5 从分析者升级到设计者"
+    }
+  ],
+  "switch_rules": [
+    {
+      "rule_id": "R1",
+      "description": "Low 层学习者默认只看到 G1~G3；G4/G5 折叠，需主动展开",
+      "condition": "level == Low",
+      "visible_granularities": [
+        "G1",
+        "G2",
+        "G3"
+      ],
+      "default_entry": "Low.G1.SQL体系",
+      "ui_hint": "顶部切换「初级使用者」；侧栏仅展开到语法层"
+    },
+    {
+      "rule_id": "R2",
+      "description": "Mid 层学习者可见全部 5 个粒度，强调分析链路与窗口/聚合",
+      "condition": "level == Mid",
+      "visible_granularities": [
+        "G1",
+        "G2",
+        "G3",
+        "G4",
+        "G5"
+      ],
+      "default_entry": "Mid.G1.SQL体系",
+      "ui_hint": "顶部切换「中级分析者」；推荐完成 G5 实战节点"
+    },
+    {
+      "rule_id": "R3",
+      "description": "High 层可见全部粒度，默认从 G1/G2 设计视角切入，G3+ 作下钻",
+      "condition": "level == High",
+      "visible_granularities": [
+        "G1",
+        "G2",
+        "G3",
+        "G4",
+        "G5"
+      ],
+      "default_entry": "High.G1.SQL体系",
+      "ui_hint": "顶部切换「高级设计者」；G1/G2 高亮，强调原理与方案"
+    }
+  ],
+  "learning_paths": [
+    {
+      "path_id": "low_to_mid",
+      "name": "从使用者到分析者",
+      "description": "先吃透 Low 的 G1→G3，再经 G5 小实战，升级到 Mid 全粒度",
+      "sequence": [
+        "Low.G1.SQL体系",
+        "Low.G1.查询语法",
+        "Low.G1.JOIN关联",
+        "Low.G1.聚合分析",
+        "Low.G2.*",
+        "Low.G3.*",
+        "Low.G5.查询语法",
+        "Low.G5.JOIN关联",
+        "Low.G5.聚合分析",
+        "Mid.G1.SQL体系",
+        "Mid.G2.查询语法",
+        "Mid.G3.聚合分析",
+        "Mid.G3.JOIN关联",
+        "Mid.G5.聚合分析"
+      ],
+      "estimated_days": 30
+    },
+    {
+      "path_id": "mid_to_high",
+      "name": "从分析者到设计者",
+      "description": "巩固 Mid 的计划与实战后，进入 High 的建模、引擎与治理",
+      "sequence": [
+        "Mid.G4.聚合分析",
+        "Mid.G5.JOIN关联",
+        "Mid.G5.聚合分析",
+        "High.G1.SQL体系",
+        "High.G2.SQL体系",
+        "High.G2.JOIN关联",
+        "High.G3.查询语法",
+        "High.G4.查询语法",
+        "High.G5.聚合分析",
+        "High.G5.JOIN关联"
+      ],
+      "estimated_days": 45
+    },
+    {
+      "path_id": "low_to_high_express",
+      "name": "Low→High 快速通道（有基础加速）",
+      "description": "跳过重复入门，按 topic 纵向升级 + 关键 G4/G5 补洞",
+      "sequence": [
+        "Low.G3.查询语法",
+        "Mid.G3.查询语法",
+        "High.G1.SQL体系",
+        "Low.G3.JOIN关联",
+        "Mid.G3.JOIN关联",
+        "High.G2.JOIN关联",
+        "Mid.G3.聚合分析",
+        "High.G4.聚合分析",
+        "High.G5.查询语法"
+      ],
+      "estimated_days": 21,
+      "prerequisite": "已具备编程基础或曾写过简单 SQL"
+    }
+  ]
+}
