@@ -1,0 +1,1 @@
+{"hubs":["sql","python","database","ml","etl","dwh","bi"],"meta":{"sql":{"id":"sql-root","title":"SQL"},"python":{"id":"python-root","title":"Python"},"database":{"id":"db-root","title":"数据库"},"ml":{"id":"ml-root","title":"机器学习/算法"},"etl":{"id":"etl-root","title":"ETL"},"dwh":{"id":"dwh-root","title":"数据仓库"},"bi":{"id":"bi-root","title":"BI"}}}
