@@ -2121,6 +2121,13 @@
     }
 
     </style>
+  <script src="kg-data/embed-sql.js" defer></script>
+  <script src="kg-data/embed-python.js" defer></script>
+  <script src="kg-data/embed-database.js" defer></script>
+  <script src="kg-data/embed-ml.js" defer></script>
+  <script src="kg-data/embed-etl.js" defer></script>
+  <script src="kg-data/embed-dwh.js" defer></script>
+  <script src="kg-data/embed-bi.js" defer></script>
 </head>
 <body>
   <header>
@@ -8872,14 +8879,15 @@
 
     /* —— 课树懒加载：首屏不内联 7 棵大树，进入学科时再 fetch —— */
     const KG_DATA_VER = "20260917b";
+    const KG_DATA_VER = "20260917c";
     const KG_TREE_FILES = {
-      sql: "kg-data/sql.json?v=" + KG_DATA_VER,
-      python: "kg-data/python.json?v=" + KG_DATA_VER,
-      database: "kg-data/database.json?v=" + KG_DATA_VER,
-      ml: "kg-data/ml.json?v=" + KG_DATA_VER,
-      etl: "kg-data/etl.json?v=" + KG_DATA_VER,
-      dwh: "kg-data/dwh.json?v=" + KG_DATA_VER,
-      bi: "kg-data/bi.json?v=" + KG_DATA_VER
+      sql: "kg-data/hub-query.json?v=" + KG_DATA_VER,
+      python: "kg-data/hub-python.json?v=" + KG_DATA_VER,
+      database: "kg-data/hub-database.json?v=" + KG_DATA_VER,
+      ml: "kg-data/hub-ml.json?v=" + KG_DATA_VER,
+      etl: "kg-data/hub-etl.json?v=" + KG_DATA_VER,
+      dwh: "kg-data/hub-dwh.json?v=" + KG_DATA_VER,
+      bi: "kg-data/hub-viz.json?v=" + KG_DATA_VER
     };
     const KG_TREES = {
       sql: null,
@@ -8898,17 +8906,45 @@
       if (!hubId) return null;
       if (KG_TREES[hubId]) return KG_TREES[hubId];
       if (KG_TREE_LOADING[hubId]) return KG_TREE_LOADING[hubId];
+
+      const fromEmbed = () => {
+        try {
+          if (window.__KG_EMBEDDED && window.__KG_EMBEDDED[hubId]) {
+            return window.__KG_EMBEDDED[hubId];
+          }
+          const el = document.getElementById("kg-embed-" + hubId);
+          if (el && el.textContent) return JSON.parse(el.textContent);
+        } catch (e) { console.warn("kg embed parse", hubId, e); }
+        return null;
+      };
+
+      const embedded = fromEmbed();
+      if (embedded) {
+        KG_TREES[hubId] = embedded;
+        return embedded;
+      }
+
       const rel = KG_TREE_FILES[hubId];
       if (!rel) return null;
       const url = new URL(rel, window.location.href).toString();
+      const legacy = new URL("kg-data/" + hubId + ".json?v=" + (typeof KG_DATA_VER !== "undefined" ? KG_DATA_VER : "1"), window.location.href).toString();
+
       KG_TREE_LOADING[hubId] = (async () => {
-        let res = await fetch(url, { cache: "no-cache" });
-        if (!res.ok) {
-          res = await fetch(url, { cache: "reload" });
+        const tryFetch = async (u) => {
+          let res = await fetch(u, { cache: "no-cache" });
+          if (!res.ok) res = await fetch(u, { cache: "reload" });
+          if (!res.ok) throw new Error("HTTP " + res.status + " " + u);
+          const tree = await res.json();
+          if (!tree || typeof tree !== "object") throw new Error("invalid kg tree " + hubId);
+          return tree;
+        };
+        let tree = null;
+        let lastErr = null;
+        for (const u of [url, legacy]) {
+          try { tree = await tryFetch(u); break; }
+          catch (e) { lastErr = e; }
         }
-        if (!res.ok) throw new Error("HTTP " + res.status + " " + url);
-        const tree = await res.json();
-        if (!tree || typeof tree !== "object") throw new Error("invalid kg tree " + hubId);
+        if (!tree) throw (lastErr || new Error("kg load failed " + hubId));
         KG_TREES[hubId] = tree;
         delete KG_TREE_LOADING[hubId];
         return tree;
@@ -10448,7 +10484,7 @@
               await ensureKgTree(hubId);
             } catch (err) {
               console.error(err);
-              if (typeof showKgToast === "function") showKgToast("课程加载失败，请检查 kg-data 是否可访问");
+              if (typeof showKgToast === "function") showKgToast("课程加载失败：" + ((err && err.message) ? err.message : "kg-data 不可访问"));
               return;
             }
           }
@@ -11860,7 +11896,7 @@
               : hub === "database" ? "db-constitution"
               : hub === "dwh" ? "dwh-constitution"
               : hub === "etl" ? "etl-constitution"
-              : hub === "bi" ? "bi-constitution" : null;
+              : hub === "bi" ? "bi-orient" : null;
             if (!prefer || typeof findKgNode !== "function") return;
             const n = findKgNode(prefer);
             if (n && typeof jumpToKgLesson === "function") jumpToKgLesson(n);
