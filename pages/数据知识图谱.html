@@ -2121,13 +2121,13 @@
     }
 
     </style>
-  <script src="kg-data/embed-sql.js" defer></script>
-  <script src="kg-data/embed-python.js" defer></script>
-  <script src="kg-data/embed-database.js" defer></script>
-  <script src="kg-data/embed-ml.js" defer></script>
-  <script src="kg-data/embed-etl.js" defer></script>
-  <script src="kg-data/embed-dwh.js" defer></script>
-  <script src="kg-data/embed-bi.js" defer></script>
+  <script src="kg-data/embed-sql.js"></script>
+  <script src="kg-data/embed-python.js"></script>
+  <script src="kg-data/embed-database.js"></script>
+  <script src="kg-data/embed-ml.js"></script>
+  <script src="kg-data/embed-etl.js"></script>
+  <script src="kg-data/embed-dwh.js"></script>
+  <script src="kg-data/embed-bi.js"></script>
 </head>
 <body>
   <header>
@@ -8877,8 +8877,7 @@
 };
 
     /* —— 课树懒加载：首屏不内联 7 棵大树，进入学科时再 fetch —— */
-    const KG_DATA_VER = "20260917b";
-    const KG_DATA_VER = "20260917c";
+    const KG_DATA_VER = "20260918a";
     const KG_TREE_FILES = {
       sql: "kg-data/hub-query.json?v=" + KG_DATA_VER,
       python: "kg-data/hub-python.json?v=" + KG_DATA_VER,
@@ -11890,12 +11889,12 @@
           // 先展示扇区图谱；宪法叶改为手动点选（避免一进来像弹窗盖住图谱）
           // SQL/Python 若需要可再按 prefer 跳转；数据库等已有完整 L2 扇区，不自动打开讲义
           setTimeout(() => {
-            const prefer = hub === "sql" ? "sql-L0"
+            const prefer = hub === "sql" ? "SQL.基础查询"
               : hub === "python" ? "py-constitution"
               : hub === "database" ? "db-constitution"
               : hub === "dwh" ? "dwh-constitution"
               : hub === "etl" ? "etl-constitution"
-              : hub === "bi" ? "bi-orient" : null;
+              : hub === "bi" ? "BI.图表基础" : null;
             if (!prefer || typeof findKgNode !== "function") return;
             const n = findKgNode(prefer);
             if (n && typeof jumpToKgLesson === "function") jumpToKgLesson(n);
