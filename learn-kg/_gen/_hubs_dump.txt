@@ -1,0 +1,378 @@
+==================== hub-database.json
+- 数据库 | id=db-root | lvl=? | kids=6 | lp=False
+  - 学习路径 | id=db-learning-path | lvl=? | kids=3 | lp=False
+    - 教程宪法 | id=db-constitution-sec | lvl=? | kids=1 | lp=True
+      - 统一样例与课模板 | id=db-constitution | lvl=? | kids=0 | lp=False
+    - 路线清单 | id=db-roadmap | lvl=? | kids=3 | lp=True
+      - 初级清单 | id=db-path-junior | lvl=? | kids=0 | lp=False
+      - 中级清单 | id=db-path-mid | lvl=?? | kids=0 | lp=False
+      - 高级清单 | id=db-path-senior | lvl=??? | kids=0 | lp=False
+    - 练习场 | id=db-practice-field | lvl=?? | kids=3 | lp=True
+      - 初级练习 | id=db-drill-junior | lvl=? | kids=0 | lp=False
+      - 中级练习 | id=db-drill-mid | lvl=?? | kids=0 | lp=False
+      - 高级练习 | id=db-drill-senior | lvl=??? | kids=0 | lp=False
+  - 核心概念 | id=db-concepts | lvl=? | kids=3 | lp=False
+    - 负载与模型 | id=db-workload | lvl=? | kids=3 | lp=True
+      - OLTP vs OLAP | id=db-oltp-olap | lvl=? | kids=0 | lp=False
+      - ACID | id=db-acid | lvl=? | kids=0 | lp=False
+      - 存储引擎直觉 | id=db-engine | lvl=?? | kids=0 | lp=False
+    - 表与约束 | id=db-schema | lvl=? | kids=3 | lp=True
+      - 主键与约束 | id=db-pk-constraint | lvl=? | kids=0 | lp=False
+      - 类型与精度 | id=db-datatypes | lvl=? | kids=0 | lp=False
+      - 外键取舍 | id=db-fk-tradeoff | lvl=?? | kids=0 | lp=False
+    - 持久化与并发内核 | id=db-persistence | lvl=?? | kids=3 | lp=True
+      - WAL 与持久化 | id=db-wal | lvl=?? | kids=0 | lp=False
+      - MVCC 直觉 | id=db-mvcc | lvl=??? | kids=0 | lp=False
+      - 缓冲池与脏页 | id=db-buffer-pool | lvl=?? | kids=0 | lp=False
+  - 索引与访问路径 | id=db-access | lvl=?? | kids=1 | lp=False
+    - 索引 | id=db-index-sec | lvl=?? | kids=5 | lp=True
+      - BTree 索引入门 | id=db-btree-index | lvl=?? | kids=0 | lp=False
+      - EXPLAIN 直觉 | id=db-explain-intro | lvl=?? | kids=0 | lp=False
+      - 覆盖索引 | id=db-covering-index | lvl=?? | kids=0 | lp=False
+      - 索引失效常见因 | id=db-index-fail | lvl=?? | kids=0 | lp=False
+      - 统计信息直觉 | id=db-stats | lvl=??? | kids=0 | lp=False
+  - 事务与并发 | id=db-txn | lvl=?? | kids=2 | lp=False
+    - 事务基础 | id=db-txn-basic | lvl=?? | kids=3 | lp=True
+      - 事务边界 | id=db-begin-commit | lvl=?? | kids=0 | lp=False
+      - 隔离级别要点 | id=db-isolation-brief | lvl=??? | kids=0 | lp=False
+      - 脏读不可重复读幻读 | id=db-anomaly-reads | lvl=??? | kids=0 | lp=False
+    - 锁 | id=db-lock-sec | lvl=??? | kids=1 | lp=True
+      - 行锁与死锁 | id=db-row-lock | lvl=??? | kids=0 | lp=False
+  - 高可用与运维 | id=db-ops | lvl=??? | kids=3 | lp=False
+    - 复制与备份 | id=db-ha | lvl=??? | kids=2 | lp=True
+      - 复制与读写分离 | id=db-replication | lvl=??? | kids=0 | lp=False
+      - 备份与恢复 | id=db-backup | lvl=??? | kids=0 | lp=False
+    - 引擎方言 | id=db-dialect | lvl=?? | kids=1 | lp=True
+      - MySQL 与 PostgreSQL | id=db-mysql-pg | lvl=?? | kids=0 | lp=False
+    - 容量与结构 | id=db-capacity | lvl=??? | kids=2 | lp=True
+      - 连接池直觉 | id=db-connection-pool | lvl=?? | kids=0 | lp=False
+      - 分区表直觉 | id=db-partition-table | lvl=??? | kids=0 | lp=False
+  - 多引擎选型 | id=db-polyglot | lvl=??? | kids=1 | lp=False
+    - 典型引擎 | id=db-engines | lvl=??? | kids=5 | lp=True
+      - Redis 缓存/键值 | id=db-redis | lvl=??? | kids=0 | lp=False
+      - 文档模型直觉 | id=db-mongo | lvl=??? | kids=0 | lp=False
+      - 列存 OLAP 直觉 | id=db-clickhouse | lvl=??? | kids=0 | lp=False
+      - Elasticsearch 检索 | id=db-elasticsearch | lvl=??? | kids=0 | lp=False
+      - 向量检索直觉 | id=db-vector | lvl=??? | kids=0 | lp=False
+
+==================== hub-dwh.json
+- 数据仓库 | id=dwh-root | lvl=? | kids=5 | lp=False
+  - 学习路径 | id=dwh-learning-path | lvl=? | kids=3 | lp=False
+    - 教程宪法 | id=dwh-constitution-sec | lvl=? | kids=1 | lp=True
+      - 统一样例与课模板 | id=dwh-constitution | lvl=? | kids=0 | lp=False
+    - 路线清单 | id=dwh-roadmap | lvl=? | kids=3 | lp=True
+      - 初级清单 | id=dwh-path-junior | lvl=? | kids=0 | lp=False
+      - 中级清单 | id=dwh-path-mid | lvl=?? | kids=0 | lp=False
+      - 高级清单 | id=dwh-path-senior | lvl=??? | kids=0 | lp=False
+    - 练习场 | id=dwh-practice-field | lvl=?? | kids=2 | lp=True
+      - 初级练习 | id=dwh-drill-junior | lvl=? | kids=0 | lp=False
+      - 中级练习 | id=dwh-drill-mid | lvl=?? | kids=0 | lp=False
+  - 仓是什么 | id=dwh-why | lvl=? | kids=2 | lp=False
+    - 定位与边界 | id=dwh-ssot-sec | lvl=? | kids=2 | lp=True
+      - 仓是干什么的 | id=dwh-what | lvl=? | kids=0 | lp=False
+      - SSOT 单一事实来源 | id=dwh-ssot | lvl=? | kids=0 | lp=False
+    - 主题域与集市 | id=dwh-domain-sec | lvl=? | kids=2 | lp=True
+      - 主题域 | id=dwh-subject-domain | lvl=? | kids=0 | lp=False
+      - 集市 vs 仓库 | id=dwh-mart-vs-wh | lvl=? | kids=0 | lp=False
+  - 数仓分层 | id=dwh-layer | lvl=? | kids=1 | lp=False
+    - 层级职责 | id=dwh-layers | lvl=? | kids=4 | lp=True
+      - ODS 贴源 | id=dwh-ods | lvl=? | kids=0 | lp=False
+      - DWD 明细 | id=dwh-dwd | lvl=?? | kids=0 | lp=False
+      - DWS 汇总 | id=dwh-dws | lvl=?? | kids=0 | lp=False
+      - ADS 应用 | id=dwh-ads | lvl=?? | kids=0 | lp=False
+  - 维度建模 | id=dwh-model | lvl=?? | kids=4 | lp=False
+    - 粒度与总线 | id=dwh-grain-bus | lvl=?? | kids=2 | lp=True
+      - 事实粒度 | id=dwh-grain | lvl=?? | kids=0 | lp=False
+      - 总线矩阵 | id=dwh-bus-matrix | lvl=?? | kids=0 | lp=False
+    - 模型形态 | id=dwh-schema-styles | lvl=?? | kids=6 | lp=True
+      - 星型模型 | id=dwh-star-schema | lvl=?? | kids=0 | lp=False
+      - 雪花模型 | id=dwh-snowflake | lvl=?? | kids=0 | lp=False
+      - 星系/星座模型 | id=dwh-constellation | lvl=??? | kids=0 | lp=False
+      - 何时用星型/雪花/星系 | id=dwh-schema-choose | lvl=?? | kids=0 | lp=False
+      - Kimball 与 Inmon | id=dwh-kimball-inmon | lvl=??? | kids=0 | lp=False
+      - Data Vault 直觉 | id=dwh-datavault | lvl=??? | kids=0 | lp=False
+    - 星型构件 | id=dwh-star | lvl=?? | kids=6 | lp=True
+      - 事实表 | id=dwh-fact | lvl=?? | kids=0 | lp=False
+      - 维度表 | id=dwh-dim | lvl=?? | kids=0 | lp=False
+      - 代理键 | id=dwh-surrogate-key | lvl=??? | kids=0 | lp=False
+      - 事实类型 | id=dwh-fact-types | lvl=?? | kids=0 | lp=False
+      - 宽表 vs 指标下沉 | id=dwh-wide-vs-metric | lvl=?? | kids=0 | lp=False
+      - 一致性维度 | id=dwh-conformed-dim | lvl=?? | kids=0 | lp=False
+    - 缓慢变化维 | id=dwh-scd-sec | lvl=??? | kids=3 | lp=True
+      - SCD1 覆盖 | id=dwh-scd1 | lvl=?? | kids=0 | lp=False
+      - SCD2 拉链表 | id=dwh-scd2 | lvl=??? | kids=0 | lp=False
+      - SCD3 保留前值 | id=dwh-scd3 | lvl=?? | kids=0 | lp=False
+  - 加工与质量 | id=dwh-pipeline | lvl=??? | kids=3 | lp=False
+    - 调度与回刷 | id=dwh-schedule-sec | lvl=?? | kids=3 | lp=True
+      - 调度依赖 | id=dwh-schedule | lvl=?? | kids=0 | lp=False
+      - 装载顺序 | id=dwh-load-order | lvl=?? | kids=0 | lp=False
+      - 回刷历史 | id=dwh-backfill | lvl=??? | kids=0 | lp=False
+    - 增量与分区 | id=dwh-incr-sec | lvl=??? | kids=2 | lp=True
+      - 增量策略 | id=dwh-incremental | lvl=??? | kids=0 | lp=False
+      - 分区与裁剪 | id=dwh-partition | lvl=??? | kids=0 | lp=False
+    - 质量与对账 | id=dwh-dq-sec | lvl=??? | kids=1 | lp=True
+      - 对账质检 | id=dwh-reconcile | lvl=??? | kids=0 | lp=False
+
+==================== hub-etl.json
+- ETL | id=etl-root | lvl=? | kids=10 | lp=False
+  - 学习路径 | id=etl-learning-path | lvl=? | kids=3 | lp=False
+    - 教程宪法 | id=etl-constitution-sec | lvl=? | kids=1 | lp=True
+      - 统一样例与课模板 | id=etl-constitution | lvl=? | kids=0 | lp=False
+    - 路线清单 | id=etl-roadmap | lvl=? | kids=3 | lp=True
+      - 初级清单 | id=etl-path-junior | lvl=? | kids=0 | lp=False
+      - 中级清单 | id=etl-path-mid | lvl=?? | kids=0 | lp=False
+      - 高级清单 | id=etl-path-senior | lvl=??? | kids=0 | lp=False
+    - 练习场 | id=etl-practice-field | lvl=?? | kids=3 | lp=True
+      - 初级练习 | id=etl-drill-junior | lvl=? | kids=0 | lp=False
+      - 中级练习 | id=etl-drill-mid | lvl=?? | kids=0 | lp=False
+      - 高级练习 | id=etl-drill-senior | lvl=??? | kids=0 | lp=False
+  - 认源与契约 | id=etl-source-contract | lvl=? | kids=2 | lp=False
+    - 源表清单 | id=etl-source-inventory | lvl=? | kids=2 | lp=True
+      - 源表清单 | id=etl-source-list | lvl=? | kids=0 | lp=False
+      - 主键与水位 | id=etl-keys-watermark | lvl=? | kids=0 | lp=False
+    - 契约与 SLA | id=etl-contract-sla | lvl=?? | kids=2 | lp=True
+      - 数据契约 | id=etl-data-contract | lvl=?? | kids=0 | lp=False
+      - 产出 SLA | id=etl-sla | lvl=?? | kids=0 | lp=False
+  - 抽取 Extract | id=etl-extract | lvl=? | kids=1 | lp=False
+    - 抽取策略 | id=etl-extract-modes | lvl=? | kids=3 | lp=True
+      - 全量快照 | id=etl-full-snapshot | lvl=? | kids=0 | lp=False
+      - 增量抽取 | id=etl-incr | lvl=? | kids=0 | lp=False
+      - CDC 变更捕获 | id=etl-cdc | lvl=??? | kids=0 | lp=False
+  - 转换 Transform | id=etl-transform | lvl=?? | kids=2 | lp=False
+    - 清洗与标准化 | id=etl-cleanse | lvl=?? | kids=2 | lp=True
+      - 类型与空值 | id=etl-type-normalize | lvl=? | kids=0 | lp=False
+      - 去重取最新 | id=etl-dedup | lvl=?? | kids=0 | lp=False
+    - 关联与历史 | id=etl-enrich | lvl=?? | kids=3 | lp=True
+      - 维表关联 | id=etl-dim-join | lvl=?? | kids=0 | lp=False
+      - SCD 拉链 | id=etl-scd | lvl=??? | kids=0 | lp=False
+      - 脱敏与合规 | id=etl-pii-mask | lvl=??? | kids=0 | lp=False
+  - 装载 Load | id=etl-load | lvl=?? | kids=1 | lp=False
+    - 写入模式 | id=etl-load-patterns | lvl=?? | kids=3 | lp=True
+      - 分区覆盖 | id=etl-overwrite | lvl=?? | kids=0 | lp=False
+      - MERGE/Upsert | id=etl-merge-upsert | lvl=??? | kids=0 | lp=False
+      - 幂等写入 | id=etl-idempotent-write | lvl=??? | kids=0 | lp=False
+  - 质量门禁 | id=etl-quality | lvl=?? | kids=1 | lp=False
+    - 校验清单 | id=etl-checks | lvl=?? | kids=3 | lp=True
+      - 行数与波动 | id=etl-rowcount | lvl=? | kids=0 | lp=False
+      - 主键唯一 | id=etl-unique-pk | lvl=? | kids=0 | lp=False
+      - 源仓对账 | id=etl-recon | lvl=?? | kids=0 | lp=False
+  - 调度与运维 | id=etl-schedule | lvl=??? | kids=1 | lp=False
+    - 编排基础 | id=etl-orchestrate | lvl=??? | kids=4 | lp=True
+      - DAG 依赖 | id=etl-dag | lvl=?? | kids=0 | lp=False
+      - 重试与告警 | id=etl-retry-alert | lvl=?? | kids=0 | lp=False
+      - 回填 Backfill | id=etl-backfill | lvl=??? | kids=0 | lp=False
+      - 迟到数据 | id=etl-late-data | lvl=??? | kids=0 | lp=False
+  - ETL vs ELT | id=etl-elt | lvl=?? | kids=1 | lp=False
+    - 形态对比 | id=etl-vs-elt | lvl=?? | kids=2 | lp=True
+      - 经典 ETL | id=etl-classic | lvl=?? | kids=0 | lp=False
+      - 现代 ELT | id=etl-modern-elt | lvl=?? | kids=0 | lp=False
+  - 工具选型 | id=etl-tools | lvl=??? | kids=1 | lp=False
+    - 选型地图 | id=etl-tool-map | lvl=??? | kids=6 | lp=True
+      - 编排 Airflow | id=etl-tool-airflow | lvl=??? | kids=0 | lp=False
+      - 变换 dbt | id=etl-tool-dbt | lvl=??? | kids=0 | lp=False
+      - 同步与 CDC 工具 | id=etl-tool-ingest | lvl=??? | kids=0 | lp=False
+      - DataX 批同步 | id=etl-tool-datax | lvl=??? | kids=0 | lp=False
+      - Airbyte 连接器 | id=etl-tool-airbyte | lvl=??? | kids=0 | lp=False
+      - Flink CDC | id=etl-tool-flink-cdc | lvl=??? | kids=0 | lp=False
+  - 血缘与发布 | id=etl-meta | lvl=??? | kids=1 | lp=False
+    - 治理动作 | id=etl-meta-ops | lvl=??? | kids=2 | lp=True
+      - 数据血缘 | id=etl-lineage | lvl=??? | kids=0 | lp=False
+      - 发布与回滚 | id=etl-publish | lvl=??? | kids=0 | lp=False
+
+==================== hub-ml.json
+- 机器学习/算法 | id=ml-root | lvl=? | kids=10 | lp=False
+  - 基础范式 | id=ml-foundation | lvl=? | kids=2 | lp=False
+    - 学习范式 | id=ml-paradigm | lvl=? | kids=4 | lp=True
+      - 监督学习 | id=ml-supervised | lvl=? | kids=0 | lp=False
+      - 无监督学习 | id=ml-unsupervised | lvl=? | kids=0 | lp=False
+      - 半监督学习 | id=ml-semisupervised | lvl=?? | kids=0 | lp=False
+      - 强化学习入门 | id=ml-rl-intro | lvl=??? | kids=0 | lp=False
+    - 训练纪律 | id=ml-train-discipline | lvl=?? | kids=4 | lp=True
+      - 训练流水线 | id=ml-pipeline | lvl=?? | kids=0 | lp=False
+      - 偏差与方差 | id=ml-bias-variance | lvl=?? | kids=0 | lp=False
+      - 过拟合与正则 | id=ml-overfit-reg | lvl=?? | kids=0 | lp=False
+      - 训练/验证/测试 | id=ml-train-val-test | lvl=? | kids=0 | lp=False
+  - 特征工程 | id=ml-feature | lvl=?? | kids=2 | lp=False
+    - 特征构建 | id=ml-feature-build | lvl=?? | kids=4 | lp=True
+      - 特征工程总览 | id=ml-feature-eng | lvl=?? | kids=0 | lp=False
+      - 缺失值处理 | id=ml-missing | lvl=?? | kids=0 | lp=False
+      - 类别编码 | id=ml-encoding | lvl=?? | kids=0 | lp=False
+      - 标准化与缩放 | id=ml-scaling | lvl=? | kids=0 | lp=False
+    - 特征风险 | id=ml-feature-risk | lvl=?? | kids=3 | lp=True
+      - 数据泄露 | id=ml-leakage | lvl=?? | kids=0 | lp=False
+      - 特征选择 | id=ml-feat-selection | lvl=?? | kids=0 | lp=False
+      - 特征漂移 | id=ml-feat-drift | lvl=??? | kids=0 | lp=False
+  - 核心任务 | id=ml-tasks | lvl=? | kids=4 | lp=False
+    - 分类 | id=ml-classify-ch | lvl=?? | kids=5 | lp=True
+      - 分类总览 | id=ml-classify | lvl=?? | kids=0 | lp=False
+      - 多分类 | id=ml-multiclass | lvl=?? | kids=0 | lp=False
+      - 阈值与决策 | id=ml-threshold | lvl=?? | kids=0 | lp=False
+      - 样本不平衡 | id=ml-imbalance | lvl=?? | kids=0 | lp=False
+      - 分类指标 | id=ml-metrics-clf | lvl=?? | kids=0 | lp=False
+    - 回归 | id=ml-regress-ch | lvl=?? | kids=3 | lp=True
+      - 回归预测 | id=ml-predict | lvl=?? | kids=0 | lp=False
+      - 回归指标 | id=ml-metrics-reg | lvl=?? | kids=0 | lp=False
+      - 分位数回归 | id=ml-quantile-reg | lvl=??? | kids=0 | lp=False
+    - 聚类 | id=ml-cluster-ch | lvl=?? | kids=3 | lp=True
+      - 聚类总览 | id=ml-cluster | lvl=?? | kids=0 | lp=False
+      - K-Means 实务 | id=ml-cluster-k | lvl=?? | kids=0 | lp=False
+      - 密度聚类 DBSCAN | id=ml-dbscan | lvl=?? | kids=0 | lp=False
+    - 排序学习 | id=ml-rank-ch | lvl=??? | kids=2 | lp=True
+      - Learning to Rank | id=ml-ltr-intro | lvl=??? | kids=0 | lp=False
+      - NDCG 与排序指标 | id=ml-ndcg | lvl=??? | kids=0 | lp=False
+  - 经典模型 | id=ml-models | lvl=?? | kids=3 | lp=False
+    - 线性族 | id=ml-linear-ch | lvl=?? | kids=3 | lp=True
+      - 逻辑回归 | id=ml-logreg | lvl=?? | kids=0 | lp=False
+      - 线性回归 | id=ml-linear-reg | lvl=?? | kids=0 | lp=False
+      - Ridge / Lasso | id=ml-ridge-lasso | lvl=?? | kids=0 | lp=False
+    - 树与提升 | id=ml-tree-ch | lvl=?? | kids=4 | lp=True
+      - 决策树 | id=ml-decision-tree | lvl=?? | kids=0 | lp=False
+      - 随机森林 | id=ml-random-forest | lvl=?? | kids=0 | lp=False
+      - GBDT / 梯度提升 | id=ml-gbdt | lvl=?? | kids=0 | lp=False
+      - 特征重要性 | id=ml-feat-importance | lvl=?? | kids=0 | lp=False
+    - 近邻与SVM | id=ml-other-models | lvl=?? | kids=2 | lp=True
+      - K 近邻 | id=ml-knn | lvl=?? | kids=0 | lp=False
+      - 支持向量机 | id=ml-svm | lvl=?? | kids=0 | lp=False
+  - 深度学习入门 | id=ml-deep | lvl=??? | kids=1 | lp=False
+    - 神经网络基础 | id=ml-nn-ch | lvl=??? | kids=3 | lp=True
+      - 多层感知机 MLP | id=ml-mlp | lvl=??? | kids=0 | lp=False
+      - Embedding 嵌入 | id=ml-embedding | lvl=??? | kids=0 | lp=False
+      - Dropout 与早停 | id=ml-nn-regularize | lvl=??? | kids=0 | lp=False
+  - 推荐系统 | id=ml-recsys | lvl=??? | kids=2 | lp=False
+    - 推荐总览 | id=ml-rec-ch | lvl=??? | kids=3 | lp=True
+      - 推荐总览 | id=ml-recommend | lvl=??? | kids=0 | lp=False
+      - 协同过滤 | id=ml-cf | lvl=??? | kids=0 | lp=False
+      - 内容推荐 | id=ml-content-rec | lvl=??? | kids=0 | lp=False
+    - 召回与精排 | id=ml-rec-funnel | lvl=??? | kids=3 | lp=True
+      - 召回与精排 | id=ml-recall-rank | lvl=??? | kids=0 | lp=False
+      - 冷启动 | id=ml-cold-start | lvl=??? | kids=0 | lp=False
+      - 多样性与打散 | id=ml-diversity | lvl=??? | kids=0 | lp=False
+  - 文本挖掘 | id=ml-nlp | lvl=??? | kids=1 | lp=False
+    - 文本表示与分类 | id=ml-text-ch | lvl=??? | kids=3 | lp=True
+      - 词袋与 TF-IDF | id=ml-tfidf | lvl=?? | kids=0 | lp=False
+      - 文本分类 | id=ml-text-clf | lvl=??? | kids=0 | lp=False
+      - 情感分析 | id=ml-sentiment | lvl=??? | kids=0 | lp=False
+  - 时序预测 | id=ml-timeseries | lvl=??? | kids=1 | lp=False
+    - 时序基础 | id=ml-ts-ch | lvl=??? | kids=3 | lp=True
+      - 时序切分 | id=ml-ts-split | lvl=?? | kids=0 | lp=False
+      - 滞后与窗口特征 | id=ml-lag-features | lvl=??? | kids=0 | lp=False
+      - 业务预测闭环 | id=ml-ts-forecast | lvl=??? | kids=0 | lp=False
+  - 异常检测 | id=ml-anomaly-domain | lvl=??? | kids=1 | lp=False
+    - 检测方法 | id=ml-anomaly-ch | lvl=??? | kids=3 | lp=True
+      - 异常检测总览 | id=ml-anomaly | lvl=??? | kids=0 | lp=False
+      - 隔离森林 | id=ml-isolation-forest | lvl=??? | kids=0 | lp=False
+      - 告警阈值 | id=ml-alert-threshold | lvl=??? | kids=0 | lp=False
+  - 评估与落地 | id=ml-eval-ops | lvl=??? | kids=2 | lp=False
+    - 离线评估 | id=ml-eval-ch | lvl=??? | kids=3 | lp=True
+      - 时间切分评估 | id=ml-time-split | lvl=?? | kids=0 | lp=False
+      - 概率校准 | id=ml-calibration | lvl=??? | kids=0 | lp=False
+      - 上线与A/B | id=ml-ab-test | lvl=??? | kids=0 | lp=False
+    - MLOps入门 | id=ml-mlops-ch | lvl=??? | kids=3 | lp=True
+      - 训练与推理 | id=ml-train-serve | lvl=??? | kids=0 | lp=False
+      - 监控与漂移 | id=ml-monitor | lvl=??? | kids=0 | lp=False
+      - 特征仓库入门 | id=ml-feature-store | lvl=??? | kids=0 | lp=False
+
+==================== hub-python.json
+- Python | id=python-root | lvl=? | kids=4 | lp=False
+  - 学习路径 | id=py-learning-path | lvl=? | kids=3 | lp=False
+    - 教程宪法 | id=py-constitution-sec | lvl=? | kids=1 | lp=True
+      - 统一样例与课模板 | id=py-constitution | lvl=? | kids=0 | lp=False
+    - 路线清单 | id=py-roadmap | lvl=? | kids=3 | lp=True
+      - 初级清单 | id=py-path-junior | lvl=? | kids=0 | lp=False
+      - 中级清单 | id=py-path-mid | lvl=?? | kids=0 | lp=False
+      - 高级清单 | id=py-path-senior | lvl=??? | kids=0 | lp=False
+    - 练习场 | id=py-practice-field | lvl=?? | kids=2 | lp=True
+      - 初级练习 | id=py-drill-junior | lvl=? | kids=0 | lp=False
+      - 中级练习 | id=py-drill-mid | lvl=?? | kids=0 | lp=False
+  - pandas 数据表 | id=py-pandas | lvl=? | kids=3 | lp=False
+    - 表结构与筛选 | id=py-frame | lvl=? | kids=2 | lp=True
+      - DataFrame 基础 | id=py-dataframe | lvl=? | kids=0 | lp=False
+      - 筛选与赋值 | id=py-filter | lvl=? | kids=0 | lp=False
+    - 清洗与聚合 | id=py-clean-agg | lvl=?? | kids=6 | lp=True
+      - 缺失与类型 | id=py-na | lvl=? | kids=0 | lp=False
+      - groupby 聚合 | id=py-group | lvl=?? | kids=0 | lp=False
+      - merge 关联 | id=py-merge | lvl=?? | kids=0 | lp=False
+      - 透视与变形 | id=py-pivot | lvl=?? | kids=0 | lp=False
+      - transform 与 rolling | id=py-transform | lvl=??? | kids=0 | lp=False
+      - 时间索引 | id=py-datetime | lvl=?? | kids=0 | lp=False
+    - 读写与落地 | id=py-io | lvl=? | kids=3 | lp=True
+      - read_csv / to_csv | id=py-read-csv | lvl=? | kids=0 | lp=False
+      - to_sql / read_sql | id=py-to-sql | lvl=?? | kids=0 | lp=False
+      - Parquet 列存文件 | id=py-parquet | lvl=??? | kids=0 | lp=False
+  - 可视化 | id=py-viz | lvl=?? | kids=1 | lp=False
+    - 常用图 | id=py-plot | lvl=?? | kids=3 | lp=True
+      - 折线趋势 | id=py-line | lvl=?? | kids=0 | lp=False
+      - 柱状对比 | id=py-bar | lvl=?? | kids=0 | lp=False
+      - Seaborn 分布 | id=py-seaborn | lvl=?? | kids=0 | lp=False
+  - 生态与加速 | id=py-stack | lvl=??? | kids=2 | lp=False
+    - 核心库 | id=py-core-libs | lvl=??? | kids=5 | lp=True
+      - NumPy 向量化 | id=py-numpy | lvl=?? | kids=0 | lp=False
+      - DuckDB 内嵌 SQL | id=py-duckdb | lvl=??? | kids=0 | lp=False
+      - Polars 直觉 | id=py-polars | lvl=??? | kids=0 | lp=False
+      - sklearn 基线 | id=py-sklearn | lvl=??? | kids=0 | lp=False
+      - Streamlit 小应用 | id=py-streamlit | lvl=??? | kids=0 | lp=False
+    - 工程化 | id=py-eng | lvl=??? | kids=2 | lp=True
+      - 性能与内存 | id=py-perf | lvl=??? | kids=0 | lp=False
+      - 可复现环境 | id=py-repro | lvl=??? | kids=0 | lp=False
+
+==================== hub-query.json
+- SQL | id=sql-root | lvl=?? | kids=6 | lp=False
+  - 基础查询 | id=SQL.基础查询 | lvl=?? | kids=4 | lp=True
+    - SELECT | id=SQL.基础查询.SELECT | lvl=?? | kids=0 | lp=False
+    - WHERE | id=SQL.基础查询.WHERE | lvl=?? | kids=0 | lp=False
+    - ORDER BY | id=SQL.基础查询.ORDER BY | lvl=?? | kids=0 | lp=False
+    - LIMIT | id=SQL.基础查询.LIMIT | lvl=?? | kids=0 | lp=False
+  - 多表操作 | id=SQL.多表操作 | lvl=?? | kids=3 | lp=True
+    - JOIN | id=SQL.多表操作.JOIN | lvl=?? | kids=0 | lp=False
+    - 子查询 | id=SQL.多表操作.子查询 | lvl=?? | kids=0 | lp=False
+    - UNION | id=SQL.多表操作.UNION | lvl=?? | kids=0 | lp=False
+  - 聚合分析 | id=SQL.聚合分析 | lvl=?? | kids=3 | lp=True
+    - GROUP BY | id=SQL.聚合分析.GROUP BY | lvl=?? | kids=0 | lp=False
+    - HAVING | id=SQL.聚合分析.HAVING | lvl=?? | kids=0 | lp=False
+    - 窗口函数 | id=SQL.聚合分析.窗口函数 | lvl=?? | kids=0 | lp=False
+  - 数据定义 | id=SQL.数据定义 | lvl=?? | kids=3 | lp=True
+    - CREATE TABLE 建表 | id=SQL.数据定义.CREATE TABLE 建表 | lvl=?? | kids=0 | lp=False
+    - 约束与类型对齐 | id=SQL.数据定义.约束与类型对齐 | lvl=?? | kids=0 | lp=False
+    - ALTER 变更与视图 | id=SQL.数据定义.ALTER 变更与视图 | lvl=?? | kids=0 | lp=False
+  - 性能优化 | id=SQL.性能优化 | lvl=?? | kids=3 | lp=True
+    - 索引设计原则 | id=SQL.性能优化.索引设计原则 | lvl=?? | kids=0 | lp=False
+    - 读懂 EXPLAIN | id=SQL.性能优化.读懂 EXPLAIN | lvl=?? | kids=0 | lp=False
+    - 慢查询改写 | id=SQL.性能优化.慢查询改写 | lvl=?? | kids=0 | lp=False
+  - 事务与安全 | id=SQL.事务与安全 | lvl=?? | kids=3 | lp=True
+    - 事务与 ACID | id=SQL.事务与安全.事务与 ACID | lvl=?? | kids=0 | lp=False
+    - 隔离级别直觉 | id=SQL.事务与安全.隔离级别直觉 | lvl=?? | kids=0 | lp=False
+    - 权限与注入防护 | id=SQL.事务与安全.权限与注入防护 | lvl=?? | kids=0 | lp=False
+
+==================== hub-viz.json
+- BI | id=bi-root | lvl=?? | kids=3 | lp=False
+  - Tableau | id=BI.Tableau | lvl=?? | kids=8 | lp=False
+    - 入门准备 | id=BI.Tableau.入门准备 | lvl=?? | kids=0 | lp=False
+    - 数据准备 | id=BI.Tableau.数据准备 | lvl=?? | kids=0 | lp=False
+    - 图表制作 | id=BI.Tableau.图表制作 | lvl=?? | kids=6 | lp=True
+      - 柱状图 | id=BI.Tableau.图表制作.柱状图 | lvl=?? | kids=0 | lp=False
+      - 折线图 | id=BI.Tableau.图表制作.折线图 | lvl=?? | kids=0 | lp=False
+      - 饼图 | id=BI.Tableau.图表制作.饼图 | lvl=?? | kids=0 | lp=False
+      - 环形图 | id=BI.Tableau.图表制作.环形图 | lvl=?? | kids=0 | lp=False
+      - 双轴组合图 | id=BI.Tableau.图表制作.双轴组合图 | lvl=?? | kids=0 | lp=False
+      - 热力图 | id=BI.Tableau.图表制作.热力图 | lvl=?? | kids=0 | lp=False
+    - 计算 | id=BI.Tableau.计算 | lvl=?? | kids=3 | lp=False
+      - 基础计算 | id=BI.Tableau.计算.基础计算 | lvl=?? | kids=0 | lp=False
+      - 表计算 | id=BI.Tableau.计算.表计算 | lvl=?? | kids=0 | lp=False
+      - LOD | id=BI.Tableau.计算.LOD | lvl=?? | kids=3 | lp=True
+    - 筛选与交互 | id=BI.Tableau.筛选与交互 | lvl=?? | kids=0 | lp=False
+    - 仪表板 | id=BI.Tableau.仪表板 | lvl=?? | kids=0 | lp=False
+    - 性能优化 | id=BI.Tableau.性能优化 | lvl=?? | kids=0 | lp=False
+    - 实战案例 | id=BI.Tableau.实战案例 | lvl=?? | kids=0 | lp=False
+  - Power BI | id=BI.Power BI | lvl=?? | kids=6 | lp=True
+    - 入门与界面 | id=BI.Power BI.入门与界面 | lvl=?? | kids=0 | lp=False
+    - 数据建模 | id=BI.Power BI.数据建模 | lvl=?? | kids=0 | lp=False
+    - DAX 度量 | id=BI.Power BI.DAX 度量 | lvl=?? | kids=0 | lp=False
+    - 可视化与图表 | id=BI.Power BI.可视化与图表 | lvl=?? | kids=0 | lp=False
+    - 仪表板与交互 | id=BI.Power BI.仪表板与交互 | lvl=?? | kids=0 | lp=False
+    - 发布与权限 | id=BI.Power BI.发布与权限 | lvl=?? | kids=0 | lp=False
+  - 国产 BI | id=BI.国产 BI | lvl=?? | kids=5 | lp=True
+    - FineBI 自助分析 | id=BI.国产 BI.FineBI 自助分析 | lvl=?? | kids=0 | lp=False
+    - FineReport 固定报表 | id=BI.国产 BI.FineReport 固定报表 | lvl=?? | kids=0 | lp=False
+    - Datart 开源可视化 | id=BI.国产 BI.Datart 开源可视化 | lvl=?? | kids=0 | lp=False
+    - 永洪 BI | id=BI.国产 BI.永洪 BI | lvl=?? | kids=0 | lp=False
+    - 国产 BI 选型对比 | id=BI.国产 BI.国产 BI 选型对比 | lvl=??? | kids=0 | lp=False

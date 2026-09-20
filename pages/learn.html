@@ -2120,6 +2120,372 @@
       .kg-toast, .sat-node.is-pulse circle { animation: none !important; }
     }
 
+    /* ========== 美化第 4 轮：版式精修（阶段立柱 / 节点 / 连线 / 控件 / 首屏卡片） ========== */
+
+    /* 画布氛围：多层光晕（置于内容之下，零风险） */
+    #graph.kg-canvas {
+      background:
+        radial-gradient(ellipse 56% 48% at 50% 32%, rgba(124, 58, 237, 0.13), transparent 68%),
+        radial-gradient(ellipse 46% 40% at 10% 80%, rgba(46, 230, 255, 0.07), transparent 62%),
+        radial-gradient(ellipse 46% 40% at 92% 74%, rgba(16, 185, 129, 0.06), transparent 62%),
+        radial-gradient(ellipse 70% 30% at 50% 118%, rgba(46, 230, 255, 0.05), transparent 70%),
+        #050814;
+    }
+
+    /* —— 阶段柱：玻璃面 + 顶部霓虹条 + 标题胶囊 —— */
+    .stages .stage-band {
+      fill: url(#stageColGrad) !important;
+      stroke: rgba(46, 230, 255, 0.12) !important;
+      stroke-width: 1 !important;
+    }
+    .stages .stage-accent {
+      fill: url(#stageLabelGrad);
+      opacity: 0.9;
+      filter: drop-shadow(0 0 7px rgba(46, 230, 255, 0.55));
+    }
+    .stages .stage-pill {
+      fill: rgba(7, 12, 26, 0.94);
+      stroke: rgba(103, 232, 249, 0.32);
+      stroke-width: 1;
+      filter: drop-shadow(0 5px 14px rgba(0, 0, 0, 0.42));
+    }
+    .stages .stage-label {
+      fill: url(#stageLabelGrad) !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.16em !important;
+      paint-order: stroke;
+      stroke: rgba(4, 7, 16, 0.85);
+      stroke-width: 2.6px;
+    }
+    .lanes .lane-label {
+      font-size: 10.5px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.15em !important;
+      fill: #b794ff !important;
+    }
+
+    /* —— 主节点：悬浮反馈 + 标签细节 —— */
+    .node circle {
+      transition: transform 0.2s var(--ease-out), filter 0.2s var(--ease-out), stroke 0.2s;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .node:hover circle { transform: scale(1.07); }
+    .node .sublabel { fill: #a9b6c9; letter-spacing: 0.04em; }
+
+    /* —— 连线：更柔和的光纤感 —— */
+    .link {
+      stroke: #3b4a63;
+      stroke-opacity: 0.5;
+      stroke-linecap: round;
+      stroke-width: 1.5;
+    }
+    .link.secondary { stroke-opacity: 0.3; }
+    .link.active {
+      stroke-width: 2.4;
+      filter: drop-shadow(0 0 6px rgba(46, 230, 255, 0.5));
+    }
+
+    /* —— 顶栏图例：胶囊化 —— */
+    .legend {
+      gap: 6px;
+      padding: 4px 6px;
+      border-radius: 999px;
+      background: rgba(8, 12, 24, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+    }
+    .legend-item {
+      gap: 7px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+    }
+    .legend-dot { width: 8px; height: 8px; }
+
+    /* —— 深度开关 / 缩放控件：一体玻璃 —— */
+    .toolbar {
+      padding: 5px !important;
+      border-radius: 14px !important;
+      background: rgba(7, 11, 22, 0.7) !important;
+      border: 1px solid rgba(148, 163, 184, 0.14) !important;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+    }
+    .toolbar button {
+      padding: 6px 14px !important;
+      border-radius: 10px !important;
+      font-size: 0.72rem !important;
+      letter-spacing: 0.06em;
+    }
+    .kg-ctrl { gap: 8px !important; }
+    .kg-ctrl button {
+      border-radius: 12px !important;
+      background: rgba(7, 11, 22, 0.86) !important;
+      border: 1px solid rgba(148, 163, 184, 0.22) !important;
+    }
+    .kg-rail-btn {
+      border-radius: 999px !important;
+      background: rgba(7, 11, 22, 0.86) !important;
+      border: 1px solid rgba(148, 163, 184, 0.22) !important;
+    }
+
+    /* —— 首屏学科卡片 —— */
+    .home-hot {
+      gap: 10px !important;
+      padding: 10px 12px !important;
+      border-radius: 16px !important;
+      background: rgba(7, 11, 22, 0.55) !important;
+      border: 1px solid rgba(148, 163, 184, 0.14) !important;
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(12px);
+    }
+    .home-hot button {
+      padding: 7px 15px !important;
+      border-radius: 12px !important;
+      letter-spacing: 0.04em;
+    }
+
+    /* —— 焦点模式画布：更聚焦 —— */
+    body.kg-focus-on #graph.kg-canvas {
+      background:
+        radial-gradient(ellipse 52% 44% at 50% 40%, rgba(124, 58, 237, 0.2), transparent 70%),
+        radial-gradient(ellipse 40% 38% at 14% 76%, rgba(46, 230, 255, 0.06), transparent 62%),
+        radial-gradient(ellipse 40% 38% at 86% 72%, rgba(16, 185, 129, 0.07), transparent 62%),
+        #050814 !important;
+    }
+
+    /* —— 焦点侧栏 / 讲义卡片 —— */
+    .kg-focus-side { border-radius: 16px; }
+    .kg-focus-leg-item { border-radius: 10px; }
+    .lesson-card { border-radius: 12px !important; }
+
+    /* ========== 美化第 5 轮：内容排版审美（讲义正文 / 章节卡片 / 侧栏 / 检索） ========== */
+
+    /* —— 焦点侧栏：分区更清晰 —— */
+    body.kg-focus-on .kg-focus-side {
+      background:
+        radial-gradient(ellipse 120% 30% at 50% 0%, rgba(168, 85, 247, 0.14), transparent 70%),
+        linear-gradient(180deg, rgba(12, 16, 34, 0.97), rgba(7, 10, 22, 0.96));
+      gap: 16px;
+      padding: 18px 16px 20px;
+    }
+    .kg-focus-side-head h3 {
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(168, 85, 247, 0.22);
+    }
+    .kg-back-btn {
+      border-radius: 10px;
+      padding: 8px 12px !important;
+      letter-spacing: 0.02em;
+    }
+    .kg-focus-legend,
+    .kg-progress {
+      border-radius: 12px;
+    }
+    .kg-focus-legend-title {
+      letter-spacing: 0.12em;
+      opacity: 0.9;
+    }
+    .kg-focus-leg-item {
+      padding: 4px 6px;
+      border-radius: 8px;
+      transition: background 0.18s;
+    }
+    .kg-focus-leg-item:hover { background: rgba(255,255,255,0.04); }
+    .kg-focus-path-body {
+      line-height: 1.7;
+      padding: 12px;
+    }
+
+    /* —— 讲义面板：头部与正文的层次 —— */
+    body.kg-focus-on #panel.side-mode .panel-header {
+      padding: 20px 20px 14px;
+      background:
+        radial-gradient(ellipse 90% 120% at 0% 0%, rgba(46, 230, 255, 0.12), transparent 70%),
+        linear-gradient(180deg, rgba(46, 230, 255, 0.06), transparent 90%);
+    }
+    body.kg-focus-on #panel.side-mode .panel-header h2 {
+      font-size: 1.3rem;
+      line-height: 1.35;
+      letter-spacing: 0.01em;
+    }
+    body.kg-focus-on #panel.side-mode .panel-header .cat-badge {
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+    }
+    body.kg-focus-on #panel.side-mode .panel-header .subtitle {
+      font-size: 0.8rem;
+      color: #8b99ad;
+      letter-spacing: 0.01em;
+    }
+
+    /* 讲义正文：#sqlSideMd 排版精修 */
+    #sqlSideMd {
+      font-size: 0.94rem;
+      line-height: 1.85;
+      color: #cfd9e6;
+      letter-spacing: 0.012em;
+    }
+    #sqlSideMd > *:first-child { margin-top: 0; }
+    #sqlSideMd h1, #sqlSideMd h2 {
+      font-size: 1.08rem;
+      color: #f1f5f9;
+      margin: 1.5em 0 0.6em;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(46, 230, 255, 0.18);
+      letter-spacing: 0.01em;
+    }
+    #sqlSideMd h3 {
+      margin: 1.5em 0 0.55em;
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      color: #67e8f9;
+      border-left: 2px solid rgba(46, 230, 255, 0.7);
+      padding-left: 10px;
+      text-transform: uppercase;
+    }
+    #sqlSideMd h4 {
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      margin: 1.2em 0 0.5em;
+      letter-spacing: 0.01em;
+    }
+    #sqlSideMd p { margin: 0.7em 0; color: #c6d2e0; }
+    #sqlSideMd ul, #sqlSideMd ol { margin: 0.5em 0 0.9em 1.25em; color: #cdd8e6; }
+    #sqlSideMd li { margin: 0.4em 0; }
+    #sqlSideMd li::marker { color: rgba(46, 230, 255, 0.7); }
+    #sqlSideMd strong { color: #f8fafc; font-weight: 650; }
+    #sqlSideMd em { color: #9fb0c4; font-style: normal; }
+    #sqlSideMd blockquote {
+      margin: 1em 0;
+      padding: 10px 14px;
+      border-left: 3px solid rgba(251, 191, 36, 0.65);
+      border-radius: 0 10px 10px 0;
+      background: rgba(251, 191, 36, 0.06);
+      color: #e7e2d3;
+    }
+    #sqlSideMd a { color: #67e8f9; text-decoration: none; border-bottom: 1px dashed rgba(46,230,255,0.4); }
+    #sqlSideMd hr { border: none; border-top: 1px dashed rgba(148,163,184,0.2); margin: 1.6em 0; }
+    #sqlSideMd table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0.9em 0 1.3em;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    #sqlSideMd th, #sqlSideMd td {
+      padding: 9px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+    }
+    #sqlSideMd th { background: rgba(46, 230, 255, 0.08); color: #a5f3fc; font-weight: 700; }
+    #sqlSideMd tr:last-child td { border-bottom: none; }
+    #sqlSideMd tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+
+    /* —— 章节卡片：更精致的子课列表 —— */
+    .chapter-lessons-title {
+      letter-spacing: 0.14em;
+      font-size: 0.7rem !important;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chapter-lessons-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(46,230,255,0.25), transparent);
+    }
+    .lesson-card-list { gap: 10px; }
+    .lesson-card {
+      position: relative;
+      padding: 13px 15px !important;
+      border-radius: 12px !important;
+      background:
+        linear-gradient(135deg, rgba(46, 230, 255, 0.07), rgba(46, 230, 255, 0.02)) !important;
+      border: 1px solid rgba(46, 230, 255, 0.22) !important;
+      transition: transform 0.16s var(--ease-out), border-color 0.18s, background 0.18s, box-shadow 0.18s !important;
+    }
+    .lesson-card::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 12px; bottom: 12px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: linear-gradient(180deg, #67e8f9, #a855f7);
+      opacity: 0.65;
+    }
+    .lesson-card:hover {
+      transform: translateX(3px);
+      border-color: rgba(46, 230, 255, 0.6) !important;
+      box-shadow: 0 10px 26px rgba(46, 230, 255, 0.14);
+    }
+    .lesson-card.learned::before { background: linear-gradient(180deg, #6ee7b7, #34d399); opacity: 0.9; }
+    .lesson-card-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+    .lesson-card-meta {
+      font-size: 0.66rem !important;
+      letter-spacing: 0.06em;
+      color: #7d8b9e;
+      margin-top: 2px;
+    }
+
+    /* —— 检索：更精致 —— */
+    .kg-search-mini input {
+      border-radius: 999px !important;
+      padding-left: 34px !important;
+      background: rgba(8, 12, 26, 0.92) !important;
+    }
+    .kg-search-mini::before {
+      left: 14px;
+      font-size: 0.95rem;
+      color: #5c6b80;
+    }
+    .kg-search-drop {
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: 0 18px 44px rgba(0,0,0,0.5);
+    }
+    .kg-search-drop button {
+      border-radius: 8px;
+      font-size: 0.82rem;
+      padding: 9px 10px;
+    }
+    .kg-search-drop .meta { font-size: 0.66rem; margin-top: 2px; }
+
+    /* —— 进度条 / 底部状态条：整体协调 —— */
+    body.kg-focus-on .sql-drill-hint {
+      border-radius: 999px !important;
+      border-color: rgba(46, 230, 255, 0.22) !important;
+      background: rgba(8, 12, 26, 0.86) !important;
+      letter-spacing: 0.02em;
+    }
+    body.kg-focus-on .kg-hotkey-chip {
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+    }
+
+    /* —— 移动端：讲义与卡片再紧凑 —— */
+    @media (max-width: 900px) {
+      body.kg-focus-on #panel.side-mode .panel-header { padding: 16px 16px 12px; }
+      body.kg-focus-on #panel.side-mode .panel-header h2 { font-size: 1.12rem; }
+      #sqlSideMd { font-size: 0.9rem; line-height: 1.78; }
+      .lesson-card { padding: 11px 13px !important; }
+    }
+
     </style>
   <script src="kg-data/embed-sql.js"></script>
   <script src="kg-data/embed-python.js"></script>
@@ -9416,6 +9782,18 @@
       .attr("refX", 8).attr("refY", 0).attr("markerWidth", 5).attr("markerHeight", 5).attr("orient", "auto")
       .append("path").attr("d", "M0,-3.2L7,0L0,3.2").attr("fill", "#94a3b8");
 
+    // 第 4 轮美化：阶段列竖向渐变 + 阶段标题文字渐变
+    const stageColGrad = defs.append("linearGradient")
+      .attr("id", "stageColGrad").attr("x1", "0%").attr("y1", "0%").attr("x2", "0%").attr("y2", "100%");
+    stageColGrad.append("stop").attr("offset", "0%").attr("stop-color", "#2ee6ff").attr("stop-opacity", 0.07);
+    stageColGrad.append("stop").attr("offset", "34%").attr("stop-color", "#2ee6ff").attr("stop-opacity", 0.015);
+    stageColGrad.append("stop").attr("offset", "100%").attr("stop-color", "#7c3aed").attr("stop-opacity", 0.07);
+    const stageLabelGrad = defs.append("linearGradient")
+      .attr("id", "stageLabelGrad").attr("x1", "0%").attr("y1", "0%").attr("x2", "100%").attr("y2", "0%");
+    stageLabelGrad.append("stop").attr("offset", "0%").attr("stop-color", "#67e8f9");
+    stageLabelGrad.append("stop").attr("offset", "52%").attr("stop-color", "#e9d5ff");
+    stageLabelGrad.append("stop").attr("offset", "100%").attr("stop-color", "#b794ff");
+
     // 氛围粒子
     (function spawnParticles() {
       const box = document.getElementById("kgParticles");
@@ -9471,7 +9849,7 @@
         const R = Math.min(
           (typeof width === "function" ? width() : m.w),
           (typeof height === "function" ? height() : m.h)
-        ) * 0.26;
+        ) * 0.29;
         const hubSet = new Set(hubs);
         nodes.forEach(n => {
           const i = hubs.indexOf(n.id);
@@ -9523,11 +9901,21 @@
       laneG.selectAll("*").remove();
       STAGES.forEach((s, i) => {
         const x = m.padX + i * m.colW;
+        const cx = x + m.colW / 2;
+        // 玻璃立柱
         stageG.append("rect").attr("class", "stage-band")
-          .attr("x", x + 6).attr("y", m.padTop - 28)
-          .attr("width", m.colW - 12).attr("height", m.mainH + 20).attr("rx", 10);
+          .attr("x", x + 7).attr("y", m.padTop - 22)
+          .attr("width", m.colW - 14).attr("height", m.mainH + 18).attr("rx", 14);
+        // 顶部霓虹条
+        stageG.append("rect").attr("class", "stage-accent")
+          .attr("x", cx - 20).attr("y", m.padTop - 32)
+          .attr("width", 40).attr("height", 3).attr("rx", 1.5);
+        // 标题胶囊
+        stageG.append("rect").attr("class", "stage-pill")
+          .attr("x", cx - 38).attr("y", m.padTop - 26)
+          .attr("width", 76).attr("height", 20).attr("rx", 10);
         stageG.append("text").attr("class", "stage-label")
-          .attr("x", x + m.colW / 2).attr("y", m.padTop - 10).text(s.label);
+          .attr("x", cx).attr("y", m.padTop - 12).text(s.label);
       });
       laneG.append("rect").attr("class", "stage-band")
         .attr("x", m.padX + m.colW * 1.6).attr("y", m.padTop + m.mainH + 8)
@@ -10867,11 +11255,30 @@
           return (s.angDeg * Math.PI) / 180;
         }
 
-        /** 对齐行业百科：扇面紧凑（百科为 min(0.9, 0.18*n)） */
-        function sectorFanSpread(n) {
+        /** 按层级 + 兄弟数计算统一边长（同父同长，消除长短不一） */
+        function kgEdgeLen(layer, n) {
+          const count = Math.max(1, n || 1);
+          // 层越深略短；同层统一边长；整体加长避免压住中心 hub（如 Tableau 压 BI）
+          if (layer <= 2) return Math.min(168, 142 + Math.max(0, count - 2) * 6);
+          if (layer === 3) return Math.min(108, 88 + Math.max(0, count - 2) * 5);
+          return Math.min(86, 68 + Math.max(0, count - 2) * 4);
+        }
+
+        /** 扇角随节点数与边长自适应：保证弦长 ≥ 2*节点半径+间距 */
+        function kgFanSpread(n, edgeLen, nodeR) {
           if (n <= 1) return 0;
-          // 略宽于百科一点，留给中文标签；仍远小于旧版 0.7~1.95
-          return Math.min(1.0, 0.20 * Math.max(n, 1));
+          const pad = 14;
+          const minChord = 2 * (nodeR || 18) + pad;
+          const r = Math.max(edgeLen || 60, 1);
+          const ratio = Math.min(0.98, minChord / (2 * r));
+          const step = 2 * Math.asin(ratio);
+          const need = step * (n - 1);
+          const soft = 0.18 * n;
+          return Math.min(1.15, Math.max(soft, need));
+        }
+
+        function sectorFanSpread(n) {
+          return kgFanSpread(n, kgEdgeLen(2, n), 26);
         }
 
         function satLabelText(d) {
@@ -10940,7 +11347,7 @@
           const dist = Math.hypot(dx, dy) || 1;
           const pr = parentR != null ? parentR : (layer <= 2 ? hubFocusRadius() : 22);
           const cr = childR != null ? childR : (layer >= 4 ? 15 : layer === 3 ? 17 : 20);
-          const gap = 2.5;
+          const gap = 4;
           const sx = px + (dx / dist) * (pr + gap);
           const sy = py + (dy / dist) * (pr + gap);
           const tx = x - (dx / dist) * (cr + gap);
@@ -10950,13 +11357,13 @@
           // curvedCW：相对父→子方向取顺时针法向（SVG y 向下）
           const nx = dy / dist;
           const ny = -dx / dist;
-          const roundness = layer <= 2 ? 0.28 : 0.35;
-          const bend = Math.min(layer <= 2 ? 48 : 36, dist * roundness);
+          const roundness = layer <= 2 ? 0.24 : 0.30;
+          const bend = Math.min(layer <= 2 ? 40 : 30, dist * roundness);
           return `M${sx},${sy}Q${mx + nx * bend},${my + ny * bend} ${tx},${ty}`;
         }
 
         function hubFocusRadius() {
-          return 36;
+          return 34;
         }
 
         function stopKgSettle() {
@@ -11027,27 +11434,31 @@
             .filter(d => d.parentId && byId.has(d.parentId))
             .map(d => {
               const p = byId.get(d.parentId);
+              const homeDist = Math.hypot(
+                (d.tx != null ? d.tx : d.x) - (p.tx != null ? p.tx : p.x),
+                (d.ty != null ? d.ty : d.y) - (p.ty != null ? p.ty : p.y)
+              );
               return {
                 source: p,
                 target: d,
-                dist: Math.max(72, Math.min(120, Math.hypot(d.tx - p.tx, d.ty - p.ty) || 96))
+                dist: d._edgeLen != null ? d._edgeLen : (homeDist || kgEdgeLen(d.layer || 3, d.sibTotal || 1))
               };
             });
 
-          // 参数刻意贴近 vis-network barnesHut（百科 knowledge-graph-app.js）
+          // 强钉目标位 + 等长弹簧：保边长一致、防重叠，避免力导向把线拉长短不一
           kgLiveSim = d3.forceSimulation(items)
-            .force("charge", d3.forceManyBody().strength(-1600).distanceMax(480))
-            .force("center", d3.forceCenter(hub.x, hub.y).strength(0.045))
+            .force("charge", d3.forceManyBody().strength(-220).distanceMax(200))
+            .force("center", d3.forceCenter(hub.x, hub.y).strength(0.02))
             .force("collide", d3.forceCollide()
-              .radius(d => (d._r || 20) + (d.layer === 2 ? 10 : 7))
-              .strength(0.7)
-              .iterations(2))
-            .force("link", d3.forceLink(springs).distance(d => d.dist).strength(0.05))
-            .force("x", d3.forceX(d => d.tx).strength(0.12))
-            .force("y", d3.forceY(d => d.ty).strength(0.12))
-            .velocityDecay(0.48)
-            .alpha(1)
-            .alphaDecay(0.026)
+              .radius(d => (d._r || 20) + 11)
+              .strength(0.95)
+              .iterations(3))
+            .force("link", d3.forceLink(springs).distance(d => d.dist).strength(0.62))
+            .force("x", d3.forceX(d => d.tx).strength(0.48))
+            .force("y", d3.forceY(d => d.ty).strength(0.48))
+            .velocityDecay(0.55)
+            .alpha(0.85)
+            .alphaDecay(0.04)
             .alphaMin(0.001);
 
           let ticks = 0;
@@ -11060,24 +11471,34 @@
               } else {
                 d.parentX = hub.x; d.parentY = hub.y;
               }
-              const dx = d.x - hub.x, dy = d.y - hub.y;
-              const dist = Math.hypot(dx, dy) || 1;
-              const minR = d.layer === 2 ? 72 : 52;
-              if (dist < minR) {
-                d.x = hub.x + (dx / dist) * minR;
-                d.y = hub.y + (dy / dist) * minR;
+              // 钉住相对父节点的等长半径，防止力导向把 L2 压进 hub（Tableau 压 BI）
+              if (d.parentId && byId.has(d.parentId)) {
+                const p = byId.get(d.parentId);
+                const targetLen = d._edgeLen != null ? d._edgeLen : kgEdgeLen(d.layer || 3, d.sibTotal || 1);
+                const pdx = d.x - p.x, pdy = d.y - p.y;
+                const pd = Math.hypot(pdx, pdy) || 1;
+                d.x = p.x + (pdx / pd) * targetLen;
+                d.y = p.y + (pdy / pd) * targetLen;
+              } else {
+                const targetLen = d._edgeLen != null ? d._edgeLen : kgEdgeLen(2, d.sibTotal || 1);
+                const hubClear = hubFocusRadius() + (d._r || 26) + 28;
+                const want = Math.max(targetLen, hubClear);
+                const dx = d.x - hub.x, dy = d.y - hub.y;
+                const dist = Math.hypot(dx, dy) || 1;
+                d.x = hub.x + (dx / dist) * want;
+                d.y = hub.y + (dy / dist) * want;
               }
             });
             paint();
             // 百科 stabilizationIterationsDone ≈ 软阻尼，不停死
             if (ticks === 55) {
-              kgLiveSim.force("charge", d3.forceManyBody().strength(-720).distanceMax(420));
-              kgLiveSim.force("center", d3.forceCenter(hub.x, hub.y).strength(0.02));
-              kgLiveSim.force("link", d3.forceLink(springs).distance(d => d.dist).strength(0.022));
-              kgLiveSim.force("x", d3.forceX(d => d.tx).strength(0.09));
-              kgLiveSim.force("y", d3.forceY(d => d.ty).strength(0.09));
-              kgLiveSim.velocityDecay(0.7);
-              kgLiveSim.alphaTarget(0.06);
+              kgLiveSim.force("charge", d3.forceManyBody().strength(-120).distanceMax(180));
+              kgLiveSim.force("center", d3.forceCenter(hub.x, hub.y).strength(0.01));
+              kgLiveSim.force("link", d3.forceLink(springs).distance(d => d.dist).strength(0.45));
+              kgLiveSim.force("x", d3.forceX(d => d.tx).strength(0.55));
+              kgLiveSim.force("y", d3.forceY(d => d.ty).strength(0.55));
+              kgLiveSim.velocityDecay(0.72);
+              kgLiveSim.alphaTarget(0.04);
             }
             if (ticks === 120) {
               kgLiveSim.alphaTarget(0.018);
@@ -11091,12 +11512,12 @@
         }
 
         function baseSatRadius(d) {
-          if (d.isLeaf) return 18;
-          if (d.isBranch) return 32;
-          if (d.isChapter) return 24;
-          if (d.layer === 2) return 30;
-          if (d.layer === 3) return 20;
-          return 17;
+          if (d.isLeaf) return 16;
+          if (d.isBranch) return 28;
+          if (d.isChapter) return 21;
+          if (d.layer === 2) return 26;
+          if (d.layer === 3) return 18;
+          return 16;
         }
 
 
@@ -11412,17 +11833,17 @@
             let ang;
             if (total <= 1) {
               ang = (parentAng != null) ? parentAng : sectorAngleRad(sectorKey || "advanced");
-            } else if (parentAng != null && layer > 2) {
-              const fan = Math.min(0.95, 0.20 * Math.max(total, 1));
-              ang = parentAng - fan / 2 + (fan * idx) / Math.max(total - 1, 1);
             } else if (parentAng != null) {
-              const spread = sectorFanSpread(total);
-              ang = total === 1 ? parentAng : parentAng - spread / 2 + (spread * idx) / Math.max(total - 1, 1);
+              const edge = (typeof kgEdgeLen === "function") ? kgEdgeLen(layer, total) : baseR;
+              const nodeR = layer <= 2 ? 26 : (layer === 3 ? 18 : 16);
+              const fan = (typeof kgFanSpread === "function")
+                ? kgFanSpread(total, edge, nodeR)
+                : sectorFanSpread(total);
+              ang = total === 1 ? parentAng : parentAng - fan / 2 + (fan * idx) / Math.max(total - 1, 1);
             } else {
               ang = -Math.PI / 2;
             }
-            const jitter = (layer >= 3) ? (idx % 2) * 8 : 0;
-            const r = baseR + jitter;
+            const r = (typeof kgEdgeLen === "function") ? kgEdgeLen(layer, total) : baseR;
             const off = polarOffset(ang, r);
             const x = px + off.dx;
             const y = py + off.dy;
@@ -11464,6 +11885,7 @@
 
           if (kgDrill.revealed) {
             const l2s = filterKgChildren(tree.children || []);
+            const edge2Global = kgEdgeLen(2, l2s.length);
             const sectorKeys = assignSectorKeySmart(l2s);
             const groups = { foundation: [], advanced: [], practice: [] };
             l2s.forEach((c, i) => {
@@ -11479,13 +11901,13 @@
               const sec = KG_SECTORS[key];
               const base = sectorAngleRad(key);
               const n = list.length;
-              const spread = sectorFanSpread(n);
+              const edge2 = edge2Global;
+              const spread = kgFanSpread(n, edge2, 26);
               list.forEach((entry, i) => {
                 const c = entry.node;
                 const ang = n === 1 ? base : base - spread / 2 + (spread * i) / Math.max(n - 1, 1);
-                // 百科同款更紧凑：半径约 148，扇内微错层
-                const ringBoost = key === "practice" ? -8 : 0;
-                const baseR = 148 + ringBoost + (i % 3) * 14;
+                // 同扇区同半径：边长统一，无错层 jitter
+                const baseR = edge2;
                 const off = polarOffset(ang, baseR);
                 const placed = {
                   x: hub.x + off.dx,
@@ -11526,6 +11948,7 @@
                 l2Node.tx = placed.x; l2Node.ty = placed.y;
                 l2Node.homeX = placed.x; l2Node.homeY = placed.y;
                 l2Node.ang = placed.ang; l2Node.r = placed.r;
+                l2Node._edgeLen = baseR;
                 if (l2Node._kept) {
                   l2Node.x = placed.x; l2Node.y = placed.y;
                 } else {
@@ -11538,24 +11961,32 @@
                   const l3All = filterKgChildren(c.children || []);
                   const l3s = l3All.slice(0, kgShowMoreL3 || l3All.length);
                   const n3 = l3s.length;
-                  // 百科：L3 挂在更大同心环上，绕父节点极角扇出（一对多弧线）
-                  const fan3 = Math.min(0.95, 0.20 * Math.max(n3, 1));
+                  // 相对父节点等长扇出：同父边长一致，扇角随节点数自适应
+                  const edge3 = kgEdgeLen(3, n3);
+                  const fan3 = kgFanSpread(n3, edge3, 18);
+                  const l2x = l2Node.homeX != null ? l2Node.homeX : l2Node.tx;
+                  const l2y = l2Node.homeY != null ? l2Node.homeY : l2Node.ty;
                   l3s.forEach((c3, j) => {
                     const ang3 = n3 === 1 ? l2Node.ang : l2Node.ang - fan3 / 2 + (fan3 * j) / Math.max(n3 - 1, 1);
-                    const r3 = l2Node.r + 96 + (j % 2) * 12;
-                    const off3 = polarOffset(ang3, r3);
-                    const x3 = hub.x + off3.dx;
-                    const y3 = hub.y + off3.dy;
-                    const p3 = pushFanAt(c3, l2Node.x, l2Node.y, x3, y3, ang3, r3, 3, j, n3, sec.color, key, sec.glow, l2Node.learnId);
+                    const off3 = polarOffset(ang3, edge3);
+                    const x3 = l2x + off3.dx;
+                    const y3 = l2y + off3.dy;
+                    const p3 = pushFanAt(c3, l2x, l2y, x3, y3, ang3, edge3, 3, j, n3, sec.color, key, sec.glow, l2Node.learnId);
+                    const l3Item = items[items.length - 1];
+                    if (l3Item) l3Item._edgeLen = edge3;
                     if (kgDrill.expandedL3 === c3.id && p3.hasKids) {
                       const l4s = filterKgChildren(c3.children || []);
                       const n4 = l4s.length;
-                      const fan4 = Math.min(0.75, 0.18 * Math.max(n4, 1));
+                      const edge4 = kgEdgeLen(4, n4);
+                      const fan4 = kgFanSpread(n4, edge4, 16);
                       l4s.forEach((c4, k) => {
                         const ang4 = n4 === 1 ? ang3 : ang3 - fan4 / 2 + (fan4 * k) / Math.max(n4 - 1, 1);
-                        const r4 = r3 + 72 + (k % 2) * 10;
-                        const off4 = polarOffset(ang4, r4);
-                        pushFanAt(c4, x3, y3, hub.x + off4.dx, hub.y + off4.dy, ang4, r4, 4, k, n4, sec.color, key, sec.glow, p3.learnId);
+                        const off4 = polarOffset(ang4, edge4);
+                        const x4 = x3 + off4.dx;
+                        const y4 = y3 + off4.dy;
+                        pushFanAt(c4, x3, y3, x4, y4, ang4, edge4, 4, k, n4, sec.color, key, sec.glow, p3.learnId);
+                        const l4Item = items[items.length - 1];
+                        if (l4Item) l4Item._edgeLen = edge4;
                       });
                     }
                   });

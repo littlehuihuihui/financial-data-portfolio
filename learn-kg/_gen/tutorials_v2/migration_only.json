@@ -1,0 +1,328 @@
+{
+  "migration_map": [
+    {
+      "old_id": "tutorial/join",
+      "new_id": "SQL.多表操作.JOIN"
+    },
+    {
+      "old_id": "tutorial/inner-join",
+      "new_id": "SQL.多表操作.JOIN"
+    },
+    {
+      "old_id": "tutorial/left-join",
+      "new_id": "SQL.多表操作.JOIN"
+    },
+    {
+      "old_id": "tutorial/subquery",
+      "new_id": "SQL.多表操作.子查询"
+    },
+    {
+      "old_id": "tutorial/union",
+      "new_id": "SQL.多表操作.UNION"
+    },
+    {
+      "old_id": "tutorial/select",
+      "new_id": "SQL.基础查询.SELECT"
+    },
+    {
+      "old_id": "tutorial/where",
+      "new_id": "SQL.基础查询.WHERE"
+    },
+    {
+      "old_id": "tutorial/order-by",
+      "new_id": "SQL.基础查询.ORDER BY"
+    },
+    {
+      "old_id": "tutorial/limit",
+      "new_id": "SQL.基础查询.LIMIT"
+    },
+    {
+      "old_id": "tutorial/group-by",
+      "new_id": "SQL.聚合分析.GROUP BY"
+    },
+    {
+      "old_id": "tutorial/having",
+      "new_id": "SQL.聚合分析.HAVING"
+    },
+    {
+      "old_id": "tutorial/window",
+      "new_id": "SQL.聚合分析.窗口函数"
+    },
+    {
+      "old_id": "tutorial/window-function",
+      "new_id": "SQL.聚合分析.窗口函数"
+    },
+    {
+      "old_id": "tutorial/ddl",
+      "new_id": "SQL.数据定义"
+    },
+    {
+      "old_id": "tutorial/create-table",
+      "new_id": "SQL.数据定义"
+    },
+    {
+      "old_id": "tutorial/index",
+      "new_id": "SQL.性能优化"
+    },
+    {
+      "old_id": "tutorial/explain",
+      "new_id": "SQL.性能优化"
+    },
+    {
+      "old_id": "tutorial/transaction",
+      "new_id": "SQL.事务与安全"
+    },
+    {
+      "old_id": "tutorial/lod",
+      "new_id": "BI.Tableau.计算.LOD.FIXED"
+    },
+    {
+      "old_id": "tutorial/lod-fixed",
+      "new_id": "BI.Tableau.计算.LOD.FIXED"
+    },
+    {
+      "old_id": "tutorial/lod-include",
+      "new_id": "BI.Tableau.计算.LOD.INCLUDE"
+    },
+    {
+      "old_id": "tutorial/lod-exclude",
+      "new_id": "BI.Tableau.计算.LOD.EXCLUDE"
+    },
+    {
+      "old_id": "tutorial/ring-chart",
+      "new_id": "BI.Tableau.图表制作.环形图"
+    },
+    {
+      "old_id": "tutorial/donut-chart",
+      "new_id": "BI.Tableau.图表制作.环形图"
+    },
+    {
+      "old_id": "tutorial/dual-axis",
+      "new_id": "BI.Tableau.图表制作.双轴组合图"
+    },
+    {
+      "old_id": "tutorial/bar-chart",
+      "new_id": "BI.Tableau.图表制作.柱状图"
+    },
+    {
+      "old_id": "tutorial/line-chart",
+      "new_id": "BI.Tableau.图表制作.折线图"
+    },
+    {
+      "old_id": "tutorial/pie-chart",
+      "new_id": "BI.Tableau.图表制作.饼图"
+    },
+    {
+      "old_id": "tutorial/heatmap",
+      "new_id": "BI.Tableau.图表制作.热力图"
+    },
+    {
+      "old_id": "tutorial/tableau-calc",
+      "new_id": "BI.Tableau.计算.基础计算"
+    },
+    {
+      "old_id": "tutorial/table-calc",
+      "new_id": "BI.Tableau.计算.表计算"
+    },
+    {
+      "old_id": "tutorial/tableau-dashboard",
+      "new_id": "BI.Tableau.仪表板"
+    },
+    {
+      "old_id": "tutorial/tableau-filter",
+      "new_id": "BI.Tableau.筛选与交互"
+    },
+    {
+      "old_id": "tutorial/tableau-performance",
+      "new_id": "BI.Tableau.性能优化"
+    },
+    {
+      "old_id": "tutorial/power-bi",
+      "new_id": "BI.Power BI"
+    },
+    {
+      "old_id": "tutorial/finebi",
+      "new_id": "BI.国产 BI"
+    },
+    {
+      "old_id": "sql-select",
+      "new_id": "SQL.基础查询.SELECT"
+    },
+    {
+      "old_id": "sql-L1-N1",
+      "new_id": "SQL.基础查询.SELECT"
+    },
+    {
+      "old_id": "sql-L1-N2",
+      "new_id": "SQL.基础查询.WHERE"
+    },
+    {
+      "old_id": "sql-L1-N3",
+      "new_id": "SQL.基础查询.ORDER BY"
+    },
+    {
+      "old_id": "sql-L1-N4",
+      "new_id": "SQL.基础查询.LIMIT"
+    },
+    {
+      "old_id": "sql-L2-N2",
+      "new_id": "SQL.聚合分析.GROUP BY"
+    },
+    {
+      "old_id": "sql-L2-N3",
+      "new_id": "SQL.聚合分析.HAVING"
+    },
+    {
+      "old_id": "sql-L3-N1",
+      "new_id": "SQL.多表操作.JOIN"
+    },
+    {
+      "old_id": "sql-L3-N5",
+      "new_id": "SQL.多表操作.子查询"
+    },
+    {
+      "old_id": "sql-L3-N7",
+      "new_id": "SQL.多表操作.UNION"
+    },
+    {
+      "old_id": "sql-L4-N1",
+      "new_id": "SQL.聚合分析.窗口函数"
+    },
+    {
+      "old_id": "sql-L4-N2",
+      "new_id": "SQL.聚合分析.窗口函数"
+    },
+    {
+      "old_id": "sql-inner-join",
+      "new_id": "SQL.多表操作.JOIN"
+    },
+    {
+      "old_id": "sql-left-join",
+      "new_id": "SQL.多表操作.JOIN"
+    },
+    {
+      "old_id": "sql-group-by",
+      "new_id": "SQL.聚合分析.GROUP BY"
+    },
+    {
+      "old_id": "sql-having",
+      "new_id": "SQL.聚合分析.HAVING"
+    },
+    {
+      "old_id": "sql-union",
+      "new_id": "SQL.多表操作.UNION"
+    },
+    {
+      "old_id": "sql-row-number",
+      "new_id": "SQL.聚合分析.窗口函数"
+    },
+    {
+      "old_id": "bi-tab-图表制作-环形图",
+      "new_id": "BI.Tableau.图表制作.环形图"
+    },
+    {
+      "old_id": "bi-tab-图表制作-双轴组合图-柱状-折线",
+      "new_id": "BI.Tableau.图表制作.双轴组合图"
+    },
+    {
+      "old_id": "bi-tab-图表制作-柱状图",
+      "new_id": "BI.Tableau.图表制作.柱状图"
+    },
+    {
+      "old_id": "bi-tab-图表制作-折线图",
+      "new_id": "BI.Tableau.图表制作.折线图"
+    },
+    {
+      "old_id": "bi-tab-图表制作-饼图",
+      "new_id": "BI.Tableau.图表制作.饼图"
+    },
+    {
+      "old_id": "bi-tab-图表制作-热力图",
+      "new_id": "BI.Tableau.图表制作.热力图"
+    },
+    {
+      "old_id": "bi-tab-LOD-表达式-FIXED",
+      "new_id": "BI.Tableau.计算.LOD.FIXED"
+    },
+    {
+      "old_id": "bi-tab-LOD-表达式-INCLUDE",
+      "new_id": "BI.Tableau.计算.LOD.INCLUDE"
+    },
+    {
+      "old_id": "bi-tab-LOD-表达式-EXCLUDE",
+      "new_id": "BI.Tableau.计算.LOD.EXCLUDE"
+    },
+    {
+      "old_id": "bi-tab-LOD-表达式-LOD-是什么",
+      "new_id": "BI.Tableau.计算.LOD.FIXED"
+    },
+    {
+      "old_id": "bi-tool-pbi",
+      "new_id": "BI.Power BI"
+    },
+    {
+      "old_id": "bi-tool-fine",
+      "new_id": "BI.国产 BI"
+    }
+  ],
+  "split_map": [
+    {
+      "old_id": "tutorial/join-complete-guide",
+      "new_ids": [
+        "SQL.多表操作.JOIN",
+        "SQL.多表操作.子查询",
+        "SQL.多表操作.UNION"
+      ],
+      "note": "旧「JOIN 完全指南」拆成多表操作三篇"
+    },
+    {
+      "old_id": "tutorial/sql-basics",
+      "new_ids": [
+        "SQL.基础查询.SELECT",
+        "SQL.基础查询.WHERE",
+        "SQL.基础查询.ORDER BY",
+        "SQL.基础查询.LIMIT"
+      ],
+      "note": "旧 SQL 基础合集拆成四篇"
+    },
+    {
+      "old_id": "tutorial/aggregation-guide",
+      "new_ids": [
+        "SQL.聚合分析.GROUP BY",
+        "SQL.聚合分析.HAVING",
+        "SQL.聚合分析.窗口函数"
+      ],
+      "note": "旧聚合指南拆成三篇"
+    },
+    {
+      "old_id": "tutorial/lod-complete-guide",
+      "new_ids": [
+        "BI.Tableau.计算.LOD.FIXED",
+        "BI.Tableau.计算.LOD.INCLUDE",
+        "BI.Tableau.计算.LOD.EXCLUDE"
+      ],
+      "note": "旧 LOD 长文拆成 FIXED/INCLUDE/EXCLUDE"
+    },
+    {
+      "old_id": "tutorial/tableau-charts-pack",
+      "new_ids": [
+        "BI.Tableau.图表制作.柱状图",
+        "BI.Tableau.图表制作.折线图",
+        "BI.Tableau.图表制作.饼图",
+        "BI.Tableau.图表制作.环形图",
+        "BI.Tableau.图表制作.双轴组合图",
+        "BI.Tableau.图表制作.热力图"
+      ],
+      "note": "旧图表合集拆成六篇单图教程"
+    },
+    {
+      "old_id": "sql-L3",
+      "new_ids": [
+        "SQL.多表操作.JOIN",
+        "SQL.多表操作.子查询",
+        "SQL.多表操作.UNION"
+      ],
+      "note": "旧 L3 多表层映射到新「多表操作」三叶"
+    }
+  ]
+}

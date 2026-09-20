@@ -1,0 +1,770 @@
+{
+  "id": "sql-root",
+  "title": "SQL",
+  "level": "?",
+  "content": "### SQL 学习知识图谱\n\n从零到进阶的 **7 层（L0–L6）** 结构化图谱，可驱动自适应学习。\n\n- **版本**：1.0\n- **节点**：47 · **边**：94\n- **路径**：零基础入门路径、数据分析路径、数据工程路径\n\n#### 怎么用\n\n1. 扇区展开后先点 **L0–L2** 打底，再进 **L3–L4** 多表与窗口\n2. 工程向走 **L5–L6**；分析向侧重 **L4** 与「数据分析师路径」\n3. 每个叶节点含：课前 · 要点 · 示例 · 易错 · 动手 · 掌握标准\n\n统一示例域：**employees / orders / products**。\n",
+  "children": [
+    {
+      "id": "sql-L0",
+      "title": "L0 环境与基础认知",
+      "level": "L0",
+      "content": "### 环境与基础认知 · 章节导读\n\n**学习目标**：知道 SQL 是什么、数据库类型、环境搭建、首条查询与示例数据\n\n**英文名**：Foundation\n\n**预计学时**：约 3 小时\n\n**解锁条件**：完成本层所有必修节点并通过测验\n\n**本章叶子**：SQL是什么 · 数据库类型 · 环境搭建 · 首条查询 · 示例数据模型\n\n\n关联路径：零基础入门路径、数据分析路径、数据工程路径\n\n\n点下方绿色叶节点进入各讲义；建议按列表顺序学习。\n",
+      "lessonParent": true,
+      "children": [
+        {
+          "id": "sql-L0-N1",
+          "title": "SQL是什么",
+          "level": "L0",
+          "content": "### 课前\n\n- **场景**：SQL（Structured Query Language）是与关系型数据库交互的标准语言，用于查询、写入与管理结构化数据。\n- **目标**：能区分 DDL/DML/DQL，并说明声明式查询的含义。\n- **难度**：1/5 · 约 25 分钟 · 类型 `concept`\n- **先修**：无（本层入口）\n- **相关**：数据库类型、首条查询\n\n### 是什么\n\n- SQL 面向集合，一次处理多行而非逐行循环\n- 声明式：描述要什么，而非怎么取\n- 常见操作分 DDL / DML / DQL / DCL\n- 学习路径以查询（DQL）为主，再扩展到建模与事务\n\n### 怎么写\n\n```sql\n-- 概念节点：先理解再写查询\nSELECT 'SQL is declarative' AS idea;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 把 SQL 当成过程式语言一行行循环写 | 对照本课要点纠正 |\n| 混淆 Excel 筛选与 SQL 集合运算 | 对照本课要点纠正 |\n\n### 动手\n\n用一句话说明 SQL 与命令式编程语言的核心区别。\n\n（建议练习题数量：2）\n\n### 掌握标准\n\n能区分 DDL/DML/DQL，并说明声明式查询的含义。\n\n### 方言差异\n\n标准由 ANSI/ISO 定义；各厂商（PostgreSQL、MySQL、SQL Server、SQLite）有方言扩展。\n\n### 标签\n\nfoundation, concept\n",
+          "children": [],
+          "kgRef": "L0.N1",
+          "difficulty": 1,
+          "estimated_minutes": 25,
+          "tags": [
+            "foundation",
+            "concept"
+          ]
+        },
+        {
+          "id": "sql-L0-N2",
+          "title": "数据库类型",
+          "level": "L0",
+          "content": "### 课前\n\n- **场景**：关系型数据库用表、行、列与键表达实体关系；本课程以 OLTP/OLAP 中的 SQL 数据库为主。\n- **目标**：能说明关系型数据库的表/键概念，并解释本课程为何用示例业务模型。\n- **难度**：1/5 · 约 30 分钟 · 类型 `concept`\n- **先修**：SQL是什么\n- **相关**：环境搭建、示例数据模型\n\n### 是什么\n\n- 关系型：表结构固定，强调一致性与 JOIN\n- NoSQL：文档/键值/图等，不替代 SQL 场景\n- 本课程示例库：employees / orders / products\n- 选型看事务、查询复杂度与一致性需求\n\n### 怎么写\n\n```sql\nSELECT 'relational' AS db_family, 'employees/orders/products' AS sample_domain;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 认为 NoSQL 一定比 SQL 更快 | 对照本课要点纠正 |\n| 把 Excel 工作簿直接等同于数据库 | 对照本课要点纠正 |\n\n### 动手\n\n列出关系型与文档型数据库各两个典型产品，并说明何时优先选关系型。\n\n（建议练习题数量：2）\n\n### 掌握标准\n\n能说明关系型数据库的表/键概念，并解释本课程为何用示例业务模型。\n\n### 方言差异\n\nPostgreSQL/MySQL 偏通用 OLTP；BigQuery/Snowflake 等偏分析，SQL 语法仍高度相似。\n\n### 标签\n\nfoundation, database\n",
+          "children": [],
+          "kgRef": "L0.N2",
+          "difficulty": 1,
+          "estimated_minutes": 30,
+          "tags": [
+            "foundation",
+            "database"
+          ]
+        },
+        {
+          "id": "sql-L0-N3",
+          "title": "环境搭建",
+          "level": "L0",
+          "content": "### 课前\n\n- **场景**：安装本地或云端数据库，配置客户端（psql、DBeaver、VS Code 插件等），确认能连接并执行语句。\n- **目标**：能独立安装或连接数据库，并在客户端成功执行简单查询。\n- **难度**：1/5 · 约 40 分钟 · 类型 `tool`\n- **先修**：SQL是什么\n- **相关**：首条查询、示例数据模型\n\n### 是什么\n\n- 准备 PostgreSQL/MySQL/SQLite 任一环境即可开练\n- 客户端需支持执行多语句与查看结果集\n- 建议固定一个 schema/database 存放示例表\n- 先跑通 SELECT 1 再导入示例数据\n\n### 怎么写\n\n```sql\nSELECT 1 AS connection_ok;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 端口/账号配错却只看 GUI 报错不读日志 | 对照本课要点纠正 |\n| 混用多个数据库连接导致表找不到 | 对照本课要点纠正 |\n\n### 动手\n\n完成一次数据库连接，并执行 SELECT 1 返回一行。\n\n（建议练习题数量：2）\n\n### 掌握标准\n\n能独立安装或连接数据库，并在客户端成功执行简单查询。\n\n### 方言差异\n\nSQLite 零配置适合入门；生产常用 PostgreSQL/MySQL。连接串与权限模型因方言而异。\n\n### 标签\n\ntooling, setup\n",
+          "children": [],
+          "kgRef": "L0.N3",
+          "difficulty": 1,
+          "estimated_minutes": 40,
+          "tags": [
+            "tooling",
+            "setup"
+          ]
+        },
+        {
+          "id": "sql-L0-N4",
+          "title": "首条查询",
+          "level": "L0",
+          "content": "### 课前\n\n- **场景**：写出第一条可执行查询：选择列、给结果起别名，并理解结果集是一张临时表。\n- **目标**：能独立写出带 FROM 与别名的 SELECT，并解释结果集含义。\n- **难度**：1/5 · 约 20 分钟 · 类型 `syntax`\n- **先修**：环境搭建、示例数据模型\n- **相关**：SELECT、SQL是什么\n\n### 是什么\n\n- SELECT 指定投影列，FROM 指定数据来源\n- 别名用 AS 提高可读性\n- 分号结束语句是常见约定\n- 先查通再加过滤与排序\n\n### 怎么写\n\n```sql\nSELECT employee_id, full_name AS name\nFROM employees\nLIMIT 5;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 忘记 FROM 子句就指望出结果 | 对照本课要点纠正 |\n| 列名拼写错误却不看报错信息 | 对照本课要点纠正 |\n\n### 动手\n\n查询 employees 表前 5 名员工的 employee_id 与 full_name。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能独立写出带 FROM 与别名的 SELECT，并解释结果集含义。\n\n### 方言差异\n\nLIMIT 在 PostgreSQL/MySQL/SQLite 通用；SQL Server 常用 TOP 或 OFFSET/FETCH。\n\n### 标签\n\nsyntax, select\n",
+          "children": [],
+          "kgRef": "L0.N4",
+          "difficulty": 1,
+          "estimated_minutes": 20,
+          "tags": [
+            "syntax",
+            "select"
+          ]
+        },
+        {
+          "id": "sql-L0-N5",
+          "title": "示例数据模型",
+          "level": "L0",
+          "content": "### 课前\n\n- **场景**：本图谱统一使用 employees（员工）、orders（订单）、products（商品）三表业务场景，贯穿后续练习。\n- **目标**：能默画出三表关系，并解释主键/外键在示例业务中的作用。\n- **难度**：2/5 · 约 35 分钟 · 类型 `concept`\n- **先修**：数据库类型\n- **相关**：首条查询、INNER JOIN、表设计与范式\n\n### 是什么\n\n- employees：员工主数据（部门、入职日、薪资）\n- products：商品与价格库存\n- orders：订单头，关联员工与商品\n- 主键/外键是 JOIN 与约束的基础\n\n### 怎么写\n\n```sql\nCREATE TABLE employees (\n  employee_id INT PRIMARY KEY,\n  full_name VARCHAR(100) NOT NULL,\n  department VARCHAR(50),\n  hire_date DATE,\n  salary NUMERIC(10,2)\n);\nCREATE TABLE products (\n  product_id INT PRIMARY KEY,\n  product_name VARCHAR(100) NOT NULL,\n  category VARCHAR(50),\n  unit_price NUMERIC(10,2),\n  stock_qty INT\n);\nCREATE TABLE orders (\n  order_id INT PRIMARY KEY,\n  employee_id INT REFERENCES employees(employee_id),\n  product_id INT REFERENCES products(product_id),\n  order_date DATE,\n  quantity INT,\n  amount NUMERIC(12,2)\n);\nINSERT INTO employees VALUES\n  (1,'Alice Chen','Sales','2021-03-01',9000),\n  (2,'Bob Li','Engineering','2020-07-15',12000),\n  (3,'Carol Wang','Sales','2022-01-10',8500);\nINSERT INTO products VALUES\n  (101,'Laptop Pro','Electronics',6999,50),\n  (102,'Office Chair','Furniture',899,120),\n  (103,'USB Hub','Electronics',129,300);\nINSERT INTO orders VALUES\n  (1001,1,101,'2024-01-05',2,13998),\n  (1002,1,103,'2024-01-08',5,645),\n  (1003,2,102,'2024-02-01',1,899),\n  (1004,3,101,'2024-02-11',1,6999);\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 不看外键关系就乱 JOIN | 对照本课要点纠正 |\n| 金额字段用浮点导致精度问题（应用 NUMERIC/DECIMAL） | 对照本课要点纠正 |\n\n### 动手\n\n根据三表画出 ER 关系，并写出创建 至少各插入一行的语句。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能默画出三表关系，并解释主键/外键在示例业务中的作用。\n\n### 方言差异\n\n类型名略有差异：PostgreSQL 用 NUMERIC；MySQL 常用 DECIMAL；SQLite 类型亲和较松。\n\n### 标签\n\nschema, sample-data\n",
+          "children": [],
+          "kgRef": "L0.N5",
+          "difficulty": 2,
+          "estimated_minutes": 35,
+          "tags": [
+            "schema",
+            "sample-data"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sql-L1",
+      "title": "L1 基础查询",
+      "level": "L1",
+      "content": "### 基础查询 · 章节导读\n\n**学习目标**：掌握 SELECT、WHERE、ORDER BY、LIMIT、计算列与注释\n\n**英文名**：Basic Query\n\n**预计学时**：约 6 小时\n\n**解锁条件**：完成本层所有必修节点并通过测验\n\n**本章叶子**：SELECT · WHERE · ORDER BY · LIMIT · 计算列 · 注释\n\n\n\n点下方绿色叶节点进入各讲义；建议按列表顺序学习。\n",
+      "lessonParent": true,
+      "children": [
+        {
+          "id": "sql-L1-N1",
+          "title": "SELECT",
+          "level": "L1",
+          "content": "### 课前\n\n- **场景**：SELECT 用于投影需要的列；可选取全部列、指定列、表达式与别名。\n- **目标**：能按需投影列并正确使用别名，解释 DISTINCT 作用范围。\n- **难度**：1/5 · 约 30 分钟 · 类型 `syntax`\n- **先修**：首条查询\n- **相关**：WHERE、计算列\n\n### 是什么\n\n- 避免生产环境滥用 SELECT *\n- 列顺序由 SELECT 列表决定\n- DISTINCT 去重基于整行投影结果\n- 别名只影响结果展示，不改表结构\n\n### 怎么写\n\n```sql\nSELECT employee_id, full_name, department\nFROM employees;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 无脑 SELECT * 导致带宽与耦合问题 | 对照本课要点纠正 |\n| 在别名未定义阶段就在 WHERE 中引用别名 | 对照本课要点纠正 |\n\n### 动手\n\n查询所有 Sales 部门员工的姓名与薪资（先写出 SELECT，过滤在下一节点完善）。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能按需投影列并正确使用别名，解释 DISTINCT 作用范围。\n\n### 方言差异\n\nSELECT * 行为各库一致；列别名大小写折叠规则因库而异。\n\n### 标签\n\nselect, projection\n",
+          "children": [],
+          "kgRef": "L1.N1",
+          "difficulty": 1,
+          "estimated_minutes": 30,
+          "tags": [
+            "select",
+            "projection"
+          ]
+        },
+        {
+          "id": "sql-L1-N2",
+          "title": "WHERE",
+          "level": "L1",
+          "content": "### 课前\n\n- **场景**：WHERE 在分组前按行过滤；支持比较、逻辑、IN、BETWEEN、LIKE 与 NULL 判断。\n- **目标**：能组合多条件过滤，并正确处理 NULL 与括号优先级。\n- **难度**：2/5 · 约 35 分钟 · 类型 `syntax`\n- **先修**：SELECT\n- **相关**：ORDER BY、HAVING\n\n### 是什么\n\n- WHERE 作用于行级条件，不能直接用聚合结果\n- NULL 比较用 IS NULL / IS NOT NULL\n- AND 优先级高于 OR，复杂条件建议加括号\n- 字符串匹配注意大小写与通配符\n\n### 怎么写\n\n```sql\nSELECT employee_id, full_name, salary\nFROM employees\nWHERE department = 'Sales' AND salary >= 8500;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 用 = NULL 判断空值 | 对照本课要点纠正 |\n| 把聚合条件写进 WHERE（应使用 HAVING） | 对照本课要点纠正 |\n\n### 动手\n\n查出 Electronics 类且单价不低于 100 的商品。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能组合多条件过滤，并正确处理 NULL 与括号优先级。\n\n### 方言差异\n\n字符串比较的排序规则（collation）影响大小写敏感性，MySQL 默认常不区分大小写。\n\n### 标签\n\nfilter, where\n",
+          "children": [],
+          "kgRef": "L1.N2",
+          "difficulty": 2,
+          "estimated_minutes": 35,
+          "tags": [
+            "filter",
+            "where"
+          ]
+        },
+        {
+          "id": "sql-L1-N3",
+          "title": "ORDER BY",
+          "level": "L1",
+          "content": "### 课前\n\n- **场景**：ORDER BY 对结果集排序；可多列、升序/降序，并可引用列位置或别名。\n- **目标**：能写出多列排序，并说明未排序时顺序不可依赖。\n- **难度**：2/5 · 约 25 分钟 · 类型 `syntax`\n- **先修**：SELECT\n- **相关**：LIMIT、WHERE\n\n### 是什么\n\n- 未 ORDER BY 时结果顺序不稳定\n- 多列排序按优先级从左到右\n- NULL 排序位置因方言而异\n- 大表排序可能触发磁盘临时文件\n\n### 怎么写\n\n```sql\nSELECT product_name, unit_price\nFROM products\nORDER BY unit_price DESC, product_name ASC;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 假设无 ORDER BY 时结果永远按插入顺序 | 对照本课要点纠正 |\n| 对超大结果无限制地全量排序 | 对照本课要点纠正 |\n\n### 动手\n\n按订单金额从高到低列出 orders，金额相同再按 order_date。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能写出多列排序，并说明未排序时顺序不可依赖。\n\n### 方言差异\n\nNULLS FIRST/LAST 在 PostgreSQL 支持较好；MySQL/SQLite 需用表达式模拟。\n\n### 标签\n\nsort, order-by\n",
+          "children": [],
+          "kgRef": "L1.N3",
+          "difficulty": 2,
+          "estimated_minutes": 25,
+          "tags": [
+            "sort",
+            "order-by"
+          ]
+        },
+        {
+          "id": "sql-L1-N4",
+          "title": "LIMIT",
+          "level": "L1",
+          "content": "### 课前\n\n- **场景**：LIMIT（或等价语法）限制返回行数，常与 ORDER BY 组合做 Top-N 与分页。\n- **目标**：能正确实现 Top-N，并知道分页语法的方言差异。\n- **难度**：2/5 · 约 20 分钟 · 类型 `syntax`\n- **先修**：ORDER BY\n- **相关**：SELECT、ROW_NUMBER\n\n### 是什么\n\n- Top-N 必须配合确定性 ORDER BY\n- 分页常用 LIMIT n OFFSET m\n- 深分页性能差，可改用键集分页\n- 不同方言分页语法不同\n\n### 怎么写\n\n```sql\nSELECT full_name, salary\nFROM employees\nORDER BY salary DESC\nLIMIT 3;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 只用 LIMIT 不做 ORDER BY 就宣称“最高薪” | 对照本课要点纠正 |\n| OFFSET 很大时性能急剧下降仍硬分页 | 对照本课要点纠正 |\n\n### 动手\n\n返回金额最高的 2 笔订单（含 order_id 与 amount）。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能正确实现 Top-N，并知道分页语法的方言差异。\n\n### 方言差异\n\nPostgreSQL/MySQL/SQLite: LIMIT/OFFSET；SQL Server: OFFSET/FETCH 或 TOP。\n\n### 标签\n\nlimit, pagination\n",
+          "children": [],
+          "kgRef": "L1.N4",
+          "difficulty": 2,
+          "estimated_minutes": 20,
+          "tags": [
+            "limit",
+            "pagination"
+          ]
+        },
+        {
+          "id": "sql-L1-N5",
+          "title": "计算列",
+          "level": "L1",
+          "content": "### 课前\n\n- **场景**：在 SELECT 中用表达式生成派生列，如金额计算、税率、拼接字段等。\n- **目标**：能用表达式生成业务派生列，并处理舍入与类型。\n- **难度**：2/5 · 约 30 分钟 · 类型 `skill`\n- **先修**：SELECT\n- **相关**：注释、CASE 与 Pivot/Unpivot\n\n### 是什么\n\n- 表达式结果类型由运算决定\n- 可用括号控制运算优先级\n- 派生列可再被外层查询引用\n- 注意整数除法截断问题\n\n### 怎么写\n\n```sql\nSELECT\n  order_id,\n  quantity,\n  amount,\n  ROUND(amount * 1.13, 2) AS amount_with_tax\nFROM orders;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 整数相除期望得到小数却得到截断结果 | 对照本课要点纠正 |\n| 把业务计算散落在多处且口径不一致 | 对照本课要点纠正 |\n\n### 动手\n\n为 products 增加一列折扣价 = unit_price * 0.9，保留两位小数。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能用表达式生成业务派生列，并处理舍入与类型。\n\n### 方言差异\n\nROUND 参数与银行家舍入行为因库而异；类型转换函数名也不同（CAST/CONVERT）。\n\n### 标签\n\nexpression, select\n",
+          "children": [],
+          "kgRef": "L1.N5",
+          "difficulty": 2,
+          "estimated_minutes": 30,
+          "tags": [
+            "expression",
+            "select"
+          ]
+        },
+        {
+          "id": "sql-L1-N6",
+          "title": "注释",
+          "level": "L1",
+          "content": "### 课前\n\n- **场景**：使用单行 -- 与块注释 /* */ 记录意图、口径与临时排查信息。\n- **目标**：能规范使用两种注释，并保持脚本可读。\n- **难度**：1/5 · 约 15 分钟 · 类型 `syntax`\n- **先修**：SELECT\n- **相关**：计算列\n\n### 是什么\n\n- 注释写清业务口径比写废话更重要\n- 提交前清理调试用注释与死代码\n- 不要在注释里放密钥\n- 块注释勿嵌套不当导致语法错误\n\n### 怎么写\n\n```sql\n-- 查询销售部高薪员工\nSELECT full_name, salary\nFROM employees\nWHERE department = 'Sales' /* 含海外销售 */;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 用注释掩盖错误逻辑而不修复 | 对照本课要点纠正 |\n| 块注释未闭合导致后续语句被吞掉 | 对照本课要点纠正 |\n\n### 动手\n\n给一条查询加上说明过滤口径的单行注释与块注释。\n\n（建议练习题数量：2）\n\n### 掌握标准\n\n能规范使用两种注释，并保持脚本可读。\n\n### 方言差异\n\n几乎所有方言支持 -- 与 /* */；部分工具对嵌套块注释支持不一致。\n\n### 标签\n\ncomments, style\n",
+          "children": [],
+          "kgRef": "L1.N6",
+          "difficulty": 1,
+          "estimated_minutes": 15,
+          "tags": [
+            "comments",
+            "style"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sql-L2",
+      "title": "L2 聚合与分组",
+      "level": "L2",
+      "content": "### 聚合与分组 · 章节导读\n\n**学习目标**：掌握 COUNT/SUM/AVG/MAX/MIN、GROUP BY、HAVING、执行顺序与 COUNT(DISTINCT)\n\n**英文名**：Aggregation\n\n**预计学时**：约 6 小时\n\n**解锁条件**：完成本层所有必修节点并通过测验\n\n**本章叶子**：聚合函数 · GROUP BY · HAVING · 执行顺序 · COUNT DISTINCT\n\n\n\n点下方绿色叶节点进入各讲义；建议按列表顺序学习。\n",
+      "lessonParent": true,
+      "children": [
+        {
+          "id": "sql-L2-N1",
+          "title": "聚合函数",
+          "level": "L2",
+          "content": "### 课前\n\n- **场景**：COUNT/SUM/AVG/MIN/MAX 将多行折叠为标量；常与 GROUP BY 联用。\n- **目标**：能正确选择聚合函数并解释 NULL 对计数与均值的影响。\n- **难度**：2/5 · 约 35 分钟 · 类型 `syntax`\n- **先修**：WHERE\n- **相关**：GROUP BY、COUNT DISTINCT\n\n### 是什么\n\n- COUNT(*) 计行，COUNT(col) 忽略 NULL\n- AVG 忽略 NULL，分母是非空个数\n- 无 GROUP BY 时整表视为一组\n- 聚合后不能直接回表取未分组明细列\n\n### 怎么写\n\n```sql\nSELECT\n  COUNT(*) AS order_cnt,\n  SUM(amount) AS total_amount,\n  AVG(amount) AS avg_amount\nFROM orders;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 误以为 COUNT(col) 与 COUNT(*) 总相同 | 对照本课要点纠正 |\n| 对已聚合结果再套错误嵌套导致语义混乱 | 对照本课要点纠正 |\n\n### 动手\n\n统计 orders 的订单数、总金额与平均金额。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能正确选择聚合函数并解释 NULL 对计数与均值的影响。\n\n### 方言差异\n\nFILTER (WHERE ...) 为 PostgreSQL 特性；其他库常用 CASE 模拟条件聚合。\n\n### 标签\n\naggregate, analytics\n",
+          "children": [],
+          "kgRef": "L2.N1",
+          "difficulty": 2,
+          "estimated_minutes": 35,
+          "tags": [
+            "aggregate",
+            "analytics"
+          ]
+        },
+        {
+          "id": "sql-L2-N2",
+          "title": "GROUP BY",
+          "level": "L2",
+          "content": "### 课前\n\n- **场景**：GROUP BY 按键分组后对每组做聚合；SELECT 中非聚合列必须出现在分组键中。\n- **目标**：能写出正确的多列分组，并解释“仅分组键+聚合”规则。\n- **难度**：3/5 · 约 40 分钟 · 类型 `syntax`\n- **先修**：聚合函数\n- **相关**：HAVING、执行顺序\n\n### 是什么\n\n- 分组键决定“一行代表什么”\n- 多列 GROUP BY 形成组合维度\n- 仅选择分组键与聚合结果\n- 可先 WHERE 缩小行集再分组\n\n### 怎么写\n\n```sql\nSELECT department, COUNT(*) AS emp_cnt, AVG(salary) AS avg_salary\nFROM employees\nGROUP BY department;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| SELECT 中出现既未分组又未聚合的列 | 对照本课要点纠正 |\n| 把明细需求硬写成一次 GROUP BY | 对照本课要点纠正 |\n\n### 动手\n\n按 category 统计 products 的商品数与平均单价。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能写出正确的多列分组，并解释“仅分组键+聚合”规则。\n\n### 方言差异\n\nMySQL 在非 ONLY_FULL_GROUP_BY 模式下可能放宽规则，但不可依赖。\n\n### 标签\n\ngroup-by, aggregate\n",
+          "children": [],
+          "kgRef": "L2.N2",
+          "difficulty": 3,
+          "estimated_minutes": 40,
+          "tags": [
+            "group-by",
+            "aggregate"
+          ]
+        },
+        {
+          "id": "sql-L2-N3",
+          "title": "HAVING",
+          "level": "L2",
+          "content": "### 课前\n\n- **场景**：HAVING 在分组与聚合之后过滤组；WHERE 不能直接引用聚合结果。\n- **目标**：能明确区分 WHERE 与 HAVING，并写出组级过滤。\n- **难度**：3/5 · 约 35 分钟 · 类型 `syntax`\n- **先修**：GROUP BY\n- **相关**：WHERE、执行顺序\n\n### 是什么\n\n- WHERE 滤行，HAVING 滤组\n- HAVING 可使用聚合表达式\n- 能下推到 WHERE 的条件优先放 WHERE\n- 与 GROUP BY 成对理解执行顺序\n\n### 怎么写\n\n```sql\nSELECT employee_id, SUM(amount) AS total_sales\nFROM orders\nGROUP BY employee_id\nHAVING SUM(amount) > 1000;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 在 WHERE 中写 SUM(amount) > 1000 | 对照本课要点纠正 |\n| 把本可预过滤的行条件塞进 HAVING | 对照本课要点纠正 |\n\n### 动手\n\n找出订单总金额超过 1000 的员工及其总销售额。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能明确区分 WHERE 与 HAVING，并写出组级过滤。\n\n### 方言差异\n\n语义标准一致；优化器是否重写 HAVING 为 WHERE 因引擎而异。\n\n### 标签\n\nhaving, aggregate\n",
+          "children": [],
+          "kgRef": "L2.N3",
+          "difficulty": 3,
+          "estimated_minutes": 35,
+          "tags": [
+            "having",
+            "aggregate"
+          ]
+        },
+        {
+          "id": "sql-L2-N4",
+          "title": "执行顺序",
+          "level": "L2",
+          "content": "### 课前\n\n- **场景**：理解 SQL 逻辑处理顺序有助于解释别名可见性与 WHERE/HAVING 差异。\n- **目标**：能按逻辑顺序逐步推演一条含分组与排序的查询。\n- **难度**：3/5 · 约 30 分钟 · 类型 `concept`\n- **先修**：GROUP BY、HAVING\n- **相关**：WHERE、窗口入门\n\n### 是什么\n\n- 常见逻辑顺序：FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT\n- 因此 SELECT 别名通常不能用于 WHERE\n- 窗口函数在 SELECT 列表阶段计算\n- 物理执行计划可能重排但语义等价\n\n### 怎么写\n\n```sql\n-- 演示：别名在 WHERE 不可用（应使用表达式或子查询）\nSELECT department, COUNT(*) AS cnt\nFROM employees\nWHERE salary >= 8000\nGROUP BY department\nHAVING COUNT(*) >= 1\nORDER BY cnt DESC;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 按书写顺序理解执行导致别名误用 | 对照本课要点纠正 |\n| 把物理计划与逻辑顺序完全等同 | 对照本课要点纠正 |\n\n### 动手\n\n解释为什么 WHERE 里不能写 SELECT 列表中的别名 cnt。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能按逻辑顺序逐步推演一条含分组与排序的查询。\n\n### 方言差异\n\n逻辑顺序是教学模型；各引擎优化器会改写，但必须保持结果语义。\n\n### 标签\n\nexecution-order, concept\n",
+          "children": [],
+          "kgRef": "L2.N4",
+          "difficulty": 3,
+          "estimated_minutes": 30,
+          "tags": [
+            "execution-order",
+            "concept"
+          ]
+        },
+        {
+          "id": "sql-L2-N5",
+          "title": "COUNT DISTINCT",
+          "level": "L2",
+          "content": "### 课前\n\n- **场景**：COUNT(DISTINCT col) 统计非空唯一值个数，常用于去重人数、去重商品数等指标。\n- **目标**：能正确使用 COUNT(DISTINCT)，并说明其代价与空值语义。\n- **难度**：3/5 · 约 25 分钟 · 类型 `skill`\n- **先修**：聚合函数\n- **相关**：GROUP BY、ROW_NUMBER\n\n### 是什么\n\n- NULL 不计入 DISTINCT 计数\n- 多列去重需用拼接或方言扩展\n- 大数据量时可能昂贵，注意性能\n- 可与 GROUP BY 组合做分维度去重\n\n### 怎么写\n\n```sql\nSELECT COUNT(DISTINCT employee_id) AS active_sellers\nFROM orders;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 用 COUNT(*) 误当去重人数 | 对照本课要点纠正 |\n| 忽略 NULL 对去重计数的影响 | 对照本课要点纠正 |\n\n### 动手\n\n统计下过单的去重员工数，以及每个 category 下的去重商品数。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能正确使用 COUNT(DISTINCT)，并说明其代价与空值语义。\n\n### 方言差异\n\nCOUNT(DISTINCT a, b) 在 MySQL 支持，在 PostgreSQL 需用其他写法。\n\n### 标签\n\ndistinct, aggregate\n",
+          "children": [],
+          "kgRef": "L2.N5",
+          "difficulty": 3,
+          "estimated_minutes": 25,
+          "tags": [
+            "distinct",
+            "aggregate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sql-L3",
+      "title": "L3 多表连接",
+      "level": "L3",
+      "content": "### 多表连接 · 章节导读\n\n**学习目标**：掌握 INNER/LEFT/RIGHT/FULL/CROSS JOIN、自连接、多表连接、子查询、EXISTS 与 UNION\n\n**英文名**：Multi-table\n\n**预计学时**：约 10 小时\n\n**解锁条件**：完成本层所有必修节点并通过测验\n\n**本章叶子**：INNER JOIN · LEFT JOIN · RIGHT/FULL/CROSS · 自连接与多表 · 子查询 · EXISTS · UNION · UNION ALL\n\n\n\n点下方绿色叶节点进入各讲义；建议按列表顺序学习。\n",
+      "lessonParent": true,
+      "children": [
+        {
+          "id": "sql-L3-N1",
+          "title": "INNER JOIN",
+          "level": "L3",
+          "content": "### 课前\n\n- **场景**：INNER JOIN 只返回两表匹配成功的行；是多表关联的默认首选。\n- **目标**：能正确写出多表 INNER JOIN，并识别一对多膨胀。\n- **难度**：3/5 · 约 40 分钟 · 类型 `syntax`\n- **先修**：WHERE、示例数据模型\n- **相关**：LEFT JOIN、自连接与多表\n\n### 是什么\n\n- 匹配键通常是主键-外键\n- 一对多会产生行膨胀\n- JOIN 条件写在 ON，过滤条件优先 WHERE\n- 多表 INNER JOIN 可链式连接\n\n### 怎么写\n\n```sql\nSELECT o.order_id, e.full_name, p.product_name, o.amount\nFROM orders o\nINNER JOIN employees e ON o.employee_id = e.employee_id\nINNER JOIN products p ON o.product_id = p.product_id;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 漏写 ON 条件导致笛卡尔积 | 对照本课要点纠正 |\n| 在 ON 中塞业务过滤导致语义难读 | 对照本课要点纠正 |\n\n### 动手\n\n列出每笔订单的员工姓名、商品名与金额。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能正确写出多表 INNER JOIN，并识别一对多膨胀。\n\n### 方言差异\n\nJOIN 与 INNER JOIN 等价；旧式逗号连接不推荐。\n\n### 标签\n\njoin, inner-join\n",
+          "children": [],
+          "kgRef": "L3.N1",
+          "difficulty": 3,
+          "estimated_minutes": 40,
+          "tags": [
+            "join",
+            "inner-join"
+          ]
+        },
+        {
+          "id": "sql-L3-N2",
+          "title": "LEFT JOIN",
+          "level": "L3",
+          "content": "### 课前\n\n- **场景**：LEFT JOIN 保留左表全部行，右表无匹配时填充 NULL；常用于“找出未匹配”场景。\n- **目标**：能用 LEFT JOIN + IS NULL 找差集，并避免把 LEFT 写成伪 INNER。\n- **难度**：3/5 · 约 40 分钟 · 类型 `syntax`\n- **先修**：INNER JOIN\n- **相关**：RIGHT/FULL/CROSS、INNER JOIN\n\n### 是什么\n\n- 左表驱动，右表可空\n- 对右表列 IS NULL 可找未关联实体\n- WHERE 过滤右表列可能把 LEFT 变成实质 INNER\n- 与 INNER 的核心差异是是否保留未匹配行\n\n### 怎么写\n\n```sql\nSELECT e.employee_id, e.full_name, o.order_id\nFROM employees e\nLEFT JOIN orders o ON e.employee_id = o.employee_id\nWHERE o.order_id IS NULL;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| LEFT JOIN 后又在 WHERE 写右表非空条件，意外丢掉未匹配行 | 对照本课要点纠正 |\n| 误以为 LEFT JOIN 一定比 INNER 慢或快 | 对照本课要点纠正 |\n\n### 动手\n\n找出从未下过单的员工。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能用 LEFT JOIN + IS NULL 找差集，并避免把 LEFT 写成伪 INNER。\n\n### 方言差异\n\nLEFT OUTER JOIN 与 LEFT JOIN 同义；各库均广泛支持。\n\n### 标签\n\njoin, left-join\n",
+          "children": [],
+          "kgRef": "L3.N2",
+          "difficulty": 3,
+          "estimated_minutes": 40,
+          "tags": [
+            "join",
+            "left-join"
+          ]
+        },
+        {
+          "id": "sql-L3-N3",
+          "title": "RIGHT/FULL/CROSS",
+          "level": "L3",
+          "content": "### 课前\n\n- **场景**：RIGHT JOIN 对称于 LEFT；FULL OUTER 保留两侧未匹配；CROSS JOIN 生成笛卡尔积。\n- **目标**：能区分 RIGHT/FULL/CROSS，并知道用 LEFT 改写 RIGHT。\n- **难度**：3/5 · 约 35 分钟 · 类型 `syntax`\n- **先修**：LEFT JOIN\n- **相关**：INNER JOIN、自连接与多表\n\n### 是什么\n\n- RIGHT 可用交换表顺序的 LEFT 改写\n- FULL OUTER 适合对账找双边差异\n- CROSS JOIN 行数=两边行数乘积，慎用\n- 明确业务再选择连接类型\n\n### 怎么写\n\n```sql\nSELECT e.full_name, p.product_name\nFROM employees e\nCROSS JOIN products p\nWHERE e.department = 'Sales'\nLIMIT 10;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 忘记 ON 条件误写出 CROSS | 对照本课要点纠正 |\n| 在不支持 FULL 的库硬写导致失败 | 对照本课要点纠正 |\n\n### 动手\n\n说明 CROSS JOIN 的结果行数如何计算，并举一个合法业务用例。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能区分 RIGHT/FULL/CROSS，并知道用 LEFT 改写 RIGHT。\n\n### 方言差异\n\nMySQL 传统上不支持 FULL OUTER JOIN，需用 UNION 模拟；PostgreSQL 完整支持。\n\n### 标签\n\njoin, cross-join\n",
+          "children": [],
+          "kgRef": "L3.N3",
+          "difficulty": 3,
+          "estimated_minutes": 35,
+          "tags": [
+            "join",
+            "cross-join"
+          ]
+        },
+        {
+          "id": "sql-L3-N4",
+          "title": "自连接与多表",
+          "level": "L3",
+          "content": "### 课前\n\n- **场景**：自连接把同一表别名成两份以比较行间关系；多表连接串联业务实体。\n- **目标**：能书写自连接与三表以上关联，并校验结果粒度。\n- **难度**：3/5 · 约 40 分钟 · 类型 `skill`\n- **先修**：INNER JOIN\n- **相关**：子查询、LEFT JOIN\n\n### 是什么\n\n- 自连接必须使用不同别名\n- 组织树/找同组同伴是经典场景\n- 多表连接注意中间表粒度\n- 先画关系再写 ON 条件\n\n### 怎么写\n\n```sql\nSELECT a.full_name AS employee, b.full_name AS colleague, a.department\nFROM employees a\nINNER JOIN employees b\n  ON a.department = b.department\n AND a.employee_id < b.employee_id;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 自连接忘记排除自己与自己匹配 | 对照本课要点纠正 |\n| 多表 JOIN 键接错导致静默错误结果 | 对照本课要点纠正 |\n\n### 动手\n\n列出同一部门内两两员工组合（不含自己与自己）。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能书写自连接与三表以上关联，并校验结果粒度。\n\n### 方言差异\n\n语法标准；深度递归层级更推荐递归 CTE（见 L4）。\n\n### 标签\n\nself-join, multi-join\n",
+          "children": [],
+          "kgRef": "L3.N4",
+          "difficulty": 3,
+          "estimated_minutes": 40,
+          "tags": [
+            "self-join",
+            "multi-join"
+          ]
+        },
+        {
+          "id": "sql-L3-N5",
+          "title": "子查询",
+          "level": "L3",
+          "content": "### 课前\n\n- **场景**：子查询可出现在 WHERE/FROM/SELECT；标量子查询、IN 子查询与派生表是常见形态。\n- **目标**：能编写非相关与相关子查询，并判断何时改为 JOIN/CTE。\n- **难度**：3/5 · 约 40 分钟 · 类型 `syntax`\n- **先修**：WHERE、聚合函数\n- **相关**：EXISTS、CTE\n\n### 是什么\n\n- 相关子查询依赖外层行，可能较慢\n- 派生表必须起别名（多数方言）\n- 能改写为 JOIN 时常更清晰\n- 注意单行/多行子查询运算符差异\n\n### 怎么写\n\n```sql\nSELECT full_name, salary\nFROM employees\nWHERE salary > (\n  SELECT AVG(salary) FROM employees\n);\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 标量子查询实际返回多行导致运行期错误 | 对照本课要点纠正 |\n| 过度嵌套子查询难以维护 | 对照本课要点纠正 |\n\n### 动手\n\n查出薪资高于全公司平均薪资的员工。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能编写非相关与相关子查询，并判断何时改为 JOIN/CTE。\n\n### 方言差异\n\n派生表别名在 MySQL/PostgreSQL 均为必须；SQL Server 同样要求。\n\n### 标签\n\nsubquery\n",
+          "children": [],
+          "kgRef": "L3.N5",
+          "difficulty": 3,
+          "estimated_minutes": 40,
+          "tags": [
+            "subquery"
+          ]
+        },
+        {
+          "id": "sql-L3-N6",
+          "title": "EXISTS",
+          "level": "L3",
+          "content": "### 课前\n\n- **场景**：EXISTS 判断子查询是否至少有一行；常用于半连接与“是否存在关联”判定。\n- **目标**：能用 EXISTS/NOT EXISTS 表达存在性，并对比 IN/LEFT JOIN。\n- **难度**：3/5 · 约 35 分钟 · 类型 `syntax`\n- **先修**：子查询\n- **相关**：LEFT JOIN、子查询\n\n### 是什么\n\n- EXISTS 只关心有无行，不关心返回列\n- NOT EXISTS 常用于反连接\n- 相比 IN，对 NULL 行为更直观\n- 相关 EXISTS 可被优化为半连接\n\n### 怎么写\n\n```sql\nSELECT e.employee_id, e.full_name\nFROM employees e\nWHERE EXISTS (\n  SELECT 1 FROM orders o\n  WHERE o.employee_id = e.employee_id\n    AND o.amount >= 1000\n);\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 在 EXISTS 子查询里做无必要的重计算 | 对照本课要点纠正 |\n| 用 IN + 含 NULL 的列表导致逻辑陷阱 | 对照本课要点纠正 |\n\n### 动手\n\n用 EXISTS 找出至少有一笔金额 ≥ 1000 订单的员工。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能用 EXISTS/NOT EXISTS 表达存在性，并对比 IN/LEFT JOIN。\n\n### 方言差异\n\n语义标准；优化器对 EXISTS vs IN 的选择因版本与统计信息而异。\n\n### 标签\n\nexists, semi-join\n",
+          "children": [],
+          "kgRef": "L3.N6",
+          "difficulty": 3,
+          "estimated_minutes": 35,
+          "tags": [
+            "exists",
+            "semi-join"
+          ]
+        },
+        {
+          "id": "sql-L3-N7",
+          "title": "UNION",
+          "level": "L3",
+          "content": "### 课前\n\n- **场景**：UNION 合并多个查询结果并去重；列数与类型需兼容，最终列名取自首个查询。\n- **目标**：能正确使用 UNION，并说明其去重语义与代价。\n- **难度**：3/5 · 约 30 分钟 · 类型 `syntax`\n- **先修**：SELECT\n- **相关**：UNION ALL、子查询\n\n### 是什么\n\n- UNION 隐含去重，成本高于 UNION ALL\n- 各分支列数必须一致\n- ORDER BY 通常放在最外层\n- 去重基于整行比较\n\n### 怎么写\n\n```sql\nSELECT full_name AS name, 'employee' AS source FROM employees\nUNION\nSELECT product_name, 'product' FROM products;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 不需要去重时仍用 UNION 造成额外排序/哈希 | 对照本课要点纠正 |\n| 各分支列类型不兼容 | 对照本课要点纠正 |\n\n### 动手\n\n把员工姓名与商品名称合并为一列 name，并标记来源（需去重）。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能正确使用 UNION，并说明其去重语义与代价。\n\n### 方言差异\n\n各库均支持；去重实现可能是排序或哈希。\n\n### 标签\n\nset-op, union\n",
+          "children": [],
+          "kgRef": "L3.N7",
+          "difficulty": 3,
+          "estimated_minutes": 30,
+          "tags": [
+            "set-op",
+            "union"
+          ]
+        },
+        {
+          "id": "sql-L3-N8",
+          "title": "UNION ALL",
+          "level": "L3",
+          "content": "### 课前\n\n- **场景**：UNION ALL 合并结果且保留重复行，通常比 UNION 更快，是日志拼接与分区合并的首选。\n- **目标**：能在合适场景选择 UNION ALL，并解释与 UNION 的差异。\n- **难度**：3/5 · 约 25 分钟 · 类型 `syntax`\n- **先修**：SELECT\n- **相关**：UNION、反模式\n\n### 是什么\n\n- 保留重复，不做隐式去重\n- 性能通常优于 UNION\n- 列数与类型兼容规则同 UNION\n- 需要去重时再显式 DISTINCT/聚合\n\n### 怎么写\n\n```sql\nSELECT employee_id, order_date, amount FROM orders WHERE order_date < '2024-02-01'\nUNION ALL\nSELECT employee_id, order_date, amount FROM orders WHERE order_date >= '2024-02-01';\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 误用 UNION ALL 却期望结果唯一 | 对照本课要点纠正 |\n| 分支过滤条件重叠导致重复计数未察觉 | 对照本课要点纠正 |\n\n### 动手\n\n合并两段日期范围的订单明细，允许重复行存在。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能在合适场景选择 UNION ALL，并解释与 UNION 的差异。\n\n### 方言差异\n\n标准支持广泛；与 UNION 的选择是正确性与性能的权衡。\n\n### 标签\n\nset-op, union-all\n",
+          "children": [],
+          "kgRef": "L3.N8",
+          "difficulty": 3,
+          "estimated_minutes": 25,
+          "tags": [
+            "set-op",
+            "union-all"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sql-L4",
+      "title": "L4 进阶查询",
+      "level": "L4",
+      "content": "### 进阶查询 · 章节导读\n\n**学习目标**：掌握窗口函数、CTE、递归 CTE、CASE、Pivot/Unpivot、日期/字符串函数与 NULL 处理\n\n**英文名**：Advanced Query\n\n**预计学时**：约 12 小时\n\n**解锁条件**：完成本层所有必修节点并通过测验\n\n**本章叶子**：窗口入门 · ROW_NUMBER · RANK · DENSE_RANK · CTE · 递归CTE · CASE 与 Pivot/Unpivot · NULL/日期/字符串函数\n\n\n\n点下方绿色叶节点进入各讲义；建议按列表顺序学习。\n",
+      "lessonParent": true,
+      "children": [
+        {
+          "id": "sql-L4-N1",
+          "title": "窗口入门",
+          "level": "L4",
+          "content": "### 课前\n\n- **场景**：窗口函数在保留明细行的同时计算分区内聚合/排序号；核心是 OVER(PARTITION BY ... ORDER BY ...)。\n- **目标**：能解释窗口与分组的区别，并写出基本 OVER 子句。\n- **难度**：4/5 · 约 40 分钟 · 类型 `concept`\n- **先修**：GROUP BY、INNER JOIN\n- **相关**：ROW_NUMBER、RANK、DENSE_RANK\n\n### 是什么\n\n- 窗口不折叠行，与 GROUP BY 不同\n- PARTITION BY 类似分组键\n- 帧子句控制聚合窗口范围\n- 常用于排名、累计、同比环比\n\n### 怎么写\n\n```sql\nSELECT\n  order_id,\n  employee_id,\n  amount,\n  SUM(amount) OVER (PARTITION BY employee_id) AS emp_total\nFROM orders;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 用 GROUP BY 硬做需要保留明细的排名 | 对照本课要点纠正 |\n| 忘记 ORDER BY 导致排名函数结果不稳定 | 对照本课要点纠正 |\n\n### 动手\n\n为每笔订单附加该员工的订单金额合计（保留明细行）。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能解释窗口与分组的区别，并写出基本 OVER 子句。\n\n### 方言差异\n\n窗口函数在现代 PostgreSQL/MySQL 8+/SQL Server/SQLite 3.25+ 均可用，帧默认可能不同。\n\n### 标签\n\nwindow, analytics\n",
+          "children": [],
+          "kgRef": "L4.N1",
+          "difficulty": 4,
+          "estimated_minutes": 40,
+          "tags": [
+            "window",
+            "analytics"
+          ]
+        },
+        {
+          "id": "sql-L4-N2",
+          "title": "ROW_NUMBER",
+          "level": "L4",
+          "content": "### 课前\n\n- **场景**：ROW_NUMBER 为分区内每行分配唯一序号，即使排序键相同也不重复。\n- **目标**：能用 ROW_NUMBER 做分组 Top-N，并说明其唯一编号特性。\n- **难度**：4/5 · 约 35 分钟 · 类型 `syntax`\n- **先修**：窗口入门\n- **相关**：RANK、DENSE_RANK、LIMIT\n\n### 是什么\n\n- 同名次也不共享号，序号严格唯一\n- 常用于去重保留一行、Top-N per group\n- 必须有明确 ORDER BY 才有业务意义\n- 与 RANK/DENSE_RANK 在并列时不同\n\n### 怎么写\n\n```sql\nSELECT employee_id, order_id, amount,\n       ROW_NUMBER() OVER (PARTITION BY employee_id ORDER BY amount DESC) AS rn\nFROM orders;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 用 ROW_NUMBER 却期望并列名次相同 | 对照本课要点纠正 |\n| ORDER BY 不稳定列导致每次 rn 变化 | 对照本课要点纠正 |\n\n### 动手\n\n取出每位员工金额最高的一笔订单。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能用 ROW_NUMBER 做分组 Top-N，并说明其唯一编号特性。\n\n### 方言差异\n\n语法高度一致；并行计划下仍需确定性 ORDER BY。\n\n### 标签\n\nwindow, row-number\n",
+          "children": [],
+          "kgRef": "L4.N2",
+          "difficulty": 4,
+          "estimated_minutes": 35,
+          "tags": [
+            "window",
+            "row-number"
+          ]
+        },
+        {
+          "id": "sql-L4-N3",
+          "title": "RANK",
+          "level": "L4",
+          "content": "### 课前\n\n- **场景**：RANK 允许并列，并列后会跳号（1,2,2,4）。\n- **目标**：能说出 RANK 的跳号规则，并在业务中正确选用。\n- **难度**：4/5 · 约 30 分钟 · 类型 `syntax`\n- **先修**：窗口入门\n- **相关**：ROW_NUMBER、DENSE_RANK\n\n### 是什么\n\n- 并列共享名次\n- 跳号：并列占用后续名次空位\n- 适合竞赛排名展示\n- 与 DENSE_RANK、ROW_NUMBER 对比记忆\n\n### 怎么写\n\n```sql\nSELECT product_name, unit_price,\n       RANK() OVER (ORDER BY unit_price DESC) AS price_rank\nFROM products;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 需要连续名次时误用 RANK | 对照本课要点纠正 |\n| 需要唯一行号时误用 RANK | 对照本课要点纠正 |\n\n### 动手\n\n按单价对商品做 RANK 排名，并指出若两件同价会发生什么。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能说出 RANK 的跳号规则，并在业务中正确选用。\n\n### 方言差异\n\n标准窗口函数；各主流库支持良好。\n\n### 标签\n\nwindow, rank\n",
+          "children": [],
+          "kgRef": "L4.N3",
+          "difficulty": 4,
+          "estimated_minutes": 30,
+          "tags": [
+            "window",
+            "rank"
+          ]
+        },
+        {
+          "id": "sql-L4-N4",
+          "title": "DENSE_RANK",
+          "level": "L4",
+          "content": "### 课前\n\n- **场景**：DENSE_RANK 允许并列且不跳号（1,2,2,3）。\n- **目标**：能区分 DENSE_RANK 与 RANK，并说明不跳号场景。\n- **难度**：4/5 · 约 30 分钟 · 类型 `syntax`\n- **先修**：窗口入门\n- **相关**：RANK、ROW_NUMBER\n\n### 是什么\n\n- 并列共享名次\n- 不跳号，名次连续\n- 适合需要连续等级的分档\n- 与 RANK 仅差在跳号与否\n\n### 怎么写\n\n```sql\nSELECT product_name, unit_price,\n       DENSE_RANK() OVER (ORDER BY unit_price DESC) AS dense_price_rank\nFROM products;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 把 DENSE_RANK 当成唯一行号 | 对照本课要点纠正 |\n| 与 RANK 混用导致报表口径不一致 | 对照本课要点纠正 |\n\n### 动手\n\n用 DENSE_RANK 按薪资给员工分档排名，对比 RANK 结果差异。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能区分 DENSE_RANK 与 RANK，并说明不跳号场景。\n\n### 方言差异\n\n标准支持；注意与业务“名次”口径对齐。\n\n### 标签\n\nwindow, dense-rank\n",
+          "children": [],
+          "kgRef": "L4.N4",
+          "difficulty": 4,
+          "estimated_minutes": 30,
+          "tags": [
+            "window",
+            "dense-rank"
+          ]
+        },
+        {
+          "id": "sql-L4-N5",
+          "title": "CTE",
+          "level": "L4",
+          "content": "### 课前\n\n- **场景**：WITH 子句定义命名临时结果集，提升可读性，便于分层计算与复用。\n- **目标**：能把多层子查询重构为清晰 CTE。\n- **难度**：4/5 · 约 35 分钟 · 类型 `syntax`\n- **先修**：子查询、GROUP BY\n- **相关**：递归CTE、子查询\n\n### 是什么\n\n- CTE 提高复杂查询可读性\n- 可在同一语句内引用多次（语义上）\n- 非递归 CTE 常可与子查询互换\n- 不要误以为 CTE 一定物化提速\n\n### 怎么写\n\n```sql\nWITH sales AS (\n  SELECT employee_id, SUM(amount) AS total_sales\n  FROM orders\n  GROUP BY employee_id\n)\nSELECT e.full_name, s.total_sales\nFROM sales s\nJOIN employees e ON e.employee_id = s.employee_id\nORDER BY s.total_sales DESC;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 把 CTE 当永久表反复假设其已存在 | 对照本课要点纠正 |\n| 过深 CTE 链反而难调试 | 对照本课要点纠正 |\n\n### 动手\n\n用 CTE 先汇总员工销售额，再关联姓名排序输出。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能把多层子查询重构为清晰 CTE。\n\n### 方言差异\n\nPostgreSQL/SQL Server/MySQL 8+/SQLite 均支持；物化提示（MATERIALIZED）因库而异。\n\n### 标签\n\ncte, with\n",
+          "children": [],
+          "kgRef": "L4.N5",
+          "difficulty": 4,
+          "estimated_minutes": 35,
+          "tags": [
+            "cte",
+            "with"
+          ]
+        },
+        {
+          "id": "sql-L4-N6",
+          "title": "递归CTE",
+          "level": "L4",
+          "content": "### 课前\n\n- **场景**：递归 CTE 由锚点成员与递归成员组成，适合树形结构、层级展开与序列生成。\n- **目标**：能写出带终止条件的递归 CTE，并解释锚点与递归成员。\n- **难度**：5/5 · 约 45 分钟 · 类型 `syntax`\n- **先修**：CTE\n- **相关**：CTE、自连接与多表\n\n### 是什么\n\n- 必须有终止条件避免无限递归\n- 锚点 + UNION ALL + 递归部分\n- 注意最大递归深度限制\n- 层级组织/账单拆分是典型场景\n\n### 怎么写\n\n```sql\nWITH RECURSIVE nums AS (\n  SELECT 1 AS n\n  UNION ALL\n  SELECT n + 1 FROM nums WHERE n < 5\n)\nSELECT n FROM nums;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 缺少 WHERE 终止条件导致引擎报错或挂起 | 对照本课要点纠正 |\n| 误用 UNION 去重影响递归语义 | 对照本课要点纠正 |\n\n### 动手\n\n用递归 CTE 生成 1 到 5 的整数序列。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能写出带终止条件的递归 CTE，并解释锚点与递归成员。\n\n### 方言差异\n\n语法为 WITH RECURSIVE；SQL Server 不写 RECURSIVE 关键字但支持递归 CTE。\n\n### 标签\n\ncte, recursive\n",
+          "children": [],
+          "kgRef": "L4.N6",
+          "difficulty": 5,
+          "estimated_minutes": 45,
+          "tags": [
+            "cte",
+            "recursive"
+          ]
+        },
+        {
+          "id": "sql-L4-N7",
+          "title": "CASE 与 Pivot/Unpivot",
+          "level": "L4",
+          "content": "### 课前\n\n- **场景**：CASE 做条件表达式与分档；配合条件聚合可实现行转列（Pivot），配合 UNION ALL / UNPIVOT 可实现列转行（Unpivot），统一在 employees/orders/products 上练习。\n- **目标**：能独立写出 CASE 条件聚合 Pivot，并用 UNION ALL/UNPIVOT 完成列转行，说明宽表与长表适用场景。\n- **难度**：3/5 · 约 30 分钟 · 类型 `syntax`\n- **先修**：计算列\n- **相关**：聚合函数、NULL/日期/字符串函数\n\n### 是什么\n\n- 简单 CASE 与搜索 CASE；分支结果类型需一致，缺省 ELSE 为 NULL\n- Pivot：用 SUM/COUNT(CASE WHEN ...) 把类别行展开为多列指标\n- Unpivot：用 UNION ALL 或 UNPIVOT 把多列指标折回长表\n- 透视前后注意粒度与空值：无匹配类别应显式补 0 或保留 NULL\n- 报表宽表适合展示，分析长表更适合 JOIN/窗口与复用\n\n### 怎么写\n\n```sql\n-- Pivot: 各部门订单金额按状态展开\nSELECT e.department,\n       SUM(CASE WHEN o.status = 'paid' THEN o.amount ELSE 0 END) AS paid_amt,\n       SUM(CASE WHEN o.status = 'refund' THEN o.amount ELSE 0 END) AS refund_amt\nFROM employees e\nJOIN orders o ON o.employee_id = e.employee_id\nGROUP BY e.department;\n\n-- Unpivot: 宽表折回长表\nSELECT product_id, 'q1' AS quarter, q1_sales AS sales FROM products\nUNION ALL\nSELECT product_id, 'q2', q2_sales FROM products;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| Pivot 忘记 ELSE 0，导致 SUM 出现 NULL | 对照本课要点纠正 |\n| 把筛选条件写在 WHERE 里却期望保留未命中类别的列 | 对照本课要点纠正 |\n| Unpivot 后未统一列类型/列名导致 UNION 失败 | 对照本课要点纠正 |\n\n### 动手\n\n基于 orders 按 department 做 status 透视；再把 products 的 q1_sales/q2_sales Unpivot 成长表。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能独立写出 CASE 条件聚合 Pivot，并用 UNION ALL/UNPIVOT 完成列转行，说明宽表与长表适用场景。\n\n### 方言差异\n\nSQL Server/Oracle 有 PIVOT/UNPIVOT 语法；PostgreSQL/MySQL 常用 CASE 聚合 + UNION ALL；BigQuery 有 PIVOT/UNPIVOT 扩展。\n\n### 标签\n\ncase, pivot, unpivot, conditional-aggregation\n",
+          "children": [],
+          "kgRef": "L4.N7",
+          "difficulty": 3,
+          "estimated_minutes": 30,
+          "tags": [
+            "case",
+            "pivot",
+            "unpivot",
+            "conditional-aggregation"
+          ]
+        },
+        {
+          "id": "sql-L4-N8",
+          "title": "NULL/日期/字符串函数",
+          "level": "L4",
+          "content": "### 课前\n\n- **场景**：掌握 COALESCE/NULLIF、日期加减截断、字符串拼接与截取，是清洗与报表的基础。\n- **目标**：能熟练处理 NULL、日期与字符串的常见转换。\n- **难度**：3/5 · 约 40 分钟 · 类型 `skill`\n- **先修**：WHERE、计算列\n- **相关**：CASE 与 Pivot/Unpivot、方言差异\n\n### 是什么\n\n- COALESCE 取首个非空\n- 日期函数用于统计周期对齐\n- 字符串函数注意字符集与长度单位\n- NULL 参与运算结果常为 NULL\n\n### 怎么写\n\n```sql\nSELECT\n  e.full_name,\n  COALESCE(e.department, 'Unknown') AS dept,\n  UPPER(p.category) AS category_code,\n  o.order_date,\n  CAST(o.order_date AS VARCHAR(10)) AS order_date_text\nFROM orders o\nJOIN employees e ON e.employee_id = o.employee_id\nJOIN products p ON p.product_id = o.product_id;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 用 '' 与 NULL 混用导致过滤遗漏 | 对照本课要点纠正 |\n| 跨库照搬日期函数名 | 对照本课要点纠正 |\n\n### 动手\n\n把 department 为空的员工显示为 Unknown，并输出其姓名大写形式。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能熟练处理 NULL、日期与字符串的常见转换。\n\n### 方言差异\n\n函数名差异大：PostgreSQL 用 || / DATE_TRUNC；MySQL 用 CONCAT / DATE_FORMAT；SQL Server 用 + / DATEADD。\n\n### 标签\n\nnull, date, string\n",
+          "children": [],
+          "kgRef": "L4.N8",
+          "difficulty": 3,
+          "estimated_minutes": 40,
+          "tags": [
+            "null",
+            "date",
+            "string"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sql-L5",
+      "title": "L5 数据库设计与性能",
+      "level": "L5",
+      "content": "### 数据库设计与性能 · 章节导读\n\n**学习目标**：掌握表设计与范式、索引与 EXPLAIN、事务锁与隔离、视图/存储过程、权限及数据变更对象\n\n**英文名**：Design & Performance\n\n**预计学时**：约 14 小时\n\n**解锁条件**：完成本层所有必修节点并通过测验\n\n**本章叶子**：表设计与范式 · 索引与EXPLAIN · 事务与锁 · 视图与存储过程 · 物化视图 · DELETE · TRUNCATE · DROP\n\n\n\n点下方绿色叶节点进入各讲义；建议按列表顺序学习。\n",
+      "lessonParent": true,
+      "children": [
+        {
+          "id": "sql-L5-N1",
+          "title": "表设计与范式",
+          "level": "L5",
+          "content": "### 课前\n\n- **场景**：围绕 employees/orders/products 做表设计与范式权衡：通过主键、外键、范式与合理冗余设计稳定的表结构，服务查询与一致性。\n- **目标**：能按范式评估表设计，并权衡冗余与查询性能。\n- **难度**：4/5 · 约 45 分钟 · 类型 `concept`\n- **先修**：示例数据模型\n- **相关**：索引与EXPLAIN、视图与存储过程\n\n### 是什么\n\n- 1NF/2NF/3NF 降低冗余与更新异常\n- 主键稳定、外键表达关系\n- 适度反范式服务分析查询\n- 约束比应用层校验更可靠\n\n### 怎么写\n\n```sql\nCREATE TABLE employees (\n  employee_id INT PRIMARY KEY,\n  full_name VARCHAR(100) NOT NULL,\n  department VARCHAR(50),\n  hire_date DATE NOT NULL,\n  salary NUMERIC(10,2) CHECK (salary > 0)\n);\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 无键表导致无法唯一定位行 | 对照本课要点纠正 |\n| 过度范式化导致分析查询过度 JOIN | 对照本课要点纠正 |\n\n### 动手\n\n为 orders 补充合理外键与非空约束，并说明是否需要冗余 product_name。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能按范式评估表设计，并权衡冗余与查询性能。\n\n### 方言差异\n\n约束语法大体标准；部分 MySQL 引擎对 CHECK 的强制程度因版本而异。\n\n### 标签\n\nddl, modeling\n",
+          "children": [],
+          "kgRef": "L5.N1",
+          "difficulty": 4,
+          "estimated_minutes": 45,
+          "tags": [
+            "ddl",
+            "modeling"
+          ]
+        },
+        {
+          "id": "sql-L5-N2",
+          "title": "索引与EXPLAIN",
+          "level": "L5",
+          "content": "### 课前\n\n- **场景**：索引加速查找与排序；用 EXPLAIN 观察访问路径，验证是否合理使用索引。\n- **目标**：能解释基础索引原理，并读懂简单执行计划要点。\n- **难度**：4/5 · 约 50 分钟 · 类型 `tool`\n- **先修**：INNER JOIN、WHERE\n- **相关**：事务与锁、反模式\n\n### 是什么\n\n- B-Tree 索引服务等值与范围查询\n- 最左前缀原则影响复合索引效用\n- EXPLAIN 看扫描类型、键与行估计\n- 索引不是越多越好，影响写入\n\n### 怎么写\n\n```sql\nCREATE INDEX idx_orders_employee ON orders(employee_id);\nEXPLAIN SELECT * FROM orders WHERE employee_id = 1;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 在低区分度列上盲目建索引 | 对照本课要点纠正 |\n| 看不懂 EXPLAIN 却大幅改 SQL | 对照本课要点纠正 |\n\n### 动手\n\n为 orders(employee_id) 建索引，并用 EXPLAIN 查看按员工过滤的计划。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能解释基础索引原理，并读懂简单执行计划要点。\n\n### 方言差异\n\nEXPLAIN 输出格式差异大：PostgreSQL 有 EXPLAIN ANALYZE；MySQL 为 EXPLAIN；SQL Server 多用实际执行计划。\n\n### 标签\n\nindex, explain\n",
+          "children": [],
+          "kgRef": "L5.N2",
+          "difficulty": 4,
+          "estimated_minutes": 50,
+          "tags": [
+            "index",
+            "explain"
+          ]
+        },
+        {
+          "id": "sql-L5-N3",
+          "title": "事务与锁",
+          "level": "L5",
+          "content": "### 课前\n\n- **场景**：事务以 ACID 保证一致性；隔离级别与锁机制决定并发异常与性能权衡。\n- **目标**：能说明 ACID 与常见隔离级别，并写出基本事务块。\n- **难度**：5/5 · 约 50 分钟 · 类型 `concept`\n- **先修**：表设计与范式\n- **相关**：DELETE、索引与EXPLAIN\n\n### 是什么\n\n- BEGIN/COMMIT/ROLLBACK 控制事务边界\n- 脏读/不可重复读/幻读与隔离级别相关\n- 长事务持锁易拖垮系统\n- 业务上保持事务短小\n\n### 怎么写\n\n```sql\nBEGIN;\nUPDATE products SET stock_qty = stock_qty - 1 WHERE product_id = 101;\nINSERT INTO orders(order_id, employee_id, product_id, order_date, quantity, amount)\nVALUES (1005, 1, 101, DATE '2024-03-01', 1, 6999);\nCOMMIT;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 在事务中做远程调用导致长事务 | 对照本课要点纠正 |\n| 误以为默认隔离级别能避免所有异常 | 对照本课要点纠正 |\n\n### 动手\n\n用一个事务完成扣减库存并写入订单，失败则回滚。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能说明 ACID 与常见隔离级别，并写出基本事务块。\n\n### 方言差异\n\n默认隔离级别不同：PostgreSQL 常用 Read Committed；MySQL InnoDB 亦然；SQL Server 历史默认偏 READ COMMITTED。\n\n### 标签\n\ntransaction, locking\n",
+          "children": [],
+          "kgRef": "L5.N3",
+          "difficulty": 5,
+          "estimated_minutes": 50,
+          "tags": [
+            "transaction",
+            "locking"
+          ]
+        },
+        {
+          "id": "sql-L5-N4",
+          "title": "视图与存储过程",
+          "level": "L5",
+          "content": "### 课前\n\n- **场景**：视图是保存的查询定义，用于封装逻辑与权限隔离；存储过程把多语句业务逻辑固化在库端。二者都常与 GRANT/REVOKE 权限模型一起使用。\n- **目标**：能解释视图与存储过程的适用边界，并写出带 GRANT 的视图权限封装示例。\n- **难度**：3/5 · 约 30 分钟 · 类型 `syntax`\n- **先修**：LEFT JOIN、GROUP BY\n- **相关**：物化视图、CTE\n\n### 是什么\n\n- 普通视图通常不存数据，查询时展开；可隐藏底层表并做列级权限封装\n- 存储过程适合事务型多步骤写入与固定批处理，但会增加耦合与迁移成本\n- 权限：GRANT/REVOKE 控制表/视图/过程的访问，最小权限原则\n- 复杂视图可能不可更新；过程要注意注入风险与参数校验\n- 与物化视图对比：是否持久化结果集、是否需要刷新策略\n\n### 怎么写\n\n```sql\n-- 视图：仅开放销售相关列\nCREATE VIEW v_order_summary AS\nSELECT o.order_id, e.department, o.amount, o.status\nFROM orders o\nJOIN employees e ON e.employee_id = o.employee_id;\n\nGRANT SELECT ON v_order_summary TO analyst_role;\n\n-- 存储过程（PostgreSQL 风格示意）\nCREATE PROCEDURE sp_mark_paid(p_order_id INT)\nLANGUAGE plpgsql\nAS $$\nBEGIN\n  UPDATE orders SET status = 'paid' WHERE order_id = p_order_id;\nEND;\n$$;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 把视图当成一定物化的缓存表 | 对照本课要点纠正 |\n| 在应用层与存储过程重复实现同一业务规则导致不一致 | 对照本课要点纠正 |\n| 直接把底层表权限授给所有人，而不是通过视图最小化暴露 | 对照本课要点纠正 |\n\n### 动手\n\n创建只暴露 department/amount 的订单视图，授予只读角色；再写一个将订单标为 paid 的过程草稿。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能解释视图与存储过程的适用边界，并写出带 GRANT 的视图权限封装示例。\n\n### 方言差异\n\nMySQL 用 CREATE PROCEDURE；SQL Server 用 T-SQL；PostgreSQL 常用 FUNCTION/PROCEDURE；权限对象与角色模型各方言细节不同。\n\n### 标签\n\nview, procedure, security, grant\n",
+          "children": [],
+          "kgRef": "L5.N4",
+          "difficulty": 3,
+          "estimated_minutes": 30,
+          "tags": [
+            "view",
+            "procedure",
+            "security",
+            "grant"
+          ]
+        },
+        {
+          "id": "sql-L5-N5",
+          "title": "物化视图",
+          "level": "L5",
+          "content": "### 课前\n\n- **场景**：物化视图持久化查询结果，通过刷新更新；适合昂贵聚合的加速，但有陈旧数据风险。\n- **目标**：能解释物化视图的刷新与一致性权衡。\n- **难度**：4/5 · 约 35 分钟 · 类型 `syntax`\n- **先修**：视图与存储过程、GROUP BY\n- **相关**：视图与存储过程、索引与EXPLAIN\n\n### 是什么\n\n- 结果真实落盘，读更快\n- 需要刷新策略（定时/按需）\n- 占用存储，存在数据延迟\n- 与普通视图是“实时定义 vs 快照结果”\n\n### 怎么写\n\n```sql\n-- PostgreSQL 示例\nCREATE MATERIALIZED VIEW mv_category_sales AS\nSELECT p.category, SUM(o.amount) AS total_amount\nFROM orders o\nJOIN products p ON p.product_id = o.product_id\nGROUP BY p.category;\nREFRESH MATERIALIZED VIEW mv_category_sales;\nSELECT * FROM mv_category_sales;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 不刷新却当实时报表使用 | 对照本课要点纠正 |\n| 在不支持的引擎照搬语法 | 对照本课要点纠正 |\n\n### 动手\n\n说明物化视图相对普通视图的两个优点与两个代价。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能解释物化视图的刷新与一致性权衡。\n\n### 方言差异\n\nPostgreSQL/Oracle 原生支持；MySQL 可用汇总表模拟；SQL Server 有索引视图近似。\n\n### 标签\n\nmaterialized-view, performance\n",
+          "children": [],
+          "kgRef": "L5.N5",
+          "difficulty": 4,
+          "estimated_minutes": 35,
+          "tags": [
+            "materialized-view",
+            "performance"
+          ]
+        },
+        {
+          "id": "sql-L5-N6",
+          "title": "DELETE",
+          "level": "L5",
+          "content": "### 课前\n\n- **场景**：DELETE 按条件删除行，可事务回滚（在支持事务的引擎中），可触发触发器与外键检查。\n- **目标**：能安全使用带条件的 DELETE，并理解其日志与回滚特性。\n- **难度**：3/5 · 约 25 分钟 · 类型 `syntax`\n- **先修**：事务与锁、WHERE\n- **相关**：TRUNCATE、DROP\n\n### 是什么\n\n- 务必带 WHERE，否则删全表\n- 可与事务结合，支持回滚\n- 受外键与触发器影响\n- 大批量删除可分批进行\n\n### 怎么写\n\n```sql\nBEGIN;\nDELETE FROM orders WHERE order_id = 1004;\n-- ROLLBACK;  -- 如需撤销\nCOMMIT;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 忘记 WHERE 删除全部数据 | 对照本课要点纠正 |\n| 在无备份情况下对生产直接 DELETE | 对照本课要点纠正 |\n\n### 动手\n\n删除 order_id = 1004 的订单，并说明如何在事务中回滚。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能安全使用带条件的 DELETE，并理解其日志与回滚特性。\n\n### 方言差异\n\n事务性 DELETE 依赖引擎；MyISAM 等非事务引擎行为不同。\n\n### 标签\n\ndml, delete\n",
+          "children": [],
+          "kgRef": "L5.N6",
+          "difficulty": 3,
+          "estimated_minutes": 25,
+          "tags": [
+            "dml",
+            "delete"
+          ]
+        },
+        {
+          "id": "sql-L5-N7",
+          "title": "TRUNCATE",
+          "level": "L5",
+          "content": "### 课前\n\n- **场景**：TRUNCATE 快速清空表数据，通常是 DDL 或特殊批量操作，多数情况下不可逐行回滚到删除前镜像。\n- **目标**：能说明 TRUNCATE 的适用场景与风险。\n- **难度**：3/5 · 约 25 分钟 · 类型 `syntax`\n- **先修**：DELETE\n- **相关**：DELETE、DROP\n\n### 是什么\n\n- 整表清空，速度快\n- 一般不能带 WHERE\n- 重置身份列/序列的行为因库而异\n- 与 DELETE 的日志与回滚语义不同\n\n### 怎么写\n\n```sql\n-- 慎用：清空整表\n-- TRUNCATE TABLE orders;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 把 TRUNCATE 当可条件删除 | 对照本课要点纠正 |\n| 在有外键引用时直接 TRUNCATE 失败却强行禁用约束 | 对照本课要点纠正 |\n\n### 动手\n\n对比 DELETE 全表与 TRUNCATE 在回滚与性能上的差异。\n\n（建议练习题数量：2）\n\n### 掌握标准\n\n能说明 TRUNCATE 的适用场景与风险。\n\n### 方言差异\n\nPostgreSQL 中 TRUNCATE 可事务回滚；MySQL 中行为与版本/引擎相关，需查阅文档。\n\n### 标签\n\nddl, truncate\n",
+          "children": [],
+          "kgRef": "L5.N7",
+          "difficulty": 3,
+          "estimated_minutes": 25,
+          "tags": [
+            "ddl",
+            "truncate"
+          ]
+        },
+        {
+          "id": "sql-L5-N8",
+          "title": "DROP",
+          "level": "L5",
+          "content": "### 课前\n\n- **场景**：DROP 删除数据库对象（表/视图/索引等）及其定义，数据与结构一并移除。\n- **目标**：能安全使用 DROP IF EXISTS，并评估依赖影响。\n- **难度**：3/5 · 约 20 分钟 · 类型 `syntax`\n- **先修**：表设计与范式\n- **相关**：TRUNCATE、DELETE\n\n### 是什么\n\n- 删除的是对象定义，不只是数据\n- 依赖对象可能导致级联或失败\n- 生产环境需权限与变更流程\n- 与 TRUNCATE/DELETE 目标层级不同\n\n### 怎么写\n\n```sql\n-- 慎用：删除表定义\n-- DROP TABLE IF EXISTS temp_orders;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| DROP 错表且无备份 | 对照本课要点纠正 |\n| 忽略依赖对象导致级联删除 | 对照本课要点纠正 |\n\n### 动手\n\n说明 DROP TABLE 与 TRUNCATE TABLE、DELETE 的本质区别。\n\n（建议练习题数量：2）\n\n### 掌握标准\n\n能安全使用 DROP IF EXISTS，并评估依赖影响。\n\n### 方言差异\n\nIF EXISTS 在现代库广泛支持；级联选项（CASCADE）语义需按方言确认。\n\n### 标签\n\nddl, drop\n",
+          "children": [],
+          "kgRef": "L5.N8",
+          "difficulty": 3,
+          "estimated_minutes": 20,
+          "tags": [
+            "ddl",
+            "drop"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sql-L6",
+      "title": "L6 实战与工程化",
+      "level": "L6",
+      "content": "### 实战与工程化 · 章节导读\n\n**学习目标**：掌握数据分析套路、面试高频题、SQL+Python/BI、版本迁移、方言差异与反模式\n\n**英文名**：Practice & Engineering\n\n**预计学时**：约 16 小时\n\n**解锁条件**：完成本层所有必修节点并通过测验\n\n**本章叶子**：分析套路 · 面试题 · SQL+Python · SQL+BI · 版本迁移 · 方言差异 · 反模式\n\n\n\n点下方绿色叶节点进入各讲义；建议按列表顺序学习。\n",
+      "lessonParent": true,
+      "children": [
+        {
+          "id": "sql-L6-N1",
+          "title": "分析套路",
+          "level": "L6",
+          "content": "### 课前\n\n- **场景**：沉淀漏斗、留存、复购、同比环比、RFM 等可复用 SQL 分析模板。\n- **目标**：能把业务指标拆成可测试的 SQL 步骤并复用模板。\n- **难度**：4/5 · 约 45 分钟 · 类型 `pattern`\n- **先修**：窗口入门、CTE\n- **相关**：SQL+BI、面试题\n\n### 是什么\n\n- 先定义指标口径再写 SQL\n- 用 CTE 拆解多步指标\n- 注意时间区与时区\n- 用窗口函数做序列分析\n\n### 怎么写\n\n```sql\nWITH monthly AS (\n  SELECT DATE_TRUNC('month', order_date) AS month, SUM(amount) AS revenue\n  FROM orders\n  GROUP BY 1\n)\nSELECT month, revenue,\n       LAG(revenue) OVER (ORDER BY month) AS prev_revenue\nFROM monthly;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 口径未对齐就对比多个报表 | 对照本课要点纠正 |\n| 忽略退单/取消状态导致虚高 | 对照本课要点纠正 |\n\n### 动手\n\n计算每月销售额及环比差额（可用示例日期）。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能把业务指标拆成可测试的 SQL 步骤并复用模板。\n\n### 方言差异\n\nDATE_TRUNC 为 PostgreSQL 风格；其他库用 DATE_FORMAT/DATETRUNC 等替代。\n\n### 标签\n\nanalytics, pattern\n",
+          "children": [],
+          "kgRef": "L6.N1",
+          "difficulty": 4,
+          "estimated_minutes": 45,
+          "tags": [
+            "analytics",
+            "pattern"
+          ]
+        },
+        {
+          "id": "sql-L6-N2",
+          "title": "面试题",
+          "level": "L6",
+          "content": "### 课前\n\n- **场景**：覆盖去重、连续登录、Top-N per group、缺口查找等高频 SQL 面试题型。\n- **目标**：能在限定时间内完成常见题型并解释复杂度。\n- **难度**：4/5 · 约 50 分钟 · 类型 `skill`\n- **先修**：ROW_NUMBER、EXISTS\n- **相关**：分析套路、反模式\n\n### 是什么\n\n- 先澄清输入输出与边界\n- 优先正确性，再谈优化\n- 窗口函数是面试高频工具\n- 能口述执行思路加分\n\n### 怎么写\n\n```sql\nSELECT employee_id, order_id, amount\nFROM (\n  SELECT employee_id, order_id, amount,\n         ROW_NUMBER() OVER (PARTITION BY employee_id ORDER BY amount DESC) AS rn\n  FROM orders\n) t\nWHERE rn <= 2;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 一上来写超长嵌套却说不清思路 | 对照本课要点纠正 |\n| 忽略并列名次等边界条件 | 对照本课要点纠正 |\n\n### 动手\n\n写出每位员工金额最高的两笔订单。\n\n（建议练习题数量：4）\n\n### 掌握标准\n\n能在限定时间内完成常见题型并解释复杂度。\n\n### 方言差异\n\n面试官可能限定某一方言，注意分页与日期函数差异。\n\n### 标签\n\ninterview, practice\n",
+          "children": [],
+          "kgRef": "L6.N2",
+          "difficulty": 4,
+          "estimated_minutes": 50,
+          "tags": [
+            "interview",
+            "practice"
+          ]
+        },
+        {
+          "id": "sql-L6-N3",
+          "title": "SQL+Python",
+          "level": "L6",
+          "content": "### 课前\n\n- **场景**：通过 DB-API/pandas/SQLAlchemy 在 Python 中参数化执行 SQL，完成取数与后处理。\n- **目标**：能说明 SQL 与 Python 的职责边界与安全取数方式。\n- **难度**：3/5 · 约 40 分钟 · 类型 `tool`\n- **先修**：GROUP BY、环境搭建\n- **相关**：SQL+BI、方言差异\n\n### 是什么\n\n- 永远使用参数化查询防注入\n- 大数据集注意分批拉取\n- 口径计算能在 SQL 完成的尽量下推\n- notebook 与脚本要分离凭证\n\n### 怎么写\n\n```sql\n-- 在 SQL 侧先聚合，再交给 Python\nSELECT employee_id, SUM(amount) AS total_sales\nFROM orders\nGROUP BY employee_id;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 字符串拼接 SQL 造成注入风险 | 对照本课要点纠正 |\n| 把全部明细拉到 Python 再聚合 | 对照本课要点纠正 |\n\n### 动手\n\n描述如何用参数化查询按 department 过滤 employees。\n\n（建议练习题数量：2）\n\n### 掌握标准\n\n能说明 SQL 与 Python 的职责边界与安全取数方式。\n\n### 方言差异\n\n驱动不同：psycopg/asyncpg、mysqlclient、pyodbc、sqlite3。\n\n### 标签\n\npython, integration\n",
+          "children": [],
+          "kgRef": "L6.N3",
+          "difficulty": 3,
+          "estimated_minutes": 40,
+          "tags": [
+            "python",
+            "integration"
+          ]
+        },
+        {
+          "id": "sql-L6-N4",
+          "title": "SQL+BI",
+          "level": "L6",
+          "content": "### 课前\n\n- **场景**：在 BI 工具中使用语义层/数据集 SQL，控制粒度、权限与可复用指标。\n- **目标**：能设计面向 BI 的稳定数据集与指标口径。\n- **难度**：3/5 · 约 35 分钟 · 类型 `tool`\n- **先修**：视图与存储过程、GROUP BY\n- **相关**：分析套路、SQL+Python\n\n### 是什么\n\n- 数据集粒度要稳定\n- 指标定义集中管理避免各看板不一致\n- 行级权限常靠视图或策略\n- 避免在 BI 中复制粘贴巨型 SQL\n\n### 怎么写\n\n```sql\nCREATE VIEW v_daily_sales AS\nSELECT order_date, SUM(amount) AS revenue, COUNT(*) AS orders_cnt\nFROM orders\nGROUP BY order_date;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 看板直接查超大事实表无聚合 | 对照本课要点纠正 |\n| 同一指标多个 SQL 口径漂移 | 对照本课要点纠正 |\n\n### 动手\n\n为 BI 准备日销售额视图，并说明粒度为“日”。\n\n（建议练习题数量：2）\n\n### 掌握标准\n\n能设计面向 BI 的稳定数据集与指标口径。\n\n### 方言差异\n\nLooker/Power BI/Metabase 等对 SQL 方言与参数语法支持不同。\n\n### 标签\n\nbi, semantic-layer\n",
+          "children": [],
+          "kgRef": "L6.N4",
+          "difficulty": 3,
+          "estimated_minutes": 35,
+          "tags": [
+            "bi",
+            "semantic-layer"
+          ]
+        },
+        {
+          "id": "sql-L6-N5",
+          "title": "版本迁移",
+          "level": "L6",
+          "content": "### 课前\n\n- **场景**：数据库与 SQL 版本升级时处理弃用语法、行为变更与兼容性验证。\n- **目标**：能制定基本的 SQL/数据库升级验证清单。\n- **难度**：4/5 · 约 40 分钟 · 类型 `skill`\n- **先修**：表设计与范式、环境搭建\n- **相关**：方言差异、索引与EXPLAIN\n\n### 是什么\n\n- 先读发行说明中的 breaking changes\n- 用回归查询对比关键指标\n- 预发环境演练迁移\n- 关注排序规则、时间函数与保留字\n\n### 怎么写\n\n```sql\n-- 兼容写法示例：显式 CAST，避免隐式转换依赖\nSELECT CAST(order_id AS VARCHAR(20)) AS order_id_text, amount\nFROM orders;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 生产直接升级无回滚方案 | 对照本课要点纠正 |\n| 依赖未文档化的隐式转换 | 对照本课要点纠正 |\n\n### 动手\n\n列出升级前至少三类需要回归验证的 SQL 行为。\n\n（建议练习题数量：2）\n\n### 掌握标准\n\n能制定基本的 SQL/数据库升级验证清单。\n\n### 方言差异\n\n大版本如 MySQL 5.7→8.0、PostgreSQL 主版本升级都有行为变更清单。\n\n### 标签\n\nmigration, ops\n",
+          "children": [],
+          "kgRef": "L6.N5",
+          "difficulty": 4,
+          "estimated_minutes": 40,
+          "tags": [
+            "migration",
+            "ops"
+          ]
+        },
+        {
+          "id": "sql-L6-N6",
+          "title": "方言差异",
+          "level": "L6",
+          "content": "### 课前\n\n- **场景**：掌握分页、字符串、日期、Upsert、布尔与限流等跨方言差异，写出更可移植的 SQL。\n- **目标**：能识别常见方言陷阱并选择可移植写法。\n- **难度**：3/5 · 约 35 分钟 · 类型 `concept`\n- **先修**：LIMIT、NULL/日期/字符串函数\n- **相关**：版本迁移、SQL+Python\n\n### 是什么\n\n- 分页：LIMIT vs OFFSET/FETCH vs TOP\n- 字符串拼接与正则函数名不同\n- Upsert：ON CONFLICT vs ON DUPLICATE KEY\n- 类型与布尔表示不同\n\n### 怎么写\n\n```sql\n-- 可移植分页思路：标准 OFFSET/FETCH（若目标库支持）\nSELECT full_name, salary\nFROM employees\nORDER BY salary DESC\nOFFSET 0 ROWS FETCH NEXT 3 ROWS ONLY;\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 把某一方言私有函数当标准 | 对照本课要点纠正 |\n| 迁移时只改连接串不改 SQL | 对照本课要点纠正 |\n\n### 动手\n\n写出至少三种方言下的 Top-3 员工薪资查询差异要点。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能识别常见方言陷阱并选择可移植写法。\n\n### 方言差异\n\n以 PostgreSQL/MySQL/SQL Server/SQLite 对照学习收益最高。\n\n### 标签\n\ndialect, portability\n",
+          "children": [],
+          "kgRef": "L6.N6",
+          "difficulty": 3,
+          "estimated_minutes": 35,
+          "tags": [
+            "dialect",
+            "portability"
+          ]
+        },
+        {
+          "id": "sql-L6-N7",
+          "title": "反模式",
+          "level": "L6",
+          "content": "### 课前\n\n- **场景**：识别并避免 SELECT *、隐式转换、相关子查询滥用、在循环中查库、错误使用 UNION 等反模式。\n- **目标**：能点名至少五种反模式并给出改写思路。\n- **难度**：4/5 · 约 40 分钟 · 类型 `pattern`\n- **先修**：索引与EXPLAIN、UNION\n- **相关**：面试题、UNION ALL\n\n### 是什么\n\n- SELECT * 与应用列耦合\n- 函数包住索引列导致无法用索引\n- N+1 查询应改为集合化 JOIN\n- 用代码循环替代集合运算\n\n### 怎么写\n\n```sql\n-- 反模式：对索引列包函数\n-- SELECT * FROM orders WHERE YEAR(order_date) = 2024;\n-- 改进：范围条件\nSELECT order_id, order_date, amount\nFROM orders\nWHERE order_date >= DATE '2024-01-01'\n  AND order_date < DATE '2025-01-01';\n```\n\n### 易错对照\n\n| 错法 / 误解 | 纠正方向 |\n|---|---|\n| 用 OR 拼接大量条件导致优化器放弃索引 | 对照本课要点纠正 |\n| 先查全表再在应用过滤 | 对照本课要点纠正 |\n\n### 动手\n\n改写一条对日期列使用 YEAR() 的过滤为可走索引的范围条件。\n\n（建议练习题数量：3）\n\n### 掌握标准\n\n能点名至少五种反模式并给出改写思路。\n\n### 方言差异\n\n反模式通用；具体执行计划表现仍取决于引擎与统计信息。\n\n### 标签\n\nantipattern, performance\n",
+          "children": [],
+          "kgRef": "L6.N7",
+          "difficulty": 4,
+          "estimated_minutes": 40,
+          "tags": [
+            "antipattern",
+            "performance"
+          ]
+        },
+        {
+          "id": "sql-paths",
+          "title": "学习路径",
+          "level": "L6",
+          "content": "### 学习路径\n\n三条自适应路径：零基础入门 · 数据分析师 · 后端工程师。点叶子查看完整节点序列。",
+          "lessonParent": true,
+          "children": [
+            {
+              "id": "sql-path-beginner",
+              "title": "零基础入门路径",
+              "level": "L6",
+              "content": "### 零基础入门路径\n\n- **path_id**：`beginner`\n- **预计天数**：14 天\n- **节点数**：24\n\n#### 推荐顺序\n\n1. SQL是什么（`sql-L0-N1`）\n2. 数据库类型（`sql-L0-N2`）\n3. 环境搭建（`sql-L0-N3`）\n4. 首条查询（`sql-L0-N4`）\n5. 示例数据模型（`sql-L0-N5`）\n6. SELECT（`sql-L1-N1`）\n7. WHERE（`sql-L1-N2`）\n8. ORDER BY（`sql-L1-N3`）\n9. LIMIT（`sql-L1-N4`）\n10. 计算列（`sql-L1-N5`）\n11. 注释（`sql-L1-N6`）\n12. 聚合函数（`sql-L2-N1`）\n13. GROUP BY（`sql-L2-N2`）\n14. HAVING（`sql-L2-N3`）\n15. 执行顺序（`sql-L2-N4`）\n16. COUNT DISTINCT（`sql-L2-N5`）\n17. INNER JOIN（`sql-L3-N1`）\n18. LEFT JOIN（`sql-L3-N2`）\n19. RIGHT/FULL/CROSS（`sql-L3-N3`）\n20. 自连接与多表（`sql-L3-N4`）\n21. 子查询（`sql-L3-N5`）\n22. EXISTS（`sql-L3-N6`）\n23. UNION（`sql-L3-N7`）\n24. UNION ALL（`sql-L3-N8`）\n",
+              "children": []
+            },
+            {
+              "id": "sql-path-analyst",
+              "title": "数据分析路径",
+              "level": "L6",
+              "content": "### 数据分析路径\n\n- **path_id**：`analyst`\n- **预计天数**：30 天\n- **节点数**：27\n\n#### 推荐顺序\n\n1. SELECT（`sql-L1-N1`）\n2. WHERE（`sql-L1-N2`）\n3. ORDER BY（`sql-L1-N3`）\n4. LIMIT（`sql-L1-N4`）\n5. 计算列（`sql-L1-N5`）\n6. 注释（`sql-L1-N6`）\n7. 聚合函数（`sql-L2-N1`）\n8. GROUP BY（`sql-L2-N2`）\n9. HAVING（`sql-L2-N3`）\n10. 执行顺序（`sql-L2-N4`）\n11. COUNT DISTINCT（`sql-L2-N5`）\n12. INNER JOIN（`sql-L3-N1`）\n13. LEFT JOIN（`sql-L3-N2`）\n14. RIGHT/FULL/CROSS（`sql-L3-N3`）\n15. 自连接与多表（`sql-L3-N4`）\n16. 子查询（`sql-L3-N5`）\n17. EXISTS（`sql-L3-N6`）\n18. UNION（`sql-L3-N7`）\n19. UNION ALL（`sql-L3-N8`）\n20. 窗口入门（`sql-L4-N1`）\n21. ROW_NUMBER（`sql-L4-N2`）\n22. RANK（`sql-L4-N3`）\n23. DENSE_RANK（`sql-L4-N4`）\n24. CTE（`sql-L4-N5`）\n25. 递归CTE（`sql-L4-N6`）\n26. CASE 与 Pivot/Unpivot（`sql-L4-N7`）\n27. NULL/日期/字符串函数（`sql-L4-N8`）\n",
+              "children": []
+            },
+            {
+              "id": "sql-path-engineer",
+              "title": "数据工程路径",
+              "level": "L6",
+              "content": "### 数据工程路径\n\n- **path_id**：`engineer`\n- **预计天数**：45 天\n- **节点数**：34\n\n#### 推荐顺序\n\n1. SELECT（`sql-L1-N1`）\n2. WHERE（`sql-L1-N2`）\n3. ORDER BY（`sql-L1-N3`）\n4. LIMIT（`sql-L1-N4`）\n5. 计算列（`sql-L1-N5`）\n6. 注释（`sql-L1-N6`）\n7. 聚合函数（`sql-L2-N1`）\n8. GROUP BY（`sql-L2-N2`）\n9. HAVING（`sql-L2-N3`）\n10. 执行顺序（`sql-L2-N4`）\n11. COUNT DISTINCT（`sql-L2-N5`）\n12. INNER JOIN（`sql-L3-N1`）\n13. LEFT JOIN（`sql-L3-N2`）\n14. RIGHT/FULL/CROSS（`sql-L3-N3`）\n15. 自连接与多表（`sql-L3-N4`）\n16. 子查询（`sql-L3-N5`）\n17. EXISTS（`sql-L3-N6`）\n18. UNION（`sql-L3-N7`）\n19. UNION ALL（`sql-L3-N8`）\n20. 表设计与范式（`sql-L5-N1`）\n21. 索引与EXPLAIN（`sql-L5-N2`）\n22. 事务与锁（`sql-L5-N3`）\n23. 视图与存储过程（`sql-L5-N4`）\n24. 物化视图（`sql-L5-N5`）\n25. DELETE（`sql-L5-N6`）\n26. TRUNCATE（`sql-L5-N7`）\n27. DROP（`sql-L5-N8`）\n28. 分析套路（`sql-L6-N1`）\n29. 面试题（`sql-L6-N2`）\n30. SQL+Python（`sql-L6-N3`）\n31. SQL+BI（`sql-L6-N4`）\n32. 版本迁移（`sql-L6-N5`）\n33. 方言差异（`sql-L6-N6`）\n34. 反模式（`sql-L6-N7`）\n",
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source": "sql_learning_kg",
+  "graph_meta": {
+    "name": "SQL Learning Knowledge Graph",
+    "version": "1.0",
+    "total_nodes": 47,
+    "total_edges": 94
+  }
+}

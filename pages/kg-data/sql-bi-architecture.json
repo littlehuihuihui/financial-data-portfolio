@@ -1,0 +1,6295 @@
+{
+  "domains": [
+    {
+      "domain_id": "BI",
+      "title": "BI",
+      "tree": {
+        "node_id": "BI",
+        "title": "BI",
+        "type": "domain",
+        "is_leaf": false,
+        "children": [
+          {
+            "node_id": "BI.Tableau",
+            "title": "Tableau",
+            "type": "tool",
+            "is_leaf": false,
+            "children": [
+              {
+                "node_id": "BI.Tableau.入门准备",
+                "title": "入门准备",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Tableau.入门准备.安装与账号",
+                    "title": "安装与账号",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.入门准备.安装与账号",
+                    "summary": "安装 Tableau 与账号体系",
+                    "difficulty": 1,
+                    "estimated_minutes": 20,
+                    "id": "BI-Tableau-入门准备-安装与账号",
+                    "level": "?",
+                    "content": "### 安装与账号\n\n**学习目标**：能完成 Desktop/Public 安装并登录\n\n### 概念\n\n- 区分 Public / Desktop / Cloud\n- 许可证与保存限制不同\n\n### 制作步骤（how_to_make）\n\n1. 下载对应版本\n2. 完成安装\n3. 登录账号\n4. 打开空白工作簿验证\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| Public 保存到本地文件期望私有分享 | Public 工作簿默认公开 |\n\n### 练习\n\n1. （难度 1）安装并截图开始界面\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.入门准备.界面介绍",
+                    "title": "界面介绍",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.入门准备.界面介绍",
+                    "summary": "认识工作区",
+                    "difficulty": 1,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-入门准备-界面介绍",
+                    "level": "?",
+                    "content": "### 界面介绍\n\n**学习目标**：能指认数据窗格、行列、标记卡、筛选器\n\n### 概念\n\n- 工作表/仪表板/故事\n- 蓝色维度绿色度量\n\n### 制作步骤（how_to_make）\n\n1. 打开 Superstore\n2. 点开数据窗格\n3. 拖字段到行/列/标记卡\n4. 说出四个区域用途\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 分不清工作表与仪表板 | 工作表出图，仪表板编排 |\n\n### 练习\n\n1. （难度 1）口头描述标记卡五个架子\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.入门准备.数据源连接",
+                    "title": "数据源连接",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.入门准备.数据源连接",
+                    "summary": "连接文件与库",
+                    "difficulty": 1,
+                    "estimated_minutes": 20,
+                    "id": "BI-Tableau-入门准备-数据源连接",
+                    "level": "?",
+                    "content": "### 数据源连接\n\n**学习目标**：能连接 Excel/CSV 并进入工作表\n\n### 概念\n\n- 连接→画布→工作表\n- 实时 vs 提取入口\n\n### 制作步骤（how_to_make）\n\n1. 选连接器\n2. 选文件/库\n3. 拖表到画布\n4. 进入工作表\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 编码错误导致乱码 | 检查 CSV 编码 |\n\n### 练习\n\n1. （难度 1）连接 Superstore 并打开一张工作表\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Tableau-入门准备",
+                "level": "?",
+                "content": "### 入门准备\n\n装好工具、认界面、连上数据。\n\n**本模块知识点**：安装与账号 · 界面介绍 · 数据源连接\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Tableau.数据准备",
+                "title": "数据准备",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Tableau.数据准备.维度 vs 度量",
+                    "title": "维度 vs 度量",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.数据准备.维度 vs 度量",
+                    "summary": "字段角色",
+                    "difficulty": 1,
+                    "estimated_minutes": 20,
+                    "id": "BI-Tableau-数据准备-维度-vs-度量",
+                    "level": "?",
+                    "content": "### 维度 vs 度量\n\n**学习目标**：能正确设置维度/度量角色\n\n### 概念\n\n- 维度切片\n- 度量聚合\n- ID 不应求和\n\n### 制作步骤（how_to_make）\n\n1. 检查默认角色\n2. 纠正误判字段\n3. 设默认聚合\n4. 用柱状图验证\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 对 Order ID 求和 | 应改为维度或 COUNTD |\n\n### 练习\n\n1. （难度 1）列出 5 个易混字段并纠正\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.数据准备.数据类型",
+                    "title": "数据类型",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.数据准备.数据类型",
+                    "summary": "类型与转换",
+                    "difficulty": 2,
+                    "estimated_minutes": 20,
+                    "id": "BI-Tableau-数据准备-数据类型",
+                    "level": "??",
+                    "content": "### 数据类型\n\n**学习目标**：会改日期/数字/字符串类型\n\n### 概念\n\n- 类型影响聚合与轴\n- 日期层次依赖日期类型\n\n### 制作步骤（how_to_make）\n\n1. 检查数据类型图标\n2. 右键更改类型\n3. 验证解析失败行\n4. 再出图\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 日期当字符串 | 无法连续轴与同环比 |\n\n### 练习\n\n1. （难度 2）把错误字符串日期改成日期类型\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.数据准备.提取 vs 实时",
+                    "title": "提取 vs 实时",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.数据准备.提取 vs 实时",
+                    "summary": "连接策略",
+                    "difficulty": 2,
+                    "estimated_minutes": 20,
+                    "id": "BI-Tableau-数据准备-提取-vs-实时",
+                    "level": "??",
+                    "content": "### 提取 vs 实时\n\n**学习目标**：能为场景选择 Extract 或 Live\n\n### 概念\n\n- Extract 快有延迟\n- Live 新鲜吃源\n\n### 制作步骤（how_to_make）\n\n1. 评估时效与源压力\n2. 默认提取\n3. 配置刷新\n4. 监控失败\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 全家 Live 打挂源库 | 认证看板优先提取 |\n\n### 练习\n\n1. （难度 2）为日报与实时大屏分别选型并说明\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Tableau-数据准备",
+                "level": "??",
+                "content": "### 数据准备\n\n字段角色、类型与连接策略。\n\n**本模块知识点**：维度 vs 度量 · 数据类型 · 提取 vs 实时\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Tableau.图表制作",
+                "title": "图表制作",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Tableau.图表制作.柱状图",
+                    "title": "柱状图",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.图表制作.柱状图",
+                    "summary": "类别对比",
+                    "difficulty": 1,
+                    "estimated_minutes": 20,
+                    "id": "BI-Tableau-图表制作-柱状图",
+                    "level": "?",
+                    "content": "### 柱状图\n\n**学习目标**：学完能做出标准对比柱状图\n\n### 概念\n\n- 柱高编码数值\n- 适合类别对比\n\n### 制作步骤（how_to_make）\n\n1. 列放维度\n2. 行放度量\n3. 标记卡选条形\n4. 按需排序\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 类别过多柱子过细 | 合并其他或改条形横排 |\n| 用柱状硬画长趋势 | 长时间序列优先折线 |\n\n### 练习\n\n1. （难度 2）用 Superstore 做各区域销售额柱状图并降序\n\n### 相关\n\n- 相关：折线图\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.图表制作.折线图",
+                    "title": "折线图",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.图表制作.折线图",
+                    "summary": "趋势",
+                    "difficulty": 1,
+                    "estimated_minutes": 20,
+                    "id": "BI-Tableau-图表制作-折线图",
+                    "level": "?",
+                    "content": "### 折线图\n\n**学习目标**：学完能做标准趋势折线\n\n### 概念\n\n- 线连接有序点\n- 适合趋势与拐点\n\n### 制作步骤（how_to_make）\n\n1. 日期拖入列并设为连续\n2. 度量拖入行\n3. 标记选线\n4. 检查空值断点\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 日期当离散导致杂乱 | 改为连续日期 |\n\n### 练习\n\n1. （难度 2）做月度销售额折线\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.图表制作.饼图",
+                    "title": "饼图",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.图表制作.饼图",
+                    "summary": "结构占比",
+                    "difficulty": 1,
+                    "estimated_minutes": 20,
+                    "id": "BI-Tableau-图表制作-饼图",
+                    "level": "?",
+                    "content": "### 饼图\n\n**学习目标**：学完能做可读饼图\n\n### 概念\n\n- 角度编码占比\n- 不宜过多切片\n\n### 制作步骤（how_to_make）\n\n1. 标记选饼图\n2. 颜色放维度\n3. 角度放度量\n4. 切片≤5 并标注百分比\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 切片过多 | 合并为其他或改条形 |\n\n### 练习\n\n1. （难度 2）做各区域销售占比饼图\n\n### 相关\n\n- 下一课：环形图\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.图表制作.环形图",
+                    "title": "环形图",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.图表制作.环形图",
+                    "summary": "镂空饼图",
+                    "difficulty": 3,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-图表制作-环形图",
+                    "level": "??",
+                    "content": "### 环形图\n\n**学习目标**：学完你能在 Tableau 里做出标准环形图\n\n### 概念\n\n- 环形图是饼图变体，中间镂空\n- 核心是双轴叠两个饼，内圈白色遮盖\n\n### 制作步骤（how_to_make）\n\n1. 先做饼图：标记选饼图，颜色放维度，角度放度量\n2. 记录数拖入行两次，都改为最小值\n3. 右键第二个记录数选双轴\n4. 内圈标记卡删除颜色/角度，大小调小，颜色设白色\n5. 调整轴范围让两饼同心\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 两个饼图不同心 | 需要手动调整/同步轴范围 |\n\n### 练习\n\n1. （难度 2）用 Superstore 做各品类销售占比环形图\n\n### 相关\n\n- 前置：饼图\n- 相关：双轴组合图\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.图表制作.双轴组合图",
+                    "title": "双轴组合图",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.图表制作.双轴组合图",
+                    "summary": "柱线组合",
+                    "difficulty": 3,
+                    "estimated_minutes": 30,
+                    "id": "BI-Tableau-图表制作-双轴组合图",
+                    "level": "??",
+                    "content": "### 双轴组合图\n\n**学习目标**：学完能做柱线双轴组合图\n\n### 概念\n\n- 双轴=两层标记卡\n- 可同步或独立轴\n\n### 制作步骤（how_to_make）\n\n1. 日期拖入列（连续）\n2. 销售额拖入行\n3. 利润拖入行\n4. 右键利润选双轴\n5. 左侧标记卡将利润改为条形，右侧保持线\n6. 量纲相近时右键轴选同步轴\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 量纲差巨大却强行同步轴 | 不同步并标注单位 |\n| 改错标记卡 | 分别设置左右标记卡 |\n\n### 练习\n\n1. （难度 2）做月度销售额柱 + 利润率线\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.图表制作.热力图",
+                    "title": "热力图",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.图表制作.热力图",
+                    "summary": "二维强度",
+                    "difficulty": 2,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-图表制作-热力图",
+                    "level": "??",
+                    "content": "### 热力图\n\n**学习目标**：学完能做交叉热力图\n\n### 概念\n\n- 适合密度与交叉强弱\n\n### 制作步骤（how_to_make）\n\n1. 行维放行、列维放列\n2. 度量放颜色\n3. 标记选方形\n4. 调整色阶\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 极值洗白色阶 | 限色域或对数变换 |\n\n### 练习\n\n1. （难度 2）做 Region×Category 的 Sales 热力\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Tableau-图表制作",
+                "level": "??",
+                "content": "### 图表制作\n\n从基础图到组合图：会做、会选、会避坑。\n\n**本模块知识点**：柱状图 · 折线图 · 饼图 · 环形图 · 双轴组合图 · 热力图\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Tableau.计算",
+                "title": "计算",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Tableau.计算.基础计算",
+                    "title": "基础计算",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.计算.基础计算",
+                    "summary": "行级与聚合计算字段",
+                    "difficulty": 2,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-计算-基础计算",
+                    "level": "??",
+                    "content": "### 基础计算\n\n**学习目标**：会创建基础计算字段\n\n### 概念\n\n- 计算字段封装逻辑\n- 注意聚合级别\n\n### 制作步骤（how_to_make）\n\n1. 分析→创建计算字段\n2. 写 IF/算术\n3. 拖入视图验证\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 行级与聚合混用报错 | 统一粒度或用 LOD |\n\n### 练习\n\n1. （难度 2）写「高价值订单」IF 字段\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.计算.表计算",
+                    "title": "表计算",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.计算.表计算",
+                    "summary": "二次计算",
+                    "difficulty": 2,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-计算-表计算",
+                    "level": "??",
+                    "content": "### 表计算\n\n**学习目标**：会用占比/排名等快速表计算\n\n### 概念\n\n- 表计算基于当前分区结果\n- 计算依据很关键\n\n### 制作步骤（how_to_make）\n\n1. 出基础图\n2. 快速表计算\n3. 设置计算依据\n4. 核对\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 计算依据选错 | 排名会乱 |\n\n### 练习\n\n1. （难度 2）做区域销售额占比标签\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.计算.LOD",
+                    "title": "LOD",
+                    "type": "concept_group",
+                    "is_leaf": false,
+                    "children": [
+                      {
+                        "node_id": "BI.Tableau.计算.LOD.FIXED",
+                        "title": "FIXED",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.Tableau.计算.LOD.FIXED",
+                        "summary": "固定维度聚合，忽略视图其它维",
+                        "difficulty": 4,
+                        "estimated_minutes": 35,
+                        "id": "BI-Tableau-计算-LOD-FIXED",
+                        "level": "???",
+                        "content": "### FIXED\n\n**学习目标**：能写 FIXED 并解释与筛选器关系\n\n### 概念\n\n- FIXED 固定到声明维度计算\n- 常用于客户总额、区域总额等分母锁定\n\n### 语法\n\n```\n{ FIXED [维度] : 聚合([度量]) }\n```\n\n### 场景\n\n每个客户的总销售额（在订单明细行旁显示）\n\n### 制作步骤（how_to_make）\n\n1. 创建计算字段\n2. 输入 { FIXED [Customer Name] : SUM([Sales]) }\n3. 拖到视图验证不随无关维变化\n4. 分别用普通筛选与上下文筛选测试\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 忽略普通筛选器 | FIXED 通常不受普通维度筛选影响，需上下文筛选或改写法 |\n| 固定维选错变成全局一个数 | 检查 FIXED 列表是否为空或过粗 |\n\n### 练习\n\n1. （难度 3）用 FIXED 计算每个客户总销售额并显示在明细表\n2. （难度 4）用区域 FIXED 总额做州占比\n\n### 相关\n\n- 相关：INCLUDE\n",
+                        "children": []
+                      },
+                      {
+                        "node_id": "BI.Tableau.计算.LOD.INCLUDE",
+                        "title": "INCLUDE",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.Tableau.计算.LOD.INCLUDE",
+                        "summary": "在视图粒度上额外加入维度再聚合",
+                        "difficulty": 4,
+                        "estimated_minutes": 30,
+                        "id": "BI-Tableau-计算-LOD-INCLUDE",
+                        "level": "???",
+                        "content": "### INCLUDE\n\n**学习目标**：能写 INCLUDE 并说明外层再聚合\n\n### 概念\n\n- INCLUDE = 视图维 ∪ 声明维\n- 适合先细算再回聚\n\n### 语法\n\n```\n{ INCLUDE [维度] : 聚合([度量]) }\n```\n\n### 场景\n\n视图只有 Category，但想先按 Sub-Category 算再平均\n\n### 制作步骤（how_to_make）\n\n1. 确认视图较粗\n2. 写 INCLUDE 细粒度聚合\n3. 外层再 AVG/SUM\n4. 与直接粗聚合对比\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 忽略普通筛选器以外的语义差异 | 仍要用用例验证 |\n| 忘了外层再聚合 | INCLUDE 结果常需再汇总 |\n\n### 练习\n\n1. （难度 4）比较 SUM(Sales) 与 AVG({INCLUDE [Sub-Category]: SUM([Sales])})\n",
+                        "children": []
+                      },
+                      {
+                        "node_id": "BI.Tableau.计算.LOD.EXCLUDE",
+                        "title": "EXCLUDE",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.Tableau.计算.LOD.EXCLUDE",
+                        "summary": "从视图维度中排除后再聚合",
+                        "difficulty": 4,
+                        "estimated_minutes": 30,
+                        "id": "BI-Tableau-计算-LOD-EXCLUDE",
+                        "level": "???",
+                        "content": "### EXCLUDE\n\n**学习目标**：能写 EXCLUDE 做上级占比\n\n### 概念\n\n- EXCLUDE = 视图维 − 声明维\n- 适合明细旁显示上级汇总\n\n### 语法\n\n```\n{ EXCLUDE [维度] : 聚合([度量]) }\n```\n\n### 场景\n\n子类别占所属类别比重\n\n### 制作步骤（how_to_make）\n\n1. 视图放 Category + Sub-Category\n2. 写 EXCLUDE Sub-Category 得类别总额\n3. 用明细/类别总额做占比\n4. 与表计算占比对照\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 排除后仍期望随该维变化 | 语义上该维已被移除 |\n\n### 练习\n\n1. （难度 4）用 EXCLUDE 做子类别占类别百分比\n",
+                        "children": []
+                      }
+                    ],
+                    "id": "BI-Tableau-计算-LOD",
+                    "level": "???",
+                    "content": "### LOD\n\nLevel of Detail：FIXED / INCLUDE / EXCLUDE。三种差异大，分三页学。\n",
+                    "lessonParent": true
+                  }
+                ],
+                "id": "BI-Tableau-计算",
+                "level": "??",
+                "content": "### 计算\n\n基础计算、表计算与 LOD。\n\n**本模块知识点**：基础计算 · 表计算 · LOD\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Tableau.筛选与交互",
+                "title": "筛选与交互",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Tableau.筛选与交互.筛选器",
+                    "title": "筛选器",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.筛选与交互.筛选器",
+                    "summary": "缩小范围",
+                    "difficulty": 2,
+                    "estimated_minutes": 20,
+                    "id": "BI-Tableau-筛选与交互-筛选器",
+                    "level": "??",
+                    "content": "### 筛选器\n\n**学习目标**：会配置维度/度量筛选并设默认\n\n### 概念\n\n- 筛选器控制查询谓词\n- 时间建议默认近7日\n\n### 制作步骤（how_to_make）\n\n1. 拖字段到筛选\n2. 设条件与默认\n3. 显示筛选控件\n4. 测试清空\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 无默认时间窗 | 易触发全历史慢查询 |\n\n### 练习\n\n1. （难度 2）为销售图加 Category 筛选默认全选\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.筛选与交互.参数",
+                    "title": "参数",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.筛选与交互.参数",
+                    "summary": "What-if",
+                    "difficulty": 3,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-筛选与交互-参数",
+                    "level": "??",
+                    "content": "### 参数\n\n**学习目标**：会用参数切换度量或阈值\n\n### 概念\n\n- 参数是用户输入变量\n- 需计算字段引用\n\n### 制作步骤（how_to_make）\n\n1. 创建参数\n2. 计算字段引用\n3. 显示参数控件\n4. 测试边界\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 只建参数不引用 | 视图不会变化 |\n\n### 练习\n\n1. （难度 3）参数切换 Sales/Profit 主指标\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.筛选与交互.动作",
+                    "title": "动作",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.筛选与交互.动作",
+                    "summary": "联动",
+                    "difficulty": 3,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-筛选与交互-动作",
+                    "level": "??",
+                    "content": "### 动作\n\n**学习目标**：会配置筛选/高亮动作\n\n### 概念\n\n- 仪表板动作连接多表\n- 明确源与目标\n\n### 制作步骤（how_to_make）\n\n1. 仪表板→动作\n2. 选类型\n3. 设源表目标表\n4. 测试点击\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 动作互相覆盖 | 减少并发动作并命名 |\n\n### 练习\n\n1. （难度 3）点击区域饼图筛选趋势图\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Tableau-筛选与交互",
+                "level": "??",
+                "content": "### 筛选与交互\n\n筛选器、参数与仪表板动作。\n\n**本模块知识点**：筛选器 · 参数 · 动作\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Tableau.仪表板",
+                "title": "仪表板",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Tableau.仪表板.布局",
+                    "title": "布局",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.仪表板.布局",
+                    "summary": "一屏一问题",
+                    "difficulty": 2,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-仪表板-布局",
+                    "level": "??",
+                    "content": "### 布局\n\n**学习目标**：能用容器搭 KPI→主图→明细布局\n\n### 概念\n\n- 容器固定结构\n- 留白与对齐\n\n### 制作步骤（how_to_make）\n\n1. 新建仪表板\n2. 水平/垂直容器\n3. 放入工作表\n4. 统一边距\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 一屏塞过多图 | 删到服务单一决策 |\n\n### 练习\n\n1. （难度 2）搭销售复盘三区线框\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.仪表板.交互设计",
+                    "title": "交互设计",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.仪表板.交互设计",
+                    "summary": "可探索",
+                    "difficulty": 3,
+                    "estimated_minutes": 30,
+                    "id": "BI-Tableau-仪表板-交互设计",
+                    "level": "??",
+                    "content": "### 交互设计\n\n**学习目标**：为仪表板配置必要交互且不失控\n\n### 概念\n\n- 筛选+动作+默认值\n- 防止选择瘫痪\n\n### 制作步骤（how_to_make）\n\n1. 放关键筛选\n2. 配置动作\n3. 设默认\n4. 边界测试\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 筛选器过多 | 分层或收纳 |\n\n### 练习\n\n1. （难度 3）完成可点击联动的复盘板\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.仪表板.移动端适配",
+                    "title": "移动端适配",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.仪表板.移动端适配",
+                    "summary": "手机布局",
+                    "difficulty": 2,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-仪表板-移动端适配",
+                    "level": "??",
+                    "content": "### 移动端适配\n\n**学习目标**：能做手机设备布局\n\n### 概念\n\n- 设备布局独立\n- 单列信息流\n\n### 制作步骤（how_to_make）\n\n1. 设备布局→手机\n2. 单列堆叠\n3. 放大 KPI\n4. 隐藏次要图\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 直接缩小桌面版 | 应重排 |\n\n### 练习\n\n1. （难度 2）为复盘板加手机布局\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Tableau-仪表板",
+                "level": "??",
+                "content": "### 仪表板\n\n布局、交互与移动端。\n\n**本模块知识点**：布局 · 交互设计 · 移动端适配\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Tableau.性能优化",
+                "title": "性能优化",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Tableau.性能优化.提取优化",
+                    "title": "提取优化",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.性能优化.提取优化",
+                    "summary": "减小提取",
+                    "difficulty": 2,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-性能优化-提取优化",
+                    "level": "??",
+                    "content": "### 提取优化\n\n**学习目标**：会裁剪字段与过滤历史\n\n### 概念\n\n- 隐藏未用字段\n- 增量刷新\n\n### 制作步骤（how_to_make）\n\n1. 隐藏字段\n2. 提取过滤\n3. 增量配置\n4. 对比体积\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 全历史无过滤 | 体积膨胀 |\n\n### 练习\n\n1. （难度 2）裁剪近2年提取并记录体积\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.性能优化.计算字段优化",
+                    "title": "计算字段优化",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.性能优化.计算字段优化",
+                    "summary": "少算快算",
+                    "difficulty": 3,
+                    "estimated_minutes": 25,
+                    "id": "BI-Tableau-性能优化-计算字段优化",
+                    "level": "??",
+                    "content": "### 计算字段优化\n\n**学习目标**：能识别并下推重计算\n\n### 概念\n\n- 能 ETL 就不要视图算\n- 避免重复逻辑\n\n### 制作步骤（how_to_make）\n\n1. 找慢计算\n2. 简化或物化\n3. 性能记录对比\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 视图里做重字符串解析 | 前置处理 |\n\n### 练习\n\n1. （难度 3）改写一个复杂 IF 并对比耗时\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.性能优化.LOD 性能",
+                    "title": "LOD 性能",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.性能优化.LOD 性能",
+                    "summary": "控制 FIXED 数量",
+                    "difficulty": 4,
+                    "estimated_minutes": 30,
+                    "id": "BI-Tableau-性能优化-LOD-性能",
+                    "level": "???",
+                    "content": "### LOD 性能\n\n**学习目标**：理解 FIXED 额外查询成本\n\n### 概念\n\n- 多 FIXED 拖慢仪表板\n- 可表计算则不用 FIXED\n\n### 制作步骤（how_to_make）\n\n1. 统计 LOD\n2. 删可替代者\n3. 回归口径\n4. 再测速\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 每个 KPI 一个 FIXED | 合并或预聚合 |\n\n### 练习\n\n1. （难度 4）把 3 个 FIXED 减到 1 个且结论不变\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Tableau-性能优化",
+                "level": "???",
+                "content": "### 性能优化\n\n提取、计算与 LOD 性能。\n\n**本模块知识点**：提取优化 · 计算字段优化 · LOD 性能\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Tableau.实战案例",
+                "title": "实战案例",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Tableau.实战案例.销售分析",
+                    "title": "销售分析",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.实战案例.销售分析",
+                    "summary": "经营复盘板",
+                    "difficulty": 3,
+                    "estimated_minutes": 45,
+                    "id": "BI-Tableau-实战案例-销售分析",
+                    "level": "??",
+                    "content": "### 销售分析\n\n**学习目标**：能独立做出销售复盘仪表板\n\n### 概念\n\n- KPI+趋势+结构+明细\n- 统一口径\n\n### 制作步骤（how_to_make）\n\n1. 定北极星\n2. 做趋势与结构图\n3. 拼仪表板\n4. 加筛选动作\n5. 写口径说明\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 图很多但无结论区 | 标题即结论 |\n\n### 练习\n\n1. （难度 3）交付一页销售复盘并录 1 分钟解说\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.实战案例.留存分析",
+                    "title": "留存分析",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.实战案例.留存分析",
+                    "summary": "队列视角",
+                    "difficulty": 4,
+                    "estimated_minutes": 40,
+                    "id": "BI-Tableau-实战案例-留存分析",
+                    "level": "???",
+                    "content": "### 留存分析\n\n**学习目标**：能做简易队列留存热力\n\n### 概念\n\n- 入组定义\n- 观察偏移周\n\n### 制作步骤（how_to_make）\n\n1. 定义首单日\n2. 算队列年龄\n3. 热力图\n4. 注释口径\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 入组定义含取消单 | 先清洗状态 |\n\n### 练习\n\n1. （难度 4）做新客第0–3周留存示意表\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Tableau.实战案例.漏斗分析",
+                    "title": "漏斗分析",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Tableau.实战案例.漏斗分析",
+                    "summary": "转化漏斗",
+                    "difficulty": 3,
+                    "estimated_minutes": 40,
+                    "id": "BI-Tableau-实战案例-漏斗分析",
+                    "level": "??",
+                    "content": "### 漏斗分析\n\n**学习目标**：能做访购→下单→支付漏斗\n\n### 概念\n\n- 同窗同主体\n- 步骤定义清晰\n\n### 制作步骤（how_to_make）\n\n1. 定义步骤事件\n2. 算各步人数\n3. 漏斗图或条形\n4. 标注转化率\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 步骤窗口不一致 | 统一时间窗 |\n\n### 练习\n\n1. （难度 3）画三步漏斗并写口径\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Tableau-实战案例",
+                "level": "??",
+                "content": "### 实战案例\n\n把能力接到真实分析题。\n\n**本模块知识点**：销售分析 · 留存分析 · 漏斗分析\n",
+                "lessonParent": true
+              }
+            ],
+            "id": "BI-Tableau",
+            "level": "?",
+            "content": "### Tableau\n\n按功能模块学习 Tableau：入门→数据→图表→计算→交互→仪表板→性能→实战。\n"
+          },
+          {
+            "node_id": "BI.Power BI",
+            "title": "Power BI",
+            "type": "tool",
+            "is_leaf": false,
+            "children": [
+              {
+                "node_id": "BI.Power BI.入门准备",
+                "title": "入门准备",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Power BI.入门准备.安装与界面",
+                    "title": "安装与界面",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.入门准备.安装与界面",
+                    "summary": "Desktop 入门",
+                    "difficulty": 1,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-入门准备-安装与界面",
+                    "level": "?",
+                    "content": "### 安装与界面\n\n**学习目标**：完成 Desktop 安装并认识区划\n\n### 概念\n\n- 报表/数据/模型视图\n\n### 制作步骤（how_to_make）\n\n1. 安装\n2. 打开 Desktop\n3. 切换三视图\n4. 连示例\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 只会报表不会模型 | 先看模型视图 |\n\n### 练习\n\n1. （难度 1）截图三视图\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Power BI.入门准备.获取数据",
+                    "title": "获取数据",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.入门准备.获取数据",
+                    "summary": "Get Data",
+                    "difficulty": 1,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-入门准备-获取数据",
+                    "level": "?",
+                    "content": "### 获取数据\n\n**学习目标**：能导入 Excel/CSV\n\n### 概念\n\n- 获取数据与转换\n\n### 制作步骤（how_to_make）\n\n1. 获取数据\n2. 选文件\n3. 转换或加载\n4. 验证列\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 类型自动错误 | Power Query 中纠正 |\n\n### 练习\n\n1. （难度 1）导入一份 CSV\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Power-BI-入门准备",
+                "level": "?",
+                "content": "### 入门准备\n\n安装与取数。\n\n**本模块知识点**：安装与界面 · 获取数据\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Power BI.数据建模",
+                "title": "数据建模",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Power BI.数据建模.星型模型",
+                    "title": "星型模型",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.数据建模.星型模型",
+                    "summary": "关系与方向",
+                    "difficulty": 2,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-数据建模-星型模型",
+                    "level": "??",
+                    "content": "### 星型模型\n\n**学习目标**：能搭最小星型模型\n\n### 概念\n\n- 事实与维度\n- 关系基数\n\n### 制作步骤（how_to_make）\n\n1. 导入事实维表\n2. 建关系\n3. 设基数\n4. 隐藏技术键\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 双向过滤滥用 | 默认单方向 |\n\n### 练习\n\n1. （难度 2）搭销售事实+日期+产品维\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Power BI.数据建模.日期表",
+                    "title": "日期表",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.数据建模.日期表",
+                    "summary": "标记日期表",
+                    "difficulty": 2,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-数据建模-日期表",
+                    "level": "??",
+                    "content": "### 日期表\n\n**学习目标**：会创建并标记日期表\n\n### 概念\n\n- 时间智能依赖日期表\n\n### 制作步骤（how_to_make）\n\n1. 生成日期表\n2. 标记为日期表\n3. 关联事实日期\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 用事实日期列做时间智能 | 应独立日期表 |\n\n### 练习\n\n1. （难度 2）创建连续日期表并关联\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Power-BI-数据建模",
+                "level": "??",
+                "content": "### 数据建模\n\n关系与日期表。\n\n**本模块知识点**：星型模型 · 日期表\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Power BI.DAX",
+                "title": "DAX",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Power BI.DAX.基础度量",
+                    "title": "基础度量",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.DAX.基础度量",
+                    "summary": "SUM/COUNT",
+                    "difficulty": 2,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-DAX-基础度量",
+                    "level": "??",
+                    "content": "### 基础度量\n\n**学习目标**：会写基础度量值\n\n### 概念\n\n- 度量不存行\n- 上下文感知\n\n### 制作步骤（how_to_make）\n\n1. 新建度量\n2. 写 SUM\n3. 放到卡片\n4. 切片验证\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 用计算列代替度量 | 聚合场景优先度量 |\n\n### 练习\n\n1. （难度 2）写 Total Sales 度量\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Power BI.DAX.CALCULATE",
+                    "title": "CALCULATE",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.DAX.CALCULATE",
+                    "summary": "切换筛选上下文",
+                    "difficulty": 3,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-DAX-CALCULATE",
+                    "level": "???",
+                    "content": "### CALCULATE\n\n**学习目标**：理解 CALCULATE 基本用法\n\n### 概念\n\n- 改筛选上下文\n- 时间智能基础\n\n### 制作步骤（how_to_make）\n\n1. 写 CALCULATE\n2. 加筛选条件\n3. 与原度量对比\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 忽略上下文转换 | 用简单例子逐步看 |\n\n### 练习\n\n1. （难度 3）写今年至今销售额\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Power-BI-DAX",
+                "level": "??",
+                "content": "### DAX\n\n度量与 CALCULATE。\n\n**本模块知识点**：基础度量 · CALCULATE\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Power BI.可视化",
+                "title": "可视化",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Power BI.可视化.常用图表",
+                    "title": "常用图表",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.可视化.常用图表",
+                    "summary": "柱线卡片",
+                    "difficulty": 2,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-可视化-常用图表",
+                    "level": "??",
+                    "content": "### 常用图表\n\n**学习目标**：会做柱状/折线/卡片\n\n### 概念\n\n- 视觉对象面板\n\n### 制作步骤（how_to_make）\n\n1. 选视觉对象\n2. 拖字段\n3. 格式化\n4. 加切片器\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 装饰过度 | 先准确 |\n\n### 练习\n\n1. （难度 2）做销售趋势+KPI 卡\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Power BI.可视化.切片器",
+                    "title": "切片器",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.可视化.切片器",
+                    "summary": "交互筛选",
+                    "difficulty": 2,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-可视化-切片器",
+                    "level": "??",
+                    "content": "### 切片器\n\n**学习目标**：会配置切片器同步\n\n### 概念\n\n- 切片器编辑交互\n\n### 制作步骤（how_to_make）\n\n1. 放切片器\n2. 设样式\n3. 编辑交互\n4. 测试\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 切片器过多 | 收纳 |\n\n### 练习\n\n1. （难度 2）日期与类别双切片器\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Power-BI-可视化",
+                "level": "??",
+                "content": "### 可视化\n\n视觉对象与切片器。\n\n**本模块知识点**：常用图表 · 切片器\n",
+                "lessonParent": true
+              },
+              {
+                "node_id": "BI.Power BI.实战案例",
+                "title": "实战案例",
+                "type": "module",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.Power BI.实战案例.销售仪表板",
+                    "title": "销售仪表板",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.实战案例.销售仪表板",
+                    "summary": "综合练习",
+                    "difficulty": 3,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-实战案例-销售仪表板",
+                    "level": "??",
+                    "content": "### 销售仪表板\n\n**学习目标**：交付一页销售仪表板\n\n### 概念\n\n- 模型+DAX+视觉一体\n\n### 制作步骤（how_to_make）\n\n1. 建模\n2. 写度量\n3. 出图\n4. 布局发布\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 无日期表时间智能乱 | 补日期表 |\n\n### 练习\n\n1. （难度 3）发布到工作区并设刷新\n",
+                    "children": []
+                  },
+                  {
+                    "node_id": "BI.Power BI.实战案例.目标完成率",
+                    "title": "目标完成率",
+                    "type": "concept",
+                    "is_leaf": true,
+                    "page_url": "/knowledge/BI.Power BI.实战案例.目标完成率",
+                    "summary": "实际vs目标",
+                    "difficulty": 3,
+                    "estimated_minutes": 20,
+                    "id": "BI-Power-BI-实战案例-目标完成率",
+                    "level": "??",
+                    "content": "### 目标完成率\n\n**学习目标**：做目标对照可视化\n\n### 概念\n\n- 目标表关联\n- 完成率度量\n\n### 制作步骤（how_to_make）\n\n1. 引入目标\n2. 写完成率\n3. 子弹图或柱线\n4. 注释\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 目标粒度不匹配 | 统一到月/区 |\n\n### 练习\n\n1. （难度 3）做区域目标完成率\n",
+                    "children": []
+                  }
+                ],
+                "id": "BI-Power-BI-实战案例",
+                "level": "??",
+                "content": "### 实战案例\n\n综合实战。\n\n**本模块知识点**：销售仪表板 · 目标完成率\n",
+                "lessonParent": true
+              }
+            ],
+            "id": "BI-Power-BI",
+            "level": "?",
+            "content": "### Power BI\n\nPower BI 学习路径：入门→建模→DAX→可视化→实战。\n"
+          },
+          {
+            "node_id": "BI.国产 BI",
+            "title": "国产 BI",
+            "type": "tool",
+            "is_leaf": false,
+            "children": [
+              {
+                "node_id": "BI.国产 BI.FineBI",
+                "title": "FineBI",
+                "type": "tool",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.国产 BI.FineBI.入门",
+                    "title": "入门",
+                    "type": "module",
+                    "is_leaf": false,
+                    "children": [
+                      {
+                        "node_id": "BI.国产 BI.FineBI.入门.连接数据",
+                        "title": "连接数据",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.FineBI.入门.连接数据",
+                        "summary": "连接业务库/文件",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-FineBI-入门-连接数据",
+                        "level": "?",
+                        "content": "### 连接数据\n\n**学习目标**：能添加数据连接\n\n### 概念\n\n- 数据连接与权限\n\n### 制作步骤（how_to_make）\n\n1. 新建连接\n2. 测试\n3. 选表\n4. 进入分析\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 账号权限不足 | 先申请只读 |\n\n### 练习\n\n1. （难度 1）添加一个 Excel 连接\n",
+                        "children": []
+                      },
+                      {
+                        "node_id": "BI.国产 BI.FineBI.入门.自助数据集",
+                        "title": "自助数据集",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.FineBI.入门.自助数据集",
+                        "summary": "做分析集",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-FineBI-入门-自助数据集",
+                        "level": "??",
+                        "content": "### 自助数据集\n\n**学习目标**：会创建自助数据集\n\n### 概念\n\n- 字段配置与过滤\n\n### 制作步骤（how_to_make）\n\n1. 选表\n2. 加工字段\n3. 保存\n4. 出组件\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 直连过大表无过滤 | 先限范围 |\n\n### 练习\n\n1. （难度 2）做一个销售明细自助集\n",
+                        "children": []
+                      }
+                    ],
+                    "id": "BI-国产-BI-FineBI-入门",
+                    "level": "??",
+                    "content": "### 入门\n\nFineBI · 入门\n\n**本模块知识点**：连接数据 · 自助数据集\n",
+                    "lessonParent": true
+                  },
+                  {
+                    "node_id": "BI.国产 BI.FineBI.图表",
+                    "title": "图表",
+                    "type": "module",
+                    "is_leaf": false,
+                    "children": [
+                      {
+                        "node_id": "BI.国产 BI.FineBI.图表.柱线基础",
+                        "title": "柱线基础",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.FineBI.图表.柱线基础",
+                        "summary": "常用图",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-FineBI-图表-柱线基础",
+                        "level": "?",
+                        "content": "### 柱线基础\n\n**学习目标**：会做柱状与折线\n\n### 概念\n\n- 拖拽字段\n\n### 制作步骤（how_to_make）\n\n1. 新建组件\n2. 选图\n3. 拖字段\n4. 格式\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 维度度量放反 | 检查字段角色 |\n\n### 练习\n\n1. （难度 1）做区域销售柱图\n",
+                        "children": []
+                      },
+                      {
+                        "node_id": "BI.国产 BI.FineBI.图表.过滤组件",
+                        "title": "过滤组件",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.FineBI.图表.过滤组件",
+                        "summary": "筛选",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-FineBI-图表-过滤组件",
+                        "level": "??",
+                        "content": "### 过滤组件\n\n**学习目标**：会加过滤组件\n\n### 概念\n\n- 过滤联动\n\n### 制作步骤（how_to_make）\n\n1. 加过滤\n2. 绑定字段\n3. 设默认\n4. 测试\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 未绑定到组件 | 检查联动设置 |\n\n### 练习\n\n1. （难度 2）加日期过滤\n",
+                        "children": []
+                      }
+                    ],
+                    "id": "BI-国产-BI-FineBI-图表",
+                    "level": "??",
+                    "content": "### 图表\n\nFineBI · 图表\n\n**本模块知识点**：柱线基础 · 过滤组件\n",
+                    "lessonParent": true
+                  },
+                  {
+                    "node_id": "BI.国产 BI.FineBI.仪表板",
+                    "title": "仪表板",
+                    "type": "module",
+                    "is_leaf": false,
+                    "children": [
+                      {
+                        "node_id": "BI.国产 BI.FineBI.仪表板.页面布局",
+                        "title": "页面布局",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.FineBI.仪表板.页面布局",
+                        "summary": "拼板",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-FineBI-仪表板-页面布局",
+                        "level": "??",
+                        "content": "### 页面布局\n\n**学习目标**：会拼仪表板\n\n### 概念\n\n- 组件布局\n\n### 制作步骤（how_to_make）\n\n1. 新建仪表板\n2. 拖组件\n3. 对齐\n4. 预览\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 无统一风格 | 用主题 |\n\n### 练习\n\n1. （难度 2）拼 KPI+趋势一页\n",
+                        "children": []
+                      },
+                      {
+                        "node_id": "BI.国产 BI.FineBI.仪表板.发布分享",
+                        "title": "发布分享",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.FineBI.仪表板.发布分享",
+                        "summary": "权限发布",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-FineBI-仪表板-发布分享",
+                        "level": "??",
+                        "content": "### 发布分享\n\n**学习目标**：会发布并设权限\n\n### 概念\n\n- 目录与权限\n\n### 制作步骤（how_to_make）\n\n1. 挂目录\n2. 授权\n3. 分享链接\n4. 验收\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 权限过大 | 按角色最小化 |\n\n### 练习\n\n1. （难度 2）发布给只读角色\n",
+                        "children": []
+                      }
+                    ],
+                    "id": "BI-国产-BI-FineBI-仪表板",
+                    "level": "??",
+                    "content": "### 仪表板\n\nFineBI · 仪表板\n\n**本模块知识点**：页面布局 · 发布分享\n",
+                    "lessonParent": true
+                  }
+                ],
+                "id": "BI-国产-BI-FineBI",
+                "level": "?",
+                "content": "### FineBI\n\nFineBI 功能模块学习路径。\n"
+              },
+              {
+                "node_id": "BI.国产 BI.QuickBI",
+                "title": "QuickBI",
+                "type": "tool",
+                "is_leaf": false,
+                "children": [
+                  {
+                    "node_id": "BI.国产 BI.QuickBI.入门",
+                    "title": "入门",
+                    "type": "module",
+                    "is_leaf": false,
+                    "children": [
+                      {
+                        "node_id": "BI.国产 BI.QuickBI.入门.工作空间",
+                        "title": "工作空间",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.QuickBI.入门.工作空间",
+                        "summary": "空间与数据集",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-QuickBI-入门-工作空间",
+                        "level": "?",
+                        "content": "### 工作空间\n\n**学习目标**：认识空间与数据集\n\n### 概念\n\n- 工作空间隔离\n\n### 制作步骤（how_to_make）\n\n1. 进入空间\n2. 建数据集\n3. 预览\n4. 授权\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 个人空间当生产 | 生产用团队空间 |\n\n### 练习\n\n1. （难度 1）创建练习数据集\n",
+                        "children": []
+                      },
+                      {
+                        "node_id": "BI.国产 BI.QuickBI.入门.数据源",
+                        "title": "数据源",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.QuickBI.入门.数据源",
+                        "summary": "配置源",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-QuickBI-入门-数据源",
+                        "level": "??",
+                        "content": "### 数据源\n\n**学习目标**：配置常用数据源\n\n### 概念\n\n- 云数仓连接\n\n### 制作步骤（how_to_make）\n\n1. 添加源\n2. 连通测试\n3. 选表\n4. 同步\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 白名单未开 | 先配网络 |\n\n### 练习\n\n1. （难度 2）连通一个样例源\n",
+                        "children": []
+                      }
+                    ],
+                    "id": "BI-国产-BI-QuickBI-入门",
+                    "level": "??",
+                    "content": "### 入门\n\nQuickBI · 入门\n\n**本模块知识点**：工作空间 · 数据源\n",
+                    "lessonParent": true
+                  },
+                  {
+                    "node_id": "BI.国产 BI.QuickBI.图表",
+                    "title": "图表",
+                    "type": "module",
+                    "is_leaf": false,
+                    "children": [
+                      {
+                        "node_id": "BI.国产 BI.QuickBI.图表.交叉表",
+                        "title": "交叉表",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.QuickBI.图表.交叉表",
+                        "summary": "明细表",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-QuickBI-图表-交叉表",
+                        "level": "??",
+                        "content": "### 交叉表\n\n**学习目标**：会做交叉表\n\n### 概念\n\n- 行列表头\n\n### 制作步骤（how_to_make）\n\n1. 选交叉表\n2. 拖维度量\n3. 格式\n4. 导出测\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 明细过大 | 加过滤 |\n\n### 练习\n\n1. （难度 2）做品类×区域交叉表\n",
+                        "children": []
+                      },
+                      {
+                        "node_id": "BI.国产 BI.QuickBI.图表.仪表趋势",
+                        "title": "仪表趋势",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.QuickBI.图表.仪表趋势",
+                        "summary": "KPI+线",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-QuickBI-图表-仪表趋势",
+                        "level": "??",
+                        "content": "### 仪表趋势\n\n**学习目标**：会做指标卡与趋势\n\n### 概念\n\n- 组合\n\n### 制作步骤（how_to_make）\n\n1. 指标卡\n2. 趋势图\n3. 同页\n4. 联动\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 口径无说明 | 加备注 |\n\n### 练习\n\n1. （难度 2）GMV 卡+7日趋势\n",
+                        "children": []
+                      }
+                    ],
+                    "id": "BI-国产-BI-QuickBI-图表",
+                    "level": "??",
+                    "content": "### 图表\n\nQuickBI · 图表\n\n**本模块知识点**：交叉表 · 仪表趋势\n",
+                    "lessonParent": true
+                  },
+                  {
+                    "node_id": "BI.国产 BI.QuickBI.仪表板",
+                    "title": "仪表板",
+                    "type": "module",
+                    "is_leaf": false,
+                    "children": [
+                      {
+                        "node_id": "BI.国产 BI.QuickBI.仪表板.搭建仪表板",
+                        "title": "搭建仪表板",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.QuickBI.仪表板.搭建仪表板",
+                        "summary": "拼装",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-QuickBI-仪表板-搭建仪表板",
+                        "level": "??",
+                        "content": "### 搭建仪表板\n\n**学习目标**：完成一页仪表板\n\n### 概念\n\n- 布局与主题\n\n### 制作步骤（how_to_make）\n\n1. 新建\n2. 拖图表\n3. 设查询控件\n4. 预览\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 控件过多 | 精简 |\n\n### 练习\n\n1. （难度 2）交付经营一页纸\n",
+                        "children": []
+                      },
+                      {
+                        "node_id": "BI.国产 BI.QuickBI.仪表板.分享与嵌入",
+                        "title": "分享与嵌入",
+                        "type": "concept",
+                        "is_leaf": true,
+                        "page_url": "/knowledge/BI.国产 BI.QuickBI.仪表板.分享与嵌入",
+                        "summary": "对外",
+                        "difficulty": 2,
+                        "estimated_minutes": 20,
+                        "id": "BI-国产-BI-QuickBI-仪表板-分享与嵌入",
+                        "level": "??",
+                        "content": "### 分享与嵌入\n\n**学习目标**：会分享与嵌入注意项\n\n### 概念\n\n- 公开链接风险\n\n### 制作步骤（how_to_make）\n\n1. 分享设置\n2. 权限\n3. 嵌入参数\n4. 审计\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 公开敏感板 | 脱敏+登录 |\n\n### 练习\n\n1. （难度 2）列出嵌入前 5 条检查\n",
+                        "children": []
+                      }
+                    ],
+                    "id": "BI-国产-BI-QuickBI-仪表板",
+                    "level": "??",
+                    "content": "### 仪表板\n\nQuickBI · 仪表板\n\n**本模块知识点**：搭建仪表板 · 分享与嵌入\n",
+                    "lessonParent": true
+                  }
+                ],
+                "id": "BI-国产-BI-QuickBI",
+                "level": "?",
+                "content": "### QuickBI\n\nQuickBI 功能模块学习路径。\n"
+              }
+            ],
+            "id": "BI-国产-BI",
+            "level": "?",
+            "content": "### 国产 BI\n\n国产 BI 工具路径：FineBI / QuickBI。\n"
+          }
+        ],
+        "id": "bi-root",
+        "level": "?",
+        "content": "### BI\n\n按工具学习：Tableau / Power BI / 国产 BI。已去除「选型」「国内外工具」中间层。\n"
+      }
+    },
+    {
+      "domain_id": "SQL",
+      "title": "SQL",
+      "tree": {
+        "node_id": "SQL",
+        "title": "SQL",
+        "type": "domain",
+        "is_leaf": false,
+        "children": [
+          {
+            "node_id": "SQL.基础查询",
+            "title": "基础查询",
+            "type": "module",
+            "is_leaf": false,
+            "children": [
+              {
+                "node_id": "SQL.基础查询.SELECT",
+                "title": "SELECT",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.基础查询.SELECT",
+                "summary": "投影列与表达式",
+                "difficulty": 1,
+                "estimated_minutes": 15,
+                "id": "SQL-基础查询-SELECT",
+                "level": "?",
+                "content": "### SELECT\n\n**学习目标**：能写出带别名与表达式的 SELECT\n\n### 概念\n\n- SELECT 指定要返回的列或表达式\n- 可用 AS 起别名\n- SELECT * 仅适合探索\n\n### 制作步骤（how_to_make）\n\n1. 写出 FROM 表\n2. 列出需要的列\n3. 必要时加表达式与别名\n4. 用 LIMIT 抽样验数\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 滥用 SELECT * | 生产查询应显式列清单 |\n\n### 练习\n\n1. （难度 1）从 orders 选出 order_id, user_id, amount 并起别名\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.基础查询.WHERE",
+                "title": "WHERE",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.基础查询.WHERE",
+                "summary": "行过滤",
+                "difficulty": 1,
+                "estimated_minutes": 20,
+                "id": "SQL-基础查询-WHERE",
+                "level": "?",
+                "content": "### WHERE\n\n**学习目标**：能用 WHERE 做等值、范围与空值过滤\n\n### 概念\n\n- WHERE 在聚合前过滤行\n- 注意 NULL 要用 IS NULL\n- AND/OR 注意括号\n\n### 制作步骤（how_to_make）\n\n1. 确定过滤字段\n2. 写比较条件\n3. 组合 AND/OR\n4. 用抽样核对行数\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 用 = NULL | 应写 IS NULL / IS NOT NULL |\n\n### 练习\n\n1. （难度 1）筛选 status='paid' 且 amount>=100 的订单\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.基础查询.ORDER BY",
+                "title": "ORDER BY",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.基础查询.ORDER BY",
+                "summary": "排序",
+                "difficulty": 1,
+                "estimated_minutes": 15,
+                "id": "SQL-基础查询-ORDER-BY",
+                "level": "?",
+                "content": "### ORDER BY\n\n**学习目标**：能按单列/多列升降序排序\n\n### 概念\n\n- ORDER BY 控制结果顺序\n- 默认 ASC\n- 可多键排序\n\n### 制作步骤（how_to_make）\n\n1. 选定排序键\n2. 指定 ASC/DESC\n3. 必要时二次排序键\n4. 与 LIMIT 组合取 TopN\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 排序列不在 SELECT 却期望稳定输出 | 部分引擎允许，但应显式写清 |\n\n### 练习\n\n1. （难度 1）按 amount 降序取前 10 单\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.基础查询.LIMIT",
+                "title": "LIMIT",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.基础查询.LIMIT",
+                "summary": "限制返回行数",
+                "difficulty": 1,
+                "estimated_minutes": 15,
+                "id": "SQL-基础查询-LIMIT",
+                "level": "?",
+                "content": "### LIMIT\n\n**学习目标**：会用 LIMIT/OFFSET 做分页与抽样\n\n### 概念\n\n- LIMIT 限制行数\n- OFFSET 跳过行\n- 深分页有性能问题\n\n### 制作步骤（how_to_make）\n\n1. 先 ORDER BY 再 LIMIT\n2. 分页用 OFFSET 或键集分页\n3. 探索数据先 LIMIT 100\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 无 ORDER BY 的 LIMIT | 结果顺序不稳定 |\n\n### 练习\n\n1. （难度 2）实现 amount 降序第 11–20 名（OFFSET）\n",
+                "children": []
+              }
+            ],
+            "id": "SQL-基础查询",
+            "level": "?",
+            "content": "### 基础查询\n\n投影、过滤、排序与限行——所有 SQL 的地基。\n\n**本模块知识点**：SELECT · WHERE · ORDER BY · LIMIT\n",
+            "lessonParent": true
+          },
+          {
+            "node_id": "SQL.多表操作",
+            "title": "多表操作",
+            "type": "module",
+            "is_leaf": false,
+            "children": [
+              {
+                "node_id": "SQL.多表操作.JOIN",
+                "title": "JOIN",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.多表操作.JOIN",
+                "summary": "表连接",
+                "difficulty": 2,
+                "estimated_minutes": 30,
+                "id": "SQL-多表操作-JOIN",
+                "level": "??",
+                "content": "### JOIN\n\n**学习目标**：能正确使用 INNER/LEFT JOIN 并说明粒度\n\n### 概念\n\n- JOIN 按键合并表\n- INNER 只要匹配\n- LEFT 保留左表\n- 一对多会放大行数\n\n### 制作步骤（how_to_make）\n\n1. 确认驱动表与维度表\n2. 写 ON 条件\n3. 选择 JOIN 类型\n4. 检查行数是否爆炸\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 一对多后直接 SUM 头表金额 | 先按粒度聚合或去重 |\n\n### 练习\n\n1. （难度 2）orders LEFT JOIN users 按城市汇总支付 GMV\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.多表操作.子查询",
+                "title": "子查询",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.多表操作.子查询",
+                "summary": "嵌套查询",
+                "difficulty": 2,
+                "estimated_minutes": 25,
+                "id": "SQL-多表操作-子查询",
+                "level": "??",
+                "content": "### 子查询\n\n**学习目标**：会写标量/IN/EXISTS 与派生表子查询\n\n### 概念\n\n- 子查询可出现在 SELECT/FROM/WHERE\n- 相关子查询注意性能\n- 常可改写 JOIN\n\n### 制作步骤（how_to_make）\n\n1. 先写清内外层问题\n2. 选定子查询形态\n3. 用 EXPLAIN 对比 JOIN 改写\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| IN 子查询返回 NULL | 注意三值逻辑 |\n\n### 练习\n\n1. （难度 2）找出下过单金额高于全站平均的用户\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.多表操作.UNION",
+                "title": "UNION",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.多表操作.UNION",
+                "summary": "集合合并",
+                "difficulty": 2,
+                "estimated_minutes": 20,
+                "id": "SQL-多表操作-UNION",
+                "level": "??",
+                "content": "### UNION\n\n**学习目标**：会用 UNION/UNION ALL 合并结果集\n\n### 概念\n\n- 列数与类型需对齐\n- UNION 去重\n- UNION ALL 保留重复更快\n\n### 制作步骤（how_to_make）\n\n1. 对齐两边 SELECT 列表\n2. 优先 UNION ALL\n3. 需要唯一再去重\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 默认 UNION 导致慢 | 无必要去重时用 UNION ALL |\n\n### 练习\n\n1. （难度 2）合并今年与去年支付订单 id 列表（允许重复用 ALL）\n",
+                "children": []
+              }
+            ],
+            "id": "SQL-多表操作",
+            "level": "??",
+            "content": "### 多表操作\n\n把多张表拼成分析所需宽表。\n\n**本模块知识点**：JOIN · 子查询 · UNION\n",
+            "lessonParent": true
+          },
+          {
+            "node_id": "SQL.聚合分析",
+            "title": "聚合分析",
+            "type": "module",
+            "is_leaf": false,
+            "children": [
+              {
+                "node_id": "SQL.聚合分析.GROUP BY",
+                "title": "GROUP BY",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.聚合分析.GROUP BY",
+                "summary": "分组聚合",
+                "difficulty": 2,
+                "estimated_minutes": 25,
+                "id": "SQL-聚合分析-GROUP-BY",
+                "level": "??",
+                "content": "### GROUP BY\n\n**学习目标**：能按维分组并计算 SUM/COUNT/AVG\n\n### 概念\n\n- GROUP BY 定义聚合粒度\n- SELECT 非聚合列必须在 GROUP BY\n- COUNT DISTINCT 注意性能\n\n### 制作步骤（how_to_make）\n\n1. 确定分组维\n2. 写聚合函数\n3. HAVING 前先 GROUP\n4. 核对合计\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| SELECT 多出未分组列 | 违反 only_full_group_by |\n\n### 练习\n\n1. （难度 2）按 status 统计订单数与金额合计\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.聚合分析.HAVING",
+                "title": "HAVING",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.聚合分析.HAVING",
+                "summary": "聚合后过滤",
+                "difficulty": 2,
+                "estimated_minutes": 20,
+                "id": "SQL-聚合分析-HAVING",
+                "level": "??",
+                "content": "### HAVING\n\n**学习目标**：区分 WHERE 与 HAVING\n\n### 概念\n\n- WHERE 过滤行\n- HAVING 过滤组\n- 可对聚合结果设阈\n\n### 制作步骤（how_to_make）\n\n1. 先 GROUP BY\n2. 再 HAVING 条件\n3. 能下推 WHERE 的不要放 HAVING\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 在 HAVING 写行级条件 | 应放 WHERE |\n\n### 练习\n\n1. （难度 2）找出订单数≥3 的用户\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.聚合分析.窗口函数",
+                "title": "窗口函数",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.聚合分析.窗口函数",
+                "summary": "分析函数",
+                "difficulty": 3,
+                "estimated_minutes": 35,
+                "id": "SQL-聚合分析-窗口函数",
+                "level": "???",
+                "content": "### 窗口函数\n\n**学习目标**：会用 ROW_NUMBER/SUM() OVER 做排名与奔走合计\n\n### 概念\n\n- 窗口不坍缩行\n- PARTITION BY + ORDER BY\n- 常用于去重与累计\n\n### 制作步骤（how_to_make）\n\n1. 确定分区与排序\n2. 选窗口函数\n3. 用 QUALIFY/子查询取 rn=1\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| PARTITION 选错 | 排名会在错误群体内计算 |\n\n### 练习\n\n1. （难度 3）每个用户按时间取最近一笔订单\n",
+                "children": []
+              }
+            ],
+            "id": "SQL-聚合分析",
+            "level": "??",
+            "content": "### 聚合分析\n\n从明细到指标：分组、组过滤与窗口。\n\n**本模块知识点**：GROUP BY · HAVING · 窗口函数\n",
+            "lessonParent": true
+          },
+          {
+            "node_id": "SQL.数据定义",
+            "title": "数据定义",
+            "type": "module",
+            "is_leaf": false,
+            "children": [
+              {
+                "node_id": "SQL.数据定义.CREATE TABLE",
+                "title": "CREATE TABLE",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.数据定义.CREATE TABLE",
+                "summary": "建表",
+                "difficulty": 2,
+                "estimated_minutes": 25,
+                "id": "SQL-数据定义-CREATE-TABLE",
+                "level": "??",
+                "content": "### CREATE TABLE\n\n**学习目标**：能设计基础表结构与主键\n\n### 概念\n\n- DDL 定义结构\n- 主键/类型/默认值\n- 命名规范\n\n### 制作步骤（how_to_make）\n\n1. 列清单与类型\n2. 设主键\n3. 必要默认值与注释\n4. 在测试库执行\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 无主键 | 后续更新/关联困难 |\n\n### 练习\n\n1. （难度 2）设计一张简易 orders 表 DDL\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.数据定义.ALTER TABLE",
+                "title": "ALTER TABLE",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.数据定义.ALTER TABLE",
+                "summary": "改表",
+                "difficulty": 2,
+                "estimated_minutes": 20,
+                "id": "SQL-数据定义-ALTER-TABLE",
+                "level": "??",
+                "content": "### ALTER TABLE\n\n**学习目标**：会增删列与改类型的安全做法\n\n### 概念\n\n- ALTER 变更结构\n- 大表改类型有锁风险\n- 在线 DDL 视引擎而定\n\n### 制作步骤（how_to_make）\n\n1. 评估影响\n2. 写 ALTER\n3. 在从库/低峰验证\n4. 回滚预案\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 高峰直接改大字段类型 | 可能导致长时间锁表 |\n\n### 练习\n\n1. （难度 2）为 orders 增加 comment VARCHAR(200) 可空列\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.数据定义.约束",
+                "title": "约束",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.数据定义.约束",
+                "summary": "完整性约束",
+                "difficulty": 2,
+                "estimated_minutes": 25,
+                "id": "SQL-数据定义-约束",
+                "level": "??",
+                "content": "### 约束\n\n**学习目标**：理解 PK/UK/FK/CHECK/NOT NULL\n\n### 概念\n\n- 约束保证数据质量\n- FK 有维护成本\n- 业务约束可放应用+DB\n\n### 制作步骤（how_to_make）\n\n1. 列出必须不变量\n2. 选型约束\n3. 补充应用校验\n4. 写违规用例测试\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 只靠应用约束 | 旁路写入会脏数据 |\n\n### 练习\n\n1. （难度 2）为 order_items.order_id 设计外键策略（强制或逻辑）\n",
+                "children": []
+              }
+            ],
+            "id": "SQL-数据定义",
+            "level": "??",
+            "content": "### 数据定义\n\n表结构与约束——数据正确性的底座。\n\n**本模块知识点**：CREATE TABLE · ALTER TABLE · 约束\n",
+            "lessonParent": true
+          },
+          {
+            "node_id": "SQL.性能优化",
+            "title": "性能优化",
+            "type": "module",
+            "is_leaf": false,
+            "children": [
+              {
+                "node_id": "SQL.性能优化.索引",
+                "title": "索引",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.性能优化.索引",
+                "summary": "加速访问路径",
+                "difficulty": 3,
+                "estimated_minutes": 30,
+                "id": "SQL-性能优化-索引",
+                "level": "???",
+                "content": "### 索引\n\n**学习目标**：能解释 BTree 索引适用场景并设计组合索引\n\n### 概念\n\n- 索引以空间换时间\n- 最左前缀\n- 不是越多越好\n\n### 制作步骤（how_to_make）\n\n1. 看慢查询 WHERE/JOIN 列\n2. 设计组合索引顺序\n3. 避免过度索引\n4. 用 EXPLAIN 验证\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 对低区分度列单建索引 | 收益低还拖累写入 |\n\n### 练习\n\n1. （难度 3）为 (user_id, created_at) 查询设计索引\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.性能优化.执行计划",
+                "title": "执行计划",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.性能优化.执行计划",
+                "summary": "读懂 EXPLAIN",
+                "difficulty": 3,
+                "estimated_minutes": 30,
+                "id": "SQL-性能优化-执行计划",
+                "level": "???",
+                "content": "### 执行计划\n\n**学习目标**：会读 type/key/rows/Extra 关键字段\n\n### 概念\n\n- 执行计划展示优化器选择\n- 关注全表扫与临时表\n- 统计信息影响计划\n\n### 制作步骤（how_to_make）\n\n1. EXPLAIN 原 SQL\n2. 定位坏步骤\n3. 改写或加索引\n4. 对比前后\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 只看有没有 Using index | 还要看扫描行数与是否回表 |\n\n### 练习\n\n1. （难度 3）对一条慢 JOIN 输出 EXPLAIN 并指出瓶颈一行\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.性能优化.查询重写",
+                "title": "查询重写",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.性能优化.查询重写",
+                "summary": "等价改写提速",
+                "difficulty": 3,
+                "estimated_minutes": 30,
+                "id": "SQL-性能优化-查询重写",
+                "level": "???",
+                "content": "### 查询重写\n\n**学习目标**：能做 EXISTS/JOIN、子查询上拉等改写\n\n### 概念\n\n- 语义等价优先\n- 减少中间结果\n- 避免选择率误判\n\n### 制作步骤（how_to_make）\n\n1. 保留验收用例\n2. 改写\n3. 对比计划与结果\n4. 回归\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 改写后口径变了 | 必须先有对拍用例 |\n\n### 练习\n\n1. （难度 3）把相关子查询改成 JOIN 并证明行数一致\n",
+                "children": []
+              }
+            ],
+            "id": "SQL-性能优化",
+            "level": "???",
+            "content": "### 性能优化\n\n让查询又对又快。\n\n**本模块知识点**：索引 · 执行计划 · 查询重写\n",
+            "lessonParent": true
+          },
+          {
+            "node_id": "SQL.事务与安全",
+            "title": "事务与安全",
+            "type": "module",
+            "is_leaf": false,
+            "children": [
+              {
+                "node_id": "SQL.事务与安全.事务",
+                "title": "事务",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.事务与安全.事务",
+                "summary": "ACID 与边界",
+                "difficulty": 2,
+                "estimated_minutes": 25,
+                "id": "SQL-事务与安全-事务",
+                "level": "??",
+                "content": "### 事务\n\n**学习目标**：能界定事务边界并处理提交/回滚\n\n### 概念\n\n- 事务打包多语句\n- 提交/回滚\n- 隔离级别影响可见性\n\n### 制作步骤（how_to_make）\n\n1. 明确原子操作集合\n2. BEGIN…COMMIT\n3. 异常路径 ROLLBACK\n4. 避免超长事务\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 长事务抱着锁不放 | 拆小、尽快提交 |\n\n### 练习\n\n1. （难度 2）描述下单扣库存的最小事务包含哪些语句\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.事务与安全.锁",
+                "title": "锁",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.事务与安全.锁",
+                "summary": "并发控制",
+                "difficulty": 3,
+                "estimated_minutes": 25,
+                "id": "SQL-事务与安全-锁",
+                "level": "???",
+                "content": "### 锁\n\n**学习目标**：理解行锁/表锁与死锁基本处理\n\n### 概念\n\n- 锁保护并发正确性\n- 死锁需重试\n- 索引减少锁范围\n\n### 制作步骤（how_to_make）\n\n1. 缩短事务\n2. 按相同顺序访问资源\n3. 监控死锁日志\n4. 必要时刻意加锁\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 无索引更新导致锁升级 | 加合适索引缩小锁粒度 |\n\n### 练习\n\n1. （难度 3）写出一次死锁排查的三步清单\n",
+                "children": []
+              },
+              {
+                "node_id": "SQL.事务与安全.权限",
+                "title": "权限",
+                "type": "concept",
+                "is_leaf": true,
+                "page_url": "/knowledge/SQL.事务与安全.权限",
+                "summary": "最小权限",
+                "difficulty": 2,
+                "estimated_minutes": 20,
+                "id": "SQL-事务与安全-权限",
+                "level": "??",
+                "content": "### 权限\n\n**学习目标**：会按角色授予最小权限\n\n### 概念\n\n- GRANT/REVOKE\n- 读写分离账号\n- 禁止生产用超级账号跑报表\n\n### 制作步骤（how_to_make）\n\n1. 角色清单\n2. 授予表/库级权限\n3. 审计定期回收\n4. 报表走只读账号\n\n### 常见坑\n\n| 错法 | 说明 |\n|---|---|\n| 分析师共用 root | 安全与误操作风险极高 |\n\n### 练习\n\n1. （难度 2）为只读分析师设计权限集\n",
+                "children": []
+              }
+            ],
+            "id": "SQL-事务与安全",
+            "level": "??",
+            "content": "### 事务与安全\n\n并发正确与访问安全。\n\n**本模块知识点**：事务 · 锁 · 权限\n",
+            "lessonParent": true
+          }
+        ],
+        "id": "sql-root",
+        "level": "?",
+        "content": "### SQL\n\n按学习路径六大功能模块：基础查询 → 多表 → 聚合 → DDL → 性能 → 事务与安全。\n"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "BI.Tableau.入门准备.安装与账号",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "入门准备",
+        "安装与账号"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "安装与账号",
+      "summary": "安装 Tableau 与账号体系",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.入门准备.安装与账号",
+      "parent_id": "BI.Tableau.入门准备",
+      "difficulty": 1,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Tableau",
+        "入门准备"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.入门准备.界面介绍",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "入门准备",
+        "界面介绍"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "界面介绍",
+      "summary": "认识工作区",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.入门准备.界面介绍",
+      "parent_id": "BI.Tableau.入门准备",
+      "difficulty": 1,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "入门准备"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.入门准备.数据源连接",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "入门准备",
+        "数据源连接"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "数据源连接",
+      "summary": "连接文件与库",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.入门准备.数据源连接",
+      "parent_id": "BI.Tableau.入门准备",
+      "difficulty": 1,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Tableau",
+        "入门准备"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.入门准备",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "入门准备"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "入门准备",
+      "summary": "装好工具、认界面、连上数据。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Tableau",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.数据准备.维度 vs 度量",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "数据准备",
+        "维度 vs 度量"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "维度 vs 度量",
+      "summary": "字段角色",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.数据准备.维度 vs 度量",
+      "parent_id": "BI.Tableau.数据准备",
+      "difficulty": 1,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Tableau",
+        "数据准备"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.数据准备.数据类型",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "数据准备",
+        "数据类型"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "数据类型",
+      "summary": "类型与转换",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.数据准备.数据类型",
+      "parent_id": "BI.Tableau.数据准备",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Tableau",
+        "数据准备"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.数据准备.提取 vs 实时",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "数据准备",
+        "提取 vs 实时"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "提取 vs 实时",
+      "summary": "连接策略",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.数据准备.提取 vs 实时",
+      "parent_id": "BI.Tableau.数据准备",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Tableau",
+        "数据准备"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.数据准备",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "数据准备"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "数据准备",
+      "summary": "字段角色、类型与连接策略。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Tableau",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.图表制作.柱状图",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "图表制作",
+        "柱状图"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "柱状图",
+      "summary": "类别对比",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.图表制作.柱状图",
+      "parent_id": "BI.Tableau.图表制作",
+      "difficulty": 1,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Tableau",
+        "图表制作"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.图表制作.折线图",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "图表制作",
+        "折线图"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "折线图",
+      "summary": "趋势",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.图表制作.折线图",
+      "parent_id": "BI.Tableau.图表制作",
+      "difficulty": 1,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Tableau",
+        "图表制作"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.图表制作.饼图",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "图表制作",
+        "饼图"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "饼图",
+      "summary": "结构占比",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.图表制作.饼图",
+      "parent_id": "BI.Tableau.图表制作",
+      "difficulty": 1,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Tableau",
+        "图表制作"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.图表制作.环形图",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "图表制作",
+        "环形图"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "环形图",
+      "summary": "镂空饼图",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.图表制作.环形图",
+      "parent_id": "BI.Tableau.图表制作",
+      "difficulty": 3,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "图表制作"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.图表制作.双轴组合图",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "图表制作",
+        "双轴组合图"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "双轴组合图",
+      "summary": "柱线组合",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.图表制作.双轴组合图",
+      "parent_id": "BI.Tableau.图表制作",
+      "difficulty": 3,
+      "estimated_minutes": 30,
+      "tags": [
+        "BI",
+        "Tableau",
+        "图表制作"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.图表制作.热力图",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "图表制作",
+        "热力图"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "热力图",
+      "summary": "二维强度",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.图表制作.热力图",
+      "parent_id": "BI.Tableau.图表制作",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "图表制作"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.图表制作",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "图表制作"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "图表制作",
+      "summary": "从基础图到组合图：会做、会选、会避坑。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Tableau",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.计算.LOD.FIXED",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "计算",
+        "LOD",
+        "FIXED"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "FIXED",
+      "summary": "固定维度聚合，忽略视图其它维",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.计算.LOD.FIXED",
+      "parent_id": "BI.Tableau.计算.LOD",
+      "difficulty": 4,
+      "estimated_minutes": 35,
+      "tags": [
+        "BI",
+        "Tableau",
+        "LOD"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.计算.LOD.INCLUDE",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "计算",
+        "LOD",
+        "INCLUDE"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "INCLUDE",
+      "summary": "在视图粒度上额外加入维度再聚合",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.计算.LOD.INCLUDE",
+      "parent_id": "BI.Tableau.计算.LOD",
+      "difficulty": 4,
+      "estimated_minutes": 30,
+      "tags": [
+        "BI",
+        "Tableau",
+        "LOD"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.计算.LOD.EXCLUDE",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "计算",
+        "LOD",
+        "EXCLUDE"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "EXCLUDE",
+      "summary": "从视图维度中排除后再聚合",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.计算.LOD.EXCLUDE",
+      "parent_id": "BI.Tableau.计算.LOD",
+      "difficulty": 4,
+      "estimated_minutes": 30,
+      "tags": [
+        "BI",
+        "Tableau",
+        "LOD"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.计算.LOD",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "计算",
+        "LOD"
+      ],
+      "depth": 3,
+      "type": "concept_group",
+      "title": "LOD",
+      "summary": "Level of Detail：FIXED / INCLUDE / EXCLUDE。三种差异大，分三页学。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Tableau.计算",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.计算.基础计算",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "计算",
+        "基础计算"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "基础计算",
+      "summary": "行级与聚合计算字段",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.计算.基础计算",
+      "parent_id": "BI.Tableau.计算",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "计算"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.计算.表计算",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "计算",
+        "表计算"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "表计算",
+      "summary": "二次计算",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.计算.表计算",
+      "parent_id": "BI.Tableau.计算",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "计算"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.计算",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "计算"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "计算",
+      "summary": "基础计算、表计算与 LOD。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Tableau",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.筛选与交互.筛选器",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "筛选与交互",
+        "筛选器"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "筛选器",
+      "summary": "缩小范围",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.筛选与交互.筛选器",
+      "parent_id": "BI.Tableau.筛选与交互",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Tableau",
+        "筛选与交互"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.筛选与交互.参数",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "筛选与交互",
+        "参数"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "参数",
+      "summary": "What-if",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.筛选与交互.参数",
+      "parent_id": "BI.Tableau.筛选与交互",
+      "difficulty": 3,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "筛选与交互"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.筛选与交互.动作",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "筛选与交互",
+        "动作"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "动作",
+      "summary": "联动",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.筛选与交互.动作",
+      "parent_id": "BI.Tableau.筛选与交互",
+      "difficulty": 3,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "筛选与交互"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.筛选与交互",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "筛选与交互"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "筛选与交互",
+      "summary": "筛选器、参数与仪表板动作。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Tableau",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.仪表板.布局",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "仪表板",
+        "布局"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "布局",
+      "summary": "一屏一问题",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.仪表板.布局",
+      "parent_id": "BI.Tableau.仪表板",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "仪表板"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.仪表板.交互设计",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "仪表板",
+        "交互设计"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "交互设计",
+      "summary": "可探索",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.仪表板.交互设计",
+      "parent_id": "BI.Tableau.仪表板",
+      "difficulty": 3,
+      "estimated_minutes": 30,
+      "tags": [
+        "BI",
+        "Tableau",
+        "仪表板"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.仪表板.移动端适配",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "仪表板",
+        "移动端适配"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "移动端适配",
+      "summary": "手机布局",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.仪表板.移动端适配",
+      "parent_id": "BI.Tableau.仪表板",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "仪表板"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.仪表板",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "仪表板"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "仪表板",
+      "summary": "布局、交互与移动端。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Tableau",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.性能优化.提取优化",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "性能优化",
+        "提取优化"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "提取优化",
+      "summary": "减小提取",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.性能优化.提取优化",
+      "parent_id": "BI.Tableau.性能优化",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "性能优化"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.性能优化.计算字段优化",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "性能优化",
+        "计算字段优化"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "计算字段优化",
+      "summary": "少算快算",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.性能优化.计算字段优化",
+      "parent_id": "BI.Tableau.性能优化",
+      "difficulty": 3,
+      "estimated_minutes": 25,
+      "tags": [
+        "BI",
+        "Tableau",
+        "性能优化"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.性能优化.LOD 性能",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "性能优化",
+        "LOD 性能"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "LOD 性能",
+      "summary": "控制 FIXED 数量",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.性能优化.LOD 性能",
+      "parent_id": "BI.Tableau.性能优化",
+      "difficulty": 4,
+      "estimated_minutes": 30,
+      "tags": [
+        "BI",
+        "Tableau",
+        "性能优化"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.性能优化",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "性能优化"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "性能优化",
+      "summary": "提取、计算与 LOD 性能。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Tableau",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.实战案例.销售分析",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "实战案例",
+        "销售分析"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "销售分析",
+      "summary": "经营复盘板",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.实战案例.销售分析",
+      "parent_id": "BI.Tableau.实战案例",
+      "difficulty": 3,
+      "estimated_minutes": 45,
+      "tags": [
+        "BI",
+        "Tableau",
+        "实战案例"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.实战案例.留存分析",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "实战案例",
+        "留存分析"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "留存分析",
+      "summary": "队列视角",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.实战案例.留存分析",
+      "parent_id": "BI.Tableau.实战案例",
+      "difficulty": 4,
+      "estimated_minutes": 40,
+      "tags": [
+        "BI",
+        "Tableau",
+        "实战案例"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.实战案例.漏斗分析",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "实战案例",
+        "漏斗分析"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "漏斗分析",
+      "summary": "转化漏斗",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Tableau.实战案例.漏斗分析",
+      "parent_id": "BI.Tableau.实战案例",
+      "difficulty": 3,
+      "estimated_minutes": 40,
+      "tags": [
+        "BI",
+        "Tableau",
+        "实战案例"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau.实战案例",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau",
+        "实战案例"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "实战案例",
+      "summary": "把能力接到真实分析题。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Tableau",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Tableau",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Tableau"
+      ],
+      "depth": 1,
+      "type": "tool",
+      "title": "Tableau",
+      "summary": "按功能模块学习 Tableau：入门→数据→图表→计算→交互→仪表板→性能→实战。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "tool"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.入门准备.安装与界面",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "入门准备",
+        "安装与界面"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "安装与界面",
+      "summary": "Desktop 入门",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.入门准备.安装与界面",
+      "parent_id": "BI.Power BI.入门准备",
+      "difficulty": 1,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "入门准备"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.入门准备.获取数据",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "入门准备",
+        "获取数据"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "获取数据",
+      "summary": "Get Data",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.入门准备.获取数据",
+      "parent_id": "BI.Power BI.入门准备",
+      "difficulty": 1,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "入门准备"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.入门准备",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "入门准备"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "入门准备",
+      "summary": "安装与取数。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Power BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.数据建模.星型模型",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "数据建模",
+        "星型模型"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "星型模型",
+      "summary": "关系与方向",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.数据建模.星型模型",
+      "parent_id": "BI.Power BI.数据建模",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "数据建模"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.数据建模.日期表",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "数据建模",
+        "日期表"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "日期表",
+      "summary": "标记日期表",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.数据建模.日期表",
+      "parent_id": "BI.Power BI.数据建模",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "数据建模"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.数据建模",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "数据建模"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "数据建模",
+      "summary": "关系与日期表。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Power BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.DAX.基础度量",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "DAX",
+        "基础度量"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "基础度量",
+      "summary": "SUM/COUNT",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.DAX.基础度量",
+      "parent_id": "BI.Power BI.DAX",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "DAX"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.DAX.CALCULATE",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "DAX",
+        "CALCULATE"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "CALCULATE",
+      "summary": "切换筛选上下文",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.DAX.CALCULATE",
+      "parent_id": "BI.Power BI.DAX",
+      "difficulty": 3,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "DAX"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.DAX",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "DAX"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "DAX",
+      "summary": "度量与 CALCULATE。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Power BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.可视化.常用图表",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "可视化",
+        "常用图表"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "常用图表",
+      "summary": "柱线卡片",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.可视化.常用图表",
+      "parent_id": "BI.Power BI.可视化",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "可视化"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.可视化.切片器",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "可视化",
+        "切片器"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "切片器",
+      "summary": "交互筛选",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.可视化.切片器",
+      "parent_id": "BI.Power BI.可视化",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "可视化"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.可视化",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "可视化"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "可视化",
+      "summary": "视觉对象与切片器。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Power BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.实战案例.销售仪表板",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "实战案例",
+        "销售仪表板"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "销售仪表板",
+      "summary": "综合练习",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.实战案例.销售仪表板",
+      "parent_id": "BI.Power BI.实战案例",
+      "difficulty": 3,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "实战案例"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.实战案例.目标完成率",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "实战案例",
+        "目标完成率"
+      ],
+      "depth": 3,
+      "type": "concept",
+      "title": "目标完成率",
+      "summary": "实际vs目标",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.Power BI.实战案例.目标完成率",
+      "parent_id": "BI.Power BI.实战案例",
+      "difficulty": 3,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "Power BI",
+        "实战案例"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI.实战案例",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI",
+        "实战案例"
+      ],
+      "depth": 2,
+      "type": "module",
+      "title": "实战案例",
+      "summary": "综合实战。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.Power BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.Power BI",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "Power BI"
+      ],
+      "depth": 1,
+      "type": "tool",
+      "title": "Power BI",
+      "summary": "Power BI 学习路径：入门→建模→DAX→可视化→实战。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "tool"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI.入门.连接数据",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI",
+        "入门",
+        "连接数据"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "连接数据",
+      "summary": "连接业务库/文件",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.FineBI.入门.连接数据",
+      "parent_id": "BI.国产 BI.FineBI.入门",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "FineBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI.入门.自助数据集",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI",
+        "入门",
+        "自助数据集"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "自助数据集",
+      "summary": "做分析集",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.FineBI.入门.自助数据集",
+      "parent_id": "BI.国产 BI.FineBI.入门",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "FineBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI.入门",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI",
+        "入门"
+      ],
+      "depth": 3,
+      "type": "module",
+      "title": "入门",
+      "summary": "FineBI · 入门",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.国产 BI.FineBI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI.图表.柱线基础",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI",
+        "图表",
+        "柱线基础"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "柱线基础",
+      "summary": "常用图",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.FineBI.图表.柱线基础",
+      "parent_id": "BI.国产 BI.FineBI.图表",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "FineBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI.图表.过滤组件",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI",
+        "图表",
+        "过滤组件"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "过滤组件",
+      "summary": "筛选",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.FineBI.图表.过滤组件",
+      "parent_id": "BI.国产 BI.FineBI.图表",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "FineBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI.图表",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI",
+        "图表"
+      ],
+      "depth": 3,
+      "type": "module",
+      "title": "图表",
+      "summary": "FineBI · 图表",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.国产 BI.FineBI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI.仪表板.页面布局",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI",
+        "仪表板",
+        "页面布局"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "页面布局",
+      "summary": "拼板",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.FineBI.仪表板.页面布局",
+      "parent_id": "BI.国产 BI.FineBI.仪表板",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "FineBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI.仪表板.发布分享",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI",
+        "仪表板",
+        "发布分享"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "发布分享",
+      "summary": "权限发布",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.FineBI.仪表板.发布分享",
+      "parent_id": "BI.国产 BI.FineBI.仪表板",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "FineBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI.仪表板",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI",
+        "仪表板"
+      ],
+      "depth": 3,
+      "type": "module",
+      "title": "仪表板",
+      "summary": "FineBI · 仪表板",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.国产 BI.FineBI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.FineBI",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "FineBI"
+      ],
+      "depth": 2,
+      "type": "tool",
+      "title": "FineBI",
+      "summary": "FineBI 功能模块学习路径。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "tool"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI.入门.工作空间",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI",
+        "入门",
+        "工作空间"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "工作空间",
+      "summary": "空间与数据集",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.QuickBI.入门.工作空间",
+      "parent_id": "BI.国产 BI.QuickBI.入门",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "QuickBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI.入门.数据源",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI",
+        "入门",
+        "数据源"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "数据源",
+      "summary": "配置源",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.QuickBI.入门.数据源",
+      "parent_id": "BI.国产 BI.QuickBI.入门",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "QuickBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI.入门",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI",
+        "入门"
+      ],
+      "depth": 3,
+      "type": "module",
+      "title": "入门",
+      "summary": "QuickBI · 入门",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.国产 BI.QuickBI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI.图表.交叉表",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI",
+        "图表",
+        "交叉表"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "交叉表",
+      "summary": "明细表",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.QuickBI.图表.交叉表",
+      "parent_id": "BI.国产 BI.QuickBI.图表",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "QuickBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI.图表.仪表趋势",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI",
+        "图表",
+        "仪表趋势"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "仪表趋势",
+      "summary": "KPI+线",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.QuickBI.图表.仪表趋势",
+      "parent_id": "BI.国产 BI.QuickBI.图表",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "QuickBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI.图表",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI",
+        "图表"
+      ],
+      "depth": 3,
+      "type": "module",
+      "title": "图表",
+      "summary": "QuickBI · 图表",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.国产 BI.QuickBI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI.仪表板.搭建仪表板",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI",
+        "仪表板",
+        "搭建仪表板"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "搭建仪表板",
+      "summary": "拼装",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.QuickBI.仪表板.搭建仪表板",
+      "parent_id": "BI.国产 BI.QuickBI.仪表板",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "QuickBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI.仪表板.分享与嵌入",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI",
+        "仪表板",
+        "分享与嵌入"
+      ],
+      "depth": 4,
+      "type": "concept",
+      "title": "分享与嵌入",
+      "summary": "对外",
+      "is_leaf": true,
+      "page_url": "/knowledge/BI.国产 BI.QuickBI.仪表板.分享与嵌入",
+      "parent_id": "BI.国产 BI.QuickBI.仪表板",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "BI",
+        "国产 BI",
+        "QuickBI"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI.仪表板",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI",
+        "仪表板"
+      ],
+      "depth": 3,
+      "type": "module",
+      "title": "仪表板",
+      "summary": "QuickBI · 仪表板",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI.国产 BI.QuickBI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "module"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI.QuickBI",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI",
+        "QuickBI"
+      ],
+      "depth": 2,
+      "type": "tool",
+      "title": "QuickBI",
+      "summary": "QuickBI 功能模块学习路径。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "tool"
+      ]
+    },
+    {
+      "node_id": "BI.国产 BI",
+      "domain_id": "BI",
+      "path": [
+        "BI",
+        "国产 BI"
+      ],
+      "depth": 1,
+      "type": "tool",
+      "title": "国产 BI",
+      "summary": "国产 BI 工具路径：FineBI / QuickBI。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "BI",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "BI",
+        "tool"
+      ]
+    },
+    {
+      "node_id": "SQL.基础查询.SELECT",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "基础查询",
+        "SELECT"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "SELECT",
+      "summary": "投影列与表达式",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.基础查询.SELECT",
+      "parent_id": "SQL.基础查询",
+      "difficulty": 1,
+      "estimated_minutes": 15,
+      "tags": [
+        "SQL",
+        "基础查询"
+      ]
+    },
+    {
+      "node_id": "SQL.基础查询.WHERE",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "基础查询",
+        "WHERE"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "WHERE",
+      "summary": "行过滤",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.基础查询.WHERE",
+      "parent_id": "SQL.基础查询",
+      "difficulty": 1,
+      "estimated_minutes": 20,
+      "tags": [
+        "SQL",
+        "基础查询"
+      ]
+    },
+    {
+      "node_id": "SQL.基础查询.ORDER BY",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "基础查询",
+        "ORDER BY"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "ORDER BY",
+      "summary": "排序",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.基础查询.ORDER BY",
+      "parent_id": "SQL.基础查询",
+      "difficulty": 1,
+      "estimated_minutes": 15,
+      "tags": [
+        "SQL",
+        "基础查询"
+      ]
+    },
+    {
+      "node_id": "SQL.基础查询.LIMIT",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "基础查询",
+        "LIMIT"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "LIMIT",
+      "summary": "限制返回行数",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.基础查询.LIMIT",
+      "parent_id": "SQL.基础查询",
+      "difficulty": 1,
+      "estimated_minutes": 15,
+      "tags": [
+        "SQL",
+        "基础查询"
+      ]
+    },
+    {
+      "node_id": "SQL.基础查询",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "基础查询"
+      ],
+      "depth": 1,
+      "type": "module",
+      "title": "基础查询",
+      "summary": "投影、过滤、排序与限行——所有 SQL 的地基。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "SQL",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "SQL",
+        "module"
+      ]
+    },
+    {
+      "node_id": "SQL.多表操作.JOIN",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "多表操作",
+        "JOIN"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "JOIN",
+      "summary": "表连接",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.多表操作.JOIN",
+      "parent_id": "SQL.多表操作",
+      "difficulty": 2,
+      "estimated_minutes": 30,
+      "tags": [
+        "SQL",
+        "多表操作"
+      ]
+    },
+    {
+      "node_id": "SQL.多表操作.子查询",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "多表操作",
+        "子查询"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "子查询",
+      "summary": "嵌套查询",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.多表操作.子查询",
+      "parent_id": "SQL.多表操作",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "SQL",
+        "多表操作"
+      ]
+    },
+    {
+      "node_id": "SQL.多表操作.UNION",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "多表操作",
+        "UNION"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "UNION",
+      "summary": "集合合并",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.多表操作.UNION",
+      "parent_id": "SQL.多表操作",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "SQL",
+        "多表操作"
+      ]
+    },
+    {
+      "node_id": "SQL.多表操作",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "多表操作"
+      ],
+      "depth": 1,
+      "type": "module",
+      "title": "多表操作",
+      "summary": "把多张表拼成分析所需宽表。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "SQL",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "SQL",
+        "module"
+      ]
+    },
+    {
+      "node_id": "SQL.聚合分析.GROUP BY",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "聚合分析",
+        "GROUP BY"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "GROUP BY",
+      "summary": "分组聚合",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.聚合分析.GROUP BY",
+      "parent_id": "SQL.聚合分析",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "SQL",
+        "聚合分析"
+      ]
+    },
+    {
+      "node_id": "SQL.聚合分析.HAVING",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "聚合分析",
+        "HAVING"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "HAVING",
+      "summary": "聚合后过滤",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.聚合分析.HAVING",
+      "parent_id": "SQL.聚合分析",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "SQL",
+        "聚合分析"
+      ]
+    },
+    {
+      "node_id": "SQL.聚合分析.窗口函数",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "聚合分析",
+        "窗口函数"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "窗口函数",
+      "summary": "分析函数",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.聚合分析.窗口函数",
+      "parent_id": "SQL.聚合分析",
+      "difficulty": 3,
+      "estimated_minutes": 35,
+      "tags": [
+        "SQL",
+        "聚合分析"
+      ]
+    },
+    {
+      "node_id": "SQL.聚合分析",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "聚合分析"
+      ],
+      "depth": 1,
+      "type": "module",
+      "title": "聚合分析",
+      "summary": "从明细到指标：分组、组过滤与窗口。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "SQL",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "SQL",
+        "module"
+      ]
+    },
+    {
+      "node_id": "SQL.数据定义.CREATE TABLE",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "数据定义",
+        "CREATE TABLE"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "CREATE TABLE",
+      "summary": "建表",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.数据定义.CREATE TABLE",
+      "parent_id": "SQL.数据定义",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "SQL",
+        "数据定义"
+      ]
+    },
+    {
+      "node_id": "SQL.数据定义.ALTER TABLE",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "数据定义",
+        "ALTER TABLE"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "ALTER TABLE",
+      "summary": "改表",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.数据定义.ALTER TABLE",
+      "parent_id": "SQL.数据定义",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "SQL",
+        "数据定义"
+      ]
+    },
+    {
+      "node_id": "SQL.数据定义.约束",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "数据定义",
+        "约束"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "约束",
+      "summary": "完整性约束",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.数据定义.约束",
+      "parent_id": "SQL.数据定义",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "SQL",
+        "数据定义"
+      ]
+    },
+    {
+      "node_id": "SQL.数据定义",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "数据定义"
+      ],
+      "depth": 1,
+      "type": "module",
+      "title": "数据定义",
+      "summary": "表结构与约束——数据正确性的底座。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "SQL",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "SQL",
+        "module"
+      ]
+    },
+    {
+      "node_id": "SQL.性能优化.索引",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "性能优化",
+        "索引"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "索引",
+      "summary": "加速访问路径",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.性能优化.索引",
+      "parent_id": "SQL.性能优化",
+      "difficulty": 3,
+      "estimated_minutes": 30,
+      "tags": [
+        "SQL",
+        "性能优化"
+      ]
+    },
+    {
+      "node_id": "SQL.性能优化.执行计划",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "性能优化",
+        "执行计划"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "执行计划",
+      "summary": "读懂 EXPLAIN",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.性能优化.执行计划",
+      "parent_id": "SQL.性能优化",
+      "difficulty": 3,
+      "estimated_minutes": 30,
+      "tags": [
+        "SQL",
+        "性能优化"
+      ]
+    },
+    {
+      "node_id": "SQL.性能优化.查询重写",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "性能优化",
+        "查询重写"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "查询重写",
+      "summary": "等价改写提速",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.性能优化.查询重写",
+      "parent_id": "SQL.性能优化",
+      "difficulty": 3,
+      "estimated_minutes": 30,
+      "tags": [
+        "SQL",
+        "性能优化"
+      ]
+    },
+    {
+      "node_id": "SQL.性能优化",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "性能优化"
+      ],
+      "depth": 1,
+      "type": "module",
+      "title": "性能优化",
+      "summary": "让查询又对又快。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "SQL",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "SQL",
+        "module"
+      ]
+    },
+    {
+      "node_id": "SQL.事务与安全.事务",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "事务与安全",
+        "事务"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "事务",
+      "summary": "ACID 与边界",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.事务与安全.事务",
+      "parent_id": "SQL.事务与安全",
+      "difficulty": 2,
+      "estimated_minutes": 25,
+      "tags": [
+        "SQL",
+        "事务与安全"
+      ]
+    },
+    {
+      "node_id": "SQL.事务与安全.锁",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "事务与安全",
+        "锁"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "锁",
+      "summary": "并发控制",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.事务与安全.锁",
+      "parent_id": "SQL.事务与安全",
+      "difficulty": 3,
+      "estimated_minutes": 25,
+      "tags": [
+        "SQL",
+        "事务与安全"
+      ]
+    },
+    {
+      "node_id": "SQL.事务与安全.权限",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "事务与安全",
+        "权限"
+      ],
+      "depth": 2,
+      "type": "concept",
+      "title": "权限",
+      "summary": "最小权限",
+      "is_leaf": true,
+      "page_url": "/knowledge/SQL.事务与安全.权限",
+      "parent_id": "SQL.事务与安全",
+      "difficulty": 2,
+      "estimated_minutes": 20,
+      "tags": [
+        "SQL",
+        "事务与安全"
+      ]
+    },
+    {
+      "node_id": "SQL.事务与安全",
+      "domain_id": "SQL",
+      "path": [
+        "SQL",
+        "事务与安全"
+      ],
+      "depth": 1,
+      "type": "module",
+      "title": "事务与安全",
+      "summary": "并发正确与访问安全。",
+      "is_leaf": false,
+      "page_url": null,
+      "parent_id": "SQL",
+      "difficulty": null,
+      "estimated_minutes": null,
+      "tags": [
+        "SQL",
+        "module"
+      ]
+    }
+  ],
+  "knowledge_base": {
+    "pages": [
+      {
+        "page_id": "BI.Tableau.入门准备.安装与账号",
+        "node_id": "BI.Tableau.入门准备.安装与账号",
+        "title": "安装与账号",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能完成 Desktop/Public 安装并登录",
+          "concept": [
+            "区分 Public / Desktop / Cloud",
+            "许可证与保存限制不同"
+          ],
+          "how_to_make": [
+            "下载对应版本",
+            "完成安装",
+            "登录账号",
+            "打开空白工作簿验证"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "Public 保存到本地文件期望私有分享",
+              "explanation": "Public 工作簿默认公开"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "安装并截图开始界面",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.入门准备.安装与账号",
+          "parent": "BI.Tableau.入门准备",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.入门准备.界面介绍",
+        "node_id": "BI.Tableau.入门准备.界面介绍",
+        "title": "界面介绍",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能指认数据窗格、行列、标记卡、筛选器",
+          "concept": [
+            "工作表/仪表板/故事",
+            "蓝色维度绿色度量"
+          ],
+          "how_to_make": [
+            "打开 Superstore",
+            "点开数据窗格",
+            "拖字段到行/列/标记卡",
+            "说出四个区域用途"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "分不清工作表与仪表板",
+              "explanation": "工作表出图，仪表板编排"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "口头描述标记卡五个架子",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.入门准备.界面介绍",
+          "parent": "BI.Tableau.入门准备",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.入门准备.数据源连接",
+        "node_id": "BI.Tableau.入门准备.数据源连接",
+        "title": "数据源连接",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能连接 Excel/CSV 并进入工作表",
+          "concept": [
+            "连接→画布→工作表",
+            "实时 vs 提取入口"
+          ],
+          "how_to_make": [
+            "选连接器",
+            "选文件/库",
+            "拖表到画布",
+            "进入工作表"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "编码错误导致乱码",
+              "explanation": "检查 CSV 编码"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "连接 Superstore 并打开一张工作表",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.入门准备.数据源连接",
+          "parent": "BI.Tableau.入门准备",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.数据准备.维度 vs 度量",
+        "node_id": "BI.Tableau.数据准备.维度 vs 度量",
+        "title": "维度 vs 度量",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能正确设置维度/度量角色",
+          "concept": [
+            "维度切片",
+            "度量聚合",
+            "ID 不应求和"
+          ],
+          "how_to_make": [
+            "检查默认角色",
+            "纠正误判字段",
+            "设默认聚合",
+            "用柱状图验证"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "对 Order ID 求和",
+              "explanation": "应改为维度或 COUNTD"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "列出 5 个易混字段并纠正",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.数据准备.维度 vs 度量",
+          "parent": "BI.Tableau.数据准备",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.数据准备.数据类型",
+        "node_id": "BI.Tableau.数据准备.数据类型",
+        "title": "数据类型",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会改日期/数字/字符串类型",
+          "concept": [
+            "类型影响聚合与轴",
+            "日期层次依赖日期类型"
+          ],
+          "how_to_make": [
+            "检查数据类型图标",
+            "右键更改类型",
+            "验证解析失败行",
+            "再出图"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "日期当字符串",
+              "explanation": "无法连续轴与同环比"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "把错误字符串日期改成日期类型",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.数据准备.数据类型",
+          "parent": "BI.Tableau.数据准备",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.数据准备.提取 vs 实时",
+        "node_id": "BI.Tableau.数据准备.提取 vs 实时",
+        "title": "提取 vs 实时",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能为场景选择 Extract 或 Live",
+          "concept": [
+            "Extract 快有延迟",
+            "Live 新鲜吃源"
+          ],
+          "how_to_make": [
+            "评估时效与源压力",
+            "默认提取",
+            "配置刷新",
+            "监控失败"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "全家 Live 打挂源库",
+              "explanation": "认证看板优先提取"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "为日报与实时大屏分别选型并说明",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.数据准备.提取 vs 实时",
+          "parent": "BI.Tableau.数据准备",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.图表制作.柱状图",
+        "node_id": "BI.Tableau.图表制作.柱状图",
+        "title": "柱状图",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "学完能做出标准对比柱状图",
+          "concept": [
+            "柱高编码数值",
+            "适合类别对比"
+          ],
+          "how_to_make": [
+            "列放维度",
+            "行放度量",
+            "标记卡选条形",
+            "按需排序"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "类别过多柱子过细",
+              "explanation": "合并其他或改条形横排"
+            },
+            {
+              "mistake": "用柱状硬画长趋势",
+              "explanation": "长时间序列优先折线"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "用 Superstore 做各区域销售额柱状图并降序",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.图表制作.柱状图",
+          "parent": "BI.Tableau.图表制作",
+          "related_links": [
+            {
+              "node_id": "BI.Tableau.图表制作.折线图",
+              "relation": "related",
+              "label": "相关：折线图"
+            }
+          ]
+        }
+      },
+      {
+        "page_id": "BI.Tableau.图表制作.折线图",
+        "node_id": "BI.Tableau.图表制作.折线图",
+        "title": "折线图",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "学完能做标准趋势折线",
+          "concept": [
+            "线连接有序点",
+            "适合趋势与拐点"
+          ],
+          "how_to_make": [
+            "日期拖入列并设为连续",
+            "度量拖入行",
+            "标记选线",
+            "检查空值断点"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "日期当离散导致杂乱",
+              "explanation": "改为连续日期"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做月度销售额折线",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.图表制作.折线图",
+          "parent": "BI.Tableau.图表制作",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.图表制作.饼图",
+        "node_id": "BI.Tableau.图表制作.饼图",
+        "title": "饼图",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "学完能做可读饼图",
+          "concept": [
+            "角度编码占比",
+            "不宜过多切片"
+          ],
+          "how_to_make": [
+            "标记选饼图",
+            "颜色放维度",
+            "角度放度量",
+            "切片≤5 并标注百分比"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "切片过多",
+              "explanation": "合并为其他或改条形"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做各区域销售占比饼图",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.图表制作.饼图",
+          "parent": "BI.Tableau.图表制作",
+          "related_links": [
+            {
+              "node_id": "BI.Tableau.图表制作.环形图",
+              "relation": "related",
+              "label": "下一课：环形图"
+            }
+          ]
+        }
+      },
+      {
+        "page_id": "BI.Tableau.图表制作.环形图",
+        "node_id": "BI.Tableau.图表制作.环形图",
+        "title": "环形图",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "学完你能在 Tableau 里做出标准环形图",
+          "concept": [
+            "环形图是饼图变体，中间镂空",
+            "核心是双轴叠两个饼，内圈白色遮盖"
+          ],
+          "how_to_make": [
+            "先做饼图：标记选饼图，颜色放维度，角度放度量",
+            "记录数拖入行两次，都改为最小值",
+            "右键第二个记录数选双轴",
+            "内圈标记卡删除颜色/角度，大小调小，颜色设白色",
+            "调整轴范围让两饼同心"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "两个饼图不同心",
+              "explanation": "需要手动调整/同步轴范围"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "用 Superstore 做各品类销售占比环形图",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.图表制作.环形图",
+          "parent": "BI.Tableau.图表制作",
+          "related_links": [
+            {
+              "node_id": "BI.Tableau.图表制作.饼图",
+              "relation": "prerequisite",
+              "label": "前置：饼图"
+            },
+            {
+              "node_id": "BI.Tableau.图表制作.双轴组合图",
+              "relation": "related",
+              "label": "相关：双轴组合图"
+            }
+          ]
+        }
+      },
+      {
+        "page_id": "BI.Tableau.图表制作.双轴组合图",
+        "node_id": "BI.Tableau.图表制作.双轴组合图",
+        "title": "双轴组合图",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "学完能做柱线双轴组合图",
+          "concept": [
+            "双轴=两层标记卡",
+            "可同步或独立轴"
+          ],
+          "how_to_make": [
+            "日期拖入列（连续）",
+            "销售额拖入行",
+            "利润拖入行",
+            "右键利润选双轴",
+            "左侧标记卡将利润改为条形，右侧保持线",
+            "量纲相近时右键轴选同步轴"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "量纲差巨大却强行同步轴",
+              "explanation": "不同步并标注单位"
+            },
+            {
+              "mistake": "改错标记卡",
+              "explanation": "分别设置左右标记卡"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做月度销售额柱 + 利润率线",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.图表制作.双轴组合图",
+          "parent": "BI.Tableau.图表制作",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.图表制作.热力图",
+        "node_id": "BI.Tableau.图表制作.热力图",
+        "title": "热力图",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "学完能做交叉热力图",
+          "concept": [
+            "适合密度与交叉强弱"
+          ],
+          "how_to_make": [
+            "行维放行、列维放列",
+            "度量放颜色",
+            "标记选方形",
+            "调整色阶"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "极值洗白色阶",
+              "explanation": "限色域或对数变换"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做 Region×Category 的 Sales 热力",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.图表制作.热力图",
+          "parent": "BI.Tableau.图表制作",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.计算.LOD.FIXED",
+        "node_id": "BI.Tableau.计算.LOD.FIXED",
+        "title": "FIXED",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能写 FIXED 并解释与筛选器关系",
+          "concept": [
+            "FIXED 固定到声明维度计算",
+            "常用于客户总额、区域总额等分母锁定"
+          ],
+          "syntax": "{ FIXED [维度] : 聚合([度量]) }",
+          "scenario": "每个客户的总销售额（在订单明细行旁显示）",
+          "how_to_make": [
+            "创建计算字段",
+            "输入 { FIXED [Customer Name] : SUM([Sales]) }",
+            "拖到视图验证不随无关维变化",
+            "分别用普通筛选与上下文筛选测试"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "忽略普通筛选器",
+              "explanation": "FIXED 通常不受普通维度筛选影响，需上下文筛选或改写法"
+            },
+            {
+              "mistake": "固定维选错变成全局一个数",
+              "explanation": "检查 FIXED 列表是否为空或过粗"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "用 FIXED 计算每个客户总销售额并显示在明细表",
+              "difficulty": 3
+            },
+            {
+              "question": "用区域 FIXED 总额做州占比",
+              "difficulty": 4
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.计算.LOD.FIXED",
+          "parent": "BI.Tableau.计算.LOD",
+          "related_links": [
+            {
+              "node_id": "BI.Tableau.计算.LOD.INCLUDE",
+              "relation": "related",
+              "label": "相关：INCLUDE"
+            }
+          ]
+        }
+      },
+      {
+        "page_id": "BI.Tableau.计算.LOD.INCLUDE",
+        "node_id": "BI.Tableau.计算.LOD.INCLUDE",
+        "title": "INCLUDE",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能写 INCLUDE 并说明外层再聚合",
+          "concept": [
+            "INCLUDE = 视图维 ∪ 声明维",
+            "适合先细算再回聚"
+          ],
+          "syntax": "{ INCLUDE [维度] : 聚合([度量]) }",
+          "scenario": "视图只有 Category，但想先按 Sub-Category 算再平均",
+          "how_to_make": [
+            "确认视图较粗",
+            "写 INCLUDE 细粒度聚合",
+            "外层再 AVG/SUM",
+            "与直接粗聚合对比"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "忽略普通筛选器以外的语义差异",
+              "explanation": "仍要用用例验证"
+            },
+            {
+              "mistake": "忘了外层再聚合",
+              "explanation": "INCLUDE 结果常需再汇总"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "比较 SUM(Sales) 与 AVG({INCLUDE [Sub-Category]: SUM([Sales])})",
+              "difficulty": 4
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.计算.LOD.INCLUDE",
+          "parent": "BI.Tableau.计算.LOD",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.计算.LOD.EXCLUDE",
+        "node_id": "BI.Tableau.计算.LOD.EXCLUDE",
+        "title": "EXCLUDE",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能写 EXCLUDE 做上级占比",
+          "concept": [
+            "EXCLUDE = 视图维 − 声明维",
+            "适合明细旁显示上级汇总"
+          ],
+          "syntax": "{ EXCLUDE [维度] : 聚合([度量]) }",
+          "scenario": "子类别占所属类别比重",
+          "how_to_make": [
+            "视图放 Category + Sub-Category",
+            "写 EXCLUDE Sub-Category 得类别总额",
+            "用明细/类别总额做占比",
+            "与表计算占比对照"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "排除后仍期望随该维变化",
+              "explanation": "语义上该维已被移除"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "用 EXCLUDE 做子类别占类别百分比",
+              "difficulty": 4
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.计算.LOD.EXCLUDE",
+          "parent": "BI.Tableau.计算.LOD",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.计算.基础计算",
+        "node_id": "BI.Tableau.计算.基础计算",
+        "title": "基础计算",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会创建基础计算字段",
+          "concept": [
+            "计算字段封装逻辑",
+            "注意聚合级别"
+          ],
+          "how_to_make": [
+            "分析→创建计算字段",
+            "写 IF/算术",
+            "拖入视图验证"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "行级与聚合混用报错",
+              "explanation": "统一粒度或用 LOD"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "写「高价值订单」IF 字段",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.计算.基础计算",
+          "parent": "BI.Tableau.计算",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.计算.表计算",
+        "node_id": "BI.Tableau.计算.表计算",
+        "title": "表计算",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会用占比/排名等快速表计算",
+          "concept": [
+            "表计算基于当前分区结果",
+            "计算依据很关键"
+          ],
+          "how_to_make": [
+            "出基础图",
+            "快速表计算",
+            "设置计算依据",
+            "核对"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "计算依据选错",
+              "explanation": "排名会乱"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做区域销售额占比标签",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.计算.表计算",
+          "parent": "BI.Tableau.计算",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.筛选与交互.筛选器",
+        "node_id": "BI.Tableau.筛选与交互.筛选器",
+        "title": "筛选器",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会配置维度/度量筛选并设默认",
+          "concept": [
+            "筛选器控制查询谓词",
+            "时间建议默认近7日"
+          ],
+          "how_to_make": [
+            "拖字段到筛选",
+            "设条件与默认",
+            "显示筛选控件",
+            "测试清空"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "无默认时间窗",
+              "explanation": "易触发全历史慢查询"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "为销售图加 Category 筛选默认全选",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.筛选与交互.筛选器",
+          "parent": "BI.Tableau.筛选与交互",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.筛选与交互.参数",
+        "node_id": "BI.Tableau.筛选与交互.参数",
+        "title": "参数",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会用参数切换度量或阈值",
+          "concept": [
+            "参数是用户输入变量",
+            "需计算字段引用"
+          ],
+          "how_to_make": [
+            "创建参数",
+            "计算字段引用",
+            "显示参数控件",
+            "测试边界"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "只建参数不引用",
+              "explanation": "视图不会变化"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "参数切换 Sales/Profit 主指标",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.筛选与交互.参数",
+          "parent": "BI.Tableau.筛选与交互",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.筛选与交互.动作",
+        "node_id": "BI.Tableau.筛选与交互.动作",
+        "title": "动作",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会配置筛选/高亮动作",
+          "concept": [
+            "仪表板动作连接多表",
+            "明确源与目标"
+          ],
+          "how_to_make": [
+            "仪表板→动作",
+            "选类型",
+            "设源表目标表",
+            "测试点击"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "动作互相覆盖",
+              "explanation": "减少并发动作并命名"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "点击区域饼图筛选趋势图",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.筛选与交互.动作",
+          "parent": "BI.Tableau.筛选与交互",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.仪表板.布局",
+        "node_id": "BI.Tableau.仪表板.布局",
+        "title": "布局",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能用容器搭 KPI→主图→明细布局",
+          "concept": [
+            "容器固定结构",
+            "留白与对齐"
+          ],
+          "how_to_make": [
+            "新建仪表板",
+            "水平/垂直容器",
+            "放入工作表",
+            "统一边距"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "一屏塞过多图",
+              "explanation": "删到服务单一决策"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "搭销售复盘三区线框",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.仪表板.布局",
+          "parent": "BI.Tableau.仪表板",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.仪表板.交互设计",
+        "node_id": "BI.Tableau.仪表板.交互设计",
+        "title": "交互设计",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "为仪表板配置必要交互且不失控",
+          "concept": [
+            "筛选+动作+默认值",
+            "防止选择瘫痪"
+          ],
+          "how_to_make": [
+            "放关键筛选",
+            "配置动作",
+            "设默认",
+            "边界测试"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "筛选器过多",
+              "explanation": "分层或收纳"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "完成可点击联动的复盘板",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.仪表板.交互设计",
+          "parent": "BI.Tableau.仪表板",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.仪表板.移动端适配",
+        "node_id": "BI.Tableau.仪表板.移动端适配",
+        "title": "移动端适配",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能做手机设备布局",
+          "concept": [
+            "设备布局独立",
+            "单列信息流"
+          ],
+          "how_to_make": [
+            "设备布局→手机",
+            "单列堆叠",
+            "放大 KPI",
+            "隐藏次要图"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "直接缩小桌面版",
+              "explanation": "应重排"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "为复盘板加手机布局",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.仪表板.移动端适配",
+          "parent": "BI.Tableau.仪表板",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.性能优化.提取优化",
+        "node_id": "BI.Tableau.性能优化.提取优化",
+        "title": "提取优化",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会裁剪字段与过滤历史",
+          "concept": [
+            "隐藏未用字段",
+            "增量刷新"
+          ],
+          "how_to_make": [
+            "隐藏字段",
+            "提取过滤",
+            "增量配置",
+            "对比体积"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "全历史无过滤",
+              "explanation": "体积膨胀"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "裁剪近2年提取并记录体积",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.性能优化.提取优化",
+          "parent": "BI.Tableau.性能优化",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.性能优化.计算字段优化",
+        "node_id": "BI.Tableau.性能优化.计算字段优化",
+        "title": "计算字段优化",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能识别并下推重计算",
+          "concept": [
+            "能 ETL 就不要视图算",
+            "避免重复逻辑"
+          ],
+          "how_to_make": [
+            "找慢计算",
+            "简化或物化",
+            "性能记录对比"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "视图里做重字符串解析",
+              "explanation": "前置处理"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "改写一个复杂 IF 并对比耗时",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.性能优化.计算字段优化",
+          "parent": "BI.Tableau.性能优化",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.性能优化.LOD 性能",
+        "node_id": "BI.Tableau.性能优化.LOD 性能",
+        "title": "LOD 性能",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "理解 FIXED 额外查询成本",
+          "concept": [
+            "多 FIXED 拖慢仪表板",
+            "可表计算则不用 FIXED"
+          ],
+          "how_to_make": [
+            "统计 LOD",
+            "删可替代者",
+            "回归口径",
+            "再测速"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "每个 KPI 一个 FIXED",
+              "explanation": "合并或预聚合"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "把 3 个 FIXED 减到 1 个且结论不变",
+              "difficulty": 4
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.性能优化.LOD 性能",
+          "parent": "BI.Tableau.性能优化",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.实战案例.销售分析",
+        "node_id": "BI.Tableau.实战案例.销售分析",
+        "title": "销售分析",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能独立做出销售复盘仪表板",
+          "concept": [
+            "KPI+趋势+结构+明细",
+            "统一口径"
+          ],
+          "how_to_make": [
+            "定北极星",
+            "做趋势与结构图",
+            "拼仪表板",
+            "加筛选动作",
+            "写口径说明"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "图很多但无结论区",
+              "explanation": "标题即结论"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "交付一页销售复盘并录 1 分钟解说",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.实战案例.销售分析",
+          "parent": "BI.Tableau.实战案例",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.实战案例.留存分析",
+        "node_id": "BI.Tableau.实战案例.留存分析",
+        "title": "留存分析",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能做简易队列留存热力",
+          "concept": [
+            "入组定义",
+            "观察偏移周"
+          ],
+          "how_to_make": [
+            "定义首单日",
+            "算队列年龄",
+            "热力图",
+            "注释口径"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "入组定义含取消单",
+              "explanation": "先清洗状态"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做新客第0–3周留存示意表",
+              "difficulty": 4
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.实战案例.留存分析",
+          "parent": "BI.Tableau.实战案例",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Tableau.实战案例.漏斗分析",
+        "node_id": "BI.Tableau.实战案例.漏斗分析",
+        "title": "漏斗分析",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能做访购→下单→支付漏斗",
+          "concept": [
+            "同窗同主体",
+            "步骤定义清晰"
+          ],
+          "how_to_make": [
+            "定义步骤事件",
+            "算各步人数",
+            "漏斗图或条形",
+            "标注转化率"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "步骤窗口不一致",
+              "explanation": "统一时间窗"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "画三步漏斗并写口径",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Tableau.实战案例.漏斗分析",
+          "parent": "BI.Tableau.实战案例",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.入门准备.安装与界面",
+        "node_id": "BI.Power BI.入门准备.安装与界面",
+        "title": "安装与界面",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "完成 Desktop 安装并认识区划",
+          "concept": [
+            "报表/数据/模型视图"
+          ],
+          "how_to_make": [
+            "安装",
+            "打开 Desktop",
+            "切换三视图",
+            "连示例"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "只会报表不会模型",
+              "explanation": "先看模型视图"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "截图三视图",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.入门准备.安装与界面",
+          "parent": "BI.Power BI.入门准备",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.入门准备.获取数据",
+        "node_id": "BI.Power BI.入门准备.获取数据",
+        "title": "获取数据",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能导入 Excel/CSV",
+          "concept": [
+            "获取数据与转换"
+          ],
+          "how_to_make": [
+            "获取数据",
+            "选文件",
+            "转换或加载",
+            "验证列"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "类型自动错误",
+              "explanation": "Power Query 中纠正"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "导入一份 CSV",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.入门准备.获取数据",
+          "parent": "BI.Power BI.入门准备",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.数据建模.星型模型",
+        "node_id": "BI.Power BI.数据建模.星型模型",
+        "title": "星型模型",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能搭最小星型模型",
+          "concept": [
+            "事实与维度",
+            "关系基数"
+          ],
+          "how_to_make": [
+            "导入事实维表",
+            "建关系",
+            "设基数",
+            "隐藏技术键"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "双向过滤滥用",
+              "explanation": "默认单方向"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "搭销售事实+日期+产品维",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.数据建模.星型模型",
+          "parent": "BI.Power BI.数据建模",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.数据建模.日期表",
+        "node_id": "BI.Power BI.数据建模.日期表",
+        "title": "日期表",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会创建并标记日期表",
+          "concept": [
+            "时间智能依赖日期表"
+          ],
+          "how_to_make": [
+            "生成日期表",
+            "标记为日期表",
+            "关联事实日期"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "用事实日期列做时间智能",
+              "explanation": "应独立日期表"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "创建连续日期表并关联",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.数据建模.日期表",
+          "parent": "BI.Power BI.数据建模",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.DAX.基础度量",
+        "node_id": "BI.Power BI.DAX.基础度量",
+        "title": "基础度量",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会写基础度量值",
+          "concept": [
+            "度量不存行",
+            "上下文感知"
+          ],
+          "how_to_make": [
+            "新建度量",
+            "写 SUM",
+            "放到卡片",
+            "切片验证"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "用计算列代替度量",
+              "explanation": "聚合场景优先度量"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "写 Total Sales 度量",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.DAX.基础度量",
+          "parent": "BI.Power BI.DAX",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.DAX.CALCULATE",
+        "node_id": "BI.Power BI.DAX.CALCULATE",
+        "title": "CALCULATE",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "理解 CALCULATE 基本用法",
+          "concept": [
+            "改筛选上下文",
+            "时间智能基础"
+          ],
+          "how_to_make": [
+            "写 CALCULATE",
+            "加筛选条件",
+            "与原度量对比"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "忽略上下文转换",
+              "explanation": "用简单例子逐步看"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "写今年至今销售额",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.DAX.CALCULATE",
+          "parent": "BI.Power BI.DAX",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.可视化.常用图表",
+        "node_id": "BI.Power BI.可视化.常用图表",
+        "title": "常用图表",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会做柱状/折线/卡片",
+          "concept": [
+            "视觉对象面板"
+          ],
+          "how_to_make": [
+            "选视觉对象",
+            "拖字段",
+            "格式化",
+            "加切片器"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "装饰过度",
+              "explanation": "先准确"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做销售趋势+KPI 卡",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.可视化.常用图表",
+          "parent": "BI.Power BI.可视化",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.可视化.切片器",
+        "node_id": "BI.Power BI.可视化.切片器",
+        "title": "切片器",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会配置切片器同步",
+          "concept": [
+            "切片器编辑交互"
+          ],
+          "how_to_make": [
+            "放切片器",
+            "设样式",
+            "编辑交互",
+            "测试"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "切片器过多",
+              "explanation": "收纳"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "日期与类别双切片器",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.可视化.切片器",
+          "parent": "BI.Power BI.可视化",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.实战案例.销售仪表板",
+        "node_id": "BI.Power BI.实战案例.销售仪表板",
+        "title": "销售仪表板",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "交付一页销售仪表板",
+          "concept": [
+            "模型+DAX+视觉一体"
+          ],
+          "how_to_make": [
+            "建模",
+            "写度量",
+            "出图",
+            "布局发布"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "无日期表时间智能乱",
+              "explanation": "补日期表"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "发布到工作区并设刷新",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.实战案例.销售仪表板",
+          "parent": "BI.Power BI.实战案例",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.Power BI.实战案例.目标完成率",
+        "node_id": "BI.Power BI.实战案例.目标完成率",
+        "title": "目标完成率",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "做目标对照可视化",
+          "concept": [
+            "目标表关联",
+            "完成率度量"
+          ],
+          "how_to_make": [
+            "引入目标",
+            "写完成率",
+            "子弹图或柱线",
+            "注释"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "目标粒度不匹配",
+              "explanation": "统一到月/区"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做区域目标完成率",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.Power BI.实战案例.目标完成率",
+          "parent": "BI.Power BI.实战案例",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.FineBI.入门.连接数据",
+        "node_id": "BI.国产 BI.FineBI.入门.连接数据",
+        "title": "连接数据",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "能添加数据连接",
+          "concept": [
+            "数据连接与权限"
+          ],
+          "how_to_make": [
+            "新建连接",
+            "测试",
+            "选表",
+            "进入分析"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "账号权限不足",
+              "explanation": "先申请只读"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "添加一个 Excel 连接",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.FineBI.入门.连接数据",
+          "parent": "BI.国产 BI.FineBI.入门",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.FineBI.入门.自助数据集",
+        "node_id": "BI.国产 BI.FineBI.入门.自助数据集",
+        "title": "自助数据集",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会创建自助数据集",
+          "concept": [
+            "字段配置与过滤"
+          ],
+          "how_to_make": [
+            "选表",
+            "加工字段",
+            "保存",
+            "出组件"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "直连过大表无过滤",
+              "explanation": "先限范围"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做一个销售明细自助集",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.FineBI.入门.自助数据集",
+          "parent": "BI.国产 BI.FineBI.入门",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.FineBI.图表.柱线基础",
+        "node_id": "BI.国产 BI.FineBI.图表.柱线基础",
+        "title": "柱线基础",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会做柱状与折线",
+          "concept": [
+            "拖拽字段"
+          ],
+          "how_to_make": [
+            "新建组件",
+            "选图",
+            "拖字段",
+            "格式"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "维度度量放反",
+              "explanation": "检查字段角色"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做区域销售柱图",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.FineBI.图表.柱线基础",
+          "parent": "BI.国产 BI.FineBI.图表",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.FineBI.图表.过滤组件",
+        "node_id": "BI.国产 BI.FineBI.图表.过滤组件",
+        "title": "过滤组件",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会加过滤组件",
+          "concept": [
+            "过滤联动"
+          ],
+          "how_to_make": [
+            "加过滤",
+            "绑定字段",
+            "设默认",
+            "测试"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "未绑定到组件",
+              "explanation": "检查联动设置"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "加日期过滤",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.FineBI.图表.过滤组件",
+          "parent": "BI.国产 BI.FineBI.图表",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.FineBI.仪表板.页面布局",
+        "node_id": "BI.国产 BI.FineBI.仪表板.页面布局",
+        "title": "页面布局",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会拼仪表板",
+          "concept": [
+            "组件布局"
+          ],
+          "how_to_make": [
+            "新建仪表板",
+            "拖组件",
+            "对齐",
+            "预览"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "无统一风格",
+              "explanation": "用主题"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "拼 KPI+趋势一页",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.FineBI.仪表板.页面布局",
+          "parent": "BI.国产 BI.FineBI.仪表板",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.FineBI.仪表板.发布分享",
+        "node_id": "BI.国产 BI.FineBI.仪表板.发布分享",
+        "title": "发布分享",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会发布并设权限",
+          "concept": [
+            "目录与权限"
+          ],
+          "how_to_make": [
+            "挂目录",
+            "授权",
+            "分享链接",
+            "验收"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "权限过大",
+              "explanation": "按角色最小化"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "发布给只读角色",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.FineBI.仪表板.发布分享",
+          "parent": "BI.国产 BI.FineBI.仪表板",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.QuickBI.入门.工作空间",
+        "node_id": "BI.国产 BI.QuickBI.入门.工作空间",
+        "title": "工作空间",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "认识空间与数据集",
+          "concept": [
+            "工作空间隔离"
+          ],
+          "how_to_make": [
+            "进入空间",
+            "建数据集",
+            "预览",
+            "授权"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "个人空间当生产",
+              "explanation": "生产用团队空间"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "创建练习数据集",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.QuickBI.入门.工作空间",
+          "parent": "BI.国产 BI.QuickBI.入门",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.QuickBI.入门.数据源",
+        "node_id": "BI.国产 BI.QuickBI.入门.数据源",
+        "title": "数据源",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "配置常用数据源",
+          "concept": [
+            "云数仓连接"
+          ],
+          "how_to_make": [
+            "添加源",
+            "连通测试",
+            "选表",
+            "同步"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "白名单未开",
+              "explanation": "先配网络"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "连通一个样例源",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.QuickBI.入门.数据源",
+          "parent": "BI.国产 BI.QuickBI.入门",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.QuickBI.图表.交叉表",
+        "node_id": "BI.国产 BI.QuickBI.图表.交叉表",
+        "title": "交叉表",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会做交叉表",
+          "concept": [
+            "行列表头"
+          ],
+          "how_to_make": [
+            "选交叉表",
+            "拖维度量",
+            "格式",
+            "导出测"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "明细过大",
+              "explanation": "加过滤"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "做品类×区域交叉表",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.QuickBI.图表.交叉表",
+          "parent": "BI.国产 BI.QuickBI.图表",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.QuickBI.图表.仪表趋势",
+        "node_id": "BI.国产 BI.QuickBI.图表.仪表趋势",
+        "title": "仪表趋势",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会做指标卡与趋势",
+          "concept": [
+            "组合"
+          ],
+          "how_to_make": [
+            "指标卡",
+            "趋势图",
+            "同页",
+            "联动"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "口径无说明",
+              "explanation": "加备注"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "GMV 卡+7日趋势",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.QuickBI.图表.仪表趋势",
+          "parent": "BI.国产 BI.QuickBI.图表",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.QuickBI.仪表板.搭建仪表板",
+        "node_id": "BI.国产 BI.QuickBI.仪表板.搭建仪表板",
+        "title": "搭建仪表板",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "完成一页仪表板",
+          "concept": [
+            "布局与主题"
+          ],
+          "how_to_make": [
+            "新建",
+            "拖图表",
+            "设查询控件",
+            "预览"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "控件过多",
+              "explanation": "精简"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "交付经营一页纸",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.QuickBI.仪表板.搭建仪表板",
+          "parent": "BI.国产 BI.QuickBI.仪表板",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "BI.国产 BI.QuickBI.仪表板.分享与嵌入",
+        "node_id": "BI.国产 BI.QuickBI.仪表板.分享与嵌入",
+        "title": "分享与嵌入",
+        "domain_id": "BI",
+        "content": {
+          "learning_goal": "会分享与嵌入注意项",
+          "concept": [
+            "公开链接风险"
+          ],
+          "how_to_make": [
+            "分享设置",
+            "权限",
+            "嵌入参数",
+            "审计"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "公开敏感板",
+              "explanation": "脱敏+登录"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "列出嵌入前 5 条检查",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=BI.国产 BI.QuickBI.仪表板.分享与嵌入",
+          "parent": "BI.国产 BI.QuickBI.仪表板",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.基础查询.SELECT",
+        "node_id": "SQL.基础查询.SELECT",
+        "title": "SELECT",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "能写出带别名与表达式的 SELECT",
+          "concept": [
+            "SELECT 指定要返回的列或表达式",
+            "可用 AS 起别名",
+            "SELECT * 仅适合探索"
+          ],
+          "how_to_make": [
+            "写出 FROM 表",
+            "列出需要的列",
+            "必要时加表达式与别名",
+            "用 LIMIT 抽样验数"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "滥用 SELECT *",
+              "explanation": "生产查询应显式列清单"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "从 orders 选出 order_id, user_id, amount 并起别名",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.基础查询.SELECT",
+          "parent": "SQL.基础查询",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.基础查询.WHERE",
+        "node_id": "SQL.基础查询.WHERE",
+        "title": "WHERE",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "能用 WHERE 做等值、范围与空值过滤",
+          "concept": [
+            "WHERE 在聚合前过滤行",
+            "注意 NULL 要用 IS NULL",
+            "AND/OR 注意括号"
+          ],
+          "how_to_make": [
+            "确定过滤字段",
+            "写比较条件",
+            "组合 AND/OR",
+            "用抽样核对行数"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "用 = NULL",
+              "explanation": "应写 IS NULL / IS NOT NULL"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "筛选 status='paid' 且 amount>=100 的订单",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.基础查询.WHERE",
+          "parent": "SQL.基础查询",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.基础查询.ORDER BY",
+        "node_id": "SQL.基础查询.ORDER BY",
+        "title": "ORDER BY",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "能按单列/多列升降序排序",
+          "concept": [
+            "ORDER BY 控制结果顺序",
+            "默认 ASC",
+            "可多键排序"
+          ],
+          "how_to_make": [
+            "选定排序键",
+            "指定 ASC/DESC",
+            "必要时二次排序键",
+            "与 LIMIT 组合取 TopN"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "排序列不在 SELECT 却期望稳定输出",
+              "explanation": "部分引擎允许，但应显式写清"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "按 amount 降序取前 10 单",
+              "difficulty": 1
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.基础查询.ORDER BY",
+          "parent": "SQL.基础查询",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.基础查询.LIMIT",
+        "node_id": "SQL.基础查询.LIMIT",
+        "title": "LIMIT",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "会用 LIMIT/OFFSET 做分页与抽样",
+          "concept": [
+            "LIMIT 限制行数",
+            "OFFSET 跳过行",
+            "深分页有性能问题"
+          ],
+          "how_to_make": [
+            "先 ORDER BY 再 LIMIT",
+            "分页用 OFFSET 或键集分页",
+            "探索数据先 LIMIT 100"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "无 ORDER BY 的 LIMIT",
+              "explanation": "结果顺序不稳定"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "实现 amount 降序第 11–20 名（OFFSET）",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.基础查询.LIMIT",
+          "parent": "SQL.基础查询",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.多表操作.JOIN",
+        "node_id": "SQL.多表操作.JOIN",
+        "title": "JOIN",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "能正确使用 INNER/LEFT JOIN 并说明粒度",
+          "concept": [
+            "JOIN 按键合并表",
+            "INNER 只要匹配",
+            "LEFT 保留左表",
+            "一对多会放大行数"
+          ],
+          "how_to_make": [
+            "确认驱动表与维度表",
+            "写 ON 条件",
+            "选择 JOIN 类型",
+            "检查行数是否爆炸"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "一对多后直接 SUM 头表金额",
+              "explanation": "先按粒度聚合或去重"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "orders LEFT JOIN users 按城市汇总支付 GMV",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.多表操作.JOIN",
+          "parent": "SQL.多表操作",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.多表操作.子查询",
+        "node_id": "SQL.多表操作.子查询",
+        "title": "子查询",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "会写标量/IN/EXISTS 与派生表子查询",
+          "concept": [
+            "子查询可出现在 SELECT/FROM/WHERE",
+            "相关子查询注意性能",
+            "常可改写 JOIN"
+          ],
+          "how_to_make": [
+            "先写清内外层问题",
+            "选定子查询形态",
+            "用 EXPLAIN 对比 JOIN 改写"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "IN 子查询返回 NULL",
+              "explanation": "注意三值逻辑"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "找出下过单金额高于全站平均的用户",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.多表操作.子查询",
+          "parent": "SQL.多表操作",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.多表操作.UNION",
+        "node_id": "SQL.多表操作.UNION",
+        "title": "UNION",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "会用 UNION/UNION ALL 合并结果集",
+          "concept": [
+            "列数与类型需对齐",
+            "UNION 去重",
+            "UNION ALL 保留重复更快"
+          ],
+          "how_to_make": [
+            "对齐两边 SELECT 列表",
+            "优先 UNION ALL",
+            "需要唯一再去重"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "默认 UNION 导致慢",
+              "explanation": "无必要去重时用 UNION ALL"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "合并今年与去年支付订单 id 列表（允许重复用 ALL）",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.多表操作.UNION",
+          "parent": "SQL.多表操作",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.聚合分析.GROUP BY",
+        "node_id": "SQL.聚合分析.GROUP BY",
+        "title": "GROUP BY",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "能按维分组并计算 SUM/COUNT/AVG",
+          "concept": [
+            "GROUP BY 定义聚合粒度",
+            "SELECT 非聚合列必须在 GROUP BY",
+            "COUNT DISTINCT 注意性能"
+          ],
+          "how_to_make": [
+            "确定分组维",
+            "写聚合函数",
+            "HAVING 前先 GROUP",
+            "核对合计"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "SELECT 多出未分组列",
+              "explanation": "违反 only_full_group_by"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "按 status 统计订单数与金额合计",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.聚合分析.GROUP BY",
+          "parent": "SQL.聚合分析",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.聚合分析.HAVING",
+        "node_id": "SQL.聚合分析.HAVING",
+        "title": "HAVING",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "区分 WHERE 与 HAVING",
+          "concept": [
+            "WHERE 过滤行",
+            "HAVING 过滤组",
+            "可对聚合结果设阈"
+          ],
+          "how_to_make": [
+            "先 GROUP BY",
+            "再 HAVING 条件",
+            "能下推 WHERE 的不要放 HAVING"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "在 HAVING 写行级条件",
+              "explanation": "应放 WHERE"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "找出订单数≥3 的用户",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.聚合分析.HAVING",
+          "parent": "SQL.聚合分析",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.聚合分析.窗口函数",
+        "node_id": "SQL.聚合分析.窗口函数",
+        "title": "窗口函数",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "会用 ROW_NUMBER/SUM() OVER 做排名与奔走合计",
+          "concept": [
+            "窗口不坍缩行",
+            "PARTITION BY + ORDER BY",
+            "常用于去重与累计"
+          ],
+          "how_to_make": [
+            "确定分区与排序",
+            "选窗口函数",
+            "用 QUALIFY/子查询取 rn=1"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "PARTITION 选错",
+              "explanation": "排名会在错误群体内计算"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "每个用户按时间取最近一笔订单",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.聚合分析.窗口函数",
+          "parent": "SQL.聚合分析",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.数据定义.CREATE TABLE",
+        "node_id": "SQL.数据定义.CREATE TABLE",
+        "title": "CREATE TABLE",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "能设计基础表结构与主键",
+          "concept": [
+            "DDL 定义结构",
+            "主键/类型/默认值",
+            "命名规范"
+          ],
+          "how_to_make": [
+            "列清单与类型",
+            "设主键",
+            "必要默认值与注释",
+            "在测试库执行"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "无主键",
+              "explanation": "后续更新/关联困难"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "设计一张简易 orders 表 DDL",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.数据定义.CREATE TABLE",
+          "parent": "SQL.数据定义",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.数据定义.ALTER TABLE",
+        "node_id": "SQL.数据定义.ALTER TABLE",
+        "title": "ALTER TABLE",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "会增删列与改类型的安全做法",
+          "concept": [
+            "ALTER 变更结构",
+            "大表改类型有锁风险",
+            "在线 DDL 视引擎而定"
+          ],
+          "how_to_make": [
+            "评估影响",
+            "写 ALTER",
+            "在从库/低峰验证",
+            "回滚预案"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "高峰直接改大字段类型",
+              "explanation": "可能导致长时间锁表"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "为 orders 增加 comment VARCHAR(200) 可空列",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.数据定义.ALTER TABLE",
+          "parent": "SQL.数据定义",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.数据定义.约束",
+        "node_id": "SQL.数据定义.约束",
+        "title": "约束",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "理解 PK/UK/FK/CHECK/NOT NULL",
+          "concept": [
+            "约束保证数据质量",
+            "FK 有维护成本",
+            "业务约束可放应用+DB"
+          ],
+          "how_to_make": [
+            "列出必须不变量",
+            "选型约束",
+            "补充应用校验",
+            "写违规用例测试"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "只靠应用约束",
+              "explanation": "旁路写入会脏数据"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "为 order_items.order_id 设计外键策略（强制或逻辑）",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.数据定义.约束",
+          "parent": "SQL.数据定义",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.性能优化.索引",
+        "node_id": "SQL.性能优化.索引",
+        "title": "索引",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "能解释 BTree 索引适用场景并设计组合索引",
+          "concept": [
+            "索引以空间换时间",
+            "最左前缀",
+            "不是越多越好"
+          ],
+          "how_to_make": [
+            "看慢查询 WHERE/JOIN 列",
+            "设计组合索引顺序",
+            "避免过度索引",
+            "用 EXPLAIN 验证"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "对低区分度列单建索引",
+              "explanation": "收益低还拖累写入"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "为 (user_id, created_at) 查询设计索引",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.性能优化.索引",
+          "parent": "SQL.性能优化",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.性能优化.执行计划",
+        "node_id": "SQL.性能优化.执行计划",
+        "title": "执行计划",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "会读 type/key/rows/Extra 关键字段",
+          "concept": [
+            "执行计划展示优化器选择",
+            "关注全表扫与临时表",
+            "统计信息影响计划"
+          ],
+          "how_to_make": [
+            "EXPLAIN 原 SQL",
+            "定位坏步骤",
+            "改写或加索引",
+            "对比前后"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "只看有没有 Using index",
+              "explanation": "还要看扫描行数与是否回表"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "对一条慢 JOIN 输出 EXPLAIN 并指出瓶颈一行",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.性能优化.执行计划",
+          "parent": "SQL.性能优化",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.性能优化.查询重写",
+        "node_id": "SQL.性能优化.查询重写",
+        "title": "查询重写",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "能做 EXISTS/JOIN、子查询上拉等改写",
+          "concept": [
+            "语义等价优先",
+            "减少中间结果",
+            "避免选择率误判"
+          ],
+          "how_to_make": [
+            "保留验收用例",
+            "改写",
+            "对比计划与结果",
+            "回归"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "改写后口径变了",
+              "explanation": "必须先有对拍用例"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "把相关子查询改成 JOIN 并证明行数一致",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.性能优化.查询重写",
+          "parent": "SQL.性能优化",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.事务与安全.事务",
+        "node_id": "SQL.事务与安全.事务",
+        "title": "事务",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "能界定事务边界并处理提交/回滚",
+          "concept": [
+            "事务打包多语句",
+            "提交/回滚",
+            "隔离级别影响可见性"
+          ],
+          "how_to_make": [
+            "明确原子操作集合",
+            "BEGIN…COMMIT",
+            "异常路径 ROLLBACK",
+            "避免超长事务"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "长事务抱着锁不放",
+              "explanation": "拆小、尽快提交"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "描述下单扣库存的最小事务包含哪些语句",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.事务与安全.事务",
+          "parent": "SQL.事务与安全",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.事务与安全.锁",
+        "node_id": "SQL.事务与安全.锁",
+        "title": "锁",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "理解行锁/表锁与死锁基本处理",
+          "concept": [
+            "锁保护并发正确性",
+            "死锁需重试",
+            "索引减少锁范围"
+          ],
+          "how_to_make": [
+            "缩短事务",
+            "按相同顺序访问资源",
+            "监控死锁日志",
+            "必要时刻意加锁"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "无索引更新导致锁升级",
+              "explanation": "加合适索引缩小锁粒度"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "写出一次死锁排查的三步清单",
+              "difficulty": 3
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.事务与安全.锁",
+          "parent": "SQL.事务与安全",
+          "related_links": []
+        }
+      },
+      {
+        "page_id": "SQL.事务与安全.权限",
+        "node_id": "SQL.事务与安全.权限",
+        "title": "权限",
+        "domain_id": "SQL",
+        "content": {
+          "learning_goal": "会按角色授予最小权限",
+          "concept": [
+            "GRANT/REVOKE",
+            "读写分离账号",
+            "禁止生产用超级账号跑报表"
+          ],
+          "how_to_make": [
+            "角色清单",
+            "授予表/库级权限",
+            "审计定期回收",
+            "报表走只读账号"
+          ],
+          "common_mistakes": [
+            {
+              "mistake": "分析师共用 root",
+              "explanation": "安全与误操作风险极高"
+            }
+          ],
+          "exercises": [
+            {
+              "question": "为只读分析师设计权限集",
+              "difficulty": 2
+            }
+          ]
+        },
+        "navigation": {
+          "back_to_graph": "/graph?highlight=SQL.事务与安全.权限",
+          "parent": "SQL.事务与安全",
+          "related_links": []
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,259 @@
+==================== hub-database.json
+      - [leaf] /数据库/学习路径/教程宪法/统一样例与课模板 | id=db-constitution | content=1503 | ok
+      - [leaf] /数据库/学习路径/路线清单/初级清单 | id=db-path-junior | content=636 | ok
+      - [leaf] /数据库/学习路径/路线清单/中级清单 | id=db-path-mid | content=633 | ok
+      - [leaf] /数据库/学习路径/路线清单/高级清单 | id=db-path-senior | content=627 | ok
+      - [leaf] /数据库/学习路径/练习场/初级练习 | id=db-drill-junior | content=1989 | ok
+      - [leaf] /数据库/学习路径/练习场/中级练习 | id=db-drill-mid | content=1614 | ok
+      - [leaf] /数据库/学习路径/练习场/高级练习 | id=db-drill-senior | content=1574 | ok
+      - [leaf] /数据库/核心概念/负载与模型/OLTP vs OLAP | id=db-oltp-olap | content=1396 | ok
+      - [leaf] /数据库/核心概念/负载与模型/ACID | id=db-acid | content=1357 | ok
+      - [leaf] /数据库/核心概念/负载与模型/存储引擎直觉 | id=db-engine | content=1662 | ok
+      - [leaf] /数据库/核心概念/表与约束/主键与约束 | id=db-pk-constraint | content=1800 | ok
+      - [leaf] /数据库/核心概念/表与约束/类型与精度 | id=db-datatypes | content=1619 | ok
+      - [leaf] /数据库/核心概念/表与约束/外键取舍 | id=db-fk-tradeoff | content=1778 | ok
+      - [leaf] /数据库/核心概念/持久化与并发内核/WAL 与持久化 | id=db-wal | content=1605 | ok
+      - [leaf] /数据库/核心概念/持久化与并发内核/MVCC 直觉 | id=db-mvcc | content=1260 | ok
+      - [leaf] /数据库/核心概念/持久化与并发内核/缓冲池与脏页 | id=db-buffer-pool | content=1641 | ok
+      - [leaf] /数据库/索引与访问路径/索引/BTree 索引入门 | id=db-btree-index | content=1343 | ok
+      - [leaf] /数据库/索引与访问路径/索引/EXPLAIN 直觉 | id=db-explain-intro | content=1668 | ok
+      - [leaf] /数据库/索引与访问路径/索引/覆盖索引 | id=db-covering-index | content=1654 | ok
+      - [leaf] /数据库/索引与访问路径/索引/索引失效常见因 | id=db-index-fail | content=1709 | ok
+      - [leaf] /数据库/索引与访问路径/索引/统计信息直觉 | id=db-stats | content=1556 | ok
+      - [leaf] /数据库/事务与并发/事务基础/事务边界 | id=db-begin-commit | content=1603 | ok
+      - [leaf] /数据库/事务与并发/事务基础/隔离级别要点 | id=db-isolation-brief | content=1821 | ok
+      - [leaf] /数据库/事务与并发/事务基础/脏读不可重复读幻读 | id=db-anomaly-reads | content=1755 | ok
+      - [leaf] /数据库/事务与并发/锁/行锁与死锁 | id=db-row-lock | content=1713 | ok
+      - [leaf] /数据库/高可用与运维/复制与备份/复制与读写分离 | id=db-replication | content=1608 | ok
+      - [leaf] /数据库/高可用与运维/复制与备份/备份与恢复 | id=db-backup | content=1720 | ok
+      - [leaf] /数据库/高可用与运维/引擎方言/MySQL 与 PostgreSQL | id=db-mysql-pg | content=1849 | ok
+      - [leaf] /数据库/高可用与运维/容量与结构/连接池直觉 | id=db-connection-pool | content=1688 | ok
+      - [leaf] /数据库/高可用与运维/容量与结构/分区表直觉 | id=db-partition-table | content=1672 | ok
+      - [leaf] /数据库/多引擎选型/典型引擎/Redis 缓存/键值 | id=db-redis | content=1598 | ok
+      - [leaf] /数据库/多引擎选型/典型引擎/文档模型直觉 | id=db-mongo | content=1685 | ok
+      - [leaf] /数据库/多引擎选型/典型引擎/列存 OLAP 直觉 | id=db-clickhouse | content=1612 | ok
+      - [leaf] /数据库/多引擎选型/典型引擎/Elasticsearch 检索 | id=db-elasticsearch | content=1665 | ok
+      - [leaf] /数据库/多引擎选型/典型引擎/向量检索直觉 | id=db-vector | content=1679 | ok
+
+==================== hub-dwh.json
+      - [leaf] /数据仓库/学习路径/教程宪法/统一样例与课模板 | id=dwh-constitution | content=1434 | ok
+      - [leaf] /数据仓库/学习路径/路线清单/初级清单 | id=dwh-path-junior | content=752 | ok
+      - [leaf] /数据仓库/学习路径/路线清单/中级清单 | id=dwh-path-mid | content=805 | ok
+      - [leaf] /数据仓库/学习路径/路线清单/高级清单 | id=dwh-path-senior | content=768 | ok
+      - [leaf] /数据仓库/学习路径/练习场/初级练习 | id=dwh-drill-junior | content=1702 | ok
+      - [leaf] /数据仓库/学习路径/练习场/中级练习 | id=dwh-drill-mid | content=1641 | ok
+      - [leaf] /数据仓库/仓是什么/定位与边界/仓是干什么的 | id=dwh-what | content=1488 | ok
+      - [leaf] /数据仓库/仓是什么/定位与边界/SSOT 单一事实来源 | id=dwh-ssot | content=1532 | ok
+      - [leaf] /数据仓库/仓是什么/主题域与集市/主题域 | id=dwh-subject-domain | content=1048 | ok
+      - [leaf] /数据仓库/仓是什么/主题域与集市/集市 vs 仓库 | id=dwh-mart-vs-wh | content=1092 | ok
+      - [leaf] /数据仓库/数仓分层/层级职责/ODS 贴源 | id=dwh-ods | content=1648 | ok
+      - [leaf] /数据仓库/数仓分层/层级职责/DWD 明细 | id=dwh-dwd | content=1562 | ok
+      - [leaf] /数据仓库/数仓分层/层级职责/DWS 汇总 | id=dwh-dws | content=1526 | ok
+      - [leaf] /数据仓库/数仓分层/层级职责/ADS 应用 | id=dwh-ads | content=1487 | ok
+      - [leaf] /数据仓库/维度建模/粒度与总线/事实粒度 | id=dwh-grain | content=1539 | ok
+      - [leaf] /数据仓库/维度建模/粒度与总线/总线矩阵 | id=dwh-bus-matrix | content=1486 | ok
+      - [leaf] /数据仓库/维度建模/模型形态/星型模型 | id=dwh-star-schema | content=1679 | ok
+      - [leaf] /数据仓库/维度建模/模型形态/雪花模型 | id=dwh-snowflake | content=1836 | ok
+      - [leaf] /数据仓库/维度建模/模型形态/星系/星座模型 | id=dwh-constellation | content=1771 | ok
+      - [leaf] /数据仓库/维度建模/模型形态/何时用星型/雪花/星系 | id=dwh-schema-choose | content=1441 | ok
+      - [leaf] /数据仓库/维度建模/模型形态/Kimball 与 Inmon | id=dwh-kimball-inmon | content=1571 | ok
+      - [leaf] /数据仓库/维度建模/模型形态/Data Vault 直觉 | id=dwh-datavault | content=1672 | ok
+      - [leaf] /数据仓库/维度建模/星型构件/事实表 | id=dwh-fact | content=1401 | ok
+      - [leaf] /数据仓库/维度建模/星型构件/维度表 | id=dwh-dim | content=1432 | ok
+      - [leaf] /数据仓库/维度建模/星型构件/代理键 | id=dwh-surrogate-key | content=1508 | ok
+      - [leaf] /数据仓库/维度建模/星型构件/事实类型 | id=dwh-fact-types | content=1011 | ok
+      - [leaf] /数据仓库/维度建模/星型构件/宽表 vs 指标下沉 | id=dwh-wide-vs-metric | content=1035 | ok
+      - [leaf] /数据仓库/维度建模/星型构件/一致性维度 | id=dwh-conformed-dim | content=958 | ok
+      - [leaf] /数据仓库/维度建模/缓慢变化维/SCD1 覆盖 | id=dwh-scd1 | content=1326 | ok
+      - [leaf] /数据仓库/维度建模/缓慢变化维/SCD2 拉链表 | id=dwh-scd2 | content=1748 | ok
+      - [leaf] /数据仓库/维度建模/缓慢变化维/SCD3 保留前值 | id=dwh-scd3 | content=984 | ok
+      - [leaf] /数据仓库/加工与质量/调度与回刷/调度依赖 | id=dwh-schedule | content=981 | ok
+      - [leaf] /数据仓库/加工与质量/调度与回刷/装载顺序 | id=dwh-load-order | content=1004 | ok
+      - [leaf] /数据仓库/加工与质量/调度与回刷/回刷历史 | id=dwh-backfill | content=964 | ok
+      - [leaf] /数据仓库/加工与质量/增量与分区/增量策略 | id=dwh-incremental | content=1567 | ok
+      - [leaf] /数据仓库/加工与质量/增量与分区/分区与裁剪 | id=dwh-partition | content=1428 | ok
+      - [leaf] /数据仓库/加工与质量/质量与对账/对账质检 | id=dwh-reconcile | content=1670 | ok
+
+==================== hub-etl.json
+      - [leaf] /ETL/学习路径/教程宪法/统一样例与课模板 | id=etl-constitution | content=1431 | ok
+      - [leaf] /ETL/学习路径/路线清单/初级清单 | id=etl-path-junior | content=796 | ok
+      - [leaf] /ETL/学习路径/路线清单/中级清单 | id=etl-path-mid | content=826 | ok
+      - [leaf] /ETL/学习路径/路线清单/高级清单 | id=etl-path-senior | content=808 | ok
+      - [leaf] /ETL/学习路径/练习场/初级练习 | id=etl-drill-junior | content=1554 | ok
+      - [leaf] /ETL/学习路径/练习场/中级练习 | id=etl-drill-mid | content=1284 | ok
+      - [leaf] /ETL/学习路径/练习场/高级练习 | id=etl-drill-senior | content=1501 | ok
+      - [leaf] /ETL/认源与契约/源表清单/源表清单 | id=etl-source-list | content=1451 | ok
+      - [leaf] /ETL/认源与契约/源表清单/主键与水位 | id=etl-keys-watermark | content=1429 | ok
+      - [leaf] /ETL/认源与契约/契约与 SLA/数据契约 | id=etl-data-contract | content=1452 | ok
+      - [leaf] /ETL/认源与契约/契约与 SLA/产出 SLA | id=etl-sla | content=1321 | ok
+      - [leaf] /ETL/抽取 Extract/抽取策略/全量快照 | id=etl-full-snapshot | content=1242 | ok
+      - [leaf] /ETL/抽取 Extract/抽取策略/增量抽取 | id=etl-incr | content=1251 | ok
+      - [leaf] /ETL/抽取 Extract/抽取策略/CDC 变更捕获 | id=etl-cdc | content=1455 | ok
+      - [leaf] /ETL/转换 Transform/清洗与标准化/类型与空值 | id=etl-type-normalize | content=1311 | ok
+      - [leaf] /ETL/转换 Transform/清洗与标准化/去重取最新 | id=etl-dedup | content=1404 | ok
+      - [leaf] /ETL/转换 Transform/关联与历史/维表关联 | id=etl-dim-join | content=1379 | ok
+      - [leaf] /ETL/转换 Transform/关联与历史/SCD 拉链 | id=etl-scd | content=1344 | ok
+      - [leaf] /ETL/转换 Transform/关联与历史/脱敏与合规 | id=etl-pii-mask | content=1272 | ok
+      - [leaf] /ETL/装载 Load/写入模式/分区覆盖 | id=etl-overwrite | content=1428 | ok
+      - [leaf] /ETL/装载 Load/写入模式/MERGE/Upsert | id=etl-merge-upsert | content=1626 | ok
+      - [leaf] /ETL/装载 Load/写入模式/幂等写入 | id=etl-idempotent-write | content=1301 | ok
+      - [leaf] /ETL/质量门禁/校验清单/行数与波动 | id=etl-rowcount | content=1247 | ok
+      - [leaf] /ETL/质量门禁/校验清单/主键唯一 | id=etl-unique-pk | content=1223 | ok
+      - [leaf] /ETL/质量门禁/校验清单/源仓对账 | id=etl-recon | content=1419 | ok
+      - [leaf] /ETL/调度与运维/编排基础/DAG 依赖 | id=etl-dag | content=1309 | ok
+      - [leaf] /ETL/调度与运维/编排基础/重试与告警 | id=etl-retry-alert | content=1226 | ok
+      - [leaf] /ETL/调度与运维/编排基础/回填 Backfill | id=etl-backfill | content=1288 | ok
+      - [leaf] /ETL/调度与运维/编排基础/迟到数据 | id=etl-late-data | content=1342 | ok
+      - [leaf] /ETL/ETL vs ELT/形态对比/经典 ETL | id=etl-classic | content=1362 | ok
+      - [leaf] /ETL/ETL vs ELT/形态对比/现代 ELT | id=etl-modern-elt | content=1381 | ok
+      - [leaf] /ETL/工具选型/选型地图/编排 Airflow | id=etl-tool-airflow | content=1300 | ok
+      - [leaf] /ETL/工具选型/选型地图/变换 dbt | id=etl-tool-dbt | content=1400 | ok
+      - [leaf] /ETL/工具选型/选型地图/同步与 CDC 工具 | id=etl-tool-ingest | content=1374 | ok
+      - [leaf] /ETL/工具选型/选型地图/DataX 批同步 | id=etl-tool-datax | content=1553 | ok
+      - [leaf] /ETL/工具选型/选型地图/Airbyte 连接器 | id=etl-tool-airbyte | content=1522 | ok
+      - [leaf] /ETL/工具选型/选型地图/Flink CDC | id=etl-tool-flink-cdc | content=1467 | ok
+      - [leaf] /ETL/血缘与发布/治理动作/数据血缘 | id=etl-lineage | content=1529 | ok
+      - [leaf] /ETL/血缘与发布/治理动作/发布与回滚 | id=etl-publish | content=1592 | ok
+
+==================== hub-ml.json
+      - [leaf] /机器学习/算法/基础范式/学习范式/监督学习 | id=ml-supervised | content=1448 | ok
+      - [leaf] /机器学习/算法/基础范式/学习范式/无监督学习 | id=ml-unsupervised | content=1724 | ok
+      - [leaf] /机器学习/算法/基础范式/学习范式/半监督学习 | id=ml-semisupervised | content=1760 | ok
+      - [leaf] /机器学习/算法/基础范式/学习范式/强化学习入门 | id=ml-rl-intro | content=1613 | ok
+      - [leaf] /机器学习/算法/基础范式/训练纪律/训练流水线 | id=ml-pipeline | content=1883 | ok
+      - [leaf] /机器学习/算法/基础范式/训练纪律/偏差与方差 | id=ml-bias-variance | content=1670 | ok
+      - [leaf] /机器学习/算法/基础范式/训练纪律/过拟合与正则 | id=ml-overfit-reg | content=1698 | ok
+      - [leaf] /机器学习/算法/基础范式/训练纪律/训练/验证/测试 | id=ml-train-val-test | content=1172 | ok
+      - [leaf] /机器学习/算法/特征工程/特征构建/特征工程总览 | id=ml-feature-eng | content=1693 | ok
+      - [leaf] /机器学习/算法/特征工程/特征构建/缺失值处理 | id=ml-missing | content=1723 | ok
+      - [leaf] /机器学习/算法/特征工程/特征构建/类别编码 | id=ml-encoding | content=1726 | ok
+      - [leaf] /机器学习/算法/特征工程/特征构建/标准化与缩放 | id=ml-scaling | content=1677 | ok
+      - [leaf] /机器学习/算法/特征工程/特征风险/数据泄露 | id=ml-leakage | content=1427 | ok
+      - [leaf] /机器学习/算法/特征工程/特征风险/特征选择 | id=ml-feat-selection | content=1697 | ok
+      - [leaf] /机器学习/算法/特征工程/特征风险/特征漂移 | id=ml-feat-drift | content=1862 | ok
+      - [leaf] /机器学习/算法/核心任务/分类/分类总览 | id=ml-classify | content=1997 | ok
+      - [leaf] /机器学习/算法/核心任务/分类/多分类 | id=ml-multiclass | content=1726 | ok
+      - [leaf] /机器学习/算法/核心任务/分类/阈值与决策 | id=ml-threshold | content=1774 | ok
+      - [leaf] /机器学习/算法/核心任务/分类/样本不平衡 | id=ml-imbalance | content=1713 | ok
+      - [leaf] /机器学习/算法/核心任务/分类/分类指标 | id=ml-metrics-clf | content=1725 | ok
+      - [leaf] /机器学习/算法/核心任务/回归/回归预测 | id=ml-predict | content=1813 | ok
+      - [leaf] /机器学习/算法/核心任务/回归/回归指标 | id=ml-metrics-reg | content=1692 | ok
+      - [leaf] /机器学习/算法/核心任务/回归/分位数回归 | id=ml-quantile-reg | content=1762 | ok
+      - [leaf] /机器学习/算法/核心任务/聚类/聚类总览 | id=ml-cluster | content=1661 | ok
+      - [leaf] /机器学习/算法/核心任务/聚类/K-Means 实务 | id=ml-cluster-k | content=1740 | ok
+      - [leaf] /机器学习/算法/核心任务/聚类/密度聚类 DBSCAN | id=ml-dbscan | content=1648 | ok
+      - [leaf] /机器学习/算法/核心任务/排序学习/Learning to Rank | id=ml-ltr-intro | content=1723 | ok
+      - [leaf] /机器学习/算法/核心任务/排序学习/NDCG 与排序指标 | id=ml-ndcg | content=1783 | ok
+      - [leaf] /机器学习/算法/经典模型/线性族/逻辑回归 | id=ml-logreg | content=1687 | ok
+      - [leaf] /机器学习/算法/经典模型/线性族/线性回归 | id=ml-linear-reg | content=1599 | ok
+      - [leaf] /机器学习/算法/经典模型/线性族/Ridge / Lasso | id=ml-ridge-lasso | content=1810 | ok
+      - [leaf] /机器学习/算法/经典模型/树与提升/决策树 | id=ml-decision-tree | content=1681 | ok
+      - [leaf] /机器学习/算法/经典模型/树与提升/随机森林 | id=ml-random-forest | content=1714 | ok
+      - [leaf] /机器学习/算法/经典模型/树与提升/GBDT / 梯度提升 | id=ml-gbdt | content=1331 | ok
+      - [leaf] /机器学习/算法/经典模型/树与提升/特征重要性 | id=ml-feat-importance | content=1731 | ok
+      - [leaf] /机器学习/算法/经典模型/近邻与SVM/K 近邻 | id=ml-knn | content=1754 | ok
+      - [leaf] /机器学习/算法/经典模型/近邻与SVM/支持向量机 | id=ml-svm | content=1728 | ok
+      - [leaf] /机器学习/算法/深度学习入门/神经网络基础/多层感知机 MLP | id=ml-mlp | content=1838 | ok
+      - [leaf] /机器学习/算法/深度学习入门/神经网络基础/Embedding 嵌入 | id=ml-embedding | content=1732 | ok
+      - [leaf] /机器学习/算法/深度学习入门/神经网络基础/Dropout 与早停 | id=ml-nn-regularize | content=1763 | ok
+      - [leaf] /机器学习/算法/推荐系统/推荐总览/推荐总览 | id=ml-recommend | content=1801 | ok
+      - [leaf] /机器学习/算法/推荐系统/推荐总览/协同过滤 | id=ml-cf | content=1606 | ok
+      - [leaf] /机器学习/算法/推荐系统/推荐总览/内容推荐 | id=ml-content-rec | content=1578 | ok
+      - [leaf] /机器学习/算法/推荐系统/召回与精排/召回与精排 | id=ml-recall-rank | content=1695 | ok
+      - [leaf] /机器学习/算法/推荐系统/召回与精排/冷启动 | id=ml-cold-start | content=1590 | ok
+      - [leaf] /机器学习/算法/推荐系统/召回与精排/多样性与打散 | id=ml-diversity | content=1628 | ok
+      - [leaf] /机器学习/算法/文本挖掘/文本表示与分类/词袋与 TF-IDF | id=ml-tfidf | content=1692 | ok
+      - [leaf] /机器学习/算法/文本挖掘/文本表示与分类/文本分类 | id=ml-text-clf | content=1804 | ok
+      - [leaf] /机器学习/算法/文本挖掘/文本表示与分类/情感分析 | id=ml-sentiment | content=1512 | ok
+      - [leaf] /机器学习/算法/时序预测/时序基础/时序切分 | id=ml-ts-split | content=1606 | ok
+      - [leaf] /机器学习/算法/时序预测/时序基础/滞后与窗口特征 | id=ml-lag-features | content=1684 | ok
+      - [leaf] /机器学习/算法/时序预测/时序基础/业务预测闭环 | id=ml-ts-forecast | content=1609 | ok
+      - [leaf] /机器学习/算法/异常检测/检测方法/异常检测总览 | id=ml-anomaly | content=1670 | ok
+      - [leaf] /机器学习/算法/异常检测/检测方法/隔离森林 | id=ml-isolation-forest | content=1674 | ok
+      - [leaf] /机器学习/算法/异常检测/检测方法/告警阈值 | id=ml-alert-threshold | content=1611 | ok
+      - [leaf] /机器学习/算法/评估与落地/离线评估/时间切分评估 | id=ml-time-split | content=1149 | ok
+      - [leaf] /机器学习/算法/评估与落地/离线评估/概率校准 | id=ml-calibration | content=1659 | ok
+      - [leaf] /机器学习/算法/评估与落地/离线评估/上线与A/B | id=ml-ab-test | content=1550 | ok
+      - [leaf] /机器学习/算法/评估与落地/MLOps入门/训练与推理 | id=ml-train-serve | content=1619 | ok
+      - [leaf] /机器学习/算法/评估与落地/MLOps入门/监控与漂移 | id=ml-monitor | content=1551 | ok
+      - [leaf] /机器学习/算法/评估与落地/MLOps入门/特征仓库入门 | id=ml-feature-store | content=1618 | ok
+
+==================== hub-python.json
+      - [leaf] /Python/学习路径/教程宪法/统一样例与课模板 | id=py-constitution | content=2269 | ok
+      - [leaf] /Python/学习路径/路线清单/初级清单 | id=py-path-junior | content=728 | ok
+      - [leaf] /Python/学习路径/路线清单/中级清单 | id=py-path-mid | content=735 | ok
+      - [leaf] /Python/学习路径/路线清单/高级清单 | id=py-path-senior | content=718 | ok
+      - [leaf] /Python/学习路径/练习场/初级练习 | id=py-drill-junior | content=2072 | ok
+      - [leaf] /Python/学习路径/练习场/中级练习 | id=py-drill-mid | content=1924 | ok
+      - [leaf] /Python/pandas 数据表/表结构与筛选/DataFrame 基础 | id=py-dataframe | content=1741 | ok
+      - [leaf] /Python/pandas 数据表/表结构与筛选/筛选与赋值 | id=py-filter | content=1636 | ok
+      - [leaf] /Python/pandas 数据表/清洗与聚合/缺失与类型 | id=py-na | content=1663 | ok
+      - [leaf] /Python/pandas 数据表/清洗与聚合/groupby 聚合 | id=py-group | content=1528 | ok
+      - [leaf] /Python/pandas 数据表/清洗与聚合/merge 关联 | id=py-merge | content=1684 | ok
+      - [leaf] /Python/pandas 数据表/清洗与聚合/透视与变形 | id=py-pivot | content=1737 | ok
+      - [leaf] /Python/pandas 数据表/清洗与聚合/transform 与 rolling | id=py-transform | content=2062 | ok
+      - [leaf] /Python/pandas 数据表/清洗与聚合/时间索引 | id=py-datetime | content=1730 | ok
+      - [leaf] /Python/pandas 数据表/读写与落地/read_csv / to_csv | id=py-read-csv | content=1719 | ok
+      - [leaf] /Python/pandas 数据表/读写与落地/to_sql / read_sql | id=py-to-sql | content=1833 | ok
+      - [leaf] /Python/pandas 数据表/读写与落地/Parquet 列存文件 | id=py-parquet | content=1710 | ok
+      - [leaf] /Python/可视化/常用图/折线趋势 | id=py-line | content=1663 | ok
+      - [leaf] /Python/可视化/常用图/柱状对比 | id=py-bar | content=1692 | ok
+      - [leaf] /Python/可视化/常用图/Seaborn 分布 | id=py-seaborn | content=1670 | ok
+      - [leaf] /Python/生态与加速/核心库/NumPy 向量化 | id=py-numpy | content=1714 | ok
+      - [leaf] /Python/生态与加速/核心库/DuckDB 内嵌 SQL | id=py-duckdb | content=1681 | ok
+      - [leaf] /Python/生态与加速/核心库/Polars 直觉 | id=py-polars | content=1751 | ok
+      - [leaf] /Python/生态与加速/核心库/sklearn 基线 | id=py-sklearn | content=2033 | ok
+      - [leaf] /Python/生态与加速/核心库/Streamlit 小应用 | id=py-streamlit | content=1769 | ok
+      - [leaf] /Python/生态与加速/工程化/性能与内存 | id=py-perf | content=1835 | ok
+      - [leaf] /Python/生态与加速/工程化/可复现环境 | id=py-repro | content=1722 | ok
+
+==================== hub-query.json
+    - [leaf] /SQL/基础查询/SELECT | id=SQL.基础查询.SELECT | content=421 | ok
+    - [leaf] /SQL/基础查询/WHERE | id=SQL.基础查询.WHERE | content=428 | ok
+    - [leaf] /SQL/基础查询/ORDER BY | id=SQL.基础查询.ORDER BY | content=415 | ok
+    - [leaf] /SQL/基础查询/LIMIT | id=SQL.基础查询.LIMIT | content=418 | ok
+    - [leaf] /SQL/多表操作/JOIN | id=SQL.多表操作.JOIN | content=504 | ok
+    - [leaf] /SQL/多表操作/子查询 | id=SQL.多表操作.子查询 | content=457 | ok
+    - [leaf] /SQL/多表操作/UNION | id=SQL.多表操作.UNION | content=498 | ok
+    - [leaf] /SQL/聚合分析/GROUP BY | id=SQL.聚合分析.GROUP BY | content=505 | ok
+    - [leaf] /SQL/聚合分析/HAVING | id=SQL.聚合分析.HAVING | content=495 | ok
+    - [leaf] /SQL/聚合分析/窗口函数 | id=SQL.聚合分析.窗口函数 | content=580 | ok
+    - [leaf] /SQL/数据定义/CREATE TABLE 建表 | id=SQL.数据定义.CREATE TABLE 建表 | content=530 | ok
+    - [leaf] /SQL/数据定义/约束与类型对齐 | id=SQL.数据定义.约束与类型对齐 | content=506 | ok
+    - [leaf] /SQL/数据定义/ALTER 变更与视图 | id=SQL.数据定义.ALTER 变更与视图 | content=468 | ok
+    - [leaf] /SQL/性能优化/索引设计原则 | id=SQL.性能优化.索引设计原则 | content=431 | ok
+    - [leaf] /SQL/性能优化/读懂 EXPLAIN | id=SQL.性能优化.读懂 EXPLAIN | content=451 | ok
+    - [leaf] /SQL/性能优化/慢查询改写 | id=SQL.性能优化.慢查询改写 | content=451 | ok
+    - [leaf] /SQL/事务与安全/事务与 ACID | id=SQL.事务与安全.事务与 ACID | content=448 | ok
+    - [leaf] /SQL/事务与安全/隔离级别直觉 | id=SQL.事务与安全.隔离级别直觉 | content=439 | ok
+    - [leaf] /SQL/事务与安全/权限与注入防护 | id=SQL.事务与安全.权限与注入防护 | content=425 | ok
+
+==================== hub-viz.json
+    - [leaf] /BI/Tableau/入门准备 | id=BI.Tableau.入门准备 | content=445 | ok
+    - [leaf] /BI/Tableau/数据准备 | id=BI.Tableau.数据准备 | content=431 | ok
+      - [leaf] /BI/Tableau/图表制作/柱状图 | id=BI.Tableau.图表制作.柱状图 | content=399 | ok
+      - [leaf] /BI/Tableau/图表制作/折线图 | id=BI.Tableau.图表制作.折线图 | content=374 | ok
+      - [leaf] /BI/Tableau/图表制作/饼图 | id=BI.Tableau.图表制作.饼图 | content=371 | ok
+      - [leaf] /BI/Tableau/图表制作/环形图 | id=BI.Tableau.图表制作.环形图 | content=423 | ok
+      - [leaf] /BI/Tableau/图表制作/双轴组合图 | id=BI.Tableau.图表制作.双轴组合图 | content=399 | ok
+      - [leaf] /BI/Tableau/图表制作/热力图 | id=BI.Tableau.图表制作.热力图 | content=373 | ok
+      - [leaf] /BI/Tableau/计算/基础计算 | id=BI.Tableau.计算.基础计算 | content=413 | ok
+      - [leaf] /BI/Tableau/计算/表计算 | id=BI.Tableau.计算.表计算 | content=356 | ok
+        - [leaf] /BI/Tableau/计算/LOD/FIXED | id=BI.Tableau.计算.LOD.FIXED | content=500 | ok
+        - [leaf] /BI/Tableau/计算/LOD/INCLUDE | id=BI.Tableau.计算.LOD.INCLUDE | content=492 | ok
+        - [leaf] /BI/Tableau/计算/LOD/EXCLUDE | id=BI.Tableau.计算.LOD.EXCLUDE | content=494 | ok
+    - [leaf] /BI/Tableau/筛选与交互 | id=BI.Tableau.筛选与交互 | content=343 | ok
+    - [leaf] /BI/Tableau/仪表板 | id=BI.Tableau.仪表板 | content=331 | ok
+    - [leaf] /BI/Tableau/性能优化 | id=BI.Tableau.性能优化 | content=358 | ok
+    - [leaf] /BI/Tableau/实战案例 | id=BI.Tableau.实战案例 | content=356 | ok
+    - [leaf] /BI/Power BI/入门与界面 | id=BI.Power BI.入门与界面 | content=449 | ok
+    - [leaf] /BI/Power BI/数据建模 | id=BI.Power BI.数据建模 | content=417 | ok
+    - [leaf] /BI/Power BI/DAX 度量 | id=BI.Power BI.DAX 度量 | content=479 | ok
+    - [leaf] /BI/Power BI/可视化与图表 | id=BI.Power BI.可视化与图表 | content=377 | ok
+    - [leaf] /BI/Power BI/仪表板与交互 | id=BI.Power BI.仪表板与交互 | content=401 | ok
+    - [leaf] /BI/Power BI/发布与权限 | id=BI.Power BI.发布与权限 | content=401 | ok
+    - [leaf] /BI/国产 BI/FineBI 自助分析 | id=BI.国产 BI.FineBI 自助分析 | content=404 | ok
+    - [leaf] /BI/国产 BI/FineReport 固定报表 | id=BI.国产 BI.FineReport 固定报表 | content=434 | ok
+    - [leaf] /BI/国产 BI/Datart 开源可视化 | id=BI.国产 BI.Datart 开源可视化 | content=435 | ok
+    - [leaf] /BI/国产 BI/永洪 BI | id=BI.国产 BI.永洪 BI | content=357 | ok
+    - [leaf] /BI/国产 BI/国产 BI 选型对比 | id=BI.国产 BI.国产 BI 选型对比 | content=433 | ok
