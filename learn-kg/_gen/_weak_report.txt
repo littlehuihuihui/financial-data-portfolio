@@ -1,0 +1,153 @@
+==============================================================================
+DOMAIN bi | nodes 24 | leaves 19 | chapters 5 | maxDepth 4
+  leaf len: min=537 q1=564 med=588 max=695
+  [C] 结构能力：
+      learning-path    NO
+      constitution     NO
+      roadmap          NO
+      path-junior      NO
+      path-mid         NO
+      path-senior      NO
+      practice-field   NO
+      drill-junior     NO
+      drill-mid        NO
+      drill-senior     NO
+==============================================================================
+DOMAIN database | nodes 55 | leaves 35 | chapters 20 | maxDepth 3
+  leaf len: min=627 q1=1556 med=1641 max=1989
+  [A] 内容偏短叶 (len < 域中位数*0.75 = 1230):
+        627  db-path-senior                     高级清单
+        633  db-path-mid                        中级清单
+        636  db-path-junior                     初级清单
+  [B] 章节塌陷 (子课数 <=1，本域典型章节子课数=3):
+      d1 kids=1  db-access                          索引与访问路径
+      d1 kids=1  db-polyglot                        多引擎选型
+      d2 kids=1  db-constitution-sec                教程宪法
+      d2 kids=1  db-lock-sec                        锁
+      d2 kids=1  db-dialect                         引擎方言
+  [C] 结构能力：
+      learning-path    YES
+      constitution     YES
+      roadmap          YES
+      path-junior      YES
+      path-mid         YES
+      path-senior      YES
+      practice-field   YES
+      drill-junior     YES
+      drill-mid        YES
+      drill-senior     YES
+==============================================================================
+DOMAIN dwh | nodes 56 | leaves 37 | chapters 19 | maxDepth 3
+  leaf len: min=752 q1=1023 med=1486 max=1836
+  [A] 内容偏短叶 (len < 域中位数*0.75 = 1114):
+        752  dwh-path-junior                    初级清单
+        768  dwh-path-senior                    高级清单
+        805  dwh-path-mid                       中级清单
+        958  dwh-conformed-dim                  一致性维度
+        964  dwh-backfill                       回刷历史
+        981  dwh-schedule                       调度依赖
+        984  dwh-scd3                           SCD3 保留前值
+       1004  dwh-load-order                     装载顺序
+       1011  dwh-fact-types                     事实类型
+       1035  dwh-wide-vs-metric                 宽表 vs 指标下沉
+       1048  dwh-subject-domain                 主题域
+       1092  dwh-mart-vs-wh                     集市 vs 仓库
+  [B] 章节塌陷 (子课数 <=1，本域典型章节子课数=3):
+      d1 kids=1  dwh-layer                          数仓分层
+      d2 kids=1  dwh-constitution-sec               教程宪法
+      d2 kids=1  dwh-dq-sec                         质量与对账
+  [C] 结构能力：
+      learning-path    YES
+      constitution     YES
+      roadmap          YES
+      path-junior      YES
+      path-mid         YES
+      path-senior      YES
+      practice-field   YES
+      drill-junior     YES
+      drill-mid        YES
+      drill-senior     NO
+==============================================================================
+DOMAIN etl | nodes 64 | leaves 39 | chapters 25 | maxDepth 3
+  leaf len: min=796 q1=1284 med=1374 max=1626
+  [A] 内容偏短叶 (len < 域中位数*0.75 = 1030):
+        796  etl-path-junior                    初级清单
+        808  etl-path-senior                    高级清单
+        826  etl-path-mid                       中级清单
+  [B] 章节塌陷 (子课数 <=1，本域典型章节子课数=3):
+      d1 kids=1  etl-extract                        抽取 Extract
+      d1 kids=1  etl-load                           装载 Load
+      d1 kids=1  etl-quality                        质量门禁
+      d1 kids=1  etl-schedule                       调度与运维
+      d1 kids=1  etl-elt                            ETL vs ELT
+      d1 kids=1  etl-tools                          工具选型
+      d1 kids=1  etl-meta                           血缘与发布
+      d2 kids=1  etl-constitution-sec               教程宪法
+  [C] 结构能力：
+      learning-path    YES
+      constitution     YES
+      roadmap          YES
+      path-junior      YES
+      path-mid         YES
+      path-senior      YES
+      practice-field   YES
+      drill-junior     YES
+      drill-mid        YES
+      drill-senior     YES
+==============================================================================
+DOMAIN ml | nodes 91 | leaves 61 | chapters 30 | maxDepth 3
+  leaf len: min=1149 q1=1612 med=1692 max=1997
+  [A] 内容偏短叶 (len < 域中位数*0.75 = 1269):
+       1149  ml-time-split                      时间切分评估
+       1172  ml-train-val-test                  训练/验证/测试
+  [B] 章节塌陷 (子课数 <=1，本域典型章节子课数=3):
+      d1 kids=1  ml-deep                            深度学习入门
+      d1 kids=1  ml-nlp                             文本挖掘
+      d1 kids=1  ml-timeseries                      时序预测
+      d1 kids=1  ml-anomaly-domain                  异常检测
+  [C] 结构能力：
+      learning-path    NO
+      constitution     NO
+      roadmap          NO
+      path-junior      NO
+      path-mid         NO
+      path-senior      NO
+      practice-field   NO
+      drill-junior     NO
+      drill-mid        NO
+      drill-senior     NO
+==============================================================================
+DOMAIN python | nodes 41 | leaves 27 | chapters 14 | maxDepth 3
+  leaf len: min=718 q1=1663 med=1719 max=2269
+  [A] 内容偏短叶 (len < 域中位数*0.75 = 1289):
+        718  py-path-senior                     高级清单
+        728  py-path-junior                     初级清单
+        735  py-path-mid                        中级清单
+  [B] 章节塌陷 (子课数 <=1，本域典型章节子课数=3):
+      d1 kids=1  py-viz                             可视化
+      d2 kids=1  py-constitution-sec                教程宪法
+  [C] 结构能力：
+      learning-path    YES
+      constitution     YES
+      roadmap          YES
+      path-junior      YES
+      path-mid         YES
+      path-senior      YES
+      practice-field   YES
+      drill-junior     YES
+      drill-mid        YES
+      drill-senior     NO
+==============================================================================
+DOMAIN sql | nodes 17 | leaves 13 | chapters 4 | maxDepth 2
+  leaf len: min=711 q1=778 med=809 max=1035
+  [C] 结构能力：
+      learning-path    NO
+      constitution     NO
+      roadmap          NO
+      path-junior      NO
+      path-mid         NO
+      path-senior      NO
+      practice-field   NO
+      drill-junior     NO
+      drill-mid        NO
+      drill-senior     NO

@@ -1045,11 +1045,9 @@
       transition: stroke-opacity 0.25s ease;
     }
     body.kg-focus-on #panel.side-mode .panel-inner {
-      transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.22,1,0.36,1);
+      transition: none;
     }
-    body.kg-focus-on #panel.side-mode:not(.open) .panel-inner {
-      opacity: 0; transform: translateX(12px);
-    }
+    body.kg-focus-on #panel.side-mode:not(.open) .panel-inner,
     body.kg-focus-on #panel.side-mode.open .panel-inner {
       opacity: 1; transform: none;
     }
@@ -1069,8 +1067,8 @@
         padding 0.28s ease, border-color 0.22s ease;
     }
     body.kg-focus-on #panel.side-mode {
-      transition: width 0.28s ease, flex-basis 0.28s ease, opacity 0.22s ease,
-        border-color 0.22s ease, max-width 0.28s ease;
+      /* 不用宽度过渡：每帧重排画布会让侧栏弹出卡顿，并带动图谱缩放 */
+      transition: none;
     }
     body.kg-focus-on #panel.side-mode.is-resizing {
       transition: none !important;
@@ -1123,7 +1121,7 @@
       box-shadow: inset 3px 0 0 #3b82f6;
     }
     #panel.side-mode .panel-inner.kg-swap {
-      animation: kgPanelSwap 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+      animation: none;
     }
     @keyframes kgPanelSwap {
       from { opacity: 0; transform: translateX(14px); }
@@ -9243,7 +9241,7 @@
 };
 
     /* —— 课树懒加载：首屏不内联 7 棵大树，进入学科时再 fetch —— */
-    const KG_DATA_VER = "20260918a";
+    const KG_DATA_VER = "20260921f";
     const KG_TREE_FILES = {
       sql: "kg-data/hub-query.json?v=" + KG_DATA_VER,
       python: "kg-data/hub-python.json?v=" + KG_DATA_VER,
@@ -9295,7 +9293,7 @@
 
       KG_TREE_LOADING[hubId] = (async () => {
         const tryFetch = async (u) => {
-          let res = await fetch(u, { cache: "no-cache" });
+          let res = await fetch(u);
           if (!res.ok) res = await fetch(u, { cache: "reload" });
           if (!res.ok) throw new Error("HTTP " + res.status + " " + u);
           const tree = await res.json();
@@ -9321,13 +9319,22 @@
       }
     }
     function prefetchKgTreesIdle() {
-      const run = () => {
-        Object.keys(KG_TREE_FILES).forEach((hubId, i) => {
-          setTimeout(() => { ensureKgTree(hubId).catch(() => {}); }, 400 + i * 220);
-        });
+      const ids = Object.keys(KG_TREE_FILES);
+      let i = 0;
+      const schedule = () => {
+        if (i >= ids.length) return;
+        const go = () => {
+          if (typeof kgDrill !== "undefined" && kgDrill && kgDrill.active) {
+            setTimeout(schedule, 1200);
+            return;
+          }
+          const hubId = ids[i++];
+          ensureKgTree(hubId).catch(() => {}).then(() => schedule());
+        };
+        if (typeof requestIdleCallback === "function") requestIdleCallback(go, { timeout: 1800 });
+        else setTimeout(go, 700);
       };
-      if (typeof requestIdleCallback === "function") requestIdleCallback(run, { timeout: 2500 });
-      else setTimeout(run, 1200);
+      setTimeout(schedule, 900);
     }
 
 
@@ -10648,7 +10655,15 @@
               document.body.classList.toggle("is-panel-collapsed", kgPanelCollapsed);
               panelBtn.textContent = kgPanelCollapsed ? "«" : "»";
               panelBtn.title = kgPanelCollapsed ? "展开右侧详情" : "收起右侧详情";
-              setTimeout(() => { if (typeof relayout === "function") relayout(); redrawKgDrill(); }, 280);
+              if (!kgPanelCollapsed && kgDrill && kgDrill.active) {
+                const already = panel.classList.contains("open") && panel.classList.contains("side-mode");
+                if (!already) {
+                  const n = kgDrill.selectedLeafId ? findKgNode(kgDrill.selectedLeafId) : null;
+                  if (n) openKgSidePanel(n, kgNodeKids(n).length ? "chapter" : "lesson");
+                  else if (typeof openKgHubOverview === "function") openKgHubOverview();
+                  else if (typeof showKgEmptyPanel === "function") showKgEmptyPanel();
+                }
+              }
             });
           }
           if (zin && !zin._bound) {
@@ -10713,9 +10728,7 @@
             }
           }
           if (hintEl) {
-            if (kgDrill.panelMode === "chapter") hintEl.textContent = "点绿色叶进讲义 · 路径可回退";
-            else if (kgDrill.selectedLeafId) hintEl.textContent = "右侧讲义 · Esc / 返回可回退";
-            else if (kgDrill.expandedL2) hintEl.textContent = "点二级学讲义 · 再点该一级可收起";
+            if (kgDrill.expandedL2) hintEl.textContent = "点节点展开或收起 · 右侧按钮才打开讲义";
             else hintEl.textContent = "点某一级看二级 · 拖拽可微调 · Esc 退出";
           }
           if (legEl) {
@@ -10927,7 +10940,6 @@
           // flex 舞台改宽后重算画布，再画三扇区
           const finishEnter = () => {
             if (typeof relayout === "function") relayout();
-            redrawKgDrill();
             updateKgDrillHint();
             syncKgHubSize();
             // 百科手感：进场不自动弹右侧内容，等用户点击节点
@@ -10939,7 +10951,7 @@
               panelBtn.textContent = "«";
               panelBtn.title = "展开右侧详情";
             }
-            if (typeof showKgToast === "function") showKgToast("点击节点展开 / 查看内容");
+            if (typeof showKgToast === "function") showKgToast("点击节点只展开图谱；右侧详情用边缘按钮打开");
             setTimeout(() => { if (kgDrill.active) fitKgFocusView(kgAnimMs(420)); }, 100);
           };
           if (typeof requestAnimationFrame === "function") {
@@ -11152,11 +11164,18 @@
           return true;
         }
 
-        function openKgSidePanel(kgNode, mode) {
+        function openKgSidePanel(kgNode, mode, opts) {
+          const preserveLayout = !!(opts && opts.preserveLayout);
           if (!kgNode) {
             if (typeof openKgHubOverview === "function" && openKgHubOverview()) return;
             showKgEmptyPanel();
             return;
+          }
+          if (preserveLayout) {
+            const visible = panel.classList.contains("open")
+              && panel.classList.contains("side-mode")
+              && !document.body.classList.contains("is-panel-collapsed");
+            if (!visible) return;
           }
           const hub = nodeById[kgDrill.hubId];
           const tree = currentKgTree();
@@ -11223,21 +11242,16 @@
           panel.classList.remove("sec-foundation", "sec-advanced", "sec-practice");
           const satHit = (satData || []).find(s => s.kgId === kgNode.id);
           if (satHit && satHit.sectorKey) panel.classList.add("sec-" + satHit.sectorKey);
-          panel.classList.add("open");
-          panel.setAttribute("aria-hidden", "false");
-          kgPanelCollapsed = false;
-          document.body.classList.remove("is-panel-collapsed");
-          {
+          if (!preserveLayout) {
+            panel.classList.add("open");
+            panel.setAttribute("aria-hidden", "false");
+            kgPanelCollapsed = false;
+            document.body.classList.remove("is-panel-collapsed");
             const panelBtn = document.getElementById("kgTogglePanel");
             if (panelBtn) {
               panelBtn.textContent = "»";
               panelBtn.title = "收起右侧详情";
             }
-          }
-          if (panelCard) {
-            panelCard.classList.remove("kg-swap");
-            void panelCard.offsetWidth;
-            panelCard.classList.add("kg-swap");
           }
           syncLearnedUI();
           updateKgDrillHint();
@@ -12002,6 +12016,15 @@
           updateKgFocusChrome();
         }
 
+        function revealKgPanelContent(kg, mode) {
+          if (!kg || !panel) return;
+          const visible = panel.classList.contains("open")
+            && panel.classList.contains("side-mode")
+            && !document.body.classList.contains("is-panel-collapsed");
+          if (!visible) return;
+          openKgSidePanel(kg, mode, { preserveLayout: true });
+        }
+
         function onKgDrillClick(sat) {
           const kg = findKgNode(sat.kgId);
           if (!kg) return;
@@ -12009,16 +12032,15 @@
           const rawKids = kgNodeKids(kg);
           pushKgFocusHistory();
 
-          // 叶节点 → 讲义
+          // 画布点击只展开/收起节点，不开关、不缩放右侧弹窗
           if (!rawKids.length) {
             kgDrill.selectedLeafId = kg.id;
             redrawKgDrill();
-            openKgSidePanel(kg, "lesson");
+            revealKgPanelContent(kg, "lesson");
             return;
           }
     
           if (sat.layer === 2) {
-            // 一级领域：展开/收起其二级；无论是否收起，都打开该节点导读（禁止空白面板）
             if (kgDrill.expandedL2 === kg.id) {
               kgDrill.expandedL2 = null;
               kgDrill.expandedL3 = null;
@@ -12028,27 +12050,25 @@
             }
             kgDrill.selectedLeafId = kg.id;
             redrawKgDrill();
-            openKgSidePanel(kg, "chapter");
+            revealKgPanelContent(kg, "chapter");
             return;
           }
     
           if (sat.layer === 3) {
             if (!kids.length && rawKids.length) {
-              // 深度过滤后无可见子节点：当作章节导读
               kgDrill.expandedL3 = kg.id;
               kgDrill.selectedLeafId = kg.id;
               redrawKgDrill();
-              openKgSidePanel(kg, "chapter");
+              revealKgPanelContent(kg, "chapter");
               return;
             }
             if (isLessonParent(kg)) {
               if (kgDrill.expandedL3 !== kg.id) kgDrill.expandedL3 = kg.id;
               kgDrill.selectedLeafId = kg.id;
               redrawKgDrill();
-              openKgSidePanel(kg, "chapter");
+              revealKgPanelContent(kg, "chapter");
               return;
             }
-            // 中间目录：展开/收起，同时始终展示目录导读
             if (kgDrill.expandedL3 === kg.id) {
               kgDrill.expandedL3 = null;
             } else {
@@ -12056,14 +12076,13 @@
             }
             kgDrill.selectedLeafId = kg.id;
             redrawKgDrill();
-            openKgSidePanel(kg, "chapter");
+            revealKgPanelContent(kg, "chapter");
             return;
           }
     
-          // L4+
           kgDrill.selectedLeafId = kg.id;
           redrawKgDrill();
-          openKgSidePanel(kg, rawKids.length ? "chapter" : "lesson");
+          revealKgPanelContent(kg, rawKids.length ? "chapter" : "lesson");
         }
 
         function clearSatellites() {
@@ -12317,19 +12336,6 @@
           }
           enterKgDrill(hub);
           showKgToast("已进入「" + (btn.textContent || hub) + "」知识图谱");
-          // 先展示扇区图谱；宪法叶改为手动点选（避免一进来像弹窗盖住图谱）
-          // SQL/Python 若需要可再按 prefer 跳转；数据库等已有完整 L2 扇区，不自动打开讲义
-          setTimeout(() => {
-            const prefer = hub === "sql" ? "SQL.基础查询"
-              : hub === "python" ? "py-constitution"
-              : hub === "database" ? "db-constitution"
-              : hub === "dwh" ? "dwh-constitution"
-              : hub === "etl" ? "etl-constitution"
-              : hub === "bi" ? "BI.图表基础" : null;
-            if (!prefer || typeof findKgNode !== "function") return;
-            const n = findKgNode(prefer);
-            if (n && typeof jumpToKgLesson === "function") jumpToKgLesson(n);
-          }, 420);
         });
       });
     }
@@ -12349,6 +12355,7 @@
     syncLearnedUI();
     tick();
     relayout();
+    if (typeof prefetchKgTreesIdle === "function") prefetchKgTreesIdle();
 
   </script>
 </body>

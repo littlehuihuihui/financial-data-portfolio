@@ -1,0 +1,28 @@
+domain     nodes  leaves  depth   minLen   avgLen sections               issues
+sql           44      32      3      873     1365 [5, 10]                ["leaf缺['课前']:SQL.学习路径.教程宪法.统一样例与课模板"]
+python        41      27      4      718     1667 [7, 8, 12]             ["leaf缺['课前']:py-constitution"]
+database      55      35      4      627     1551 [8, 12]                OK
+ml            91      61      4     1149     1668 [12]                   OK
+etl           64      39      4      796     1343 [4, 6, 9]              ["leaf缺['课前']:etl-constitution"]
+dwh           56      37      4      752     1364 [4, 7, 9]              ["leaf缺['课前']:dwh-constitution"]
+bi            59      42      5      890     1139 [10]                   OK
+
+=== 部署一致性（sql / bi）===
+  sql   ok=True  cursor
+  sql   ok=True  portfolio
+  sql   ok=True  financial-data-portfolio-publish
+  bi    ok=True  cursor
+  bi    ok=True  portfolio
+  bi    ok=True  financial-data-portfolio-publish
+
+=== 缓存版本号 ===
+  数据学习平台/数据知识图谱.html                 20260921f
+  pages/learn.html                   20260921f
+  pages/learn.html                   20260921f
+
+=== 结论 ===
+FAIL: 4
+  - sql: leaf缺['课前']:SQL.学习路径.教程宪法.统一样例与课模板
+  - python: leaf缺['课前']:py-constitution
+  - etl: leaf缺['课前']:etl-constitution
+  - dwh: leaf缺['课前']:dwh-constitution

@@ -1,0 +1,58 @@
+总节点 44 | 唯一 id 44 | 重复 []
+层级分布 {0: 1, 1: 11, 2: 32}
+level 取值 {'?': 12, '??': 23, '???': 9}
+叶子数 32
+
+=== 结构 ===
+0  sql-root                                   ?    CH(11)  len=702
+  1  SQL.学习路径.教程宪法                              ?    CH(1)   len=551
+    2  SQL.学习路径.教程宪法.统一样例与课模板                     ?    LEAF    len=1050
+  1  SQL.学习路径.路线清单                              ?    CH(3)   len=621
+    2  SQL.学习路径.路线清单.初级清单                         ?    LEAF    len=1133
+    2  SQL.学习路径.路线清单.中级清单                         ??   LEAF    len=1321
+    2  SQL.学习路径.路线清单.高级清单                         ???  LEAF    len=1254
+  1  SQL.学习路径.练习场                               ??   CH(3)   len=616
+    2  SQL.学习路径.练习场.初级练习                          ?    LEAF    len=1224
+    2  SQL.学习路径.练习场.中级练习                          ??   LEAF    len=1847
+    2  SQL.学习路径.练习场.高级练习                          ???  LEAF    len=1379
+  1  SQL.基础查询                                   ?    CH(4)   len=697
+    2  SQL.基础查询.SELECT                            ?    LEAF    len=1046
+    2  SQL.基础查询.WHERE                             ?    LEAF    len=944
+    2  SQL.基础查询.ORDER BY                          ?    LEAF    len=873
+    2  SQL.基础查询.LIMIT                             ?    LEAF    len=945
+  1  SQL.多表操作                                   ??   CH(3)   len=624
+    2  SQL.多表操作.JOIN                              ??   LEAF    len=935
+    2  SQL.多表操作.子查询                               ??   LEAF    len=904
+    2  SQL.多表操作.UNION                             ??   LEAF    len=933
+  1  SQL.聚合分析                                   ??   CH(3)   len=620
+    2  SQL.聚合分析.GROUP BY                          ??   LEAF    len=913
+    2  SQL.聚合分析.HAVING                            ??   LEAF    len=958
+    2  SQL.聚合分析.窗口函数                              ??   LEAF    len=937
+  1  SQL.函数与表达式                                 ??   CH(3)   len=687
+    2  SQL.函数与表达式.CASE WHEN 条件逻辑                  ??   LEAF    len=1871
+    2  SQL.函数与表达式.字符串与日期函数                        ??   LEAF    len=1759
+    2  SQL.函数与表达式.NULL 语义与 COALESCE               ??   LEAF    len=1928
+  1  SQL.数据定义                                   ??   CH(3)   len=647
+    2  SQL.数据定义.类型与精度                             ?    LEAF    len=1557
+    2  SQL.数据定义.建表与约束                             ??   LEAF    len=1660
+    2  SQL.数据定义.视图与 CTE                           ??   LEAF    len=1809
+  1  SQL.数据操作                                   ??   CH(3)   len=687
+    2  SQL.数据操作.INSERT 与批量写入                      ??   LEAF    len=1715
+    2  SQL.数据操作.UPDATE 与 DELETE 安全                ??   LEAF    len=1617
+    2  SQL.数据操作.UPSERT 与幂等                        ???  LEAF    len=1897
+  1  SQL.性能优化                                   ???  CH(3)   len=639
+    2  SQL.性能优化.执行计划入门                            ??   LEAF    len=1541
+    2  SQL.性能优化.索引怎么用上                            ???  LEAF    len=1524
+    2  SQL.性能优化.慢查询定位与改写                          ???  LEAF    len=1575
+  1  SQL.事务与安全                                  ???  CH(3)   len=649
+    2  SQL.事务与安全.事务与隔离级别                          ??   LEAF    len=1541
+    2  SQL.事务与安全.锁与并发                             ???  LEAF    len=1517
+    2  SQL.事务与安全.权限与注入防护                          ???  LEAF    len=1576
+
+=== 问题 ===
+无
+deploy ok=True D:\cursor\数据学习平台\kg-data
+deploy ok=True D:\cursor\多行业数据平台\portfolio\pages\kg-data
+   same as first: True
+deploy ok=True D:\cursor\financial-data-portfolio-publish\pages\kg-data
+   same as first: True

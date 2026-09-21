@@ -1,0 +1,45 @@
+======================================================================
+DOMAIN bi | nodes 24 | leaves 19 | nonleaf 5
+  maxDepth 4 | leaf len avg 599 | nonleaf len avg 672
+  empty-content nonleaf: 0
+  thin leaves (<300): 0
+  leaf gold8 distribution: {5: 19}
+======================================================================
+DOMAIN database | nodes 55 | leaves 35 | nonleaf 20
+  maxDepth 3 | leaf len avg 1551 | nonleaf len avg 1013
+  empty-content nonleaf: 0
+  thin leaves (<300): 0
+  leaf gold8 distribution: {7: 32, 2: 3}
+======================================================================
+DOMAIN dwh | nodes 56 | leaves 37 | nonleaf 19
+  maxDepth 3 | leaf len avg 1365 | nonleaf len avg 584
+  empty-content nonleaf: 0
+  thin leaves (<300): 0
+  leaf gold8 distribution: {2: 1, 1: 3, 8: 33}
+======================================================================
+DOMAIN etl | nodes 64 | leaves 39 | nonleaf 25
+  maxDepth 3 | leaf len avg 1344 | nonleaf len avg 564
+  empty-content nonleaf: 0
+  thin leaves (<300): 0
+  leaf gold8 distribution: {3: 1, 1: 3, 8: 35}
+======================================================================
+DOMAIN ml | nodes 91 | leaves 61 | nonleaf 30
+  maxDepth 3 | leaf len avg 1669 | nonleaf len avg 1022
+  empty-content nonleaf: 0
+  thin leaves (<300): 0
+  leaf gold8 distribution: {7: 61}
+======================================================================
+DOMAIN python | nodes 41 | leaves 27 | nonleaf 14
+  maxDepth 3 | leaf len avg 1667 | nonleaf len avg 1017
+  empty-content nonleaf: 0
+  thin leaves (<300): 0
+  leaf gold8 distribution: {3: 1, 2: 3, 7: 23}
+======================================================================
+DOMAIN sql | nodes 17 | leaves 13 | nonleaf 4
+  maxDepth 2 | leaf len avg 825 | nonleaf len avg 673
+  empty-content nonleaf: 0
+  thin leaves (<300): 0
+  leaf gold8 distribution: {5: 13}
+
+======================================================================
+GLOBAL THIN LEAVES (all domains, len<400):
