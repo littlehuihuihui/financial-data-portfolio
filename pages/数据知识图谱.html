@@ -355,35 +355,34 @@ function draw(){
     visEdgesDS=new vis.DataSet([]);
     var container=document.getElementById('graph');
     visNetwork=new vis.Network(container,{nodes:visNodesDS,edges:visEdgesDS},{
-      interaction:{hover:true,dragNodes:true,dragView:false,zoomView:true},
+      interaction:{hover:true,dragNodes:false,dragView:false,zoomView:true},
       physics:{
         enabled:true,
         barnesHut:{gravitationalConstant:-1400,centralGravity:0.015,springLength:200,springConstant:0.15,damping:0.3,avoidOverlap:0.8},
         stabilization:{enabled:true,iterations:60,fit:false}
       }
     });
-    // 长按才启用拖动视图
-    var longPressTimer=null;
-    var isLongPress=false;
-    container.addEventListener('mousedown',function(e){
+    // 长按才启用拖动（capture模式确保在vis-network之前处理）
+    var _lpTimer=null;
+    var _lpActive=false;
+    function _lpDown(e){
       if(e.button!==0)return;
-      isLongPress=false;
-      longPressTimer=setTimeout(function(){
-        isLongPress=true;
-        visNetwork.setOptions({interaction:{dragView:true}});
-      },300);
-    });
-    container.addEventListener('mouseup',function(){
-      if(longPressTimer){clearTimeout(longPressTimer);longPressTimer=null;}
-      if(isLongPress){
-        visNetwork.setOptions({interaction:{dragView:false}});
-        isLongPress=false;
+      _lpActive=false;
+      _lpTimer=setTimeout(function(){
+        _lpActive=true;
+        visNetwork.setOptions({interaction:{dragView:true,dragNodes:true}});
+      },250);
+    }
+    function _lpUp(){
+      if(_lpTimer){clearTimeout(_lpTimer);_lpTimer=null;}
+      if(_lpActive){
+        visNetwork.setOptions({interaction:{dragView:false,dragNodes:false}});
+        _lpActive=false;
       }
-    });
-    container.addEventListener('mouseleave',function(){
-      if(longPressTimer){clearTimeout(longPressTimer);longPressTimer=null;}
-      visNetwork.setOptions({interaction:{dragView:false}});
-    });
+    }
+    document.addEventListener('mousedown',_lpDown,true);
+    document.addEventListener('mouseup',_lpUp,true);
+    document.addEventListener('mouseleave',_lpUp,true);
 
     visNetwork.on('click',function(p){
       if(!p.nodes.length){closePanel();return;}
