@@ -31,7 +31,7 @@
 
   async function api(path) {
     const url = `${apiBase()}${path}${path.includes("?") ? "&" : "?"}month=${MONTH}`;
-    const res = await fetch(url);
+    const res = await fetch(url, { headers: { "X-Industry": "internet" } });
     const json = await res.json();
     if (!json.ok) throw new Error(json.error || `API ${path} failed`);
     return json.data;

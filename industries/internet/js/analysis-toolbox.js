@@ -18,6 +18,18 @@
 
 
 
+
+  function toolboxIntroHtml() {
+    const box = window.ANALYSIS_TOOLBOX;
+    if (!box || Array.isArray(box)) return "";
+    const parts = [];
+    if (box.intro) parts.push(`<p class="toolbox-intro">${esc(box.intro)}</p>`);
+    if (box.usageRules) parts.push(`<p class="toolbox-intro-sub"><strong>使用规范：</strong>${esc(box.usageRules)}</p>`);
+    if (box.decisionTree) parts.push(`<p class="toolbox-intro-sub"><strong>方法选择：</strong>${esc(box.decisionTree)}</p>`);
+    if (box.comboTips) parts.push(`<p class="toolbox-intro-sub"><strong>组合推荐：</strong>${esc(box.comboTips)}</p>`);
+    return parts.join("");
+  }
+
   function allMethods() {
 
     const box = window.ANALYSIS_TOOLBOX;
@@ -68,11 +80,15 @@
             ${metaBlock("3. 适用场景与不适用场景：", applicable)}
             ${metaBlock("4. 分析目的：", purpose)}
             ${metaBlock("5. 操作步骤：", steps)}
+            ${item.sql ? metaBlock("5b. 可执行 SQL：", item.sql) : ""}
+            ${item.judgeCriteria ? metaBlock("5c. 量化判断标准：", item.judgeCriteria) : ""}
             ${metaBlock("6. 输出物与常见误区：", outputs)}
             ${metaBlock("7. 和其他方法的区别：", vsOther)}
             ${metaBlock("8. 边界条件与失效情形：", boundaries)}
+            ${item.servesLayers ? metaBlock("主要服务层级：", item.servesLayers) : ""}
             ${metaBlock("常问什么：", item.businessQuestion || "—")}
-            ${metaBlock("落地例子（本站怎么用）：", item.portfolio || "—")}
+            ${metaBlock("落地例子（示例值，非真实基准）：", item.portfolio || "—")}
+            ${item.misuseScenes ? metaBlock("常见误用：", item.misuseScenes) : ""}
           </dl>
         </div>
       </article>`;
@@ -805,9 +821,7 @@
 
     } else {
 
-      const lead = box.intro || box.opening;
-
-      html = lead ? `<p class="toolbox-intro">${esc(lead)}</p>` : "";
+      html = toolboxIntroHtml();
 
       let idx = 0;
 
