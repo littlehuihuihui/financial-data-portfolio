@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from flask_cors import CORS
 from pymysql.cursors import DictCursor
 
 ROOT = Path(__file__).resolve().parent
+DEBUG_LOG = Path(r"D:\cursor\数据学习平台\debug-5e8b19.log")
 RETAIL_API_BASE = os.getenv("RETAIL_API_BASE", "http://127.0.0.1:5000")
 INTERNET_API_BASE = os.getenv("INTERNET_API_BASE", "http://127.0.0.1:5001")
 MANUFACTURING_API_BASE = os.getenv("MANUFACTURING_API_BASE", "http://127.0.0.1:5002")
@@ -213,6 +215,18 @@ def search():
 @app.get("/")
 def index_page():
     return send_from_directory(ROOT, "index.html")
+
+
+@app.post("/api/agent-debug-log")
+def agent_debug_log():
+    try:
+        payload = request.get_json(force=True, silent=True) or {}
+        DEBUG_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with DEBUG_LOG.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(payload, ensure_ascii=False) + "\n")
+        return jsonify({"ok": True})
+    except Exception as exc:
+        return _error(f"debug log failed: {exc}", 500)
 
 
 @app.route("/api/<path:subpath>", methods=["GET", "POST"])

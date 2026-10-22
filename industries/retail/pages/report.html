@@ -82,7 +82,7 @@
             <span class="overview-card-tag">财务 BP 核心能力</span>
           </div>
           <ul class="overview-card-list">
-            <li>六层框架：描述 → 诊断 → 预测 → 评估 → 优化 + 工具箱</li>
+            <li>六层框架：工具箱 → 描述 → 诊断 → 预测 → 评估 → 优化</li>
             <li>31 个分析问题 · 含 SQL 与判断标准</li>
             <li>诊断案例：毛利率 / 退货 / ROAS</li>
             <li>详见 <a href="#page-p2">P2</a> · <a href="#page-p2b">P2b</a> · <a href="#page-p2-toolbox">P2c</a></li>
@@ -507,7 +507,7 @@
           <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📐 财务数据分析方法论</h1>
           <p class="page-subtitle">六层分析框架 · 遇到业务问题先判断层级，再按对应方法展开</p>
-          <p class="page-note">描述（现状）→ 诊断（根因）→ 预测（未来）→ 评估（效果）→ 优化（决策）</p>
+          <p class="page-note">工具箱（方法）→ 描述（现状）→ 诊断（根因）→ 预测（未来）→ 评估（效果）→ 优化（决策）</p>
         </div>
         <nav class="module-nav" aria-label="模块导航">
           <a href="#page-p0">📋 体系总览</a>
@@ -518,8 +518,17 @@
       </header>
 
       <div class="framework-stack framework-stack-pdf">
-        <section class="framework-layer-pdf layer-1">
-          <h3 class="fw-layer-title"><span class="fw-num">1</span> 描述性分析 — 「现在是什么状况？」</h3>
+        <section class="framework-layer-pdf layer-1" style="border-left-color:#f472b6">
+          <h3 class="fw-layer-title"><span class="fw-num">1</span> 分析方法工具箱 —— "用什么方法？"</h3>
+          <div class="fw-layer-body">
+            <p><strong>定位：</strong>分析方法工具箱是六层框架的第一层，为后五层（描述→诊断→预测→评估→优化）提供19种可复用的定量与结构化分析手法，按6个小类组织。</p>
+            <p><strong>6 小类 19 法：</strong>优先级（帕累托/ABC/波士顿）· 诊断（根因/归因/下钻/相关）· 转化（漏斗/同期群）· 预测（外推/MA/WMA/指数平滑/季节）· 财务（杜邦/ROI/CVP）· 优化（敏感性/边际）</p>
+            <p><strong>详情：</strong>见本报告 P2c 页 · 交互版见 <code>anomaly.html#toolbox-pareto</code></p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-2">
+          <h3 class="fw-layer-title"><span class="fw-num">2</span> 描述性分析 — 「现在是什么状况？」</h3>
           <div class="fw-layer-body">
             <p><strong>目的：</strong>客观描述现状 · <strong>方法：</strong>KPI → 趋势 → 结构 → 排名</p>
             <p><strong>数据：</strong><code>dws_sales_monthly（按月汇总）</code>、<code>dws_sales_daily</code>、<code>dws_store_daily</code></p>
@@ -527,8 +536,8 @@
           </div>
         </section>
         <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf layer-2">
-          <h3 class="fw-layer-title"><span class="fw-num">2</span> 诊断性分析 — 「为什么会这样？」</h3>
+        <section class="framework-layer-pdf layer-3">
+          <h3 class="fw-layer-title"><span class="fw-num">3</span> 诊断性分析 — 「为什么会这样？」</h3>
           <div class="fw-layer-body">
             <p><strong>目的：</strong>根因定位 · <strong>路径：</strong>品牌→渠道→品类→SKU · <strong>产出：</strong>根因+影响金额</p>
             <p><strong>数据：</strong><code>dws_sales_daily</code>、<code>dwd_sales_wide</code>、<code>ods_orders（return_flag=1）</code></p>
@@ -536,35 +545,26 @@
           </div>
         </section>
         <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf layer-3">
-          <h3 class="fw-layer-title"><span class="fw-num">3</span> 预测性分析 — 「接下来会怎样？」</h3>
+        <section class="framework-layer-pdf layer-4">
+          <h3 class="fw-layer-title"><span class="fw-num">4</span> 预测性分析 — 「接下来会怎样？」</h3>
           <div class="fw-layer-body">
             <p><strong>方法：</strong>趋势外推 / 移动平均 / 指数平滑 · <strong>产出：</strong>乐观/基准/悲观三情景</p>
             <p><strong>示例：</strong>Q3 收入预测 2.5–2.9 亿（基准 2.7 亿）· 看板：现金流分析</p>
           </div>
         </section>
         <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf layer-4">
-          <h3 class="fw-layer-title"><span class="fw-num">4</span> 评估性分析 — 「做得怎么样？」</h3>
+        <section class="framework-layer-pdf layer-5">
+          <h3 class="fw-layer-title"><span class="fw-num">5</span> 评估性分析 — 「做得怎么样？」</h3>
           <div class="fw-layer-body">
             <p><strong>方法：</strong>ROI/ROAS · vs 目标/历史/行业 · <strong>示例：</strong>天猫 ROI=3.5（行业 2.8）优秀，建议加投</p>
           </div>
         </section>
         <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf layer-5">
-          <h3 class="fw-layer-title"><span class="fw-num">5</span> 优化性分析 — 「应该怎么做？」</h3>
+        <section class="framework-layer-pdf layer-6">
+          <h3 class="fw-layer-title"><span class="fw-num">6</span> 优化性分析 — 「应该怎么做？」</h3>
           <div class="fw-layer-body">
             <p><strong>方法：</strong>边际分析 · 敏感性 · What-if · <strong>示例：</strong>抖音减投 100 万挪天猫，利润 +180 万</p>
             <p><strong>看板：</strong>预算执行 · 本量利分析</p>
-          </div>
-        </section>
-        <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf" style="border-left-color:#f472b6">
-          <h3 class="fw-layer-title"><span class="fw-num">6</span> 第六层：分析方法工具箱 —— "用什么方法？"</h3>
-          <div class="fw-layer-body">
-            <p><strong>定位：</strong>分析方法工具箱是前五层分析的补充，提供19种可复用的定量与结构化分析手法，按6个小类组织，帮助业务方快速定位适合当前问题的分析方法。</p>
-            <p><strong>6 小类 19 法：</strong>优先级（帕累托/ABC/波士顿）· 诊断（根因/归因/下钻/相关）· 转化（漏斗/同期群）· 预测（外推/MA/WMA/指数平滑/季节）· 财务（杜邦/ROI/CVP）· 优化（敏感性/边际）</p>
-            <p><strong>详情：</strong>见本报告 P2c 页 · 交互版见 <code>anomaly.html#toolbox-pareto</code></p>
           </div>
         </section>
       </div>
@@ -599,12 +599,12 @@
       <p class="page-footnote"><a href="anomaly.html">→ 打开交互式分析路径（31 个问题 · 含 SQL 与判断标准）</a></p>
     </section>
 
-    <!-- ==================== P2c · 第六层：分析方法工具箱 ==================== -->
+    <!-- ==================== P2c · 第一层：分析方法工具箱 ==================== -->
     <section class="pdf-page pdf-page-p2-toolbox" id="page-p2-toolbox">
       <header class="page-header">
         <div class="page-header-left">
           <div class="page-kicker">Portfolio Report</div>
-          <h1 class="page-title">第六层：分析方法工具箱 —— "用什么方法？"</h1>
+          <h1 class="page-title">第一层：分析方法工具箱 —— "用什么方法？"</h1>
           <p class="page-subtitle">6 个小类 · 19 种方法 · 是什么 / 何时用 / 目的 / 怎么用 + 常问什么与落地例子</p>
         </div>
       </header>
@@ -617,7 +617,7 @@
         <div class="page-header-left">
           <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">📋 财务分析 · 31 个问题清单</h1>
-          <p class="page-subtitle">六层框架完整覆盖（l1–l5 共 31 问 + l6 工具箱 19 法）· Web 版可点击展开分析路径</p>
+          <p class="page-subtitle">六层框架完整覆盖（l2–l6 共 31 问 + l1 工具箱 19 法）· Web 版可点击展开分析路径</p>
         </div>
         <nav class="module-nav" aria-label="模块导航">
           <a href="#page-p0">📋 体系总览</a>
@@ -633,37 +633,37 @@
           <tr><th>层级</th><th>分类</th><th>分析问题</th><th>业务问法</th></tr>
         </thead>
         <tbody>
-          <tr class="layer-row l1"><td rowspan="7">描述性</td><td>经营概况</td><td>月度经营概况</td><td>这个月业绩怎么样？</td></tr>
-          <tr class="layer-row l1"><td>经营概况</td><td>年度累计经营概况</td><td>今年到目前为止怎么样了？</td></tr>
-          <tr class="layer-row l1"><td>经营概况</td><td>单日经营简报</td><td>昨天卖了多少？</td></tr>
-          <tr class="layer-row l1"><td>结构分析</td><td>各品牌表现排名</td><td>哪个品牌表现最好？</td></tr>
-          <tr class="layer-row l1"><td>结构分析</td><td>各渠道表现排名</td><td>哪个渠道表现最好？</td></tr>
-          <tr class="layer-row l1"><td>结构分析</td><td>各品类表现排名</td><td>哪个品类最好卖？</td></tr>
-          <tr class="layer-row l1"><td>结构分析</td><td>各门店表现排名</td><td>哪个门店表现最好？</td></tr>
-          <tr class="layer-row l2"><td rowspan="8">诊断性</td><td>利润</td><td>毛利率下滑诊断</td><td>毛利率为什么下降？</td></tr>
-          <tr class="layer-row l2"><td>利润</td><td>净利润下滑诊断</td><td>净利润为什么少了？</td></tr>
-          <tr class="layer-row l2"><td>收入</td><td>收入下滑诊断</td><td>收入为什么下降？</td></tr>
-          <tr class="layer-row l2"><td>收入</td><td>收入增长缓慢诊断</td><td>收入增长为什么这么慢？</td></tr>
-          <tr class="layer-row l2"><td>退货</td><td>退货率异常诊断</td><td>退货率为什么升高？</td></tr>
-          <tr class="layer-row l2"><td>费用</td><td>费用率异常诊断</td><td>费用率为什么高了？</td></tr>
-          <tr class="layer-row l2"><td>现金流</td><td>净现比下降诊断</td><td>净现比为什么下降？</td></tr>
-          <tr class="layer-row l2"><td>库存</td><td>库存周转天数上升诊断</td><td>库存为什么越压越多？</td></tr>
-          <tr class="layer-row l3"><td rowspan="5">预测性</td><td>收入预测</td><td>下月收入预测</td><td>下个月能卖多少？</td></tr>
-          <tr class="layer-row l3"><td>收入预测</td><td>下季度品牌/品类收入预测</td><td>Q3 哪个品类会好卖？</td></tr>
-          <tr class="layer-row l3"><td>目标追踪</td><td>年底目标达成预测</td><td>年底能完成目标吗？</td></tr>
-          <tr class="layer-row l3"><td>资金</td><td>资金缺口预测</td><td>下个月资金够用吗？</td></tr>
-          <tr class="layer-row l3"><td>风险</td><td>渠道 ROI 持续下降预警</td><td>渠道 ROI 还会降吗？</td></tr>
-          <tr class="layer-row l4"><td rowspan="6">评估性</td><td>营销效果</td><td>营销活动 ROI 评估</td><td>这次活动效果怎么样？</td></tr>
-          <tr class="layer-row l4"><td>营销效果</td><td>渠道投入产出评估</td><td>这个渠道投入值不值？</td></tr>
-          <tr class="layer-row l4"><td>营销效果</td><td>促销活动效果评估</td><td>这次促销赚了还是亏了？</td></tr>
-          <tr class="layer-row l4"><td>运营效率</td><td>门店关停评估</td><td>这家门店该不该关？</td></tr>
-          <tr class="layer-row l4"><td>运营效率</td><td>供应商绩效评估</td><td>这个供应商要不要换？</td></tr>
-          <tr class="layer-row l4"><td>运营效率</td><td>新品表现评估</td><td>新品卖得怎么样？</td></tr>
-          <tr class="layer-row l5"><td rowspan="5">优化性</td><td>资源配置</td><td>预算分配优化</td><td>预算有限钱往哪投？</td></tr>
-          <tr class="layer-row l5"><td>资源配置</td><td>营销费用优化</td><td>哪些费用该砍？</td></tr>
-          <tr class="layer-row l5"><td>定价</td><td>定价优化分析</td><td>价格降 5% 利润会怎样？</td></tr>
-          <tr class="layer-row l5"><td>定价</td><td>折扣策略优化</td><td>打折打到多少最合适？</td></tr>
-          <tr class="layer-row l5"><td>库存</td><td>库存清仓优化</td><td>库存积压了怎么清？</td></tr>
+          <tr class="layer-row l2"><td rowspan="7">描述性</td><td>经营概况</td><td>月度经营概况</td><td>这个月业绩怎么样？</td></tr>
+          <tr class="layer-row l2"><td>经营概况</td><td>年度累计经营概况</td><td>今年到目前为止怎么样了？</td></tr>
+          <tr class="layer-row l2"><td>经营概况</td><td>单日经营简报</td><td>昨天卖了多少？</td></tr>
+          <tr class="layer-row l2"><td>结构分析</td><td>各品牌表现排名</td><td>哪个品牌表现最好？</td></tr>
+          <tr class="layer-row l2"><td>结构分析</td><td>各渠道表现排名</td><td>哪个渠道表现最好？</td></tr>
+          <tr class="layer-row l2"><td>结构分析</td><td>各品类表现排名</td><td>哪个品类最好卖？</td></tr>
+          <tr class="layer-row l2"><td>结构分析</td><td>各门店表现排名</td><td>哪个门店表现最好？</td></tr>
+          <tr class="layer-row l3"><td rowspan="8">诊断性</td><td>利润</td><td>毛利率下滑诊断</td><td>毛利率为什么下降？</td></tr>
+          <tr class="layer-row l3"><td>利润</td><td>净利润下滑诊断</td><td>净利润为什么少了？</td></tr>
+          <tr class="layer-row l3"><td>收入</td><td>收入下滑诊断</td><td>收入为什么下降？</td></tr>
+          <tr class="layer-row l3"><td>收入</td><td>收入增长缓慢诊断</td><td>收入增长为什么这么慢？</td></tr>
+          <tr class="layer-row l3"><td>退货</td><td>退货率异常诊断</td><td>退货率为什么升高？</td></tr>
+          <tr class="layer-row l3"><td>费用</td><td>费用率异常诊断</td><td>费用率为什么高了？</td></tr>
+          <tr class="layer-row l3"><td>现金流</td><td>净现比下降诊断</td><td>净现比为什么下降？</td></tr>
+          <tr class="layer-row l3"><td>库存</td><td>库存周转天数上升诊断</td><td>库存为什么越压越多？</td></tr>
+          <tr class="layer-row l4"><td rowspan="5">预测性</td><td>收入预测</td><td>下月收入预测</td><td>下个月能卖多少？</td></tr>
+          <tr class="layer-row l4"><td>收入预测</td><td>下季度品牌/品类收入预测</td><td>Q3 哪个品类会好卖？</td></tr>
+          <tr class="layer-row l4"><td>目标追踪</td><td>年底目标达成预测</td><td>年底能完成目标吗？</td></tr>
+          <tr class="layer-row l4"><td>资金</td><td>资金缺口预测</td><td>下个月资金够用吗？</td></tr>
+          <tr class="layer-row l4"><td>风险</td><td>渠道 ROI 持续下降预警</td><td>渠道 ROI 还会降吗？</td></tr>
+          <tr class="layer-row l5"><td rowspan="6">评估性</td><td>营销效果</td><td>营销活动 ROI 评估</td><td>这次活动效果怎么样？</td></tr>
+          <tr class="layer-row l5"><td>营销效果</td><td>渠道投入产出评估</td><td>这个渠道投入值不值？</td></tr>
+          <tr class="layer-row l5"><td>营销效果</td><td>促销活动效果评估</td><td>这次促销赚了还是亏了？</td></tr>
+          <tr class="layer-row l5"><td>运营效率</td><td>门店关停评估</td><td>这家门店该不该关？</td></tr>
+          <tr class="layer-row l5"><td>运营效率</td><td>供应商绩效评估</td><td>这个供应商要不要换？</td></tr>
+          <tr class="layer-row l5"><td>运营效率</td><td>新品表现评估</td><td>新品卖得怎么样？</td></tr>
+          <tr class="layer-row l6"><td rowspan="5">优化性</td><td>资源配置</td><td>预算分配优化</td><td>预算有限钱往哪投？</td></tr>
+          <tr class="layer-row l6"><td>资源配置</td><td>营销费用优化</td><td>哪些费用该砍？</td></tr>
+          <tr class="layer-row l6"><td>定价</td><td>定价优化分析</td><td>价格降 5% 利润会怎样？</td></tr>
+          <tr class="layer-row l6"><td>定价</td><td>折扣策略优化</td><td>打折打到多少最合适？</td></tr>
+          <tr class="layer-row l6"><td>库存</td><td>库存清仓优化</td><td>库存积压了怎么清？</td></tr>
         </tbody>
       </table>
 

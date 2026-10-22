@@ -1,6 +1,6 @@
 /**
 
- * 第六层·分析方法工具箱 · 分类渲染 + ECharts
+ * 第一层·分析方法工具箱 · 分类渲染 + ECharts
 
  */
 
@@ -105,20 +105,6 @@
   }
 
 
-
-
-  function ensureEcharts() {
-    if (typeof window.echarts !== "undefined") return Promise.resolve();
-    if (window.__echartsLoading) return window.__echartsLoading;
-    window.__echartsLoading = new Promise((resolve, reject) => {
-      const s = document.createElement("script");
-      s.src = "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js";
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error("ECharts load failed"));
-      document.head.appendChild(s);
-    });
-    return window.__echartsLoading;
-  }
 
   function initChart(item, idx) {
 
@@ -829,10 +815,10 @@
 
     root.innerHTML = html;
 
-    ensureEcharts().then(() => {
-      requestAnimationFrame(() => {
-        methods.forEach((item, idx) => initChart(item, idx));
-      });
+    requestAnimationFrame(() => {
+
+      methods.forEach((item, idx) => initChart(item, idx));
+
     });
 
   }
@@ -855,7 +841,7 @@
 
     if (!item) return;
 
-    const layerTitle = box.layerTitle || "第六层：分析方法工具箱";
+    const layerTitle = box.layerTitle || "第一层：分析方法工具箱";
 
     const layerQ = box.layerQuestion || "用什么方法？";
 
@@ -865,7 +851,7 @@
 
         <header class="detail-head">
 
-          <span class="detail-badge" style="background:#ec489922;color:#ec4899">第六层</span>
+          <span class="detail-badge" style="background:#ec489922;color:#ec4899">第一层</span>
 
           <h2>${esc(layerTitle)} —— "${esc(layerQ)}"</h2>
 
@@ -877,7 +863,7 @@
 
       </div>`;
 
-    ensureEcharts().then(() => requestAnimationFrame(() => initChart(item, idx)));
+    requestAnimationFrame(() => initChart(item, idx));
 
   }
 

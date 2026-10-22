@@ -261,9 +261,9 @@
 
     items.push({
       category: "method",
-      title: (toolbox && toolbox.layerTitle) || "第六层：分析方法工具箱",
+      title: (toolbox && toolbox.layerTitle) || "第一层：分析方法工具箱",
       subtitle: "6 小类 · 19 种分析方法",
-      keywords: "第六层 工具箱 帕累托 ABC 波士顿 根因 归因 下钻 漏斗 杜邦 ROI CVP 敏感性 边际",
+      keywords: "第一层 工具箱 帕累托 ABC 波士顿 根因 归因 下钻 漏斗 杜邦 ROI CVP 敏感性 边际",
       url: paths.anomaly,
       anchor: methods[0] ? `toolbox-${methods[0].id}` : "",
     });

@@ -78,7 +78,7 @@
 
     const total = countToolboxMethods();
     const opening =
-      `<p class="toolbox-opening-pdf">分析方法工具箱是前五层分析的补充，按<strong>质量 / 设备与产能 / 成本与供应链</strong>三类组织，共 <strong>${total} 种</strong>制造业可复用方法。每种方法按教材体展开（定义/原理/适用/目的/步骤/输出与误区/方法对比/边界）；交互图表示例见 <code>../pages/methodology.html</code>。</p>`;
+      `<p class="toolbox-opening-pdf">分析方法工具箱是六层框架的第一层，按<strong>质量 / 设备与产能 / 成本与供应链</strong>三类组织，共 <strong>${total} 种</strong>制造业可复用方法。每种方法按教材体展开（定义/原理/适用/目的/步骤/输出与误区/方法对比/边界）；交互图表示例见 <code>../pages/methodology.html</code>。</p>`;
 
     const cats = (box.categories || [])
       .map((cat) => {

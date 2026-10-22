@@ -79,7 +79,7 @@
             <span class="overview-card-tag">增长 BP 核心能力</span>
           </div>
           <ul class="overview-card-list">
-            <li>六层框架：描述 → 诊断 → 预测 → 评估 → 优化 + 工具箱</li>
+            <li>六层框架：工具箱 → 描述 → 诊断 → 预测 → 评估 → 优化</li>
             <li>28 分析问题 · 15 种可复用方法</li>
             <li>诊断：DAU 下滑 · 留存恶化 · 漏斗 / 完播异常</li>
             <li>详见 <a href="#page-p2">P2</a> · <a href="#page-p2b">P2b</a> · <a href="#page-p2c">P2c</a></li>
@@ -359,8 +359,16 @@
         </div>
       </header>
       <div class="framework-stack framework-stack-pdf">
-        <section class="framework-layer-pdf layer-1">
-          <h3 class="fw-layer-title"><span class="fw-num">1</span> 描述性分析 — 「现在是什么状况？」</h3>
+        <section class="framework-layer-pdf layer-1" style="border-left-color:#f472b6">
+          <h3 class="fw-layer-title"><span class="fw-num">1</span> 分析方法工具箱（15 法）</h3>
+          <div class="fw-layer-body">
+            <p>画像 · 生命周期 · 留存/同期群 · RFM · 漏斗 · LTV/CAC · 归因 · 流失预警 · A/B · 边际ROI · 分群 · 路径 · 实验设计 · 渠道评分卡 · 北极星拆解</p>
+            <p>详情见下页表 · 交互版 <code>../pages/methodology.html</code></p>
+          </div>
+        </section>
+        <div class="fw-arrow-pdf">↓</div>
+        <section class="framework-layer-pdf layer-2">
+          <h3 class="fw-layer-title"><span class="fw-num">2</span> 描述性分析 — 「现在是什么状况？」</h3>
           <div class="fw-layer-body">
             <p><strong>目的：</strong>掌握 MAU/DAU、端型/地市、入口与内容现状 · <strong>方法：</strong>KPI → 趋势 → 结构 → 排名</p>
             <p><strong>数据：</strong><code>v_dau_overview</code>、<code>dws_act_user_active_1d</code>、<code>v_user_portrait</code></p>
@@ -368,40 +376,32 @@
           </div>
         </section>
         <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf layer-2">
-          <h3 class="fw-layer-title"><span class="fw-num">2</span> 诊断性分析 — 「为什么会这样？」</h3>
+        <section class="framework-layer-pdf layer-3">
+          <h3 class="fw-layer-title"><span class="fw-num">3</span> 诊断性分析 — 「为什么会这样？」</h3>
           <div class="fw-layer-body">
             <p><strong>目的：</strong>定位 DAU 下滑、留存恶化、漏斗转化、完播异常根因 · <strong>路径：</strong>端型→入口→内容→同期群</p>
             <p><strong>数据：</strong><code>v_retention_decomposition</code>、<code>v_funnel</code>、<code>dws_content_series_play_1d</code></p>
           </div>
         </section>
         <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf layer-3">
-          <h3 class="fw-layer-title"><span class="fw-num">3</span> 预测性分析 — 「接下来会怎样？」</h3>
+        <section class="framework-layer-pdf layer-4">
+          <h3 class="fw-layer-title"><span class="fw-num">4</span> 预测性分析 — 「接下来会怎样？」</h3>
           <div class="fw-layer-body">
             <p><strong>方法：</strong>趋势外推 / 移动平均 · DAU、订购客单(LTV)、入口效果、流失与分成三情景</p>
           </div>
         </section>
         <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf layer-4">
-          <h3 class="fw-layer-title"><span class="fw-num">4</span> 评估性分析 — 「做得怎么样？」</h3>
+        <section class="framework-layer-pdf layer-5">
+          <h3 class="fw-layer-title"><span class="fw-num">5</span> 评估性分析 — 「做得怎么样？」</h3>
           <div class="fw-layer-body">
             <p><strong>方法：</strong>入口 ROI · A/B（v_ab_experiment）· 内容完播/QoS · 订购分成 vs 目标</p>
           </div>
         </section>
         <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf layer-5">
-          <h3 class="fw-layer-title"><span class="fw-num">5</span> 优化性分析 — 「应该怎么做？」</h3>
+        <section class="framework-layer-pdf layer-6">
+          <h3 class="fw-layer-title"><span class="fw-num">6</span> 优化性分析 — 「应该怎么做？」</h3>
           <div class="fw-layer-body">
             <p><strong>方法：</strong>入口流量再分配 · 沉默挽回 · 内容优先级 · 渠道组合 · 套餐定价</p>
-          </div>
-        </section>
-        <div class="fw-arrow-pdf">↓</div>
-        <section class="framework-layer-pdf" style="border-left-color:#f472b6">
-          <h3 class="fw-layer-title"><span class="fw-num">6</span> 分析方法工具箱（15 法）</h3>
-          <div class="fw-layer-body">
-            <p>画像 · 生命周期 · 留存/同期群 · RFM · 漏斗 · LTV/CAC · 归因 · 流失预警 · A/B · 边际ROI · 分群 · 路径 · 实验设计 · 渠道评分卡 · 北极星拆解</p>
-            <p>详情见下页表 · 交互版 <code>../pages/methodology.html</code></p>
           </div>
         </section>
       </div>
@@ -425,7 +425,7 @@
       <header class="page-header">
         <div class="page-header-left">
           <div class="page-kicker">Portfolio Report</div>
-          <h1 class="page-title">🧰 第六层 · 分析方法工具箱（15）</h1>
+          <h1 class="page-title">🧰 第一层 · 分析方法工具箱（15）</h1>
           <p class="page-subtitle">人话解释 · 常问什么 · 落地例子见方法论页</p>
         </div>
       </header>

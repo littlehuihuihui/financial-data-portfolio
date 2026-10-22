@@ -1,6 +1,6 @@
 /**
 
- * 第六层·分析方法工具箱 · 分类渲染 + ECharts
+ * 第一层·分析方法工具箱 · 分类渲染 + ECharts
 
  */
 
@@ -16,23 +16,7 @@
 
   }
 
-  function fmtMultiline(s) {
-    return esc(s).replace(/\r\n/g, "\n").replace(/\n/g, "<br>");
-  }
 
-
-
-
-  function toolboxIntroHtml() {
-    const box = window.ANALYSIS_TOOLBOX;
-    if (!box || Array.isArray(box)) return "";
-    const parts = [];
-    if (box.intro) parts.push(`<p class="toolbox-intro">${esc(box.intro)}</p>`);
-    if (box.usageRules) parts.push(`<p class="toolbox-intro-sub"><strong>使用规范：</strong>${esc(box.usageRules)}</p>`);
-    if (box.decisionTree) parts.push(`<p class="toolbox-intro-sub"><strong>方法选择：</strong>${esc(box.decisionTree)}</p>`);
-    if (box.comboTips) parts.push(`<p class="toolbox-intro-sub"><strong>组合推荐：</strong>${esc(box.comboTips)}</p>`);
-    return parts.join("");
-  }
 
   function allMethods() {
 
@@ -53,7 +37,7 @@
 
 
   function metaBlock(label, text) {
-    return `<div class="toolbox-meta-block"><dt>${esc(label)}</dt><dd style="white-space:pre-line">${fmtMultiline(text || "—")}</dd></div>`;
+    return `<div class="toolbox-meta-block"><dt>${esc(label)}</dt><dd>${esc(text || "—")}</dd></div>`;
   }
 
   function renderMethodCard(item, idx) {
@@ -84,15 +68,11 @@
             ${metaBlock("3. 适用场景与不适用场景：", applicable)}
             ${metaBlock("4. 分析目的：", purpose)}
             ${metaBlock("5. 操作步骤：", steps)}
-            ${item.sql ? metaBlock("5b. 可执行 SQL：", item.sql) : ""}
-            ${item.judgeCriteria ? metaBlock("5c. 量化判断标准：", item.judgeCriteria) : ""}
             ${metaBlock("6. 输出物与常见误区：", outputs)}
             ${metaBlock("7. 和其他方法的区别：", vsOther)}
             ${metaBlock("8. 边界条件与失效情形：", boundaries)}
-            ${item.servesLayers ? metaBlock("主要服务层级：", item.servesLayers) : ""}
             ${metaBlock("常问什么：", item.businessQuestion || "—")}
-            ${metaBlock("落地例子（示例值，非真实基准）：", item.portfolio || "—")}
-            ${item.misuseScenes ? metaBlock("常见误用：", item.misuseScenes) : ""}
+            ${metaBlock("落地例子（本站怎么用）：", item.portfolio || "—")}
           </dl>
         </div>
       </article>`;
@@ -125,20 +105,6 @@
   }
 
 
-
-
-  function ensureEcharts() {
-    if (typeof window.echarts !== "undefined") return Promise.resolve();
-    if (window.__echartsLoading) return window.__echartsLoading;
-    window.__echartsLoading = new Promise((resolve, reject) => {
-      const s = document.createElement("script");
-      s.src = "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js";
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error("ECharts load failed"));
-      document.head.appendChild(s);
-    });
-    return window.__echartsLoading;
-  }
 
   function initChart(item, idx) {
 
@@ -825,7 +791,9 @@
 
     } else {
 
-      html = toolboxIntroHtml();
+      const lead = box.intro || box.opening;
+
+      html = lead ? `<p class="toolbox-intro">${esc(lead)}</p>` : "";
 
       let idx = 0;
 
@@ -847,10 +815,10 @@
 
     root.innerHTML = html;
 
-    ensureEcharts().then(() => {
-      requestAnimationFrame(() => {
-        methods.forEach((item, idx) => initChart(item, idx));
-      });
+    requestAnimationFrame(() => {
+
+      methods.forEach((item, idx) => initChart(item, idx));
+
     });
 
   }
@@ -873,7 +841,7 @@
 
     if (!item) return;
 
-    const layerTitle = box.layerTitle || "第六层：分析方法工具箱";
+    const layerTitle = box.layerTitle || "第一层：分析方法工具箱";
 
     const layerQ = box.layerQuestion || "用什么方法？";
 
@@ -883,7 +851,7 @@
 
         <header class="detail-head">
 
-          <span class="detail-badge" style="background:#ec489922;color:#ec4899">第六层</span>
+          <span class="detail-badge" style="background:#ec489922;color:#ec4899">第一层</span>
 
           <h2>${esc(layerTitle)} —— "${esc(layerQ)}"</h2>
 
@@ -895,7 +863,7 @@
 
       </div>`;
 
-    ensureEcharts().then(() => requestAnimationFrame(() => initChart(item, idx)));
+    requestAnimationFrame(() => initChart(item, idx));
 
   }
 
