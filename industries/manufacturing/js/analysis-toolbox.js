@@ -16,6 +16,10 @@
 
   }
 
+  function fmtMultiline(s) {
+    return esc(s).replace(/\r\n/g, "\n").replace(/\n/g, "<br>");
+  }
+
 
 
   function allMethods() {
@@ -37,7 +41,7 @@
 
 
   function metaBlock(label, text) {
-    return `<div class="toolbox-meta-block"><dt>${esc(label)}</dt><dd>${esc(text || "—")}</dd></div>`;
+    return `<div class="toolbox-meta-block"><dt>${esc(label)}</dt><dd style="white-space:pre-line">${fmtMultiline(text || "—")}</dd></div>`;
   }
 
   function renderMethodCard(item, idx) {

@@ -523,7 +523,7 @@
         ${table.isApp ? "" : this.renderDashboardLinks(table)}
         ${table.isApp ? "" : `
         <div class="dd-detail-section dd-detail-actions">
-          <a class="dd-graph-focus-btn" href="${esc(platformKgHref(tableKgNodeId(table.name)))}" target="_blank" rel="noopener">在知识图谱辐射图中打开此表 ↗</a>
+          <a class="dd-graph-focus-btn" href="${esc(platformKgHref(tableKgNodeId(table.name)))}" target="_blank" rel="noopener">在平台知识图谱中打开此表 ↗</a>
         </div>`}
 
         ${table.isApp ? "" : `<div class="dd-detail-section">

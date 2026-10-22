@@ -1,0 +1,3141 @@
+{
+  "schema_version": "2.1",
+  "generated_at": "2026-10-22T01:41:17Z",
+  "industry": {
+    "industry_code": "internet",
+    "industry_name": "互联网通用",
+    "database_name": "internet_analytics",
+    "metadata_database": "portfolio_metadata",
+    "folder_path": "/industries/internet/",
+    "entry_file": "internet_dashboard.html",
+    "company_name": "广东移动 OTT",
+    "status": "active",
+    "warehouse_models": [
+      "internet_analytics"
+    ],
+    "api_ports": {
+      "internet_api": 5001,
+      "portfolio_platform": 5100
+    }
+  },
+  "navigation": {
+    "platform_entry": {
+      "label": "多行业平台入口",
+      "path": "/index.html"
+    },
+    "internet_tabs": [
+      {
+        "id": "dashboard",
+        "label": "数据展示",
+        "path": "internet_dashboard.html",
+        "description": "17 个主题看板 + 分阶段北极星 + 角色切换"
+      },
+      {
+        "id": "methodology",
+        "label": "分析方法论",
+        "path": "pages/methodology.html",
+        "description": "六层分析框架 · OTT 场景 · 第六层工具箱"
+      },
+      {
+        "id": "architecture",
+        "label": "数仓架构",
+        "path": "pages/architecture.html",
+        "description": "OTT 雪花模型 · 数据字典 · 数仓血缘 · 分层/技术栈答疑"
+      },
+      {
+        "id": "platform_graph",
+        "label": "知识图谱",
+        "path": "pages/platform-graph.html",
+        "description": "看板 · 分析方法 · 五层数仓 · 指标（控密度三层聚焦）"
+      },
+      {
+        "id": "dictionary",
+        "label": "数据字典",
+        "path": "pages/dictionary.html",
+        "description": "全屏 Master-Detail · 指标口径"
+      }
+    ],
+    "methodology_sidebar_layers": [
+      "l1",
+      "l2",
+      "l3",
+      "l4",
+      "l5"
+    ],
+    "global_search": true,
+    "report_nav_hidden": true
+  },
+  "dashboards": [
+    {
+      "id": "overview",
+      "title": "活跃总览",
+      "icon": "📈",
+      "roles": [
+        "运营负责人",
+        "内容运营",
+        "用户增长",
+        "商业化运营"
+      ],
+      "core_content": "有效MAU(STB/Speaker/合计) · DAU/WAU/MAU · 多时间窗",
+      "api": "/api/dashboard_overview",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/01-overview.html"
+    },
+    {
+      "id": "launcher",
+      "title": "开机活跃",
+      "icon": "📺",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "开机次数/设备数/时长 · 端对比 · 只开机占比",
+      "api": "/api/dashboard_launcher",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/02-launcher.html"
+    },
+    {
+      "id": "vod",
+      "title": "点播活跃",
+      "icon": "🎬",
+      "roles": [
+        "运营负责人",
+        "内容运营",
+        "商业化运营"
+      ],
+      "core_content": "VV/UV/时长 · 人均VV/人均时长 · 多时间窗",
+      "api": "/api/dashboard_vod",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/03-vod.html"
+    },
+    {
+      "id": "live",
+      "title": "直播活跃",
+      "icon": "📡",
+      "roles": [
+        "运营负责人",
+        "内容运营"
+      ],
+      "core_content": "观看次数/人数/时长 · 频道分布",
+      "api": "/api/dashboard_live",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/04-live.html"
+    },
+    {
+      "id": "series",
+      "title": "内容·剧集",
+      "icon": "🎞️",
+      "roles": [
+        "运营负责人",
+        "内容运营",
+        "商业化运营"
+      ],
+      "core_content": "剧集 VV/UV/时长/完播率 · 题材渗透",
+      "api": "/api/dashboard_series",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/05-series.html"
+    },
+    {
+      "id": "episode",
+      "title": "内容·单集与行为",
+      "icon": "▶️",
+      "roles": [
+        "运营负责人",
+        "内容运营"
+      ],
+      "core_content": "单集排名 · 播放行为分布(action/完成度)",
+      "api": "/api/dashboard_episode",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/06-episode.html"
+    },
+    {
+      "id": "quality",
+      "title": "完播与QoS",
+      "icon": "✅",
+      "roles": [
+        "运营负责人",
+        "内容运营"
+      ],
+      "core_content": "完播率/完成度/首帧/卡顿 · 内容质量榜",
+      "api": "/api/dashboard_quality",
+      "filters": [],
+      "file": "dashboard/07-quality.html"
+    },
+    {
+      "id": "lifecycle",
+      "title": "用户生命周期",
+      "icon": "🌱",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "开户/激活/沉默/流失/净增",
+      "api": "/api/dashboard_lifecycle",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/08-lifecycle.html"
+    },
+    {
+      "id": "retention",
+      "title": "用户留存",
+      "icon": "🔄",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "次留/7留/30留 · 同期群矩阵",
+      "api": "/api/dashboard_retention",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/09-retention.html"
+    },
+    {
+      "id": "device",
+      "title": "设备流转",
+      "icon": "🔀",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "STB↔Speaker · 型号/固件 · 双端用户",
+      "api": "/api/dashboard_device",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/10-device.html"
+    },
+    {
+      "id": "funnel",
+      "title": "商业化漏斗",
+      "icon": "🔻",
+      "roles": [
+        "运营负责人",
+        "商业化运营"
+      ],
+      "core_content": "曝光→点击→验证→确认 · 误触监控",
+      "api": "/api/dashboard_funnel",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/11-funnel.html"
+    },
+    {
+      "id": "order",
+      "title": "订购与分成",
+      "icon": "💎",
+      "roles": [
+        "运营负责人",
+        "商业化运营"
+      ],
+      "core_content": "订购/退订 · 收费结构 · MAU结算(演示)+CP分成(演示30%)",
+      "api": "/api/dashboard_order",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/12-order.html"
+    },
+    {
+      "id": "path",
+      "title": "用户行为路径",
+      "icon": "🗺️",
+      "roles": [
+        "运营负责人",
+        "内容运营",
+        "用户增长"
+      ],
+      "core_content": "Sankey路径图 · 页面流转 · 步骤流失 · 转化链路",
+      "api": "/api/dashboard_path",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/13-path.html"
+    },
+    {
+      "id": "revenue",
+      "title": "收入结构深度分析",
+      "icon": "💰",
+      "roles": [
+        "运营负责人",
+        "商业化运营"
+      ],
+      "core_content": "套餐LTV · ARPU/ARPPU · 退订/续费率 · 收入结构",
+      "api": "/api/dashboard_revenue",
+      "filters": [
+        "month"
+      ],
+      "file": "dashboard/14-revenue.html"
+    },
+    {
+      "id": "activity",
+      "title": "营销活动复盘",
+      "icon": "🎯",
+      "roles": [
+        "运营负责人",
+        "商业化运营"
+      ],
+      "core_content": "活动ROI · 触达→参与→转化 · 全周期效果",
+      "api": "/api/dashboard_activity",
+      "filters": [],
+      "file": "dashboard/15-activity.html"
+    },
+    {
+      "id": "health",
+      "title": "业务健康度",
+      "icon": "❤️",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "红黄绿灯 · 综合健康分 · 基线对比 · 一页纸",
+      "api": "/api/dashboard_health",
+      "filters": [],
+      "file": "dashboard/16-health.html"
+    },
+    {
+      "id": "tags",
+      "title": "用户标签画像",
+      "icon": "🏷️",
+      "roles": [
+        "运营负责人",
+        "用户增长"
+      ],
+      "core_content": "5类标签体系 · 人群覆盖 · 画像分析 · 规则来源",
+      "api": "/api/dashboard_tags",
+      "filters": [],
+      "file": "dashboard/17-tags.html"
+    },
+    {
+      "id": "report-export",
+      "title": "报告导出（P0-P3）",
+      "icon": "📄",
+      "roles": [
+        "内容运营",
+        "运营负责人",
+        "用户增长",
+        "商业化运营"
+      ],
+      "core_content": "体系总览 + P0b监控五层(有效MAU/围栏) + 17 主题看板摘要 + 六层方法论 + 工具箱 + 数仓架构 PDF",
+      "api": null,
+      "filters": [],
+      "file": "pdf/report.html",
+      "nav_visible": false
+    }
+  ],
+  "source_dashboards_version": "2.1",
+  "analysis_framework": {
+    "layers": [
+      {
+        "id": "l1",
+        "name": "描述性分析",
+        "short": "第一层",
+        "question": "现在是什么状况？",
+        "color": "#3b82f6",
+        "categories": [
+          "活跃概况类",
+          "用户结构类",
+          "渠道获客类",
+          "产品使用类",
+          "内容分析类"
+        ]
+      },
+      {
+        "id": "l2",
+        "name": "诊断性分析",
+        "short": "第二层",
+        "question": "为什么会这样？",
+        "color": "#8b5cf6",
+        "categories": [
+          "活跃异常类",
+          "留存异常类",
+          "渠道效率类",
+          "流失转化类",
+          "内容质量类"
+        ]
+      },
+      {
+        "id": "l3",
+        "name": "预测性分析",
+        "short": "第三层",
+        "question": "接下来会怎样？",
+        "color": "#06b6d4",
+        "categories": [
+          "DAU预测类",
+          "LTV预测类",
+          "渠道预测类",
+          "流失预测类",
+          "收入预测类"
+        ]
+      },
+      {
+        "id": "l4",
+        "name": "评估性分析",
+        "short": "第四层",
+        "question": "做得怎么样？",
+        "color": "#f59e0b",
+        "categories": [
+          "获客效率类",
+          "实验评估类",
+          "产品效果类",
+          "活动效果类",
+          "体验评估类"
+        ]
+      },
+      {
+        "id": "l5",
+        "name": "优化决策",
+        "short": "第五层",
+        "question": "应该怎么做？",
+        "color": "#22c55e",
+        "categories": [
+          "投放优化类",
+          "用户挽回类",
+          "产品优先级类",
+          "渠道组合类",
+          "定价优化类"
+        ]
+      },
+      {
+        "id": "l6",
+        "name": "分析方法工具箱",
+        "short": "第六层",
+        "question": "用什么方法？",
+        "color": "#f472b6",
+        "categories": [
+          "用户理解",
+          "增长分析",
+          "归因与实验",
+          "运营优化"
+        ]
+      }
+    ],
+    "layers_l1_to_l5": [
+      {
+        "id": "l1",
+        "name": "描述性分析",
+        "short": "第一层",
+        "question": "现在是什么状况？",
+        "color": "#3b82f6",
+        "categories": [
+          "活跃概况类",
+          "用户结构类",
+          "渠道获客类",
+          "产品使用类",
+          "内容分析类"
+        ]
+      },
+      {
+        "id": "l2",
+        "name": "诊断性分析",
+        "short": "第二层",
+        "question": "为什么会这样？",
+        "color": "#8b5cf6",
+        "categories": [
+          "活跃异常类",
+          "留存异常类",
+          "渠道效率类",
+          "流失转化类",
+          "内容质量类"
+        ]
+      },
+      {
+        "id": "l3",
+        "name": "预测性分析",
+        "short": "第三层",
+        "question": "接下来会怎样？",
+        "color": "#06b6d4",
+        "categories": [
+          "DAU预测类",
+          "LTV预测类",
+          "渠道预测类",
+          "流失预测类",
+          "收入预测类"
+        ]
+      },
+      {
+        "id": "l4",
+        "name": "评估性分析",
+        "short": "第四层",
+        "question": "做得怎么样？",
+        "color": "#f59e0b",
+        "categories": [
+          "获客效率类",
+          "实验评估类",
+          "产品效果类",
+          "活动效果类",
+          "体验评估类"
+        ]
+      },
+      {
+        "id": "l5",
+        "name": "优化决策",
+        "short": "第五层",
+        "question": "应该怎么做？",
+        "color": "#22c55e",
+        "categories": [
+          "投放优化类",
+          "用户挽回类",
+          "产品优先级类",
+          "渠道组合类",
+          "定价优化类"
+        ]
+      }
+    ],
+    "layer6_toolbox": {
+      "layer": {
+        "id": "l6",
+        "name": "分析方法工具箱",
+        "short": "第六层",
+        "question": "用什么方法？",
+        "color": "#f472b6",
+        "categories": [
+          "用户理解",
+          "增长分析",
+          "归因与实验",
+          "运营优化"
+        ]
+      },
+      "opening": null,
+      "intro": "L6 是按方法组织的工具库（15 法），挂靠 L1–L5 场景使用：选方法→冻结口径→执行 SQL→对照量化标准→因果结论须 ab/experiment-design 验证；资源分配须结合 marginal-roi。每种方法含教材体 + 可执行 SQL + 量化判断 + 常见误用。示例数据仅作演示，非业务基准。",
+      "usageRules": "①因果问题优先 ab/experiment-design；②资源分配必须用边际 ROI；③输出附口径脚注+截止日+样本量；④观察方法不能单独证因果；⑤示例数据非真实基准。",
+      "decisionTree": "用户是谁→persona→segment/rfm；哪一步走了→funnel→path/retention；转化低→funnel+path→ab；渠道值不值→ltv+scorecard→marginal-roi/attribution；活动有没有效→ab→attribution；加投多少→marginal-roi→scorecard；谁快流失→churn→rfm/lifecycle；增长卡在哪→northstar→funnel/retention。",
+      "comboTips": "渠道评估：ltv+channel-scorecard+marginal-roi；转化诊断：funnel+path+ab；流失挽回：churn+rfm+experiment-design；增长归因：northstar+attribution+ab。",
+      "methods": [
+        {
+          "id": "persona",
+          "layer": "l6",
+          "category": "用户理解",
+          "title": "用户画像分析",
+          "aliases": "用户画像 / 人口属性 / 端型地市分布",
+          "desc": "按端型（STB/Speaker）、地市、设备型号等维度交叉分析用户规模与行为特征，识别核心人群。",
+          "bizQuestion": "我们的核心 OTT 用户是谁？广深占比多少？谁更愿意付费？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例：STB 占 MAU 约 62%，Speaker 约 38%；广州+深圳合计约 48%； 点播渗透率 STB 约 72% vs Speaker 约 54%。见 v_user_portrait 与活跃总览看板。\n\n与 L1–L5 衔接：\nL1 描述、L2 诊断、L5 分群",
+          "servesLayers": "L1 描述、L2 诊断、L5 分群",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "lifecycle",
+          "layer": "l6",
+          "category": "用户理解",
+          "title": "生命周期分析",
+          "aliases": "生命周期 / 五阶段 / 用户旅程",
+          "desc": "将用户划分为新注册→激活→活跃→沉默→流失五阶段，跟踪各阶段规模与迁移率，识别增长瓶颈。",
+          "bizQuestion": "用户处在哪个生命周期阶段？净增为什么转负？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例：日激活约 85 人，沉默约 1,240 人，周 churn 约 32 人；approx_net_growth 近 7 日均值为正。 见 v_lifecycle 与用户生命周期看板。\n\n与 L1–L5 衔接：\nL1 描述、L2 诊断、L3 预测",
+          "servesLayers": "L1 描述、L2 诊断、L3 预测",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "segment",
+          "layer": "l6",
+          "category": "用户理解",
+          "title": "用户分群分析",
+          "aliases": "分群 / 用户分层 / 状态分群",
+          "desc": "按活跃状态、端型、行为标签等维度将用户划分为可运营的分群，配套差异化策略。",
+          "bizQuestion": "哪些用户群值得重点运营？各群规模多大？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例快照：活跃 / 沉默 / 流失三群规模约 4,200 / 1,240 / 560；双端用户约 10%。 见 v_user_segment 与设备流转看板。\n\n与 L1–L5 衔接：\nL1 描述、L5 优化",
+          "servesLayers": "L1 描述、L5 优化",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "retention",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "留存分析",
+          "aliases": "留存 / 同期群 / Cohort / N日留存",
+          "desc": "按首次活跃日期分组，跟踪各 cohort 在 D1/D7/D30 的留存曲线，评估获客质量变化。",
+          "bizQuestion": "新用户留得住吗？哪批 cohort 质量更好？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例：某注册 cohort 的 D1 / D7 / D30 留存约 38% / 22% / 14%； STB 的 D7 约 25% vs Speaker 约 16%。见 v_user_retention 与用户留存看板。\n\n与 L1–L5 衔接：\nL2 诊断、L3 预测、L4 评估",
+          "servesLayers": "L2 诊断、L3 预测、L4 评估",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "rfm",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "RFM 分层分析",
+          "aliases": "RFM / 最近频次金额 / 价值分层",
+          "desc": "以最近活跃（R）、使用频次（F）、订购金额（M）三维将用户分为高价值/潜力/流失风险等层级。",
+          "bizQuestion": "谁值得重点运营？谁需要挽回？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例：高价值活跃约 8%，流失风险约 22%； 优先对\"沉默 >30 天且历史点播 >10 次\"的用户 push 挽回。见 v_rfm。\n\n与 L1–L5 衔接：\nL2 诊断、L5 挽回",
+          "servesLayers": "L2 诊断、L5 挽回",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "funnel",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "漏斗分析",
+          "aliases": "转化漏斗 / 收银台漏斗 / 步骤流失",
+          "desc": "将曝光→点击→验证→确认绘制为漏斗，分析各步骤留存率与流失率，识别转化瓶颈。",
+          "bizQuestion": "从曝光到订购，哪一步流失最多？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例收银台：launcher 曝光→点击约 25%、点击→验证约 80%、验证→确认约 20%； video 点击→验证约 45%（误触偏高）。见 v_funnel 与商业化漏斗看板。\n\n与 L1–L5 衔接：\nL2 诊断、L4 评估",
+          "servesLayers": "L2 诊断、L4 评估",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "ltv",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "LTV 分析",
+          "aliases": "LTV / 终身价值 / LTV/CAC / ARPU",
+          "desc": "估算用户在整个生命周期内的订购金额与分成贡献，并与获客成本（CAC）对比评估长期 ROI。",
+          "bizQuestion": "用户长期值多少钱？投放回本了吗？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例：launcher LTV 约 15.2 元、CAC 约 8.5 元（LTV/CAC≈1.8）； video LTV 约 12.8 元、CAC 约 11.2 元（LTV/CAC≈1.1）。见 v_ltv 与 v_channel_analysis。\n\n与 L1–L5 衔接：\nL3 预测、L4 评估、L5 优化",
+          "servesLayers": "L3 预测、L4 评估、L5 优化",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "northstar",
+          "layer": "l6",
+          "category": "增长分析",
+          "title": "北极星指标拆解",
+          "aliases": "北极星 / 指标拆解 / OKR 树",
+          "desc": "将核心北极星指标（如有效 MAU）拆解为 DAU、端型渗透、功能使用、留存等子指标，定位驱动因素。",
+          "bizQuestion": "有效 MAU 怎么拆？增长靠哪个子指标？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例：有效 MAU 约 4,800（STB + Speaker 分端型之和需与全局去重对账）； 驱动指标：点播渗透、直播渗透、只开机占比（需压降）。见 v_dau_overview 与活跃总览看板。\n\n与 L1–L5 衔接：\nL1 描述、L5 目标对齐",
+          "servesLayers": "L1 描述、L5 目标对齐",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "attribution",
+          "layer": "l6",
+          "category": "归因与实验",
+          "title": "渠道归因分析",
+          "aliases": "归因 / 末次点击 / 线性归因 / 时间衰减",
+          "desc": "将订购转化归功于 launcher/video 等入口触点，支持末次点击、线性分配、时间衰减等多种归因模型。",
+          "bizQuestion": "这笔订购应该归功于哪个入口？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例末次归因：launcher 约 62% 订购、video 约 38%； 线性模型 launcher 约 58%。见 v_channel_attribution。\n\n与 L1–L5 衔接：\nL2 诊断、L4 评估、L5 预算",
+          "servesLayers": "L2 诊断、L4 评估、L5 预算",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "ab",
+          "layer": "l6",
+          "category": "归因与实验",
+          "title": "A/B 测试分析",
+          "aliases": "A/B 测试 / 实验 / 显著性检验",
+          "desc": "对比实验组与对照组的核心指标（CTR/CVR/留存），通过样本量与 p 值判断改版是否显著有效。",
+          "bizQuestion": "收银台改版有没有效？能否全量？",
+          "portfolio": "（示例值，非真实基准）launcher 引导实验示例：treatment CVR 约 18.2% vs control 约 15.8%（+2.4pct，样本约 3,200，p<0.05）， 建议全量。见 v_ab_experiment。\n\n与 L1–L5 衔接：\nL4 评估、L5 验证",
+          "servesLayers": "L4 评估、L5 验证",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "experiment-design",
+          "layer": "l6",
+          "category": "归因与实验",
+          "title": "增长实验设计",
+          "aliases": "实验设计 / 假设验证 / 最小可行实验",
+          "desc": "从业务假设出发，设计对照实验的样本量、周期、核心指标与成功标准，避免无效实验。",
+          "bizQuestion": "下一个实验该怎么设计？",
+          "portfolio": "（示例值，非真实基准）假设「video 入口减少误触可提升验证率 5pct」：需每组样本约 2,000+，周期约 14 天， 核心指标 click→verify，成功标准 +3pct 且 p<0.05。参考 v_ab_experiment 历史口径。\n\n与 L1–L5 衔接：\nL4 评估前置、L5 方案验证",
+          "servesLayers": "L4 评估前置、L5 方案验证",
+          "has_sql": false,
+          "has_judge": true
+        },
+        {
+          "id": "churn",
+          "layer": "l6",
+          "category": "运营优化",
+          "title": "流失预警分析",
+          "aliases": "流失预警 / 沉默监控 / Churn Score",
+          "desc": "基于沉默天数、只开机行为、播放衰减等信号，对即将流失的用户进行评分与预警。",
+          "bizQuestion": "谁即将流失？规模多大？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例：沉默 >30 天约 1,240 人，其中只开机无点播约 680 人（最高风险）； 建议分 3 批 push + 内容券触达，并保留 10% 不触达对照以评估挽回效果。 见 v_rfm 与 v_user_segment。\n\n与 L1–L5 衔接：\nL2 诊断、L3 预测、L5 挽回",
+          "servesLayers": "L2 诊断、L3 预测、L5 挽回",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "marginal-roi",
+          "layer": "l6",
+          "category": "运营优化",
+          "title": "边际 ROI 分析",
+          "aliases": "边际 ROI / 增量收益 / 预算边际",
+          "desc": "评估每增加一单位入口流量/投放预算带来的增量订购与分成，识别收益递减拐点。",
+          "bizQuestion": "再加投 10% 流量，还能赚多少？",
+          "portfolio": "（示例值，非真实基准）launcher 示例：前 60% 流量 ROI 约 2.1，60–80% 降至约 1.4，>80% 仅约 0.9（边际递减）； 建议流量上限设在 75% 附近。见 v_channel_analysis 日粒度拆解。\n\n与 L1–L5 衔接：\nL5 优化",
+          "servesLayers": "L5 优化",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "channel-scorecard",
+          "layer": "l6",
+          "category": "运营优化",
+          "title": "渠道质量评分卡",
+          "aliases": "渠道评分卡 / 入口质量 / 渠道 KPI",
+          "desc": "将 CAC、LTV、留存、转化率、分成 ROI 等指标加权汇总为渠道综合评分，支持投放决策。",
+          "bizQuestion": "各入口综合质量如何排名？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例评分卡：launcher 综合分较高（LTV/CAC≈1.8、D7 留存≈25%）； video 综合分较低（误触偏高、LTV/CAC≈1.1）。见 v_channel_analysis + v_ltv 综合。\n\n与 L1–L5 衔接：\nL4 评估、L5 优化",
+          "servesLayers": "L4 评估、L5 优化",
+          "has_sql": true,
+          "has_judge": true
+        },
+        {
+          "id": "path",
+          "layer": "l6",
+          "category": "运营优化",
+          "title": "行为路径分析",
+          "aliases": "行为路径 / 用户旅程 / 序列分析",
+          "desc": "追踪用户从开机→点播/直播→收银台→订购的行为序列，识别高频路径与流失节点。",
+          "bizQuestion": "用户典型路径是什么？在哪一步离开？",
+          "portfolio": "（示例值，非真实基准）2026-07 示例典型路径：开机 → 点播 → 剧集详情 → 收银台曝光 → 确认； 最大流失在\"详情 → 收银台\"这一步。见 dws_act_user_active_1d + dws_trade_cashier_funnel_1d。\n\n与 L1–L5 衔接：\nL2 诊断、L4 评估",
+          "servesLayers": "L2 诊断、L4 评估",
+          "has_sql": true,
+          "has_judge": true
+        }
+      ],
+      "method_count": 15
+    },
+    "playbooks": [
+      {
+        "id": "q01",
+        "layer": "l1",
+        "category": "活跃概况类",
+        "title": "DAU/MAU 趋势总览",
+        "desc": "DAU/MAU 总览看四类：DAU 水位与结构（STB/Speaker）、MAU 与 DAU/MAU 比值、只开机占比（日粒度）、DAU 7 日移动环比。",
+        "bizQuestion": "这个月日活和月活怎么样？端型结构有没有异常变化？",
+        "keywords": [
+          "DAU",
+          "MAU",
+          "日活",
+          "月活",
+          "STB",
+          "Speaker",
+          "只开机",
+          "7日环比",
+          "趋势总览",
+          "活跃概况类"
+        ],
+        "triggers": [
+          "每周增长例会前需准备活跃简报",
+          "管理层询问「最近用户还活跃吗」",
+          "暑期档/版本发布后需复盘活跃变化",
+          "大版本灰度后需核对埋点是否正常。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲核心指标框架、决策树、行动建议、最小判断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L1_SQL附录》。\n本文件在定稿版 v3 基础上修正 3 处、补充 2 处：\n修正：\n- q03 判定标准写明“新订单占比（分母=该入口全部订单）”；\n- 口径字典补 K14 沉默/流失定义；\n- q06 决策树补“未分类”处理规则（单独列示，占比 >10% 查维度表映射）。"
+          },
+          {
+            "title": "核心指标框架",
+            "desc": "DAU/MAU 总览看四类：DAU 水位与结构（STB/Speaker）、MAU 与 DAU/MAU 比值、只开机占比（日粒度）、DAU 7 日移动环比。\n四类分别回答“日活多少、月活多少、活跃质量如何、趋势是否异常”。\n\n关键理解：\n- 只看 DAU 绝对值不够，要看 7 日环比趋势；\n- MAU 增长但 DAU 不增，说明低频用户占比上升，需转 q05；\n- 只开机占比上升是流失前兆，但日粒度与月严格口径不可直接对比（见 q04）。\n\n业务含义速查：\nDAU 7 日环比降 >10% 且连续 7 日 → DAU 异常下滑，转 L2 DAU 下滑诊断；\n只开机占比（日）>35% 且持续上升 → 用 q04 月严格口径复核，再转 L2 流失诊断；\nMAU 增但 DAU/MAU 比值下降 → 转 q05 活跃结构分析。"
+          },
+          {
+            "title": "决策树",
+            "desc": "本月核心指标 vs 基线？\n DAU 7 日环比连续 7 日降 >10% → 转 L2 DAU 下滑诊断（先排除缺数/口径变更/灰度）\n only_launcher_pct（日）>35% 且持续上升 → 转 q04 月严格口径复核 → 若仍 >35% 转 L2 流失诊断\n MAU 增但 DAU 不增（DAU/MAU 下降）→ 转 q05 活跃结构分析\n 分行之和 - 全局合计 >5% → 跨端用户占比高，端型归属需注明",
+            "judge": "- DAU 下降先排除数据问题（缺数、口径变更、大版本灰度埋点异常）；\n- 日粒度只开机占比与月严格口径不可直接对比，报告需注明口径；\n- DAU/MAU 比值受月度天数影响，跨月对比需注明天数差异。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\nDAU 异常下滑 / 7 日环比连续降 >10% / 转 L2 DAU 下滑诊断 / 数据 + 增长\n只开机占比异常 / 日粒度 >35% 持续升 / 转 q04 月严格口径复核 / 产品 + 运营\nMAU 增 DAU 不增 / DAU/MAU 比值下降 / 转 q05 活跃结构分析 / 增长\n跨端占比高 / 分行之和-全局合计 >5% / 端型归属需注明 / 数据"
+          },
+          {
+            "title": "最小判断法",
+            "desc": "最少看 5 个数：\n1. DAU 7 日环比：是否连续 7 日降 >10%；\n2. DAU 端型结构：STB/Speaker 占比是否稳定；\n3. MAU 环比：是否增；\n4. DAU/MAU 比值：是否下降；\n5. 只开机占比（日）：是否 >35% 且持续升。\n五个数看完，能判断 DAU/MAU 是否异常、异常来自哪。\n以下情况必须跑附录 SQL：需要按月粒度严格口径复核只开机、按端型全局去重对账、精确算 7 日环比时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 只看 DAU 绝对值不看 7 日环比：单日下跌可能是波动，连续 7 日下跌才是异常；\n- 日粒度只开机与月严格口径混用：两者口径不同，不可直接对比；\n- MAU 增就当健康：DAU/MAU 比值下降说明低频用户占比升，不一定是好事；\n- 忽略跨端用户：分行之和与全局合计差 >5% 时，端型归属重叠会影响结论。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L1_SQL附录》第 1 节（q01），包含：\n- 数据质量前置 SQL（行数检查）；\n- DAU 趋势与结构 SQL（含日粒度 only_launcher_pct）；\n- 7 日移动环比 SQL（wow_pct、flag_drop）；\n- MAU 端型对比 SQL（全局去重 + 跨端用户数）；\n- 降级方案（无 v_dau_overview 时如何用明细表拼）。"
+          }
+        ],
+        "outputs": [
+          "DAU/MAU 趋势总览结论",
+          "异常标注与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "DAU 异常下滑 / 7 日环比连续降 >10% / 转 L2 DAU 下滑诊断 / 数据 + 增长",
+          "只开机占比异常 / 日粒度 >35% 持续升 / 转 q04 月严格口径复核 / 产品 + 运营",
+          "MAU 增 DAU 不增 / DAU/MAU 比值下降 / 转 q05 活跃结构分析 / 增长",
+          "跨端占比高 / 分行之和-全局合计 >5% / 端型归属需注明 / 数据"
+        ],
+        "dashboards": [
+          "活跃总览",
+          "overview",
+          "v_dau_overview"
+        ],
+        "criteria": [
+          {
+            "dim": "DAU 7日环比降幅",
+            "ok": "≤10%",
+            "warn": "单日>10%",
+            "bad": "连续7日>10% → L2 DAU下滑诊断"
+          },
+          {
+            "dim": "只开机占比(日粒度)",
+            "ok": "≤35%",
+            "warn": "逐周上升",
+            "bad": ">35% 持续上升 → q04（勿与月严格口径直接比）"
+          },
+          {
+            "dim": "DAU/MAU 比值",
+            "ok": "稳定",
+            "warn": "MAU增DAU不增",
+            "bad": "比值明显下降 → q05"
+          }
+        ]
+      },
+      {
+        "id": "q02",
+        "layer": "l1",
+        "category": "用户结构类",
+        "title": "用户画像（端/地市）",
+        "desc": "用户画像看四类：端型×地市活跃 MAC 分布、付费率（userid 口径）、核心城占比、高活跃低付费切片。",
+        "bizQuestion": "核心用户是谁？广深与 STB/Speaker 各占多少？谁活跃但不付费？",
+        "keywords": [
+          "画像",
+          "端型",
+          "地市",
+          "STB",
+          "Speaker",
+          "付费率",
+          "口径",
+          "用户画像",
+          "用户结构类"
+        ],
+        "triggers": [
+          "制定区域运营策略前",
+          "端型改版需确认目标用户",
+          "付费率偏低需定位人群。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲核心指标框架、决策树、行动建议、最小判断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L1_SQL附录》。\n本文件在定稿版 v3 基础上修正 3 处、补充 2 处：\n修正：\n- q03 判定标准写明“新订单占比（分母=该入口全部订单）”；\n- 口径字典补 K14 沉默/流失定义；\n- q06 决策树补“未分类”处理规则（单独列示，占比 >10% 查维度表映射）。"
+          },
+          {
+            "title": "核心指标框架",
+            "desc": "用户画像看四类：端型×地市活跃 MAC 分布、付费率（userid 口径）、核心城占比、高活跃低付费切片。\n四类分别回答“谁是核心用户、付费情况如何、是否依赖广深、哪里有机会”。\n\n关键理解：\n- 活跃是 MAC 口径，付费是 userid 口径，两者不可相除或相乘；\n- 不能估算“未付费 MAC 人数”（MAC 数 × userid 付费率无意义）；\n- 广深占比下降不一定是坏事，要看是否被其他地市稀释。\n\n业务含义速查：\n广深合计 <40% → 单列「核心地市占比变化」；\n付费率 <8% 且 MAC≥1000 的切片 → 待攻坚人群；\nSpeaker 付费率 < STB 付费率 50% → 转 L2 付费转化下降诊断。"
+          },
+          {
+            "title": "决策树",
+            "desc": "画像指标 vs 整体/历史？\n 广深活跃占比 <40% → 报告单列，查「未知」地市是否稀释\n 某切片付费率 <8% 且 MAC≥1000 → 列入待攻坚人群\n Speaker 付费率 < STB 付费率 50% → 转 L2 付费转化下降诊断\n 某地市活跃占比环比降 >20% → 转 q03 渠道获客分布",
+            "judge": "- 活跃 MAC 与付费 userid 口径不同，分列标注，禁止混算；\n- 新端型/新地市样本少时标“样本偏少”；\n- v_user_portrait 无 paid_rate_pct 时用 paid_count/user_count 估算，但须注明口径不一致。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n核心地市占比降 / 广深 <40% / 单列说明，查渠道 / 区域运营\n待攻坚人群 / 付费率 <8% 且 MAC≥1000 / 列入转化诊断候选 / 增长 + 商品\n端型付费差异 / Speaker < STB 50% / 转 L2 付费转化下降诊断 / 产品 + 运营\n地市活跃骤降 / 环比降 >20% / 转 q03 渠道获客分布 / 渠道运营"
+          },
+          {
+            "title": "最小判断法",
+            "desc": "最少看 4 个数：\n1. 广深合计活跃占比：是否 <40%；\n2. Top5 切片的付费率：哪个 <8% 且 MAC≥1000；\n3. Speaker 付费率 / STB 付费率：是否 <50%；\n4. 某地市活跃占比环比：是否降 >20%。\n四个数看完，能判断画像结构是否健康、哪里有转化机会。\n以下情况必须跑附录 SQL：需要精确算地市占比、按端型/地市拆解付费率、口径对账时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用 MAC 付费率估算未付费人数：MAC 与 userid 口径不同，相乘无意义；\n- 只看整体付费率不看切片：整体 8% 但某切片 3%，机会在那里；\n- 广深占比降就当坏事：可能是其他地市增长稀释，需看绝对量；\n- 新端型样本少直接比：样本 <100 时结论不稳定。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L1_SQL附录》第 2 节（q02），包含：\n- 端型×地市分布 SQL（分列标注 MAC/userid 口径）；\n- 地市活跃占比 SQL（未知地市单列）；\n- 高活跃低付费切片 SQL（不估算未付费人数）；\n- 降级方案（无 paid_rate_pct 时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "用户画像（端/地市）结论",
+          "异常标注与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "核心地市占比降 / 广深 <40% / 单列说明，查渠道 / 区域运营",
+          "待攻坚人群 / 付费率 <8% 且 MAC≥1000 / 列入转化诊断候选 / 增长 + 商品",
+          "端型付费差异 / Speaker < STB 50% / 转 L2 付费转化下降诊断 / 产品 + 运营",
+          "地市活跃骤降 / 环比降 >20% / 转 q03 渠道获客分布 / 渠道运营"
+        ],
+        "dashboards": [
+          "活跃总览",
+          "overview",
+          "v_user_portrait",
+          "用户标签画像",
+          "tags"
+        ],
+        "criteria": [
+          {
+            "dim": "广深活跃占比",
+            "ok": "≥40%",
+            "warn": "接近40%或「未知」地市升",
+            "bad": "<40% → 单列说明并查渠道"
+          },
+          {
+            "dim": "高活低付费切片",
+            "ok": "无明显大盘",
+            "warn": "付费率<8%且MAC≥1000",
+            "bad": "进入付费转化诊断（不估算未付费MAC）"
+          }
+        ]
+      },
+      {
+        "id": "q03",
+        "layer": "l1",
+        "category": "渠道获客类",
+        "title": "渠道获客分布（入口 launcher/video）",
+        "desc": "渠道获客看四类：入口订购量与金额占比、入口×端型/地市客单价、新老订单占比、入口集中度。",
+        "bizQuestion": "用户主要从哪个入口来？入口质量如何？",
+        "keywords": [
+          "渠道",
+          "获客",
+          "launcher",
+          "video",
+          "客单价",
+          "新老",
+          "首购",
+          "渠道获客分布",
+          "入口",
+          "渠道获客类"
+        ],
+        "triggers": [
+          "月度投放复盘",
+          "新增订购结构突变",
+          "入口改版效果初评。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲核心指标框架、决策树、行动建议、最小判断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L1_SQL附录》。\n本文件在定稿版 v3 基础上修正 3 处、补充 2 处：\n修正：\n- q03 判定标准写明“新订单占比（分母=该入口全部订单）”；\n- 口径字典补 K14 沉默/流失定义；\n- q06 决策树补“未分类”处理规则（单独列示，占比 >10% 查维度表映射）。"
+          },
+          {
+            "title": "核心指标框架",
+            "desc": "渠道获客看四类：入口订购量与金额占比、入口×端型/地市客单价、新老订单占比、入口集中度。\n四类分别回答“哪个入口量大、哪个入口质量高、哪个入口获客强、是否过度依赖单入口”。\n\n关键理解：\n- 订单占比高但金额占比低，说明该入口带来低客单价订购；\n- 新老拆分必须先确认 is_first_order 存在，且口径为全平台首购；\n- 入口集中度 >60% 需回看用户画像，避免单一入口风险。\n\n业务含义速查：\n某入口 avg_order_value 环比降 >15% → 转 L2 CAC/获客效率上升诊断；\n某入口新订单占比（分母=该入口全部订单）<20% 且 total_orders>100 → 转 L2 渠道质量下降诊断；\n某地市单入口订单集中度 >60% → 回 q02 用户画像。"
+          },
+          {
+            "title": "决策树",
+            "desc": "入口指标 vs 基线？\n 某入口 avg_order_value 环比降 >15% → 转 L2 CAC 诊断\n 某入口新订单占比（分母=该入口全部订单）<20% 且 total_orders>100 → 转 L2 渠道质量诊断\n 某地市单入口订单集中度 >60% → 回 q02 用户画像\n 新订单占比 <20% 但 total_orders<100 → 标“样本偏少”",
+            "judge": "- 同时看 order_share 与 amount_share，避免只看订单量；\n- 新老拆分口径必须为全平台首购，入口首购不等于平台新客；\n- 新订单占比分母为该入口全部订单，不是全平台订单。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n入口客单价降 / 环比降 >15% / 转 L2 CAC 诊断 / 市场\n新单占比低 / <20% 且 total_orders>100 / 转 L2 渠道质量诊断 / 市场\n单入口集中度高 / >60% / 回 q02 用户画像 / 渠道运营\n样本不足 / total_orders<100 / 标“样本偏少” / 数据"
+          },
+          {
+            "title": "最小判断法",
+            "desc": "最少看 4 个数：\n1. 各入口订单占比与金额占比：是否订单占比高但金额占比低；\n2. 各入口 avg_order_value：哪个环比降 >15%；\n3. 各入口新订单占比：哪个 <20% 且 total_orders>100；\n4. 单入口订单集中度：是否 >60%。\n四个数看完，能判断渠道结构是否健康、哪个入口需要干预。\n以下情况必须跑附录 SQL：需要按端型/地市交叉、精确算新老拆分、口径对账时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 只看订单量不看金额：订单多但金额低，入口质量不高；\n- 用入口首购当平台新客：入口首购不等于平台新客，会高估新客数；\n- 新订单占比用全平台分母：分母必须是该入口全部订单；\n- 样本少直接下结论：total_orders<100 时结论不稳定。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L1_SQL附录》第 3 节（q03），包含：\n- 入口订购量与金额占比 SQL；\n- 入口×端型/地市客单价 SQL；\n- 新老订单拆分 SQL（含口径前置确认）；\n- 降级方案（无 is_first_order 时如何用 dws_channel_new_user_1d 近似并声明不可比）。"
+          }
+        ],
+        "outputs": [
+          "渠道获客分布（入口 launcher/video）结论",
+          "异常标注与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "入口客单价降 / 环比降 >15% / 转 L2 CAC 诊断 / 市场",
+          "新单占比低 / <20% 且 total_orders>100 / 转 L2 渠道质量诊断 / 市场",
+          "单入口集中度高 / >60% / 回 q02 用户画像 / 渠道运营",
+          "样本不足 / total_orders<100 / 标“样本偏少” / 数据"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_channel_attribution"
+        ],
+        "criteria": [
+          {
+            "dim": "入口客单价环比",
+            "ok": "稳定",
+            "warn": "降幅接近15%",
+            "bad": "环比降>15% → L2 CAC诊断"
+          },
+          {
+            "dim": "新订单占比",
+            "ok": "≥20%且样本量足",
+            "warn": "偏低",
+            "bad": "<20%且total_orders足够大 → L2"
+          }
+        ]
+      },
+      {
+        "id": "q04",
+        "layer": "l1",
+        "category": "产品使用类",
+        "title": "产品功能使用（点播/直播/开机）",
+        "desc": "功能使用看四类：点播渗透（K05）、直播渗透、月只开机占比（严格口径 K04b）、端型功能差异。",
+        "bizQuestion": "用户在产品里做什么？功能使用深度如何？",
+        "keywords": [
+          "点播",
+          "直播",
+          "开机",
+          "功能渗透",
+          "只开机",
+          "严格口径",
+          "产品功能使用",
+          "产品使用类"
+        ],
+        "triggers": [
+          "版本迭代评审",
+          "某功能渗透率异常",
+          "只开机用户占比上升。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲核心指标框架、决策树、行动建议、最小判断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L1_SQL附录》。\n本文件在定稿版 v3 基础上修正 3 处、补充 2 处：\n修正：\n- q03 判定标准写明“新订单占比（分母=该入口全部订单）”；\n- 口径字典补 K14 沉默/流失定义；\n- q06 决策树补“未分类”处理规则（单独列示，占比 >10% 查维度表映射）。"
+          },
+          {
+            "title": "核心指标框架",
+            "desc": "功能使用看四类：点播渗透（K05）、直播渗透、月只开机占比（严格口径 K04b）、端型功能差异。\n四类分别回答“点播用户比例、直播用户比例、流失风险、端型适配差异”。\n\n关键理解：\n- 月只开机必须用严格口径 MIN(is_only_launcher)=1（月内每天都只开机），否则偶发只开机用户会误报流失风险；\n- 月中新增用户需单独标注，或用“活跃天数内全部只开机”补充口径；\n- 端型对比按 MAC×端型分别计入，跨端用户两端各计一次，分端型之和可能大于全局去重。\n\n业务含义速查：\nonly_launcher_pct>35%（严格）→ 标注流失风险，转 L2 流失诊断；\nvod_penetration_pct <70% → 转 q06 内容题材分布；\nSpeaker 点播渗透显著低于 STB → 端型功能适配诊断（L2）。"
+          },
+          {
+            "title": "决策树",
+            "desc": "功能指标 vs 基线？\n only_launcher_pct（严格）>35% → 转 L2 用户流失诊断\n vod_penetration_pct <70% → 转 q06 内容题材分布\n Speaker 点播渗透显著低于 STB → 端型功能适配诊断（L2）\n 某端型点播渗透显著低但整体正常 → 端型特有问题，不一定是内容问题",
+            "judge": "- 严格口径 MIN=1 与补充口径“活跃天数内全部只开机”需分列，不可混用；\n- 日粒度只开机与月粒度不可直接对比；\n- 端型空值归为“未知”，需在报告中注明占比。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n流失风险 / only_launcher_pct>35%（严格）/ 转 L2 流失诊断 / 产品 + 运营\n点播渗透低 / <70% / 转 q06 内容题材分布 / 内容\n端型差异 / Speaker < STB / 端型功能适配诊断（L2）/ 产品\n样本不足 / 某端型活跃 MAC<100 / 标“样本偏少” / 数据"
+          },
+          {
+            "title": "最小判断法",
+            "desc": "最少看 4 个数：\n1. 点播渗透（K05）：是否 <70%；\n2. 直播渗透：是否显著低于行业下限；\n3. 月只开机占比（严格）：是否 >35%；\n4. Speaker 点播渗透 vs STB：差异是否显著。\n四个数看完，能判断功能使用是否健康、哪端需要干预。\n以下情况必须跑附录 SQL：需要按月严格口径+活跃天数补充口径、MAC×端型分别计入、精确算端型差异时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用 MAX(is_only_launcher) 当严格口径：会高估只开机占比，误报流失风险；\n- 端型用 MAX(device_type) 任意归属：跨端用户归属不确定，端型差异失真；\n- 日粒度与月粒度只开机混用：两者口径不同，不可直接对比；\n- 只看整体不看端型：整体渗透正常但 Speaker 极低，端型问题被掩盖。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L1_SQL附录》第 4 节（q04），包含：\n- 功能渗透率 SQL（月粒度 + 严格 MIN=1 + 活跃天数补充口径）；\n- 端型功能差异 SQL（MAC×端型分别计入，端型空值归“未知”）；\n- 降级方案（无 is_only_launcher 字段时如何用开机+播放行为推断）。"
+          }
+        ],
+        "outputs": [
+          "产品功能使用（点播/直播/开机）结论",
+          "异常标注与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "流失风险 / only_launcher_pct>35%（严格）/ 转 L2 流失诊断 / 产品 + 运营",
+          "点播渗透低 / <70% / 转 q06 内容题材分布 / 内容",
+          "端型差异 / Speaker < STB / 端型功能适配诊断（L2）/ 产品",
+          "样本不足 / 某端型活跃 MAC<100 / 标“样本偏少” / 数据"
+        ],
+        "dashboards": [
+          "开机活跃",
+          "launcher",
+          "点播活跃",
+          "vod",
+          "直播活跃",
+          "live"
+        ],
+        "criteria": [
+          {
+            "dim": "只开机月占比(严格)",
+            "ok": "≤35%",
+            "warn": "接近35%",
+            "bad": ">35% → 流失诊断"
+          },
+          {
+            "dim": "点播月活渗透",
+            "ok": "约74%–81%",
+            "warn": "<70%",
+            "bad": "显著低于行业下限 → q06"
+          }
+        ]
+      },
+      {
+        "id": "q05",
+        "layer": "l1",
+        "category": "活跃概况类",
+        "title": "活跃结构分析",
+        "desc": "活跃结构看四类：用户状态分布（活跃/沉默/流失）、口径对账（seg vs 当月活跃 MAC）、沉默占比环比变化、生命周期净增趋势。",
+        "bizQuestion": "活跃用户结构健康吗？沉默与流失占比是否上升？",
+        "keywords": [
+          "活跃结构",
+          "沉默",
+          "流失",
+          "分群",
+          "口径对账",
+          "活跃结构分析",
+          "活跃概况类"
+        ],
+        "triggers": [
+          "月活增长但有效活跃停滞",
+          "沉默用户占比上升",
+          "生命周期净增转负。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲核心指标框架、决策树、行动建议、最小判断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L1_SQL附录》。\n本文件在定稿版 v3 基础上修正 3 处、补充 2 处：\n修正：\n- q03 判定标准写明“新订单占比（分母=该入口全部订单）”；\n- 口径字典补 K14 沉默/流失定义；\n- q06 决策树补“未分类”处理规则（单独列示，占比 >10% 查维度表映射）。"
+          },
+          {
+            "title": "核心指标框架",
+            "desc": "活跃结构看四类：用户状态分布（活跃/沉默/流失）、口径对账（seg vs 当月活跃 MAC）、沉默占比环比变化、生命周期净增趋势。\n四类分别回答“结构占比、口径是否一致、是否恶化、净增是否健康”。\n\n关键理解：\n- v_user_segment 与当月活跃 MAC 必须对账，差异 >5% 要单列说明；\n- 沉默占比环比上升 >5pp 是流失前兆；\n- approx_net_growth 口径未文档化时只作趋势参考，不作结论性判断。\n\n业务含义速查：\n沉默占比环比升 >5pp → 转 L2 用户流失诊断；\nnew_activate 连续 7 日下降 → 转 L2 留存下降诊断；\n活跃中只开机占比同步上升 → 转 q04 产品功能使用。"
+          },
+          {
+            "title": "决策树",
+            "desc": "活跃结构 vs 基线？\n 沉默占比环比升 >5pp → 转 L2 用户流失诊断\n seg vs 当月活跃 MAC 差 |diff|>5% → 单列口径差异说明\n new_activate 连续 7 日下降 → 转 L2 留存下降诊断\n 活跃中只开机占比同步上升 → 转 q04 产品功能使用",
+            "judge": "- 对账前结构结论标“口径待对账”，不得直接下结论；\n- approx_net_growth 未文档化时标“口径待确认”；\n- 沉默/流失定义（K14）未确认前，结构结论标“定义待确认”。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n沉默占比升 / 环比 >5pp / 转 L2 用户流失诊断 / 运营\n口径不一致 / seg vs 活跃 MAC |diff|>5% / 单列说明，差异未说明前不下结论 / 数据\n净增下降 / new_activate 连续 7 日降 / 转 L2 留存下降诊断 / 增长\n只开机占比升 / 同步上升 / 转 q04 产品功能使用 / 产品"
+          },
+          {
+            "title": "最小判断法",
+            "desc": "最少看 4 个数：\n1. 沉默占比环比：是否升 >5pp；\n2. seg 总用户数 vs 当月活跃 MAC：差异是否 >5%；\n3. new_activate 趋势：是否连续 7 日下降；\n4. 活跃中只开机占比：是否同步上升。\n四个数看完，能判断活跃结构是否健康、异常来自哪。\n以下情况必须跑附录 SQL：需要精确对账 seg vs 活跃 MAC、按沉默天数分群、算 7 日移动趋势时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 不对账 seg 与活跃 MAC：两者口径可能不同，直接对比会误判；\n- approx_net_growth 当精确值：口径未文档化时只能作趋势参考；\n- 沉默与流失混用：沉默与流失定义不同（K14），混用会导致误判；\n- 只看占比不看绝对量：占比升可能是其他状态减少稀释，不是沉默增加。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L1_SQL附录》第 5 节（q05），包含：\n- 用户状态分布 SQL；\n- 口径对账 SQL（seg vs 当月活跃 MAC）；\n- 生命周期净增趋势 SQL；\n- 降级方案（无 v_user_segment / 无 v_lifecycle 时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "活跃结构分析结论",
+          "异常标注与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "沉默占比升 / 环比 >5pp / 转 L2 用户流失诊断 / 运营",
+          "口径不一致 / seg vs 活跃 MAC |diff|>5% / 单列说明，差异未说明前不下结论 / 数据",
+          "净增下降 / new_activate 连续 7 日降 / 转 L2 留存下降诊断 / 增长",
+          "只开机占比升 / 同步上升 / 转 q04 产品功能使用 / 产品"
+        ],
+        "dashboards": [
+          "用户生命周期",
+          "lifecycle",
+          "v_user_segment",
+          "v_lifecycle"
+        ],
+        "criteria": [
+          {
+            "dim": "沉默占比环比",
+            "ok": "稳定",
+            "warn": "升幅接近5pp",
+            "bad": "环比升>5pp → 流失诊断"
+          },
+          {
+            "dim": "seg vs 活跃MAC差",
+            "ok": "|diff|≤5%",
+            "warn": "接近5%",
+            "bad": ">5% 须单列口径差异说明"
+          }
+        ]
+      },
+      {
+        "id": "q06",
+        "layer": "l1",
+        "category": "内容分析类",
+        "title": "内容题材分布",
+        "desc": "内容题材看三类：题材 VV/UV 排行（加权完播 K06）、题材完播 vs 同品类加权均值（pct_of_category_avg）、品类渗透（排期决策）。",
+        "bizQuestion": "用户在看什么内容？哪些题材/品类表现好？",
+        "keywords": [
+          "题材",
+          "剧集",
+          "VV",
+          "完播率",
+          "品类",
+          "加权完播",
+          "内容题材分布",
+          "内容分析类"
+        ],
+        "triggers": [
+          "内容运营排期前",
+          "某题材完播率异常",
+          "暑期档内容策略调整。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲核心指标框架、决策树、行动建议、最小判断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L1_SQL附录》。\n本文件在定稿版 v3 基础上修正 3 处、补充 2 处：\n修正：\n- q03 判定标准写明“新订单占比（分母=该入口全部订单）”；\n- 口径字典补 K14 沉默/流失定义；\n- q06 决策树补“未分类”处理规则（单独列示，占比 >10% 查维度表映射）。"
+          },
+          {
+            "title": "核心指标框架",
+            "desc": "内容题材看三类：题材 VV/UV 排行（加权完播 K06）、题材完播 vs 同品类加权均值（pct_of_category_avg）、品类渗透（排期决策）。\n三类分别回答“哪个题材播放量大、哪个题材完播异常、品类结构是否偏移”。\n\n关键理解：\n- 完播率必须注明是加权完播（完播次数/播放次数），不是剧集平均完播率；\n- 题材完播异常判定用“不足同品类加权均值一半”（pct_of_category_avg<50），不是低于某绝对值；\n- total_vv<10000 时样本不足，结论标“样本偏少”。\n\n业务含义速查：\n某题材 pct_of_category_avg<50 且 total_vv>10000 → 转 L2 完播率异常诊断；\n电视剧/综艺 VV 占比下降且 only_launcher 上升 → 回 q04 产品功能使用。"
+          },
+          {
+            "title": "决策树",
+            "desc": "题材指标 vs 基线？\n 某题材 pct_of_category_avg<50 且 total_vv>10000 → 转 L2 完播率异常诊断\n 某题材 VV 高但完播低 → 内容质量或推荐问题\n 电视剧/综艺 VV 占比下降且 only_launcher 上升 → 回 q04 产品功能使用\n 未映射 genre_id 计入“未分类”，单独列示；“未分类”占比 >10% → 查维度表映射\n total_vv<10000 → 标“样本偏少”，不单独下结论",
+            "judge": "- 完播率口径必须注明加权完播，不是剧集平均；\n- 未映射 genre_id 计入“未分类”，不丢弃；\n- 品类渗透要结合内容排期看，不能只看单月。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n完播异常 / pct_of_category_avg<50 且 total_vv>10000 / 转 L2 完播率异常诊断 / 内容\n品类偏移 / 某品类 VV 占比骤降 / 查排期/竞品 / 内容运营\n未分类占比高 / >10% / 查维度表映射 / 数据\n题材 VV 高完播低 / 加权完播低于均值一半 / 转 L2 完播率异常诊断 / 内容 + 推荐"
+          },
+          {
+            "title": "最小判断法",
+            "desc": "最少看 4 个数：\n1. Top5 题材 VV 占比：哪些是主力；\n2. Top5 题材加权完播率：哪个明显偏低；\n3. 各题材 pct_of_category_avg：哪个 <50；\n4. 各品类 VV 占比：哪个骤降。\n四个数看完，能判断内容结构是否健康、哪个题材需要排查。\n以下情况必须跑附录 SQL：需要精确算加权完播、同品类均值、按剧集/单集拆解时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用剧集平均完播率代替加权完播率：两者口径不同，大 VV 剧集影响不同；\n- 完播异常判定用绝对值：不同品类均值不同，必须与同品类均值比；\n- 样本少直接下结论：total_vv<10000 时结论不稳定；\n- 未映射 genre_id 丢弃：应计入“未分类”避免漏计。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L1_SQL附录》第 6 节（q06），包含：\n- 题材 VV/UV 排行 SQL（加权完播）；\n- 题材 vs 同品类加权均值 SQL（pct_of_category_avg）；\n- 品类渗透 SQL；\n- 降级方案（无 dim_genre / dim_category 时如何标注）。\n\n七、跨场景通用规则\n\n7.1 时间参数统一\n所有 SQL 使用 :month_start / :month_end / :as_of 等参数，禁止硬编码日期。\n同一报告中若同时用日表与月表，需在产出注明“两表口径差 ±2% 以内，以月表为准”。\n\n7.2 空值处理约定\n- 端型：空值归为“未知”，在产出中标注占比；\n- 地市：IFNULL(region_name, '未知')，单独列示，不并入其他；\n- 题材/品类：未映射的 genre_id / category_id 计入“未分类”，不丢弃。\n\n7.3 数据质量前置检查\n见本文件第一节“数据质量前置检查”。\n另需确认：口径变更（退货口径、渠道归属、品牌归属）、外生事件（大促、版本发布、灰度）。\n\n7.4 产出验收标准\n每份 L1 报告必须包含：\n1. 口径脚注（引用 K01–K07 + K04b + K14）；\n2. 数据截止日期与数据质量说明；\n3. 阈值标注（触发了哪条阈值，见阈值登记表）；\n4. 样本量（比例类指标必须附分子/分母/样本量，样本 <100 不单独下结论）；\n5. 下一跳建议（附量化触发条件）；\n6. 日表与月表口径差异说明（若同时使用）。\n\n报告结论建议格式：\n基线声明 → 核心指标 → 主因判定 → 异常标注 → 下一跳 → 口径脚注。\n\n7.5 场景依赖图\nq01（DAU/MAU）→ DAU 降 → L2；only_launcher 升 → q04；DAU/MAU 降 → q05\nq02（用户画像）→ 地市活跃降 → q03；Speaker 付费低 → L2；只开机多 → q04\nq03（渠道获客）→ 客单价降 → L2 CAC；新单占比低 → L2 渠道质量\nq04（功能使用）→ 点播渗透低 → q06；only_launcher 高 → L2 流失\nq05（活跃结构）→ 沉默升 → L2 流失；净增降 → L2 留存\nq06（内容题材）→ 完播异常 → L2 完播率异常\n\n7.6 与 L2–L6 的衔接\n- L1 的每个“下一跳”必须能在 L2 找到对应诊断场景，否则该下一跳为无效链接；\n- L1 的口径（K01–K07 + K04b + K14）必须被 L2–L6 引用，不得各自另立口径；\n- L1 的阈值（阈值登记表）必须与 L2 的阈值一致，不一致需在 L2 文档中说明原因。"
+          }
+        ],
+        "outputs": [
+          "内容题材分布结论",
+          "异常标注与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "完播异常 / pct_of_category_avg<50 且 total_vv>10000 / 转 L2 完播率异常诊断 / 内容",
+          "品类偏移 / 某品类 VV 占比骤降 / 查排期/竞品 / 内容运营",
+          "未分类占比高 / >10% / 查维度表映射 / 数据",
+          "题材 VV 高完播低 / 加权完播低于均值一半 / 转 L2 完播率异常诊断 / 内容 + 推荐"
+        ],
+        "dashboards": [
+          "内容·剧集",
+          "series",
+          "dws_content_series_play_1d"
+        ],
+        "criteria": [
+          {
+            "dim": "题材完播/品类均值",
+            "ok": "接近100%",
+            "warn": "偏低",
+            "bad": "pct_of_category_avg<50且VV足够大 → L2"
+          }
+        ]
+      },
+      {
+        "id": "q07",
+        "layer": "l2",
+        "category": "活跃异常类",
+        "title": "DAU 下滑诊断",
+        "desc": "DAU 下降可分解为：端型效应 + 地市效应 + 功能渗透效应。",
+        "bizQuestion": "为什么日活下降了？是端型、地市还是功能渗透导致？",
+        "keywords": [
+          "DAU",
+          "下滑",
+          "诊断",
+          "端型",
+          "地市",
+          "区间降幅",
+          "下滑诊断",
+          "活跃异常类"
+        ],
+        "triggers": [
+          "DAU 连续 7 日环比降幅 >10%",
+          "大促后活跃未回补",
+          "某端型 DAU 骤降。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲诊断框架、决策树、排除法、最小诊断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L2_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q09 补 K10a 客单价 gmv_per_order 口径定义；\n- q12 补 v_ltv 完整库名（internet_analytics.v_ltv）。\n补充："
+          },
+          {
+            "title": "诊断框架",
+            "desc": "DAU 下降可分解为：端型效应 + 地市效应 + 功能渗透效应。\n\n端型效应：某端型 DAU 区间降幅显著，拉低整体。\n地市效应：某地市 DAU 区间降幅显著且占全量比例大。\n功能渗透效应：点播/直播渗透下降，或只开机占比上升。\n\n关键理解：不能用 LAG 日差冒充“两周降幅”。必须用近 14 天均值 vs 前 14 天均值的相对变化（K08），才能反映趋势性下滑。单日下跌可能是波动，连续 14 天区间下降才是趋势。\n\n业务含义速查：\n单端型区间降幅 >15% → 首要怀疑该端型，转设备流转看板；\n某地市区间降幅 >20% 且占比 >5% → 地市主因，转 q03 渠道获客分布；\n只开机占比上升且点播渗透下降 → 功能侧，转 L1 q04 再转 q11。"
+          },
+          {
+            "title": "决策树",
+            "desc": "DAU 7 日环比连续降 >10%？\n 先跑前置三件事：缺数、口径变更、灰度 → 是则先排除，不下业务结论\n 端型拆解：单端型区间降幅 >15% → 设备流转看板\n 地市拆解：某地市区间降幅 >20% 且占比 >5% → q03 渠道获客分布\n 功能渗透：only_launcher_pct 上升且 vod_pct 下降 → L1 q04 → q11\n 三组拆解均无显著变化 → 回前置 2，排查口径/灰度",
+            "judge": "- 区间降幅必须用近 14 天 vs 前 14 天均值（K08），不能用 LAG 日差；\n- 未知地市占比 >10% → 先查 dim_region 映射，不下地市结论；\n- 单日波动、活动日、灰度期数据需单列，不混入趋势判断。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n单端型下滑 / 14 日区间降幅 >15% / 设备流转看板 / 端型运营 + 数据\n地市下滑 / 区间降幅 >20% 且占比 >5% / q03 渠道获客分布 / 渠道运营\n功能侧流失 / 只开机占比升 + 点播渗透降 / L1 q04 → q11 / 产品 + 运营\n数据问题 / 缺数、口径变更、灰度期 / 先补数/等灰度结束 / 数据"
+          },
+          {
+            "title": "最小诊断法",
+            "desc": "最少看 4 个数：\n1. 整体 DAU 近 14 天 vs 前 14 天均值：降幅是否 >10%；\n2. 各端型区间降幅：哪个 >15%；\n3. 各地市区间降幅：哪个 >20% 且占比 >5%；\n4. 只开机占比 vs 点播渗透：是否一个升一个降。\n四个数看完，能判断主因方向。\n以下情况必须跑附录 SQL：需要精确算区间降幅、按端型×地市交叉、看日趋势时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用 LAG 日差当区间降幅：单日绝对差不能反映趋势；\n- 不排除数据问题就下结论：缺数、口径变更、灰度期都会导致假下滑；\n- 未知地市占比高未标注：可能是地市映射问题，不是业务问题；\n- 只看整体不看端型/地市：整体降可能某端型/地市骤降，被平均掩盖。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L2_SQL附录》第 1 节（q07），包含：\n- 端型 14 日区间降幅 SQL（K08）；\n- 地市 14 日区间降幅 SQL（含未知地市占比判断）；\n- 功能渗透变化 SQL；\n- 降级方案（无 v_dau_overview 时如何用明细表拼）。"
+          }
+        ],
+        "outputs": [
+          "主因判定",
+          "证据链与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "单端型下滑 / 14 日区间降幅 >15% / 设备流转看板 / 端型运营 + 数据",
+          "地市下滑 / 区间降幅 >20% 且占比 >5% / q03 渠道获客分布 / 渠道运营",
+          "功能侧流失 / 只开机占比升 + 点播渗透降 / L1 q04 → q11 / 产品 + 运营",
+          "数据问题 / 缺数、口径变更、灰度期 / 先补数/等灰度结束 / 数据"
+        ],
+        "dashboards": [
+          "活跃总览",
+          "overview",
+          "设备流转",
+          "device"
+        ],
+        "criteria": [
+          {
+            "dim": "单端型14日区间降幅",
+            "ok": "≥-15%",
+            "warn": "接近-15%",
+            "bad": "<-15% → 首要怀疑"
+          },
+          {
+            "dim": "地市区间降幅",
+            "ok": "≥-20% 或占比小",
+            "warn": "降幅大但量小",
+            "bad": "<-20% 且占全量>5%"
+          },
+          {
+            "dim": "只开机占比",
+            "ok": "≤35% 平稳",
+            "warn": "上升",
+            "bad": ">35% 持续升 → q11"
+          }
+        ]
+      },
+      {
+        "id": "q08",
+        "layer": "l2",
+        "category": "留存异常类",
+        "title": "留存下降诊断",
+        "desc": "留存下降可分解为：cohort 结构效应 + 端型效应 + 版本效应 + 渠道效应。",
+        "bizQuestion": "为什么留存变差了？是端型、版本还是渠道导致？",
+        "keywords": [
+          "留存",
+          "D7",
+          "同期群",
+          "cohort",
+          "版本",
+          "基线",
+          "留存下降诊断",
+          "留存异常类"
+        ],
+        "triggers": [
+          "D7 留存连续两周下滑",
+          "新版本上线后留存异动",
+          "Speaker 端留存显著低于 STB。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲诊断框架、决策树、排除法、最小诊断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L2_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q09 补 K10a 客单价 gmv_per_order 口径定义；\n- q12 补 v_ltv 完整库名（internet_analytics.v_ltv）。\n补充："
+          },
+          {
+            "title": "诊断框架",
+            "desc": "留存下降可分解为：cohort 结构效应 + 端型效应 + 版本效应 + 渠道效应。\n\ncohort 结构效应：新客占比/渠道结构变化导致整体留存率变化（假恶化）。\n端型效应：某端型留存显著低于另一端。\n版本效应：某版本留存显著低于其他版本。\n渠道效应：某渠道留存显著低于其他渠道。\n\n关键理解：整体留存率下降不一定是留存真变差。新客占比上升、渠道结构变化都会拉低整体留存率——这是结构效应，不是留存恶化。必须先排除结构变化，再下留存结论。\n\n业务含义速查：\nD7 低于近 3 月基线 >5pct → 该渠道留存异常；\n单端型 D7 留存差 >10pct → 端型嫌疑；\n单版本 D7 留存差 >8pct → 版本嫌疑；\n某渠道 D7 留存差 >10pct → 渠道嫌疑。"
+          },
+          {
+            "title": "决策树",
+            "desc": "D7 留存连续两周下滑或显著低于基线？\n 先查 cohort 结构：新客占比/渠道结构是否变化 → 是则先写“结构变化说明”，不直接下留存恶化结论\n 基线对照：某渠道 D7 低于近 3 月均值 >5pct → 渠道异常\n 端型拆解：单端型 D7 留存差 >10pct → 端型嫌疑\n 版本拆解：单版本 D7 留存差 >8pct → 版本嫌疑\n 渠道拆解：某渠道 D7 留存差 >10pct → 渠道嫌疑",
+            "judge": "- 基线必须声明类型（K09 A/B/C）；\n- 版本拆解需 v_retention_decomposition 含 app_version 字段，无则标“版本字段待补”，不下版本结论；\n- 版本字段缺失时，跳过版本拆解，产出中标注“版本维度未评估，结论仅覆盖端型/渠道”；若需版本结论，先推动数据侧补 app_version 字段；\n- cohort 结构变化时，先写“结构变化说明”，再判断留存是否真恶化。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n端型问题 / 单端型 D7 差 >10pct / 转 L1 q04 产品功能使用 / 产品\n版本问题 / 单版本 D7 差 >8pct / 转 q13 完播率异常诊断 / 版本 + 质量\n渠道问题 / 某渠道 D7 差 >10pct 且 LTV/CAC<1 / 转 q12 渠道质量诊断 / 渠道\n结构变化 / cohort 结构显著变化 / 先写结构说明，再判断 / 数据"
+          },
+          {
+            "title": "最小诊断法",
+            "desc": "最少看 4 个数：\n1. cohort 新客占比/渠道结构：是否变化 >10pct；\n2. 各渠道 D7 留存：是否低于近 3 月均值 >5pct；\n3. 各端型 D7 留存：差异是否 >10pct；\n4. 各版本 D7 留存（若可得）：差异是否 >8pct。\n四个数看完，能判断留存下降的主因方向。\n以下情况必须跑附录 SQL：需要精确算基线、按端型×版本×渠道交叉、看 cohort 热力图时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 不排除 cohort 结构变化就下留存结论：新客占比升会拉低整体留存率，不是留存恶化；\n- 用“上月”当基线：留存有季节性，基线应用近 3 月均值或去年同期；\n- 版本字段缺失仍下版本结论：无字段就标“待补”，不臆造结论；\n- 只看整体不看渠道：整体正常但某渠道极低，渠道问题被掩盖。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L2_SQL附录》第 2 节（q08），包含：\n- cohort 结构检查 SQL；\n- 基线对照 SQL（K09 类型 C + 类型 A）；\n- 端型×版本×渠道拆解 SQL；\n- 降级方案（无 app_version 字段时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "主因判定",
+          "证据链与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "端型问题 / 单端型 D7 差 >10pct / 转 L1 q04 产品功能使用 / 产品",
+          "版本问题 / 单版本 D7 差 >8pct / 转 q13 完播率异常诊断 / 版本 + 质量",
+          "渠道问题 / 某渠道 D7 差 >10pct 且 LTV/CAC<1 / 转 q12 渠道质量诊断 / 渠道",
+          "结构变化 / cohort 结构显著变化 / 先写结构说明，再判断 / 数据"
+        ],
+        "dashboards": [
+          "用户留存",
+          "retention",
+          "v_user_retention",
+          "v_retention_decomposition"
+        ],
+        "criteria": [
+          {
+            "dim": "D7 相对基线",
+            "ok": "diff≥-5pct",
+            "warn": "接近-5pct",
+            "bad": "diff<-5pct → 渠道留存异常"
+          },
+          {
+            "dim": "端型 D7 差",
+            "ok": "≤10pct",
+            "warn": "接近10pct",
+            "bad": ">10pct → 端型嫌疑"
+          },
+          {
+            "dim": "版本 D7 差",
+            "ok": "≤8pct",
+            "warn": "接近8pct",
+            "bad": ">8pct → 版本嫌疑"
+          }
+        ]
+      },
+      {
+        "id": "q09",
+        "layer": "l2",
+        "category": "渠道效率类",
+        "title": "CAC/获客效率上升诊断（成本侧）",
+        "desc": "CAC 上升可分解为：成本效应 + 新客效应 + 结构效应。",
+        "bizQuestion": "为什么获客越来越贵？",
+        "keywords": [
+          "CAC",
+          "获客成本",
+          "投放花费",
+          "新客",
+          "成本归因",
+          "获客效率上升诊断",
+          "成本侧",
+          "渠道效率类"
+        ],
+        "triggers": [
+          "CAC 月环比上升 >15%",
+          "某入口订购量下滑但单成本增加",
+          "video 入口误触率上升。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲诊断框架、决策树、排除法、最小诊断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L2_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q09 补 K10a 客单价 gmv_per_order 口径定义；\n- q12 补 v_ltv 完整库名（internet_analytics.v_ltv）。\n补充："
+          },
+          {
+            "title": "诊断框架",
+            "desc": "CAC 上升可分解为：成本效应 + 新客效应 + 结构效应。\n\n成本效应：投放花费涨，新客数不变。\n新客效应：新客数降，成本不变。\n结构效应：高成本渠道占比上升。\n\n关键理解：CAC 是“投放花费/新客数”（K10），不是“分成金额/订购用户数”。后者是单用户平台分成，不是获客成本。两者口径完全不同，混淆会得出错误结论。客单价用 gmv_per_order（K10a，GMV/订单数）判断 CAC 是否超过客单价 50%。\n\n业务含义速查：\ncac > 客单价 50% → 入口标红；\n花费/分成 >1 → 投放效率倒挂；\n成本效应主导 → 谈价/换量；\n新客效应主导 → 查入口/漏斗，转 q10。"
+          },
+          {
+            "title": "决策树",
+            "desc": "CAC 月环比升 >15%？\n 先确认成本表是否有数：成本字段缺失 → 改标题为“分成效率诊断”，不得称 CAC\n 入口 CAC 排行：cac > 客单价 50% → 入口标红\n 花费/分成 >1 → 投放效率倒挂\n 归因拆解：cost_effect 主导 → 谈价/换量\n 归因拆解：user_effect 主导 → 转 q10 付费转化下降诊断\n 结构效应主导 → 查高成本渠道占比是否上升",
+            "judge": "- CAC 分子是投放花费，不是平台分成；分母是新客数，不是订购用户；\n- 客单价用 gmv_per_order（K10a，GMV/订单数），与 q12 对齐；\n- 成本表缺失时不得强行算 CAC，只能做分成效率分析。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n入口低效 / cac > 客单价 50% / 投放预算分配优化（L5） / 市场\n效率倒挂 / 花费/分成 >1 持续 2 月 / q12 渠道质量诊断 / 市场 + 财务\n新客转化降 / user_effect 主导 / q10 付费转化下降诊断 / 市场 + 产品\n误触成本升 / video 入口误触率高 / q10 付费转化下降诊断 / 产品"
+          },
+          {
+            "title": "最小诊断法",
+            "desc": "最少看 4 个数：\n1. 整体 CAC 月环比：是否升 >15%；\n2. 各入口 CAC：哪个 >客单价 50%；\n3. 花费/分成：是否 >1；\n4. 归因拆解：cost_effect vs user_effect 哪个大。\n四个数看完，能判断 CAC 上升的主因方向。\n以下情况必须跑附录 SQL：需要精确算 CAC、按入口拆解、归因拆解时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用分成/订购用户当 CAC：这是单用户分成，不是获客成本；\n- 成本表缺失强行算：无成本数据时只能做分成效率，不能称 CAC；\n- 只看 CAC 不看客单价：CAC 高但客单价更高，可能仍划算；\n- 不拆归因直接谈价：可能是新客转化下降，不是成本涨。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L2_SQL附录》第 3 节（q09），包含：\n- 入口 CAC 排行 SQL（K10，含 gmv_per_order K10a）；\n- CAC 月环比 SQL；\n- CAC 归因拆解 SQL（成本效应 vs 新客效应）；\n- 降级方案（无成本表时如何标注“分成效率诊断”）。"
+          }
+        ],
+        "outputs": [
+          "主因判定",
+          "证据链与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "入口低效 / cac > 客单价 50% / 投放预算分配优化（L5） / 市场",
+          "效率倒挂 / 花费/分成 >1 持续 2 月 / q12 渠道质量诊断 / 市场 + 财务",
+          "新客转化降 / user_effect 主导 / q10 付费转化下降诊断 / 市场 + 产品",
+          "误触成本升 / video 入口误触率高 / q10 付费转化下降诊断 / 产品"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_channel_analysis"
+        ],
+        "criteria": [
+          {
+            "dim": "CAC vs 客单价",
+            "ok": "≤客单价50%",
+            "warn": "接近",
+            "bad": ">客单价50% 标红"
+          },
+          {
+            "dim": "花费/分成",
+            "ok": "≤1",
+            "warn": "接近1",
+            "bad": ">1 效率倒挂"
+          },
+          {
+            "dim": "CAC 月环比",
+            "ok": "≤15%",
+            "warn": "接近15%",
+            "bad": ">15% 进调整清单"
+          }
+        ]
+      },
+      {
+        "id": "q10",
+        "layer": "l2",
+        "category": "流失转化类",
+        "title": "付费转化下降诊断",
+        "desc": "付费转化下降可分解为：曝光→点击效应 + 点击→验证效应 + 验证→确认效应 + 曝光结构效应。",
+        "bizQuestion": "转化卡在哪一步？是入口误触、验证环节还是确认环节？",
+        "keywords": [
+          "漏斗",
+          "转化",
+          "误触",
+          "收银台",
+          "click2verify",
+          "付费转化下降诊断",
+          "流失转化类"
+        ],
+        "triggers": [
+          "付费转化率周环比下降",
+          "video 入口点击高但验证低",
+          "活动期曝光多但确认少。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲诊断框架、决策树、排除法、最小诊断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L2_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q09 补 K10a 客单价 gmv_per_order 口径定义；\n- q12 补 v_ltv 完整库名（internet_analytics.v_ltv）。\n补充："
+          },
+          {
+            "title": "诊断框架",
+            "desc": "付费转化下降可分解为：曝光→点击效应 + 点击→验证效应 + 验证→确认效应 + 曝光结构效应。\n\n点击→验证效应：误触、验证失败、主动放弃。\n验证→确认效应：支付失败、价格/活动规则问题。\n曝光结构效应：高意图曝光占比下降。\n\n关键理解：漏斗必须用含 click/verify 的表（dws_trade_cashier_funnel_1d），不能用 v_funnel 的 visit/signup/activate/purchase（字段对不上）。基线必须同表计算，不能混用。\n\n业务含义速查：\n点击→验证低于基线 >3pct → 漏斗瓶颈；\n验证→确认低于基线 >3pct → 确认环节问题；\n误触率高于基线 >5pct → 误触入口；\n失败原因中“验证超时” >30% → 技术侧排查。"
+          },
+          {
+            "title": "决策树",
+            "desc": "付费转化率周环比下降？\n 先确认漏斗表口径：用 dws_trade_cashier_funnel_1d（含 click/verify），不用 v_funnel\n 点击→验证低于基线 >3pct → 漏斗瓶颈\n 验证→确认低于基线 >3pct → 确认环节问题\n 误触率高于基线 >5pct → 误触入口\n 失败原因中“验证超时” >30% → 技术侧排查\n 两者均正常但整体转化降 → 查曝光结构",
+            "judge": "- 漏斗主表必须是 dws_trade_cashier_funnel_1d，基线同表计算；\n- v_funnel 仅用于 product_line 维度补充，不得混用基线；\n- 失败原因字段（verify_fail_reason）缺失时，标“失败原因待补，无法区分主动放弃/验证失败/误触纠正”，下一跳改为“先补字段再做归因”。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n漏斗瓶颈 / 点击→验证低于基线 >3pct / A/B 测试效果评估（L5） / 产品 + 运营\n确认环节 / 验证→确认低于基线 >3pct / 收银台/支付流程排查 / 支付 + 产品\n误触入口 / 误触率高于基线 >5pct / 收银台改版 + A/B 测试 / 产品\n技术问题 / 验证超时 >30% / 技术侧排查 / 技术"
+          },
+          {
+            "title": "最小诊断法",
+            "desc": "最少看 4 个数：\n1. 点击→验证转化：是否低于基线 >3pct；\n2. 验证→确认转化：是否低于基线 >3pct；\n3. 误触率：是否高于基线 >5pct；\n4. 失败原因分布（若可得）：验证超时是否 >30%。\n四个数看完，能判断转化卡在哪一步。\n以下情况必须跑附录 SQL：需要精确算基线、按入口拆解、看失败原因分布时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用 v_funnel 字段判断“点击→验证”：字段对不上，结论无意义；\n- 基线混用不同表：基线必须与当期同表计算；\n- 失败原因缺失强行归因：无字段就标“待补”，不臆造结论；\n- 只看整体不看入口：整体正常但 video 极低，误触问题被掩盖。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L2_SQL附录》第 4 节（q10），包含：\n- 漏斗转化 + 基线对照 SQL；\n- 误触率 SQL（K15）；\n- 漏斗流失归因 SQL（依赖 verify_fail_reason）；\n- 降级方案（无 verify_fail_reason 时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "主因判定",
+          "证据链与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "漏斗瓶颈 / 点击→验证低于基线 >3pct / A/B 测试效果评估（L5） / 产品 + 运营",
+          "确认环节 / 验证→确认低于基线 >3pct / 收银台/支付流程排查 / 支付 + 产品",
+          "误触入口 / 误触率高于基线 >5pct / 收银台改版 + A/B 测试 / 产品",
+          "技术问题 / 验证超时 >30% / 技术侧排查 / 技术"
+        ],
+        "dashboards": [
+          "商业化漏斗",
+          "funnel",
+          "v_funnel"
+        ],
+        "criteria": [
+          {
+            "dim": "click→verify vs 基线",
+            "ok": "差≥-3pct",
+            "warn": "接近",
+            "bad": "低于基线>3pct → 瓶颈"
+          },
+          {
+            "dim": "误触率 vs 基线",
+            "ok": "差≤5pct",
+            "warn": "接近",
+            "bad": "高于基线>5pct → 误触入口"
+          }
+        ]
+      },
+      {
+        "id": "q11",
+        "layer": "l2",
+        "category": "流失转化类",
+        "title": "用户流失诊断",
+        "desc": "用户流失可分解为：规模趋势效应 + 风险分群效应 + 流失前行为特征效应。",
+        "bizQuestion": "用户为什么走了？沉默与流失的规模、特征与迁移路径如何？",
+        "keywords": [
+          "流失",
+          "沉默",
+          "churn",
+          "RFM",
+          "只开机",
+          "行为特征",
+          "用户流失诊断",
+          "流失转化类"
+        ],
+        "triggers": [
+          "沉默用户占比上升",
+          "churn_cnt 连续 7 日上升",
+          "只开机用户占比 >35%。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲诊断框架、决策树、排除法、最小诊断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L2_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q09 补 K10a 客单价 gmv_per_order 口径定义；\n- q12 补 v_ltv 完整库名（internet_analytics.v_ltv）。\n补充："
+          },
+          {
+            "title": "诊断框架",
+            "desc": "用户流失可分解为：规模趋势效应 + 风险分群效应 + 流失前行为特征效应。\n\n规模趋势效应：churn_cnt 是否显著高于基线。\n风险分群效应：RFM 分群中高风险用户占比是否上升。\n流失前行为特征效应：流失用户在流失前的功能使用、内容偏好与留存用户的差异。\n\n关键理解：流失不是单一原因。可能是功能流失（只开机多）、内容不匹配（点播少）、低粘性（活跃天数少）。诊断要先分群，再看流失前行为差异，才能匹配挽回策略。\n\n业务含义速查：\nchurn_diff_pct >20% → 紧急响应；\n只开机占比 >35% 且沉默上升 → 功能流失型；\n流失用户 vod_minutes 差 >50% → 内容不匹配型；\n流失用户 active_days 差 >30% → 低粘性型，挽回 ROI 低。"
+          },
+          {
+            "title": "决策树",
+            "desc": "沉默用户占比上升或 churn 连续 7 日升？\n 先确认 K14 定义：未确认 → 标“口径待确认”，不进入挽回决策\n 流失规模 vs 基线：churn_diff_pct >20% → 紧急响应\n 风险分群：rfm_segment 映射高/中/低风险，映射未确认前只出分布\n 流失前行为对比：only_launcher_pct 差 >10pct → 功能流失型\n 流失前行为对比：vod_minutes 差 >50% → 内容不匹配型\n 流失前行为对比：active_days 差 >30% → 低粘性型",
+            "judge": "- K14 定义未确认前，所有结论标“口径待确认”；\n- v_rfm 必须带快照日期（snapshot_date = MAX），否则 COUNT 虚高；\n- 风险分群映射需业务确认；映射示例：高价值沉默→高风险、一般沉默→中风险、活跃→低风险、已流失→高风险（需业务确认后写入文档）。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n功能流失型 / only_launcher_pct 差 >10pct / L1 q04 + q13 内容诊断 / 产品 + 内容\n内容不匹配型 / vod_minutes 差 >50% / L1 q06 内容题材分布 / 内容\n低粘性型 / active_days 差 >30% / 挽回 ROI 评估，谨慎投入 / 运营\n规模异常 / churn_diff_pct >20% / 用户挽回策略优化（L5） / 运营"
+          },
+          {
+            "title": "最小诊断法",
+            "desc": "最少看 4 个数：\n1. churn 周环比：是否 >20%；\n2. RFM 高风险分群占比：是否上升；\n3. 流失用户 vs 留存用户的只开机占比：差是否 >10pct；\n4. 流失用户 vs 留存用户的点播时长：差是否 >50%。\n四个数看完，能判断流失主因方向。\n以下情况必须跑附录 SQL：需要精确算基线、按端型/地市拆解流失、看流失前行为差异时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- v_rfm 不带快照日期：日快照表会 COUNT 虚高；\n- 不确认 K14 定义就下结论：沉默与流失定义不同，混用会误判；\n- RFM 分群映射未确认：分群分布≠风险结论；\n- 只看整体不看行为差异：不知道流失是功能、内容还是低粘性导致。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L2_SQL附录》第 5 节（q11），包含：\n- 流失规模趋势 + 基线对照 SQL；\n- RFM 风险分群 SQL（含快照日期过滤）；\n- 流失前行为特征对比 SQL；\n- 降级方案（无 v_rfm / 无 K14 定义时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "主因判定",
+          "证据链与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "功能流失型 / only_launcher_pct 差 >10pct / L1 q04 + q13 内容诊断 / 产品 + 内容",
+          "内容不匹配型 / vod_minutes 差 >50% / L1 q06 内容题材分布 / 内容",
+          "低粘性型 / active_days 差 >30% / 挽回 ROI 评估，谨慎投入 / 运营",
+          "规模异常 / churn_diff_pct >20% / 用户挽回策略优化（L5） / 运营"
+        ],
+        "dashboards": [
+          "用户生命周期",
+          "lifecycle",
+          "v_lifecycle",
+          "v_rfm"
+        ],
+        "criteria": [
+          {
+            "dim": "churn vs 基线",
+            "ok": "差≤20%",
+            "warn": "接近20%",
+            "bad": ">20% 紧急响应"
+          },
+          {
+            "dim": "只开机占比",
+            "ok": "≤35%",
+            "warn": "接近",
+            "bad": ">35% → 联动功能/内容"
+          }
+        ]
+      },
+      {
+        "id": "q12",
+        "layer": "l2",
+        "category": "渠道效率类",
+        "title": "渠道质量下降诊断（价值侧）",
+        "desc": "渠道质量可分解为：LTV 效应 + CAC 效应 + 留存效应。",
+        "bizQuestion": "哪个入口带来的用户质量差了？",
+        "keywords": [
+          "渠道质量",
+          "LTV",
+          "CAC",
+          "ROI",
+          "留存",
+          "渠道质量下降诊断",
+          "价值侧",
+          "渠道效率类"
+        ],
+        "triggers": [
+          "某入口新增多但留存差",
+          "launcher 入口 LTV 低于 video",
+          "渠道评分卡红灯。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲诊断框架、决策树、排除法、最小诊断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L2_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q09 补 K10a 客单价 gmv_per_order 口径定义；\n- q12 补 v_ltv 完整库名（internet_analytics.v_ltv）。\n补充："
+          },
+          {
+            "title": "诊断框架",
+            "desc": "渠道质量可分解为：LTV 效应 + CAC 效应 + 留存效应。\n\nLTV 效应：某渠道 LTV 显著低于其他。\nCAC 效应：某渠道 CAC 显著高于其他。\n留存效应：某渠道 D7/D30 留存显著低于其他。\n\n关键理解：渠道质量不能只看 LTV/CAC。LTV/CAC <1 但留存正常，是客单价/分成问题（谈价）；LTV/CAC <1 且留存差，是渠道质量问题（收缩）。两者动作不同。\n\n业务含义速查：\nltv_cac_ratio <1 且 D7 留存低于均值 >10pct → 双重红灯，优先收缩；\nltv_cac_ratio <1 但留存正常 → 定价策略优化；\nroi <1 且持续 2 月 → 投放预算重分配。"
+          },
+          {
+            "title": "决策树",
+            "desc": "某渠道新增多但留存差或 LTV/CAC 低？\n 入口 LTV 对比：哪个渠道 LTV 最低；\n LTV/CAC：<1 → 入口标红；\n ROI：<1 → 投放倒挂；\n 留存质量：D7 留存低于均值 >10pct 且 LTV/CAC<1 → 双重红灯\n D7 留存正常但 LTV/CAC<1 → 定价/分成问题，谈价而非收缩",
+            "judge": "- LTV 观察窗口（K11）必须与 CAC 归因窗口一致；\n- v_ltv 完整库名为 internet_analytics.v_ltv，SQL 中不得裸写 v_ltv（跨库环境会报错）；\n- ROI 是分成/花费，不是转化率。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n双重红灯 / LTV/CAC<1 且 D7 留存差 >10pct / 渠道组合优化（L5） / 管理层\n定价问题 / LTV/CAC<1 但留存正常 / 定价策略优化（L5） / 商品 + 财务\n投放倒挂 / ROI<1 持续 2 月 / 投放预算分配优化（L5） / 市场\n归因存疑 / 口径不一致 / 渠道归因分析工具箱 / 数据"
+          },
+          {
+            "title": "最小诊断法",
+            "desc": "最少看 4 个数：\n1. 各渠道 LTV/CAC：哪个 <1；\n2. 各渠道 ROI：哪个 <1；\n3. 各渠道 D7 留存：哪个低于均值 >10pct；\n4. LTV/CAC<1 的渠道中，留存是否也差。\n四个数看完，能判断是收缩还是谈价。\n以下情况必须跑附录 SQL：需要精确算 LTV/CAC/ROI、按端型拆解留存时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 只看 LTV/CAC 不看留存：LTV/CAC<1 但留存正常，可能是定价问题，不是渠道问题；\n- v_ltv 裸写缺库名：完整库名为 internet_analytics.v_ltv，裸写跨库环境跑不通；\n- 用转化率当 ROI：ROI 是分成/花费，不是转化率；\n- LTV 窗口与 CAC 窗口不一致：比率无意义。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L2_SQL附录》第 6 节（q12），包含：\n- 入口 LTV 对比 SQL（含全库名 internet_analytics.v_ltv）；\n- LTV/CAC 与 ROI SQL（K10/K11/K12）；\n- 入口留存质量 SQL（D7/D30）；\n- 降级方案（无 v_ltv / 无留存表时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "主因判定",
+          "证据链与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "双重红灯 / LTV/CAC<1 且 D7 留存差 >10pct / 渠道组合优化（L5） / 管理层",
+          "定价问题 / LTV/CAC<1 但留存正常 / 定价策略优化（L5） / 商品 + 财务",
+          "投放倒挂 / ROI<1 持续 2 月 / 投放预算分配优化（L5） / 市场",
+          "归因存疑 / 口径不一致 / 渠道归因分析工具箱 / 数据"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_ltv",
+          "v_channel_analysis"
+        ],
+        "criteria": [
+          {
+            "dim": "LTV/CAC",
+            "ok": "≥1",
+            "warn": "接近1",
+            "bad": "<1 标红"
+          },
+          {
+            "dim": "ROI",
+            "ok": "≥1",
+            "warn": "接近1",
+            "bad": "<1 投放倒挂"
+          },
+          {
+            "dim": "双重红灯",
+            "ok": "否",
+            "warn": "单项红",
+            "bad": "LTV/CAC<1 且 D7低于均值>10pct"
+          }
+        ]
+      },
+      {
+        "id": "q13",
+        "layer": "l2",
+        "category": "内容质量类",
+        "title": "完播率异常诊断",
+        "desc": "完播率下降可分解为：整体趋势效应 + 剧集效应 + 题材效应 + QoS 效应。",
+        "bizQuestion": "为什么完播率下降了？内容问题还是 QoS？",
+        "keywords": [
+          "完播率",
+          "QoS",
+          "卡顿",
+          "加权完播",
+          "题材",
+          "完播率异常诊断",
+          "内容质量类"
+        ],
+        "triggers": [
+          "整体完播率月环比下降 >5pct",
+          "某题材完播率骤降",
+          "首帧/卡顿投诉上升。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲诊断框架、决策树、排除法、最小诊断法、常见误判、附录指引；完整 SQL 移到配套《互联网_L2_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q09 补 K10a 客单价 gmv_per_order 口径定义；\n- q12 补 v_ltv 完整库名（internet_analytics.v_ltv）。\n补充："
+          },
+          {
+            "title": "诊断框架",
+            "desc": "完播率下降可分解为：整体趋势效应 + 剧集效应 + 题材效应 + QoS 效应。\n\n整体趋势效应：整体完播率 vs 基线是否显著下降。\n剧集效应：某剧集完播率 <30% 且在 VV Top50。\n题材效应：某题材完播率显著低于品类均值。\nQoS 效应：卡顿率上升导致完播率下降。\n\n关键理解：完播率必须区分加权完播率（K13，完播次数/播放次数）和剧集平均完播率。大 VV 剧集对加权完播率影响大，两者不可混用。完播低不一定是内容问题，可能是卡顿/QoS 问题，需与 QoS 指标联动判断。\n\n业务含义速查：\n整体完播率月环比降 >5pct → 进入 q13；\n剧集完播率 <30% 且 VV Top50 → 列入排查；\n卡顿率环比升 >2pct 且完播降 → QoS 问题；\nQoS 平稳但完播降 → 内容问题。"
+          },
+          {
+            "title": "决策树",
+            "desc": "完播率异常（整体月环比降 >5pct 或某题材骤降）？\n 先确认完播率口径：加权完播 vs 剧集平均完播必须分列\n 整体完播率 vs 基线：diff_pct < -5pct → 进入拆解\n 低完播剧集（VV Top50 内）：加权完播 <30% → 列入排查\n 题材完播对比：某题材低于品类均值 → 题材级排查\n QoS 指标：卡顿率环比升 >2pct 且完播降 → QoS 问题\n QoS 平稳但完播降 → 内容问题",
+            "judge": "- 完播率口径必须注明加权完播，不是剧集平均；\n- 低完播剧集必须在 VV Top50 内，否则可能是长尾剧集本身 VV 小；\n- QoS 表（如 dws_qos_play_quality_1d）是否存在需在步骤 0 确认；不存在时产出中标注“QoS 维度未评估，完播下降原因可能为内容或 QoS，无法区分”；下一跳改为“先补 QoS 表再做归因”，不直接转内容运营；\n- HAVING 用聚合表达式，不用别名。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\nQoS 问题 / 卡顿率升 >2pct 且完播降 / 完播与 QoS 看板 / 技术 + 运维\n内容问题 / QoS 平稳但完播降 / 内容运营/排期调整 / 内容\n功能流失 / 完播低且 only_launcher 升 / 回 L1 q04 产品功能使用 / 产品\n题材问题 / 某题材完播低但其他正常 / 题材级内容排查 / 内容"
+          },
+          {
+            "title": "最小诊断法",
+            "desc": "最少看 4 个数：\n1. 整体加权完播率环比：是否降 >5pct；\n2. VV Top50 剧集中完播 <30% 的有几个；\n3. 各题材完播率：哪个显著低于品类均值；\n4. 卡顿率环比：是否升 >2pct。\n四个数看完，能判断完播下降的主因方向。\n以下情况必须跑附录 SQL：需要精确算加权完播、同品类均值、按剧集/单集拆解、看 QoS 趋势时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用剧集平均完播率代替加权完播率：两者口径不同，大 VV 剧集影响不同；\n- 不限定 VV Top50：长尾剧集完播低是正常的，不是异常；\n- QoS 表不存在仍下 QoS 结论：无数据就标“QoS 待补”，不臆造；\n- HAVING 引用别名：部分引擎报错，应用聚合表达式。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L2_SQL附录》第 7 节（q13），包含：\n- 整体完播率趋势 + 基线对照 SQL；\n- 低完播剧集 SQL（VV Top50 + HAVING 聚合表达式）；\n- 题材完播对比 SQL；\n- QoS 指标联动 SQL（依赖 dws_qos_play_quality_1d）；\n- 降级方案（无 QoS 表 / 无 complete_rate_avg 时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "主因判定",
+          "证据链与下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "QoS 问题 / 卡顿率升 >2pct 且完播降 / 完播与 QoS 看板 / 技术 + 运维",
+          "内容问题 / QoS 平稳但完播降 / 内容运营/排期调整 / 内容",
+          "功能流失 / 完播低且 only_launcher 升 / 回 L1 q04 产品功能使用 / 产品",
+          "题材问题 / 某题材完播低但其他正常 / 题材级内容排查 / 内容"
+        ],
+        "dashboards": [
+          "完播与QoS",
+          "quality",
+          "内容·剧集",
+          "series"
+        ],
+        "criteria": [
+          {
+            "dim": "整体完播 vs 基线",
+            "ok": "差≥-5pct",
+            "warn": "接近",
+            "bad": "<-5pct → 进诊"
+          },
+          {
+            "dim": "剧集完播(Top50 VV)",
+            "ok": "≥30%",
+            "warn": "接近30%",
+            "bad": "<30% 列入排查"
+          },
+          {
+            "dim": "卡顿率环比",
+            "ok": "≤+2pct",
+            "warn": "接近",
+            "bad": ">+2pct 且完播降 → QoS"
+          }
+        ]
+      },
+      {
+        "id": "q14",
+        "layer": "l3",
+        "category": "DAU预测类",
+        "title": "下月 DAU 预测",
+        "desc": "区分 MA7（平稳）与线性趋势；区间用残差标准差而非全期 STDDEV；必做 MAPE 回测",
+        "bizQuestion": "下个月日活大概多少？区间是多少？",
+        "keywords": [
+          "DAU",
+          "预测",
+          "MA7",
+          "线性趋势",
+          "MAPE",
+          "残差"
+        ],
+        "triggers": [
+          "月度经营计划编制",
+          "暑期档资源排期",
+          "DAU 异常波动后需预测回补"
+        ],
+        "criteria": [
+          {
+            "dim": "回测 MAPE",
+            "ok": "≤15% 可用于计划",
+            "warn": "15%–25% 仅趋势参考",
+            "bad": ">15% 不得写入经营计划"
+          },
+          {
+            "dim": "残差/均值",
+            "ok": "≤10%",
+            "warn": ">10% 不确定性高",
+            "bad": "区间过宽需提示"
+          }
+        ],
+        "steps": [
+          {
+            "title": "前置四件事",
+            "desc": "数据质量；DAU 口径(K01)与是否分端预测；近90日异常点；平稳则 MA7，有趋势则线性外推。",
+            "judge": "有明显趋势时不得只用 MA7",
+            "output": "方法选择说明 + 异常点清单"
+          },
+          {
+            "title": "近90日基线与残差波动",
+            "desc": "修正：区间用 MA7 残差标准差 residual_std_ma7，不用全期 STDDEV。",
+            "sql": "WITH daily AS (\n  SELECT snapshot_date, total_dau FROM internet_analytics.v_dau_overview\n  WHERE snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 89 DAY) AND :as_of\n),\nma AS (\n  SELECT snapshot_date, total_dau,\n    AVG(total_dau) OVER (ORDER BY snapshot_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS ma7\n  FROM daily\n)\nSELECT ROUND(AVG(total_dau),0) AS avg_dau_90d, ROUND(STDDEV(total_dau),0) AS std_dau_90d,\n  MIN(total_dau) AS min_dau, MAX(total_dau) AS max_dau,\n  ROUND(STDDEV(total_dau - ma7),0) AS residual_std_ma7, ROUND(AVG(ma7),0) AS avg_ma7\nFROM ma;",
+            "judge": "residual_std_ma7/avg_ma7>10% → 提示不确定性高；有线性趋势 → 转步骤2b",
+            "output": "基线统计 + residual_std_ma7"
+          },
+          {
+            "title": "MA7 外推（平稳场景）",
+            "desc": "点估计=基准日 ma7；区间=ma7±1.5×residual_std_ma7（经营计划可用 k=2）。",
+            "sql": "WITH daily AS (\n  SELECT snapshot_date, total_dau FROM internet_analytics.v_dau_overview\n  WHERE snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 29 DAY) AND :as_of\n),\nma AS (\n  SELECT snapshot_date, total_dau,\n    AVG(total_dau) OVER (ORDER BY snapshot_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS ma7\n  FROM daily\n)\nSELECT snapshot_date, total_dau, ROUND(ma7,0) AS ma7_dau FROM ma ORDER BY snapshot_date;",
+            "output": "MA7 序列 + 点估计/区间说明"
+          },
+          {
+            "title": "线性趋势外推（有趋势场景）",
+            "desc": "近90日最小二乘；点估计=intercept+slope×t；区间用 residual_std_linear。",
+            "sql": "WITH daily AS (\n  SELECT snapshot_date, total_dau,\n    DATEDIFF(snapshot_date, DATE_SUB(:as_of, INTERVAL 89 DAY)) AS t\n  FROM internet_analytics.v_dau_overview\n  WHERE snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 89 DAY) AND :as_of\n)\nSELECT\n  ROUND((AVG(t*total_dau)-AVG(t)*AVG(total_dau))/NULLIF(AVG(t*t)-AVG(t)*AVG(t),0),2) AS slope,\n  ROUND(AVG(total_dau)-((AVG(t*total_dau)-AVG(t)*AVG(total_dau))/NULLIF(AVG(t*t)-AVG(t)*AVG(t),0))*AVG(t),2) AS intercept,\n  ROUND(STDDEV(total_dau-(AVG(total_dau)+((AVG(t*total_dau)-AVG(t)*AVG(total_dau))/NULLIF(AVG(t*t)-AVG(t)*AVG(t),0))*(t-AVG(t)))),0) AS residual_std_linear\nFROM daily;",
+            "output": "slope/intercept/residual_std_linear"
+          },
+          {
+            "title": "回测校验 MAPE（必做）",
+            "desc": "walk-forward：近窗拟合预测，报告 MAPE。",
+            "sql": "WITH daily AS (\n  SELECT snapshot_date, total_dau FROM internet_analytics.v_dau_overview\n  WHERE snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 89 DAY) AND :as_of\n),\nma AS (\n  SELECT snapshot_date, total_dau,\n    AVG(total_dau) OVER (ORDER BY snapshot_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS ma7\n  FROM daily\n)\nSELECT ROUND(AVG(ABS(total_dau-ma7)/NULLIF(total_dau,0))*100,2) AS mape_pct\nFROM ma WHERE snapshot_date >= DATE_SUB(:as_of, INTERVAL 30 DAY);",
+            "judge": "MAPE>15% → 仅趋势参考，不得写入经营计划；≤15% 可用于计划",
+            "output": "MAPE + 是否可用于经营计划"
+          }
+        ],
+        "outputs": [
+          "下月 DAU 点估计+区间（含k与残差来源）",
+          "端型拆分预测",
+          "回测 MAPE 与可用性结论",
+          "假设与失效条件"
+        ],
+        "nextSteps": [
+          "预测区间下限低于经营目标>10%且MAPE≤15% → 「投放预算分配优化」",
+          "上限高于目标且残差大 → 验证内容排期+情景分析",
+          "MAPE>15% → 不进入预算决策，先补数据/换方法"
+        ],
+        "dashboards": [
+          "活跃总览",
+          "overview",
+          "v_dau_overview"
+        ]
+      },
+      {
+        "id": "q15",
+        "layer": "l3",
+        "category": "LTV预测类",
+        "title": "LTV/ARPU 预测（订购客单）",
+        "desc": "补库名与时间过滤；按 cohort 衰减外推；MAPE>20% 不得用于加码绝对判断",
+        "bizQuestion": "这批用户长期值多少钱？",
+        "keywords": [
+          "LTV",
+          "ARPU",
+          "cohort",
+          "衰减",
+          "MAPE"
+        ],
+        "triggers": [
+          "评估新入口是否值得加码",
+          "会员/连续包月策略调整前",
+          "渠道试投结束"
+        ],
+        "criteria": [
+          {
+            "dim": "LTV 回测 MAPE",
+            "ok": "≤20%",
+            "warn": "接近20%",
+            "bad": ">20% 仅排序参考"
+          },
+          {
+            "dim": "LTV下限/CAC",
+            "ok": ">1 且 MAPE≤20%",
+            "warn": "接近1",
+            "bad": "≤1 不加码"
+          }
+        ],
+        "steps": [
+          {
+            "title": "前置四件事",
+            "desc": "确认 K11 观察窗口；cohort 定义；v_ltv 口径。窗口未定不得称终身价值。",
+            "output": "窗口与 cohort 定义声明"
+          },
+          {
+            "title": "入口 LTV 现状",
+            "desc": "补 internet_analytics.v_ltv 与时间过滤。",
+            "sql": "SELECT channel_name, SUM(order_count) AS order_count, SUM(total_gmv) AS total_gmv,\n  ROUND(AVG(avg_order_value),2) AS avg_order_value,\n  ROUND(AVG(avg_platform_share),2) AS avg_platform_share,\n  ROUND(SUM(total_gmv)/NULLIF(SUM(order_count),0),2) AS gmv_per_order\nFROM internet_analytics.v_ltv\nWHERE snapshot_date BETWEEN :month_start AND :month_end\nGROUP BY channel_name ORDER BY total_gmv DESC;",
+            "output": "入口 LTV 现状表"
+          },
+          {
+            "title": "cohort 客单趋势",
+            "desc": "按 cohort_month×入口看 ARPU 衰减，支撑「这批用户」外推。",
+            "sql": "SELECT cohort_month, channel_name, COUNT(DISTINCT mac) AS cohort_users,\n  ROUND(SUM(order_amount)/NULLIF(COUNT(DISTINCT mac),0),2) AS arpu_cohort,\n  ROUND(SUM(revenue_share)/NULLIF(COUNT(DISTINCT mac),0),2) AS arpu_share_cohort\nFROM internet_analytics.dws_trade_order_1d\nWHERE src_type<>'ALL'\n  AND cohort_month BETWEEN DATE_SUB(:month_start, INTERVAL 6 MONTH) AND :month_end\nGROUP BY cohort_month, channel_name\nORDER BY cohort_month, channel_name;",
+            "judge": "老 cohort ARPU 逐月衰减明显 → 须用衰减曲线而非固定 ARPU",
+            "output": "cohort ARPU 趋势表"
+          },
+          {
+            "title": "LTV 外推（衰减曲线）",
+            "desc": "按 month_offset 准备累计 ARPU；应用层拟合 a×offset^(-b) 外推至窗口终点。",
+            "sql": "SELECT cohort_month, channel_name, month_offset,\n  SUM(revenue_share)/NULLIF(COUNT(DISTINCT mac),0) AS arpu_at_offset\nFROM internet_analytics.dws_trade_order_1d\nWHERE src_type<>'ALL'\n  AND cohort_month BETWEEN DATE_SUB(:month_start, INTERVAL 6 MONTH) AND :month_end\nGROUP BY cohort_month, channel_name, month_offset\nORDER BY cohort_month, channel_name, month_offset;",
+            "output": "衰减曲线拟合输入 + LTV 点估计/区间（应用层）"
+          },
+          {
+            "title": "回测校验",
+            "desc": "前3个月 cohort 拟合，预测后3个月 ARPU，算 MAPE。",
+            "judge": "MAPE>20% → 仅排序参考，不得用于是否加码的绝对判断",
+            "output": "MAPE + 可用性结论"
+          }
+        ],
+        "outputs": [
+          "入口 LTV 预测区间（含 cohort/窗口假设）",
+          "ARPU 基准/乐观/悲观情景",
+          "回测 MAPE 与可用性结论"
+        ],
+        "nextSteps": [
+          "LTV区间下限/CAC>1且MAPE≤20% → 「渠道质量下降诊断」",
+          "LTV对定价敏感 → 「定价策略优化」",
+          "MAPE>20% → 仅渠道排序，不用于加码决策"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_ltv"
+        ]
+      },
+      {
+        "id": "q16",
+        "layer": "l3",
+        "category": "渠道预测类",
+        "title": "渠道效果预测",
+        "desc": "统一用日漏斗表口径；先做曝光CV稳定性检验；订购外推含月份天数与星期效应；必做 MAPE",
+        "bizQuestion": "各入口下月能带来多少订购？",
+        "keywords": [
+          "渠道",
+          "订购预测",
+          "CV",
+          "星期效应",
+          "MAPE"
+        ],
+        "triggers": [
+          "季度渠道预算评审",
+          "新入口试投评估",
+          "入口改版效果预判"
+        ],
+        "criteria": [
+          {
+            "dim": "曝光 CV",
+            "ok": "≤30%",
+            "warn": ">30% 假设不稳",
+            "bad": "不得单点外推"
+          },
+          {
+            "dim": "回测 MAPE",
+            "ok": "≤15%",
+            "warn": "15%–25%",
+            "bad": ">15% 不进预算评审"
+          }
+        ],
+        "steps": [
+          {
+            "title": "前置四件事",
+            "desc": "统一用 dws_trade_cashier_funnel_1d；试投不足30天不预测；单列已知活动/改版。",
+            "judge": "试投期<30天 → 延长试投，不做预测",
+            "output": "口径约定 + 外生变量清单"
+          },
+          {
+            "title": "入口历史转化基线",
+            "desc": "近3完整月 expose→purchase；禁止用 v_funnel.product_line 冒充 src_type。",
+            "sql": "SELECT src_type, SUM(expose_cnt) AS expose, SUM(click_cnt) AS click,\n  SUM(verify_cnt) AS verify, SUM(purchase_cnt) AS purchase,\n  ROUND(SUM(purchase_cnt)/NULLIF(SUM(expose_cnt),0)*100,4) AS cvr_expose2purchase_pct,\n  ROUND(SUM(purchase_cnt)/NULLIF(SUM(click_cnt),0)*100,2) AS cvr_click2purchase_pct\nFROM internet_analytics.dws_trade_cashier_funnel_1d\nWHERE device_type='ALL'\n  AND snapshot_date BETWEEN DATE_SUB(:month_start, INTERVAL 3 MONTH) AND DATE_SUB(:month_start, INTERVAL 1 DAY)\nGROUP BY src_type;",
+            "judge": "CVR 月波动>20% → 须用区间；某入口显著偏低 → 单独标注",
+            "output": "入口转化基线表"
+          },
+          {
+            "title": "曝光/转化稳定性（CV）",
+            "desc": "替代原「假设曝光维持均值」未验证。",
+            "sql": "SELECT src_type,\n  ROUND(AVG(expose_cnt),0) AS avg_daily_expose, ROUND(STDDEV(expose_cnt),0) AS std_daily_expose,\n  ROUND(STDDEV(expose_cnt)/NULLIF(AVG(expose_cnt),0)*100,2) AS cv_expose_pct,\n  ROUND(AVG(confirm_cnt),0) AS avg_daily_confirm, ROUND(STDDEV(confirm_cnt),0) AS std_daily_confirm,\n  ROUND(STDDEV(confirm_cnt)/NULLIF(AVG(confirm_cnt),0)*100,2) AS cv_confirm_pct\nFROM internet_analytics.dws_trade_cashier_funnel_1d\nWHERE device_type='ALL' AND snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 29 DAY) AND :as_of\nGROUP BY src_type;",
+            "judge": "CV>30% → 维持均值假设不成立，改用星期因子或区间预测",
+            "output": "稳定性检验表"
+          },
+          {
+            "title": "下月订购外推（天数+星期）",
+            "desc": "修正日均×30；用 dim_date 星期分布 × 历史 dow 均值。",
+            "sql": "WITH daily AS (\n  SELECT snapshot_date, src_type, SUM(confirm_cnt) AS confirm\n  FROM internet_analytics.dws_trade_cashier_funnel_1d\n  WHERE device_type='ALL' AND snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 59 DAY) AND :as_of\n  GROUP BY snapshot_date, src_type\n),\ndow AS (\n  SELECT src_type, DAYOFWEEK(snapshot_date) AS dow, AVG(confirm) AS avg_confirm_dow\n  FROM daily GROUP BY src_type, DAYOFWEEK(snapshot_date)\n),\nnext_month AS (\n  SELECT src_type, d.day_of_week AS dow, COUNT(*) AS days_cnt\n  FROM (SELECT DISTINCT src_type FROM daily) s\n  CROSS JOIN (\n    SELECT date_key, day_of_week FROM internet_analytics.dim_date\n    WHERE date_key BETWEEN :next_month_start AND :next_month_end\n  ) d\n  GROUP BY src_type, d.day_of_week\n)\nSELECT n.src_type, ROUND(SUM(n.days_cnt*d.avg_confirm_dow),0) AS forecast_monthly_confirm,\n  ROUND(STDDEV(d.avg_confirm_dow),0) AS dow_std\nFROM next_month n JOIN dow d ON n.src_type=d.src_type AND n.dow=d.dow\nGROUP BY n.src_type;",
+            "output": "下月订购点估计（区间用残差×sqrt天数）"
+          },
+          {
+            "title": "回测 MAPE",
+            "desc": "前60天预测后30天。",
+            "sql": "WITH daily AS (\n  SELECT snapshot_date, src_type, SUM(confirm_cnt) AS confirm\n  FROM internet_analytics.dws_trade_cashier_funnel_1d\n  WHERE device_type='ALL' AND snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 89 DAY) AND :as_of\n  GROUP BY snapshot_date, src_type\n),\nma30 AS (\n  SELECT src_type, snapshot_date, confirm,\n    AVG(confirm) OVER (PARTITION BY src_type ORDER BY snapshot_date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS ma30\n  FROM daily\n)\nSELECT src_type, ROUND(AVG(ABS(confirm-ma30)/NULLIF(confirm,0))*100,2) AS mape_pct\nFROM ma30 WHERE snapshot_date >= DATE_SUB(:as_of, INTERVAL 30 DAY)\nGROUP BY src_type;",
+            "judge": "MAPE>15% → 该入口仅趋势参考，不进预算评审",
+            "output": "分入口 MAPE"
+          }
+        ],
+        "outputs": [
+          "下月各入口订购点估计+区间",
+          "曝光稳定性与假设失效条件",
+          "回测 MAPE",
+          "入口优先级（贡献×置信度）"
+        ],
+        "nextSteps": [
+          "预测贡献占比<5%且CV>30% → 「渠道组合优化」",
+          "贡献环比升>20%且MAPE≤15% → 「投放预算分配优化」",
+          "试投<30天 → 不做预测延长试投",
+          "MAPE>15% → 不进预算评审"
+        ],
+        "dashboards": [
+          "商业化漏斗",
+          "funnel",
+          "v_funnel",
+          "v_channel_attribution"
+        ]
+      },
+      {
+        "id": "q17",
+        "layer": "l3",
+        "category": "流失预测类",
+        "title": "用户流失预测",
+        "desc": "MA7仅趋势参考；RFM须最新快照；线性/MA7外推+区间；高风险阈值需业务校准",
+        "bizQuestion": "下个月大概流失多少人？哪些人最可能流失？",
+        "keywords": [
+          "流失",
+          "预测",
+          "RFM",
+          "MAPE",
+          "高风险"
+        ],
+        "triggers": [
+          "沉默用户占比持续上升",
+          "续订率下滑预警",
+          "挽回预算编制"
+        ],
+        "criteria": [
+          {
+            "dim": "回测 MAPE",
+            "ok": "≤15%",
+            "warn": "15%–25%",
+            "bad": ">15% 不进挽回预算"
+          },
+          {
+            "dim": "高风险占比",
+            "ok": "已业务校准",
+            "warn": "沿用15%经验值须标注",
+            "bad": "未校准不进预算"
+          }
+        ],
+        "steps": [
+          {
+            "title": "前置四件事",
+            "desc": "确认 K14；v_rfm 快照过滤；churn_cnt 定义；高风险阈值待校准。",
+            "output": "定义与阈值声明"
+          },
+          {
+            "title": "流失趋势 MA7（≠预测）",
+            "desc": "平滑历史趋势，预测在步骤3。",
+            "sql": "SELECT snapshot_date, silent_cnt, churn_cnt,\n  ROUND(AVG(churn_cnt) OVER (ORDER BY snapshot_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW),0) AS ma7_churn\nFROM internet_analytics.v_lifecycle\nWHERE snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 29 DAY) AND :as_of\nORDER BY snapshot_date;",
+            "output": "流失趋势+MA7参考线"
+          },
+          {
+            "title": "高风险规模（最新快照）",
+            "desc": "修正无 WHERE 虚高；占比=高风险/总活跃，标注阈值待校准。",
+            "sql": "SELECT rfm_segment, COUNT(DISTINCT mac) AS users,\n  ROUND(AVG(days_since_last_active),1) AS avg_days_since_active\nFROM internet_analytics.v_rfm\nWHERE snapshot_date=(SELECT MAX(snapshot_date) FROM internet_analytics.v_rfm)\n  AND rfm_segment IN ('流失风险','一般/流失')\nGROUP BY rfm_segment;\n\nSELECT COUNT(DISTINCT mac) AS total_active\nFROM internet_analytics.dws_act_user_active_1d\nWHERE snapshot_date BETWEEN :month_start AND :month_end;",
+            "judge": "占比>15%且连续2月上升 → 启动挽回预算编制（阈值须业务校准）",
+            "output": "高风险规模与占比"
+          },
+          {
+            "title": "下月流失外推+区间",
+            "desc": "有趋势用线性，否则 MA7；点估计×下月天数；区间含 sqrt(天数)。",
+            "sql": "WITH daily AS (\n  SELECT snapshot_date, churn_cnt,\n    DATEDIFF(snapshot_date, DATE_SUB(:as_of, INTERVAL 89 DAY)) AS t\n  FROM internet_analytics.v_lifecycle\n  WHERE snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 89 DAY) AND :as_of\n)\nSELECT\n  ROUND((AVG(t*churn_cnt)-AVG(t)*AVG(churn_cnt))/NULLIF(AVG(t*t)-AVG(t)*AVG(t),0),4) AS slope,\n  ROUND(AVG(churn_cnt)-((AVG(t*churn_cnt)-AVG(t)*AVG(churn_cnt))/NULLIF(AVG(t*t)-AVG(t)*AVG(t),0))*AVG(t),2) AS intercept,\n  ROUND(STDDEV(churn_cnt-(AVG(churn_cnt)+((AVG(t*churn_cnt)-AVG(t)*AVG(churn_cnt))/NULLIF(AVG(t*t)-AVG(t)*AVG(t),0))*(t-AVG(t)))),0) AS residual_std_linear\nFROM daily;\n\n-- MA7 备选\nWITH daily AS (\n  SELECT snapshot_date, churn_cnt FROM internet_analytics.v_lifecycle\n  WHERE snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 29 DAY) AND :as_of\n),\nma AS (\n  SELECT snapshot_date, churn_cnt,\n    AVG(churn_cnt) OVER (ORDER BY snapshot_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS ma7\n  FROM daily\n)\nSELECT ROUND(AVG(ma7),0) AS ma7_avg, ROUND(STDDEV(churn_cnt-ma7),0) AS residual_std_ma7 FROM ma;",
+            "judge": "|slope|/均值>1%/天 → 用线性；否则用 MA7",
+            "output": "下月流失点估计+区间"
+          },
+          {
+            "title": "回测 MAPE + 阈值校准",
+            "desc": "MAPE>15%仅趋势参考；高风险占比阈值标注待业务校准。",
+            "judge": "MAPE>15% → 不进挽回预算",
+            "output": "MAPE + 阈值校准说明"
+          }
+        ],
+        "outputs": [
+          "下月流失点估计+区间",
+          "高风险规模与占比（含阈值说明）",
+          "挽回优先级人群规模",
+          "假设与失效条件"
+        ],
+        "nextSteps": [
+          "预测流失下限>挽回预算可覆盖规模 → 「用户挽回策略优化」",
+          "流失升且 L2 已定位根因 → 回对应 L2 复核",
+          "高风险阈值未校准 → 先校准再进预算",
+          "MAPE>15% → 仅趋势参考"
+        ],
+        "dashboards": [
+          "用户生命周期",
+          "lifecycle",
+          "v_lifecycle",
+          "v_rfm"
+        ]
+      },
+      {
+        "id": "q18",
+        "layer": "l3",
+        "category": "收入预测类",
+        "title": "分成收入预测",
+        "desc": "确认 revenue_share 口径；分成率稳定性；天数+星期外推；三情景；MAPE 回测",
+        "bizQuestion": "下月分成收入大概多少？区间是多少？",
+        "keywords": [
+          "分成",
+          "收入预测",
+          "情景",
+          "星期效应",
+          "MAPE"
+        ],
+        "triggers": [
+          "月度财务结算前",
+          "内容采购成本评估",
+          "套餐定价调整前"
+        ],
+        "criteria": [
+          {
+            "dim": "分成率波动",
+            "ok": "≤2pct",
+            "warn": ">2pct 须拆套餐",
+            "bad": "不稳定不可整体外推"
+          },
+          {
+            "dim": "回测 MAPE",
+            "ok": "≤15%",
+            "warn": "15%–25%",
+            "bad": ">15% 不进财务预算"
+          }
+        ],
+        "steps": [
+          {
+            "title": "前置四件事",
+            "desc": "确认 revenue_share 方向；下月天数/活动/调价；结算延迟；套餐结构稳定性。",
+            "output": "口径与外生变量声明"
+          },
+          {
+            "title": "近3月分成趋势",
+            "desc": "含 share_rate_pct。",
+            "sql": "SELECT DATE_FORMAT(snapshot_date,'%Y-%m') AS month,\n  SUM(order_cnt) AS orders, ROUND(SUM(order_amount),0) AS order_amount,\n  ROUND(SUM(revenue_share),0) AS revenue_share,\n  ROUND(SUM(revenue_share)/NULLIF(SUM(order_amount),0)*100,2) AS share_rate_pct\nFROM internet_analytics.dws_trade_order_1d\nWHERE src_type<>'ALL'\n  AND snapshot_date BETWEEN DATE_SUB(:month_start, INTERVAL 3 MONTH) AND DATE_SUB(:month_start, INTERVAL 1 DAY)\nGROUP BY DATE_FORMAT(snapshot_date,'%Y-%m')\nORDER BY month;",
+            "judge": "share_rate 月波动>2pct → 须分套餐/品类拆解",
+            "output": "分成趋势表"
+          },
+          {
+            "title": "分成率稳定性检验",
+            "desc": "按入口看 share_rate 波动。",
+            "sql": "SELECT src_type,\n  ROUND(SUM(revenue_share)/NULLIF(SUM(order_amount),0)*100,2) AS share_rate_pct,\n  ROUND(STDDEV(revenue_share/NULLIF(order_amount,0))*100,2) AS share_rate_std_pct\nFROM internet_analytics.dws_trade_order_1d\nWHERE src_type<>'ALL' AND snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 89 DAY) AND :as_of\nGROUP BY src_type;",
+            "judge": "share_rate_std_pct>2pct → 分套餐拆解后再预测",
+            "output": "分成率稳定性表"
+          },
+          {
+            "title": "下月分成外推（天数+星期）",
+            "desc": "修正日均×30；用 dim_date × dow 均值。",
+            "sql": "WITH daily AS (\n  SELECT snapshot_date, SUM(order_cnt) AS orders, SUM(revenue_share) AS share\n  FROM internet_analytics.dws_trade_order_1d\n  WHERE src_type<>'ALL' AND snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 59 DAY) AND :as_of\n  GROUP BY snapshot_date\n),\ndow AS (\n  SELECT DAYOFWEEK(snapshot_date) AS dow, AVG(share) AS avg_share_dow FROM daily GROUP BY DAYOFWEEK(snapshot_date)\n),\nnext_month AS (\n  SELECT d.day_of_week AS dow, COUNT(*) AS days_cnt FROM internet_analytics.dim_date d\n  WHERE d.date_key BETWEEN :next_month_start AND :next_month_end\n  GROUP BY d.day_of_week\n)\nSELECT ROUND(SUM(n.days_cnt*d.avg_share_dow),0) AS forecast_monthly_share,\n  ROUND(STDDEV(d.avg_share_dow),0) AS dow_std\nFROM next_month n JOIN dow d ON n.dow=d.dow;",
+            "output": "分成点估计（区间用残差×sqrt天数）"
+          },
+          {
+            "title": "情景分析（基准/乐观/悲观）",
+            "desc": "乐观须用历史活动 lift，无数据则不得臆造；悲观用历史最差环比。",
+            "sql": "SELECT\n  ROUND(AVG(CASE WHEN is_activity=1 THEN revenue_share END),0) AS avg_activity_share,\n  ROUND(AVG(CASE WHEN is_activity=0 THEN revenue_share END),0) AS avg_normal_share,\n  ROUND(AVG(CASE WHEN is_activity=1 THEN revenue_share END)/NULLIF(AVG(CASE WHEN is_activity=0 THEN revenue_share END),0),2) AS activity_lift_ratio\nFROM internet_analytics.dws_trade_order_1d\nWHERE src_type<>'ALL' AND snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 180 DAY) AND :as_of;",
+            "judge": "无历史活动数据 → 乐观情景按基准+0%（不臆造）",
+            "output": "三情景对比表（含假设）"
+          },
+          {
+            "title": "回测 MAPE",
+            "desc": "前60天预测后30天。",
+            "sql": "WITH daily AS (\n  SELECT snapshot_date, SUM(revenue_share) AS share\n  FROM internet_analytics.dws_trade_order_1d\n  WHERE src_type<>'ALL' AND snapshot_date BETWEEN DATE_SUB(:as_of, INTERVAL 89 DAY) AND :as_of\n  GROUP BY snapshot_date\n),\nma30 AS (\n  SELECT snapshot_date, share,\n    AVG(share) OVER (ORDER BY snapshot_date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS ma30\n  FROM daily\n)\nSELECT ROUND(AVG(ABS(share-ma30)/NULLIF(share,0))*100,2) AS mape_pct\nFROM ma30 WHERE snapshot_date >= DATE_SUB(:as_of, INTERVAL 30 DAY);",
+            "judge": "MAPE>15% → 不进入财务预算",
+            "output": "MAPE + 可用性结论"
+          }
+        ],
+        "outputs": [
+          "下月分成点估计+区间",
+          "三情景对比表",
+          "回测 MAPE",
+          "套餐/品类贡献拆解"
+        ],
+        "nextSteps": [
+          "预测下限低于财务目标>10%且MAPE≤15% → 「定价策略优化」",
+          "分成率月波动>2pct → 先拆套餐再预测",
+          "MAPE>15% → 不进财务预算",
+          "某套餐贡献环比降>20% → 内容采购成本评估"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "dws_trade_order_1d"
+        ]
+      },
+      {
+        "id": "q19",
+        "layer": "l4",
+        "category": "获客效率类",
+        "title": "渠道获客效率评估",
+        "desc": "渠道效率评估 = LTV / CAC 比率 + 稳健性检验。",
+        "bizQuestion": "各入口投放划不划算？该加码、维持还是收缩？",
+        "keywords": [
+          "CAC",
+          "LTV",
+          "ROI",
+          "评估",
+          "获客效率",
+          "窗口敏感性",
+          "渠道获客效率评估",
+          "获客效率类"
+        ],
+        "triggers": [
+          "季度预算评审",
+          "新入口试投结束",
+          "渠道评分卡定期复盘。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲评估框架、评估步骤、判断与结论、最小评估法、常见误判、附录指引；完整 SQL 移到配套《互联网_L4_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q20 补 MDE 定义（最小可检测效应 = 实验希望检测到的最小转化率差异；MDE 越小所需样本越大）；\n- q22 补活动成本表缺失时的降级说明（ROI 不可算，只做增量分成分析）。\n补充："
+          },
+          {
+            "title": "评估框架",
+            "desc": "渠道效率评估 = LTV / CAC 比率 + 稳健性检验。\n\n评估对象：各入口/渠道。\n评估基准：LTV 与 CAC 同窗口；反事实为“若不投放该渠道”，用同渠道历史 CAC/LTV 或同类渠道均值作参照。\n评估目的：识别加码/维持/收缩渠道，给出预算调整建议。\n\n关键理解：CAC 是“投放花费/新客数”（K10），不是“分成金额/订购用户数”。LTV 是“窗口内平台分成/用户数”（K11）。两者必须同窗口，窗口不一致比率无意义。LTV/CAC <1 但留存正常，可能是定价问题；LTV/CAC <1 且留存差，才是渠道质量问题。\n\n业务含义速查：\nLTV/CAC <1 → 收缩；\nLTV/CAC 1–3 → 维持；\nLTV/CAC >3 → 加码；\n窗口敏感性超 ±30% → 评级仅供参考。\n\n定价问题判断 = LTV/CAC <1 且 D7 留存不低于渠道均值 10pct 以上，且客单价低于同类渠道均值 15% 以上；若客单价正常但 LTV 低，可能是分成率问题。"
+          },
+          {
+            "title": "决策树",
+            "desc": "渠道效率评估流程：\n 前置四件事：LTV 与 CAC 同窗口 / 反事实参照系 / 口径一致 / 样本充足\n LTV/CAC 比率：<1 收缩 / 1–3 维持 / >3 加码\n 窗口敏感性：近 1 月 vs 近 3 月 LTV 偏离是否 >30%\n     window_sensitivity >1.3 → 近 1 月 LTV 高于 3 月均值，评级可偏乐观但需注明\n     window_sensitivity <0.7 → 近 1 月 LTV 低于 3 月均值，评级需下调，不进入加码决策\n 样本充足性：新客 <100 标“样本不足”；<500 标“样本偏少”\n 定价问题判断：LTV/CAC<1 且留存正常且客单价低 >15%\n 评级结论：加码/维持/收缩 + 窗口敏感性 + 样本充足性",
+            "judge": "- LTV 与 CAC 必须同窗口；窗口不一致，比率无意义；\n- 成本表缺失时不得强行算 CAC，只能做“分成效率诊断”；\n- 新入口试投期 <30 天或新客 <最小样本，结论标“样本不足，仅参考”。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n加码渠道 / LTV/CAC>3 且窗口敏感在 ±30% 内且样本充足 / 投放预算分配优化（L5） / 市场\n收缩渠道 / LTV/CAC<1 且连续 2 季度 / 渠道组合优化（L5） / 管理层\n定价问题 / LTV/CAC<1 但留存正常且客单价低 >15% / 定价策略优化（L5） / 商品 + 财务\n窗口敏感 / window_sensitivity 偏离 1 超 ±30% / 延长观察窗口后重评 / 数据\n样本不足 / 新客 <100 / 不进入预算决策，延长试投 / 数据"
+          },
+          {
+            "title": "最小评估法",
+            "desc": "最少看 4 个数：\n1. 各渠道 LTV/CAC：哪个 <1、哪个 >3；\n2. 各渠道近 1 月 LTV vs 近 3 月 LTV：偏离是否 >30%；\n3. 各渠道新客数：是否 <100（样本不足）；\n4. LTV/CAC<1 的渠道中，留存是否也差（回 L2 q12 看）。\n四个数看完，能判断渠道评级、稳健性与样本充足性。\n以下情况必须跑附录 SQL：需要精确算 LTV/CAC、窗口敏感性、样本充足性时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用分成/订购用户当 CAC：这是单用户分成，不是获客成本；\n- LTV 与 CAC 窗口不一致：比率无意义；\n- 只看 LTV/CAC 不看窗口敏感性：窗口敏感时评级不可靠；\n- 样本不足直接评级：样本不足时结论不稳定。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L4_SQL附录》第 1 节（q19），包含：\n- LTV/CAC 与评级 SQL（K10/K11/K16/K17）；\n- 窗口敏感性 SQL（近 1 月 vs 近 3 月）；\n- 样本充足性 SQL；\n- 降级方案（无成本表时如何标注“分成效率诊断”）。"
+          }
+        ],
+        "outputs": [
+          "评估等级/结论",
+          "量化下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "加码渠道 / LTV/CAC>3 且窗口敏感在 ±30% 内且样本充足 / 投放预算分配优化（L5） / 市场",
+          "收缩渠道 / LTV/CAC<1 且连续 2 季度 / 渠道组合优化（L5） / 管理层",
+          "定价问题 / LTV/CAC<1 但留存正常且客单价低 >15% / 定价策略优化（L5） / 商品 + 财务",
+          "窗口敏感 / window_sensitivity 偏离 1 超 ±30% / 延长观察窗口后重评 / 数据",
+          "样本不足 / 新客 <100 / 不进入预算决策，延长试投 / 数据"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_ltv",
+          "v_channel_analysis"
+        ],
+        "criteria": [
+          {
+            "dim": "LTV/CAC",
+            "ok": ">3 加码",
+            "warn": "1–3 维持",
+            "bad": "<1 收缩"
+          },
+          {
+            "dim": "窗口敏感性",
+            "ok": "±30%内评级稳健",
+            "warn": "偏离>30%仅参考",
+            "bad": "样本不足不进决策"
+          }
+        ]
+      },
+      {
+        "id": "q20",
+        "layer": "l4",
+        "category": "实验评估类",
+        "title": "A/B 测试效果评估",
+        "desc": "A/B 评估 = 效应量 + 显著性 + 置信区间 + 业务含义。",
+        "bizQuestion": "改版实验有没有效？能不能全量？",
+        "keywords": [
+          "A/B",
+          "实验",
+          "显著性",
+          "z检验",
+          "置信区间",
+          "MDE",
+          "测试效果评估",
+          "实验评估类"
+        ],
+        "triggers": [
+          "收银台 UI 改版上线",
+          "launcher 引导策略 A/B 测试结束",
+          "video 误触优化实验。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲评估框架、评估步骤、判断与结论、最小评估法、常见误判、附录指引；完整 SQL 移到配套《互联网_L4_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q20 补 MDE 定义（最小可检测效应 = 实验希望检测到的最小转化率差异；MDE 越小所需样本越大）；\n- q22 补活动成本表缺失时的降级说明（ROI 不可算，只做增量分成分析）。\n补充："
+          },
+          {
+            "title": "评估框架",
+            "desc": "A/B 评估 = 效应量 + 显著性 + 置信区间 + 业务含义。\n\n评估对象：实验组 vs 对照组。\n评估基准：对照组即基线（K16）；随机分流有效性需先验证。\n评估目的：决定全量/回滚/延长实验。\n\n关键理解：显著性是“有没有差异”，置信区间是“差异可能多大”。只报 p 值不报 CI，业务决策无依据。CI 下界 ≤0 不能排除无效果；CI 下界 >0 且下界对应的业务增量值得做，才可全量。\n\n业务含义速查：\np<0.05 且 CI 下界 >0 且业务增量达标 → 全量；\np≥0.05 或 CI 含 0 → 无显著效果；\n分流有效性不通过 → 修复分流后重跑；\n样本未达最小样本量 → 延长实验，不下结论。"
+          },
+          {
+            "title": "决策树",
+            "desc": "A/B 评估流程：\n 前置四件事：基线=对照组 / 随机分流有效性 / 口径一致 / 最小样本量\n 分流有效性：各变体流量占比与设计比偏离是否 >5pct\n 效应量 + 显著性：abs_diff_pct、z_score、p 值\n 置信区间：95% CI，看下界是否 >0\n 业务含义：CI 下界对应增量 × 月活 × 客单价 vs 实验成本\n 结论：全量/回滚/延长实验",
+            "judge": "- 最小样本量必须按 MDE 计算，不能拍脑袋（原 1000 是错的）；MDE = 实验希望检测到的最小转化率差异；MDE 越小，所需样本量越大；MDE 由业务确认（通常取基线 CVR 的 10%–20%）；\n- 分流有效性不通过时，结论不可用；\n- CI 下界 ≤0 不能排除无效果；\n- 业务增量值得做 = CI 下界对应转化率提升 × 月活用户数 × 客单价 > 实验实施成本；若 CI 下界对应的增量不足以覆盖成本，即使显著也不应全量。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n全量 / p<0.05 且 CI 下界 >0 且业务增量达标 / 全量发布 / 产品\n无显著 / p≥0.05 或 CI 含 0 / 增长实验设计重规划 / 产品 + 增长\n分流有偏 / 流量占比偏离 >5pct / 修复分流后重跑 / 数据\n样本不足 / 未达最小样本量 / 延长实验 / 产品 + 数据"
+          },
+          {
+            "title": "最小评估法",
+            "desc": "最少看 4 个数：\n1. 各变体流量占比：与设计比偏离是否 >5pct；\n2. 对照组 vs 实验组 CVR：绝对差多少；\n3. 样本量：是否达到最小样本量；\n4. p 值 + CI 下界：p<0.05 且下界 >0 吗。\n四个数看完，能判断实验是否有效、能否全量。\n以下情况必须跑附录 SQL：需要精确算最小样本量、z 检验、95% CI 时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- “差异 >2pct 且样本 >1000 就显著”：1000 是拍脑袋，不是统计功效计算；\n- 只报 p 值不报 CI：不知道差异可能多大；\n- 分流有偏仍下结论：分流是随机对照的前提；\n- 样本不足用“初步显著”掩盖：结论不成立。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L4_SQL附录》第 2 节（q20），包含：\n- 最小样本量计算 SQL（按 MDE）；\n- 分流有效性检查 SQL；\n- 两比例 z 检验 + 95% CI SQL；\n- 降级方案（无 v_ab_experiment 时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "评估等级/结论",
+          "量化下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "全量 / p<0.05 且 CI 下界 >0 且业务增量达标 / 全量发布 / 产品",
+          "无显著 / p≥0.05 或 CI 含 0 / 增长实验设计重规划 / 产品 + 增长",
+          "分流有偏 / 流量占比偏离 >5pct / 修复分流后重跑 / 数据",
+          "样本不足 / 未达最小样本量 / 延长实验 / 产品 + 数据"
+        ],
+        "dashboards": [
+          "商业化漏斗",
+          "funnel",
+          "v_ab_experiment"
+        ],
+        "criteria": [
+          {
+            "dim": "显著性",
+            "ok": "|z|>1.96 且 CI下界>0",
+            "warn": "接近边界",
+            "bad": "不显著或样本不足"
+          },
+          {
+            "dim": "分流",
+            "ok": "与设计比偏离≤5pct",
+            "warn": "接近5pct",
+            "bad": ">5pct 先查分流"
+          }
+        ]
+      },
+      {
+        "id": "q21",
+        "layer": "l4",
+        "category": "产品效果类",
+        "title": "产品功能效果评估（内容）",
+        "desc": "内容效果评估 = 目标剧集前后对比 + 大盘对照 + 增量拆分。",
+        "bizQuestion": "这次内容/功能改版效果好吗？该不该加推？",
+        "keywords": [
+          "内容",
+          "VV",
+          "完播",
+          "渗透",
+          "超额变化",
+          "DID",
+          "产品功能效果评估",
+          "产品效果类"
+        ],
+        "triggers": [
+          "新剧集上线后 7 日",
+          "推荐算法调整后",
+          "暑期档内容包发布。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲评估框架、评估步骤、判断与结论、最小评估法、常见误判、附录指引；完整 SQL 移到配套《互联网_L4_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q20 补 MDE 定义（最小可检测效应 = 实验希望检测到的最小转化率差异；MDE 越小所需样本越大）；\n- q22 补活动成本表缺失时的降级说明（ROI 不可算，只做增量分成分析）。\n补充："
+          },
+          {
+            "title": "评估框架",
+            "desc": "内容效果评估 = 目标剧集前后对比 + 大盘对照 + 增量拆分。\n\n评估对象：目标剧集/内容包。\n评估基准：改版前同长度窗口（K16）；大盘同期增速作参照（K20）。\n评估目的：判断改版是否有正效应，决定是否加推。\n\n关键理解：改版后 VV 上升可能来自大盘季节性（如暑期），必须排除。超额变化（目标剧集增速 - 大盘增速）才反映改版真实效果。完播率必须用加权完播率（K13），不能用整段 SUM(finish)/SUM(vv) 把基线和评估期混在一起算。\n\n业务含义速查：\nexcess_vv_change_pct >10% 且完播率未降 → 改版有正效应，可加推；\nexcess_vv_change_pct >0 但完播率降 >3pct → 播放增加但质量下降，转 L2 q13；\nexcess_vv_change_pct ≤0 → 增长可能只是大盘，不加推。"
+          },
+          {
+            "title": "决策树",
+            "desc": "内容效果评估流程：\n 前置四件事：基线=改版前同长度 / 反事实=大盘增速 / 口径一致（加权完播）/ 样本充足\n 目标剧集前后对比：vv_change_pct、finish_rate_diff_pct\n 大盘对照：market_vv_change_pct\n 超额变化：excess_vv_change_pct = vv_change_pct - market_vv_change_pct\n 点播渗透变化：vod_penetration_diff_pct（同向只能说明改版可能同时影响了 VV 和渗透，不能直接说因果贡献）\n 结论：有正效应 / 仅大盘增长 / 负效应",
+            "judge": "- 超额变化 >0 才是改版正效应；≤0 可能只是大盘；\n- 完播率必须用加权完播率，不能混基线和评估期；\n- 目标剧集 VV <10 万标“样本偏少”；\n- 渗透率与 VV 同向只能说明“可能同时影响”，要证明因果贡献，需看渗透率增长是否集中在目标剧集受众。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n有正效应 / excess_vv_change_pct >10% 且完播未降 / 产品优先级优化（L5）加推 / 内容\n质量下降 / excess_vv_change_pct >0 但完播降 >3pct / 完播率异常诊断（L2 q13） / 内容\n仅大盘增长 / excess_vv_change_pct ≤0 / 不加推，排查大盘因素 / 内容\n挤占其他 / 渗透率与超额变化反方向 / 检查是否挤占其他内容 / 内容"
+          },
+          {
+            "title": "最小评估法",
+            "desc": "最少看 4 个数：\n1. 目标剧集 VV 前后变化：涨多少；\n2. 大盘 VV 同期变化：涨多少；\n3. 超额变化：目标剧集 - 大盘，是否 >10%；\n4. 完播率前后变化：是否降 >3pct。\n四个数看完，能判断改版是否有正效应。\n以下情况必须跑附录 SQL：需要精确算超额变化、按题材/剧集拆解、看渗透率变化时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 只看目标剧集前后差，不排除大盘：增长可能只是季节；\n- 完播率整段 SUM 算：把基线和评估期混在一起；\n- 用行数分母算渗透率：这是天数占比，不是用户渗透率；\n- 渗透率与 VV 同向就下因果结论：同向只能说明可能同时影响。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L4_SQL附录》第 3 节（q21），包含：\n- 目标剧集前后对比 + 大盘对照 SQL；\n- 超额变化 SQL（K20）；\n- 点播渗透变化 SQL（按去重 MAC，K05）；\n- 降级方案（无大盘数据 / 无 dim_content_series 时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "评估等级/结论",
+          "量化下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "有正效应 / excess_vv_change_pct >10% 且完播未降 / 产品优先级优化（L5）加推 / 内容",
+          "质量下降 / excess_vv_change_pct >0 但完播降 >3pct / 完播率异常诊断（L2 q13） / 内容",
+          "仅大盘增长 / excess_vv_change_pct ≤0 / 不加推，排查大盘因素 / 内容",
+          "挤占其他 / 渗透率与超额变化反方向 / 检查是否挤占其他内容 / 内容"
+        ],
+        "dashboards": [
+          "内容·剧集",
+          "series",
+          "点播活跃",
+          "vod"
+        ],
+        "criteria": [
+          {
+            "dim": "超额 VV",
+            "ok": ">10%且完播未降",
+            "warn": ">0但完播降",
+            "bad": "≤0 不加推"
+          },
+          {
+            "dim": "渗透与超额",
+            "ok": "同向",
+            "warn": "接近",
+            "bad": "反方向挤占"
+          }
+        ]
+      },
+      {
+        "id": "q22",
+        "layer": "l4",
+        "category": "活动效果类",
+        "title": "活动 ROI 评估（订购分成）",
+        "desc": "活动 ROI 评估 = 增量分成 / 活动成本。",
+        "bizQuestion": "这次活动 ROI 怎么样？下轮要不要继续做？",
+        "keywords": [
+          "ROI",
+          "活动",
+          "增量分成",
+          "反事实",
+          "套餐",
+          "评估",
+          "订购分成",
+          "活动效果类"
+        ],
+        "triggers": [
+          "暑期促销结束后",
+          "连续包月优惠活动复盘",
+          "月度分成结算前。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲评估框架、评估步骤、判断与结论、最小评估法、常见误判、附录指引；完整 SQL 移到配套《互联网_L4_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q20 补 MDE 定义（最小可检测效应 = 实验希望检测到的最小转化率差异；MDE 越小所需样本越大）；\n- q22 补活动成本表缺失时的降级说明（ROI 不可算，只做增量分成分析）。\n补充："
+          },
+          {
+            "title": "评估框架",
+            "desc": "活动 ROI 评估 = 增量分成 / 活动成本。\n\n评估对象：活动期。\n评估基准：活动前同长度窗口（K16）；反事实为“若无活动，分成会是多少”（K20）。\n评估目的：判断活动是否带来增量、ROI 是否值得放大。\n\n关键理解：ROI 不是分成率（share/amount），是增量分成/活动成本（K21）。活动期订购上升可能来自自然增长/季节性，必须做增量拆分。增量 = 活动期实际 - 反事实（无活动预期）。\n\n业务含义速查：\nactivity_roi <0.8 → 复盘，活动亏损；\n0.8 ≤ activity_roi ≤1.2 → 维持，效率一般；\nactivity_roi >1.2 → 可放大；\n增量分成 ≤0 → 活动无效。"
+          },
+          {
+            "title": "决策树",
+            "desc": "活动 ROI 评估流程：\n 前置四件事：基线=活动前同长度 / 反事实估计 / 口径一致（revenue_share 定义）/ 样本充足\n 活动期 vs 基线期对比：orders_change_pct、share_change_pct\n 增量拆分：actual - counterfactual（趋势外推/DID）\n 活动 ROI：incremental_share / activity_cost\n 套餐结构贡献：活动期 vs 基线期\n 结论：放大 / 维持 / 复盘 / 活动无效",
+            "judge": "- ROI 是增量分成/活动成本，不是分成率；\n- 增量拆分必须做，不能直接用前后差；\n- 反事实方法不可用时，标“评估效力有限”，不进入决策；\n- 活动成本需业务提供（dwd_activity_cost_1d）；活动成本表缺失时，ROI 无法计算，只能做增量分成分析，产出中标注“活动成本待补，ROI 暂不可算”，不进入放大决策。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\n放大 / activity_roi >1.2 且某套餐贡献突出 / 加大该套餐推广 / 市场\n维持 / 0.8 ≤ activity_roi ≤1.2 / 维持 / 市场\n复盘 / activity_roi <0.8 且增量分成为正 / 定价策略优化（L5） / 商品 + 财务\n无效 / activity_roi <0.8 且增量分成 ≤0 / 活动无效，下轮不做 / 市场"
+          },
+          {
+            "title": "最小评估法",
+            "desc": "最少看 4 个数：\n1. 活动期订单 vs 基线期订单：涨多少；\n2. 活动期分成 vs 基线期分成：涨多少；\n3. 增量分成（活动期实际 - 反事实）：是否 >0；\n4. 活动成本：多少。\n四个数看完，能判断活动 ROI 大概多少、是否值得继续。\n以下情况必须跑附录 SQL：需要精确算增量拆分、ROI、套餐结构贡献时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用分成率当 ROI：ROI 是增量分成/活动成本；\n- 只看前后差，不做增量拆分：可能只是自然增长；\n- 反事实方法不可用仍下结论：评估效力有限；\n- 活动成本缺失：ROI 无法计算，只能做增量分成分析。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L4_SQL附录》第 4 节（q22），包含：\n- 活动期 vs 基线期对比 SQL；\n- 增量拆分 SQL（趋势外推/DID）；\n- 活动 ROI SQL（需活动成本表）；\n- 套餐结构贡献对比 SQL；\n- 降级方案（无活动成本表 / 无反事实数据时如何标注）。"
+          }
+        ],
+        "outputs": [
+          "评估等级/结论",
+          "量化下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "放大 / activity_roi >1.2 且某套餐贡献突出 / 加大该套餐推广 / 市场",
+          "维持 / 0.8 ≤ activity_roi ≤1.2 / 维持 / 市场",
+          "复盘 / activity_roi <0.8 且增量分成为正 / 定价策略优化（L5） / 商品 + 财务",
+          "无效 / activity_roi <0.8 且增量分成 ≤0 / 活动无效，下轮不做 / 市场"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "dws_trade_order_1d"
+        ],
+        "criteria": [
+          {
+            "dim": "活动 ROI",
+            "ok": ">1.2 可放大",
+            "warn": "0.8–1.2 维持",
+            "bad": "<0.8 复盘"
+          },
+          {
+            "dim": "增量分成",
+            "ok": ">0",
+            "warn": "接近0",
+            "bad": "≤0 活动无效"
+          }
+        ]
+      },
+      {
+        "id": "q23",
+        "layer": "l4",
+        "category": "体验评估类",
+        "title": "用户满意度评估（完播/QoS 代理）",
+        "desc": "满意度评估 = 加权完播率（K13）+ 播放行为 + QoS 指标 + 代理有效性说明（K22）。",
+        "bizQuestion": "用户满意度怎么样？体验在变好还是变差？",
+        "keywords": [
+          "满意度",
+          "完播率",
+          "QoS",
+          "卡顿",
+          "代理有效性",
+          "用户满意度评估",
+          "完播",
+          "代理",
+          "体验评估类"
+        ],
+        "triggers": [
+          "QoS 投诉上升",
+          "完播率月环比下降",
+          "NPS 调研前需数据支撑。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "本文件按方案 A 重排：正文只讲评估框架、评估步骤、判断与结论、最小评估法、常见误判、附录指引；完整 SQL 移到配套《互联网_L4_SQL附录》。\n本文件在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n- q20 补 MDE 定义（最小可检测效应 = 实验希望检测到的最小转化率差异；MDE 越小所需样本越大）；\n- q22 补活动成本表缺失时的降级说明（ROI 不可算，只做增量分成分析）。\n补充："
+          },
+          {
+            "title": "评估框架",
+            "desc": "满意度评估 = 加权完播率（K13）+ 播放行为 + QoS 指标 + 代理有效性说明（K22）。\n\n评估对象：整体观看体验。\n评估基准：近 3 个完整月均值（K16）。\n评估目的：判断体验是否变差，识别是内容问题还是 QoS 问题。\n\n关键理解：完播率代理满意度必须先证明“完播率与满意度/NPS 有相关性”。无相关性证据时，只能称“观看体验相关指标”，不得称“满意度”。完播率必须用加权完播率（K13），不能用剧集平均完播率。\n\n业务含义速查：\n加权完播率 <45% 或环比降 >5pct → 需关注；\n卡顿率环比升 >2pct 且完播降 → QoS 问题；\nQoS 平稳但完播降 → 内容问题；\n代理有效性无相关性证据 → 表述改为“观看体验相关指标”。"
+          },
+          {
+            "title": "决策树",
+            "desc": "满意度评估流程：\n 前置四件事：基线=近 3 月 / 反事实 / 口径一致（加权完播）/ 样本充足\n 整体加权完播率 vs 基线：diff_pct 是否 < -5pct\n 播放行为分布：pause/seek/stop per play 环比是否升 >20%\n QoS 指标：首帧、卡顿率、播放失败率环比变化\n 代理有效性：完播率与 NPS 是否有相关性证据\n 结论：QoS 问题 / 内容问题 / 无法区分",
+            "judge": "- 加权完播率与剧集平均完播率必须分列，不能混用；\n- QoS 表不存在时，产出中标注“QoS 维度未评估，完播下降原因可能为内容或 QoS，无法区分”；下一跳改为“先补 QoS 表再做归因”；\n- 代理有效性无相关性证据时，替代表述示例：“本月加权完播率 X%，环比降 Ypct，QoS 卡顿率升 Zpct；完播率与满意度的相关性尚未验证，本结论仅代表观看体验相关指标变化，不代表用户满意度变化。”\n\n相关性验证方法：取近 6–12 个月 NPS 调研数据与同期加权完播率，计算 Pearson 相关系数；|r| >0.5 可称“满意度代理”，0.3–0.5 称“弱相关指标”，<0.3 只能称“观看体验相关指标”。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "主因 / 证据 / 下一步 / 责任方\nQoS 问题 / 卡顿率升 >2pct 且完播降 / 完播与 QoS 看板 / 技术 + 运维\n内容问题 / QoS 平稳但完播降 / 内容运营/排期调整 / 内容\n播放行为异常 / pause/seek/stop per play 升 >20% / 播放行为专项排查 / 产品\n代理无证据 / 无相关性证据 / 表述改为“观看体验相关指标” / 数据"
+          },
+          {
+            "title": "最小评估法",
+            "desc": "最少看 4 个数：\n1. 整体加权完播率环比：是否降 >5pct；\n2. 卡顿率环比：是否升 >2pct；\n3. 首帧时长环比：是否升 >20%；\n4. pause/seek/stop per play 环比：是否升 >20%。\n四个数看完，能判断体验是否变差、是内容还是 QoS 问题。\n以下情况必须跑附录 SQL：需要精确算加权完播、QoS 趋势、播放行为分布时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "- 用剧集平均完播率代替加权完播率：两者口径不同；\n- QoS 表不存在仍下 QoS 结论：无数据就标“QoS 待补”；\n- 完播率直接当满意度：必须先验证相关性；\n- 只看整体不看题材/剧集：整体正常但某题材极差，问题被掩盖。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见《互联网_L4_SQL附录》第 5 节（q23），包含：\n- 整体加权完播率基线对照 SQL；\n- 播放行为分布 SQL（依赖 dwd_vod_play_di）；\n- QoS 指标联动 SQL（依赖 dws_qos_play_quality_1d）；\n- 降级方案（无行为表 / 无 QoS 表时如何标注）。\n\n六、跨场景通用规则\n\n6.1 评估结论三要素\n每份 L4 评估报告必须包含：\n1. 效应量（K17）：评估组 - 基线组的绝对差与相对差；\n2. 不确定性（K18/K19）：置信区间或显著性检验结果，样本是否达标；\n3. 业务含义：该效应对应的金额/用户量影响，以及决策建议（加码/维持/收缩/全量/回滚）。\n缺任一要素的结论视为未完成，不得进入 L5 优化。\n\n6.2 对照组/反事实的优先级\n评估类分析的反事实来源，按可信度从高到低：\n1. 随机对照实验（A/B）；\n2. 准实验（DID：有对照地区/人群，且平行趋势成立）；\n3. 前后对比 + 排除外生因素（需写明排除了哪些因素）；\n4. 仅前后对比（效力最低，结论必须标“效力有限”）。\n不得跳过反事实直接说“活动后提升了”。\n\n6.3 显著性与业务重要性分离\n- 统计显著（p<0.05）≠ 业务重要；CI 下界对应的业务增量不足以覆盖成本时，仍不应放大。\n- 样本不足时不得用“初步显著”“趋势向好”掩盖，应明确写“样本不足，结论不成立”。\n\n6.4 口径一致性\n评估期与基线期的指标定义、人群定义、过滤条件必须完全一致；口径不一致时，先修正口径再评估，不得用不一致口径直接对比。\n\n6.5 时间参数与库名\n- 全部参数化：:pre_start, :pre_end, :post_start, :post_end, :base_start, :base_end, :act_start, :act_end, :month_start, :month_end。\n- 所有表写全 internet_analytics. 前缀。\n- 活动成本、QoS、播放行为表若不存在，产出中注明“待补”，不得省略该维度直接下结论。\n\n6.6 与 L1–L3、L5 的衔接\n- L4 的输入来自 L2 诊断出的可疑动作、L3 预测后的实际结果、或业务主动发起的动作；\n- L4 的产出（评级、全量/回滚建议、ROI）是 L5 优化的直接输入；\n- L4 评估过的动作，下月必须回写“实际 vs 评估预期”复盘（同 L3 6.4）。\n\n6.7 评估的局限声明\n每份 L4 报告末尾必须声明局限：\n- 反事实方法及其可信度；\n- 样本量与功效；\n- 未纳入的干扰因素（如同时发生的其他动作）；\n- 代理指标有效性（若使用）。\n未声明局限的评估，视为不完整。\n\n七、总结\n\n本定稿版 v3 在定稿版 v2 基础上修正 2 处、补充 2 处：\n修正：\n1. q20 补 MDE 定义（最小可检测效应 = 实验希望检测到的最小转化率差异；MDE 越小所需样本越大）；\n2. q22 补活动成本表缺失时的降级说明（ROI 不可算，只做增量分成分析）。\n补充：\n3. q19 补\"定价问题\"的具体判断（留存差 <10pct + 客单价低 >15%）；\n4. q23 补相关性验证方法（Pearson r，|r|>0.5 可称满意度代理）。\n\n使用建议：\n本方法论正文可直接作为互联网 L4 评估性分析的“学习 + 实操”手册。\n使用顺序：\n1. 业务方：读评估框架 + 决策树 + 最小评估法，建立评估思维；\n2. 分析师：按附录 SQL 跑数，对照决策树判断效果与显著性；\n3. 报告：按 6.1 产出要求，附效应量、不确定性、业务含义、局限声明、量化下一跳。\n每份评估报告必须附 6.1 的三要素 + 6.7 的局限声明，否则视为未完成。"
+          }
+        ],
+        "outputs": [
+          "评估等级/结论",
+          "量化下一跳"
+        ],
+        "nextSteps": [
+          "主因 / 证据 / 下一步 / 责任方",
+          "QoS 问题 / 卡顿率升 >2pct 且完播降 / 完播与 QoS 看板 / 技术 + 运维",
+          "内容问题 / QoS 平稳但完播降 / 内容运营/排期调整 / 内容",
+          "播放行为异常 / pause/seek/stop per play 升 >20% / 播放行为专项排查 / 产品",
+          "代理无证据 / 无相关性证据 / 表述改为“观看体验相关指标” / 数据"
+        ],
+        "dashboards": [
+          "完播与QoS",
+          "quality",
+          "内容·单集与行为",
+          "episode"
+        ],
+        "criteria": [
+          {
+            "dim": "加权完播",
+            "ok": "≥45%且较基线未降>5pct",
+            "warn": "接近阈值",
+            "bad": "<45%或降>5pct"
+          },
+          {
+            "dim": "卡顿环比",
+            "ok": "平稳",
+            "warn": "升≈2pct",
+            "bad": ">2pct 且完播降"
+          }
+        ]
+      },
+      {
+        "id": "q24",
+        "layer": "l5",
+        "category": "投放优化类",
+        "title": "投放预算分配优化（入口流量）",
+        "desc": "预算分配 = 入口效率排序 + 边际效率估计 + 约束下的倾斜算法 + 实验验证。",
+        "bizQuestion": "预算应该怎么分配？加码哪个入口、收缩哪个入口、加多少？",
+        "keywords": [
+          "预算",
+          "分配",
+          "边际ROI",
+          "入口",
+          "流量",
+          "灰度",
+          "投放预算分配优化",
+          "入口流量",
+          "投放优化类"
+        ],
+        "triggers": [
+          "季度预算调整",
+          "某入口 LTV/CAC >3 需加码",
+          "video 误触导致浪费。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "业务方读正文即可建立优化决策思维，不依赖 SQL 也能用；\n分析师按 SQL 附录跑数，对照决策树与行动建议表给方案；\n每份 L5 方案必须附\"决策结论三要素\"+\"优化局限声明\"，否则视为未完成，不得进入执行。"
+          },
+          {
+            "title": "优化框架",
+            "desc": "预算分配 = 入口效率排序 + 边际效率估计 + 约束下的倾斜算法 + 实验验证。\n优化对象：各入口预算比例。\n决策变量：各入口预算分配额 b_i，满足 Σb_i = 总预算 B。\n目标函数（K23）：最大化总增量分成（或最大化总 LTV/CAC），需业务明确。\n约束条件（K24）：总预算上限 B、单入口预算上限 U（如 60%）、单入口下限 L（如 10%）、\n单入口依赖度上限（如 ≤60%）。\n方案集（K26）：至少\"维持现状\"\"按边际效率倾斜\"\"保守倾斜\"三个方案。\n验证方式（K30）：小流量 A/B 或分地区灰度，回滚条件为边际 ROI <1。\n\n关键理解：预算分配看边际效率（K25），不是平均效率。平均 LTV/CAC 高不代表继续加预算划算\n（可能已饱和）；边际 ROI <1 时，即使平均 ROI >1，也不应再加预算。\n\n业务含义速查：\nmarginal_roi_avg <1：该渠道继续加预算不划算，不加码。\nmarginal_roi_avg 明显低于 avg_roi：接近饱和，加预算边际递减。\nmarginal_roi_avg 高于 avg_roi：仍有加码空间。"
+          },
+          {
+            "title": "决策树",
+            "desc": "步骤 1：前置四件事——目标函数 / 约束 / 方案集 / 验证方式。\n步骤 2：入口效率排序——LTV、CAC、LTV/CAC、cost_to_share_ratio（见 SQL-1）。\n步骤 3：边际效率估计——marginal_roi_avg vs avg_roi（见 SQL-2）。\n步骤 4：约束检查——总预算、单入口上限 U、下限 L、依赖度上限。\n步骤 5：方案集设计——A 维持现状 / B 边际效率倾斜 / C 保守倾斜。\n方案 B 倾斜算法（应用层实现，7 步）：\n  1) 计算各入口边际 ROI；\n  2) 设总预算 B，单入口上限 U（如 60%）、下限 L（如 10%）；\n  3) 按边际 ROI 归一化权重 w_i = max(marginal_roi_i, 0) / Σ max(marginal_roi_j, 0)；\n  4) 初始分配 b_i = w_i × B；\n  5) 若 b_i > U×B 则截断为 U×B，超出部分按权重再分给未触顶入口；\n  6) 若 b_i < L×B 则补足为 L×B，不足部分从边际 ROI 最低的入口扣减；\n  7) 迭代至满足全部约束。\n步骤 6：预期收益估算——Σ（方案 B 各入口预算 - 当前预算）× 该入口边际 ROI。\n步骤 7：结论——推荐方案 + 预期收益 + 验证方案 + 回滚条件。",
+            "judge": "必须用边际 ROI 排序，不能用平均 LTV/CAC 直接定比例。\n约束（上限/下限/依赖度）必须逐条检查，任一不满足方案不可执行。\n边际 ROI 基于历史估计，市场变化会失效，必须灰度验证。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "加码入口：marginal_roi >1.5 且高于 avg_roi。下一步：方案 B 倾斜，灰度 10%。责任方：市场。\n收缩入口：marginal_roi <1 且 LTV/CAC <1。下一步：降至下限，转 q27 组合优化。责任方：市场。\n接近饱和：marginal_roi 明显低于 avg_roi。下一步：维持，不再加预算。责任方：市场。\n依赖度过高：单入口依赖度 >60%。下一步：触发 q27 组合优化。责任方：管理层。\n收益不足：预期增量/实施成本 <1.5。下一步：不做，维持现状（方案 A）。责任方：管理层。"
+          },
+          {
+            "title": "最小优化法",
+            "desc": "最少看 4 个数：\n1) 各入口 LTV/CAC：哪个 >3、哪个 <1；\n2) 各入口边际 ROI vs 平均 ROI：边际是否低于 1、是否明显低于平均；\n3) 当前各入口预算占比：是否某入口已 >60%；\n4) 预期增量/实施成本：是否 >1.5。\n四个数看完，能判断该加码/收缩哪个入口、方案是否值得执行。\n以下情况必须跑附录 SQL：需要精确算边际 ROI、倾斜分配额、三方案对比时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "用平均 LTV/CAC 直接定预算比例：平均高不代表边际高，可能已饱和。\n拍脑袋阈值（如\"launcher 占比≥60%\"）：阈值必须有约束来源与算法支撑。\n只给一个方案：没有基线方案 A，无法比较增量。\n不做灰度直接全量：边际 ROI 估计可能失效，必须灰度验证。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见本文 SQL 附录第 1 节（q24），包含：\n入口效率排序 SQL（LTV、CAC、LTV/CAC、cost_to_share_ratio）；\n边际效率估计 SQL（marginal_roi_avg vs avg_roi）；\n当前占比基线 SQL（供方案 A）；\n倾斜算法说明（应用层实现，SQL 给输入）。"
+          }
+        ],
+        "outputs": [
+          "推荐方案+预期收益+风险",
+          "验证方式与回滚条件"
+        ],
+        "nextSteps": [
+          "加码入口：marginal_roi >1.5 且高于 avg_roi。下一步：方案 B 倾斜，灰度 10%。责任方：市场。",
+          "收缩入口：marginal_roi <1 且 LTV/CAC <1。下一步：降至下限，转 q27 组合优化。责任方：市场。",
+          "接近饱和：marginal_roi 明显低于 avg_roi。下一步：维持，不再加预算。责任方：市场。",
+          "依赖度过高：单入口依赖度 >60%。下一步：触发 q27 组合优化。责任方：管理层。",
+          "收益不足：预期增量/实施成本 <1.5。下一步：不做，维持现状（方案 A）。责任方：管理层。"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "商业化漏斗",
+          "funnel"
+        ],
+        "criteria": [
+          {
+            "dim": "边际 ROI",
+            "ok": ">1.5 可加码",
+            "warn": "1–1.5 小幅倾斜",
+            "bad": "<1 不加码"
+          },
+          {
+            "dim": "预期增量/成本",
+            "ok": ">1.5 可执行",
+            "warn": "接近1.5",
+            "bad": "<1.5 维持现状"
+          }
+        ]
+      },
+      {
+        "id": "q25",
+        "layer": "l5",
+        "category": "用户挽回类",
+        "title": "用户挽回策略优化",
+        "desc": "用户挽回 = RFM 分层 + 分层策略矩阵 + 挽回 ROI 排序 + 分层对照实验。",
+        "bizQuestion": "怎么挽回流失用户？挽回值不值？先挽回谁？",
+        "keywords": [
+          "挽回",
+          "RFM",
+          "挽回ROI",
+          "触达",
+          "分层对照",
+          "用户挽回策略优化",
+          "用户挽回类"
+        ],
+        "triggers": [
+          "沉默用户占比 >20%",
+          "churn_cnt 连续上升",
+          "续订率下滑。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "业务方读正文即可建立优化决策思维，不依赖 SQL 也能用；\n分析师按 SQL 附录跑数，对照决策树与行动建议表给方案；\n每份 L5 方案必须附\"决策结论三要素\"+\"优化局限声明\"，否则视为未完成，不得进入执行。"
+          },
+          {
+            "title": "优化框架",
+            "desc": "用户挽回 = RFM 分层 + 分层策略矩阵 + 挽回 ROI 排序 + 分层对照实验。\n优化对象：触达人群与触达方式（分层）。\n决策变量：各分层是否触达、触达方式、触达量（受预算与频次约束）。\n目标函数（K23）：最大化挽回增量留存价值（或最大化挽回 ROI）。\n约束条件（K24）：触达预算上限、触达频次上限（防骚扰）、合规（退订用户不可触达）。\n方案集（K26）：至少\"不挽回\"\"只挽回高价值层\"\"分层全量挽回\"三个方案。\n验证方式（K30）：分层随机对照（触达 vs 不触达），观察 30 天增量留存与增量分成。\n\n关键理解：挽回 ROI（K27）= 挽回增量留存价值 / 触达成本。必须先有历史挽回成功率\n与用户价值估计，才能判断\"值不值\"；没有 ROI 估计的\"全量挽回\"是拍脑袋。\n\n业务含义速查：\n某分层历史挽回成功率 <5%：该层挽回 ROI 大概率 <1，不启动大规模触达。\n某分层挽回成功率 >15%：优先触达，且可用更高成本渠道。\n挽回 ROI <1：不启动大规模挽回。"
+          },
+          {
+            "title": "决策树",
+            "desc": "步骤 1：前置四件事——目标函数 / 约束 / 方案集 / 验证方式。\n步骤 2：RFM 分层分布（见 SQL-1，注意快照日期）。\n步骤 3：历史挽回成功率估计（见 SQL-2）。\n步骤 4：分层策略矩阵（见下表，需业务确认）。\n步骤 5：挽回 ROI = 增量留存价值 / 触达成本，按分层排序。\n步骤 6：方案集——A 不挽回 / B 只挽回高价值层 / C 分层全量挽回。\n步骤 7：分层人群清单（见 SQL-3，每层上限由预算决定）。\n步骤 8：结论——推荐方案 + 分层策略 + 实验设计 + 回滚条件。\n\n分层策略矩阵（需业务确认后写入文档）：\n高价值沉默：历史高频高分成、近期沉默。触达策略：人工/权益召回（高成本）。预期回收率来源：历史人工召回数据。\n一般沉默：历史中频、近期沉默。触达策略：push/短信（低成本）。预期回收率来源：历史 push 数据。\n流失风险：沉默天数接近流失阈值。触达策略：内容推荐/push。预期回收率来源：历史 push 数据。\n已流失：超过流失阈值。触达策略：低成本触达或放弃。预期回收率来源：历史流失回流数据。",
+            "judge": "v_rfm 为日快照表，必须加 WHERE snapshot_date = MAX(...)，否则 COUNT 虚高。\n挽回 ROI 必须用历史成功率 × 用户价值 / 触达成本估计，不得拍脑袋。\n退订/投诉率上升超阈值立即停止该层触达。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "高价值层优先：该层挽回成功率 >15% 且 ROI >1。下一步：人工/权益召回，扩大触达。责任方：运营。\n一般层低成本：该层成功率 5%–15%。下一步：push/短信，小规模实验。责任方：运营。\n不值得挽回：该层成功率 <5% 或 ROI <1。下一步：不启动或仅低成本触达。责任方：运营。\n触达风险：退订/投诉率上升超阈值。下一步：立即停止该层触达。责任方：运营。\n流失规模上升：L3 q17 预测下月流失 >20%。下一步：扩大挽回预算前先复核 ROI。责任方：数据。"
+          },
+          {
+            "title": "最小优化法",
+            "desc": "最少看 4 个数：\n1) RFM 各分层用户数与占比：哪层最大；\n2) 各分层历史挽回成功率：是否 <5% 或 >15%；\n3) 各分层用户历史分成/价值：高价值层是谁；\n4) 触达成本（人工 vs push）：ROI 是否 >1。\n四个数看完，能判断先挽回谁、值不值、用哪种触达。\n以下情况必须跑附录 SQL：需要精确算分层分布、历史成功率、人群清单时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "无快照日期直接 COUNT：日快照表会虚高。\n只有人群清单没有策略/成本/回收率：无法判断值不值。\n全量挽回不设对照：无法算增量，也不知道 ROI。\n拍脑袋阈值（如\"沉默>20%\"）：阈值需业务校准并写明来源。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见本文 SQL 附录第 2 节（q25），包含：\nRFM 分层分布 SQL（含快照日期修正）；\n历史挽回成功率估计 SQL；\n分层人群清单 SQL（按预算定上限）；\n分层对照实验设计说明。"
+          }
+        ],
+        "outputs": [
+          "推荐方案+预期收益+风险",
+          "验证方式与回滚条件"
+        ],
+        "nextSteps": [
+          "高价值层优先：该层挽回成功率 >15% 且 ROI >1。下一步：人工/权益召回，扩大触达。责任方：运营。",
+          "一般层低成本：该层成功率 5%–15%。下一步：push/短信，小规模实验。责任方：运营。",
+          "不值得挽回：该层成功率 <5% 或 ROI <1。下一步：不启动或仅低成本触达。责任方：运营。",
+          "触达风险：退订/投诉率上升超阈值。下一步：立即停止该层触达。责任方：运营。",
+          "流失规模上升：L3 q17 预测下月流失 >20%。下一步：扩大挽回预算前先复核 ROI。责任方：数据。"
+        ],
+        "dashboards": [
+          "用户生命周期",
+          "lifecycle",
+          "v_rfm"
+        ],
+        "criteria": [
+          {
+            "dim": "挽回 ROI",
+            "ok": ">1 可扩大",
+            "warn": "接近1",
+            "bad": "<1 不启动大规模"
+          },
+          {
+            "dim": "历史挽回成功率",
+            "ok": ">15% 优先",
+            "warn": "5–15%",
+            "bad": "<5% 低成本或放弃"
+          }
+        ]
+      },
+      {
+        "id": "q26",
+        "layer": "l5",
+        "category": "产品优先级类",
+        "title": "产品优先级优化",
+        "desc": "产品优先级 = 内容价值矩阵 + 功能渗透缺口 + RICE/ICE 打分 + 方案对比。",
+        "bizQuestion": "先做哪个功能/内容？资源有限怎么取舍？",
+        "keywords": [
+          "优先级",
+          "RICE",
+          "渗透缺口",
+          "战略权重",
+          "roadmap",
+          "产品优先级优化",
+          "产品优先级类"
+        ],
+        "triggers": [
+          "季度产品 roadmap 评审",
+          "资源有限需取舍",
+          "某功能渗透低但战略重要。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "业务方读正文即可建立优化决策思维，不依赖 SQL 也能用；\n分析师按 SQL 附录跑数，对照决策树与行动建议表给方案；\n每份 L5 方案必须附\"决策结论三要素\"+\"优化局限声明\"，否则视为未完成，不得进入执行。"
+          },
+          {
+            "title": "优化框架",
+            "desc": "产品优先级 = 内容价值矩阵 + 功能渗透缺口 + RICE/ICE 打分 + 方案对比。\n优化对象：本季度候选内容/功能的优先级排序。\n决策变量：候选项目的优先级顺序与资源分配。\n目标函数（K23）：最大化\"单位投入带来的增量价值\"（增量 VV/完播/渗透 × 战略权重）。\n约束条件（K24）：研发人力上限、内容采购预算上限、上线时间窗（如暑期档前必须上线）。\n方案集（K26）：至少列出本季度所有候选内容/功能，含\"维持现状\"基线。\n验证方式（K30）：内容类用上线前后超额变化（L4 q21），功能类用 A/B 实验（L4 q20）。\n\n关键理解：优先级不能只看 VV 和完播率，缺战略权重、成本、渗透贡献就无法取舍。\n用 RICE 框架：RICE = (Reach × Impact × Confidence) / Effort。\n\n业务含义速查（内容四象限）：\n高 VV 低完播：优化体验（QoS 或推荐不精准）。\n低 VV 高完播：加推（质量好但曝光不足）。\n高 VV 高完播：维持并复用（同类加大采购）。\n低 VV 低完播：下架或替换。\n功能渗透判断：\nvod_penetration_pct <70%：点播是缺口，优先级提升。\nlive_penetration_pct <38%：直播是缺口。\nonly_launcher_pct >35%：使用深度不足，优先做\"开机到播放\"引导功能。"
+          },
+          {
+            "title": "决策树",
+            "desc": "步骤 1：前置四件事——目标函数 / 约束 / 方案集 / 验证方式。\n步骤 2：内容价值矩阵——VV × 加权完播 × 品类（见 SQL-1）。\n步骤 3：功能渗透缺口——按去重 MAC 计算（见 SQL-2，修正行数分母错误）。\n步骤 4：RICE 打分——Reach × Impact × Confidence / Effort（见 SQL-3）。\n步骤 5：四象限定位——高/低 VV × 高/低完播。\n步骤 6：方案集——A 维持现状 / B RICE 排序 / C 战略优先。\n步骤 7：结论——推荐方案 + 验证方案 + 风险说明。",
+            "judge": "渗透率必须按去重 MAC 计算（K05），不能用 SUM(is_vod_active)/COUNT(*)（行数分母是致命错误）。\nRICE 的 Impact/Confidence 是主观打分，需业务共识，否则优先级失真。\n战略权重高的功能短期可能不提升指标，需在方案中说明长期价值。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "内容加推：低 VV 高完播，RICE 高。下一步：加推，L4 q21 评估效果。责任方：内容。\n体验优化：高 VV 低完播。下一步：转 L2 q13 完播异常诊断。责任方：产品。\n功能缺口：vod/live 渗透低于行业下限。下一步：提升优先级，A/B 实验。责任方：产品。\n深度不足：only_launcher_pct >35%。下一步：优先做开机到播放引导功能。责任方：产品。\n打分争议：Impact/Confidence 分歧大。下一步：先小规模实验验证再排序。责任方：产品+数据。"
+          },
+          {
+            "title": "最小优化法",
+            "desc": "最少看 4 个数：\n1) 内容 VV 与加权完播率：落在哪个象限；\n2) 功能渗透率（vod/live/only_launcher）：是否低于阈值；\n3) RICE 四项打分：Reach/Impact/Confidence/Effort 是否合理；\n4) 战略权重：高权重功能是否被排进 Top N。\n四个数看完，能判断先做哪个、是加推还是优化体验。\n以下情况必须跑附录 SQL：需要精确算加权完播、渗透缺口、RICE 打分时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "用行数分母算渗透率：算出来是\"活跃天数中点播天数占比\"，不是用户渗透率。\n只看 VV 和完播，缺战略权重/成本：无法取舍。\nRICE 打分拍脑袋：Impact/Confidence 无业务共识，优先级失真。\n战略功能短期指标不涨就砍：忽略长期价值。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见本文 SQL 附录第 3 节（q26），包含：\n内容候选集 + 基础指标 SQL；\n功能渗透缺口 SQL（按去重 MAC 修正）；\nRICE 打分输入 SQL（战略权重、投入由业务维表提供）；\n四象限定位说明。"
+          }
+        ],
+        "outputs": [
+          "推荐方案+预期收益+风险",
+          "验证方式与回滚条件"
+        ],
+        "nextSteps": [
+          "内容加推：低 VV 高完播，RICE 高。下一步：加推，L4 q21 评估效果。责任方：内容。",
+          "体验优化：高 VV 低完播。下一步：转 L2 q13 完播异常诊断。责任方：产品。",
+          "功能缺口：vod/live 渗透低于行业下限。下一步：提升优先级，A/B 实验。责任方：产品。",
+          "深度不足：only_launcher_pct >35%。下一步：优先做开机到播放引导功能。责任方：产品。",
+          "打分争议：Impact/Confidence 分歧大。下一步：先小规模实验验证再排序。责任方：产品+数据。"
+        ],
+        "dashboards": [
+          "内容·剧集",
+          "series",
+          "点播活跃",
+          "vod",
+          "直播活跃",
+          "live"
+        ],
+        "criteria": [
+          {
+            "dim": "渗透缺口",
+            "ok": "缺口大且战略权重大",
+            "warn": "中等",
+            "bad": "缺口小或投入过高"
+          },
+          {
+            "dim": "预期增量/成本",
+            "ok": ">1.5",
+            "warn": "接近",
+            "bad": "<1.5 维持现状"
+          }
+        ]
+      },
+      {
+        "id": "q27",
+        "layer": "l5",
+        "category": "渠道组合类",
+        "title": "渠道组合优化",
+        "desc": "渠道组合 = 入口贡献与协同度量 + 组合效率对比 + 约束下的方案设计 + 灰度验证。",
+        "bizQuestion": "入口怎么组合最优？单入口依赖是否过高？多入口是否协同？",
+        "keywords": [
+          "渠道组合",
+          "协同",
+          "依赖度",
+          "LTV/CAC",
+          "D7",
+          "渠道组合优化",
+          "渠道组合类"
+        ],
+        "triggers": [
+          "单入口依赖度过高",
+          "多渠道触点需协同",
+          "归因模型切换评估。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "业务方读正文即可建立优化决策思维，不依赖 SQL 也能用；\n分析师按 SQL 附录跑数，对照决策树与行动建议表给方案；\n每份 L5 方案必须附\"决策结论三要素\"+\"优化局限声明\"，否则视为未完成，不得进入执行。"
+          },
+          {
+            "title": "优化框架",
+            "desc": "渠道组合 = 入口贡献与协同度量 + 组合效率对比 + 约束下的方案设计 + 灰度验证。\n优化对象：各入口的组合方式与预算比例。\n决策变量：各入口预算比例、是否保留多入口组合。\n目标函数（K23）：最大化总分成（或最大化组合 LTV/CAC），同时控制单渠道依赖度。\n约束条件（K24）：单入口依赖度上限（如 ≤60%）、各入口最低预算（保底）、合同约束。\n方案集（K26）：至少\"维持现状\"\"分散依赖\"\"收缩低效入口\"三个方案。\n验证方式（K30）：分地区灰度或分流量灰度，观察组合 LTV/CAC 与依赖度。\n\n关键理解：协同效应 = 多入口触达用户的转化率/客单 - 单入口触达用户。\n若 multi_touch arpu 显著高于 single_touch（>20%），组合投放优于单入口，不应单纯砍入口。\n\n业务含义速查：\nmulti_touch arpu 高 >20%：存在协同，组合投放优于单入口。\nmulti_touch arpu ≤ single_touch：无协同或归因重复计数，先查归因口径。\nltv_cac_ratio >2 且 d7_retention 高于均值：保留并加大。\nltv_cac_ratio <1 且 d7_retention 低于均值：收缩。\ndependency_pct >60%：单入口依赖过高，触发分散方案。"
+          },
+          {
+            "title": "决策树",
+            "desc": "步骤 1：前置四件事——目标函数 / 约束 / 方案集 / 验证方式。\n步骤 2：入口贡献与协同——multi_touch vs single_touch arpu（见 SQL-1）。\n步骤 3：组合效率对比——LTV/CAC、D7 留存、依赖度（见 SQL-2）。\n步骤 4：约束检查——依赖度 ≤60%、各入口保底预算。\n步骤 5：方案集——A 维持现状 / B 分散依赖 / C 收缩低效入口。\n步骤 6：协同利用——若协同显著，设计\"launcher 曝光 + video 转化\"组合投放。\n步骤 7：结论——推荐方案 + 预期收益 + 灰度验证 + 回滚条件。",
+            "judge": "组合对比必须含 CAC、D7 留存、依赖度，不能只看 GMV/分成。\n协同效应显著时，方案应保留多入口组合，而非单纯砍入口。\n收缩入口可能短期订单下降，需评估过渡期影响。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "依赖过高：dependency_pct >60%。下一步：方案 B 分散依赖，灰度。责任方：管理层。\n低效入口：ltv_cac_ratio <1 且 d7_retention 低于均值。下一步：方案 C 收缩至保底。责任方：市场。\n协同显著：multi_touch arpu 高 >20%。下一步：设计组合投放实验（L4 q20）。责任方：市场+产品。\n归因存疑：multi_touch arpu ≤ single_touch。下一步：先查归因口径，再优化。责任方：数据。\n收益不达：总分成环比降 >10% 或依赖度仍 >60%。下一步：回滚，重评组合方案。责任方：管理层。"
+          },
+          {
+            "title": "最小优化法",
+            "desc": "最少看 4 个数：\n1) 单入口依赖度：是否 >60%；\n2) 各入口 LTV/CAC 与 D7 留存：哪个 <1、哪个 >2；\n3) multi_touch vs single_touch 的 ARPU：是否高 >20%；\n4) 收缩/分散后总分成预估：是否降 >10%。\n四个数看完，能判断是否分散、收缩哪个、是否保留组合。\n以下情况必须跑附录 SQL：需要精确算协同效应、组合效率、依赖度时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "只看 GMV/分成不看 CAC/留存：判断标准与数据脱节。\n依赖度高就砍入口：忽略协同效应，可能砍掉高效组合。\n归因重复计数当协同：multi_touch ≤ single_touch 时先查口径。\n收缩不评估过渡期：短期订单下降可能被误判为失败。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见本文 SQL 附录第 4 节（q27），包含：\n入口贡献与协同分析 SQL（multi_touch vs single_touch）；\n组合效率对比 SQL（LTV/CAC、D7 留存、依赖度）；\n方案设计与约束检查说明；\n灰度验证与回滚条件。"
+          }
+        ],
+        "outputs": [
+          "推荐方案+预期收益+风险",
+          "验证方式与回滚条件"
+        ],
+        "nextSteps": [
+          "依赖过高：dependency_pct >60%。下一步：方案 B 分散依赖，灰度。责任方：管理层。",
+          "低效入口：ltv_cac_ratio <1 且 d7_retention 低于均值。下一步：方案 C 收缩至保底。责任方：市场。",
+          "协同显著：multi_touch arpu 高 >20%。下一步：设计组合投放实验（L4 q20）。责任方：市场+产品。",
+          "归因存疑：multi_touch arpu ≤ single_touch。下一步：先查归因口径，再优化。责任方：数据。",
+          "收益不达：总分成环比降 >10% 或依赖度仍 >60%。下一步：回滚，重评组合方案。责任方：管理层。"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "v_channel_attribution",
+          "v_ltv"
+        ],
+        "criteria": [
+          {
+            "dim": "依赖度",
+            "ok": "≤60%",
+            "warn": "接近60%",
+            "bad": ">60% 触发分散"
+          },
+          {
+            "dim": "LTV/CAC×D7",
+            "ok": ">2且留存高",
+            "warn": "1–2",
+            "bad": "<1且留存低收缩"
+          }
+        ]
+      },
+      {
+        "id": "q28",
+        "layer": "l5",
+        "category": "定价优化类",
+        "title": "定价策略优化",
+        "desc": "定价优化 = 套餐结构分析 + 价格弹性估计 + 套餐利润模型 + A/B 验证。",
+        "bizQuestion": "套餐价格怎么定？结构怎么调？该不该降价/加权益？",
+        "keywords": [
+          "定价",
+          "弹性",
+          "套餐",
+          "毛利",
+          "退订",
+          "A/B",
+          "定价策略优化",
+          "定价优化类"
+        ],
+        "triggers": [
+          "客单下降或续订率下滑",
+          "竞品定价调整",
+          "新套餐上线评估。"
+        ],
+        "steps": [
+          {
+            "title": "前置检查",
+            "desc": "业务方读正文即可建立优化决策思维，不依赖 SQL 也能用；\n分析师按 SQL 附录跑数，对照决策树与行动建议表给方案；\n每份 L5 方案必须附\"决策结论三要素\"+\"优化局限声明\"，否则视为未完成，不得进入执行。"
+          },
+          {
+            "title": "优化框架",
+            "desc": "定价优化 = 套餐结构分析 + 价格弹性估计 + 套餐利润模型 + A/B 验证。\n优化对象：套餐价格与权益结构。\n决策变量：各套餐价格、权益组合。\n目标函数（K23）：最大化\"总收入\"或\"总利润\"（分成收入 - 内容成本 - 活动让利），需明确。\n约束条件（K24）：套餐最低价（合规/合同）、内容成本率上限、竞品价格带、退订率上限。\n方案集（K26）：至少\"维持现价\"\"降价 X%\"\"加权益不降价\"三个方案。\n验证方式（K30）：定价必须走 A/B 实验（L4 q20），不得直接全量调价。\n\n关键理解：弹性（K29）= 订购量变化率 / 价格变化率。\n|elasticity| >1：弹性大，降价能显著拉量，但收入可能不增（需算收入弹性）。\n|elasticity| <1：弹性小，降价拉量有限，降价不划算。\nelasticity 为正：数据异常（价格升量升），需排查其他因素（如权益同步增加）。\n定价不能只看收入，要看利润 = 分成收入 - 内容成本 - 活动让利。\n\n业务含义速查：\n某套餐 share_contribution_pct >50%：结构风险，需分散。\nunsub_rate_pct >15%：该套餐定价/权益需复盘（阈值需业务校准）。\navg_price 环比降 >10% 且 orders 未同步升：降价未拉量，效率下降。\n|elasticity| >1：可考虑降价拉量；|elasticity| <1：改加权益。"
+          },
+          {
+            "title": "决策树",
+            "desc": "步骤 1：前置四件事——目标函数 / 约束 / 方案集 / 验证方式。\n步骤 2：套餐结构分析——订单/退订/收入占比/结构风险（见 SQL-1）。\n步骤 3：价格弹性估计——历史调价 / 横截面 / A/B 三方法（见 SQL-2）。\n步骤 4：套餐利润模型——分成收入 - 内容成本（见 SQL-3）。\n步骤 5：方案集——A 维持现价 / B 降价 X% / C 加权益不降价。\n步骤 6：方案评估——预期订单变化 = 当前订单 ×（1 + elasticity × 降价幅度）；\n           预期利润变化 = 预期收入 ×（1 - 内容成本率）。\n步骤 7：结论——推荐方案 + A/B 验证方案 + 回滚条件。\n\n弹性估计方法（按可用性优先级）：\na) 有历史调价记录：用调价前后对比估计；\nb) 有不同套餐价格差异：用横截面估计（控制套餐权益差异）；\nc) 无以上数据：用 A/B 实验小范围测试。",
+            "judge": "\"价格弹性\"不是趋势对比，必须有弹性系数。\n定价必须走 A/B，不得直接全量调价。\n退订率>15% 是复盘信号，不是\"降价\"的单指标依据，需结合弹性与利润模型。"
+          },
+          {
+            "title": "行动建议",
+            "desc": "降价拉量：|elasticity| >1 且利润模型支持。下一步：方案 B，A/B 验证。责任方：商品+财务。\n加权益：|elasticity| <1 且退订率高。下一步：方案 C，加权益不降价。责任方：商品。\n结构风险：某套餐收入占比 >50%。下一步：设计套餐分散方案。责任方：商品。\n利润低：gross_profit 占比低但订单占比高。下一步：上调价格或降权益。责任方：财务。\n回滚：退订率升 >5pct 或毛利降 >10%。下一步：回滚，重评定价。责任方：商品+财务。"
+          },
+          {
+            "title": "最小优化法",
+            "desc": "最少看 4 个数：\n1) 各套餐收入占比：是否某套餐 >50%；\n2) 各套餐退订率：是否 >15%；\n3) 价格弹性系数：|elasticity| 是否 >1；\n4) 套餐毛利：分成收入 - 内容成本后是否为正且合理。\n四个数看完，能判断该降价、加权益还是维持。\n以下情况必须跑附录 SQL：需要精确算弹性、利润模型、结构贡献时。"
+          },
+          {
+            "title": "常见误判",
+            "desc": "用趋势对比当弹性：没有弹性系数，无法支撑定价。\n单指标拍脑袋（\"退订率>15% 就降价\"）：需结合弹性与利润。\n只看收入不看利润：内容成本高时收入增但利润降。\n直接全量调价不走 A/B：风险不可控。"
+          },
+          {
+            "title": "附录指引",
+            "desc": "见本文 SQL 附录第 5 节（q28），包含：\n套餐结构分析 SQL；\n价格弹性估计 SQL（历史调价前后对比）；\n套餐利润模型 SQL（内容成本率由业务维表提供）；\n方案评估与 A/B 验证说明。"
+          }
+        ],
+        "outputs": [
+          "推荐方案+预期收益+风险",
+          "验证方式与回滚条件"
+        ],
+        "nextSteps": [
+          "降价拉量：|elasticity| >1 且利润模型支持。下一步：方案 B，A/B 验证。责任方：商品+财务。",
+          "加权益：|elasticity| <1 且退订率高。下一步：方案 C，加权益不降价。责任方：商品。",
+          "结构风险：某套餐收入占比 >50%。下一步：设计套餐分散方案。责任方：商品。",
+          "利润低：gross_profit 占比低但订单占比高。下一步：上调价格或降权益。责任方：财务。",
+          "回滚：退订率升 >5pct 或毛利降 >10%。下一步：回滚，重评定价。责任方：商品+财务。"
+        ],
+        "dashboards": [
+          "订购与分成",
+          "order",
+          "dws_trade_order_1d"
+        ],
+        "criteria": [
+          {
+            "dim": "退订率",
+            "ok": "≤15%",
+            "warn": "接近15%",
+            "bad": ">15% 需复盘"
+          },
+          {
+            "dim": "|弹性|",
+            "ok": ">1 可考虑降价拉量",
+            "warn": "≈1",
+            "bad": "<1 降价不划算→加权益"
+          }
+        ]
+      }
+    ],
+    "playbook_count": 28,
+    "sidebar_note": "左侧导航展示六层框架（l1-l5 问题列表 + l6 工具箱入口）"
+  },
+  "statistics": {
+    "dashboard_count": 18,
+    "theme_dashboard_count": 17,
+    "playbook_count": 28,
+    "toolbox_method_count": 15,
+    "analysis_layers": 6
+  }
+}

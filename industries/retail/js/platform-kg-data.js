@@ -18,7 +18,7 @@ window.PLATFORM_KG_DATA = {
     },
     "counts": {
       "nodes": 132,
-      "edges": 172,
+      "edges": 190,
       "leaves": 114,
       "dashboards": 13,
       "playbooks": 31,
@@ -148,7 +148,11 @@ window.PLATFORM_KG_DATA = {
         "看板"
       ],
       "crossRefs": [
-        "pb:q01"
+        "pb:q01",
+        "pb:q02",
+        "pb:q03",
+        "pb:q10",
+        "pb:q11"
       ],
       "childrenIds": []
     },
@@ -189,6 +193,7 @@ window.PLATFORM_KG_DATA = {
       ],
       "crossRefs": [
         "pb:q05",
+        "pb:q20",
         "metric:channel_sales",
         "metric:channel_share",
         "metric:channel_roi"
@@ -231,8 +236,7 @@ window.PLATFORM_KG_DATA = {
       "crossRefs": [
         "pb:q01",
         "pb:q04",
-        "pb:q09",
-        "pb:q27"
+        "pb:q09"
       ],
       "childrenIds": []
     },
@@ -253,7 +257,6 @@ window.PLATFORM_KG_DATA = {
       ],
       "crossRefs": [
         "pb:q01",
-        "pb:q03",
         "pb:q14",
         "pb:q19",
         "metric:cash_conversion_cycle"
@@ -294,7 +297,6 @@ window.PLATFORM_KG_DATA = {
         "看板"
       ],
       "crossRefs": [
-        "pb:q02",
         "pb:q06",
         "pb:q14",
         "pb:q15",
@@ -321,7 +323,11 @@ window.PLATFORM_KG_DATA = {
       "tags": [
         "看板"
       ],
-      "crossRefs": [],
+      "crossRefs": [
+        "pb:q02",
+        "pb:q11",
+        "pb:q18"
+      ],
       "childrenIds": []
     },
     {
@@ -519,16 +525,18 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l1",
-      "description": "当月核心经营指标一览与环比同比",
+      "description": "月度经营概况看四类指标：规模（GMV/净收入）、盈利（毛利/毛利率）、退货（退货率）、现金（净现比）。四类指标分别回答\"卖了多少、赚了多少、退了多少、现金回来没有\"。",
       "href": "anomaly.html#q01",
       "detail": {
         "definition": "这个月业绩怎么样？",
-        "notes": "当月核心经营指标一览与环比同比",
+        "notes": "月度经营概况看四类指标：规模（GMV/净收入）、盈利（毛利/毛利率）、退货（退货率）、现金（净现比）。四类指标分别回答\"卖了多少、赚了多少、退了多少、现金回来没有\"。",
         "steps": [
-          "拉取当月核心经营指标",
-          "利润表视角验证收入与费用",
-          "杜邦分析看 ROE 驱动因素",
-          "现金流与利润匹配度"
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
         ]
       },
       "tags": [
@@ -536,10 +544,12 @@ window.PLATFORM_KG_DATA = {
         "GMV",
         "收入",
         "毛利",
-        "环比"
+        "净现比",
+        "ROE"
       ],
       "crossRefs": [
         "metric:gross_profit",
+        "metric:gross_margin",
         "dash:overview",
         "dash:dupont",
         "dash:cashflow"
@@ -552,26 +562,31 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l1",
-      "description": "年初至今累计业绩与年度预算进度",
+      "description": "YTD 看四类：累计规模（GMV/净收入/毛利）、同比增速、预算执行进度、资产负债结构。四类分别回答\"累计做了多少、比去年好还是差、预算花超没超、家底健康不健康\"。",
       "href": "anomaly.html#q02",
       "detail": {
         "definition": "今年到目前为止怎么样了？",
-        "notes": "年初至今累计业绩与年度预算进度",
+        "notes": "YTD 看四类：累计规模（GMV/净收入/毛利）、同比增速、预算执行进度、资产负债结构。四类分别回答\"累计做了多少、比去年好还是差、预算花超没超、家底健康不健康\"。",
         "steps": [
-          "计算 YTD 核心指标",
-          "对比年度预算执行进度",
-          "YTD 净利润与 ROE 走势",
-          "资产负债表年末预期"
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
         ]
       },
       "tags": [
         "YTD",
         "累计",
         "预算",
-        "达成率"
+        "达成率",
+        "资产负债率"
       ],
       "crossRefs": [
-        "dash:inventory"
+        "metric:gross_profit",
+        "dash:overview",
+        "dash:budget"
       ],
       "childrenIds": []
     },
@@ -581,26 +596,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l1",
-      "description": "当日/昨日销售与现金流速览",
+      "description": "单日看四类：当日规模（GMV/净收入/订单）、波动（vs 近 7 日/30 日均值）、渠道贡献（哪个渠道拉动或拖累）、现金进出（当日净现金流）。",
       "href": "anomaly.html#q03",
       "detail": {
         "definition": "昨天卖了多少？",
-        "notes": "当日/昨日销售与现金流速览",
+        "notes": "单日看四类：当日规模（GMV/净收入/订单）、波动（vs 近 7 日/30 日均值）、渠道贡献（哪个渠道拉动或拖累）、现金进出（当日净现金流）。",
         "steps": [
-          "昨日销售核心指标",
-          "对比近 7 日/30 日均值",
-          "昨日渠道贡献分布",
-          "昨日现金流进出"
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
         ]
       },
       "tags": [
         "日报",
-        "单日",
-        "实时",
-        "环比"
+        "GMV",
+        "订单",
+        "退货",
+        "7日均值"
       ],
       "crossRefs": [
-        "dash:cashflow"
+        "dash:overview"
       ],
       "childrenIds": []
     },
@@ -610,25 +628,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l1",
-      "description": "品牌维度收入毛利与增速排名",
+      "description": "品牌排名看四类：规模（收入/毛利）、效率（毛利率）、增速（环比）、综合表现（ROE 拖累项）。四类分别回答\"谁卖得多、谁赚得多、谁在掉队、谁的盈利质量在恶化\"。",
       "href": "anomaly.html#q04",
       "detail": {
         "definition": "哪个品牌卖得好？哪个品牌在掉队？",
-        "notes": "品牌维度收入毛利与增速排名",
+        "notes": "品牌排名看四类：规模（收入/毛利）、效率（毛利率）、增速（环比）、综合表现（ROE 拖累项）。四类分别回答\"谁卖得多、谁赚得多、谁在掉队、谁的盈利质量在恶化\"。",
         "steps": [
-          "当月品牌收入毛利排名",
-          "品牌环比增速排名",
-          "品牌杜邦 ROE 对比"
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
         ]
       },
       "tags": [
         "品牌",
         "排名",
-        "贡献度",
-        "增速"
+        "集中度",
+        "帕累托",
+        "ROE"
       ],
       "crossRefs": [
         "metric:gross_profit",
+        "metric:gross_margin",
         "dash:brand",
         "dash:dupont"
       ],
@@ -640,25 +663,31 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l1",
-      "description": "线上线下渠道收入费用与 ROI 排名",
+      "description": "渠道排名看四类：规模（收入/毛利）、效率（毛利率/费用率）、ROI（广告投入产出）、集中度（单渠道占比）。四类分别回答\"哪个渠道大、哪个渠道赚、哪个渠道投放划算、是否过度依赖单一渠道\"。",
       "href": "anomaly.html#q05",
       "detail": {
         "definition": "哪个渠道最赚钱？哪个渠道在烧钱？",
-        "notes": "线上线下渠道收入费用与 ROI 排名",
+        "notes": "渠道排名看四类：规模（收入/毛利）、效率（毛利率/费用率）、ROI（广告投入产出）、集中度（单渠道占比）。四类分别回答\"哪个渠道大、哪个渠道赚、哪个渠道投放划算、是否过度依赖单一渠道\"。",
         "steps": [
-          "渠道收入与毛利排名",
-          "渠道费用率对比",
-          "渠道广告投入与产出"
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
         ]
       },
       "tags": [
         "渠道",
-        "排名",
-        "ROI",
-        "费用率"
+        "费用率",
+        "广告ROI",
+        "集中度"
       ],
       "crossRefs": [
+        "metric:gross_profit",
+        "metric:gross_margin",
         "metric:expense_ratio",
+        "metric:channel_share",
         "dash:channel"
       ],
       "childrenIds": []
@@ -669,25 +698,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l1",
-      "description": "鞋服配等品类销售结构与毛利排名",
+      "description": "品类排名看四类：规模（收入/毛利）、效率（毛利率/收入占比 vs 毛利占比匹配度）、退货（退货率）、库存（周转天数）。四类分别回答\"哪个品类大、哪个品类赚、哪个品类退货多、哪个品类压货\"。",
       "href": "anomaly.html#q06",
       "detail": {
         "definition": "哪个品类是现金牛？哪个品类在拖累？",
-        "notes": "鞋服配等品类销售结构与毛利排名",
+        "notes": "品类排名看四类：规模（收入/毛利）、效率（毛利率/收入占比 vs 毛利占比匹配度）、退货（退货率）、库存（周转天数）。四类分别回答\"哪个品类大、哪个品类赚、哪个品类退货多、哪个品类压货\"。",
         "steps": [
-          "品类收入毛利排名",
-          "品类退货率对比",
-          "品类库存周转对比"
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
         ]
       },
       "tags": [
         "品类",
-        "结构",
-        "毛利",
-        "库存"
+        "退货",
+        "周转",
+        "长尾"
       ],
       "crossRefs": [
         "metric:gross_profit",
+        "metric:gross_margin",
         "dash:inventory"
       ],
       "childrenIds": []
@@ -698,22 +731,25 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l1",
-      "description": "门店坪效、利润与区域排名",
+      "description": "门店排名看四类：规模（收入/利润）、效率（坪效）、波动（vs 7 日/30 日均值）、异常（亏损、低坪效）。四类分别回答\"哪家店大、哪家店赚、哪家店在掉、哪家店该关\"。",
       "href": "anomaly.html#q07",
       "detail": {
         "definition": "哪家店是标杆？哪家店该关？",
-        "notes": "门店坪效、利润与区域排名",
+        "notes": "门店排名看四类：规模（收入/利润）、效率（坪效）、波动（vs 7 日/30 日均值）、异常（亏损、低坪效）。四类分别回答\"哪家店大、哪家店赚、哪家店在掉、哪家店该关\"。",
         "steps": [
-          "门店日收入排名（近30日）",
-          "门店 vs 7日/30日均值偏离",
-          "区域门店密度与坪效"
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
         ]
       },
       "tags": [
         "门店",
         "坪效",
-        "区域",
-        "排名"
+        "关停",
+        "区域"
       ],
       "crossRefs": [
         "metric:sales_per_sqm",
@@ -727,23 +763,26 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l2",
-      "description": "定位毛利率下降是成本、定价还是结构问题",
+      "description": "毛利率下降不是单一原因，而是四类效应叠加。诊断的第一步不是拆品牌，而是先判断\"哪类效应在拖后腿\"：",
       "href": "anomaly.html#q08",
       "detail": {
-        "definition": "毛利率为什么下降了？",
-        "notes": "定位毛利率下降是成本、定价还是结构问题",
+        "definition": "毛利率为什么下降了？是成本、定价、结构还是退货导致？",
+        "notes": "毛利率下降不是单一原因，而是四类效应叠加。诊断的第一步不是拆品牌，而是先判断\"哪类效应在拖后腿\"：",
         "steps": [
-          "确认整体毛利率变化幅度",
-          "按品牌拆解毛利率贡献",
-          "按品类拆解毛利率",
-          "成本与退货对毛利侵蚀"
+          "因果分解框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
         "毛利率",
         "成本",
         "定价",
-        "结构"
+        "结构",
+        "退货"
       ],
       "crossRefs": [
         "metric:gross_profit",
@@ -757,16 +796,18 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l2",
-      "description": "从收入、毛利、费用三端定位净利润下降原因",
+      "description": "净利润变化 = 收入规模效应 + 毛利率效应 + 费用率效应 + 交互项",
       "href": "anomaly.html#q09",
       "detail": {
-        "definition": "净利润为什么少了？",
-        "notes": "从收入、毛利、费用三端定位净利润下降原因",
+        "definition": "净利润为什么少了？是收入、毛利还是费用拖累？",
+        "notes": "净利润变化 = 收入规模效应 + 毛利率效应 + 费用率效应 + 交互项",
         "steps": [
-          "确认净利润变化与利润率",
-          "杜邦分解：利润率 vs 周转 vs 杠杆",
-          "费用端拆解",
-          "收入与毛利端交叉验证"
+          "因果分解框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
@@ -777,6 +818,8 @@ window.PLATFORM_KG_DATA = {
       ],
       "crossRefs": [
         "metric:gross_profit",
+        "metric:gross_margin",
+        "metric:expense_ratio",
         "metric:net_profit",
         "dash:dupont"
       ],
@@ -788,29 +831,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l2",
-      "description": "五层下钻定位收入下降根因：整体→品牌→渠道→品类→量价",
+      "description": "收入变化 = 量效应 + 价效应 + 结构效应",
       "href": "anomaly.html#q10",
       "detail": {
-        "definition": "收入为什么下降了？主要拖累来自哪里？",
-        "notes": "五层下钻定位收入下降根因：整体→品牌→渠道→品类→量价",
+        "definition": "收入为什么下降了？是量的问题、价的问题，还是某个维度拖累？",
+        "notes": "收入变化 = 量效应 + 价效应 + 结构效应",
         "steps": [
-          "确认整体收入下滑幅度",
-          "按品牌拆解贡献",
-          "按渠道拆解",
-          "按品类拆解",
-          "订单量 vs 客单价拆解"
+          "因果分解框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
         "收入",
-        "下滑",
-        "下钻",
-        "品牌",
-        "渠道",
-        "客单价"
+        "量价",
+        "贡献度",
+        "结构"
       ],
       "crossRefs": [
-        "metric:average_order_value"
+        "dash:overview"
       ],
       "childrenIds": []
     },
@@ -820,25 +862,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l2",
-      "description": "收入正增长但低于预期时的瓶颈分析",
+      "description": "增长缺口 = 主力品牌/渠道拖累 + 新增长点不足 + 效率下降",
       "href": "anomaly.html#q11",
       "detail": {
-        "definition": "收入增长为什么这么慢？",
-        "notes": "收入正增长但低于预期时的瓶颈分析",
+        "definition": "收入增长为什么这么慢？瓶颈在哪？",
+        "notes": "增长缺口 = 主力品牌/渠道拖累 + 新增长点不足 + 效率下降",
         "steps": [
-          "量化增速与目标差距",
-          "品牌/渠道增长矩阵",
-          "订单与新客结构",
-          "费用投入与增长匹配度"
+          "因果分解框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
-        "增长",
-        "瓶颈",
-        "市占",
-        "新客"
+        "增速",
+        "增长缺口",
+        "主力",
+        "新增长点"
       ],
-      "crossRefs": [],
+      "crossRefs": [
+        "dash:overview",
+        "dash:budget"
+      ],
       "childrenIds": []
     },
     {
@@ -847,21 +894,23 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l2",
-      "description": "定位退货率飙升的品类、渠道与 SKU 根因",
+      "description": "整体退货率变化 = 结构效应 + 单品类退货率变化效应",
       "href": "anomaly.html#q12",
       "detail": {
-        "definition": "退货率为什么突然升高？",
-        "notes": "定位退货率飙升的品类、渠道与 SKU 根因",
+        "definition": "退货率为什么突然升高？是品类、渠道还是品控问题？",
+        "notes": "整体退货率变化 = 结构效应 + 单品类退货率变化效应",
         "steps": [
-          "确认整体退货率走势",
-          "品类/渠道退货率拆解",
-          "退货订单明细追溯",
-          "退货对毛利与现金的影响"
+          "因果分解框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
-        "退货",
-        "退款",
+        "退货率",
+        "结构效应",
         "品控",
         "尺码"
       ],
@@ -874,23 +923,25 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l2",
-      "description": "识别费用率超标科目与渠道",
+      "description": "费用率变化 = 费用结构效应 + 单科目费用率变化效应 + 收入分母效应",
       "href": "anomaly.html#q13",
       "detail": {
-        "definition": "费用率为什么高了？哪个科目超支？",
-        "notes": "识别费用率超标科目与渠道",
+        "definition": "费用率为什么高了？哪个科目、哪个渠道超支？",
+        "notes": "费用率变化 = 费用结构效应 + 单科目费用率变化效应 + 收入分母效应",
         "steps": [
-          "整体费用率趋势",
-          "费用科目预算执行",
-          "渠道维度费用率",
-          "广告费与收入匹配"
+          "因果分解框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
         "费用率",
-        "预算",
-        "超支",
-        "营销"
+        "预算执行",
+        "科目",
+        "收入分母"
       ],
       "crossRefs": [
         "metric:expense_ratio"
@@ -903,26 +954,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l2",
-      "description": "分析经营现金流与净利润背离原因",
+      "description": "净现比下降 = 利润质量效应 + 营运资本占用效应 + 非经常性项目效应",
       "href": "anomaly.html#q14",
       "detail": {
         "definition": "为什么有利润但现金紧张？净现比为什么下降？",
-        "notes": "分析经营现金流与净利润背离原因",
+        "notes": "净现比下降 = 利润质量效应 + 营运资本占用效应 + 非经常性项目效应",
         "steps": [
-          "确认净现比水平与趋势",
-          "日度现金流波动",
-          "库存占用对现金的挤压",
-          "资产负债表验证"
+          "因果分解框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
         "净现比",
+        "营运资本",
         "现金流",
-        "应收",
-        "库存"
+        "利润质量"
       ],
       "crossRefs": [
-        "metric:net_profit",
         "dash:cashflow",
         "dash:inventory"
       ],
@@ -934,23 +986,25 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l2",
-      "description": "定位库存周转变慢的品牌、品类与仓店",
+      "description": "周转天数变化 = 库存规模效应 + 销售规模效应 + 结构效应",
       "href": "anomaly.html#q15",
       "detail": {
         "definition": "库存为什么越压越多、周转越来越慢？",
-        "notes": "定位库存周转变慢的品牌、品类与仓店",
+        "notes": "周转天数变化 = 库存规模效应 + 销售规模效应 + 结构效应",
         "steps": [
-          "整体周转天数趋势",
-          "品类库存结构",
-          "销售与库存匹配度",
-          "采购入库节奏"
+          "因果分解框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
-        "库存",
-        "周转",
+        "库存周转",
         "滞销",
-        "库龄"
+        "销存匹配",
+        "结构效应"
       ],
       "crossRefs": [
         "metric:inventory_turnover_days",
@@ -964,23 +1018,26 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l3",
-      "description": "基于历史趋势与季节性预测下月净收入",
+      "description": "下月收入预测 = 基线预测 × 季节因子 + 趋势修正 + 外生修正",
       "href": "anomaly.html#q16",
       "detail": {
-        "definition": "下个月大概能卖多少？",
-        "notes": "基于历史趋势与季节性预测下月净收入",
+        "definition": "下个月大概能卖多少？区间是多少？",
+        "notes": "下月收入预测 = 基线预测 × 季节因子 + 趋势修正 + 外生修正",
         "steps": [
-          "近 12 月收入趋势基线",
-          "移动平均与环比增速",
-          "日度近期动量修正",
-          "情景区间估算"
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "判断与区间",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
         "预测",
         "下月",
-        "趋势",
-        "季节性"
+        "MA3",
+        "季节因子",
+        "MAPE"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -991,23 +1048,26 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l3",
-      "description": "按品牌与品类分解的下季度收入预测",
+      "description": "下季度品牌/品类预测 = 品牌/品类基线 × 季节因子 × 趋势修正",
       "href": "anomaly.html#q17",
       "detail": {
         "definition": "下季度各品牌/品类分别能卖多少？",
-        "notes": "按品牌与品类分解的下季度收入预测",
+        "notes": "下季度品牌/品类预测 = 品牌/品类基线 × 季节因子 × 趋势修正",
         "steps": [
-          "品牌近 4 季度收入基线",
-          "品类结构与增速",
-          "品牌×品类交叉预测",
-          "汇总至季度总量"
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "判断与区间",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
         "季度",
         "品牌",
         "品类",
-        "预测"
+        "季节因子",
+        "MAPE"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -1018,25 +1078,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l3",
-      "description": "基于 YTD 进度预测全年目标能否达成",
+      "description": "年底目标达成预测 = YTD 累计 + 剩余月份预测",
       "href": "anomaly.html#q18",
       "detail": {
         "definition": "年底目标还能完成吗？差多少？",
-        "notes": "基于 YTD 进度预测全年目标能否达成",
+        "notes": "年底目标达成预测 = YTD 累计 + 剩余月份预测",
         "steps": [
-          "YTD 收入与目标进度",
-          "剩余月份所需月均",
-          "按品牌分解缺口",
-          "趋势外推全年预测"
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "判断与区间",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
-        "目标",
-        "达成率",
         "YTD",
-        "预警"
+        "目标",
+        "剩余月均",
+        "达成率"
       ],
-      "crossRefs": [],
+      "crossRefs": [
+        "dash:budget"
+      ],
       "childrenIds": []
     },
     {
@@ -1045,23 +1109,25 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l3",
-      "description": "预测未来 3-6 个月现金流缺口",
+      "description": "资金缺口 = 未来流入预测 - 未来流出预测 - 当前现金",
       "href": "anomaly.html#q19",
       "detail": {
         "definition": "未来会不会缺钱？缺口有多大？",
-        "notes": "预测未来 3-6 个月现金流缺口",
+        "notes": "资金缺口 = 未来流入预测 - 未来流出预测 - 当前现金",
         "steps": [
-          "当前现金与近 30 日净流",
-          "月度经营现金流趋势",
-          "未来支出承诺（采购+费用）",
-          "缺口情景与融资建议"
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "判断与区间",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
-        "资金",
-        "缺口",
+        "资金缺口",
         "现金流",
-        "预警"
+        "流出",
+        "净现比"
       ],
       "crossRefs": [
         "dash:cashflow"
@@ -1070,30 +1136,33 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "id": "pb:q20",
-      "name": "渠道ROI持续下降预警",
+      "name": "渠道 ROI 持续下降预警",
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l3",
-      "description": "监测各渠道广告 ROI 持续恶化趋势",
+      "description": "渠道 ROI 持续下降预警 = 滑动窗口 ROI 趋势 + 连续下降判断 + 减投建议",
       "href": "anomaly.html#q20",
       "detail": {
         "definition": "哪个渠道投放越来越不划算？",
-        "notes": "监测各渠道广告 ROI 持续恶化趋势",
+        "notes": "渠道 ROI 持续下降预警 = 滑动窗口 ROI 趋势 + 连续下降判断 + 减投建议",
         "steps": [
-          "渠道月度 ROI 趋势",
-          "广告费增速 vs 收入增速",
-          "渠道费用率联动",
-          "预警清单与减投建议"
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "判断与区间",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
-        "ROI",
-        "渠道",
+        "渠道ROI",
         "广告",
-        "预警"
+        "减投",
+        "连续下降"
       ],
       "crossRefs": [
-        "metric:channel_roi"
+        "metric:channel_roi",
+        "dash:channel"
       ],
       "childrenIds": []
     },
@@ -1103,16 +1172,18 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l4",
-      "description": "评估单次营销活动投入产出",
+      "description": "活动 ROI 评估 = 增量毛利 / 活动总投入（F26 基线 + F27 效应量）",
       "href": "anomaly.html#q21",
       "detail": {
         "definition": "这场活动值不值得？ROI 多少？",
-        "notes": "评估单次营销活动投入产出",
+        "notes": "活动 ROI 评估 = 增量毛利 / 活动总投入（F26 基线 + F27 效应量）",
         "steps": [
-          "活动期收入与订单增量",
-          "活动广告与促销费用",
-          "ROI 与增量利润率",
-          "渠道/品类活动效果分解"
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
@@ -1121,7 +1192,9 @@ window.PLATFORM_KG_DATA = {
         "ROI",
         "评估"
       ],
-      "crossRefs": [],
+      "crossRefs": [
+        "metric:gross_profit"
+      ],
       "childrenIds": []
     },
     {
@@ -1130,16 +1203,18 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l4",
-      "description": "综合评估各渠道投入与产出效率",
+      "description": "渠道投入产出 = 渠道产出毛利 − 全口径投入（广告+平台佣金+运营分摊）",
       "href": "anomaly.html#q22",
       "detail": {
         "definition": "这个渠道还值得继续投吗？",
-        "notes": "综合评估各渠道投入与产出效率",
+        "notes": "渠道投入产出 = 渠道产出毛利 − 全口径投入（广告+平台佣金+运营分摊）",
         "steps": [
-          "渠道收入毛利与份额",
-          "渠道全口径投入",
-          "渠道净利润贡献估算",
-          "投入产出比与决策建议"
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
@@ -1148,7 +1223,9 @@ window.PLATFORM_KG_DATA = {
         "产出",
         "评估"
       ],
-      "crossRefs": [],
+      "crossRefs": [
+        "metric:gross_profit"
+      ],
       "childrenIds": []
     },
     {
@@ -1157,16 +1234,18 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l4",
-      "description": "评估折扣促销对销量、毛利与客单的影响",
+      "description": "促销效果评估 = 促销期 vs 非促销期对比 + 透支检测（F26/F27）",
       "href": "anomaly.html#q23",
       "detail": {
         "definition": "这次促销拉动了多少销量？有没有亏毛利？",
-        "notes": "评估折扣促销对销量、毛利与客单的影响",
+        "notes": "促销效果评估 = 促销期 vs 非促销期对比 + 透支检测（F26/F27）",
         "steps": [
-          "促销期 vs 非促销期对比",
-          "客单价与折扣深度",
-          "品类/品牌促销响应",
-          "促销后回落（透支）检测"
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
@@ -1186,16 +1265,18 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l4",
-      "description": "评估低效门店是否应关停或整改",
+      "description": "门店关停评估 = 90 日表现 + 区域对比 + 关停盈亏（F28/F29）",
       "href": "anomaly.html#q24",
       "detail": {
         "definition": "这家店要不要关？关了能省多少钱？",
-        "notes": "评估低效门店是否应关停或整改",
+        "notes": "门店关停评估 = 90 日表现 + 区域对比 + 关停盈亏（F28/F29）",
         "steps": [
-          "门店近 90 日经营表现",
-          "门店 vs 区域均值",
-          "关停成本与节省估算",
-          "客户转移与收入影响"
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
@@ -1216,16 +1297,18 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l4",
-      "description": "评估供应商交付、质量与成本表现",
+      "description": "供应商绩效 = 交付准时率 + 质量退货 + 采购价趋势 + 综合评分（F28/F30）",
       "href": "anomaly.html#q25",
       "detail": {
         "definition": "这个供应商表现怎么样？要不要换？",
-        "notes": "评估供应商交付、质量与成本表现",
+        "notes": "供应商绩效 = 交付准时率 + 质量退货 + 采购价趋势 + 综合评分（F28/F30）",
         "steps": [
-          "采购订单交付准时率",
-          "采购成本与退货关联",
-          "采购价趋势",
-          "综合评分与淘汰建议"
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
@@ -1243,16 +1326,18 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l4",
-      "description": "评估新品上市后的销售、毛利与库存表现",
+      "description": "新品表现 = 动销 + 毛利/退货 + 库存周转 + 追单/下架决策（F29/F30）",
       "href": "anomaly.html#q26",
       "detail": {
         "definition": "新品卖得好不好？要不要追单/下架？",
-        "notes": "评估新品上市后的销售、毛利与库存表现",
+        "notes": "新品表现 = 动销 + 毛利/退货 + 库存周转 + 追单/下架决策（F29/F30）",
         "steps": [
-          "新品销售与动销",
-          "新品毛利率与退货",
-          "新品库存与周转",
-          "追单/下架决策"
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判",
+          "附录指引"
         ]
       },
       "tags": [
@@ -1273,27 +1358,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l5",
-      "description": "基于 ROI 与战略优先级优化预算分配",
+      "description": "预算分配优化 = 在总预算约束下，按边际 ROI 倾斜，同时满足依赖度与战略约束",
       "href": "anomaly.html#q27",
       "detail": {
-        "definition": "下季度预算应该怎么分？",
-        "notes": "基于 ROI 与战略优先级优化预算分配",
+        "definition": "下季度预算应该怎么分？加投哪个、收缩哪个、加多少？",
+        "notes": "预算分配优化 = 在总预算约束下，按边际 ROI 倾斜，同时满足依赖度与战略约束",
         "steps": [
-          "当前预算执行与产出",
-          "品牌/渠道 ROI 排名",
-          "战略优先级加权",
-          "输出优化后预算方案"
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
         "预算",
         "分配",
-        "ROI",
-        "资源"
+        "边际ROI",
+        "约束"
       ],
-      "crossRefs": [
-        "dash:dupont"
-      ],
+      "crossRefs": [],
       "childrenIds": []
     },
     {
@@ -1302,25 +1387,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l5",
-      "description": "在收入目标下优化营销费用结构与效率",
+      "description": "营销费用优化 = 在收入目标约束下，优化费用结构与渠道投放",
       "href": "anomaly.html#q28",
       "detail": {
-        "definition": "营销费怎么花更划算？",
-        "notes": "在收入目标下优化营销费用结构与效率",
+        "definition": "营销费怎么花更划算？减哪里、加哪里、减多少？",
+        "notes": "营销费用优化 = 在收入目标约束下，优化费用结构与渠道投放",
         "steps": [
-          "营销费用结构与占比",
-          "各渠道广告 ROI",
-          "营销费用率 vs 收入弹性",
-          "优化方案与预期节省"
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
-        "营销",
-        "费用",
-        "优化",
-        "效率"
+        "营销费用",
+        "边际弹性",
+        "渠道ROI"
       ],
-      "crossRefs": [],
+      "crossRefs": [
+        "metric:channel_roi"
+      ],
       "childrenIds": []
     },
     {
@@ -1329,25 +1417,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l5",
-      "description": "基于弹性与竞品分析优化定价",
+      "description": "定价优化 = 在毛利与销量约束下，找最优价格带",
       "href": "anomaly.html#q29",
       "detail": {
         "definition": "价格定高了还是低了？怎么调价？",
-        "notes": "基于弹性与竞品分析优化定价",
+        "notes": "定价优化 = 在毛利与销量约束下，找最优价格带",
         "steps": [
-          "品类价格带与销量分布",
-          "品牌/品类毛利率 vs 销量",
-          "渠道价差分析",
-          "调价建议与影响测算"
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
         "定价",
-        "价格",
-        "弹性",
-        "竞品"
+        "价格弹性",
+        "四象限"
       ],
-      "crossRefs": [],
+      "crossRefs": [
+        "metric:gross_profit"
+      ],
       "childrenIds": []
     },
     {
@@ -1356,25 +1447,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l5",
-      "description": "优化折扣深度、频率与品类范围",
+      "description": "折扣策略优化 = 在毛利约束下，优化折扣深度、频率与品类范围",
       "href": "anomaly.html#q30",
       "detail": {
         "definition": "折扣怎么打才能既走量又不亏？",
-        "notes": "优化折扣深度、频率与品类范围",
+        "notes": "折扣策略优化 = 在毛利约束下，优化折扣深度、频率与品类范围",
         "steps": [
-          "历史折扣与销量/毛利关系",
-          "品类折扣敏感度",
-          "促销频率与透支效应",
-          "优化后折扣策略"
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
         "折扣",
-        "促销",
-        "深度",
-        "频率"
+        "弹性",
+        "毛利",
+        "透支"
       ],
-      "crossRefs": [],
+      "crossRefs": [
+        "metric:gross_profit"
+      ],
       "childrenIds": []
     },
     {
@@ -1383,26 +1478,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "retail",
       "parentId": "cat_method_l5",
-      "description": "制定滞销库存清仓方案以回收现金",
+      "description": "库存清仓优化 = 在毛利约束下，优化折扣深度、渠道与节奏，最大化现金回收",
       "href": "anomaly.html#q31",
       "detail": {
-        "definition": "滞销库存怎么清？打几折能清掉？",
-        "notes": "制定滞销库存清仓方案以回收现金",
+        "definition": "滞销库存怎么清？打几折能清掉？现金能回收多少？",
+        "notes": "库存清仓优化 = 在毛利约束下，优化折扣深度、渠道与节奏，最大化现金回收",
         "steps": [
-          "识别滞销 SKU/品类",
-          "清仓折扣与销量弹性",
-          "清仓渠道选择",
-          "清仓方案与现金回收测算",
-          "清仓后库存与周转监控"
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "回测校验",
+          "情景与假设"
         ]
       },
       "tags": [
-        "库存",
         "清仓",
         "滞销",
-        "现金"
+        "现金回收",
+        "折扣"
       ],
       "crossRefs": [
+        "metric:gross_profit",
         "dash:inventory"
       ],
       "childrenIds": []
@@ -2429,12 +2526,19 @@ window.PLATFORM_KG_DATA = {
       "source_table": "dws_account_daily",
       "crossRefs": [
         "pb:q01",
+        "pb:q02",
         "pb:q04",
+        "pb:q05",
         "pb:q06",
         "pb:q08",
         "pb:q09",
+        "pb:q21",
+        "pb:q22",
         "pb:q23",
-        "pb:q26"
+        "pb:q26",
+        "pb:q29",
+        "pb:q30",
+        "pb:q31"
       ],
       "childrenIds": []
     },
@@ -2457,7 +2561,12 @@ window.PLATFORM_KG_DATA = {
       ],
       "source_table": "dws_account_daily",
       "crossRefs": [
-        "pb:q08"
+        "pb:q01",
+        "pb:q04",
+        "pb:q05",
+        "pb:q06",
+        "pb:q08",
+        "pb:q09"
       ],
       "childrenIds": []
     },
@@ -2607,6 +2716,7 @@ window.PLATFORM_KG_DATA = {
       "source_table": "dws_account_daily",
       "crossRefs": [
         "pb:q05",
+        "pb:q09",
         "pb:q13"
       ],
       "childrenIds": []
@@ -2651,8 +2761,7 @@ window.PLATFORM_KG_DATA = {
       ],
       "source_table": "dws_account_monthly",
       "crossRefs": [
-        "pb:q09",
-        "pb:q14"
+        "pb:q09"
       ],
       "childrenIds": []
     },
@@ -3025,9 +3134,7 @@ window.PLATFORM_KG_DATA = {
         "客单价"
       ],
       "source_table": "dwd_sales_fact",
-      "crossRefs": [
-        "pb:q10"
-      ],
+      "crossRefs": [],
       "childrenIds": []
     },
     {
@@ -3114,6 +3221,7 @@ window.PLATFORM_KG_DATA = {
       ],
       "source_table": "dws_channel_daily",
       "crossRefs": [
+        "pb:q05",
         "dash:channel"
       ],
       "childrenIds": []
@@ -3138,6 +3246,7 @@ window.PLATFORM_KG_DATA = {
       "source_table": "dws_marketing_monthly",
       "crossRefs": [
         "pb:q20",
+        "pb:q28",
         "dash:channel"
       ],
       "childrenIds": []
@@ -4077,6 +4186,13 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q01",
+      "target": "metric:gross_margin",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q01",
       "target": "dash:overview",
       "style": "dashed",
       "cross": true,
@@ -4098,14 +4214,28 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q02",
-      "target": "dash:inventory",
+      "target": "metric:gross_profit",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q02",
+      "target": "dash:overview",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q02",
+      "target": "dash:budget",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
     },
     {
       "source": "pb:q03",
-      "target": "dash:cashflow",
+      "target": "dash:overview",
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
@@ -4113,6 +4243,13 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "pb:q04",
       "target": "metric:gross_profit",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q04",
+      "target": "metric:gross_margin",
       "style": "dashed",
       "cross": true,
       "label": "用到指标"
@@ -4133,7 +4270,28 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q05",
+      "target": "metric:gross_profit",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q05",
+      "target": "metric:gross_margin",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q05",
       "target": "metric:expense_ratio",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q05",
+      "target": "metric:channel_share",
       "style": "dashed",
       "cross": true,
       "label": "用到指标"
@@ -4148,6 +4306,13 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "pb:q06",
       "target": "metric:gross_profit",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q06",
+      "target": "metric:gross_margin",
       "style": "dashed",
       "cross": true,
       "label": "用到指标"
@@ -4196,6 +4361,20 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q09",
+      "target": "metric:gross_margin",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q09",
+      "target": "metric:expense_ratio",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q09",
       "target": "metric:net_profit",
       "style": "dashed",
       "cross": true,
@@ -4210,21 +4389,28 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q10",
-      "target": "metric:average_order_value",
+      "target": "dash:overview",
       "style": "dashed",
       "cross": true,
-      "label": "用到指标"
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q11",
+      "target": "dash:overview",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q11",
+      "target": "dash:budget",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
     },
     {
       "source": "pb:q13",
       "target": "metric:expense_ratio",
-      "style": "dashed",
-      "cross": true,
-      "label": "用到指标"
-    },
-    {
-      "source": "pb:q14",
-      "target": "metric:net_profit",
       "style": "dashed",
       "cross": true,
       "label": "用到指标"
@@ -4258,6 +4444,13 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
+      "source": "pb:q18",
+      "target": "dash:budget",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
       "source": "pb:q19",
       "target": "dash:cashflow",
       "style": "dashed",
@@ -4267,6 +4460,27 @@ window.PLATFORM_KG_DATA = {
     {
       "source": "pb:q20",
       "target": "metric:channel_roi",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q20",
+      "target": "dash:channel",
+      "style": "dashed",
+      "cross": true,
+      "label": "相关看板"
+    },
+    {
+      "source": "pb:q21",
+      "target": "metric:gross_profit",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q22",
+      "target": "metric:gross_profit",
       "style": "dashed",
       "cross": true,
       "label": "用到指标"
@@ -4307,11 +4521,32 @@ window.PLATFORM_KG_DATA = {
       "label": "相关看板"
     },
     {
-      "source": "pb:q27",
-      "target": "dash:dupont",
+      "source": "pb:q28",
+      "target": "metric:channel_roi",
       "style": "dashed",
       "cross": true,
-      "label": "相关看板"
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q29",
+      "target": "metric:gross_profit",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q30",
+      "target": "metric:gross_profit",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q31",
+      "target": "metric:gross_profit",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
     },
     {
       "source": "pb:q31",

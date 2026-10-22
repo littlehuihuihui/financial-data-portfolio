@@ -23,7 +23,7 @@
 | `04-equipment/` | 设备OEE | `v_equipment_oee` |
 | `05-cost/` | 成本分析 | `v_cost_analysis` |
 | `06-capacity/` | 产能利用率 | `v_capacity_utilization` |
-| `07-defect/` | 不良分析 | `v_defect_analysis` |
+| `07-defect/` | 不良分析（API/PDF；主题看板已并入 quality） | `v_defect_analysis` |
 | `08-material/` | 物料周转 | `v_material_turnover` |
 | `09-labor/` | 人工效率 | `v_labor_efficiency` |
-| `10-mfg-finance/` | 生产成本财务 | `v_manufacturing_finance` |
+| `10-mfg-finance/` | 生产成本财务（已并入 cost 看板） | `v_manufacturing_finance` |

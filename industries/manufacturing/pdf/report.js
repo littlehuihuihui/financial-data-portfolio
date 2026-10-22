@@ -30,7 +30,7 @@
 
   async function api(path) {
     const url = `${apiBase()}${path}${path.includes("?") ? "&" : "?"}month=${MONTH}`;
-    const res = await fetch(url);
+    const res = await fetch(url, { headers: { "X-Industry": "manufacturing" } });
     let json;
     try {
       json = await res.json();

@@ -16,6 +16,10 @@
     return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
   }
 
+  function fmtMultiline(s) {
+    return esc(s).replace(/\r\n/g, "\n").replace(/\n/g, "<br>");
+  }
+
   // ===== 看板目录（config/dashboards.json）=====
   let dashCatalog = [];
 
@@ -288,7 +292,7 @@
       <div class="step-block">
         <div class="step-head">校验 ${i + 1}：${esc(s.title)}</div>
         <div class="step-body">
-          ${s.desc ? `<p class="step-desc">${esc(s.desc)}</p>` : ""}
+          ${s.desc ? `<p class="step-desc">${fmtMultiline(s.desc)}</p>` : ""}
           ${s.sql ? `
             <div class="sql-wrap">
               <div class="sql-label">📊 SQL 取数</div>
@@ -297,7 +301,7 @@
           ${s.judge ? `
             <div class="judge-wrap">
               <div class="judge-label">⚖️ 判断标准</div>
-              <p class="judge-text">${esc(s.judge)}</p>
+              <p class="judge-text">${fmtMultiline(s.judge)}</p>
             </div>` : ""}
           ${s.output ? `<p class="step-output"><strong>输出：</strong>${esc(s.output)}</p>` : ""}
         </div>
@@ -327,7 +331,7 @@
             <span class="attribution-num">${i + 1}</span>
             <div class="attribution-content">
               <div class="attribution-title">${esc(p.title)}</div>
-              <div class="attribution-desc">${esc(p.point)}</div>
+              <div class="attribution-desc">${fmtMultiline(p.point)}</div>
             </div>
           </div>
         `).join("")}
@@ -543,10 +547,11 @@
       }
       .step-body { padding: 12px 14px; }
       .step-desc {
-        margin: 0 0 10px;
+        margin: 0 0 12px;
         font-size: 13px;
         color: #cbd5e1;
-        line-height: 1.6;
+        line-height: 1.75;
+        white-space: pre-line;
       }
       .sql-wrap {
         margin-bottom: 10px;
@@ -586,7 +591,8 @@
         margin: 0;
         font-size: 12px;
         color: #fde68a;
-        line-height: 1.5;
+        line-height: 1.7;
+        white-space: pre-line;
       }
       .step-output {
         margin: 0;
@@ -642,6 +648,8 @@
         font-size: 12px;
         color: #a78bfa;
         line-height: 1.5;
+        white-space: pre-line;
+        line-height: 1.7;
       }
       .criteria-wrap {
         margin-top: 16px;

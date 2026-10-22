@@ -162,11 +162,12 @@
 
   async function tryLoadFromApi() {
     const base = resolveApiBase();
+    const hdr = { "X-Industry": "retail" };
     try {
-      const health = await fetch(`${base}/api/health`);
+      const health = await fetch(`${base}/api/health`, { headers: hdr });
       if (!health.ok) return null;
       const month = "202606";
-      const res = await fetch(`${base}/api/dashboard_overview?month=${month}`);
+      const res = await fetch(`${base}/api/dashboard_overview?month=${month}`, { headers: hdr });
       const json = await res.json();
       if (!json.ok) return null;
       return buildReportFromApi(json.data, month);
@@ -185,7 +186,9 @@
       category: "全部",
       type: "orders",
     });
-    const res = await fetch(`${base}/api/query_detail?${params}`);
+    const res = await fetch(`${base}/api/query_detail?${params}`, {
+      headers: { "X-Industry": "retail" },
+    });
     const json = await res.json();
     if (!json.ok) throw new Error(json.error || "明细 API 失败");
     return {

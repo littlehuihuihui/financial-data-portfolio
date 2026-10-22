@@ -1104,8 +1104,9 @@ body.page-platform-graph .kg2-focus {
     height: 40px;
     font-size: 16px;
   }
+  /* 详情抽屉打开时隐藏缩放控件，避免叠在抽屉上 */
   .kg2-focus:not(.is-panel-collapsed) .kg2-ctrl {
-    bottom: calc(min(48dvh, 420px) + 10px);
+    display: none;
   }
   .pkg-density-tip { font-size: 10px; }
 }
@@ -1115,7 +1116,7 @@ body.page-platform-graph .kg2-focus {
   .kg2-mobile-bar .kg2-mbtn { padding: 7px 8px; font-size: 11px; }
   .kg2-panel { max-height: min(52dvh, 380px); }
   .kg2-focus:not(.is-panel-collapsed) .kg2-ctrl {
-    bottom: calc(min(52dvh, 380px) + 8px);
+    display: none;
   }
 }
 

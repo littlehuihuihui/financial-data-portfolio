@@ -936,7 +936,7 @@ class DWArchitecture {
           </button>
           <button type="button" class="dw-arch-open-graph-btn" data-table-id="${this.escAttr(table.id)}" data-table-name="${this.escAttr(table.name)}">
             <span class="dw-arch-btn-icon">🕸</span>
-            在知识图谱中聚焦
+            在平台知识图谱中聚焦
           </button>
         </div>
       </div>

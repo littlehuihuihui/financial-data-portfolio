@@ -18,7 +18,7 @@ window.PLATFORM_KG_DATA = {
     },
     "counts": {
       "nodes": 169,
-      "edges": 241,
+      "edges": 248,
       "leaves": 149,
       "dashboards": 14,
       "playbooks": 50,
@@ -609,14 +609,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "产量、产能、良品率、成本、交付",
+      "description": "生产总览看五类指标：产量（规模）、产能利用率（效率）、良品率（质量）、OTIF（交付）、单位成本（成本）。五类分别回答\"做了多少、效率如何、质量如何、交付稳不稳、成本高不高\"。",
       "href": "methodology.html#q01",
       "detail": {
         "definition": "本月生产运营怎么样？",
-        "notes": "产量、产能、良品率、成本、交付",
-        "steps": []
+        "notes": "生产总览看五类指标：产量（规模）、产能利用率（效率）、良品率（质量）、OTIF（交付）、单位成本（成本）。五类分别回答\"做了多少、效率如何、质量如何、交付稳不稳、成本高不高\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "产量",
+        "产能",
+        "交付",
+        "总览",
+        "生产总览",
+        "生产概况类"
+      ],
       "crossRefs": [
         "dash:production"
       ],
@@ -628,14 +642,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "各产线产量与产能利用率对比",
+      "description": "产线排名看四类：产量（规模）、产能利用率（效率）、良品率（质量）、单位成本（成本效率）。四类分别回答\"哪条产线大、哪条产线忙、哪条产线好、哪条产线省\"。",
       "href": "methodology.html#q02",
       "detail": {
-        "definition": "哪条产线表现最好？",
-        "notes": "各产线产量与产能利用率对比",
-        "steps": []
+        "definition": "哪条产线表现最好？哪条拖后腿？",
+        "notes": "产线排名看四类：产量（规模）、产能利用率（效率）、良品率（质量）、单位成本（成本效率）。四类分别回答\"哪条产线大、哪条产线忙、哪条产线好、哪条产线省\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "产线",
+        "工厂",
+        "排名",
+        "工厂绩效排名",
+        "绩效排名类"
+      ],
       "crossRefs": [],
       "childrenIds": []
     },
@@ -645,14 +672,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆产线→产品→不良类型→根因",
+      "description": "良品率下降可分解为：",
       "href": "methodology.html#q03",
       "detail": {
         "definition": "为什么良品率下降了？",
-        "notes": "拆产线→产品→不良类型→根因",
-        "steps": []
+        "notes": "良品率下降可分解为：",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "良品率",
+        "不良",
+        "根因",
+        "良品率下降诊断",
+        "质量异常类"
+      ],
       "crossRefs": [
         "dash:quality"
       ],
@@ -664,14 +704,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆材料/人工/制造费用",
+      "description": "单位成本变化 = 材料成本效应 + 人工成本效应 + 制造费用效应 + 产量规模效应",
       "href": "methodology.html#q04",
       "detail": {
         "definition": "为什么单位成本涨了？",
-        "notes": "拆材料/人工/制造费用",
-        "steps": []
+        "notes": "单位成本变化 = 材料成本效应 + 人工成本效应 + 制造费用效应 + 产量规模效应",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "单位成本",
+        "材料",
+        "人工",
+        "单位成本上升诊断",
+        "成本异常类"
+      ],
       "crossRefs": [
         "dash:cost"
       ],
@@ -683,16 +736,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆设备→故障类型→停机时长",
+      "description": "设备故障率上升 = 设备老化效应 + 维护不足效应 + 操作不当效应 + 备件质量效应",
       "href": "methodology.html#q05",
       "detail": {
         "definition": "为什么设备老出问题？",
-        "notes": "拆设备→故障类型→停机时长",
-        "steps": []
+        "notes": "设备故障率上升 = 设备老化效应 + 维护不足效应 + 操作不当效应 + 备件质量效应",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "OEE",
+        "故障",
+        "停机",
+        "设备故障率上升诊断",
+        "设备异常类"
+      ],
       "crossRefs": [
-        "metric:停机时长",
         "dash:equipment"
       ],
       "childrenIds": []
@@ -703,14 +768,26 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l3",
-      "description": "基于历史产量+订单预测",
+      "description": "下月产量预测 = 基线预测（MA3）× 季节因子 + 订单修正",
       "href": "methodology.html#q06",
       "detail": {
         "definition": "下月能产多少？",
-        "notes": "基于历史产量+订单预测",
-        "steps": []
+        "notes": "下月产量预测 = 基线预测（MA3）× 季节因子 + 订单修正",
+        "steps": [
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "预测结果与判断",
+          "回测校验",
+          "情景分析与假设"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "预测",
+        "产量",
+        "下月产量预测",
+        "产量预测类"
+      ],
       "crossRefs": [
         "dash:production"
       ],
@@ -722,14 +799,26 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l4",
-      "description": "各设备/产线OEE对比",
+      "description": "OEE 评估 = 可用率 × 性能率 × 良品率",
       "href": "methodology.html#q07",
       "detail": {
         "definition": "哪些设备最该优先改善？",
-        "notes": "各设备/产线OEE对比",
-        "steps": []
+        "notes": "OEE 评估 = 可用率 × 性能率 × 良品率",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "评估步骤",
+          "判断与结论",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "OEE",
+        "评估",
+        "设备OEE评估",
+        "OEE评估类"
+      ],
       "crossRefs": [
         "dash:equipment"
       ],
@@ -741,14 +830,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l4",
-      "description": "准时率+质量+价格综合评分",
+      "description": "供应商评估 = 交付准时率 + 质量退货率 + 价格竞争力 + 响应速度（综合评分）",
       "href": "methodology.html#q08",
       "detail": {
         "definition": "哪家供应商最可靠？",
-        "notes": "准时率+质量+价格综合评分",
-        "steps": []
+        "notes": "供应商评估 = 交付准时率 + 质量退货率 + 价格竞争力 + 响应速度（综合评分）",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "评估步骤",
+          "判断与结论",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "供应商",
+        "准时率",
+        "评分卡",
+        "供应商绩效评估",
+        "供应商评估类"
+      ],
       "crossRefs": [
         "dash:supply"
       ],
@@ -760,14 +862,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l5",
-      "description": "柏拉图定位TOP不良",
+      "description": "目标函数：最大化不良减少量（或最大化质量改善收益）。",
       "href": "methodology.html#q09",
       "detail": {
         "definition": "先改哪个不良？",
-        "notes": "柏拉图定位TOP不良",
-        "steps": []
+        "notes": "目标函数：最大化不良减少量（或最大化质量改善收益）。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "验证与回滚",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "柏拉图",
+        "改善",
+        "优先级",
+        "质量改善优先级优化",
+        "质量改善类"
+      ],
       "crossRefs": [],
       "childrenIds": []
     },
@@ -777,14 +892,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l5",
-      "description": "排产优化、减少换型",
+      "description": "目标函数：最大化产能利用率（或最大化产出）。",
       "href": "methodology.html#q10",
       "detail": {
         "definition": "如何提升产能利用率？",
-        "notes": "排产优化、减少换型",
-        "steps": []
+        "notes": "目标函数：最大化产能利用率（或最大化产出）。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "验证与回滚",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "排产",
+        "换型",
+        "瓶颈",
+        "生产计划优化",
+        "计划优化类"
+      ],
       "crossRefs": [],
       "childrenIds": []
     },
@@ -794,15 +922,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "良品率、FPY、报废返工、TOP 不良",
+      "description": "质量总览看四类：良品率（最终质量）、FPY（一次通过率，过程质量）、报废率（损失）、返工率（隐性成本）。四类分别回答\"最终好不好、一次能不能过、废了多少、返工多少\"。",
       "href": "methodology.html#q11",
       "detail": {
         "definition": "本月质量状况怎么样？",
-        "notes": "良品率、FPY、报废返工、TOP 不良",
-        "steps": []
+        "notes": "质量总览看四类：良品率（最终质量）、FPY（一次通过率，过程质量）、报废率（损失）、返工率（隐性成本）。四类分别回答\"最终好不好、一次能不能过、废了多少、返工多少\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "良品率",
+        "FPY",
+        "报废",
+        "质量总览",
+        "质量概况类"
+      ],
       "crossRefs": [
+        "metric:返工率",
+        "metric:报废率",
         "dash:quality",
         "dash:scrap-rework"
       ],
@@ -814,14 +957,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "OTIF/OTD、欠交、提前完工结构",
+      "description": "交付总览看四类：OTIF（准时足量）、OTD（准时交付）、欠交（未完成）、提前完工（是否过早占用产能）。四类分别回答\"准时足量率、准时率、欠多少、是否过度提前\"。",
       "href": "methodology.html#q12",
       "detail": {
         "definition": "客户订单交付稳不稳？",
-        "notes": "OTIF/OTD、欠交、提前完工结构",
-        "steps": []
+        "notes": "交付总览看四类：OTIF（准时足量）、OTD（准时交付）、欠交（未完成）、提前完工（是否过早占用产能）。四类分别回答\"准时足量率、准时率、欠多少、是否过度提前\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "交付",
+        "OTIF",
+        "准时率",
+        "欠交",
+        "交付准时率总览",
+        "生产概况类"
+      ],
       "crossRefs": [
         "dash:delivery"
       ],
@@ -833,14 +990,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆产线利用率→瓶颈工序→停机/换型损失",
+      "description": "产能不足 = 订单超载 + 产能损失 + 瓶颈工序 + 换型损失",
       "href": "methodology.html#q13",
       "detail": {
         "definition": "为什么产能跟不上订单？",
-        "notes": "拆产线利用率→瓶颈工序→停机/换型损失",
-        "steps": []
+        "notes": "产能不足 = 订单超载 + 产能损失 + 瓶颈工序 + 换型损失",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "产能",
+        "瓶颈",
+        "利用率",
+        "换型",
+        "产能不足诊断",
+        "产能异常类"
+      ],
       "crossRefs": [
         "dash:downtime"
       ],
@@ -852,14 +1023,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆供应商 OTD→物料齐套→产线停待",
+      "description": "交期延误 = 供应商延误 + 物料齐套延误 + 产能不足延误 + 计划变更延误",
       "href": "methodology.html#q14",
       "detail": {
         "definition": "为什么交期延误变多了？",
-        "notes": "拆供应商 OTD→物料齐套→产线停待",
-        "steps": []
+        "notes": "交期延误 = 供应商延误 + 物料齐套延误 + 产能不足延误 + 计划变更延误",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "交期",
+        "齐套",
+        "供应商",
+        "停待",
+        "交期延误诊断",
+        "供应链异常类"
+      ],
       "crossRefs": [
         "dash:supply"
       ],
@@ -871,14 +1056,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l3",
-      "description": "按预测产量+BOM 推算关键件需求与安全库存",
+      "description": "物料净需求 = 理论需求 ×（1 + 损耗率） + 安全库存 - 当前库存 - 在途",
       "href": "methodology.html#q15",
       "detail": {
         "definition": "下月关键物料要备多少？",
-        "notes": "按预测产量+BOM 推算关键件需求与安全库存",
-        "steps": []
+        "notes": "物料净需求 = 理论需求 ×（1 + 损耗率） + 安全库存 - 当前库存 - 在途",
+        "steps": [
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "预测结果与判断",
+          "回测校验",
+          "情景分析与假设"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "物料",
+        "BOM",
+        "安全库存",
+        "MRP",
+        "物料需求预测",
+        "物料需求类"
+      ],
       "crossRefs": [
         "dash:bom-variance"
       ],
@@ -890,15 +1089,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l3",
-      "description": "用停机趋势+故障频次预测高风险设备",
+      "description": "设备故障风险 = 故障频次趋势 + 停机时长趋势 + 设备年龄",
       "href": "methodology.html#q16",
       "detail": {
         "definition": "哪些设备下月最可能出问题？",
-        "notes": "用停机趋势+故障频次预测高风险设备",
-        "steps": []
+        "notes": "设备故障风险 = 故障频次趋势 + 停机时长趋势 + 设备年龄",
+        "steps": [
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "预测结果与判断",
+          "回测校验",
+          "情景分析与假设"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "故障预测",
+        "停机",
+        "维护",
+        "预警",
+        "设备故障风险预警",
+        "设备故障类"
+      ],
       "crossRefs": [
+        "metric:停机时长",
         "dash:equipment",
         "dash:downtime"
       ],
@@ -910,14 +1124,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l4",
-      "description": "爬坡良品率、单位成本、产能达成 vs 目标",
+      "description": "NPI 评估 = 爬坡良品率 + 单位成本达成 + 产能达成 + 质量稳定性",
       "href": "methodology.html#q17",
       "detail": {
         "definition": "这款新品导入达标了吗？",
-        "notes": "爬坡良品率、单位成本、产能达成 vs 目标",
-        "steps": []
+        "notes": "NPI 评估 = 爬坡良品率 + 单位成本达成 + 产能达成 + 质量稳定性",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "评估步骤",
+          "判断与结论",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "NPI",
+        "新品",
+        "爬坡",
+        "良品率",
+        "新品导入",
+        "评估",
+        "新品导入类"
+      ],
       "crossRefs": [
         "dash:quality",
         "dash:cost"
@@ -930,14 +1159,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l5",
-      "description": "按评分卡调整份额、双源与淘汰",
+      "description": "目标函数：最小化供应风险（或最大化供应稳定性）。",
       "href": "methodology.html#q18",
       "detail": {
         "definition": "采购份额怎么调更稳？",
-        "notes": "按评分卡调整份额、双源与淘汰",
-        "steps": []
+        "notes": "目标函数：最小化供应风险（或最大化供应稳定性）。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "验证与回滚",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "份额",
+        "双源",
+        "评分卡",
+        "采购",
+        "供应商份额优化",
+        "供应商优化类"
+      ],
       "crossRefs": [
         "dash:supplier-score",
         "dash:supply"
@@ -950,14 +1193,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "OEE、可用率、停机时长、MTBF 快照",
+      "description": "设备总览看四类：OEE（综合效率）、可用率（时间维度）、停机时长（损失）、MTBF（可靠性）。四类分别回答\"综合效率如何、多少时间可用、停了多少、多久坏一次\"。",
       "href": "methodology.html#q19",
       "detail": {
         "definition": "本月设备运行状态怎么样？",
-        "notes": "OEE、可用率、停机时长、MTBF 快照",
-        "steps": []
+        "notes": "设备总览看四类：OEE（综合效率）、可用率（时间维度）、停机时长（损失）、MTBF（可靠性）。四类分别回答\"综合效率如何、多少时间可用、停了多少、多久坏一次\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "设备",
+        "OEE",
+        "停机",
+        "MTBF",
+        "设备状态总览",
+        "设备概况类"
+      ],
       "crossRefs": [
         "metric:停机时长",
         "dash:equipment",
@@ -971,14 +1228,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "单位成本、材料/人工/制费结构",
+      "description": "成本总览看四类：单位成本（总水平）、材料成本占比、人工成本占比、制造费用占比。四类分别回答\"总成本高不高、材料贵不贵、人工贵不贵、制费高不高\"。",
       "href": "methodology.html#q20",
       "detail": {
         "definition": "本月制造成本处在什么水平？",
-        "notes": "单位成本、材料/人工/制费结构",
-        "steps": []
+        "notes": "成本总览看四类：单位成本（总水平）、材料成本占比、人工成本占比、制造费用占比。四类分别回答\"总成本高不高、材料贵不贵、人工贵不贵、制费高不高\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "单位成本",
+        "材料",
+        "制费",
+        "成本总览",
+        "制造成本总览",
+        "成本概况类"
+      ],
       "crossRefs": [
         "dash:cost",
         "dash:bom-variance"
@@ -991,14 +1262,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆产品→工序→不良类型→批次",
+      "description": "报废返工上升 = 产品效应 + 工序效应 + 不良类型效应 + 批次效应",
       "href": "methodology.html#q21",
       "detail": {
         "definition": "为什么报废/返工突然变多？",
-        "notes": "拆产品→工序→不良类型→批次",
-        "steps": []
+        "notes": "报废返工上升 = 产品效应 + 工序效应 + 不良类型效应 + 批次效应",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "报废",
+        "返工",
+        "FPY",
+        "批次",
+        "报废返工上升诊断",
+        "质量异常类"
+      ],
       "crossRefs": [
         "dash:scrap-rework",
         "dash:process-yield"
@@ -1011,14 +1296,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆工序 WIP→节拍→换型/停机",
+      "description": "WIP 堆积 = 瓶颈工序效应 + 节拍不匹配效应 + 停机效应 + 换型效应",
       "href": "methodology.html#q22",
       "detail": {
         "definition": "为什么在制品堆这么多？",
-        "notes": "拆工序 WIP→节拍→换型/停机",
-        "steps": []
+        "notes": "WIP 堆积 = 瓶颈工序效应 + 节拍不匹配效应 + 停机效应 + 换型效应",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "WIP",
+        "在制品",
+        "堆积",
+        "节拍",
+        "堆积诊断",
+        "在制品异常类"
+      ],
       "crossRefs": [
         "dash:production"
       ],
@@ -1030,14 +1329,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l3",
-      "description": "按在制进度+瓶颈产能预估能否按期",
+      "description": "订单交付风险 = 在制进度 + 瓶颈工序余量 + 供应商齐套",
       "href": "methodology.html#q23",
       "detail": {
         "definition": "哪些订单下周可能延期？",
-        "notes": "按在制进度+瓶颈产能预估能否按期",
-        "steps": []
+        "notes": "订单交付风险 = 在制进度 + 瓶颈工序余量 + 供应商齐套",
+        "steps": [
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "预测结果与判断",
+          "回测校验",
+          "情景分析与假设"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "交期",
+        "风险",
+        "在制",
+        "承诺",
+        "订单交付风险预测",
+        "交付预测类"
+      ],
       "crossRefs": [
         "dash:delivery"
       ],
@@ -1049,15 +1362,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l4",
-      "description": "人均产出、标准工时达成、加班结构",
+      "description": "人工效率评估 = 人均产出 + 标准工时达成率 + 加班率",
       "href": "methodology.html#q24",
       "detail": {
         "definition": "人员效率达标了吗？哪班偏低？",
-        "notes": "人均产出、标准工时达成、加班结构",
-        "steps": []
+        "notes": "人工效率评估 = 人均产出 + 标准工时达成率 + 加班率",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "评估步骤",
+          "判断与结论",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "人均产出",
+        "标准工时",
+        "班组",
+        "加班",
+        "人工效率评估",
+        "人员效率类"
+      ],
       "crossRefs": [
+        "metric:标准工时达成率",
         "metric:人均产出",
         "dash:labor"
       ],
@@ -1069,15 +1397,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l5",
-      "description": "高周转/呆滞分层，调整安全库存与采购批量",
+      "description": "目标函数：最小化库存金额（或最大化库存周转）。",
       "href": "methodology.html#q25",
       "detail": {
         "definition": "库存怎么压又不缺料？",
-        "notes": "高周转/呆滞分层，调整安全库存与采购批量",
-        "steps": []
+        "notes": "目标函数：最小化库存金额（或最大化库存周转）。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "验证与回滚",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "库存",
+        "周转",
+        "呆滞",
+        "安全库存",
+        "库存与周转优化",
+        "库存优化类"
+      ],
       "crossRefs": [
+        "metric:inventory_value",
         "dash:supply"
       ],
       "childrenIds": []
@@ -1088,14 +1431,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l5",
-      "description": "从遏制到永久措施与横展验证",
+      "description": "目标函数：彻底关闭客诉问题（防止再发）。",
       "href": "methodology.html#q26",
       "detail": {
         "definition": "这起客诉怎么闭环不再发？",
-        "notes": "从遏制到永久措施与横展验证",
-        "steps": []
+        "notes": "目标函数：彻底关闭客诉问题（防止再发）。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "验证与回滚",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "8D",
+        "CAPA",
+        "客诉",
+        "闭环",
+        "质量改善类"
+      ],
       "crossRefs": [
         "dash:quality",
         "dash:scrap-rework"
@@ -1108,15 +1464,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "各班组产量、良率、效率对比",
+      "description": "班组排名看四类：产量（规模）、良品率（质量）、产能利用率（效率）、人均产出（人效）。四类分别回答\"哪个班产量大、质量好、效率高、人效高\"。",
       "href": "methodology.html#q27",
       "detail": {
         "definition": "哪个班表现最好？哪个班拖后腿？",
-        "notes": "各班组产量、良率、效率对比",
-        "steps": []
+        "notes": "班组排名看四类：产量（规模）、良品率（质量）、产能利用率（效率）、人均产出（人效）。四类分别回答\"哪个班产量大、质量好、效率高、人效高\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "班组",
+        "班次",
+        "绩效",
+        "排名",
+        "班组绩效排名",
+        "绩效排名类"
+      ],
       "crossRefs": [
+        "metric:人均产出",
         "dash:labor",
         "dash:production"
       ],
@@ -1124,18 +1495,32 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "id": "pb:q28",
-      "name": "产品盈利能力分析",
+      "name": "产品成本结构分析",
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "各产品/产品线的收入、成本、毛利对比",
+      "description": "产品成本结构看三类：单位成本（成本效率）、成本结构（材料/人工/制费占比）、产品间成本排名。三类分别回答“哪款成本高、成本花在哪、谁相对更贵”（收入数据待补，暂不做毛利/盈利）。",
       "href": "methodology.html#q28",
       "detail": {
-        "definition": "哪款产品最赚钱？哪款在亏钱？",
-        "notes": "各产品/产品线的收入、成本、毛利对比",
-        "steps": []
+        "definition": "哪款产品单位成本最高？成本结构如何？",
+        "notes": "产品成本结构看三类：单位成本（成本效率）、成本结构（材料/人工/制费占比）、产品间成本排名。三类分别回答“哪款成本高、成本花在哪、谁相对更贵”（收入数据待补，暂不做毛利/盈利）。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "产品",
+        "盈利",
+        "毛利",
+        "产品线",
+        "产品成本结构分析",
+        "成本概况类"
+      ],
       "crossRefs": [
         "dash:cost",
         "dash:bom-variance"
@@ -1148,14 +1533,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "各工序良率、FPY、瓶颈工序识别",
+      "description": "工序良率看三类：良品率（最终）、FPY（一次通过率）、不良分布（类型 + 数量）。三类分别回答\"哪道工序最终良率低、哪道工序一次通过率低、不良集中在哪\"。",
       "href": "methodology.html#q29",
       "detail": {
         "definition": "哪道工序良率最低？质量瓶颈在哪？",
-        "notes": "各工序良率、FPY、瓶颈工序识别",
-        "steps": []
+        "notes": "工序良率看三类：良品率（最终）、FPY（一次通过率）、不良分布（类型 + 数量）。三类分别回答\"哪道工序最终良率低、哪道工序一次通过率低、不良集中在哪\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "工序",
+        "良率",
+        "FPY",
+        "工艺流程",
+        "工序良率总览",
+        "质量概况类"
+      ],
       "crossRefs": [
         "dash:process-yield",
         "dash:quality"
@@ -1168,14 +1567,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "电、气、水等能耗总量、单耗、趋势",
+      "description": "能耗看四类：总能耗（电/气/水）、单位产品能耗（单耗）、能耗结构、能耗趋势。四类分别回答\"总能耗多少、单耗多少、哪类能耗为主、趋势如何\"。",
       "href": "methodology.html#q30",
       "detail": {
         "definition": "本月能耗情况怎么样？单耗达标吗？",
-        "notes": "电、气、水等能耗总量、单耗、趋势",
-        "steps": []
+        "notes": "能耗看四类：总能耗（电/气/水）、单位产品能耗（单耗）、能耗结构、能耗趋势。四类分别回答\"总能耗多少、单耗多少、哪类能耗为主、趋势如何\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "能耗",
+        "电费",
+        "单耗",
+        "节能",
+        "能耗总览",
+        "生产概况类"
+      ],
       "crossRefs": [],
       "childrenIds": []
     },
@@ -1185,14 +1598,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "按客户维度的OTIF、欠交、订单满足率",
+      "description": "客户交付看四类：OTIF（准时足量率）、欠交金额、订单满足率、客户集中度。四类分别回答\"哪些客户准时足量率低、哪些客户欠交多、哪些客户满足率低、交付是否过度依赖大客户\"。",
       "href": "methodology.html#q31",
       "detail": {
         "definition": "哪些客户交付最差？客户满意度风险在哪？",
-        "notes": "按客户维度的OTIF、欠交、订单满足率",
-        "steps": []
+        "notes": "客户交付看四类：OTIF（准时足量率）、欠交金额、订单满足率、客户集中度。四类分别回答\"哪些客户准时足量率低、哪些客户欠交多、哪些客户满足率低、交付是否过度依赖大客户\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "客户",
+        "交付",
+        "OTIF",
+        "订单满足率",
+        "客户交付分析",
+        "生产概况类"
+      ],
       "crossRefs": [
         "dash:delivery"
       ],
@@ -1204,14 +1631,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l1",
-      "description": "事故次数、隐患整改、安全培训完成率",
+      "description": "安全看四类：事故次数、事故严重度、隐患整改率、培训完成率。四类分别回答\"出了多少次事故、事故多严重、隐患整改如何、培训是否到位\"。",
       "href": "methodology.html#q32",
       "detail": {
         "definition": "本月安全状况怎么样？有哪些风险点？",
-        "notes": "事故次数、隐患整改、安全培训完成率",
-        "steps": []
+        "notes": "安全看四类：事故次数、事故严重度、隐患整改率、培训完成率。四类分别回答\"出了多少次事故、事故多严重、隐患整改如何、培训是否到位\"。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "判断与标注",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "安全",
+        "事故",
+        "隐患",
+        "培训",
+        "安全生产概况",
+        "生产概况类"
+      ],
       "crossRefs": [],
       "childrenIds": []
     },
@@ -1221,14 +1662,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆产品→工序→设备→时段，定位能耗上升原因",
+      "description": "能耗上升 = 产量规模效应 + 产品结构效应 + 设备效率效应 + 工艺参数效应",
       "href": "methodology.html#q33",
       "detail": {
         "definition": "为什么这个月电费涨了这么多？",
-        "notes": "拆产品→工序→设备→时段，定位能耗上升原因",
-        "steps": []
+        "notes": "能耗上升 = 产量规模效应 + 产品结构效应 + 设备效率效应 + 工艺参数效应",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "能耗",
+        "电费",
+        "单耗",
+        "节能",
+        "能耗上升诊断",
+        "成本异常类"
+      ],
       "crossRefs": [
         "dash:equipment"
       ],
@@ -1240,15 +1695,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆产量→效率→加班→单价，定位人工成本上涨原因",
+      "description": "人工成本上升 = 人数增加效应 + 加班增加效应 + 单价上涨效应 + 人效下降效应",
       "href": "methodology.html#q34",
       "detail": {
         "definition": "为什么人工成本涨了？是加人了还是效率降了？",
-        "notes": "拆产量→效率→加班→单价，定位人工成本上涨原因",
-        "steps": []
+        "notes": "人工成本上升 = 人数增加效应 + 加班增加效应 + 单价上涨效应 + 人效下降效应",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "人工成本",
+        "加班",
+        "效率",
+        "人均产出",
+        "人工成本上升诊断",
+        "成本异常类"
+      ],
       "crossRefs": [
+        "metric:人均产出",
         "dash:labor",
         "dash:cost"
       ],
@@ -1260,14 +1730,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆客户→产品→不良类型→批次，定位客诉上升根因",
+      "description": "客诉上升 = 产品质量效应 + 交付问题效应 + 服务问题效应 + 客户结构效应",
       "href": "methodology.html#q35",
       "detail": {
         "definition": "为什么客诉突然变多了？哪类问题最严重？",
-        "notes": "拆客户→产品→不良类型→批次，定位客诉上升根因",
-        "steps": []
+        "notes": "客诉上升 = 产品质量效应 + 交付问题效应 + 服务问题效应 + 客户结构效应",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "客诉",
+        "投诉",
+        "客户质量",
+        "退货",
+        "客诉上升诊断",
+        "质量异常类"
+      ],
       "crossRefs": [
         "dash:quality"
       ],
@@ -1279,14 +1763,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆类型→部位→时段→原因，定位安全事故规律",
+      "description": "安全事故 = 人的不安全行为 + 物的不安全状态 + 管理缺陷 + 环境因素",
       "href": "methodology.html#q36",
       "detail": {
         "definition": "为什么事故变多了？根因是什么？",
-        "notes": "拆类型→部位→时段→原因，定位安全事故规律",
-        "steps": []
+        "notes": "安全事故 = 人的不安全行为 + 物的不安全状态 + 管理缺陷 + 环境因素",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "安全",
+        "事故",
+        "根因",
+        "隐患",
+        "安全事故根因分析",
+        "设备异常类"
+      ],
       "crossRefs": [
         "dash:equipment"
       ],
@@ -1298,14 +1796,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆物料→工序→原因，定位物料损耗上升点",
+      "description": "物料损耗上升 = 物料效应 + 工序效应 + 原因效应 + 批次效应",
       "href": "methodology.html#q37",
       "detail": {
         "definition": "为什么物料损耗率超标了？浪费在哪？",
-        "notes": "拆物料→工序→原因，定位物料损耗上升点",
-        "steps": []
+        "notes": "物料损耗上升 = 物料效应 + 工序效应 + 原因效应 + 批次效应",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "物料损耗",
+        "报废",
+        "领料差异",
+        "浪费",
+        "物料损耗上升诊断",
+        "供应链异常类"
+      ],
       "crossRefs": [
         "dash:bom-variance"
       ],
@@ -1317,14 +1829,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "拆产品→产线→换型类型，定位换型损失大头",
+      "description": "换型时间长 = 准备时间 + 拆卸时间 + 安装时间 + 调试时间",
       "href": "methodology.html#q38",
       "detail": {
         "definition": "为什么换型要这么久？时间都花在哪了？",
-        "notes": "拆产品→产线→换型类型，定位换型损失大头",
-        "steps": []
+        "notes": "换型时间长 = 准备时间 + 拆卸时间 + 安装时间 + 调试时间",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "换型",
+        "SMED",
+        "换模",
+        "调机",
+        "换型时间过长诊断",
+        "产能异常类"
+      ],
       "crossRefs": [
         "dash:downtime"
       ],
@@ -1336,14 +1862,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l2",
-      "description": "跟踪瓶颈工序是否转移，识别新的约束点",
+      "description": "瓶颈漂移 = 原瓶颈改善 + 新瓶颈出现 + 需求结构变化",
       "href": "methodology.html#q39",
       "detail": {
         "definition": "瓶颈工序是不是变了？现在卡在哪？",
-        "notes": "跟踪瓶颈工序是否转移，识别新的约束点",
-        "steps": []
+        "notes": "瓶颈漂移 = 原瓶颈改善 + 新瓶颈出现 + 需求结构变化",
+        "steps": [
+          "前置检查",
+          "因果分解框架",
+          "诊断步骤",
+          "判断与结论",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "瓶颈",
+        "漂移",
+        "约束",
+        "产能",
+        "瓶颈工序漂移诊断",
+        "产能异常类"
+      ],
       "crossRefs": [
         "dash:production"
       ],
@@ -1355,14 +1895,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l3",
-      "description": "基于消耗速度和交期，识别低于安全库存的物料",
+      "description": "安全库存预警 = 当前库存 / 日均消耗 = 可用天数 vs 采购提前期",
       "href": "methodology.html#q40",
       "detail": {
         "definition": "哪些物料快断货了？需要紧急采购吗？",
-        "notes": "基于消耗速度和交期，识别低于安全库存的物料",
-        "steps": []
+        "notes": "安全库存预警 = 当前库存 / 日均消耗 = 可用天数 vs 采购提前期",
+        "steps": [
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "预测结果与判断",
+          "回测校验",
+          "情景分析与假设"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "安全库存",
+        "缺货",
+        "预警",
+        "补货",
+        "安全库存预警",
+        "物料需求类"
+      ],
       "crossRefs": [
         "dash:supply"
       ],
@@ -1374,14 +1928,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l3",
-      "description": "基于产量计划预测下月能耗，对比预算识别缺口",
+      "description": "能耗预测 = 下月产量预测 × 历史单耗（M12）",
       "href": "methodology.html#q41",
       "detail": {
         "definition": "下月能耗预算够不够？需要追加吗？",
-        "notes": "基于产量计划预测下月能耗，对比预算识别缺口",
-        "steps": []
+        "notes": "能耗预测 = 下月产量预测 × 历史单耗（M12）",
+        "steps": [
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "预测结果与判断",
+          "回测校验",
+          "情景分析与假设"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "能耗预测",
+        "能源预算",
+        "单耗",
+        "节能",
+        "能耗预测与预算",
+        "产量预测类"
+      ],
       "crossRefs": [
         "dash:cost"
       ],
@@ -1393,14 +1961,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l3",
-      "description": "基于产量计划和标准工时，预测下月人力需求",
+      "description": "人力需求 = 产量计划 × 标准工时 / 人均可用工时",
       "href": "methodology.html#q42",
       "detail": {
         "definition": "下月需要多少人？现在的人够吗？",
-        "notes": "基于产量计划和标准工时，预测下月人力需求",
-        "steps": []
+        "notes": "人力需求 = 产量计划 × 标准工时 / 人均可用工时",
+        "steps": [
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "预测结果与判断",
+          "回测校验",
+          "情景分析与假设"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "人力需求",
+        "定员",
+        "排班",
+        "招聘",
+        "人力需求预测",
+        "产量预测类"
+      ],
       "crossRefs": [
         "dash:labor",
         "dash:production"
@@ -1413,15 +1995,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l3",
-      "description": "基于过程参数趋势，预测质量风险点",
+      "description": "质量风险 = 过程能力指数（CPK）趋势 + 历史不良率",
       "href": "methodology.html#q43",
       "detail": {
         "definition": "哪些产品/工序下月质量风险高？",
-        "notes": "基于过程参数趋势，预测质量风险点",
-        "steps": []
+        "notes": "质量风险 = 过程能力指数（CPK）趋势 + 历史不良率",
+        "steps": [
+          "前置检查",
+          "预测方法框架",
+          "预测步骤",
+          "预测结果与判断",
+          "回测校验",
+          "情景分析与假设"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "质量预测",
+        "风险预警",
+        "过程能力",
+        "SPC",
+        "质量风险预测",
+        "设备故障类"
+      ],
       "crossRefs": [
+        "metric:不良率",
         "dash:quality",
         "dash:process-yield"
       ],
@@ -1433,14 +2030,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l4",
-      "description": "从毛利、周转、销量多维度评估产品价值",
+      "description": "产品盈利评估 = 毛利 × 销量 × 周转（BCG 矩阵分类）",
       "href": "methodology.html#q44",
       "detail": {
         "definition": "哪些产品是金牛？哪些是瘦狗？",
-        "notes": "从毛利、周转、销量多维度评估产品价值",
-        "steps": []
+        "notes": "产品盈利评估 = 毛利 × 销量 × 周转（BCG 矩阵分类）",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "评估步骤",
+          "判断与结论",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "产品盈利",
+        "BCG矩阵",
+        "产品组合",
+        "SKU优化",
+        "产品盈利能力评估",
+        "成本/盈利评估类"
+      ],
       "crossRefs": [
         "dash:cost"
       ],
@@ -1452,14 +2063,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l4",
-      "description": "从收入、利润、交付、风险多维度评估客户价值",
+      "description": "客户价值评估 = 收入规模 × 毛利率 × 交付表现 × 增长潜力（综合评分）+ 客户集中度",
       "href": "methodology.html#q45",
       "detail": {
         "definition": "哪些客户是高价值客户？哪些需要策略调整？",
-        "notes": "从收入、利润、交付、风险多维度评估客户价值",
-        "steps": []
+        "notes": "客户价值评估 = 收入规模 × 毛利率 × 交付表现 × 增长潜力（综合评分）+ 客户集中度",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "评估步骤",
+          "判断与结论",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "客户价值",
+        "客户分层",
+        "RFM",
+        "客户盈利",
+        "客户价值评估",
+        "客户评估类"
+      ],
       "crossRefs": [
         "dash:delivery"
       ],
@@ -1471,14 +2096,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l4",
-      "description": "从产量、质量、效率、安全多维度综合评估班组",
+      "description": "班组绩效评估 = 产量 + 质量 + 效率 + 安全（四维综合评分）",
       "href": "methodology.html#q46",
       "detail": {
         "definition": "哪个班组综合表现最好？差距在哪？",
-        "notes": "从产量、质量、效率、安全多维度综合评估班组",
-        "steps": []
+        "notes": "班组绩效评估 = 产量 + 质量 + 效率 + 安全（四维综合评分）",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "评估步骤",
+          "判断与结论",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "班组评估",
+        "综合绩效",
+        "对标",
+        "评优",
+        "班组绩效综合评估",
+        "人员效率类"
+      ],
       "crossRefs": [
         "dash:labor",
         "dash:production"
@@ -1491,14 +2130,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l5",
-      "description": "基于瓶颈、换型、交期优化排产顺序，提升产能和交付",
+      "description": "目标函数：最大化产出（或最大化交期满足率）。",
       "href": "methodology.html#q47",
       "detail": {
         "definition": "怎么排产能让产出最多、交付最好？",
-        "notes": "基于瓶颈、换型、交期优化排产顺序，提升产能和交付",
-        "steps": []
+        "notes": "目标函数：最大化产出（或最大化交期满足率）。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "验证与回滚",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "排程",
+        "APS",
+        "换型优化",
+        "订单优先级",
+        "生产排程优化",
+        "计划优化类"
+      ],
       "crossRefs": [
         "dash:delivery"
       ],
@@ -1510,14 +2163,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l5",
-      "description": "从设备、工艺、管理三方面制定节能降耗方案",
+      "description": "目标函数：最小化能耗成本（或最大化节能收益）。",
       "href": "methodology.html#q48",
       "detail": {
         "definition": "怎么把能耗降下来？投入产出比怎么样？",
-        "notes": "从设备、工艺、管理三方面制定节能降耗方案",
-        "steps": []
+        "notes": "目标函数：最小化能耗成本（或最大化节能收益）。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "验证与回滚",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "节能",
+        "降耗",
+        "能效优化",
+        "节能改造",
+        "能耗优化方案",
+        "质量改善类"
+      ],
       "crossRefs": [
         "dash:equipment"
       ],
@@ -1529,14 +2196,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l5",
-      "description": "基于产量波动和人员技能，优化班次和人员配置",
+      "description": "目标函数：最小化人力成本（或最大化人效）。",
       "href": "methodology.html#q49",
       "detail": {
         "definition": "怎么排班既能满足生产又不浪费人力？",
-        "notes": "基于产量波动和人员技能，优化班次和人员配置",
-        "steps": []
+        "notes": "目标函数：最小化人力成本（或最大化人效）。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "验证与回滚",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "排班",
+        "人员配置",
+        "多技能",
+        "弹性用工",
+        "人员排班优化",
+        "计划优化类"
+      ],
       "crossRefs": [
         "dash:labor",
         "dash:production"
@@ -1549,14 +2230,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "manufacturing",
       "parentId": "cat_method_l5",
-      "description": "优化厂内物料配送路线和频次，降低物流成本和等待",
+      "description": "目标函数：最小化配送成本（或最小化配送时间）。",
       "href": "methodology.html#q50",
       "detail": {
         "definition": "怎么送料能又快又省？配送路线怎么优化？",
-        "notes": "优化厂内物料配送路线和频次，降低物流成本和等待",
-        "steps": []
+        "notes": "目标函数：最小化配送成本（或最小化配送时间）。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "优化步骤",
+          "判断与方案",
+          "验证与回滚",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "配送",
+        "物流",
+        "路径优化",
+        "厂内物流",
+        "物料配送路径优化",
+        "库存优化类"
+      ],
       "crossRefs": [
         "dash:supply"
       ],
@@ -3070,7 +3765,9 @@ window.PLATFORM_KG_DATA = {
         "标准工时达成率"
       ],
       "source_table": "dws_operation_daily",
-      "crossRefs": [],
+      "crossRefs": [
+        "pb:q24"
+      ],
       "childrenIds": []
     },
     {
@@ -3092,7 +3789,9 @@ window.PLATFORM_KG_DATA = {
       ],
       "source_table": "dws_labor_daily",
       "crossRefs": [
-        "pb:q24"
+        "pb:q24",
+        "pb:q27",
+        "pb:q34"
       ],
       "childrenIds": []
     },
@@ -3177,7 +3876,9 @@ window.PLATFORM_KG_DATA = {
         "不良率"
       ],
       "source_table": "dwd_quality_fact",
-      "crossRefs": [],
+      "crossRefs": [
+        "pb:q43"
+      ],
       "childrenIds": []
     },
     {
@@ -3199,6 +3900,7 @@ window.PLATFORM_KG_DATA = {
       ],
       "source_table": "dwd_quality_fact",
       "crossRefs": [
+        "pb:q11",
         "dash:scrap-rework"
       ],
       "childrenIds": []
@@ -3222,6 +3924,7 @@ window.PLATFORM_KG_DATA = {
       ],
       "source_table": "dwd_quality_fact",
       "crossRefs": [
+        "pb:q11",
         "dash:scrap-rework"
       ],
       "childrenIds": []
@@ -3554,7 +4257,7 @@ window.PLATFORM_KG_DATA = {
       ],
       "source_table": "dwd_device_fact",
       "crossRefs": [
-        "pb:q05",
+        "pb:q16",
         "pb:q19",
         "dash:downtime"
       ],
@@ -3599,7 +4302,9 @@ window.PLATFORM_KG_DATA = {
         "库存金额"
       ],
       "source_table": "dws_inventory_daily",
-      "crossRefs": [],
+      "crossRefs": [
+        "pb:q25"
+      ],
       "childrenIds": []
     },
     {
@@ -4967,13 +5672,6 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q05",
-      "target": "metric:停机时长",
-      "style": "dashed",
-      "cross": true,
-      "label": "用到指标"
-    },
-    {
-      "source": "pb:q05",
       "target": "dash:equipment",
       "style": "dashed",
       "cross": true,
@@ -4999,6 +5697,20 @@ window.PLATFORM_KG_DATA = {
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
+    },
+    {
+      "source": "pb:q11",
+      "target": "metric:返工率",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q11",
+      "target": "metric:报废率",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
     },
     {
       "source": "pb:q11",
@@ -5041,6 +5753,13 @@ window.PLATFORM_KG_DATA = {
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
+    },
+    {
+      "source": "pb:q16",
+      "target": "metric:停机时长",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
     },
     {
       "source": "pb:q16",
@@ -5149,6 +5868,13 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q24",
+      "target": "metric:标准工时达成率",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q24",
       "target": "metric:人均产出",
       "style": "dashed",
       "cross": true,
@@ -5160,6 +5886,13 @@ window.PLATFORM_KG_DATA = {
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
+    },
+    {
+      "source": "pb:q25",
+      "target": "metric:inventory_value",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
     },
     {
       "source": "pb:q25",
@@ -5181,6 +5914,13 @@ window.PLATFORM_KG_DATA = {
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
+    },
+    {
+      "source": "pb:q27",
+      "target": "metric:人均产出",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
     },
     {
       "source": "pb:q27",
@@ -5237,6 +5977,13 @@ window.PLATFORM_KG_DATA = {
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
+    },
+    {
+      "source": "pb:q34",
+      "target": "metric:人均产出",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
     },
     {
       "source": "pb:q34",
@@ -5314,6 +6061,13 @@ window.PLATFORM_KG_DATA = {
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
+    },
+    {
+      "source": "pb:q43",
+      "target": "metric:不良率",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
     },
     {
       "source": "pb:q43",

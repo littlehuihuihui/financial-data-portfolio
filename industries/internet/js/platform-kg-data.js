@@ -18,7 +18,7 @@ window.PLATFORM_KG_DATA = {
     },
     "counts": {
       "nodes": 184,
-      "edges": 238,
+      "edges": 241,
       "leaves": 164,
       "dashboards": 17,
       "playbooks": 28,
@@ -630,14 +630,32 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l1",
-      "description": "掌握 OTT 整体活跃水位、端型结构与月度波动",
+      "description": "DAU/MAU 总览看四类：DAU 水位与结构（STB/Speaker）、MAU 与 DAU/MAU 比值、只开机占比（日粒度）、DAU 7 日移动环比。",
       "href": "methodology.html#q01",
       "detail": {
-        "definition": "这个月日活和月活怎么样？",
-        "notes": "掌握 OTT 整体活跃水位、端型结构与月度波动",
-        "steps": []
+        "definition": "这个月日活和月活怎么样？端型结构有没有异常变化？",
+        "notes": "DAU/MAU 总览看四类：DAU 水位与结构（STB/Speaker）、MAU 与 DAU/MAU 比值、只开机占比（日粒度）、DAU 7 日移动环比。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "DAU",
+        "MAU",
+        "日活",
+        "月活",
+        "STB",
+        "Speaker",
+        "只开机",
+        "7日环比",
+        "趋势总览",
+        "活跃概况类"
+      ],
       "crossRefs": [
         "dash:overview"
       ],
@@ -649,15 +667,33 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l1",
-      "description": "把「我们的核心用户是谁」拆成可度量的人群切片：端型、地市、付费渗透，并落到运营动作",
+      "description": "用户画像看四类：端型×地市活跃 MAC 分布、付费率（userid 口径）、核心城占比、高活跃低付费切片。",
       "href": "methodology.html#q02",
       "detail": {
-        "definition": "我们的核心用户是谁？广深与 STB/Speaker 各占多少、谁更愿意付费？",
-        "notes": "把「我们的核心用户是谁」拆成可度量的人群切片：端型、地市、付费渗透，并落到运营动作",
-        "steps": []
+        "definition": "核心用户是谁？广深与 STB/Speaker 各占多少？谁活跃但不付费？",
+        "notes": "用户画像看四类：端型×地市活跃 MAC 分布、付费率（userid 口径）、核心城占比、高活跃低付费切片。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "画像",
+        "端型",
+        "地市",
+        "STB",
+        "Speaker",
+        "付费率",
+        "口径",
+        "用户画像",
+        "用户结构类"
+      ],
       "crossRefs": [
+        "metric:付费率",
         "dash:overview",
         "dash:tags"
       ],
@@ -669,14 +705,32 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l1",
-      "description": "收银台入口来源（launcher/video）的订购量与金额占比",
+      "description": "渠道获客看四类：入口订购量与金额占比、入口×端型/地市客单价、新老订单占比、入口集中度。",
       "href": "methodology.html#q03",
       "detail": {
-        "definition": "用户主要从哪个入口来？",
-        "notes": "收银台入口来源（launcher/video）的订购量与金额占比",
-        "steps": []
+        "definition": "用户主要从哪个入口来？入口质量如何？",
+        "notes": "渠道获客看四类：入口订购量与金额占比、入口×端型/地市客单价、新老订单占比、入口集中度。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "渠道",
+        "获客",
+        "launcher",
+        "video",
+        "客单价",
+        "新老",
+        "首购",
+        "渠道获客分布",
+        "入口",
+        "渠道获客类"
+      ],
       "crossRefs": [
         "dash:order"
       ],
@@ -688,14 +742,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l1",
-      "description": "开机、点播、直播三大功能的使用深度与渗透",
+      "description": "功能使用看四类：点播渗透（K05）、直播渗透、月只开机占比（严格口径 K04b）、端型功能差异。",
       "href": "methodology.html#q04",
       "detail": {
-        "definition": "用户在产品里做什么？",
-        "notes": "开机、点播、直播三大功能的使用深度与渗透",
-        "steps": []
+        "definition": "用户在产品里做什么？功能使用深度如何？",
+        "notes": "功能使用看四类：点播渗透（K05）、直播渗透、月只开机占比（严格口径 K04b）、端型功能差异。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "点播",
+        "直播",
+        "开机",
+        "功能渗透",
+        "只开机",
+        "严格口径",
+        "产品功能使用",
+        "产品使用类"
+      ],
       "crossRefs": [
         "dash:launcher",
         "dash:vod",
@@ -709,14 +779,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l1",
-      "description": "高/中/低活跃、沉默与流失用户的结构占比",
+      "description": "活跃结构看四类：用户状态分布（活跃/沉默/流失）、口径对账（seg vs 当月活跃 MAC）、沉默占比环比变化、生命周期净增趋势。",
       "href": "methodology.html#q05",
       "detail": {
-        "definition": "活跃用户结构健康吗？",
-        "notes": "高/中/低活跃、沉默与流失用户的结构占比",
-        "steps": []
+        "definition": "活跃用户结构健康吗？沉默与流失占比是否上升？",
+        "notes": "活跃结构看四类：用户状态分布（活跃/沉默/流失）、口径对账（seg vs 当月活跃 MAC）、沉默占比环比变化、生命周期净增趋势。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "活跃结构",
+        "沉默",
+        "流失",
+        "分群",
+        "口径对账",
+        "活跃结构分析",
+        "活跃概况类"
+      ],
       "crossRefs": [
         "dash:lifecycle"
       ],
@@ -728,14 +813,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l1",
-      "description": "剧集题材/品类的 VV、UV 与完播率分布",
+      "description": "内容题材看三类：题材 VV/UV 排行（加权完播 K06）、题材完播 vs 同品类加权均值（pct_of_category_avg）、品类渗透（排期决策）。",
       "href": "methodology.html#q06",
       "detail": {
-        "definition": "用户在看什么内容？",
-        "notes": "剧集题材/品类的 VV、UV 与完播率分布",
-        "steps": []
+        "definition": "用户在看什么内容？哪些题材/品类表现好？",
+        "notes": "内容题材看三类：题材 VV/UV 排行（加权完播 K06）、题材完播 vs 同品类加权均值（pct_of_category_avg）、品类渗透（排期决策）。",
+        "steps": [
+          "前置检查",
+          "核心指标框架",
+          "决策树",
+          "行动建议",
+          "最小判断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "题材",
+        "剧集",
+        "VV",
+        "完播率",
+        "品类",
+        "加权完播",
+        "内容题材分布",
+        "内容分析类"
+      ],
       "crossRefs": [
         "dash:series"
       ],
@@ -747,14 +848,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l2",
-      "description": "定位 DAU 下降的主因：端型、地市还是功能渗透",
+      "description": "DAU 下降可分解为：端型效应 + 地市效应 + 功能渗透效应。",
       "href": "methodology.html#q07",
       "detail": {
-        "definition": "为什么日活下降了？",
-        "notes": "定位 DAU 下降的主因：端型、地市还是功能渗透",
-        "steps": []
+        "definition": "为什么日活下降了？是端型、地市还是功能渗透导致？",
+        "notes": "DAU 下降可分解为：端型效应 + 地市效应 + 功能渗透效应。",
+        "steps": [
+          "前置检查",
+          "诊断框架",
+          "决策树",
+          "行动建议",
+          "最小诊断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "DAU",
+        "下滑",
+        "诊断",
+        "端型",
+        "地市",
+        "区间降幅",
+        "下滑诊断",
+        "活跃异常类"
+      ],
       "crossRefs": [
         "dash:overview",
         "dash:device"
@@ -767,14 +884,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l2",
-      "description": "D1/D7/D30 留存偏离历史基线，分端型拆解",
+      "description": "留存下降可分解为：cohort 结构效应 + 端型效应 + 版本效应 + 渠道效应。",
       "href": "methodology.html#q08",
       "detail": {
-        "definition": "为什么留存变差了？",
-        "notes": "D1/D7/D30 留存偏离历史基线，分端型拆解",
-        "steps": []
+        "definition": "为什么留存变差了？是端型、版本还是渠道导致？",
+        "notes": "留存下降可分解为：cohort 结构效应 + 端型效应 + 版本效应 + 渠道效应。",
+        "steps": [
+          "前置检查",
+          "诊断框架",
+          "决策树",
+          "行动建议",
+          "最小诊断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "留存",
+        "D7",
+        "同期群",
+        "cohort",
+        "版本",
+        "基线",
+        "留存下降诊断",
+        "留存异常类"
+      ],
       "crossRefs": [
         "dash:retention"
       ],
@@ -782,19 +915,36 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "id": "pb:q09",
-      "name": "CAC/获客效率上升诊断",
+      "name": "CAC/获客效率上升诊断（成本侧）",
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l2",
-      "description": "订购金额/单成本上升，定位花费效率恶化的入口",
+      "description": "CAC 上升可分解为：成本效应 + 新客效应 + 结构效应。",
       "href": "methodology.html#q09",
       "detail": {
         "definition": "为什么获客越来越贵？",
-        "notes": "订购金额/单成本上升，定位花费效率恶化的入口",
-        "steps": []
+        "notes": "CAC 上升可分解为：成本效应 + 新客效应 + 结构效应。",
+        "steps": [
+          "前置检查",
+          "诊断框架",
+          "决策树",
+          "行动建议",
+          "最小诊断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "CAC",
+        "获客成本",
+        "投放花费",
+        "新客",
+        "成本归因",
+        "获客效率上升诊断",
+        "成本侧",
+        "渠道效率类"
+      ],
       "crossRefs": [
+        "metric:cac_获客成本",
         "dash:order"
       ],
       "childrenIds": []
@@ -805,14 +955,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l2",
-      "description": "收银台曝光→点击→验证→确认各环节转化率",
+      "description": "付费转化下降可分解为：曝光→点击效应 + 点击→验证效应 + 验证→确认效应 + 曝光结构效应。",
       "href": "methodology.html#q10",
       "detail": {
-        "definition": "转化卡在哪一步？",
-        "notes": "收银台曝光→点击→验证→确认各环节转化率",
-        "steps": []
+        "definition": "转化卡在哪一步？是入口误触、验证环节还是确认环节？",
+        "notes": "付费转化下降可分解为：曝光→点击效应 + 点击→验证效应 + 验证→确认效应 + 曝光结构效应。",
+        "steps": [
+          "前置检查",
+          "诊断框架",
+          "决策树",
+          "行动建议",
+          "最小诊断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "漏斗",
+        "转化",
+        "误触",
+        "收银台",
+        "click2verify",
+        "付费转化下降诊断",
+        "流失转化类"
+      ],
       "crossRefs": [
         "dash:funnel"
       ],
@@ -824,14 +989,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l2",
-      "description": "沉默与流失用户的规模、特征与迁移路径",
+      "description": "用户流失可分解为：规模趋势效应 + 风险分群效应 + 流失前行为特征效应。",
       "href": "methodology.html#q11",
       "detail": {
-        "definition": "用户为什么走了？",
-        "notes": "沉默与流失用户的规模、特征与迁移路径",
-        "steps": []
+        "definition": "用户为什么走了？沉默与流失的规模、特征与迁移路径如何？",
+        "notes": "用户流失可分解为：规模趋势效应 + 风险分群效应 + 流失前行为特征效应。",
+        "steps": [
+          "前置检查",
+          "诊断框架",
+          "决策树",
+          "行动建议",
+          "最小诊断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "流失",
+        "沉默",
+        "churn",
+        "RFM",
+        "只开机",
+        "行为特征",
+        "用户流失诊断",
+        "流失转化类"
+      ],
       "crossRefs": [
         "dash:lifecycle"
       ],
@@ -839,18 +1020,34 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "id": "pb:q12",
-      "name": "渠道质量下降诊断",
+      "name": "渠道质量下降诊断（价值侧）",
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l2",
-      "description": "各入口的留存、LTV 与转化质量综合对比",
+      "description": "渠道质量可分解为：LTV 效应 + CAC 效应 + 留存效应。",
       "href": "methodology.html#q12",
       "detail": {
         "definition": "哪个入口带来的用户质量差了？",
-        "notes": "各入口的留存、LTV 与转化质量综合对比",
-        "steps": []
+        "notes": "渠道质量可分解为：LTV 效应 + CAC 效应 + 留存效应。",
+        "steps": [
+          "前置检查",
+          "诊断框架",
+          "决策树",
+          "行动建议",
+          "最小诊断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "渠道质量",
+        "LTV",
+        "CAC",
+        "ROI",
+        "留存",
+        "渠道质量下降诊断",
+        "价值侧",
+        "渠道效率类"
+      ],
       "crossRefs": [
         "dash:order"
       ],
@@ -862,14 +1059,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l2",
-      "description": "剧集/单集完播率偏离基线，定位内容或 QoS 问题",
+      "description": "完播率下降可分解为：整体趋势效应 + 剧集效应 + 题材效应 + QoS 效应。",
       "href": "methodology.html#q13",
       "detail": {
-        "definition": "为什么完播率下降了？",
-        "notes": "剧集/单集完播率偏离基线，定位内容或 QoS 问题",
-        "steps": []
+        "definition": "为什么完播率下降了？内容问题还是 QoS？",
+        "notes": "完播率下降可分解为：整体趋势效应 + 剧集效应 + 题材效应 + QoS 效应。",
+        "steps": [
+          "前置检查",
+          "诊断框架",
+          "决策树",
+          "行动建议",
+          "最小诊断法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "完播率",
+        "QoS",
+        "卡顿",
+        "加权完播",
+        "题材",
+        "完播率异常诊断",
+        "内容质量类"
+      ],
       "crossRefs": [
         "dash:quality",
         "dash:series"
@@ -882,14 +1094,28 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l3",
-      "description": "基于近 3 月 DAU 趋势外推下月日活区间",
+      "description": "区分 MA7（平稳）与线性趋势；区间用残差标准差而非全期 STDDEV；必做 MAPE 回测",
       "href": "methodology.html#q14",
       "detail": {
-        "definition": "下个月日活大概多少？",
-        "notes": "基于近 3 月 DAU 趋势外推下月日活区间",
-        "steps": []
+        "definition": "下个月日活大概多少？区间是多少？",
+        "notes": "区分 MA7（平稳）与线性趋势；区间用残差标准差而非全期 STDDEV；必做 MAPE 回测",
+        "steps": [
+          "前置检查",
+          "预测框架",
+          "决策树",
+          "行动建议",
+          "最小预测法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "DAU",
+        "预测",
+        "MA7",
+        "线性趋势",
+        "MAPE",
+        "残差"
+      ],
       "crossRefs": [
         "dash:overview"
       ],
@@ -901,14 +1127,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l3",
-      "description": "按入口 Cohort + 客单外推用户终身价值",
+      "description": "补库名与时间过滤；按 cohort 衰减外推；MAPE>20% 不得用于加码绝对判断",
       "href": "methodology.html#q15",
       "detail": {
         "definition": "这批用户长期值多少钱？",
-        "notes": "按入口 Cohort + 客单外推用户终身价值",
-        "steps": []
+        "notes": "补库名与时间过滤；按 cohort 衰减外推；MAPE>20% 不得用于加码绝对判断",
+        "steps": [
+          "前置检查",
+          "预测框架",
+          "决策树",
+          "行动建议",
+          "最小预测法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "LTV",
+        "ARPU",
+        "cohort",
+        "衰减",
+        "MAPE"
+      ],
       "crossRefs": [
         "metric:arpu",
         "dash:order"
@@ -921,14 +1160,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l3",
-      "description": "基于历史入口转化与留存外推下月渠道贡献",
+      "description": "统一用日漏斗表口径；先做曝光CV稳定性检验；订购外推含月份天数与星期效应；必做 MAPE",
       "href": "methodology.html#q16",
       "detail": {
         "definition": "各入口下月能带来多少订购？",
-        "notes": "基于历史入口转化与留存外推下月渠道贡献",
-        "steps": []
+        "notes": "统一用日漏斗表口径；先做曝光CV稳定性检验；订购外推含月份天数与星期效应；必做 MAPE",
+        "steps": [
+          "前置检查",
+          "预测框架",
+          "决策树",
+          "行动建议",
+          "最小预测法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "渠道",
+        "订购预测",
+        "CV",
+        "星期效应",
+        "MAPE"
+      ],
       "crossRefs": [
         "dash:funnel"
       ],
@@ -940,14 +1192,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l3",
-      "description": "基于沉默趋势与 RFM 分层预测下月流失规模",
+      "description": "MA7仅趋势参考；RFM须最新快照；线性/MA7外推+区间；高风险阈值需业务校准",
       "href": "methodology.html#q17",
       "detail": {
-        "definition": "下个月大概流失多少人？",
-        "notes": "基于沉默趋势与 RFM 分层预测下月流失规模",
-        "steps": []
+        "definition": "下个月大概流失多少人？哪些人最可能流失？",
+        "notes": "MA7仅趋势参考；RFM须最新快照；线性/MA7外推+区间；高风险阈值需业务校准",
+        "steps": [
+          "前置检查",
+          "预测框架",
+          "决策树",
+          "行动建议",
+          "最小预测法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "流失",
+        "预测",
+        "RFM",
+        "MAPE",
+        "高风险"
+      ],
       "crossRefs": [
         "dash:lifecycle"
       ],
@@ -959,14 +1224,27 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l3",
-      "description": "基于订购量与分成比例外推下月爱奇艺分成收入",
+      "description": "确认 revenue_share 口径；分成率稳定性；天数+星期外推；三情景；MAPE 回测",
       "href": "methodology.html#q18",
       "detail": {
-        "definition": "下月分成收入大概多少？",
-        "notes": "基于订购量与分成比例外推下月爱奇艺分成收入",
-        "steps": []
+        "definition": "下月分成收入大概多少？区间是多少？",
+        "notes": "确认 revenue_share 口径；分成率稳定性；天数+星期外推；三情景；MAPE 回测",
+        "steps": [
+          "前置检查",
+          "预测框架",
+          "决策树",
+          "行动建议",
+          "最小预测法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "分成",
+        "收入预测",
+        "情景",
+        "星期效应",
+        "MAPE"
+      ],
       "crossRefs": [
         "dash:order"
       ],
@@ -978,14 +1256,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l4",
-      "description": "LTV/CAC 比率评估各入口长期 ROI",
+      "description": "渠道效率评估 = LTV / CAC 比率 + 稳健性检验。",
       "href": "methodology.html#q19",
       "detail": {
-        "definition": "各入口投放划不划算？",
-        "notes": "LTV/CAC 比率评估各入口长期 ROI",
-        "steps": []
+        "definition": "各入口投放划不划算？该加码、维持还是收缩？",
+        "notes": "渠道效率评估 = LTV / CAC 比率 + 稳健性检验。",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "CAC",
+        "LTV",
+        "ROI",
+        "评估",
+        "获客效率",
+        "窗口敏感性",
+        "渠道获客效率评估",
+        "获客效率类"
+      ],
       "crossRefs": [
         "dash:order"
       ],
@@ -997,15 +1291,32 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l4",
-      "description": "收银台入口改版/引导实验的显著性检验",
+      "description": "A/B 评估 = 效应量 + 显著性 + 置信区间 + 业务含义。",
       "href": "methodology.html#q20",
       "detail": {
-        "definition": "改版实验有没有效？",
-        "notes": "收银台入口改版/引导实验的显著性检验",
-        "steps": []
+        "definition": "改版实验有没有效？能不能全量？",
+        "notes": "A/B 评估 = 效应量 + 显著性 + 置信区间 + 业务含义。",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "A/B",
+        "实验",
+        "显著性",
+        "z检验",
+        "置信区间",
+        "MDE",
+        "测试效果评估",
+        "实验评估类"
+      ],
       "crossRefs": [
+        "metric:置信区间",
         "dash:funnel"
       ],
       "childrenIds": []
@@ -1016,14 +1327,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l4",
-      "description": "评估内容上线/推荐策略对 VV、完播与渗透的影响",
+      "description": "内容效果评估 = 目标剧集前后对比 + 大盘对照 + 增量拆分。",
       "href": "methodology.html#q21",
       "detail": {
-        "definition": "这次内容/功能改版效果好吗？",
-        "notes": "评估内容上线/推荐策略对 VV、完播与渗透的影响",
-        "steps": []
+        "definition": "这次内容/功能改版效果好吗？该不该加推？",
+        "notes": "内容效果评估 = 目标剧集前后对比 + 大盘对照 + 增量拆分。",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "内容",
+        "VV",
+        "完播",
+        "渗透",
+        "超额变化",
+        "DID",
+        "产品功能效果评估",
+        "产品效果类"
+      ],
       "crossRefs": [
         "dash:series",
         "dash:vod"
@@ -1036,14 +1363,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l4",
-      "description": "评估促销/活动期间的订购量、金额与分成 ROI",
+      "description": "活动 ROI 评估 = 增量分成 / 活动成本。",
       "href": "methodology.html#q22",
       "detail": {
-        "definition": "这次活动 ROI 怎么样？",
-        "notes": "评估促销/活动期间的订购量、金额与分成 ROI",
-        "steps": []
+        "definition": "这次活动 ROI 怎么样？下轮要不要继续做？",
+        "notes": "活动 ROI 评估 = 增量分成 / 活动成本。",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "ROI",
+        "活动",
+        "增量分成",
+        "反事实",
+        "套餐",
+        "评估",
+        "订购分成",
+        "活动效果类"
+      ],
       "crossRefs": [
         "dash:order"
       ],
@@ -1055,14 +1398,31 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l4",
-      "description": "用完播率、完成度与播放行为代理用户满意度",
+      "description": "满意度评估 = 加权完播率（K13）+ 播放行为 + QoS 指标 + 代理有效性说明（K22）。",
       "href": "methodology.html#q23",
       "detail": {
-        "definition": "用户满意度怎么样？",
-        "notes": "用完播率、完成度与播放行为代理用户满意度",
-        "steps": []
+        "definition": "用户满意度怎么样？体验在变好还是变差？",
+        "notes": "满意度评估 = 加权完播率（K13）+ 播放行为 + QoS 指标 + 代理有效性说明（K22）。",
+        "steps": [
+          "前置检查",
+          "评估框架",
+          "决策树",
+          "行动建议",
+          "最小评估法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "满意度",
+        "完播率",
+        "QoS",
+        "卡顿",
+        "代理有效性",
+        "用户满意度评估",
+        "完播",
+        "代理",
+        "体验评估类"
+      ],
       "crossRefs": [
         "dash:quality",
         "dash:episode"
@@ -1075,14 +1435,31 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l5",
-      "description": "按 LTV/CAC 与边际 ROI 重分配 launcher/video 入口流量",
+      "description": "预算分配 = 入口效率排序 + 边际效率估计 + 约束下的倾斜算法 + 实验验证。",
       "href": "methodology.html#q24",
       "detail": {
-        "definition": "预算应该怎么分配？",
-        "notes": "按 LTV/CAC 与边际 ROI 重分配 launcher/video 入口流量",
-        "steps": []
+        "definition": "预算应该怎么分配？加码哪个入口、收缩哪个入口、加多少？",
+        "notes": "预算分配 = 入口效率排序 + 边际效率估计 + 约束下的倾斜算法 + 实验验证。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "决策树",
+          "行动建议",
+          "最小优化法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "预算",
+        "分配",
+        "边际ROI",
+        "入口",
+        "流量",
+        "灰度",
+        "投放预算分配优化",
+        "入口流量",
+        "投放优化类"
+      ],
       "crossRefs": [
         "dash:order",
         "dash:funnel"
@@ -1095,14 +1472,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l5",
-      "description": "RFM 分层制定差异化沉默/流失用户触达策略",
+      "description": "用户挽回 = RFM 分层 + 分层策略矩阵 + 挽回 ROI 排序 + 分层对照实验。",
       "href": "methodology.html#q25",
       "detail": {
-        "definition": "怎么挽回流失用户？",
-        "notes": "RFM 分层制定差异化沉默/流失用户触达策略",
-        "steps": []
+        "definition": "怎么挽回流失用户？挽回值不值？先挽回谁？",
+        "notes": "用户挽回 = RFM 分层 + 分层策略矩阵 + 挽回 ROI 排序 + 分层对照实验。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "决策树",
+          "行动建议",
+          "最小优化法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "挽回",
+        "RFM",
+        "挽回ROI",
+        "触达",
+        "分层对照",
+        "用户挽回策略优化",
+        "用户挽回类"
+      ],
       "crossRefs": [
         "dash:lifecycle"
       ],
@@ -1114,14 +1506,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l5",
-      "description": "基于 VV/完播/渗透确定内容与功能迭代优先级",
+      "description": "产品优先级 = 内容价值矩阵 + 功能渗透缺口 + RICE/ICE 打分 + 方案对比。",
       "href": "methodology.html#q26",
       "detail": {
-        "definition": "先做哪个功能/内容？",
-        "notes": "基于 VV/完播/渗透确定内容与功能迭代优先级",
-        "steps": []
+        "definition": "先做哪个功能/内容？资源有限怎么取舍？",
+        "notes": "产品优先级 = 内容价值矩阵 + 功能渗透缺口 + RICE/ICE 打分 + 方案对比。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "决策树",
+          "行动建议",
+          "最小优化法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "优先级",
+        "RICE",
+        "渗透缺口",
+        "战略权重",
+        "roadmap",
+        "产品优先级优化",
+        "产品优先级类"
+      ],
       "crossRefs": [
         "dash:series",
         "dash:vod",
@@ -1135,14 +1542,29 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l5",
-      "description": "launcher + video 入口的最优组合与协同策略",
+      "description": "渠道组合 = 入口贡献与协同度量 + 组合效率对比 + 约束下的方案设计 + 灰度验证。",
       "href": "methodology.html#q27",
       "detail": {
-        "definition": "入口怎么组合最优？",
-        "notes": "launcher + video 入口的最优组合与协同策略",
-        "steps": []
+        "definition": "入口怎么组合最优？单入口依赖是否过高？多入口是否协同？",
+        "notes": "渠道组合 = 入口贡献与协同度量 + 组合效率对比 + 约束下的方案设计 + 灰度验证。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "决策树",
+          "行动建议",
+          "最小优化法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "渠道组合",
+        "协同",
+        "依赖度",
+        "LTV/CAC",
+        "D7",
+        "渠道组合优化",
+        "渠道组合类"
+      ],
       "crossRefs": [
         "dash:order"
       ],
@@ -1154,14 +1576,30 @@ window.PLATFORM_KG_DATA = {
       "type": "methodology",
       "category": "internet",
       "parentId": "cat_method_l5",
-      "description": "连续包月/单月/包年套餐的定价与结构优化",
+      "description": "定价优化 = 套餐结构分析 + 价格弹性估计 + 套餐利润模型 + A/B 验证。",
       "href": "methodology.html#q28",
       "detail": {
-        "definition": "套餐价格怎么定？",
-        "notes": "连续包月/单月/包年套餐的定价与结构优化",
-        "steps": []
+        "definition": "套餐价格怎么定？结构怎么调？该不该降价/加权益？",
+        "notes": "定价优化 = 套餐结构分析 + 价格弹性估计 + 套餐利润模型 + A/B 验证。",
+        "steps": [
+          "前置检查",
+          "优化框架",
+          "决策树",
+          "行动建议",
+          "最小优化法",
+          "常见误判"
+        ]
       },
-      "tags": [],
+      "tags": [
+        "定价",
+        "弹性",
+        "套餐",
+        "毛利",
+        "退订",
+        "A/B",
+        "定价策略优化",
+        "定价优化类"
+      ],
       "crossRefs": [
         "dash:order"
       ],
@@ -3462,7 +3900,9 @@ window.PLATFORM_KG_DATA = {
         "CAC 获客成本"
       ],
       "source_table": "dws_channel_daily",
-      "crossRefs": [],
+      "crossRefs": [
+        "pb:q09"
+      ],
       "childrenIds": []
     },
     {
@@ -3699,7 +4139,9 @@ window.PLATFORM_KG_DATA = {
         "置信区间"
       ],
       "source_table": "ab_test_result",
-      "crossRefs": [],
+      "crossRefs": [
+        "pb:q20"
+      ],
       "childrenIds": []
     },
     {
@@ -3808,7 +4250,9 @@ window.PLATFORM_KG_DATA = {
         "付费率"
       ],
       "source_table": "dws_user_daily",
-      "crossRefs": [],
+      "crossRefs": [
+        "pb:q02"
+      ],
       "childrenIds": []
     },
     {
@@ -5514,6 +5958,13 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "pb:q02",
+      "target": "metric:付费率",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
+    },
+    {
+      "source": "pb:q02",
       "target": "dash:overview",
       "style": "dashed",
       "cross": true,
@@ -5588,6 +6039,13 @@ window.PLATFORM_KG_DATA = {
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
+    },
+    {
+      "source": "pb:q09",
+      "target": "metric:cac_获客成本",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
     },
     {
       "source": "pb:q09",
@@ -5679,6 +6137,13 @@ window.PLATFORM_KG_DATA = {
       "style": "dashed",
       "cross": true,
       "label": "相关看板"
+    },
+    {
+      "source": "pb:q20",
+      "target": "metric:置信区间",
+      "style": "dashed",
+      "cross": true,
+      "label": "用到指标"
     },
     {
       "source": "pb:q20",

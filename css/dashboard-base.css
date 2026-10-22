@@ -46,7 +46,7 @@
   gap: 0.5rem;
   flex-wrap: wrap;
   position: sticky;
-  top: 56px;
+  top: var(--nav-offset, var(--nav-height, 56px));
   z-index: 90;
 }
 

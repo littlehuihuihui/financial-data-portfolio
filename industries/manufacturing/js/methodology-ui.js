@@ -16,6 +16,10 @@
     return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
   }
 
+  function fmtMultiline(s) {
+    return esc(s).replace(/\r\n/g, "\n").replace(/\n/g, "<br>");
+  }
+
   // ===== 看板目录（config/dashboards.json）=====
   let dashCatalog = [];
 
@@ -288,7 +292,7 @@
       <div class="step-block">
         <div class="step-head">校验 ${i + 1}：${esc(s.title)}</div>
         <div class="step-body">
-          ${s.desc ? `<p class="step-desc">${esc(s.desc)}</p>` : ""}
+          ${s.desc ? `<p class="step-desc">${fmtMultiline(s.desc)}</p>` : ""}
           ${s.sql ? `
             <div class="sql-wrap">
               <div class="sql-label">📊 SQL 取数</div>
@@ -297,7 +301,7 @@
           ${s.judge ? `
             <div class="judge-wrap">
               <div class="judge-label">⚖️ 判断标准</div>
-              <p class="judge-text">${esc(s.judge)}</p>
+              <p class="judge-text">${fmtMultiline(s.judge)}</p>
             </div>` : ""}
           ${s.output ? `<p class="step-output"><strong>输出：</strong>${esc(s.output)}</p>` : ""}
         </div>
@@ -547,6 +551,7 @@
         font-size: 13px;
         color: #cbd5e1;
         line-height: 1.6;
+       white-space: pre-line;
       }
       .sql-wrap {
         margin-bottom: 10px;
@@ -587,6 +592,7 @@
         font-size: 12px;
         color: #fde68a;
         line-height: 1.5;
+       white-space: pre-line;
       }
       .step-output {
         margin: 0;

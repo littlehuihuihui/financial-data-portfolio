@@ -103,7 +103,13 @@ window.DashCore = (function () {
           if (v != null && v !== "") url.searchParams.set(k, v);
         });
       }
-      const res = await fetch(url.toString());
+      const industry =
+        document.body?.dataset?.industry ||
+        document.documentElement?.dataset?.industry ||
+        "retail";
+      const res = await fetch(url.toString(), {
+        headers: { "X-Industry": industry },
+      });
       if (!res.ok) throw new Error(await res.text() || `HTTP ${res.status}`);
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || "API error");
