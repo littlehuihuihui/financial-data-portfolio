@@ -106,7 +106,7 @@ window.DashLoaders = (function () {
     } else if (roasDom) {
       const c = initChart("db-chart-roas");
       if (c) c.dispose();
-      roasDom.innerHTML = '<div class="empty-hint" style="padding:4rem 1rem">暂无广告费数据（需 dws_expense_monthly 广告费 或 ods_ad_cost）</div>';
+      roasDom.innerHTML = '<div class="empty-hint" style="padding:4rem 1rem">暂无广告费数据（需 v_ad_channel_roi / dws_expense_monthly 营销投放）</div>';
     }
   }
 
@@ -343,15 +343,15 @@ window.DashLoaders = (function () {
     renderKpiGrid("db-kpi", window.NorthstarPhases?.applyKpiRoles?.([
       { name: "DQC 门禁通过率", value: d.pass_rate, unit: "%" },
       { name: "质量评分", value: latest },
-      { name: "今日阻断量", value: blockedToday, sub: "BLOCK 门禁" },
+      { name: "业务日阻断量", value: blockedToday, sub: "BLOCK 门禁" },
       { name: "未解决异常", value: d.open_count },
-      { name: "最近检查", value: d.last_check, sub: "ODS↔DWD↔DWS" },
+      { name: "最近检查", value: d.last_check, sub: "业务日 · ODS↔DWD↔DWS" },
     ]) || [
       { name: "DQC 门禁通过率", value: d.pass_rate, unit: "%" },
       { name: "质量评分", value: latest },
-      { name: "今日阻断量", value: blockedToday, sub: "BLOCK 门禁" },
+      { name: "业务日阻断量", value: blockedToday, sub: "BLOCK 门禁" },
       { name: "未解决异常", value: d.open_count },
-      { name: "最近检查", value: d.last_check, sub: "ODS↔DWD↔DWS" },
+      { name: "最近检查", value: d.last_check, sub: "业务日 · ODS↔DWD↔DWS" },
     ]);
 
     const summary = d.summary || [];

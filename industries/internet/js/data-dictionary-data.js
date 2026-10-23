@@ -596,6 +596,38 @@ window.DATA_DICTIONARY=[
     ]
   },
   {
+    "name": "dim_activity",
+    "name_cn": "营销活动",
+    "layer": "DIM",
+    "type": "table",
+    "purpose": "DIM·营销活动维（看板/ADS 禁止直读 ods_activity）",
+    "source": "database/10_dim_activity.sql",
+    "downstream": [
+      "v_activity_summary",
+      "v_activity_daily_trend",
+      "dashboard_activity"
+    ],
+    "lineage": [
+      "ods_activity",
+      "dim_activity",
+      "v_activity_summary"
+    ],
+    "field_count": 11,
+    "fields": [
+      {"name": "activity_id", "type": "VARCHAR(64)", "desc": "活动ID", "business": "主键", "role": "pk"},
+      {"name": "activity_name", "type": "VARCHAR(128)", "desc": "活动名称", "business": "名称", "role": "attr"},
+      {"name": "start_date", "type": "DATE", "desc": "开始日", "business": "开始", "role": "dim"},
+      {"name": "end_date", "type": "DATE", "desc": "结束日", "business": "结束", "role": "dim"},
+      {"name": "activity_type", "type": "VARCHAR(32)", "desc": "活动类型", "business": "类型", "role": "attr"},
+      {"name": "target_product_line", "type": "VARCHAR(32)", "desc": "目标产品线", "business": "产品线", "role": "attr"},
+      {"name": "budget_amount", "type": "DECIMAL(15,2)", "desc": "预算", "business": "元", "role": "measure"},
+      {"name": "target_users", "type": "INT", "desc": "目标用户数", "business": "人", "role": "measure"},
+      {"name": "source_system", "type": "VARCHAR(32)", "desc": "来源系统", "business": "CRM", "role": "audit"},
+      {"name": "etl_batch_id", "type": "VARCHAR(50)", "desc": "ETL批次", "business": "批次", "role": "audit"},
+      {"name": "created_at", "type": "DATETIME", "desc": "入仓时间", "business": "审计", "role": "audit"}
+    ]
+  },
+  {
     "name": "dim_user",
     "name_cn": "用户",
     "layer": "DIM",

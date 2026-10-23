@@ -482,7 +482,7 @@ ORDER BY snapshot_month
 """
 
 # ============================================================================
-# 模块15：营销活动复盘（基于 ods_activity + 子查询）
+# 模块15：营销活动复盘（dim_activity + dwd_trade_order_di + dws_*；禁止直读 ODS）
 # ============================================================================
 SQL_ACTIVITY_LIST = """
 SELECT
@@ -494,23 +494,45 @@ SELECT
     a.budget_amount,
     a.target_users,
     DATEDIFF(a.end_date, a.start_date) + 1 AS duration_days,
-    (SELECT COUNT(DISTINCT mac) FROM dws_act_user_active_1d 
+    (SELECT COUNT(DISTINCT mac) FROM dws_act_user_active_1d
      WHERE snapshot_date BETWEEN a.start_date AND a.end_date) AS total_reach_users,
-    (SELECT COUNT(DISTINCT user_id) FROM ods_subscription_order 
-     WHERE pay_date BETWEEN a.start_date AND a.end_date) AS total_participate_users,
-    (SELECT COUNT(*) FROM dws_trade_order_1d 
+    (SELECT COUNT(DISTINCT userid) FROM dwd_trade_order_di
+     WHERE op_type='order' AND op_date BETWEEN a.start_date AND a.end_date) AS total_participate_users,
+    (SELECT COUNT(*) FROM dws_trade_order_1d
      WHERE snapshot_date BETWEEN a.start_date AND a.end_date AND src_type<>'ALL') AS total_orders,
-    ROUND((SELECT SUM(order_amount) FROM dws_trade_order_1d 
+    ROUND((SELECT SUM(order_amount) FROM dws_trade_order_1d
      WHERE snapshot_date BETWEEN a.start_date AND a.end_date AND src_type<>'ALL'), 2) AS total_order_amount,
-    ROUND((SELECT SUM(revenue_share) FROM dws_trade_order_1d 
+    ROUND((SELECT SUM(revenue_share) FROM dws_trade_order_1d
      WHERE snapshot_date BETWEEN a.start_date AND a.end_date AND src_type<>'ALL'), 2) AS total_revenue_share,
-    ROUND((SELECT SUM(order_amount) FROM dws_trade_order_1d 
+    ROUND((SELECT SUM(order_amount) FROM dws_trade_order_1d
      WHERE snapshot_date BETWEEN a.start_date AND a.end_date AND src_type<>'ALL') / NULLIF(a.budget_amount, 0), 2) AS roi_ratio,
-    ROUND((SELECT COUNT(DISTINCT user_id) FROM ods_subscription_order 
-     WHERE pay_date BETWEEN a.start_date AND a.end_date) / NULLIF((SELECT COUNT(DISTINCT mac) FROM dws_act_user_active_1d 
+    ROUND((SELECT COUNT(DISTINCT userid) FROM dwd_trade_order_di
+     WHERE op_type='order' AND op_date BETWEEN a.start_date AND a.end_date)
+      / NULLIF((SELECT COUNT(DISTINCT mac) FROM dws_act_user_active_1d
      WHERE snapshot_date BETWEEN a.start_date AND a.end_date), 0) * 100, 2) AS participate_rate_pct
-FROM ods_activity a
+FROM dim_activity a
 ORDER BY a.start_date DESC
+"""
+
+SQL_ACTIVITY_DETAIL = """
+SELECT
+    a.activity_id,
+    a.activity_name,
+    a.activity_type,
+    a.start_date,
+    a.end_date,
+    a.budget_amount,
+    d.op_date AS snapshot_date,
+    COUNT(DISTINCT d.userid) AS pay_users,
+    COUNT(*) AS order_cnt,
+    ROUND(SUM(d.fee), 2) AS order_amount
+FROM dim_activity a
+LEFT JOIN dwd_trade_order_di d
+  ON d.op_type='order' AND d.op_date BETWEEN a.start_date AND a.end_date
+WHERE a.activity_name = %s
+GROUP BY a.activity_id, a.activity_name, a.activity_type, a.start_date, a.end_date,
+         a.budget_amount, d.op_date
+ORDER BY d.op_date
 """
 
 # ============================================================================
@@ -557,9 +579,9 @@ FROM (
   GROUP BY user_status
   UNION ALL
   SELECT '生命周期', 'register_date', '注册时段', '#2ecc71', COUNT(DISTINCT userid),
-    CASE WHEN register_date >= DATE_FORMAT(CURDATE(), '%%Y-%%m-01') THEN '本月新注册' ELSE '历史注册' END, '规则'
+    CASE WHEN register_date >= DATE_FORMAT((SELECT MAX(snapshot_date) FROM dws_act_user_active_1d), '%%Y-%%m-01') THEN '本月新注册' ELSE '历史注册' END, '规则'
   FROM dim_user
-  GROUP BY CASE WHEN register_date >= DATE_FORMAT(CURDATE(), '%%Y-%%m-01') THEN '本月新注册' ELSE '历史注册' END
+  GROUP BY CASE WHEN register_date >= DATE_FORMAT((SELECT MAX(snapshot_date) FROM dws_act_user_active_1d), '%%Y-%%m-01') THEN '本月新注册' ELSE '历史注册' END
   UNION ALL
   SELECT '人口', 'region', '所属地市', '#e67e22', COUNT(DISTINCT u.userid),
     IFNULL(r.region_name, '未知'), '规则'
@@ -618,9 +640,9 @@ FROM (
   FROM dim_user GROUP BY user_status
   UNION ALL
   SELECT '生命周期', 'register_date', '注册时段',
-    CASE WHEN register_date >= DATE_FORMAT(CURDATE(), '%%Y-%%m-01') THEN '本月新注册' ELSE '历史注册' END, COUNT(DISTINCT userid)
+    CASE WHEN register_date >= DATE_FORMAT((SELECT MAX(snapshot_date) FROM dws_act_user_active_1d), '%%Y-%%m-01') THEN '本月新注册' ELSE '历史注册' END, COUNT(DISTINCT userid)
   FROM dim_user
-  GROUP BY CASE WHEN register_date >= DATE_FORMAT(CURDATE(), '%%Y-%%m-01') THEN '本月新注册' ELSE '历史注册' END
+  GROUP BY CASE WHEN register_date >= DATE_FORMAT((SELECT MAX(snapshot_date) FROM dws_act_user_active_1d), '%%Y-%%m-01') THEN '本月新注册' ELSE '历史注册' END
   UNION ALL
   SELECT '人口', 'region', '所属地市', IFNULL(r.region_name, '未知'), COUNT(DISTINCT u.userid)
   FROM dim_user u LEFT JOIN dim_region r ON u.region_id = r.region_id

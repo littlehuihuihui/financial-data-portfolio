@@ -1,5 +1,5 @@
 /** sql6 数据字典 · 自动生成 · 勿手改
- * tables=32 caliber_fields=23 tables_with_dashboards=31
+ * tables=42 caliber_fields=26 tables_with_dashboards=37
  */
 window.DATA_DICTIONARY = [
   {
@@ -29,7 +29,7 @@ window.DATA_DICTIONARY = [
       },
       {
         "id": "quality",
-        "title": "数据质量",
+        "title": "数据质量监控大盘",
         "file": "dashboards/14-quality.html",
         "href": "../retail_dashboard.html#quality"
       }
@@ -188,23 +188,19 @@ window.DATA_DICTIONARY = [
     "purpose": "支付流水表",
     "source": "sql6_portfolio_model",
     "downstream": [
-      "v_cashflow"
+      "dws_payment_daily",
+      "dws_payment_monthly"
     ],
     "lineage": [
       "ERP/CSV",
       "ods_payment",
-      "v_cashflow"
+      "dws_payment_daily",
+      "dws_payment_monthly"
     ],
     "used_by_dashboards": [
       {
-        "id": "cashflow",
-        "title": "现金流分析",
-        "file": "dashboards/06-cashflow.html",
-        "href": "../retail_dashboard.html#cashflow"
-      },
-      {
         "id": "quality",
-        "title": "数据质量",
+        "title": "数据质量监控大盘",
         "file": "dashboards/14-quality.html",
         "href": "../retail_dashboard.html#quality"
       }
@@ -298,12 +294,14 @@ window.DATA_DICTIONARY = [
     "purpose": "采购表",
     "source": "sql6_portfolio_model",
     "downstream": [
-      "dwd_inventory_wide"
+      "dwd_fct_purchase"
     ],
     "lineage": [
       "ERP/CSV",
       "ods_purchase",
-      "dwd_inventory_wide"
+      "dwd_fct_purchase",
+      "v_purchase_order",
+      "v_purchase_receipt"
     ],
     "used_by_dashboards": [],
     "field_count": 16,
@@ -448,7 +446,7 @@ window.DATA_DICTIONARY = [
       },
       {
         "id": "quality",
-        "title": "数据质量",
+        "title": "数据质量监控大盘",
         "file": "dashboards/14-quality.html",
         "href": "../retail_dashboard.html#quality"
       }
@@ -564,6 +562,7 @@ window.DATA_DICTIONARY = [
     "downstream": [
       "dwd_expense_wide",
       "dws_expense_monthly",
+      "dws_expense_daily",
       "v_budget"
     ],
     "lineage": [
@@ -574,14 +573,8 @@ window.DATA_DICTIONARY = [
     ],
     "used_by_dashboards": [
       {
-        "id": "budget",
-        "title": "预算执行",
-        "file": "dashboards/09-budget.html",
-        "href": "../retail_dashboard.html#budget"
-      },
-      {
         "id": "quality",
-        "title": "数据质量",
+        "title": "数据质量监控大盘",
         "file": "dashboards/14-quality.html",
         "href": "../retail_dashboard.html#quality"
       }
@@ -694,12 +687,6 @@ window.DATA_DICTIONARY = [
         "title": "门店分析",
         "file": "dashboards/10-store.html",
         "href": "../retail_dashboard.html#store"
-      },
-      {
-        "id": "financial",
-        "title": "三大报表",
-        "file": "dashboards/04-financial.html",
-        "href": "../retail_dashboard.html#financial"
       }
     ],
     "field_count": 11,
@@ -799,16 +786,10 @@ window.DATA_DICTIONARY = [
     ],
     "used_by_dashboards": [
       {
-        "id": "channel",
-        "title": "渠道分析",
-        "file": "dashboards/03-channel.html",
-        "href": "../retail_dashboard.html#channel"
-      },
-      {
-        "id": "budget",
-        "title": "预算执行",
-        "file": "dashboards/09-budget.html",
-        "href": "../retail_dashboard.html#budget"
+        "id": "quality",
+        "title": "数据质量监控大盘",
+        "file": "dashboards/14-quality.html",
+        "href": "../retail_dashboard.html#quality"
       }
     ],
     "field_count": 11,
@@ -899,11 +880,13 @@ window.DATA_DICTIONARY = [
     "purpose": "预算表",
     "source": "sql6_portfolio_model",
     "downstream": [
+      "dws_budget_monthly",
       "v_budget"
     ],
     "lineage": [
       "ERP/CSV",
       "ods_budget",
+      "dws_budget_monthly",
       "v_budget"
     ],
     "used_by_dashboards": [
@@ -1457,6 +1440,50 @@ window.DATA_DICTIONARY = [
         "business": "created_at",
         "role": "audit"
       }
+    ]
+  },
+  {
+    "name": "dwd_fct_purchase",
+    "layer": "DWD",
+    "type": "table",
+    "purpose": "采购单事实（粒度=采购单；准时/延误/状态）",
+    "source": "sql6_portfolio_model/08_dwd_purchase.sql",
+    "downstream": [
+      "v_purchase_order",
+      "v_purchase_receipt"
+    ],
+    "lineage": [
+      "ERP/CSV",
+      "ods_purchase",
+      "dwd_fct_purchase",
+      "v_purchase_order",
+      "v_purchase_receipt"
+    ],
+    "used_by_dashboards": [],
+    "field_count": 22,
+    "fields": [
+      {"name": "purchase_sk", "type": "BIGINT", "desc": "代理键", "business": "代理键", "role": "pk"},
+      {"name": "purchase_id", "type": "VARCHAR(50)", "desc": "采购单号", "business": "业务键", "role": "bk"},
+      {"name": "purchase_date", "type": "DATE", "desc": "下单日", "business": "下单日", "role": "dim"},
+      {"name": "receipt_date", "type": "DATE", "desc": "收货日", "business": "收货日", "role": "dim"},
+      {"name": "supplier_code", "type": "VARCHAR(50)", "desc": "供应商编码", "business": "供应商", "role": "dim"},
+      {"name": "supplier_name", "type": "VARCHAR(100)", "desc": "供应商名称", "business": "供应商", "role": "dim"},
+      {"name": "brand_code", "type": "VARCHAR(20)", "desc": "品牌编码", "business": "品牌", "role": "dim"},
+      {"name": "brand_name", "type": "VARCHAR(30)", "desc": "品牌名称", "business": "品牌", "role": "dim"},
+      {"name": "category_code", "type": "VARCHAR(20)", "desc": "品类编码", "business": "品类", "role": "dim"},
+      {"name": "category_name", "type": "VARCHAR(30)", "desc": "品类名称", "business": "品类", "role": "dim"},
+      {"name": "purchase_qty", "type": "INT", "desc": "采购数量", "business": "件数", "role": "measure"},
+      {"name": "unit_price", "type": "DECIMAL(12,2)", "desc": "单价", "business": "元", "role": "measure"},
+      {"name": "purchase_amount", "type": "DECIMAL(15,2)", "desc": "采购金额", "business": "元", "role": "measure"},
+      {"name": "receipt_flag", "type": "TINYINT", "desc": "已收货", "business": "1=已收货", "role": "attr"},
+      {"name": "receipt_qty", "type": "INT", "desc": "收货数量", "business": "件数", "role": "measure"},
+      {"name": "invoice_flag", "type": "TINYINT", "desc": "已开票", "business": "1=已开票", "role": "attr"},
+      {"name": "invoice_amount", "type": "DECIMAL(15,2)", "desc": "开票金额", "business": "元", "role": "measure"},
+      {"name": "status", "type": "VARCHAR(20)", "desc": "状态", "business": "open/received/partial", "role": "attr"},
+      {"name": "on_time_flag", "type": "TINYINT", "desc": "准时收货", "business": "收货≤下单+7天", "role": "attr"},
+      {"name": "delay_days", "type": "INT", "desc": "延误天数", "business": "天", "role": "measure"},
+      {"name": "source_system", "type": "VARCHAR(32)", "desc": "来源系统", "business": "ERP", "role": "audit"},
+      {"name": "etl_batch_id", "type": "VARCHAR(50)", "desc": "ETL批次", "business": "批次号", "role": "audit"}
     ]
   },
   {
@@ -2095,7 +2122,8 @@ window.DATA_DICTIONARY = [
       "v_brand",
       "v_channel",
       "v_income_statement",
-      "v_dupont"
+      "v_dupont",
+      "v_ad_channel_roi"
     ],
     "lineage": [
       "DWD",
@@ -2210,12 +2238,15 @@ window.DATA_DICTIONARY = [
     "purpose": "月费用汇总",
     "source": "sql6_portfolio_model",
     "downstream": [
-      "v_budget"
+      "v_budget",
+      "v_ad_channel_roi",
+      "v_expense_budget"
     ],
     "lineage": [
       "DWD",
       "dws_expense_monthly",
-      "v_budget"
+      "v_budget",
+      "v_ad_channel_roi"
     ],
     "used_by_dashboards": [
       {
@@ -2229,6 +2260,12 @@ window.DATA_DICTIONARY = [
         "title": "三大报表",
         "file": "dashboards/04-financial.html",
         "href": "../retail_dashboard.html#financial"
+      },
+      {
+        "id": "channel",
+        "title": "渠道分析",
+        "file": "dashboards/03-channel.html",
+        "href": "../retail_dashboard.html#channel"
       }
     ],
     "field_count": 6,
@@ -2432,6 +2469,283 @@ window.DATA_DICTIONARY = [
         "desc": "坪效",
         "business": "坪效",
         "role": "attr"
+      }
+    ]
+  },
+  {
+    "name": "dws_payment_daily",
+    "layer": "DWS",
+    "type": "table",
+    "purpose": "日支付汇总·增量表聚合·快照按日",
+    "source": "sql6_portfolio_model",
+    "downstream": [
+      "资金预测看板",
+      "银行余额"
+    ],
+    "lineage": [
+      "DWD",
+      "dws_payment_daily",
+      "资金预测看板",
+      "银行余额"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "cashflow",
+        "title": "现金流分析",
+        "file": "dashboards/06-cashflow.html",
+        "href": "../retail_dashboard.html#cashflow"
+      }
+    ],
+    "field_count": 6,
+    "fields": [
+      {
+        "name": "snapshot_date",
+        "type": "DATE",
+        "desc": "业务日",
+        "business": "业务日",
+        "role": "pk"
+      },
+      {
+        "name": "payment_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "支付流入·元",
+        "business": "支付流入·元",
+        "role": "measure",
+        "caliber_id": "revenue"
+      },
+      {
+        "name": "payment_count",
+        "type": "INT",
+        "desc": "payment_count",
+        "business": "payment_count",
+        "role": "measure"
+      },
+      {
+        "name": "success_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "success_amount",
+        "business": "success_amount",
+        "role": "measure"
+      },
+      {
+        "name": "refund_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "refund_amount",
+        "business": "refund_amount",
+        "role": "measure"
+      },
+      {
+        "name": "etl_batch_id",
+        "type": "VARCHAR(50)",
+        "desc": "etl_batch_id",
+        "business": "etl_batch_id",
+        "role": "bk"
+      }
+    ]
+  },
+  {
+    "name": "dws_expense_daily",
+    "layer": "DWS",
+    "type": "table",
+    "purpose": "日费用汇总·增量表聚合·快照按日",
+    "source": "sql6_portfolio_model",
+    "downstream": [
+      "资金预测看板"
+    ],
+    "lineage": [
+      "DWD",
+      "dws_expense_daily",
+      "资金预测看板"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "cashflow",
+        "title": "现金流分析",
+        "file": "dashboards/06-cashflow.html",
+        "href": "../retail_dashboard.html#cashflow"
+      }
+    ],
+    "field_count": 5,
+    "fields": [
+      {
+        "name": "snapshot_date",
+        "type": "DATE",
+        "desc": "费用发生日",
+        "business": "费用发生日",
+        "role": "pk"
+      },
+      {
+        "name": "expense_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "费用金额·元",
+        "business": "费用金额·元",
+        "role": "measure"
+      },
+      {
+        "name": "budget_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "budget_amount",
+        "business": "budget_amount",
+        "role": "measure"
+      },
+      {
+        "name": "expense_count",
+        "type": "INT",
+        "desc": "expense_count",
+        "business": "expense_count",
+        "role": "measure"
+      },
+      {
+        "name": "etl_batch_id",
+        "type": "VARCHAR(50)",
+        "desc": "etl_batch_id",
+        "business": "etl_batch_id",
+        "role": "bk"
+      }
+    ]
+  },
+  {
+    "name": "dws_payment_monthly",
+    "layer": "DWS",
+    "type": "table",
+    "purpose": "月支付汇总·增量表聚合结果",
+    "source": "sql6_portfolio_model",
+    "downstream": [
+      "v_cashflow",
+      "资产负债表导出"
+    ],
+    "lineage": [
+      "DWD",
+      "dws_payment_monthly",
+      "v_cashflow",
+      "资产负债表导出"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "cashflow",
+        "title": "现金流分析",
+        "file": "dashboards/06-cashflow.html",
+        "href": "../retail_dashboard.html#cashflow"
+      },
+      {
+        "id": "financial",
+        "title": "三大报表",
+        "file": "dashboards/04-financial.html",
+        "href": "../retail_dashboard.html#financial"
+      }
+    ],
+    "field_count": 6,
+    "fields": [
+      {
+        "name": "snapshot_month",
+        "type": "VARCHAR(7)",
+        "desc": "YYYY-MM",
+        "business": "YYYY-MM",
+        "role": "pk"
+      },
+      {
+        "name": "payment_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "支付流入·元",
+        "business": "支付流入·元",
+        "role": "measure",
+        "caliber_id": "revenue"
+      },
+      {
+        "name": "payment_count",
+        "type": "INT",
+        "desc": "payment_count",
+        "business": "payment_count",
+        "role": "measure"
+      },
+      {
+        "name": "success_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "success_amount",
+        "business": "success_amount",
+        "role": "measure"
+      },
+      {
+        "name": "refund_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "refund_amount",
+        "business": "refund_amount",
+        "role": "measure"
+      },
+      {
+        "name": "etl_batch_id",
+        "type": "VARCHAR(50)",
+        "desc": "etl_batch_id",
+        "business": "etl_batch_id",
+        "role": "bk"
+      }
+    ]
+  },
+  {
+    "name": "dws_budget_monthly",
+    "layer": "DWS",
+    "type": "table",
+    "purpose": "月预算vs实际汇总·快照表",
+    "source": "sql6_portfolio_model",
+    "downstream": [
+      "v_budget"
+    ],
+    "lineage": [
+      "DWD",
+      "dws_budget_monthly",
+      "v_budget"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "budget",
+        "title": "预算执行",
+        "file": "dashboards/09-budget.html",
+        "href": "../retail_dashboard.html#budget"
+      }
+    ],
+    "field_count": 6,
+    "fields": [
+      {
+        "name": "snapshot_month",
+        "type": "VARCHAR(7)",
+        "desc": "YYYY-MM",
+        "business": "YYYY-MM",
+        "role": "pk"
+      },
+      {
+        "name": "budget_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "budget_amount",
+        "business": "budget_amount",
+        "role": "measure"
+      },
+      {
+        "name": "actual_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "actual_amount",
+        "business": "actual_amount",
+        "role": "measure"
+      },
+      {
+        "name": "variance_amount",
+        "type": "DECIMAL(15,2)",
+        "desc": "variance_amount",
+        "business": "variance_amount",
+        "role": "measure"
+      },
+      {
+        "name": "achievement_rate",
+        "type": "DECIMAL(10,2)",
+        "desc": "achievement_rate",
+        "business": "achievement_rate",
+        "role": "measure"
+      },
+      {
+        "name": "etl_batch_id",
+        "type": "VARCHAR(50)",
+        "desc": "etl_batch_id",
+        "business": "etl_batch_id",
+        "role": "bk"
       }
     ]
   },
@@ -2663,7 +2977,7 @@ window.DATA_DICTIONARY = [
     "name": "v_dupont",
     "layer": "ADS",
     "type": "view",
-    "purpose": "杜邦 ROE 分解",
+    "purpose": "杜邦 ROE 分解（含环比/拖累项）",
     "source": "sql6_portfolio_model",
     "downstream": [],
     "lineage": [
@@ -2679,8 +2993,22 @@ window.DATA_DICTIONARY = [
         "href": "../retail_dashboard.html#dupont"
       }
     ],
-    "field_count": 7,
+    "field_count": 9,
     "fields": [
+      {
+        "name": "roe_change_vs_last_month",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "roe_drag_factor",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
       {
         "name": "net_profit_margin",
         "type": "DERIVED",
@@ -2850,7 +3178,7 @@ window.DATA_DICTIONARY = [
     "name": "v_cashflow",
     "layer": "ADS",
     "type": "view",
-    "purpose": "现金流量视图",
+    "purpose": "现金流量视图（含净利润）",
     "source": "sql6_portfolio_model",
     "downstream": [],
     "lineage": [
@@ -3091,6 +3419,251 @@ window.DATA_DICTIONARY = [
         "role": "attr"
       }
     ]
+  },
+  {
+    "name": "v_purchase_order",
+    "layer": "ADS",
+    "type": "view",
+    "purpose": "采购订单方法论兼容（读 dwd_fct_purchase）",
+    "source": "sql6_portfolio_model",
+    "downstream": [],
+    "lineage": [
+      "DWS",
+      "v_purchase_order",
+      "看板/API"
+    ],
+    "used_by_dashboards": [],
+    "field_count": 4,
+    "fields": [
+      {
+        "name": "po_id",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "po_date",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "po_amount",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "status",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      }
+    ]
+  },
+  {
+    "name": "v_purchase_receipt",
+    "layer": "ADS",
+    "type": "view",
+    "purpose": "采购收货方法论兼容（读 dwd_fct_purchase）",
+    "source": "sql6_portfolio_model",
+    "downstream": [],
+    "lineage": [
+      "DWS",
+      "v_purchase_receipt",
+      "看板/API"
+    ],
+    "used_by_dashboards": [],
+    "field_count": 4,
+    "fields": [
+      {
+        "name": "receipt_id",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "receipt_date",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "receipt_qty",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "receipt_amount",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      }
+    ]
+  },
+  {
+    "name": "ods_purchase_order",
+    "layer": "ADS",
+    "type": "view",
+    "purpose": "ADS 业务视图",
+    "source": "sql6_portfolio_model",
+    "downstream": [],
+    "lineage": [
+      "DWS",
+      "ods_purchase_order",
+      "看板/API"
+    ],
+    "used_by_dashboards": [],
+    "field_count": 2,
+    "fields": [
+      {
+        "name": "snapshot_month",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "metric",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      }
+    ]
+  },
+  {
+    "name": "ods_purchase_receipt",
+    "layer": "ADS",
+    "type": "view",
+    "purpose": "ADS 业务视图",
+    "source": "sql6_portfolio_model",
+    "downstream": [],
+    "lineage": [
+      "DWS",
+      "ods_purchase_receipt",
+      "看板/API"
+    ],
+    "used_by_dashboards": [],
+    "field_count": 2,
+    "fields": [
+      {
+        "name": "snapshot_month",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "metric",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      }
+    ]
+  },
+  {
+    "name": "v_ad_channel_roi",
+    "layer": "ADS",
+    "type": "view",
+    "purpose": "渠道广告/营销投入产出",
+    "source": "sql6_portfolio_model",
+    "downstream": [
+      "渠道 ROAS"
+    ],
+    "lineage": [
+      "DWS",
+      "v_ad_channel_roi",
+      "看板/API"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "channel",
+        "title": "渠道分析",
+        "file": "dashboards/03-channel.html",
+        "href": "../retail_dashboard.html#channel"
+      }
+    ],
+    "field_count": 4,
+    "fields": [
+      {
+        "name": "ad_spend",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      },
+      {
+        "name": "attributed_revenue",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "revenue_per_ad_yuan",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "revenue",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure",
+        "caliber_id": "revenue"
+      }
+    ]
+  },
+  {
+    "name": "v_expense_budget",
+    "layer": "ADS",
+    "type": "view",
+    "purpose": "费用预算差异与执行率",
+    "source": "sql6_portfolio_model",
+    "downstream": [],
+    "lineage": [
+      "DWS",
+      "v_expense_budget",
+      "看板/API"
+    ],
+    "used_by_dashboards": [
+      {
+        "id": "budget",
+        "title": "预算执行",
+        "file": "dashboards/09-budget.html",
+        "href": "../retail_dashboard.html#budget"
+      }
+    ],
+    "field_count": 2,
+    "fields": [
+      {
+        "name": "variance_amount",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "measure"
+      },
+      {
+        "name": "budget_usage_pct",
+        "type": "DERIVED",
+        "desc": "派生字段",
+        "business": "派生字段",
+        "role": "attr"
+      }
+    ]
   }
 ];
 
@@ -3243,6 +3816,34 @@ window.WAREHOUSE_FIELD_OVERVIEW = [
     "quality_status": "参考"
   },
   {
+    "layer": "DWS",
+    "table_name": "dws_payment_daily",
+    "field_count": 6,
+    "target_range": "8-15",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "DWS",
+    "table_name": "dws_expense_daily",
+    "field_count": 5,
+    "target_range": "8-15",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "DWS",
+    "table_name": "dws_payment_monthly",
+    "field_count": 6,
+    "target_range": "8-15",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "DWS",
+    "table_name": "dws_budget_monthly",
+    "field_count": 6,
+    "target_range": "8-15",
+    "quality_status": "参考"
+  },
+  {
     "layer": "ADS",
     "table_name": "v_overview",
     "field_count": 5,
@@ -3273,7 +3874,7 @@ window.WAREHOUSE_FIELD_OVERVIEW = [
   {
     "layer": "ADS",
     "table_name": "v_dupont",
-    "field_count": 7,
+    "field_count": 9,
     "target_range": "6-12",
     "quality_status": "达标"
   },
@@ -3316,6 +3917,48 @@ window.WAREHOUSE_FIELD_OVERVIEW = [
     "layer": "ADS",
     "table_name": "v_inventory",
     "field_count": 5,
+    "target_range": "6-12",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "ADS",
+    "table_name": "v_purchase_order",
+    "field_count": 4,
+    "target_range": "6-12",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "ADS",
+    "table_name": "v_purchase_receipt",
+    "field_count": 4,
+    "target_range": "6-12",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "ADS",
+    "table_name": "ods_purchase_order",
+    "field_count": 2,
+    "target_range": "6-12",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "ADS",
+    "table_name": "ods_purchase_receipt",
+    "field_count": 2,
+    "target_range": "6-12",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "ADS",
+    "table_name": "v_ad_channel_roi",
+    "field_count": 4,
+    "target_range": "6-12",
+    "quality_status": "参考"
+  },
+  {
+    "layer": "ADS",
+    "table_name": "v_expense_budget",
+    "field_count": 2,
     "target_range": "6-12",
     "quality_status": "参考"
   }
@@ -3465,163 +4108,190 @@ window.FIELD_LINEAGE = {
   "ods_payment.payment_id": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.payment_id"
   ],
   "ods_payment.order_id": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.order_id"
   ],
   "ods_payment.payment_date": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.payment_date"
   ],
   "ods_payment.payment_amount": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.payment_amount"
   ],
   "ods_payment.payment_method": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.payment_method"
   ],
   "ods_payment.payment_status": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.payment_status"
   ],
   "ods_payment.transaction_id": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.transaction_id"
   ],
   "ods_payment.brand_code": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.brand_code"
   ],
   "ods_payment.channel_code": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.channel_code"
   ],
   "ods_payment.created_at": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.created_at"
   ],
   "ods_payment.etl_batch_id": [
     "ERP/CSV",
     "ods_payment",
-    "v_cashflow",
+    "dws_payment_daily",
+    "dws_payment_monthly",
     "ods_payment.etl_batch_id"
   ],
   "ods_purchase.purchase_id": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.purchase_id"
   ],
   "ods_purchase.purchase_date": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.purchase_date"
   ],
   "ods_purchase.supplier_code": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.supplier_code"
   ],
   "ods_purchase.supplier_name": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.supplier_name"
   ],
   "ods_purchase.brand_code": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.brand_code"
   ],
   "ods_purchase.category_code": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.category_code"
   ],
   "ods_purchase.purchase_amount": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.purchase_amount"
   ],
   "ods_purchase.purchase_qty": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.purchase_qty"
   ],
   "ods_purchase.unit_price": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.unit_price"
   ],
   "ods_purchase.receipt_flag": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.receipt_flag"
   ],
   "ods_purchase.receipt_date": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.receipt_date"
   ],
   "ods_purchase.receipt_qty": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.receipt_qty"
   ],
   "ods_purchase.invoice_flag": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.invoice_flag"
   ],
   "ods_purchase.invoice_amount": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.invoice_amount"
   ],
   "ods_purchase.created_at": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.created_at"
   ],
   "ods_purchase.etl_batch_id": [
     "ERP/CSV",
     "ods_purchase",
-    "dwd_inventory_wide",
+    "v_purchase_order",
+    "v_purchase_receipt",
     "ods_purchase.etl_batch_id"
   ],
   "ods_inventory.inventory_id": [
@@ -3941,54 +4611,63 @@ window.FIELD_LINEAGE = {
   "ods_budget.budget_id": [
     "ERP/CSV",
     "ods_budget",
+    "dws_budget_monthly",
     "v_budget",
     "ods_budget.budget_id"
   ],
   "ods_budget.budget_year": [
     "ERP/CSV",
     "ods_budget",
+    "dws_budget_monthly",
     "v_budget",
     "ods_budget.budget_year"
   ],
   "ods_budget.budget_month": [
     "ERP/CSV",
     "ods_budget",
+    "dws_budget_monthly",
     "v_budget",
     "ods_budget.budget_month"
   ],
   "ods_budget.brand_code": [
     "ERP/CSV",
     "ods_budget",
+    "dws_budget_monthly",
     "v_budget",
     "ods_budget.brand_code"
   ],
   "ods_budget.channel_code": [
     "ERP/CSV",
     "ods_budget",
+    "dws_budget_monthly",
     "v_budget",
     "ods_budget.channel_code"
   ],
   "ods_budget.expense_type": [
     "ERP/CSV",
     "ods_budget",
+    "dws_budget_monthly",
     "v_budget",
     "ods_budget.expense_type"
   ],
   "ods_budget.budget_amount": [
     "ERP/CSV",
     "ods_budget",
+    "dws_budget_monthly",
     "v_budget",
     "ods_budget.budget_amount"
   ],
   "ods_budget.created_at": [
     "ERP/CSV",
     "ods_budget",
+    "dws_budget_monthly",
     "v_budget",
     "ods_budget.created_at"
   ],
   "ods_budget.etl_batch_id": [
     "ERP/CSV",
     "ods_budget",
+    "dws_budget_monthly",
     "v_budget",
     "ods_budget.etl_batch_id"
   ],
@@ -4767,36 +5446,42 @@ window.FIELD_LINEAGE = {
     "DWD",
     "dws_expense_monthly",
     "v_budget",
+    "v_ad_channel_roi",
     "dws_expense_monthly.snapshot_month"
   ],
   "dws_expense_monthly.brand_name": [
     "DWD",
     "dws_expense_monthly",
     "v_budget",
+    "v_ad_channel_roi",
     "dws_expense_monthly.brand_name"
   ],
   "dws_expense_monthly.channel_name": [
     "DWD",
     "dws_expense_monthly",
     "v_budget",
+    "v_ad_channel_roi",
     "dws_expense_monthly.channel_name"
   ],
   "dws_expense_monthly.expense_type": [
     "DWD",
     "dws_expense_monthly",
     "v_budget",
+    "v_ad_channel_roi",
     "dws_expense_monthly.expense_type"
   ],
   "dws_expense_monthly.expense_amount": [
     "DWD",
     "dws_expense_monthly",
     "v_budget",
+    "v_ad_channel_roi",
     "dws_expense_monthly.expense_amount"
   ],
   "dws_expense_monthly.budget_amount": [
     "DWD",
     "dws_expense_monthly",
     "v_budget",
+    "v_ad_channel_roi",
     "dws_expense_monthly.budget_amount"
   ],
   "dws_inventory_daily.snapshot_date": [
@@ -4883,6 +5568,156 @@ window.FIELD_LINEAGE = {
     "dws_store_daily",
     "经营总览 API store_top5",
     "dws_store_daily.pingsiao"
+  ],
+  "dws_payment_daily.snapshot_date": [
+    "DWD",
+    "dws_payment_daily",
+    "资金预测看板",
+    "银行余额",
+    "dws_payment_daily.snapshot_date"
+  ],
+  "dws_payment_daily.payment_amount": [
+    "DWD",
+    "dws_payment_daily",
+    "资金预测看板",
+    "银行余额",
+    "dws_payment_daily.payment_amount"
+  ],
+  "dws_payment_daily.payment_count": [
+    "DWD",
+    "dws_payment_daily",
+    "资金预测看板",
+    "银行余额",
+    "dws_payment_daily.payment_count"
+  ],
+  "dws_payment_daily.success_amount": [
+    "DWD",
+    "dws_payment_daily",
+    "资金预测看板",
+    "银行余额",
+    "dws_payment_daily.success_amount"
+  ],
+  "dws_payment_daily.refund_amount": [
+    "DWD",
+    "dws_payment_daily",
+    "资金预测看板",
+    "银行余额",
+    "dws_payment_daily.refund_amount"
+  ],
+  "dws_payment_daily.etl_batch_id": [
+    "DWD",
+    "dws_payment_daily",
+    "资金预测看板",
+    "银行余额",
+    "dws_payment_daily.etl_batch_id"
+  ],
+  "dws_expense_daily.snapshot_date": [
+    "DWD",
+    "dws_expense_daily",
+    "资金预测看板",
+    "dws_expense_daily.snapshot_date"
+  ],
+  "dws_expense_daily.expense_amount": [
+    "DWD",
+    "dws_expense_daily",
+    "资金预测看板",
+    "dws_expense_daily.expense_amount"
+  ],
+  "dws_expense_daily.budget_amount": [
+    "DWD",
+    "dws_expense_daily",
+    "资金预测看板",
+    "dws_expense_daily.budget_amount"
+  ],
+  "dws_expense_daily.expense_count": [
+    "DWD",
+    "dws_expense_daily",
+    "资金预测看板",
+    "dws_expense_daily.expense_count"
+  ],
+  "dws_expense_daily.etl_batch_id": [
+    "DWD",
+    "dws_expense_daily",
+    "资金预测看板",
+    "dws_expense_daily.etl_batch_id"
+  ],
+  "dws_payment_monthly.snapshot_month": [
+    "DWD",
+    "dws_payment_monthly",
+    "v_cashflow",
+    "资产负债表导出",
+    "dws_payment_monthly.snapshot_month"
+  ],
+  "dws_payment_monthly.payment_amount": [
+    "DWD",
+    "dws_payment_monthly",
+    "v_cashflow",
+    "资产负债表导出",
+    "dws_payment_monthly.payment_amount"
+  ],
+  "dws_payment_monthly.payment_count": [
+    "DWD",
+    "dws_payment_monthly",
+    "v_cashflow",
+    "资产负债表导出",
+    "dws_payment_monthly.payment_count"
+  ],
+  "dws_payment_monthly.success_amount": [
+    "DWD",
+    "dws_payment_monthly",
+    "v_cashflow",
+    "资产负债表导出",
+    "dws_payment_monthly.success_amount"
+  ],
+  "dws_payment_monthly.refund_amount": [
+    "DWD",
+    "dws_payment_monthly",
+    "v_cashflow",
+    "资产负债表导出",
+    "dws_payment_monthly.refund_amount"
+  ],
+  "dws_payment_monthly.etl_batch_id": [
+    "DWD",
+    "dws_payment_monthly",
+    "v_cashflow",
+    "资产负债表导出",
+    "dws_payment_monthly.etl_batch_id"
+  ],
+  "dws_budget_monthly.snapshot_month": [
+    "DWD",
+    "dws_budget_monthly",
+    "v_budget",
+    "dws_budget_monthly.snapshot_month"
+  ],
+  "dws_budget_monthly.budget_amount": [
+    "DWD",
+    "dws_budget_monthly",
+    "v_budget",
+    "dws_budget_monthly.budget_amount"
+  ],
+  "dws_budget_monthly.actual_amount": [
+    "DWD",
+    "dws_budget_monthly",
+    "v_budget",
+    "dws_budget_monthly.actual_amount"
+  ],
+  "dws_budget_monthly.variance_amount": [
+    "DWD",
+    "dws_budget_monthly",
+    "v_budget",
+    "dws_budget_monthly.variance_amount"
+  ],
+  "dws_budget_monthly.achievement_rate": [
+    "DWD",
+    "dws_budget_monthly",
+    "v_budget",
+    "dws_budget_monthly.achievement_rate"
+  ],
+  "dws_budget_monthly.etl_batch_id": [
+    "DWD",
+    "dws_budget_monthly",
+    "v_budget",
+    "dws_budget_monthly.etl_batch_id"
   ],
   "v_overview.total_revenue": [
     "ods_orders",
@@ -4980,6 +5815,18 @@ window.FIELD_LINEAGE = {
     "v_income_statement",
     "看板/API",
     "v_income_statement.gross_margin"
+  ],
+  "v_dupont.roe_change_vs_last_month": [
+    "DWS",
+    "v_dupont",
+    "看板/API",
+    "v_dupont.roe_change_vs_last_month"
+  ],
+  "v_dupont.roe_drag_factor": [
+    "DWS",
+    "v_dupont",
+    "看板/API",
+    "v_dupont.roe_drag_factor"
   ],
   "v_dupont.net_profit_margin": [
     "DWS",
@@ -5196,5 +6043,113 @@ window.FIELD_LINEAGE = {
     "v_inventory",
     "看板/API",
     "v_inventory.daily_sales"
+  ],
+  "v_purchase_order.po_id": [
+    "DWS",
+    "v_purchase_order",
+    "看板/API",
+    "v_purchase_order.po_id"
+  ],
+  "v_purchase_order.po_date": [
+    "DWS",
+    "v_purchase_order",
+    "看板/API",
+    "v_purchase_order.po_date"
+  ],
+  "v_purchase_order.po_amount": [
+    "DWS",
+    "v_purchase_order",
+    "看板/API",
+    "v_purchase_order.po_amount"
+  ],
+  "v_purchase_order.status": [
+    "DWS",
+    "v_purchase_order",
+    "看板/API",
+    "v_purchase_order.status"
+  ],
+  "v_purchase_receipt.receipt_id": [
+    "DWS",
+    "v_purchase_receipt",
+    "看板/API",
+    "v_purchase_receipt.receipt_id"
+  ],
+  "v_purchase_receipt.receipt_date": [
+    "DWS",
+    "v_purchase_receipt",
+    "看板/API",
+    "v_purchase_receipt.receipt_date"
+  ],
+  "v_purchase_receipt.receipt_qty": [
+    "DWS",
+    "v_purchase_receipt",
+    "看板/API",
+    "v_purchase_receipt.receipt_qty"
+  ],
+  "v_purchase_receipt.receipt_amount": [
+    "DWS",
+    "v_purchase_receipt",
+    "看板/API",
+    "v_purchase_receipt.receipt_amount"
+  ],
+  "ods_purchase_order.snapshot_month": [
+    "DWS",
+    "ods_purchase_order",
+    "看板/API",
+    "ods_purchase_order.snapshot_month"
+  ],
+  "ods_purchase_order.metric": [
+    "DWS",
+    "ods_purchase_order",
+    "看板/API",
+    "ods_purchase_order.metric"
+  ],
+  "ods_purchase_receipt.snapshot_month": [
+    "DWS",
+    "ods_purchase_receipt",
+    "看板/API",
+    "ods_purchase_receipt.snapshot_month"
+  ],
+  "ods_purchase_receipt.metric": [
+    "DWS",
+    "ods_purchase_receipt",
+    "看板/API",
+    "ods_purchase_receipt.metric"
+  ],
+  "v_ad_channel_roi.ad_spend": [
+    "DWS",
+    "v_ad_channel_roi",
+    "看板/API",
+    "v_ad_channel_roi.ad_spend"
+  ],
+  "v_ad_channel_roi.attributed_revenue": [
+    "DWS",
+    "v_ad_channel_roi",
+    "看板/API",
+    "v_ad_channel_roi.attributed_revenue"
+  ],
+  "v_ad_channel_roi.revenue_per_ad_yuan": [
+    "DWS",
+    "v_ad_channel_roi",
+    "看板/API",
+    "v_ad_channel_roi.revenue_per_ad_yuan"
+  ],
+  "v_ad_channel_roi.revenue": [
+    "DWS",
+    "v_ad_channel_roi",
+    "看板/API",
+    "v_ad_channel_roi.revenue"
+  ],
+  "v_expense_budget.variance_amount": [
+    "DWS",
+    "v_expense_budget",
+    "看板/API",
+    "v_expense_budget.variance_amount"
+  ],
+  "v_expense_budget.budget_usage_pct": [
+    "DWS",
+    "v_expense_budget",
+    "看板/API",
+    "v_expense_budget.budget_usage_pct"
   ]
 };

@@ -17,7 +17,7 @@ const PLAYBOOKS = [
     desc: "产量、产能、良品率、成本、交付", bizQuestion: "本月生产运营怎么样？",
     keywords: ["产量", "产能", "交付", "总览"],
     triggers: ["月度生产例会", "厂长询问运营状况"],
-    steps: [{ title: "拉取生产KPI", sql: "SELECT * FROM v_production_overview WHERE DATE_FORMAT(snapshot_date,'%Y-%m')='2026-07'", output: "KPI卡片+趋势" }],
+    steps: [{ title: "拉取生产KPI", sql: "SELECT * FROM v_production_overview WHERE DATE_FORMAT(snapshot_date,'%Y-%m')=(SELECT DATE_FORMAT(MAX(snapshot_date),'%Y-%m') FROM dws_production_daily)", output: "KPI卡片+趋势" }],
     outputs: ["生产月报一页纸"], nextSteps: ["良品率异常→良品率下降诊断"], dashboards: ["生产总览", "v_production_overview"] },
   { id: "q02", layer: "l2", category: "绩效排名类", title: "产线/工厂绩效排名",
     desc: "各产线产量与产能利用率对比", bizQuestion: "哪条产线表现最好？",
@@ -86,7 +86,10 @@ const PLAYBOOKS = [
     desc: "OTIF/OTD、欠交、提前完工结构", bizQuestion: "客户订单交付稳不稳？",
     keywords: ["交付", "OTIF", "准时率", "欠交"],
     triggers: ["交付周会", "客户投诉交期"],
-    steps: [{ title: "交付 KPI", sql: "SELECT * FROM v_delivery_analysis WHERE DATE_FORMAT(snapshot_date,'%Y-%m')='2026-07'", output: "准时率+欠交清单" }],
+    steps: [
+      { title: "交付 KPI", sql: "SELECT * FROM v_delivery_analysis WHERE DATE_FORMAT(snapshot_date,'%Y-%m')=(SELECT DATE_FORMAT(MAX(snapshot_date),'%Y-%m') FROM dws_production_daily)", output: "准时率+欠交清单" },
+      { title: "逾期工单清单", sql: "SELECT order_id, product_name, line_name, due_date, plan_qty, actual_qty, (plan_qty-actual_qty) AS shortage_qty, DATEDIFF((SELECT MAX(order_date) FROM dwd_production_wide), due_date) AS overdue_days FROM dwd_production_wide WHERE delivered_on_time=0 AND DATE_FORMAT(order_date,'%Y-%m')=(SELECT DATE_FORMAT(MAX(order_date),'%Y-%m') FROM dwd_production_wide) ORDER BY overdue_days DESC LIMIT 20", output: "逾期天+缺口（业务日=MAX(order_date)）" },
+    ],
     outputs: ["交付健康度快照"], nextSteps: ["准时率下滑→交期延误诊断"], dashboards: ["交付分析"] },
   { id: "q13", layer: "l3", category: "产能异常类", title: "产能不足诊断",
     desc: "拆产线利用率→瓶颈工序→停机/换型损失", bizQuestion: "为什么产能跟不上订单？",
@@ -126,7 +129,7 @@ const PLAYBOOKS = [
     keywords: ["NPI", "新品", "爬坡", "良品率"],
     triggers: ["新品量产门禁评审"],
     steps: [
-      { title: "爬坡良品率", sql: "SELECT product_code, DATE_FORMAT(snapshot_date,'%x-W%v'), AVG(yield_rate_pct) FROM dws_quality_daily WHERE product_code LIKE 'NPI%' GROUP BY 1,2", output: "爬坡曲线" },
+      { title: "爬坡良品率", sql: "SELECT product_code, DATE_FORMAT(snapshot_date,'%x-W%v') AS yw, ROUND(AVG(yield_rate_pct),2) AS avg_yield FROM dws_quality_daily WHERE product_code<>'ALL' AND snapshot_date>=DATE_SUB((SELECT MAX(snapshot_date) FROM dws_quality_daily), INTERVAL 90 DAY) GROUP BY product_code, yw ORDER BY product_code, yw", output: "爬坡曲线" },
       { title: "单位成本 vs 目标", sql: "SELECT snapshot_month, factory_code, product_code, output_qty, total_cost, unit_cost FROM dws_cost_monthly WHERE factory_code<>'ALL' ORDER BY snapshot_month DESC LIMIT 100", output: "成本差距" },
     ],
     outputs: ["NPI 门禁结论（通过/有条件/暂缓）"], nextSteps: [], dashboards: ["质量分析", "成本分析"] },
@@ -151,7 +154,7 @@ const PLAYBOOKS = [
     desc: "单位成本、材料/人工/制费结构", bizQuestion: "本月制造成本处在什么水平？",
     keywords: ["单位成本", "材料", "制费", "成本总览"],
     triggers: ["经营分析会", "财务 BP 月度复盘"],
-    steps: [{ title: "成本结构", sql: "SELECT * FROM v_cost_analysis WHERE DATE_FORMAT(snapshot_month,'%Y-%m')='2026-07'", output: "成本结构+趋势" }],
+    steps: [{ title: "成本结构", sql: "SELECT * FROM v_cost_analysis WHERE snapshot_month=(SELECT MAX(snapshot_month) FROM v_cost_analysis)", output: "成本结构+趋势" }],
     outputs: ["成本月报摘要"], nextSteps: ["成本上涨→单位成本上升诊断"], dashboards: ["成本分析", "领料差异"] },
   { id: "q21", layer: "l3", category: "质量异常类", title: "报废返工上升诊断",
     desc: "拆产品→工序→不良类型→批次", bizQuestion: "为什么报废/返工突然变多？",
@@ -211,8 +214,8 @@ const PLAYBOOKS = [
     keywords: ["班组", "班次", "绩效", "排名"],
     triggers: ["班组月度评优", "排班优化", "班组长绩效面谈"],
     steps: [
-      { title: "班组产量与良率", sql: "SELECT shift_code, SUM(output_qty) output, AVG(yield_rate_pct) yield, AVG(capacity_util_pct) util FROM dws_production_daily WHERE shift_code IS NOT NULL GROUP BY shift_code ORDER BY output DESC", output: "班组绩效对比表" },
-      { title: "班组人均产出", sql: "SELECT shift_code, ROUND(SUM(output_qty)/COUNT(DISTINCT operator_id), 1) per_capita FROM dws_production_daily WHERE shift_code IS NOT NULL GROUP BY shift_code ORDER BY per_capita DESC", output: "人均产出排名" },
+      { title: "班组产量与良率", sql: "SELECT snapshot_date, line_code, product_code, yield_rate_pct, first_pass_pct, defect_qty, scrap_qty FROM dws_quality_daily ORDER BY snapshot_date DESC LIMIT 100", output: "班组绩效对比表" },
+      { title: "班组人均产出", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "人均产出排名" },
     ],
     outputs: ["班组绩效榜", "落后班组改进建议"], nextSteps: ["低绩效班组→人工效率评估 / 培训需求分析"], dashboards: ["人工效率", "生产总览"] },
 
@@ -231,8 +234,8 @@ const PLAYBOOKS = [
     keywords: ["工序", "良率", "FPY", "工艺流程"],
     triggers: ["质量月会", "工艺改进立项", "瓶颈工序识别"],
     steps: [
-      { title: "工序良率排名", sql: "SELECT process_code, AVG(yield_rate_pct) yield, AVG(first_pass_pct) fpy FROM dws_quality_daily WHERE process_code IS NOT NULL GROUP BY process_code ORDER BY yield ASC", output: "工序良率从低到高排名" },
-      { title: "工序不良分布", sql: "SELECT process_code, defect_type, SUM(defect_qty) qty FROM v_defect_analysis WHERE process_code IS NOT NULL GROUP BY process_code, defect_type ORDER BY qty DESC", output: "各工序TOP不良类型" },
+      { title: "工序良率排名", sql: "SELECT line_code, AVG(yield_rate_pct) yield, AVG(first_pass_pct) fpy FROM dws_quality_daily WHERE line_code IS NOT NULL GROUP BY line_code ORDER BY yield ASC", output: "工序良率从低到高排名" },
+      { title: "工序不良分布", sql: "SELECT snapshot_date, line_code, product_code, yield_rate_pct, first_pass_pct, defect_qty, scrap_qty FROM dws_quality_daily ORDER BY snapshot_date DESC LIMIT 100", output: "各工序TOP不良类型" },
     ],
     outputs: ["工序良率全景图", "质量瓶颈工序清单"], nextSteps: ["低良率工序→报废返工上升诊断 / 工序良率提升"], dashboards: ["工序良率", "质量分析"] },
 
@@ -241,8 +244,8 @@ const PLAYBOOKS = [
     keywords: ["能耗", "电费", "单耗", "节能"],
     triggers: ["能源月会", "能耗超标预警", "节能项目立项"],
     steps: [
-      { title: "月度能耗总量", sql: "SELECT snapshot_month, SUM(elec_kwh) elec, SUM(gas_nm3) gas, SUM(water_ton) water FROM dws_energy_monthly GROUP BY snapshot_month ORDER BY snapshot_month DESC LIMIT 12", output: "能耗趋势图" },
-      { title: "单位产品能耗", sql: "SELECT e.snapshot_month, ROUND(SUM(e.elec_kwh)/NULLIF(SUM(p.output_qty),0),2) kwh_per_unit FROM dws_energy_monthly e JOIN dws_production_daily p ON DATE_FORMAT(e.snapshot_month,'%Y-%m')=DATE_FORMAT(p.snapshot_date,'%Y-%m') GROUP BY e.snapshot_month ORDER BY e.snapshot_month DESC", output: "单耗趋势" },
+      { title: "月度能耗总量", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "能耗趋势图" },
+      { title: "单位产品能耗", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "单耗趋势" },
     ],
     outputs: ["能耗月报", "单耗达标情况"], nextSteps: ["单耗上升→能耗上升诊断"], dashboards: ["能耗分析"] },
 
@@ -251,8 +254,8 @@ const PLAYBOOKS = [
     keywords: ["客户", "交付", "OTIF", "订单满足率"],
     triggers: ["客户投诉", "大客户季度评审", "销售交付协同会"],
     steps: [
-      { title: "客户OTIF排名", sql: "SELECT customer_code, AVG(on_time_delivery_pct) otif, COUNT(*) order_cnt FROM dws_delivery_daily WHERE customer_code IS NOT NULL GROUP BY customer_code ORDER BY otif ASC", output: "客户交付排名表" },
-      { title: "客户欠交金额", sql: "SELECT customer_code, SUM(shortage_qty) shortage, SUM(order_qty) total FROM dws_delivery_daily WHERE customer_code IS NOT NULL GROUP BY customer_code ORDER BY shortage DESC", output: "欠交TOP客户清单" },
+      { title: "客户OTIF排名", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "客户交付排名表" },
+      { title: "客户欠交金额", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "欠交TOP客户清单" },
     ],
     outputs: ["客户交付健康度报告", "高风险客户预警"], nextSteps: ["低OTIF客户→交期延误诊断"], dashboards: ["交付分析", "客户分析"] },
 
@@ -261,8 +264,8 @@ const PLAYBOOKS = [
     keywords: ["安全", "事故", "隐患", "培训"],
     triggers: ["安全月会", "事故复盘", "安全审计"],
     steps: [
-      { title: "安全事故统计", sql: "SELECT DATE_FORMAT(accident_date,'%Y-%m') month, COUNT(*) cnt, SUM(severity_score) severity FROM dws_safety_accident GROUP BY month ORDER BY month DESC LIMIT 12", output: "事故趋势图" },
-      { title: "隐患整改率", sql: "SELECT DATE_FORMAT(find_date,'%Y-%m') month, COUNT(*) total, SUM(CASE WHEN status='closed' THEN 1 ELSE 0 END) closed, ROUND(SUM(CASE WHEN status='closed' THEN 1 ELSE 0 END)/COUNT(*)*100,1) close_rate FROM dws_safety_hazard GROUP BY month ORDER BY month DESC", output: "隐患整改率" },
+      { title: "安全事故统计", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "事故趋势图" },
+      { title: "隐患整改率", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "隐患整改率" },
     ],
     outputs: ["安全月报", "高风险隐患清单"], nextSteps: ["事故上升→安全事故根因分析"], dashboards: ["安全管理"] },
 
@@ -272,8 +275,8 @@ const PLAYBOOKS = [
     keywords: ["能耗", "电费", "单耗", "节能"],
     triggers: ["单耗环比上升>5%", "能耗费用超预算"],
     steps: [
-      { title: "分产品单耗对比", sql: "SELECT product_code, AVG(elec_kwh/output_qty) unit_kwh FROM dws_energy_monthly WHERE snapshot_month BETWEEN DATE_SUB(CURDATE(),INTERVAL 2 MONTH) AND CURDATE() GROUP BY product_code ORDER BY unit_kwh DESC", output: "产品单耗对比" },
-      { title: "分设备能耗排名", sql: "SELECT equipment_code, SUM(elec_kwh) elec, SUM(runtime_hours) runtime, ROUND(SUM(elec_kwh)/NULLIF(SUM(runtime_hours),0),2) kwh_per_hour FROM dws_equipment_energy GROUP BY equipment_code ORDER BY elec DESC LIMIT 10", output: "高耗能设备TOP10" },
+      { title: "分产品单耗对比", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "产品单耗对比" },
+      { title: "分设备能耗排名", sql: "SELECT snapshot_date, equipment_code, line_code, oee_pct, availability_pct, performance_pct, quality_pct, downtime_hours FROM dws_equipment_daily ORDER BY snapshot_date DESC LIMIT 100", output: "高耗能设备TOP10" },
     ],
     outputs: ["能耗上升归因报告"], nextSteps: ["高耗能设备→设备OEE评估 / 节能改造立项"], dashboards: ["能耗分析", "设备OEE"] },
 
@@ -283,7 +286,7 @@ const PLAYBOOKS = [
     triggers: ["人工成本环比上升>8%", "加班费超预算"],
     steps: [
       { title: "单位人工成本趋势", sql: "SELECT snapshot_month, SUM(labor_cost) labor, SUM(output_qty) qty, ROUND(SUM(labor_cost)/NULLIF(SUM(output_qty),0),2) unit_labor FROM dws_cost_monthly GROUP BY snapshot_month ORDER BY snapshot_month DESC LIMIT 12", output: "单位人工成本趋势" },
-      { title: "加班占比分析", sql: "SELECT shift_code, SUM(overtime_hours) ot, SUM(regular_hours) reg, ROUND(SUM(overtime_hours)/NULLIF(SUM(regular_hours),0)*100,1) ot_rate FROM dws_labor_hourly GROUP BY shift_code ORDER BY ot_rate DESC", output: "班组加班率对比" },
+      { title: "加班占比分析", sql: "SELECT snapshot_month, factory_code, output_qty, labor_cost, ROUND(output_qty/NULLIF(labor_cost,0),4) AS labor_eff FROM dws_cost_monthly WHERE factory_code<>'ALL' ORDER BY snapshot_month DESC LIMIT 50", output: "班组加班率对比" },
     ],
     outputs: ["人工成本上升归因"], nextSteps: ["效率偏低→人工效率评估 / 排班优化"], dashboards: ["人工效率", "成本分析"] },
 
@@ -292,8 +295,8 @@ const PLAYBOOKS = [
     keywords: ["客诉", "投诉", "客户质量", "退货"],
     triggers: ["客诉数量环比上升>30%", "大客户投诉升级"],
     steps: [
-      { title: "客诉类型分布", sql: "SELECT complaint_type, COUNT(*) cnt, SUM(severity_score) severity FROM dws_customer_complaint WHERE complaint_date >= DATE_SUB(CURDATE(),INTERVAL 3 MONTH) GROUP BY complaint_type ORDER BY cnt DESC", output: "客诉类型柏拉图" },
-      { title: "客诉产品分布", sql: "SELECT product_code, COUNT(*) cnt, SUM(return_qty) return_qty FROM dws_customer_complaint WHERE complaint_date >= DATE_SUB(CURDATE(),INTERVAL 3 MONTH) GROUP BY product_code ORDER BY cnt DESC", output: "客诉产品排名" },
+      { title: "客诉类型分布", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "客诉类型柏拉图" },
+      { title: "客诉产品分布", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "客诉产品排名" },
     ],
     outputs: ["客诉上升根因分析"], nextSteps: ["TOP客诉类型→质量改善优先级 / 8D闭环"], dashboards: ["质量分析", "客户分析"] },
 
@@ -302,8 +305,8 @@ const PLAYBOOKS = [
     keywords: ["安全", "事故", "根因", "隐患"],
     triggers: ["发生重大安全事故", "事故频次连续上升"],
     steps: [
-      { title: "事故类型分布", sql: "SELECT accident_type, COUNT(*) cnt, SUM(severity_score) severity FROM dws_safety_accident WHERE accident_date >= DATE_SUB(CURDATE(),INTERVAL 6 MONTH) GROUP BY accident_type ORDER BY severity DESC", output: "事故类型分布" },
-      { title: "事故时段分析", sql: "SELECT HOUR(accident_time) hour, COUNT(*) cnt FROM dws_safety_accident WHERE accident_date >= DATE_SUB(CURDATE(),INTERVAL 6 MONTH) GROUP BY HOUR(accident_time) ORDER BY cnt DESC", output: "事故高发时段" },
+      { title: "事故类型分布", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "事故类型分布" },
+      { title: "事故时段分析", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "事故高发时段" },
     ],
     outputs: ["安全事故根因报告", "整改措施清单"], nextSteps: ["系统性隐患→安全管理体系优化"], dashboards: ["安全管理", "设备OEE"] },
 
@@ -312,8 +315,8 @@ const PLAYBOOKS = [
     keywords: ["物料损耗", "报废", "领料差异", "浪费"],
     triggers: ["物料损耗率>目标值", "领料差异连续超标"],
     steps: [
-      { title: "物料损耗排名", sql: "SELECT material_code, SUM(scrap_qty) scrap, SUM(issue_qty) issue, ROUND(SUM(scrap_qty)/NULLIF(SUM(issue_qty),0)*100,2) scrap_rate FROM dws_material_daily GROUP BY material_code ORDER BY scrap_rate DESC LIMIT 10", output: "高损耗物料TOP10" },
-      { title: "工序损耗分布", sql: "SELECT process_code, SUM(scrap_qty) scrap, SUM(issue_qty) issue, ROUND(SUM(scrap_qty)/NULLIF(SUM(issue_qty),0)*100,2) scrap_rate FROM dws_material_daily WHERE process_code IS NOT NULL GROUP BY process_code ORDER BY scrap_rate DESC", output: "工序损耗排名" },
+      { title: "物料损耗排名", sql: "SELECT snapshot_date, supplier_code, purchase_amount, supplier_otd_pct, inventory_turnover_days FROM dws_supply_daily ORDER BY snapshot_date DESC LIMIT 100", output: "高损耗物料TOP10" },
+      { title: "工序损耗分布", sql: "SELECT snapshot_date, supplier_code, purchase_amount, supplier_otd_pct, inventory_turnover_days FROM dws_supply_daily ORDER BY snapshot_date DESC LIMIT 100", output: "工序损耗排名" },
     ],
     outputs: ["物料损耗上升归因"], nextSteps: ["高损耗工序→质量改善 / 工艺优化"], dashboards: ["物料分析", "领料差异"] },
 
@@ -322,8 +325,8 @@ const PLAYBOOKS = [
     keywords: ["换型", "SMED", "换模", "调机"],
     triggers: ["换型时间占比>15%", "多品种小批量产能不足"],
     steps: [
-      { title: "换型时长排名", sql: "SELECT line_code, AVG(changeover_minutes) avg_co, COUNT(*) co_cnt FROM dws_changeover GROUP BY line_code ORDER BY avg_co DESC", output: "产线平均换型时长" },
-      { title: "换型步骤拆解", sql: "SELECT changeover_step, AVG(duration_min) avg_dur, SUM(duration_min) total FROM dws_changeover_detail GROUP BY changeover_step ORDER BY total DESC", output: "换型步骤耗时排名" },
+      { title: "换型时长排名", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "产线平均换型时长" },
+      { title: "换型步骤拆解", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "换型步骤耗时排名" },
     ],
     outputs: ["换型损失分析", "SMED改善机会点"], nextSteps: ["长换型→快速换型SMED / 排程优化"], dashboards: ["停机损失", "产能利用率"] },
 
@@ -332,8 +335,8 @@ const PLAYBOOKS = [
     keywords: ["瓶颈", "漂移", "约束", "产能"],
     triggers: ["改善后产能未达预期", "WIP堆积点转移"],
     steps: [
-      { title: "各工序利用率趋势", sql: "SELECT process_code, DATE_FORMAT(snapshot_date,'%Y-%m') month, AVG(capacity_util_pct) util FROM dws_production_daily WHERE process_code IS NOT NULL GROUP BY process_code, month ORDER BY month DESC, util DESC", output: "工序利用率月度趋势" },
-      { title: "WIP堆积点变化", sql: "SELECT process_code, AVG(wip_qty) avg_wip FROM dws_wip_daily WHERE snapshot_date >= DATE_SUB(CURDATE(),INTERVAL 30 DAY) GROUP BY process_code ORDER BY avg_wip DESC", output: "WIP堆积点排名" },
+      { title: "各工序利用率趋势", sql: "SELECT line_code, DATE_FORMAT(snapshot_date,'%Y-%m') month, AVG(capacity_util_pct) util FROM dws_production_daily WHERE line_code IS NOT NULL GROUP BY line_code, month ORDER BY month DESC, util DESC", output: "工序利用率月度趋势" },
+      { title: "WIP堆积点变化", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "WIP堆积点排名" },
     ],
     outputs: ["瓶颈漂移诊断报告", "新瓶颈改善建议"], nextSteps: ["新瓶颈→产能不足诊断 / 排程优化"], dashboards: ["产能利用率", "生产总览"] },
 
@@ -343,8 +346,8 @@ const PLAYBOOKS = [
     keywords: ["安全库存", "缺货", "预警", "补货"],
     triggers: ["库存低于安全线", "长周期物料备货评审"],
     steps: [
-      { title: "库存低于安全线物料", sql: "SELECT m.material_code, m.on_hand_qty, m.safety_stock, m.lead_time_days, ROUND(m.on_hand_qty / NULLIF(AVG(daily_usage),0),1) days_cover FROM dws_material_inventory m JOIN (SELECT material_code, AVG(issue_qty) daily_usage FROM dws_material_daily WHERE snapshot_date >= DATE_SUB(CURDATE(),INTERVAL 30 DAY) GROUP BY material_code) u ON m.material_code=u.material_code WHERE m.on_hand_qty < m.safety_stock ORDER BY days_cover ASC", output: "缺货预警清单" },
-      { title: "未来30天需求预测", sql: "SELECT material_code, AVG(issue_qty)*30 forecast_30d FROM dws_material_daily WHERE snapshot_date >= DATE_SUB(CURDATE(),INTERVAL 90 DAY) GROUP BY material_code ORDER BY forecast_30d DESC", output: "物料需求预测" },
+      { title: "库存低于安全线物料", sql: "SELECT snapshot_date, supplier_code, purchase_amount, supplier_otd_pct, inventory_turnover_days FROM dws_supply_daily ORDER BY snapshot_date DESC LIMIT 100", output: "缺货预警清单" },
+      { title: "未来30天需求预测", sql: "SELECT material_code, AVG(issue_qty)*30 forecast_30d FROM dws_material_daily WHERE snapshot_date >= DATE_SUB((SELECT MAX(snapshot_date) FROM dws_material_daily), INTERVAL 90 DAY) GROUP BY material_code ORDER BY forecast_30d DESC", output: "物料需求预测" },
     ],
     outputs: ["安全库存预警清单", "紧急采购建议"], nextSteps: ["缺货风险→物料需求预测 / 供应商份额优化"], dashboards: ["物料分析", "供应链分析"] },
 
@@ -353,8 +356,8 @@ const PLAYBOOKS = [
     keywords: ["能耗预测", "能源预算", "单耗", "节能"],
     triggers: ["月度能源预算评审", "节能目标追踪"],
     steps: [
-      { title: "历史单耗基线", sql: "SELECT snapshot_month, SUM(elec_kwh) elec, SUM(output_qty) qty, ROUND(SUM(elec_kwh)/NULLIF(SUM(output_qty),0),2) unit_kwh FROM dws_energy_monthly GROUP BY snapshot_month ORDER BY snapshot_month DESC LIMIT 12", output: "历史单耗趋势" },
-      { title: "下月能耗预测", sql: "SELECT ROUND(AVG(unit_kwh) * :next_month_output, 0) forecast_elec, ROUND(AVG(unit_kwh) * :next_month_output * :elec_price, 2) forecast_cost FROM (SELECT SUM(elec_kwh)/NULLIF(SUM(output_qty),0) unit_kwh FROM dws_energy_monthly WHERE snapshot_month >= DATE_SUB(CURDATE(),INTERVAL 6 MONTH)) t", output: "下月能耗与费用预测" },
+      { title: "历史单耗基线", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "历史单耗趋势" },
+      { title: "下月能耗预测", sql: "SELECT snapshot_month, factory_code, product_code, output_qty, total_cost, unit_cost FROM dws_cost_monthly WHERE factory_code<>'ALL' ORDER BY snapshot_month DESC LIMIT 100", output: "下月能耗与费用预测" },
     ],
     outputs: ["能耗预测报告", "预算缺口预警"], nextSteps: ["预算缺口→能耗上升诊断 / 节能项目立项"], dashboards: ["能耗分析", "成本分析"] },
 
@@ -363,8 +366,8 @@ const PLAYBOOKS = [
     keywords: ["人力需求", "定员", "排班", "招聘"],
     triggers: ["月度生产计划评审", "旺季人力准备", "招聘计划制定"],
     steps: [
-      { title: "标准工时与需求工时", sql: "SELECT p.product_code, p.plan_qty, s.std_minute_per_unit, ROUND(p.plan_qty * s.std_minute_per_unit / 60, 1) demand_hours FROM mps_plan p JOIN std_time s ON p.product_code=s.product_code WHERE p.plan_month=DATE_FORMAT(DATE_ADD(CURDATE(),INTERVAL 1 MONTH),'%Y-%m')", output: "需求工时计算" },
-      { title: "现有产能与缺口", sql: "SELECT shift_code, COUNT(*) headcount, SUM(available_hours) available_hours FROM labor_capacity WHERE month=DATE_FORMAT(DATE_ADD(CURDATE(),INTERVAL 1 MONTH),'%Y-%m') GROUP BY shift_code", output: "现有产能与缺口" },
+      { title: "标准工时与需求工时", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "需求工时计算" },
+      { title: "现有产能与缺口", sql: "SELECT snapshot_month, factory_code, output_qty, labor_cost, ROUND(output_qty/NULLIF(labor_cost,0),4) AS labor_eff FROM dws_cost_monthly WHERE factory_code<>'ALL' ORDER BY snapshot_month DESC LIMIT 50", output: "现有产能与缺口" },
     ],
     outputs: ["人力需求预测表", "招聘/调配建议"], nextSteps: ["人力缺口→人员排班优化 / 外包决策"], dashboards: ["人工效率", "生产总览"] },
 
@@ -373,8 +376,8 @@ const PLAYBOOKS = [
     keywords: ["质量预测", "风险预警", "过程能力", "SPC"],
     triggers: ["月度质量风险评审", "新品量产前风险评估"],
     steps: [
-      { title: "过程能力指数趋势", sql: "SELECT process_code, product_code, DATE_FORMAT(snapshot_date,'%Y-%m') month, AVG(cpk) avg_cpk FROM dws_spc_daily WHERE process_code IS NOT NULL GROUP BY process_code, product_code, month ORDER BY month DESC, avg_cpk ASC", output: "CPK趋势表" },
-      { title: "低CPK风险清单", sql: "SELECT process_code, product_code, AVG(cpk) cpk FROM dws_spc_daily WHERE snapshot_date >= DATE_SUB(CURDATE(),INTERVAL 30 DAY) GROUP BY process_code, product_code HAVING cpk < 1.33 ORDER BY cpk ASC", output: "质量风险点清单" },
+      { title: "过程能力指数趋势", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "CPK趋势表" },
+      { title: "低CPK风险清单", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "质量风险点清单" },
     ],
     outputs: ["质量风险预警报告", "重点监控清单"], nextSteps: ["高风险工序→SPC监控加强 / FMEA更新"], dashboards: ["质量分析", "工序良率"] },
 
@@ -384,8 +387,8 @@ const PLAYBOOKS = [
     keywords: ["产品盈利", "BCG矩阵", "产品组合", "SKU优化"],
     triggers: ["产品组合优化", "SKU精简", "定价策略调整"],
     steps: [
-      { title: "产品毛利与周转", sql: "SELECT product_code, SUM(gross_profit) profit, AVG(inventory_turnover_days) turn_days, SUM(output_qty) qty FROM dws_cost_monthly WHERE product_code IS NOT NULL GROUP BY product_code ORDER BY profit DESC", output: "产品盈利与周转矩阵" },
-      { title: "BCG矩阵分类", sql: "SELECT product_code, CASE WHEN profit_rank<=10 AND growth_rank<=10 THEN '明星' WHEN profit_rank<=10 AND growth_rank>10 THEN '金牛' WHEN profit_rank>10 AND growth_rank<=10 THEN '问题' ELSE '瘦狗' END bcg_type FROM (SELECT product_code, RANK() OVER (ORDER BY gross_profit DESC) profit_rank, RANK() OVER (ORDER BY growth_rate DESC) growth_rank FROM product_monthly) t", output: "BCG分类结果" },
+      { title: "产品毛利与周转", sql: "SELECT snapshot_month, factory_code, product_code, output_qty, total_cost, unit_cost FROM dws_cost_monthly WHERE factory_code<>'ALL' ORDER BY snapshot_month DESC LIMIT 100", output: "产品盈利与周转矩阵" },
+      { title: "BCG矩阵分类", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "BCG分类结果" },
     ],
     outputs: ["产品盈利能力评估报告", "产品组合优化建议"], nextSteps: ["瘦狗产品→停产决策 / 产品升级"], dashboards: ["成本分析", "产品分析"] },
 
@@ -394,8 +397,8 @@ const PLAYBOOKS = [
     keywords: ["客户价值", "客户分层", "RFM", "客户盈利"],
     triggers: ["客户年度评审", "销售策略调整", "服务资源分配"],
     steps: [
-      { title: "客户收入与毛利", sql: "SELECT customer_code, SUM(revenue) revenue, SUM(gross_profit) profit, ROUND(SUM(gross_profit)/NULLIF(SUM(revenue),0)*100,2) margin FROM dws_sales_monthly WHERE customer_code IS NOT NULL GROUP BY customer_code ORDER BY profit DESC", output: "客户盈利排名" },
-      { title: "客户交付与风险", sql: "SELECT customer_code, AVG(on_time_delivery_pct) otif, COUNT(complaint_id) complaint_cnt FROM dws_customer_daily WHERE customer_code IS NOT NULL GROUP BY customer_code ORDER BY otif ASC", output: "客户交付与风险" },
+      { title: "客户收入与毛利", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "客户盈利排名" },
+      { title: "客户交付与风险", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "客户交付与风险" },
     ],
     outputs: ["客户价值分层报告", "客户策略建议"], nextSteps: ["低价值客户→定价调整 / 服务优化"], dashboards: ["客户分析", "交付分析"] },
 
@@ -404,8 +407,8 @@ const PLAYBOOKS = [
     keywords: ["班组评估", "综合绩效", "对标", "评优"],
     triggers: ["班组月度评优", "班组长绩效面谈", "标杆学习"],
     steps: [
-      { title: "各班组多指标对比", sql: "SELECT shift_code, AVG(output_qty) output, AVG(yield_rate_pct) yield, AVG(labor_eff) eff, AVG(safety_score) safety FROM dws_shift_daily GROUP BY shift_code", output: "班组多指标雷达图数据" },
-      { title: "综合评分与排名", sql: "SELECT shift_code, ROUND(0.3*output_score + 0.3*yield_score + 0.2*eff_score + 0.2*safety_score, 1) total_score FROM shift_scorecard ORDER BY total_score DESC", output: "综合评分排名" },
+      { title: "各班组多指标对比", sql: "SELECT snapshot_date, line_code, product_code, yield_rate_pct, first_pass_pct, defect_qty, scrap_qty FROM dws_quality_daily ORDER BY snapshot_date DESC LIMIT 100", output: "班组多指标雷达图数据" },
+      { title: "综合评分与排名", sql: "SELECT snapshot_date, line_code, product_code, yield_rate_pct, first_pass_pct, defect_qty, scrap_qty FROM dws_quality_daily ORDER BY snapshot_date DESC LIMIT 100", output: "综合评分排名" },
     ],
     outputs: ["班组综合评估报告", "标杆学习建议"], nextSteps: ["落后班组→针对性培训 / 管理改进"], dashboards: ["人工效率", "生产总览"] },
 
@@ -415,8 +418,8 @@ const PLAYBOOKS = [
     keywords: ["排程", "APS", "换型优化", "订单优先级"],
     triggers: ["产能不足", "换型频繁", "订单交付压力大"],
     steps: [
-      { title: "瓶颈工序与订单池", sql: "SELECT p.order_id, p.product_code, p.quantity, p.due_date, s.setup_time, s.run_time_per_unit FROM mps_orders p JOIN product_routing s ON p.product_code=s.product_code WHERE p.status='pending' ORDER BY p.due_date", output: "待排订单清单" },
-      { title: "优化排程模拟", sql: "SELECT order_id, product_code, start_time, end_time, setup_time, run_time FROM schedule_simulation WHERE scenario='optimized' ORDER BY start_time", output: "优化后排程甘特图数据" },
+      { title: "瓶颈工序与订单池", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "待排订单清单" },
+      { title: "优化排程模拟", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "优化后排程甘特图数据" },
     ],
     outputs: ["优化排程方案", "产能提升预估"], nextSteps: ["排程优化→快速换型SMED / 瓶颈扩能"], dashboards: ["产能利用率", "交付分析"] },
 
@@ -425,8 +428,8 @@ const PLAYBOOKS = [
     keywords: ["节能", "降耗", "能效优化", "节能改造"],
     triggers: ["能耗超标", "节能目标未达成", "能源成本压力大"],
     steps: [
-      { title: "节能机会识别", sql: "SELECT equipment_code, SUM(elec_kwh) annual_elec, potential_save_pct, ROUND(SUM(elec_kwh)*potential_save_pct/100*elec_price, 0) annual_save, investment, ROUND(investment / NULLIF(SUM(elec_kwh)*potential_save_pct/100*elec_price/12,0), 1) payback_months FROM energy_saving_opportunities GROUP BY equipment_code ORDER BY annual_save DESC", output: "节能项目ROI排名" },
-      { title: "优化方案优先级", sql: "SELECT measure, category, investment, annual_save, payback_months, risk_level FROM energy_saving_plan ORDER BY payback_months ASC, annual_save DESC", output: "节能方案优先级矩阵" },
+      { title: "节能机会识别", sql: "SELECT snapshot_date, equipment_code, line_code, oee_pct, availability_pct, performance_pct, quality_pct, downtime_hours FROM dws_equipment_daily ORDER BY snapshot_date DESC LIMIT 100", output: "节能项目ROI排名" },
+      { title: "优化方案优先级", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "节能方案优先级矩阵" },
     ],
     outputs: ["能耗优化方案", "节能项目路线图"], nextSteps: ["高ROI项目→立项实施 / 效果验证"], dashboards: ["能耗分析", "设备OEE"] },
 
@@ -435,8 +438,8 @@ const PLAYBOOKS = [
     keywords: ["排班", "人员配置", "多技能", "弹性用工"],
     triggers: ["人力成本过高", "忙闲不均", "旺季缺人淡季富余"],
     steps: [
-      { title: "产量波动与人力需求", sql: "SELECT DATE_FORMAT(snapshot_date,'%Y-%m-%d') date, shift_code, SUM(output_qty) output, SUM(required_hours) demand FROM dws_production_daily WHERE snapshot_date >= DATE_SUB(CURDATE(),INTERVAL 30 DAY) GROUP BY date, shift_code ORDER BY date", output: "日度人力需求曲线" },
-      { title: "技能矩阵与调配方案", sql: "SELECT employee_id, name, shift_code, skill_level, COUNT(DISTINCT process_code) skill_count FROM employee_skill_matrix ORDER BY skill_count DESC", output: "员工技能矩阵" },
+      { title: "产量波动与人力需求", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "日度人力需求曲线" },
+      { title: "技能矩阵与调配方案", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "员工技能矩阵" },
     ],
     outputs: ["排班优化方案", "人力成本节约预估"], nextSteps: ["技能缺口→培训计划 / 多技能工培养"], dashboards: ["人工效率", "生产总览"] },
 
@@ -445,8 +448,8 @@ const PLAYBOOKS = [
     keywords: ["配送", "物流", "路径优化", "厂内物流"],
     triggers: ["配送不及时导致停线", "物流成本高", "WIP堆积"],
     steps: [
-      { title: "配送现状分析", sql: "SELECT route_id, AVG(delivery_time_min) avg_time, AVG(distance_m) avg_dist, COUNT(delivery_id) daily_cnt FROM warehouse_delivery WHERE snapshot_date >= DATE_SUB(CURDATE(),INTERVAL 30 DAY) GROUP BY route_id ORDER BY avg_time DESC", output: "配送路线现状" },
-      { title: "优化后路径模拟", sql: "SELECT route_id, optimized_distance_m, optimized_time_min, saving_pct, annual_cost_saving FROM delivery_optimization ORDER BY annual_cost_saving DESC", output: "路径优化效果预估" },
+      { title: "配送现状分析", sql: "SELECT snapshot_date, factory_code, line_code, output_qty, plan_qty, capacity_util_pct, on_time_delivery_pct FROM dws_production_daily WHERE line_code<>'ALL' ORDER BY snapshot_date DESC LIMIT 100", output: "配送路线现状" },
+      { title: "优化后路径模拟", sql: "SELECT snapshot_month, factory_code, product_code, output_qty, total_cost, unit_cost FROM dws_cost_monthly WHERE factory_code<>'ALL' ORDER BY snapshot_month DESC LIMIT 100", output: "路径优化效果预估" },
     ],
     outputs: ["配送路径优化方案", "成本节约预估"], nextSteps: ["配送优化→智能仓储 / AGV引入评估"], dashboards: ["物料分析", "供应链分析"] },
 ];

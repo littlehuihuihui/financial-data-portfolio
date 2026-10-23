@@ -385,7 +385,7 @@
         </div>
         <div class="strategy-section">
           <div class="strategy-section-title">🎯 下一步行动</div>
-          <ul class="next-list">${(p.nextSteps || []).map(n => `<li>${esc(n)}</li>`).join("")}</ul>
+          <ul class="next-list">${linkifyNextSteps(p.nextSteps)}</ul>
         </div>
         ${dashboardsHtml}
         <div class="kg-section">
@@ -466,6 +466,18 @@
 
         </div>
       </div>`;
+
+
+    detailPanel.querySelectorAll("a.next-jump").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        const id = a.getAttribute("data-playbook-id") || (a.getAttribute("href") || "").replace(/^#/, "");
+        if (id && PLAYBOOKS.some((p) => p.id === id)) {
+          e.preventDefault();
+          selectPlaybook(id);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+    });
 
     // 注入三层框架样式
     injectThreeLayerStyles();
@@ -840,9 +852,41 @@
           height: 32px;
           font-size: 14px;
         }
+        .dash-action {
+          min-height: 36px;
+          padding: 8px 12px;
+          display: inline-flex;
+          align-items: center;
+        }
+        .sql-block {
+          font-size: 11px;
+          max-width: 100%;
+        }
+        .kg-link {
+          padding: 14px 12px;
+        }
       }
     `;
     document.head.appendChild(style);
+  }
+
+
+  function linkifyNextSteps(steps) {
+    const books = (typeof PLAYBOOKS !== "undefined" && Array.isArray(PLAYBOOKS)) ? PLAYBOOKS : [];
+    // longer titles first to avoid partial replace
+    const sorted = [...books].sort((a, b) => String(b.title || "").length - String(a.title || "").length);
+    return (steps || []).map((raw) => {
+      let html = esc(raw);
+      for (const p of sorted) {
+        const title = p.title;
+        if (!title || title.length < 2) continue;
+        const token = esc(title);
+        if (!html.includes(token)) continue;
+        const link = `<a href="#${esc(p.id)}" class="next-jump" data-playbook-id="${esc(p.id)}">${token}</a>`;
+        html = html.split(token).join(link);
+      }
+      return `<li>${html}</li>`;
+    }).join("");
   }
 
   function selectPlaybook(id) {

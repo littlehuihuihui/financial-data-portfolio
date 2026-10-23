@@ -461,7 +461,7 @@ window.PLATFORM_KG_DATA = {
       "href": "../internet_dashboard.html#activity",
       "detail": {
         "definition": "活动ROI · 触达→参与→转化 · 全周期效果",
-        "notes": "API: /api/dashboard_activity"
+        "notes": "API: /api/dashboard_activity · 读 dim_activity + dwd_trade_order_di + DWS（禁止直读 ODS）"
       },
       "tags": [
         "看板"
@@ -469,7 +469,8 @@ window.PLATFORM_KG_DATA = {
       "crossRefs": [
         "metric:活动参与率",
         "metric:活动转化率",
-        "metric:活动roi"
+        "metric:活动roi",
+        "tbl:dim_activity"
       ],
       "childrenIds": []
     },
@@ -515,7 +516,20 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "id": "cat_method_l1",
-      "name": "L1 描述",
+      "name": "L1 工具箱",
+      "type": "methodology",
+      "category": "internet",
+      "isCategory": true,
+      "parentId": "root_methodology",
+      "childrenIds": [],
+      "detail": {
+        "definition": "分析方法工具箱 · 用什么方法？"
+      },
+      "crossRefs": []
+    },
+    {
+      "id": "cat_method_l2",
+      "name": "L2 描述",
       "type": "methodology",
       "category": "internet",
       "isCategory": true,
@@ -529,13 +543,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q06"
       ],
       "detail": {
-        "definition": "L1 描述"
+        "definition": "描述性分析 · 现在是什么状况？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l2",
-      "name": "L2 诊断",
+      "id": "cat_method_l3",
+      "name": "L3 诊断",
       "type": "methodology",
       "category": "internet",
       "isCategory": true,
@@ -550,13 +564,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q13"
       ],
       "detail": {
-        "definition": "L2 诊断"
+        "definition": "诊断性分析 · 为什么会这样？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l3",
-      "name": "L3 归因/预测",
+      "id": "cat_method_l4",
+      "name": "L4 预测",
       "type": "methodology",
       "category": "internet",
       "isCategory": true,
@@ -569,13 +583,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q18"
       ],
       "detail": {
-        "definition": "L3 归因/预测"
+        "definition": "预测性分析 · 接下来会怎样？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l4",
-      "name": "L4 评估",
+      "id": "cat_method_l5",
+      "name": "L5 评估",
       "type": "methodology",
       "category": "internet",
       "isCategory": true,
@@ -588,13 +602,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q23"
       ],
       "detail": {
-        "definition": "L4 评估"
+        "definition": "评估性分析 · 做得怎么样？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l5",
-      "name": "L5 决策",
+      "id": "cat_method_l6",
+      "name": "L6 决策",
       "type": "methodology",
       "category": "internet",
       "isCategory": true,
@@ -607,20 +621,7 @@ window.PLATFORM_KG_DATA = {
         "pb:q28"
       ],
       "detail": {
-        "definition": "L5 决策"
-      },
-      "crossRefs": []
-    },
-    {
-      "id": "cat_method_l6",
-      "name": "L6 工具箱",
-      "type": "methodology",
-      "category": "internet",
-      "isCategory": true,
-      "parentId": "root_methodology",
-      "childrenIds": [],
-      "detail": {
-        "definition": "L6 工具箱"
+        "definition": "优化决策 · 应该怎么做？"
       },
       "crossRefs": []
     },
@@ -629,7 +630,7 @@ window.PLATFORM_KG_DATA = {
       "name": "DAU/MAU 趋势总览",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "DAU/MAU 总览看四类：DAU 水位与结构（STB/Speaker）、MAU 与 DAU/MAU 比值、只开机占比（日粒度）、DAU 7 日移动环比。",
       "href": "methodology.html#q01",
       "detail": {
@@ -666,7 +667,7 @@ window.PLATFORM_KG_DATA = {
       "name": "用户画像（端/地市）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "用户画像看四类：端型×地市活跃 MAC 分布、付费率（userid 口径）、核心城占比、高活跃低付费切片。",
       "href": "methodology.html#q02",
       "detail": {
@@ -704,7 +705,7 @@ window.PLATFORM_KG_DATA = {
       "name": "渠道获客分布（入口 launcher/video）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "渠道获客看四类：入口订购量与金额占比、入口×端型/地市客单价、新老订单占比、入口集中度。",
       "href": "methodology.html#q03",
       "detail": {
@@ -741,7 +742,7 @@ window.PLATFORM_KG_DATA = {
       "name": "产品功能使用（点播/直播/开机）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "功能使用看四类：点播渗透（K05）、直播渗透、月只开机占比（严格口径 K04b）、端型功能差异。",
       "href": "methodology.html#q04",
       "detail": {
@@ -778,7 +779,7 @@ window.PLATFORM_KG_DATA = {
       "name": "活跃结构分析",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "活跃结构看四类：用户状态分布（活跃/沉默/流失）、口径对账（seg vs 当月活跃 MAC）、沉默占比环比变化、生命周期净增趋势。",
       "href": "methodology.html#q05",
       "detail": {
@@ -812,7 +813,7 @@ window.PLATFORM_KG_DATA = {
       "name": "内容题材分布",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "内容题材看三类：题材 VV/UV 排行（加权完播 K06）、题材完播 vs 同品类加权均值（pct_of_category_avg）、品类渗透（排期决策）。",
       "href": "methodology.html#q06",
       "detail": {
@@ -847,7 +848,7 @@ window.PLATFORM_KG_DATA = {
       "name": "DAU 下滑诊断",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "DAU 下降可分解为：端型效应 + 地市效应 + 功能渗透效应。",
       "href": "methodology.html#q07",
       "detail": {
@@ -883,7 +884,7 @@ window.PLATFORM_KG_DATA = {
       "name": "留存下降诊断",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "留存下降可分解为：cohort 结构效应 + 端型效应 + 版本效应 + 渠道效应。",
       "href": "methodology.html#q08",
       "detail": {
@@ -918,7 +919,7 @@ window.PLATFORM_KG_DATA = {
       "name": "CAC/获客效率上升诊断（成本侧）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "CAC 上升可分解为：成本效应 + 新客效应 + 结构效应。",
       "href": "methodology.html#q09",
       "detail": {
@@ -954,7 +955,7 @@ window.PLATFORM_KG_DATA = {
       "name": "付费转化下降诊断",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "付费转化下降可分解为：曝光→点击效应 + 点击→验证效应 + 验证→确认效应 + 曝光结构效应。",
       "href": "methodology.html#q10",
       "detail": {
@@ -988,7 +989,7 @@ window.PLATFORM_KG_DATA = {
       "name": "用户流失诊断",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "用户流失可分解为：规模趋势效应 + 风险分群效应 + 流失前行为特征效应。",
       "href": "methodology.html#q11",
       "detail": {
@@ -1023,7 +1024,7 @@ window.PLATFORM_KG_DATA = {
       "name": "渠道质量下降诊断（价值侧）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "渠道质量可分解为：LTV 效应 + CAC 效应 + 留存效应。",
       "href": "methodology.html#q12",
       "detail": {
@@ -1058,7 +1059,7 @@ window.PLATFORM_KG_DATA = {
       "name": "完播率异常诊断",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "完播率下降可分解为：整体趋势效应 + 剧集效应 + 题材效应 + QoS 效应。",
       "href": "methodology.html#q13",
       "detail": {
@@ -1093,7 +1094,7 @@ window.PLATFORM_KG_DATA = {
       "name": "下月 DAU 预测",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "区分 MA7（平稳）与线性趋势；区间用残差标准差而非全期 STDDEV；必做 MAPE 回测",
       "href": "methodology.html#q14",
       "detail": {
@@ -1126,7 +1127,7 @@ window.PLATFORM_KG_DATA = {
       "name": "LTV/ARPU 预测（订购客单）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "补库名与时间过滤；按 cohort 衰减外推；MAPE>20% 不得用于加码绝对判断",
       "href": "methodology.html#q15",
       "detail": {
@@ -1159,7 +1160,7 @@ window.PLATFORM_KG_DATA = {
       "name": "渠道效果预测",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "统一用日漏斗表口径；先做曝光CV稳定性检验；订购外推含月份天数与星期效应；必做 MAPE",
       "href": "methodology.html#q16",
       "detail": {
@@ -1191,7 +1192,7 @@ window.PLATFORM_KG_DATA = {
       "name": "用户流失预测",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "MA7仅趋势参考；RFM须最新快照；线性/MA7外推+区间；高风险阈值需业务校准",
       "href": "methodology.html#q17",
       "detail": {
@@ -1223,7 +1224,7 @@ window.PLATFORM_KG_DATA = {
       "name": "分成收入预测",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "确认 revenue_share 口径；分成率稳定性；天数+星期外推；三情景；MAPE 回测",
       "href": "methodology.html#q18",
       "detail": {
@@ -1255,7 +1256,7 @@ window.PLATFORM_KG_DATA = {
       "name": "渠道获客效率评估",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "渠道效率评估 = LTV / CAC 比率 + 稳健性检验。",
       "href": "methodology.html#q19",
       "detail": {
@@ -1290,7 +1291,7 @@ window.PLATFORM_KG_DATA = {
       "name": "A/B 测试效果评估",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "A/B 评估 = 效应量 + 显著性 + 置信区间 + 业务含义。",
       "href": "methodology.html#q20",
       "detail": {
@@ -1326,7 +1327,7 @@ window.PLATFORM_KG_DATA = {
       "name": "产品功能效果评估（内容）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "内容效果评估 = 目标剧集前后对比 + 大盘对照 + 增量拆分。",
       "href": "methodology.html#q21",
       "detail": {
@@ -1362,7 +1363,7 @@ window.PLATFORM_KG_DATA = {
       "name": "活动 ROI 评估（订购分成）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "活动 ROI 评估 = 增量分成 / 活动成本。",
       "href": "methodology.html#q22",
       "detail": {
@@ -1397,7 +1398,7 @@ window.PLATFORM_KG_DATA = {
       "name": "用户满意度评估（完播/QoS 代理）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "满意度评估 = 加权完播率（K13）+ 播放行为 + QoS 指标 + 代理有效性说明（K22）。",
       "href": "methodology.html#q23",
       "detail": {
@@ -1434,7 +1435,7 @@ window.PLATFORM_KG_DATA = {
       "name": "投放预算分配优化（入口流量）",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "预算分配 = 入口效率排序 + 边际效率估计 + 约束下的倾斜算法 + 实验验证。",
       "href": "methodology.html#q24",
       "detail": {
@@ -1471,7 +1472,7 @@ window.PLATFORM_KG_DATA = {
       "name": "用户挽回策略优化",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "用户挽回 = RFM 分层 + 分层策略矩阵 + 挽回 ROI 排序 + 分层对照实验。",
       "href": "methodology.html#q25",
       "detail": {
@@ -1505,7 +1506,7 @@ window.PLATFORM_KG_DATA = {
       "name": "产品优先级优化",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "产品优先级 = 内容价值矩阵 + 功能渗透缺口 + RICE/ICE 打分 + 方案对比。",
       "href": "methodology.html#q26",
       "detail": {
@@ -1541,7 +1542,7 @@ window.PLATFORM_KG_DATA = {
       "name": "渠道组合优化",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "渠道组合 = 入口贡献与协同度量 + 组合效率对比 + 约束下的方案设计 + 灰度验证。",
       "href": "methodology.html#q27",
       "detail": {
@@ -1575,7 +1576,7 @@ window.PLATFORM_KG_DATA = {
       "name": "定价策略优化",
       "type": "methodology",
       "category": "internet",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "定价优化 = 套餐结构分析 + 价格弹性估计 + 套餐利润模型 + A/B 验证。",
       "href": "methodology.html#q28",
       "detail": {
@@ -1652,6 +1653,7 @@ window.PLATFORM_KG_DATA = {
         "tbl:dim_device",
         "tbl:dim_user_package",
         "tbl:dim_user",
+        "tbl:dim_activity",
         "tbl:dim_month",
         "tbl:dim_week",
         "tbl:dim_date"
@@ -2370,6 +2372,35 @@ window.PLATFORM_KG_DATA = {
         "metric:新增用户",
         "metric:沉默用户数",
         "metric:渠道新增用户"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dim_activity",
+      "name": "dim_activity",
+      "name_cn": "营销活动",
+      "type": "warehouse",
+      "category": "internet",
+      "parentId": "cat_wh_dim",
+      "description": "营销活动维",
+      "aliases": [
+        "营销活动",
+        "活动维"
+      ],
+      "href": "platform-graph.html?node=tbl:dim_activity",
+      "dictHref": "architecture.html#dict/dim_activity",
+      "detail": {
+        "definition": "DIM·营销活动维（看板/ADS 禁止直读 ods_activity）",
+        "notes": "分层：DIM · ODS ods_activity → 本表 → 活动看板 / v_activity_*"
+      },
+      "tags": [
+        "dim",
+        "活动"
+      ],
+      "crossRefs": [
+        "dash:activity",
+        "metric:活动参与率",
+        "metric:活动roi"
       ],
       "childrenIds": []
     },
@@ -4796,13 +4827,6 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "root_methodology",
-      "target": "cat_method_l1",
-      "style": "solid",
-      "cross": false,
-      "label": ""
-    },
-    {
-      "source": "root_methodology",
       "target": "cat_method_l2",
       "style": "solid",
       "cross": false,
@@ -4837,196 +4861,203 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "root_methodology",
+      "target": "cat_method_l1",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
       "target": "pb:q01",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q02",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q03",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q04",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q05",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q06",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q07",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q08",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q09",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q10",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q11",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q12",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q13",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q14",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q15",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q16",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q17",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q18",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q19",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q20",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q21",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q22",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q23",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q24",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q25",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q26",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q27",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q28",
       "style": "solid",
       "cross": false,
@@ -5241,6 +5272,20 @@ window.PLATFORM_KG_DATA = {
       "style": "solid",
       "cross": false,
       "label": ""
+    },
+    {
+      "source": "cat_wh_dim",
+      "target": "tbl:dim_activity",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "dash:activity",
+      "target": "tbl:dim_activity",
+      "style": "dashed",
+      "cross": true,
+      "label": "来源表"
     },
     {
       "source": "cat_wh_dim",
@@ -6356,4 +6401,4 @@ window.PLATFORM_KG_DATA = {
       "label": "相关指标"
     }
   ]
-};
+}

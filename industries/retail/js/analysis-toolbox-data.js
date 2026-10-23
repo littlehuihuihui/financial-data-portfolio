@@ -218,7 +218,7 @@ window.ANALYSIS_TOOLBOX = {
         boundaries: "结构突变、活动期与日常混算、样本自相关强时，相关系数会误导。决策级结论不能只靠相关，必须补验证。",
         businessQuestion: "广告投入与收入是否存在显著相关？库存天数与现金流的关系如何？",
           portfolio:
-            "2026-06 各渠道广告费 vs 净收入 r=0.87（强正相关）；但抖音 ROAS 从 3.0→2.1 时，优先查投放结构而非收入口径。散点图建在渠道分析看板，数据 ods_ad_cost + dws_sales_daily。",
+            "2026-06 各渠道广告费 vs 净收入 r=0.87（强正相关）；但抖音 ROAS 从 3.0→2.1 时，优先查投放结构而非收入口径。散点图建在渠道分析看板，数据 v_ad_channel_roi + dws_sales_daily。",
           chartType: "scatter",
           data: {
             r: 0.87,

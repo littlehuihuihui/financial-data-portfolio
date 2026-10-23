@@ -21,7 +21,7 @@
     ["order", "订购与分成", "订购 分成 MAU结算"],
     ["path", "用户行为路径", "Sankey 路径 流失"],
     ["revenue", "收入结构深度分析", "ARPU LTV 套餐"],
-    ["activity", "营销活动复盘", "ROI 活动"],
+    ["activity", "营销活动复盘", "ROI 活动 dim_activity 触达 参与"],
     ["health", "业务健康度", "红黄绿灯 健康分"],
     ["tags", "用户标签画像", "标签 画像"],
   ];

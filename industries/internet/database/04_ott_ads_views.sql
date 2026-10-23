@@ -339,6 +339,7 @@ ORDER BY snapshot_month;
 -- ============================================================================
 -- 模块3：营销活动复盘 · ADS 视图
 -- ============================================================================
+-- 与 queries.SQL_ACTIVITY_LIST 同源（无 dws_activity_daily 时也不空窗）
 CREATE OR REPLACE VIEW v_activity_summary AS
 SELECT
     a.activity_id,
@@ -348,38 +349,41 @@ SELECT
     a.end_date,
     a.budget_amount,
     a.target_users,
-    ROUND(DATEDIFF(a.end_date, a.start_date) + 1, 0) AS duration_days,
-    SUM(d.reach_users) AS total_reach_users,
-    SUM(d.participate_users) AS total_participate_users,
-    SUM(d.order_cnt) AS total_orders,
-    ROUND(SUM(d.order_amount), 2) AS total_order_amount,
-    ROUND(SUM(d.revenue_share), 2) AS total_revenue_share,
-    SUM(d.new_user_cnt) AS total_new_users,
-    AVG(d.retain_users_7d) AS avg_7d_retain_users,
-    ROUND(SUM(d.order_amount) / NULLIF(SUM(d.cost_amount), 0), 2) AS roi_ratio,
-    ROUND(SUM(d.participate_users) / NULLIF(SUM(d.reach_users), 0) * 100, 2) AS participate_rate_pct,
-    ROUND(SUM(d.order_cnt) / NULLIF(SUM(d.participate_users), 0) * 100, 2) AS order_conversion_pct
-FROM ods_activity a
-LEFT JOIN dws_activity_daily d ON a.activity_id = d.activity_id
-GROUP BY a.activity_id, a.activity_name, a.activity_type, a.start_date, a.end_date, a.budget_amount, a.target_users
+    DATEDIFF(a.end_date, a.start_date) + 1 AS duration_days,
+    (SELECT COUNT(DISTINCT mac) FROM dws_act_user_active_1d
+     WHERE snapshot_date BETWEEN a.start_date AND a.end_date) AS total_reach_users,
+    (SELECT COUNT(DISTINCT userid) FROM dwd_trade_order_di
+     WHERE op_type='order' AND op_date BETWEEN a.start_date AND a.end_date) AS total_participate_users,
+    (SELECT COUNT(*) FROM dws_trade_order_1d
+     WHERE snapshot_date BETWEEN a.start_date AND a.end_date AND src_type<>'ALL') AS total_orders,
+    ROUND((SELECT SUM(order_amount) FROM dws_trade_order_1d
+     WHERE snapshot_date BETWEEN a.start_date AND a.end_date AND src_type<>'ALL'), 2) AS total_order_amount,
+    ROUND((SELECT SUM(revenue_share) FROM dws_trade_order_1d
+     WHERE snapshot_date BETWEEN a.start_date AND a.end_date AND src_type<>'ALL'), 2) AS total_revenue_share,
+    ROUND((SELECT SUM(order_amount) FROM dws_trade_order_1d
+     WHERE snapshot_date BETWEEN a.start_date AND a.end_date AND src_type<>'ALL')
+      / NULLIF(a.budget_amount, 0), 2) AS roi_ratio,
+    ROUND((SELECT COUNT(DISTINCT userid) FROM dwd_trade_order_di
+     WHERE op_type='order' AND op_date BETWEEN a.start_date AND a.end_date)
+      / NULLIF((SELECT COUNT(DISTINCT mac) FROM dws_act_user_active_1d
+     WHERE snapshot_date BETWEEN a.start_date AND a.end_date), 0) * 100, 2) AS participate_rate_pct
+FROM dim_activity a
 ORDER BY a.start_date DESC;
 
 CREATE OR REPLACE VIEW v_activity_daily_trend AS
 SELECT
-    d.snapshot_date,
+    d.op_date AS snapshot_date,
     a.activity_name,
     a.activity_type,
-    d.reach_users,
-    d.participate_users,
-    d.order_cnt,
-    d.order_amount,
-    d.revenue_share,
-    d.new_user_cnt,
-    d.unconverted_users,
-    d.cost_amount
-FROM dws_activity_daily d
-LEFT JOIN ods_activity a ON d.activity_id = a.activity_id
-ORDER BY d.snapshot_date, a.activity_name;
+    COUNT(DISTINCT d.userid) AS participate_users,
+    COUNT(*) AS order_cnt,
+    ROUND(SUM(d.fee), 2) AS order_amount,
+    ROUND(SUM(d.revenue_share), 2) AS revenue_share
+FROM dim_activity a
+INNER JOIN dwd_trade_order_di d
+  ON d.op_type='order' AND d.op_date BETWEEN a.start_date AND a.end_date
+GROUP BY d.op_date, a.activity_name, a.activity_type
+ORDER BY d.op_date, a.activity_name;
 
 -- ============================================================================
 -- 模块4：业务健康度仪表盘 · ADS 视图

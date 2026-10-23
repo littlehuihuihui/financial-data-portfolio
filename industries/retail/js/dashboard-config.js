@@ -88,7 +88,7 @@ window.INDUSTRY_DASHBOARDS = [
     "id": "quality",
     "title": "数据质量监控大盘",
     "api": "/api/dashboard_quality",
-    "description": "DQC门禁 · 每日阻断量 · 脏数据分布 · 对账（数据基建）",
+    "description": "DQC门禁 · 业务日检查戳 · ODS↔DWD↔DWS对账",
     "href": "../retail_dashboard.html#quality"
   }
 ];

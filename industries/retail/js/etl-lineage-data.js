@@ -1,10 +1,10 @@
 /** retail · ETL 边元数据（由 scripts/gen_full_etl_lineage.py 生成） */
 window.ETL_LINEAGE = {
   "industry": "retail",
-  "note": "库 retail_finance · API :5000。ods_purchase 当前无灌入（仅 TRUNCATE）；库存路径为 ods_inventory。",
+  "note": "库 retail_finance · API :5000。采购链路 ods_purchase → dwd_fct_purchase → v_purchase_*；库存路径为 ods_inventory。",
   "usage": {
     "trace": "问题溯源（自下而上）：看板异常从 ADS 定位月份/品牌/渠道 → 下钻 DWS → 回查 dwd_sales_wide → 对比 ods_orders。上方「表级变换」可查看 A→B 代码落点。",
-    "impact": "变更影响（自上而下）：改 ETL/口径前查下游 ADS 与 13+ 主题看板；重跑 seed_sql6_from_csv.py 及 07/08/09 SQL，对账后回归 API :5000。"
+    "impact": "变更影响（自上而下）：改 ETL/口径前查下游 ADS 与 13+ 主题看板；重跑 seed_sql6_from_csv.py 及 07/08/09/10 SQL，对账后回归 API :5000。"
   },
       "jobs": [
       {
@@ -472,6 +472,81 @@ window.ETL_LINEAGE = {
       "grain": "日×门店"
     },
     {
+      "id": "rtl_ods_dwd_purchase",
+      "from_table": "ods_purchase",
+      "to_table": "dwd_fct_purchase",
+      "layer_from": "ODS",
+      "layer_to": "DWD",
+      "job_name": "ODS → DWD 采购",
+      "schedule": "灌入后 / T+1",
+      "engine": "sql",
+      "code_path": "portfolio/industries/retail/sql6_portfolio_model/08_dwd_purchase.sql",
+      "entry": "dwd_fct_purchase",
+      "computation": "采购单贴源清洗入事实表（准时/延误/状态）。",
+      "sql_excerpt": "INSERT INTO dwd_fct_purchase FROM ods_purchase JOIN dim_*",
+      "grain": "采购单"
+    },
+    {
+      "id": "rtl_dwd_ads_po",
+      "from_table": "dwd_fct_purchase",
+      "to_table": "v_purchase_order",
+      "layer_from": "DWD",
+      "layer_to": "ADS",
+      "job_name": "DWD → ADS 采购",
+      "schedule": "实时",
+      "engine": "sql",
+      "code_path": "portfolio/industries/retail/sql6_portfolio_model/10_methodology_compat_views.sql",
+      "entry": "v_purchase_order",
+      "computation": "采购订单兼容视图（方法论）。",
+      "sql_excerpt": "CREATE VIEW v_purchase_order AS SELECT ... FROM dwd_fct_purchase",
+      "grain": "采购单"
+    },
+    {
+      "id": "rtl_dwd_ads_pr",
+      "from_table": "dwd_fct_purchase",
+      "to_table": "v_purchase_receipt",
+      "layer_from": "DWD",
+      "layer_to": "ADS",
+      "job_name": "DWD → ADS 采购",
+      "schedule": "实时",
+      "engine": "sql",
+      "code_path": "portfolio/industries/retail/sql6_portfolio_model/10_methodology_compat_views.sql",
+      "entry": "v_purchase_receipt",
+      "computation": "采购收货兼容视图（方法论）。",
+      "sql_excerpt": "CREATE VIEW v_purchase_receipt AS SELECT ... FROM dwd_fct_purchase WHERE receipt",
+      "grain": "收货单"
+    },
+    {
+      "id": "rtl_pay_dws_daily",
+      "from_table": "ods_payment",
+      "to_table": "dws_payment_daily",
+      "layer_from": "ODS",
+      "layer_to": "DWS",
+      "job_name": "ODS → DWS 日汇总",
+      "schedule": "灌入后 / T+1",
+      "engine": "sql",
+      "code_path": "retail-finance-analysis/sql6_portfolio_model/07_dws_payment_budget_etl.sql",
+      "entry": "dws_payment_daily",
+      "computation": "支付按日×品牌×渠道×方式汇总，供资金预测/银行余额。",
+      "sql_excerpt": "INSERT INTO dws_payment_daily FROM ods_payment",
+      "grain": "日×支付维"
+    },
+    {
+      "id": "rtl_exp_dws_daily",
+      "from_table": "ods_expense",
+      "to_table": "dws_expense_daily",
+      "layer_from": "ODS",
+      "layer_to": "DWS",
+      "job_name": "ODS → DWS 日汇总",
+      "schedule": "灌入后 / T+1",
+      "engine": "sql",
+      "code_path": "retail-finance-analysis/sql6_portfolio_model/07_dws_payment_budget_etl.sql",
+      "entry": "dws_expense_daily",
+      "computation": "费用按日×品牌×渠道×类型汇总，供资金流出。",
+      "sql_excerpt": "INSERT INTO dws_expense_daily FROM ods_expense",
+      "grain": "日×费用维"
+    },
+    {
       "id": "rtl_pay_dws",
       "from_table": "ods_payment",
       "to_table": "dws_payment_monthly",
@@ -500,6 +575,21 @@ window.ETL_LINEAGE = {
       "computation": "预算 vs 实际费用，算差异与达成率。",
       "sql_excerpt": "INSERT INTO dws_budget_monthly FROM ods_budget LEFT JOIN expense",
       "grain": "月×科目"
+    },
+    {
+      "id": "rtl_ads_ad_roi",
+      "from_table": "dws_expense_monthly",
+      "to_table": "v_ad_channel_roi",
+      "layer_from": "DWS",
+      "layer_to": "ADS",
+      "job_name": "ADS 视图",
+      "schedule": "实时",
+      "engine": "view",
+      "code_path": "retail-finance-analysis/sql6_portfolio_model/10_methodology_compat_views.sql",
+      "entry": "v_ad_channel_roi",
+      "computation": "渠道广告/营销投入产出（看板 ROAS·方法论）。",
+      "sql_excerpt": "CREATE VIEW v_ad_channel_roi AS ... FROM dws_expense_monthly JOIN dws_sales_monthly",
+      "grain": "月×渠道"
     },
     {
       "id": "rtl_ods_fct_pay",

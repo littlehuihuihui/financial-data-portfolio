@@ -48,28 +48,53 @@ GROUP BY snapshot_month
 ORDER BY snapshot_month DESC;
 
 -- 杜邦：ROE = 净利润 / 所有者权益（权益来自 dws_asset_monthly，禁止用库存当权益）
+-- 含环比与拖累项，供方法论 PLAYBOOKS 直查
 CREATE OR REPLACE VIEW v_dupont AS
 SELECT
-    p.snapshot_month,
-    p.brand_name,
-    ROUND(p.net_profit / NULLIF(p.revenue, 0) * 100, 2) AS net_profit_margin,
-    ROUND(p.revenue / NULLIF(a.total_assets, 0), 2) AS asset_turnover,
-    ROUND(a.total_assets / NULLIF(a.equity, 0), 2) AS equity_multiplier,
-    ROUND(p.net_profit / NULLIF(a.equity, 0) * 100, 2) AS roe
+    x.snapshot_month,
+    x.brand_name,
+    x.net_profit_margin,
+    x.asset_turnover,
+    x.equity_multiplier,
+    x.roe,
+    ROUND(x.roe - LAG(x.roe) OVER (PARTITION BY x.brand_name ORDER BY x.snapshot_month), 2)
+        AS roe_change_vs_last_month,
+    CASE
+        WHEN LAG(x.roe) OVER (PARTITION BY x.brand_name ORDER BY x.snapshot_month) IS NULL
+            THEN '无'
+        WHEN ABS(IFNULL(x.net_profit_margin, 0) - IFNULL(LAG(x.net_profit_margin) OVER (PARTITION BY x.brand_name ORDER BY x.snapshot_month), 0))
+           >= ABS(IFNULL(x.asset_turnover, 0) - IFNULL(LAG(x.asset_turnover) OVER (PARTITION BY x.brand_name ORDER BY x.snapshot_month), 0))
+          AND ABS(IFNULL(x.net_profit_margin, 0) - IFNULL(LAG(x.net_profit_margin) OVER (PARTITION BY x.brand_name ORDER BY x.snapshot_month), 0))
+           >= ABS(IFNULL(x.equity_multiplier, 0) - IFNULL(LAG(x.equity_multiplier) OVER (PARTITION BY x.brand_name ORDER BY x.snapshot_month), 0))
+            THEN '净利率'
+        WHEN ABS(IFNULL(x.asset_turnover, 0) - IFNULL(LAG(x.asset_turnover) OVER (PARTITION BY x.brand_name ORDER BY x.snapshot_month), 0))
+           >= ABS(IFNULL(x.equity_multiplier, 0) - IFNULL(LAG(x.equity_multiplier) OVER (PARTITION BY x.brand_name ORDER BY x.snapshot_month), 0))
+            THEN '资产周转'
+        ELSE '权益乘数'
+    END AS roe_drag_factor
 FROM (
-    SELECT s.snapshot_month, s.brand_name,
-        SUM(s.revenue) AS revenue,
-        SUM(s.profit) - IFNULL(e.expense_amount, 0) AS net_profit
-    FROM dws_sales_monthly s
-    LEFT JOIN (
-        SELECT snapshot_month, brand_name, SUM(expense_amount) AS expense_amount
-        FROM dws_expense_monthly
-        GROUP BY snapshot_month, brand_name
-    ) e ON s.snapshot_month = e.snapshot_month AND s.brand_name = e.brand_name
-    GROUP BY s.snapshot_month, s.brand_name, e.expense_amount
-) p
-LEFT JOIN dws_asset_monthly a
-    ON p.snapshot_month = a.snapshot_month AND p.brand_name = a.brand_name;
+    SELECT
+        p.snapshot_month,
+        p.brand_name,
+        ROUND(p.net_profit / NULLIF(p.revenue, 0) * 100, 2) AS net_profit_margin,
+        ROUND(p.revenue / NULLIF(a.total_assets, 0), 2) AS asset_turnover,
+        ROUND(a.total_assets / NULLIF(a.equity, 0), 2) AS equity_multiplier,
+        ROUND(p.net_profit / NULLIF(a.equity, 0) * 100, 2) AS roe
+    FROM (
+        SELECT s.snapshot_month, s.brand_name,
+            SUM(s.revenue) AS revenue,
+            SUM(s.profit) - IFNULL(e.expense_amount, 0) AS net_profit
+        FROM dws_sales_monthly s
+        LEFT JOIN (
+            SELECT snapshot_month, brand_name, SUM(expense_amount) AS expense_amount
+            FROM dws_expense_monthly
+            GROUP BY snapshot_month, brand_name
+        ) e ON s.snapshot_month = e.snapshot_month AND s.brand_name = e.brand_name
+        GROUP BY s.snapshot_month, s.brand_name, e.expense_amount
+    ) p
+    LEFT JOIN dws_asset_monthly a
+        ON p.snapshot_month = a.snapshot_month AND p.brand_name = a.brand_name
+) x;
 
 -- 资产负债表 ADS
 CREATE OR REPLACE VIEW v_balance_sheet AS
@@ -99,6 +124,7 @@ SELECT
     c.net_cashflow,
     c.operating_inflow AS total_inflow,
     (c.operating_outflow + ABS(LEAST(c.investing_cashflow, 0)) + ABS(LEAST(c.financing_cashflow, 0))) AS total_outflow,
+    p.net_profit,
     ROUND(c.operating_cashflow / NULLIF(p.net_profit, 0), 2) AS profit_to_cash_ratio
 FROM dws_cashflow_monthly c
 LEFT JOIN (

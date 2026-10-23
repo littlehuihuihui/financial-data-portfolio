@@ -204,7 +204,7 @@ def main() -> None:
                 """
                 INSERT INTO dws_health_daily
                 SELECT
-                    CURDATE(), 'd7_retention', 'D7留存', '留存',
+                    (SELECT MAX(snapshot_date) FROM dws_act_user_active_1d), 'd7_retention', 'D7留存', '留存',
                     IFNULL((SELECT AVG(retention_rate) FROM dws_user_retention_1d WHERE day_offset=7), 0),
                     IFNULL((SELECT AVG(retention_rate) FROM dws_user_retention_1d WHERE day_offset=7), 0),
                     CASE WHEN IFNULL((SELECT AVG(retention_rate) FROM dws_user_retention_1d WHERE day_offset=7),0)
@@ -218,21 +218,24 @@ def main() -> None:
             cur.execute(
                 """
                 INSERT INTO dws_health_daily
-                SELECT CURDATE(), 'order_cnt', '月订购数', '商业化',
+                SELECT (SELECT MAX(snapshot_date) FROM dws_act_user_active_1d), 'order_cnt', '月订购数', '商业化',
                     IFNULL((SELECT SUM(order_cnt) FROM dws_trade_order_1d
                             WHERE src_type<>'ALL'
-                              AND DATE_FORMAT(snapshot_date,'%%Y-%%m')=DATE_FORMAT(CURDATE(),'%%Y-%%m')),0),
+                              AND DATE_FORMAT(snapshot_date,'%%Y-%%m')=DATE_FORMAT(
+                                  (SELECT MAX(snapshot_date) FROM dws_trade_order_1d),'%%Y-%%m')),0),
                     IFNULL((SELECT AVG(m) FROM (
                         SELECT SUM(order_cnt) m FROM dws_trade_order_1d WHERE src_type<>'ALL'
                         GROUP BY DATE_FORMAT(snapshot_date,'%%Y-%%m')) x),0),
                     CASE WHEN IFNULL((SELECT SUM(order_cnt) FROM dws_trade_order_1d
                             WHERE src_type<>'ALL'
-                              AND DATE_FORMAT(snapshot_date,'%%Y-%%m')=DATE_FORMAT(CURDATE(),'%%Y-%%m')),0)
+                              AND DATE_FORMAT(snapshot_date,'%%Y-%%m')=DATE_FORMAT(
+                                  (SELECT MAX(snapshot_date) FROM dws_trade_order_1d),'%%Y-%%m')),0)
                               >= (SELECT green_min FROM cfg_health_threshold WHERE metric_code='order_cnt')
                          THEN 'green'
                          WHEN IFNULL((SELECT SUM(order_cnt) FROM dws_trade_order_1d
                             WHERE src_type<>'ALL'
-                              AND DATE_FORMAT(snapshot_date,'%%Y-%%m')=DATE_FORMAT(CURDATE(),'%%Y-%%m')),0)
+                              AND DATE_FORMAT(snapshot_date,'%%Y-%%m')=DATE_FORMAT(
+                                  (SELECT MAX(snapshot_date) FROM dws_trade_order_1d),'%%Y-%%m')),0)
                               >= (SELECT yellow_min FROM cfg_health_threshold WHERE metric_code='order_cnt')
                          THEN 'yellow' ELSE 'red' END
                 """

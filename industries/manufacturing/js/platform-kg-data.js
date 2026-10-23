@@ -472,7 +472,20 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "id": "cat_method_l1",
-      "name": "L1 描述",
+      "name": "L1 工具箱",
+      "type": "methodology",
+      "category": "manufacturing",
+      "isCategory": true,
+      "parentId": "root_methodology",
+      "childrenIds": [],
+      "detail": {
+        "definition": "分析方法工具箱 · 用什么方法？"
+      },
+      "crossRefs": []
+    },
+    {
+      "id": "cat_method_l2",
+      "name": "L2 描述",
       "type": "methodology",
       "category": "manufacturing",
       "isCategory": true,
@@ -492,13 +505,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q32"
       ],
       "detail": {
-        "definition": "L1 描述"
+        "definition": "描述性分析 · 现在是什么状况？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l2",
-      "name": "L2 诊断",
+      "id": "cat_method_l3",
+      "name": "L3 诊断",
       "type": "methodology",
       "category": "manufacturing",
       "isCategory": true,
@@ -520,13 +533,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q39"
       ],
       "detail": {
-        "definition": "L2 诊断"
+        "definition": "诊断性分析 · 为什么会这样？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l3",
-      "name": "L3 归因/预测",
+      "id": "cat_method_l4",
+      "name": "L4 预测",
       "type": "methodology",
       "category": "manufacturing",
       "isCategory": true,
@@ -542,13 +555,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q43"
       ],
       "detail": {
-        "definition": "L3 归因/预测"
+        "definition": "预测性分析 · 接下来会怎样？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l4",
-      "name": "L4 评估",
+      "id": "cat_method_l5",
+      "name": "L5 评估",
       "type": "methodology",
       "category": "manufacturing",
       "isCategory": true,
@@ -563,13 +576,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q46"
       ],
       "detail": {
-        "definition": "L4 评估"
+        "definition": "评估性分析 · 做得怎么样？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l5",
-      "name": "L5 决策",
+      "id": "cat_method_l6",
+      "name": "L6 决策",
       "type": "methodology",
       "category": "manufacturing",
       "isCategory": true,
@@ -586,20 +599,7 @@ window.PLATFORM_KG_DATA = {
         "pb:q50"
       ],
       "detail": {
-        "definition": "L5 决策"
-      },
-      "crossRefs": []
-    },
-    {
-      "id": "cat_method_l6",
-      "name": "L6 工具箱",
-      "type": "methodology",
-      "category": "manufacturing",
-      "isCategory": true,
-      "parentId": "root_methodology",
-      "childrenIds": [],
-      "detail": {
-        "definition": "L6 工具箱"
+        "definition": "优化决策 · 应该怎么做？"
       },
       "crossRefs": []
     },
@@ -608,7 +608,7 @@ window.PLATFORM_KG_DATA = {
       "name": "生产总览",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "生产总览看五类指标：产量（规模）、产能利用率（效率）、良品率（质量）、OTIF（交付）、单位成本（成本）。五类分别回答\"做了多少、效率如何、质量如何、交付稳不稳、成本高不高\"。",
       "href": "methodology.html#q01",
       "detail": {
@@ -641,7 +641,7 @@ window.PLATFORM_KG_DATA = {
       "name": "产线/工厂绩效排名",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "产线排名看四类：产量（规模）、产能利用率（效率）、良品率（质量）、单位成本（成本效率）。四类分别回答\"哪条产线大、哪条产线忙、哪条产线好、哪条产线省\"。",
       "href": "methodology.html#q02",
       "detail": {
@@ -671,7 +671,7 @@ window.PLATFORM_KG_DATA = {
       "name": "良品率下降诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "良品率下降可分解为：",
       "href": "methodology.html#q03",
       "detail": {
@@ -703,7 +703,7 @@ window.PLATFORM_KG_DATA = {
       "name": "单位成本上升诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "单位成本变化 = 材料成本效应 + 人工成本效应 + 制造费用效应 + 产量规模效应",
       "href": "methodology.html#q04",
       "detail": {
@@ -735,7 +735,7 @@ window.PLATFORM_KG_DATA = {
       "name": "设备故障率上升诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "设备故障率上升 = 设备老化效应 + 维护不足效应 + 操作不当效应 + 备件质量效应",
       "href": "methodology.html#q05",
       "detail": {
@@ -767,7 +767,7 @@ window.PLATFORM_KG_DATA = {
       "name": "下月产量预测",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "下月产量预测 = 基线预测（MA3）× 季节因子 + 订单修正",
       "href": "methodology.html#q06",
       "detail": {
@@ -798,7 +798,7 @@ window.PLATFORM_KG_DATA = {
       "name": "设备OEE评估",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "OEE 评估 = 可用率 × 性能率 × 良品率",
       "href": "methodology.html#q07",
       "detail": {
@@ -829,7 +829,7 @@ window.PLATFORM_KG_DATA = {
       "name": "供应商绩效评估",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "供应商评估 = 交付准时率 + 质量退货率 + 价格竞争力 + 响应速度（综合评分）",
       "href": "methodology.html#q08",
       "detail": {
@@ -861,7 +861,7 @@ window.PLATFORM_KG_DATA = {
       "name": "质量改善优先级优化",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "目标函数：最大化不良减少量（或最大化质量改善收益）。",
       "href": "methodology.html#q09",
       "detail": {
@@ -891,7 +891,7 @@ window.PLATFORM_KG_DATA = {
       "name": "生产计划优化",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "目标函数：最大化产能利用率（或最大化产出）。",
       "href": "methodology.html#q10",
       "detail": {
@@ -921,7 +921,7 @@ window.PLATFORM_KG_DATA = {
       "name": "质量总览",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "质量总览看四类：良品率（最终质量）、FPY（一次通过率，过程质量）、报废率（损失）、返工率（隐性成本）。四类分别回答\"最终好不好、一次能不能过、废了多少、返工多少\"。",
       "href": "methodology.html#q11",
       "detail": {
@@ -956,7 +956,7 @@ window.PLATFORM_KG_DATA = {
       "name": "交付准时率总览",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "交付总览看四类：OTIF（准时足量）、OTD（准时交付）、欠交（未完成）、提前完工（是否过早占用产能）。四类分别回答\"准时足量率、准时率、欠多少、是否过度提前\"。",
       "href": "methodology.html#q12",
       "detail": {
@@ -989,7 +989,7 @@ window.PLATFORM_KG_DATA = {
       "name": "产能不足诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "产能不足 = 订单超载 + 产能损失 + 瓶颈工序 + 换型损失",
       "href": "methodology.html#q13",
       "detail": {
@@ -1022,7 +1022,7 @@ window.PLATFORM_KG_DATA = {
       "name": "交期延误诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "交期延误 = 供应商延误 + 物料齐套延误 + 产能不足延误 + 计划变更延误",
       "href": "methodology.html#q14",
       "detail": {
@@ -1055,7 +1055,7 @@ window.PLATFORM_KG_DATA = {
       "name": "物料需求预测",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "物料净需求 = 理论需求 ×（1 + 损耗率） + 安全库存 - 当前库存 - 在途",
       "href": "methodology.html#q15",
       "detail": {
@@ -1088,7 +1088,7 @@ window.PLATFORM_KG_DATA = {
       "name": "设备故障风险预警",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "设备故障风险 = 故障频次趋势 + 停机时长趋势 + 设备年龄",
       "href": "methodology.html#q16",
       "detail": {
@@ -1123,7 +1123,7 @@ window.PLATFORM_KG_DATA = {
       "name": "新品导入（NPI）评估",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "NPI 评估 = 爬坡良品率 + 单位成本达成 + 产能达成 + 质量稳定性",
       "href": "methodology.html#q17",
       "detail": {
@@ -1158,7 +1158,7 @@ window.PLATFORM_KG_DATA = {
       "name": "供应商份额优化",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "目标函数：最小化供应风险（或最大化供应稳定性）。",
       "href": "methodology.html#q18",
       "detail": {
@@ -1192,7 +1192,7 @@ window.PLATFORM_KG_DATA = {
       "name": "设备状态总览",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "设备总览看四类：OEE（综合效率）、可用率（时间维度）、停机时长（损失）、MTBF（可靠性）。四类分别回答\"综合效率如何、多少时间可用、停了多少、多久坏一次\"。",
       "href": "methodology.html#q19",
       "detail": {
@@ -1227,7 +1227,7 @@ window.PLATFORM_KG_DATA = {
       "name": "制造成本总览",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "成本总览看四类：单位成本（总水平）、材料成本占比、人工成本占比、制造费用占比。四类分别回答\"总成本高不高、材料贵不贵、人工贵不贵、制费高不高\"。",
       "href": "methodology.html#q20",
       "detail": {
@@ -1261,7 +1261,7 @@ window.PLATFORM_KG_DATA = {
       "name": "报废返工上升诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "报废返工上升 = 产品效应 + 工序效应 + 不良类型效应 + 批次效应",
       "href": "methodology.html#q21",
       "detail": {
@@ -1295,7 +1295,7 @@ window.PLATFORM_KG_DATA = {
       "name": "在制品（WIP）堆积诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "WIP 堆积 = 瓶颈工序效应 + 节拍不匹配效应 + 停机效应 + 换型效应",
       "href": "methodology.html#q22",
       "detail": {
@@ -1328,7 +1328,7 @@ window.PLATFORM_KG_DATA = {
       "name": "订单交付风险预测",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "订单交付风险 = 在制进度 + 瓶颈工序余量 + 供应商齐套",
       "href": "methodology.html#q23",
       "detail": {
@@ -1361,7 +1361,7 @@ window.PLATFORM_KG_DATA = {
       "name": "人工效率评估",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "人工效率评估 = 人均产出 + 标准工时达成率 + 加班率",
       "href": "methodology.html#q24",
       "detail": {
@@ -1396,7 +1396,7 @@ window.PLATFORM_KG_DATA = {
       "name": "库存与周转优化",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "目标函数：最小化库存金额（或最大化库存周转）。",
       "href": "methodology.html#q25",
       "detail": {
@@ -1430,7 +1430,7 @@ window.PLATFORM_KG_DATA = {
       "name": "客诉 8D / CAPA 闭环",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "目标函数：彻底关闭客诉问题（防止再发）。",
       "href": "methodology.html#q26",
       "detail": {
@@ -1463,7 +1463,7 @@ window.PLATFORM_KG_DATA = {
       "name": "班组绩效排名",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "班组排名看四类：产量（规模）、良品率（质量）、产能利用率（效率）、人均产出（人效）。四类分别回答\"哪个班产量大、质量好、效率高、人效高\"。",
       "href": "methodology.html#q27",
       "detail": {
@@ -1498,7 +1498,7 @@ window.PLATFORM_KG_DATA = {
       "name": "产品成本结构分析",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "产品成本结构看三类：单位成本（成本效率）、成本结构（材料/人工/制费占比）、产品间成本排名。三类分别回答“哪款成本高、成本花在哪、谁相对更贵”（收入数据待补，暂不做毛利/盈利）。",
       "href": "methodology.html#q28",
       "detail": {
@@ -1532,7 +1532,7 @@ window.PLATFORM_KG_DATA = {
       "name": "工序良率总览",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "工序良率看三类：良品率（最终）、FPY（一次通过率）、不良分布（类型 + 数量）。三类分别回答\"哪道工序最终良率低、哪道工序一次通过率低、不良集中在哪\"。",
       "href": "methodology.html#q29",
       "detail": {
@@ -1566,7 +1566,7 @@ window.PLATFORM_KG_DATA = {
       "name": "能耗总览",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "能耗看四类：总能耗（电/气/水）、单位产品能耗（单耗）、能耗结构、能耗趋势。四类分别回答\"总能耗多少、单耗多少、哪类能耗为主、趋势如何\"。",
       "href": "methodology.html#q30",
       "detail": {
@@ -1597,7 +1597,7 @@ window.PLATFORM_KG_DATA = {
       "name": "客户交付分析",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "客户交付看四类：OTIF（准时足量率）、欠交金额、订单满足率、客户集中度。四类分别回答\"哪些客户准时足量率低、哪些客户欠交多、哪些客户满足率低、交付是否过度依赖大客户\"。",
       "href": "methodology.html#q31",
       "detail": {
@@ -1630,7 +1630,7 @@ window.PLATFORM_KG_DATA = {
       "name": "安全生产概况",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "安全看四类：事故次数、事故严重度、隐患整改率、培训完成率。四类分别回答\"出了多少次事故、事故多严重、隐患整改如何、培训是否到位\"。",
       "href": "methodology.html#q32",
       "detail": {
@@ -1661,7 +1661,7 @@ window.PLATFORM_KG_DATA = {
       "name": "能耗上升诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "能耗上升 = 产量规模效应 + 产品结构效应 + 设备效率效应 + 工艺参数效应",
       "href": "methodology.html#q33",
       "detail": {
@@ -1694,7 +1694,7 @@ window.PLATFORM_KG_DATA = {
       "name": "人工成本上升诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "人工成本上升 = 人数增加效应 + 加班增加效应 + 单价上涨效应 + 人效下降效应",
       "href": "methodology.html#q34",
       "detail": {
@@ -1729,7 +1729,7 @@ window.PLATFORM_KG_DATA = {
       "name": "客诉上升诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "客诉上升 = 产品质量效应 + 交付问题效应 + 服务问题效应 + 客户结构效应",
       "href": "methodology.html#q35",
       "detail": {
@@ -1762,7 +1762,7 @@ window.PLATFORM_KG_DATA = {
       "name": "安全事故根因分析",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "安全事故 = 人的不安全行为 + 物的不安全状态 + 管理缺陷 + 环境因素",
       "href": "methodology.html#q36",
       "detail": {
@@ -1795,7 +1795,7 @@ window.PLATFORM_KG_DATA = {
       "name": "物料损耗上升诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "物料损耗上升 = 物料效应 + 工序效应 + 原因效应 + 批次效应",
       "href": "methodology.html#q37",
       "detail": {
@@ -1828,7 +1828,7 @@ window.PLATFORM_KG_DATA = {
       "name": "换型时间过长诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "换型时间长 = 准备时间 + 拆卸时间 + 安装时间 + 调试时间",
       "href": "methodology.html#q38",
       "detail": {
@@ -1861,7 +1861,7 @@ window.PLATFORM_KG_DATA = {
       "name": "瓶颈工序漂移诊断",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "瓶颈漂移 = 原瓶颈改善 + 新瓶颈出现 + 需求结构变化",
       "href": "methodology.html#q39",
       "detail": {
@@ -1894,7 +1894,7 @@ window.PLATFORM_KG_DATA = {
       "name": "安全库存预警",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "安全库存预警 = 当前库存 / 日均消耗 = 可用天数 vs 采购提前期",
       "href": "methodology.html#q40",
       "detail": {
@@ -1927,7 +1927,7 @@ window.PLATFORM_KG_DATA = {
       "name": "能耗预测与预算",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "能耗预测 = 下月产量预测 × 历史单耗（M12）",
       "href": "methodology.html#q41",
       "detail": {
@@ -1960,7 +1960,7 @@ window.PLATFORM_KG_DATA = {
       "name": "人力需求预测",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "人力需求 = 产量计划 × 标准工时 / 人均可用工时",
       "href": "methodology.html#q42",
       "detail": {
@@ -1994,7 +1994,7 @@ window.PLATFORM_KG_DATA = {
       "name": "质量风险预测",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "质量风险 = 过程能力指数（CPK）趋势 + 历史不良率",
       "href": "methodology.html#q43",
       "detail": {
@@ -2029,7 +2029,7 @@ window.PLATFORM_KG_DATA = {
       "name": "产品盈利能力评估",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "产品盈利评估 = 毛利 × 销量 × 周转（BCG 矩阵分类）",
       "href": "methodology.html#q44",
       "detail": {
@@ -2062,7 +2062,7 @@ window.PLATFORM_KG_DATA = {
       "name": "客户价值评估",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "客户价值评估 = 收入规模 × 毛利率 × 交付表现 × 增长潜力（综合评分）+ 客户集中度",
       "href": "methodology.html#q45",
       "detail": {
@@ -2095,7 +2095,7 @@ window.PLATFORM_KG_DATA = {
       "name": "班组绩效综合评估",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "班组绩效评估 = 产量 + 质量 + 效率 + 安全（四维综合评分）",
       "href": "methodology.html#q46",
       "detail": {
@@ -2129,7 +2129,7 @@ window.PLATFORM_KG_DATA = {
       "name": "生产排程优化",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "目标函数：最大化产出（或最大化交期满足率）。",
       "href": "methodology.html#q47",
       "detail": {
@@ -2162,7 +2162,7 @@ window.PLATFORM_KG_DATA = {
       "name": "能耗优化方案",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "目标函数：最小化能耗成本（或最大化节能收益）。",
       "href": "methodology.html#q48",
       "detail": {
@@ -2195,7 +2195,7 @@ window.PLATFORM_KG_DATA = {
       "name": "人员排班优化",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "目标函数：最小化人力成本（或最大化人效）。",
       "href": "methodology.html#q49",
       "detail": {
@@ -2229,7 +2229,7 @@ window.PLATFORM_KG_DATA = {
       "name": "物料配送路径优化",
       "type": "methodology",
       "category": "manufacturing",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "目标函数：最小化配送成本（或最小化配送时间）。",
       "href": "methodology.html#q50",
       "detail": {
@@ -2805,20 +2805,24 @@ window.PLATFORM_KG_DATA = {
       "type": "warehouse",
       "category": "manufacturing",
       "parentId": "cat_wh_dwd",
-      "description": "生产事实宽表",
+      "description": "生产事实宽表；逾期天相对 MAX(order_date) 业务日",
       "aliases": [
         "生产事实宽表",
-        "DWD·生产事实宽表·增量·粒度=工单"
+        "DWD·生产事实宽表·增量·粒度=工单",
+        "逾期工单",
+        "业务日"
       ],
       "href": "platform-graph.html?node=tbl:dwd_production_wide",
       "dictHref": "architecture.html#dict/dwd_production_wide",
       "detail": {
         "definition": "DWD·生产事实宽表·增量·粒度=工单",
-        "notes": "分层：DWD · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+        "notes": "分层：DWD · 交付逾期清单用 MAX(order_date) 作业务日锚点，避免 CURDATE 空窗；详表字段见数据字典"
       },
       "tags": [
         "dwd",
-        "生产事实宽表"
+        "生产事实宽表",
+        "逾期",
+        "业务日"
       ],
       "crossRefs": [],
       "childrenIds": []
@@ -4587,13 +4591,6 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "root_methodology",
-      "target": "cat_method_l1",
-      "style": "solid",
-      "cross": false,
-      "label": ""
-    },
-    {
-      "source": "root_methodology",
       "target": "cat_method_l2",
       "style": "solid",
       "cross": false,
@@ -4628,350 +4625,357 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "root_methodology",
+      "target": "cat_method_l1",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
       "target": "pb:q01",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q02",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q03",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q04",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q05",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q06",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q07",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q08",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q09",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q10",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q11",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q12",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q13",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q14",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q15",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q16",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q17",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q18",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q19",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q20",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q21",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q22",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q23",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q24",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q25",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q26",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q27",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q28",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q29",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q30",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q31",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q32",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q33",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q34",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q35",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q36",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q37",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q38",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q39",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q40",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q41",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q42",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q43",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q44",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q45",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q46",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q47",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q48",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q49",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q50",
       "style": "solid",
       "cross": false,
@@ -6217,4 +6221,4 @@ window.PLATFORM_KG_DATA = {
       "label": "相关指标"
     }
   ]
-};
+}

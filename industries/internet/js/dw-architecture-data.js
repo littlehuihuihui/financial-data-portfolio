@@ -209,6 +209,17 @@ window.DW_ARCHITECTURE_DATA = {
     "schedule": "T+1"
   },
   {
+    "id": "dim_activity",
+    "name": "dim_activity",
+    "name_cn": "营销活动",
+    "layer": "dim",
+    "type": "table",
+    "purpose": "DIM·营销活动维（看板/ADS 禁止直读 ods_activity）",
+    "fieldCount": 11,
+    "category": "DIM",
+    "schedule": "T+1"
+  },
+  {
     "id": "dim_month",
     "name": "dim_month",
     "name_cn": "月",
@@ -370,6 +381,17 @@ window.DW_ARCHITECTURE_DATA = {
     "schedule": "T+1 灌入",
     "sourceSystem": "用户中心",
     "sourceType": "业务库"
+  },
+  {
+    "id": "ods_activity",
+    "name": "ods_activity",
+    "name_cn": "营销活动贴源",
+    "layer": "ods",
+    "type": "table",
+    "purpose": "ODS·营销活动贴源（入维 dim_activity）",
+    "fieldCount": 9,
+    "category": "ODS",
+    "schedule": "T+1 灌入"
   },
   {
     "id": "ods_order_di",
@@ -761,22 +783,22 @@ window.DW_ARCHITECTURE_DATA = {
   {
     "id": "v_activity_summary",
     "name": "v_activity_summary",
-    "name_cn": "活跃汇总",
+    "name_cn": "营销活动汇总",
     "layer": "ads",
     "type": "view",
-    "purpose": "v_activity_summary 分析视图（活跃汇总）",
-    "fieldCount": 18,
+    "purpose": "营销活动 ROI/触达汇总（读 dim_activity + dwd/dws）",
+    "fieldCount": 15,
     "category": "ADS",
     "schedule": "实时（视图）"
   },
   {
     "id": "v_activity_daily_trend",
     "name": "v_activity_daily_trend",
-    "name_cn": "活跃日趋势",
+    "name_cn": "活动日趋势",
     "layer": "ads",
     "type": "view",
-    "purpose": "v_activity_daily_trend 分析视图（活跃日趋势）",
-    "fieldCount": 11,
+    "purpose": "活动期内订购日趋势（读 dim_activity + dwd_trade_order_di）",
+    "fieldCount": 7,
     "category": "ADS",
     "schedule": "实时（视图）"
   },
@@ -1058,6 +1080,42 @@ window.DW_ARCHITECTURE_DATA = {
     "to": "v_user_portrait",
     "label": "指标封装",
     "schedule": "实时"
+  },
+  {
+    "from": "ods_activity",
+    "to": "dim_activity",
+    "label": "活动入维",
+    "schedule": "T+1"
+  },
+  {
+    "from": "dim_activity",
+    "to": "v_activity_summary",
+    "label": "活动汇总",
+    "schedule": "实时"
+  },
+  {
+    "from": "dwd_trade_order_di",
+    "to": "v_activity_summary",
+    "label": "参与用户/订购",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_act_user_active_1d",
+    "to": "v_activity_summary",
+    "label": "触达用户",
+    "schedule": "实时"
+  },
+  {
+    "from": "dim_activity",
+    "to": "v_activity_daily_trend",
+    "label": "活动日趋势",
+    "schedule": "实时"
+  },
+  {
+    "from": "dwd_trade_order_di",
+    "to": "v_activity_daily_trend",
+    "label": "订购明细",
+    "schedule": "实时"
   }
 ],
     dashboards: [
@@ -1149,7 +1207,7 @@ window.DW_ARCHITECTURE_DATA = {
     "id": "activity",
     "name": "营销活动复盘",
     "api": "/api/dashboard_activity",
-    "tables": []
+    "tables": ["dim_activity", "dwd_trade_order_di", "dws_trade_order_1d", "dws_act_user_active_1d", "v_activity_summary"]
   },
   {
     "id": "health",

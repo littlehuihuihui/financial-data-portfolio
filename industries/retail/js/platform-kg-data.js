@@ -393,21 +393,35 @@ window.PLATFORM_KG_DATA = {
       "type": "dashboard",
       "category": "retail",
       "parentId": "cat_dashboard_all",
-      "description": "DQC门禁 · 每日阻断量 · 脏数据分布 · 对账（数据基建）",
+      "description": "DQC门禁 · 业务日检查戳 · ODS↔DWD↔DWS对账",
       "href": "../retail_dashboard.html#quality",
       "detail": {
-        "definition": "DQC门禁 · 每日阻断量 · 脏数据分布 · 对账（数据基建）",
-        "notes": "API: /api/dashboard_quality"
+        "definition": "DQC门禁 · 业务日检查戳 · ODS↔DWD↔DWS对账",
+        "notes": "API: /api/dashboard_quality · 检查戳=MAX(dws_sales_daily.snapshot_date)"
       },
       "tags": [
-        "看板"
+        "看板",
+        "业务日"
       ],
       "crossRefs": [],
       "childrenIds": []
     },
     {
       "id": "cat_method_l1",
-      "name": "L1 描述",
+      "name": "L1 工具箱",
+      "type": "methodology",
+      "category": "retail",
+      "isCategory": true,
+      "parentId": "root_methodology",
+      "childrenIds": [],
+      "detail": {
+        "definition": "分析方法工具箱 · 用什么方法？"
+      },
+      "crossRefs": []
+    },
+    {
+      "id": "cat_method_l2",
+      "name": "L2 描述",
       "type": "methodology",
       "category": "retail",
       "isCategory": true,
@@ -422,13 +436,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q07"
       ],
       "detail": {
-        "definition": "L1 描述"
+        "definition": "描述性分析 · 现在是什么状况？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l2",
-      "name": "L2 诊断",
+      "id": "cat_method_l3",
+      "name": "L3 诊断",
       "type": "methodology",
       "category": "retail",
       "isCategory": true,
@@ -444,13 +458,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q15"
       ],
       "detail": {
-        "definition": "L2 诊断"
+        "definition": "诊断性分析 · 为什么会这样？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l3",
-      "name": "L3 归因/预测",
+      "id": "cat_method_l4",
+      "name": "L4 预测",
       "type": "methodology",
       "category": "retail",
       "isCategory": true,
@@ -463,13 +477,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q20"
       ],
       "detail": {
-        "definition": "L3 归因/预测"
+        "definition": "预测性分析 · 接下来会怎样？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l4",
-      "name": "L4 评估",
+      "id": "cat_method_l5",
+      "name": "L5 评估",
       "type": "methodology",
       "category": "retail",
       "isCategory": true,
@@ -483,13 +497,13 @@ window.PLATFORM_KG_DATA = {
         "pb:q26"
       ],
       "detail": {
-        "definition": "L4 评估"
+        "definition": "评估性分析 · 做得怎么样？"
       },
       "crossRefs": []
     },
     {
-      "id": "cat_method_l5",
-      "name": "L5 决策",
+      "id": "cat_method_l6",
+      "name": "L6 决策",
       "type": "methodology",
       "category": "retail",
       "isCategory": true,
@@ -502,20 +516,7 @@ window.PLATFORM_KG_DATA = {
         "pb:q31"
       ],
       "detail": {
-        "definition": "L5 决策"
-      },
-      "crossRefs": []
-    },
-    {
-      "id": "cat_method_l6",
-      "name": "L6 工具箱",
-      "type": "methodology",
-      "category": "retail",
-      "isCategory": true,
-      "parentId": "root_methodology",
-      "childrenIds": [],
-      "detail": {
-        "definition": "L6 工具箱"
+        "definition": "优化决策 · 应该怎么做？"
       },
       "crossRefs": []
     },
@@ -524,7 +525,7 @@ window.PLATFORM_KG_DATA = {
       "name": "月度经营概况",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "月度经营概况看四类指标：规模（GMV/净收入）、盈利（毛利/毛利率）、退货（退货率）、现金（净现比）。四类指标分别回答\"卖了多少、赚了多少、退了多少、现金回来没有\"。",
       "href": "anomaly.html#q01",
       "detail": {
@@ -561,7 +562,7 @@ window.PLATFORM_KG_DATA = {
       "name": "年度累计经营概况",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "YTD 看四类：累计规模（GMV/净收入/毛利）、同比增速、预算执行进度、资产负债结构。四类分别回答\"累计做了多少、比去年好还是差、预算花超没超、家底健康不健康\"。",
       "href": "anomaly.html#q02",
       "detail": {
@@ -595,7 +596,7 @@ window.PLATFORM_KG_DATA = {
       "name": "单日经营简报",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "单日看四类：当日规模（GMV/净收入/订单）、波动（vs 近 7 日/30 日均值）、渠道贡献（哪个渠道拉动或拖累）、现金进出（当日净现金流）。",
       "href": "anomaly.html#q03",
       "detail": {
@@ -627,7 +628,7 @@ window.PLATFORM_KG_DATA = {
       "name": "各品牌表现排名",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "品牌排名看四类：规模（收入/毛利）、效率（毛利率）、增速（环比）、综合表现（ROE 拖累项）。四类分别回答\"谁卖得多、谁赚得多、谁在掉队、谁的盈利质量在恶化\"。",
       "href": "anomaly.html#q04",
       "detail": {
@@ -662,7 +663,7 @@ window.PLATFORM_KG_DATA = {
       "name": "各渠道表现排名",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "渠道排名看四类：规模（收入/毛利）、效率（毛利率/费用率）、ROI（广告投入产出）、集中度（单渠道占比）。四类分别回答\"哪个渠道大、哪个渠道赚、哪个渠道投放划算、是否过度依赖单一渠道\"。",
       "href": "anomaly.html#q05",
       "detail": {
@@ -697,7 +698,7 @@ window.PLATFORM_KG_DATA = {
       "name": "各品类表现排名",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "品类排名看四类：规模（收入/毛利）、效率（毛利率/收入占比 vs 毛利占比匹配度）、退货（退货率）、库存（周转天数）。四类分别回答\"哪个品类大、哪个品类赚、哪个品类退货多、哪个品类压货\"。",
       "href": "anomaly.html#q06",
       "detail": {
@@ -730,7 +731,7 @@ window.PLATFORM_KG_DATA = {
       "name": "各门店表现排名",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l1",
+      "parentId": "cat_method_l2",
       "description": "门店排名看四类：规模（收入/利润）、效率（坪效）、波动（vs 7 日/30 日均值）、异常（亏损、低坪效）。四类分别回答\"哪家店大、哪家店赚、哪家店在掉、哪家店该关\"。",
       "href": "anomaly.html#q07",
       "detail": {
@@ -762,7 +763,7 @@ window.PLATFORM_KG_DATA = {
       "name": "毛利率下滑诊断",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "毛利率下降不是单一原因，而是四类效应叠加。诊断的第一步不是拆品牌，而是先判断\"哪类效应在拖后腿\"：",
       "href": "anomaly.html#q08",
       "detail": {
@@ -795,7 +796,7 @@ window.PLATFORM_KG_DATA = {
       "name": "净利润下滑诊断",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "净利润变化 = 收入规模效应 + 毛利率效应 + 费用率效应 + 交互项",
       "href": "anomaly.html#q09",
       "detail": {
@@ -830,7 +831,7 @@ window.PLATFORM_KG_DATA = {
       "name": "收入下滑诊断",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "收入变化 = 量效应 + 价效应 + 结构效应",
       "href": "anomaly.html#q10",
       "detail": {
@@ -861,7 +862,7 @@ window.PLATFORM_KG_DATA = {
       "name": "收入增长缓慢诊断",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "增长缺口 = 主力品牌/渠道拖累 + 新增长点不足 + 效率下降",
       "href": "anomaly.html#q11",
       "detail": {
@@ -893,7 +894,7 @@ window.PLATFORM_KG_DATA = {
       "name": "退货率异常诊断",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "整体退货率变化 = 结构效应 + 单品类退货率变化效应",
       "href": "anomaly.html#q12",
       "detail": {
@@ -922,7 +923,7 @@ window.PLATFORM_KG_DATA = {
       "name": "费用率异常诊断",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "费用率变化 = 费用结构效应 + 单科目费用率变化效应 + 收入分母效应",
       "href": "anomaly.html#q13",
       "detail": {
@@ -953,7 +954,7 @@ window.PLATFORM_KG_DATA = {
       "name": "净现比下降诊断",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "净现比下降 = 利润质量效应 + 营运资本占用效应 + 非经常性项目效应",
       "href": "anomaly.html#q14",
       "detail": {
@@ -985,7 +986,7 @@ window.PLATFORM_KG_DATA = {
       "name": "库存周转天数上升诊断",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l2",
+      "parentId": "cat_method_l3",
       "description": "周转天数变化 = 库存规模效应 + 销售规模效应 + 结构效应",
       "href": "anomaly.html#q15",
       "detail": {
@@ -1017,7 +1018,7 @@ window.PLATFORM_KG_DATA = {
       "name": "下月收入预测",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "下月收入预测 = 基线预测 × 季节因子 + 趋势修正 + 外生修正",
       "href": "anomaly.html#q16",
       "detail": {
@@ -1047,7 +1048,7 @@ window.PLATFORM_KG_DATA = {
       "name": "下季度品牌/品类收入预测",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "下季度品牌/品类预测 = 品牌/品类基线 × 季节因子 × 趋势修正",
       "href": "anomaly.html#q17",
       "detail": {
@@ -1077,7 +1078,7 @@ window.PLATFORM_KG_DATA = {
       "name": "年底目标达成预测",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "年底目标达成预测 = YTD 累计 + 剩余月份预测",
       "href": "anomaly.html#q18",
       "detail": {
@@ -1108,7 +1109,7 @@ window.PLATFORM_KG_DATA = {
       "name": "资金缺口预测",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "资金缺口 = 未来流入预测 - 未来流出预测 - 当前现金",
       "href": "anomaly.html#q19",
       "detail": {
@@ -1139,7 +1140,7 @@ window.PLATFORM_KG_DATA = {
       "name": "渠道 ROI 持续下降预警",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l3",
+      "parentId": "cat_method_l4",
       "description": "渠道 ROI 持续下降预警 = 滑动窗口 ROI 趋势 + 连续下降判断 + 减投建议",
       "href": "anomaly.html#q20",
       "detail": {
@@ -1171,7 +1172,7 @@ window.PLATFORM_KG_DATA = {
       "name": "营销活动ROI评估",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "活动 ROI 评估 = 增量毛利 / 活动总投入（F26 基线 + F27 效应量）",
       "href": "anomaly.html#q21",
       "detail": {
@@ -1202,7 +1203,7 @@ window.PLATFORM_KG_DATA = {
       "name": "渠道投入产出评估",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "渠道投入产出 = 渠道产出毛利 − 全口径投入（广告+平台佣金+运营分摊）",
       "href": "anomaly.html#q22",
       "detail": {
@@ -1233,7 +1234,7 @@ window.PLATFORM_KG_DATA = {
       "name": "促销活动效果评估",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "促销效果评估 = 促销期 vs 非促销期对比 + 透支检测（F26/F27）",
       "href": "anomaly.html#q23",
       "detail": {
@@ -1264,7 +1265,7 @@ window.PLATFORM_KG_DATA = {
       "name": "门店关停评估",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "门店关停评估 = 90 日表现 + 区域对比 + 关停盈亏（F28/F29）",
       "href": "anomaly.html#q24",
       "detail": {
@@ -1296,7 +1297,7 @@ window.PLATFORM_KG_DATA = {
       "name": "供应商绩效评估",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "供应商绩效 = 交付准时率 + 质量退货 + 采购价趋势 + 综合评分（F28/F30）",
       "href": "anomaly.html#q25",
       "detail": {
@@ -1325,7 +1326,7 @@ window.PLATFORM_KG_DATA = {
       "name": "新品表现评估",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l4",
+      "parentId": "cat_method_l5",
       "description": "新品表现 = 动销 + 毛利/退货 + 库存周转 + 追单/下架决策（F29/F30）",
       "href": "anomaly.html#q26",
       "detail": {
@@ -1357,7 +1358,7 @@ window.PLATFORM_KG_DATA = {
       "name": "预算分配优化",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "预算分配优化 = 在总预算约束下，按边际 ROI 倾斜，同时满足依赖度与战略约束",
       "href": "anomaly.html#q27",
       "detail": {
@@ -1386,7 +1387,7 @@ window.PLATFORM_KG_DATA = {
       "name": "营销费用优化",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "营销费用优化 = 在收入目标约束下，优化费用结构与渠道投放",
       "href": "anomaly.html#q28",
       "detail": {
@@ -1416,7 +1417,7 @@ window.PLATFORM_KG_DATA = {
       "name": "定价优化分析",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "定价优化 = 在毛利与销量约束下，找最优价格带",
       "href": "anomaly.html#q29",
       "detail": {
@@ -1446,7 +1447,7 @@ window.PLATFORM_KG_DATA = {
       "name": "折扣策略优化",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "折扣策略优化 = 在毛利约束下，优化折扣深度、频率与品类范围",
       "href": "anomaly.html#q30",
       "detail": {
@@ -1477,7 +1478,7 @@ window.PLATFORM_KG_DATA = {
       "name": "库存清仓优化",
       "type": "methodology",
       "category": "retail",
-      "parentId": "cat_method_l5",
+      "parentId": "cat_method_l6",
       "description": "库存清仓优化 = 在毛利约束下，优化折扣深度、渠道与节奏，最大化现金回收",
       "href": "anomaly.html#q31",
       "detail": {
@@ -1554,7 +1555,8 @@ window.PLATFORM_KG_DATA = {
       "childrenIds": [
         "tbl:dwd_sales_wide",
         "tbl:dwd_expense_wide",
-        "tbl:dwd_inventory_wide"
+        "tbl:dwd_inventory_wide",
+        "tbl:dwd_fct_purchase"
       ],
       "detail": {
         "definition": "DWD 明细层"
@@ -1572,6 +1574,9 @@ window.PLATFORM_KG_DATA = {
         "tbl:dws_sales_daily",
         "tbl:dws_sales_monthly",
         "tbl:dws_expense_monthly",
+        "tbl:dws_expense_daily",
+        "tbl:dws_payment_daily",
+        "tbl:dws_payment_monthly",
         "tbl:dws_inventory_daily",
         "tbl:dws_store_daily",
         "tbl:dws_asset_monthly",
@@ -1602,7 +1607,11 @@ window.PLATFORM_KG_DATA = {
         "tbl:v_cashflow_statement",
         "tbl:v_tax_analysis",
         "tbl:v_budget",
-        "tbl:v_inventory"
+        "tbl:v_inventory",
+        "tbl:v_ad_channel_roi",
+        "tbl:v_expense_budget",
+        "tbl:v_purchase_order",
+        "tbl:v_purchase_receipt"
       ],
       "detail": {
         "definition": "ADS 应用层"
@@ -1955,6 +1964,34 @@ window.PLATFORM_KG_DATA = {
       "childrenIds": []
     },
     {
+      "id": "tbl:dwd_fct_purchase",
+      "name": "dwd_fct_purchase",
+      "name_cn": "采购单事实",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_dwd",
+      "description": "采购下单/收货明细事实（粒度=采购单）",
+      "aliases": [
+        "采购事实",
+        "dwd_purchase"
+      ],
+      "href": "platform-graph.html?node=tbl:dwd_fct_purchase",
+      "dictHref": "architecture.html#dict/dwd_fct_purchase",
+      "detail": {
+        "definition": "采购下单/收货明细事实（粒度=采购单）",
+        "notes": "分层：DWD · ODS ods_purchase → 本表 → ADS v_purchase_*"
+      },
+      "tags": [
+        "dwd"
+      ],
+      "crossRefs": [
+        "tbl:ods_purchase",
+        "tbl:v_purchase_order",
+        "tbl:v_purchase_receipt"
+      ],
+      "childrenIds": []
+    },
+    {
       "id": "tbl:dws_sales_daily",
       "name": "dws_sales_daily",
       "name_cn": "",
@@ -2016,6 +2053,75 @@ window.PLATFORM_KG_DATA = {
       "detail": {
         "definition": "月费用汇总",
         "notes": "分层：DWS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
+      },
+      "tags": [
+        "dws"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dws_payment_daily",
+      "name": "dws_payment_daily",
+      "name_cn": "日支付汇总",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_dws",
+      "description": "日支付汇总·资金流入",
+      "aliases": [
+        "日支付汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_payment_daily",
+      "dictHref": "architecture.html#dict/dws_payment_daily",
+      "detail": {
+        "definition": "日支付汇总·资金流入（看板资金预测/银行余额）",
+        "notes": "分层：DWS · 粒度=日×支付方式"
+      },
+      "tags": [
+        "dws"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dws_expense_daily",
+      "name": "dws_expense_daily",
+      "name_cn": "日费用汇总",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_dws",
+      "description": "日费用汇总·资金流出",
+      "aliases": [
+        "日费用汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_expense_daily",
+      "dictHref": "architecture.html#dict/dws_expense_daily",
+      "detail": {
+        "definition": "日费用汇总·资金流出（看板资金预测）",
+        "notes": "分层：DWS · 粒度=日×费用类型"
+      },
+      "tags": [
+        "dws"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:dws_payment_monthly",
+      "name": "dws_payment_monthly",
+      "name_cn": "月支付汇总",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_dws",
+      "description": "月支付汇总",
+      "aliases": [
+        "月支付汇总"
+      ],
+      "href": "platform-graph.html?node=tbl:dws_payment_monthly",
+      "dictHref": "architecture.html#dict/dws_payment_monthly",
+      "detail": {
+        "definition": "月支付汇总",
+        "notes": "分层：DWS"
       },
       "tags": [
         "dws"
@@ -2270,20 +2376,117 @@ window.PLATFORM_KG_DATA = {
       "type": "warehouse",
       "category": "retail",
       "parentId": "cat_wh_ads",
-      "description": "杜邦 ROE 分解",
+      "description": "杜邦 ROE 分解（含环比/拖累项）",
       "aliases": [
         "杜邦 ROE 分解"
       ],
       "href": "platform-graph.html?node=tbl:v_dupont",
       "dictHref": "architecture.html#dict/v_dupont",
       "detail": {
-        "definition": "杜邦 ROE 分解",
+        "definition": "杜邦 ROE 分解（含环比/拖累项）",
         "notes": "分层：ADS · 详表字段见数据字典；可在平台知识图谱辐射图中定位"
       },
       "tags": [
         "ads"
       ],
       "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_ad_channel_roi",
+      "name": "v_ad_channel_roi",
+      "name_cn": "渠道广告ROI",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_ads",
+      "description": "渠道广告/营销投入产出",
+      "aliases": [
+        "渠道广告ROI",
+        "ROAS"
+      ],
+      "href": "platform-graph.html?node=tbl:v_ad_channel_roi",
+      "dictHref": "architecture.html#dict/v_ad_channel_roi",
+      "detail": {
+        "definition": "读 DWS 费用+销售，替代看板/方法论直读 ods_ad_cost",
+        "notes": "分层：ADS · 方法论与渠道 ROAS 同源"
+      },
+      "tags": [
+        "ads"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_expense_budget",
+      "name": "v_expense_budget",
+      "name_cn": "费用预算执行",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_ads",
+      "description": "费用预算差异与执行率",
+      "aliases": [
+        "费用预算执行"
+      ],
+      "href": "platform-graph.html?node=tbl:v_expense_budget",
+      "dictHref": "architecture.html#dict/v_expense_budget",
+      "detail": {
+        "definition": "费用预算差异与执行率",
+        "notes": "分层：ADS"
+      },
+      "tags": [
+        "ads"
+      ],
+      "crossRefs": [],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_purchase_order",
+      "name": "v_purchase_order",
+      "name_cn": "采购订单兼容",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_ads",
+      "description": "采购订单方法论兼容视图",
+      "aliases": [
+        "采购订单"
+      ],
+      "href": "platform-graph.html?node=tbl:v_purchase_order",
+      "dictHref": "architecture.html#dict/v_purchase_order",
+      "detail": {
+        "definition": "采购订单方法论兼容视图",
+        "notes": "分层：ADS 兼容层（读 dwd_fct_purchase，禁止直读 ODS）"
+      },
+      "tags": [
+        "ads"
+      ],
+      "crossRefs": [
+        "tbl:dwd_fct_purchase"
+      ],
+      "childrenIds": []
+    },
+    {
+      "id": "tbl:v_purchase_receipt",
+      "name": "v_purchase_receipt",
+      "name_cn": "采购收货兼容",
+      "type": "warehouse",
+      "category": "retail",
+      "parentId": "cat_wh_ads",
+      "description": "采购收货方法论兼容视图",
+      "aliases": [
+        "采购收货"
+      ],
+      "href": "platform-graph.html?node=tbl:v_purchase_receipt",
+      "dictHref": "architecture.html#dict/v_purchase_receipt",
+      "detail": {
+        "definition": "采购收货方法论兼容视图",
+        "notes": "分层：ADS 兼容层（读 dwd_fct_purchase，禁止直读 ODS）"
+      },
+      "tags": [
+        "ads"
+      ],
+      "crossRefs": [
+        "tbl:dwd_fct_purchase"
+      ],
       "childrenIds": []
     },
     {
@@ -3374,13 +3577,6 @@ window.PLATFORM_KG_DATA = {
     },
     {
       "source": "root_methodology",
-      "target": "cat_method_l1",
-      "style": "solid",
-      "cross": false,
-      "label": ""
-    },
-    {
-      "source": "root_methodology",
       "target": "cat_method_l2",
       "style": "solid",
       "cross": false,
@@ -3415,217 +3611,224 @@ window.PLATFORM_KG_DATA = {
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "root_methodology",
+      "target": "cat_method_l1",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "cat_method_l2",
       "target": "pb:q01",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q02",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q03",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q04",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q05",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q06",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l1",
+      "source": "cat_method_l2",
       "target": "pb:q07",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q08",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q09",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q10",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q11",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q12",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q13",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q14",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l2",
+      "source": "cat_method_l3",
       "target": "pb:q15",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q16",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q17",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q18",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q19",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l3",
+      "source": "cat_method_l4",
       "target": "pb:q20",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q21",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q22",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q23",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q24",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q25",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l4",
+      "source": "cat_method_l5",
       "target": "pb:q26",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q27",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q28",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q29",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q30",
       "style": "solid",
       "cross": false,
       "label": ""
     },
     {
-      "source": "cat_method_l5",
+      "source": "cat_method_l6",
       "target": "pb:q31",
       "style": "solid",
       "cross": false,
@@ -3770,6 +3973,34 @@ window.PLATFORM_KG_DATA = {
       "style": "solid",
       "cross": false,
       "label": ""
+    },
+    {
+      "source": "cat_wh_dwd",
+      "target": "tbl:dwd_fct_purchase",
+      "style": "solid",
+      "cross": false,
+      "label": ""
+    },
+    {
+      "source": "tbl:ods_purchase",
+      "target": "tbl:dwd_fct_purchase",
+      "style": "solid",
+      "cross": false,
+      "label": "采购入仓"
+    },
+    {
+      "source": "tbl:dwd_fct_purchase",
+      "target": "tbl:v_purchase_order",
+      "style": "solid",
+      "cross": false,
+      "label": "方法论兼容"
+    },
+    {
+      "source": "tbl:dwd_fct_purchase",
+      "target": "tbl:v_purchase_receipt",
+      "style": "solid",
+      "cross": false,
+      "label": "方法论兼容"
     },
     {
       "source": "cat_wh_dws",
@@ -4605,4 +4836,4 @@ window.PLATFORM_KG_DATA = {
       "label": "相关指标"
     }
   ]
-};
+}

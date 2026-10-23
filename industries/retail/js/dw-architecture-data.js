@@ -478,6 +478,17 @@ window.DW_ARCHITECTURE_DATA = {
     "schedule": "T+1"
   },
   {
+    "id": "dwd_fct_purchase",
+    "name": "dwd_fct_purchase",
+    "name_cn": "采购单事实",
+    "layer": "dwd",
+    "type": "table",
+    "purpose": "采购下单/收货明细事实（粒度=采购单）",
+    "fieldCount": 22,
+    "category": "DWD",
+    "schedule": "T+1"
+  },
+  {
     "id": "dws_sales_daily",
     "name": "dws_sales_daily",
     "name_cn": "",
@@ -507,6 +518,50 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "table",
     "purpose": "月费用汇总",
     "fieldCount": 6,
+    "category": "DWS",
+    "schedule": "T+1"
+  },
+  {
+    "id": "dws_payment_daily",
+    "name": "dws_payment_daily",
+    "name_cn": "日支付汇总",
+    "layer": "dws",
+    "type": "table",
+    "purpose": "日支付汇总·资金流入（看板资金预测）",
+    "fieldCount": 9,
+    "category": "DWS",
+    "schedule": "T+1"
+  },
+  {
+    "id": "dws_expense_daily",
+    "name": "dws_expense_daily",
+    "name_cn": "日费用汇总",
+    "layer": "dws",
+    "type": "table",
+    "purpose": "日费用汇总·资金流出（看板资金预测）",
+    "fieldCount": 8,
+    "category": "DWS",
+    "schedule": "T+1"
+  },
+  {
+    "id": "dws_payment_monthly",
+    "name": "dws_payment_monthly",
+    "name_cn": "月支付汇总",
+    "layer": "dws",
+    "type": "table",
+    "purpose": "月支付汇总",
+    "fieldCount": 9,
+    "category": "DWS",
+    "schedule": "T+1"
+  },
+  {
+    "id": "dws_budget_monthly",
+    "name": "dws_budget_monthly",
+    "name_cn": "月预算汇总",
+    "layer": "dws",
+    "type": "table",
+    "purpose": "月预算vs实际汇总",
+    "fieldCount": 10,
     "category": "DWS",
     "schedule": "T+1"
   },
@@ -582,8 +637,8 @@ window.DW_ARCHITECTURE_DATA = {
     "name_cn": "",
     "layer": "ads",
     "type": "view",
-    "purpose": "杜邦 ROE 分解",
-    "fieldCount": 7,
+    "purpose": "杜邦 ROE 分解（含环比/拖累项）",
+    "fieldCount": 8,
     "category": "ADS",
     "schedule": "实时（视图）"
   },
@@ -604,8 +659,8 @@ window.DW_ARCHITECTURE_DATA = {
     "name_cn": "",
     "layer": "ads",
     "type": "view",
-    "purpose": "现金流量视图",
-    "fieldCount": 5,
+    "purpose": "现金流量视图（含净利润/利润现金比）",
+    "fieldCount": 10,
     "category": "ADS",
     "schedule": "实时（视图）"
   },
@@ -650,6 +705,50 @@ window.DW_ARCHITECTURE_DATA = {
     "type": "view",
     "purpose": "库存周转监控",
     "fieldCount": 5,
+    "category": "ADS",
+    "schedule": "实时（视图）"
+  },
+  {
+    "id": "v_ad_channel_roi",
+    "name": "v_ad_channel_roi",
+    "name_cn": "渠道广告ROI",
+    "layer": "ads",
+    "type": "view",
+    "purpose": "渠道广告/营销投入产出（方法论·看板 ROAS）",
+    "fieldCount": 5,
+    "category": "ADS",
+    "schedule": "实时（视图）"
+  },
+  {
+    "id": "v_expense_budget",
+    "name": "v_expense_budget",
+    "name_cn": "费用预算执行",
+    "layer": "ads",
+    "type": "view",
+    "purpose": "费用预算差异与执行率",
+    "fieldCount": 8,
+    "category": "ADS",
+    "schedule": "实时（视图）"
+  },
+  {
+    "id": "v_purchase_order",
+    "name": "v_purchase_order",
+    "name_cn": "采购订单兼容",
+    "layer": "ads",
+    "type": "view",
+    "purpose": "采购订单方法论兼容视图",
+    "fieldCount": 9,
+    "category": "ADS",
+    "schedule": "实时（视图）"
+  },
+  {
+    "id": "v_purchase_receipt",
+    "name": "v_purchase_receipt",
+    "name_cn": "采购收货兼容",
+    "layer": "ads",
+    "type": "view",
+    "purpose": "采购收货方法论兼容视图",
+    "fieldCount": 7,
     "category": "ADS",
     "schedule": "实时（视图）"
   },
@@ -723,11 +822,6 @@ window.DW_ARCHITECTURE_DATA = {
     "from": "dwd_sales_wide",
     "to": "dws_sales_daily",
     "label": "血缘"
-  },
-  {
-    "from": "ods_payment",
-    "to": "v_cashflow",
-    "label": "指标封装"
   },
   {
     "from": "ods_purchase",
@@ -959,6 +1053,72 @@ window.DW_ARCHITECTURE_DATA = {
     "to": "v_income_statement",
     "label": "指标封装",
     "schedule": "实时"
+  },
+  {
+    "from": "dws_expense_monthly",
+    "to": "v_ad_channel_roi",
+    "label": "广告费用汇总",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_sales_monthly",
+    "to": "v_ad_channel_roi",
+    "label": "渠道收入归因",
+    "schedule": "实时"
+  },
+  {
+    "from": "dws_expense_monthly",
+    "to": "v_expense_budget",
+    "label": "预算差异",
+    "schedule": "实时"
+  },
+  {
+    "from": "ods_purchase",
+    "to": "dwd_fct_purchase",
+    "label": "采购明细入仓",
+    "schedule": "T+1"
+  },
+  {
+    "from": "dwd_fct_purchase",
+    "to": "v_purchase_order",
+    "label": "方法论兼容",
+    "schedule": "实时"
+  },
+  {
+    "from": "dwd_fct_purchase",
+    "to": "v_purchase_receipt",
+    "label": "方法论兼容",
+    "schedule": "实时"
+  },
+  {
+    "from": "ods_payment",
+    "to": "dws_payment_daily",
+    "label": "日支付汇总",
+    "schedule": "T+1"
+  },
+  {
+    "from": "ods_expense",
+    "to": "dws_expense_daily",
+    "label": "日费用汇总",
+    "schedule": "T+1"
+  },
+  {
+    "from": "dws_payment_daily",
+    "to": "dws_payment_monthly",
+    "label": "日→月汇总",
+    "schedule": "T+1"
+  },
+  {
+    "from": "ods_payment",
+    "to": "dws_payment_monthly",
+    "label": "月支付汇总",
+    "schedule": "T+1"
+  },
+  {
+    "from": "ods_budget",
+    "to": "dws_budget_monthly",
+    "label": "预算汇总",
+    "schedule": "T+1"
   }
 ],
     dashboards: [
@@ -989,9 +1149,9 @@ window.DW_ARCHITECTURE_DATA = {
     "name": "渠道分析",
     "api": "/api/dashboard_channel",
     "tables": [
-      "ods_ad_cost",
+      "v_ad_channel_roi",
       "dim_channel",
-      "dwd_sales_wide",
+      "dws_sales_monthly",
       "dws_sales_daily"
     ]
   },
@@ -1021,7 +1181,8 @@ window.DW_ARCHITECTURE_DATA = {
     "name": "现金流分析",
     "api": "/api/dashboard_cashflow",
     "tables": [
-      "ods_payment",
+      "dws_payment_daily",
+      "dws_expense_daily",
       "v_cashflow",
       "v_cashflow_statement"
     ]

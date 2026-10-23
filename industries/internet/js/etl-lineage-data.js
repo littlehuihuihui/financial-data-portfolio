@@ -654,18 +654,33 @@ window.ETL_LINEAGE = {
       "grain": "日"
     },
     {
-      "id": "inet_ads_actsum",
+      "id": "inet_ods_dim_activity",
       "from_table": "ods_activity",
-      "to_table": "v_activity_summary",
+      "to_table": "dim_activity",
       "layer_from": "ODS",
+      "layer_to": "DIM",
+      "job_name": "ODS → DIM 活动",
+      "schedule": "灌入后",
+      "engine": "sql",
+      "code_path": "portfolio/industries/internet/database/10_dim_activity.sql",
+      "entry": "dim_activity",
+      "computation": "营销活动贴源入维，供活动看板。",
+      "sql_excerpt": "INSERT INTO dim_activity SELECT ... FROM ods_activity",
+      "grain": "活动"
+    },
+    {
+      "id": "inet_ads_actsum",
+      "from_table": "dim_activity",
+      "to_table": "v_activity_summary",
+      "layer_from": "DIM",
       "layer_to": "ADS",
       "job_name": "ADS 视图",
       "schedule": "实时",
       "engine": "view",
       "code_path": "portfolio/industries/internet/database/04_ott_ads_views.sql",
       "entry": "v_activity_summary",
-      "computation": "活动汇总视图。",
-      "sql_excerpt": "CREATE VIEW v_activity_summary AS ...",
+      "computation": "活动汇总视图（读 DIM，禁止直读 ODS）。",
+      "sql_excerpt": "CREATE VIEW v_activity_summary AS SELECT ... FROM dim_activity",
       "grain": "活动"
     },
     {

@@ -130,6 +130,7 @@
       <h4>血缘应用：问题溯源与变更影响</h4>
       <p class="lineage-usage"><strong>问题溯源</strong>：CMEI/看板异常 → ADS → DWS（产线/产品）→ DWD 宽表 → ODS（MES/ERP/WMS）对账。</p>
       <p class="lineage-usage"><strong>变更影响</strong>：改口径或 ETL 前查下游 14 看板；变更后重跑 seed 并回归 API(:5002)。</p>
+      <p class="lineage-usage"><strong>业务日锚点</strong>：看板/方法论窗口用 <code>MAX(dws_* .snapshot_date)</code>；交付逾期天相对 <code>MAX(dwd_production_wide.order_date)</code>，禁止用墙钟 <code>CURDATE()</code> 做过滤。</p>
           </div>
     </details>
 

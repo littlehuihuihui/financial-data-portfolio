@@ -24,16 +24,23 @@
       min-height: 100vh;
       scrollbar-gutter: stable;
     }
-    /* 锁定顶栏高度，但允许搜索下拉浮出（结果框改用 fixed，此处 visible 作兜底） */
+    /* 顶栏：桌面锁高；手机交给 platform-features 换行（搜索第二行），避免与 tabs 重叠裁切 */
     .top-nav {
       overflow: visible;
     }
     .top-nav .nav-inner {
       max-width: 1600px;
-      height: var(--nav-height, 56px) !important;
+      height: var(--nav-height, 56px);
       max-height: var(--nav-height, 56px);
-      flex-wrap: nowrap !important;
+      flex-wrap: nowrap;
       overflow: visible;
+    }
+    @media (min-width: 901px) {
+      .top-nav .nav-inner {
+        height: var(--nav-height, 56px) !important;
+        max-height: var(--nav-height, 56px);
+        flex-wrap: nowrap !important;
+      }
     }
     .brand {
       font-family: var(--font-display, var(--font-ui, sans-serif));
@@ -44,7 +51,7 @@
       text-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
     }
     .nav-export { border: 1px solid var(--border); }
-    .nav-inner-with-search { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap !important; }
+    .nav-inner-with-search { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
     .nav-inner-with-search .nav-tabs { flex-shrink: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
     .nav-inner-with-search .nav-tabs::-webkit-scrollbar { display: none; }
 
@@ -280,8 +287,24 @@
     }
     .sidebar-scrim.is-on { display: block; }
 
+    .next-jump {
+      color: #93c5fd;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 600;
+    }
+    .next-jump:hover { color: #bfdbfe; }
+
     @media (max-width: 960px) {
-      .layout { grid-template-columns: 1fr; padding: 0 12px 32px; }
+      /* 允许顶栏增高（品牌+tabs / 搜索第二行），侧栏 top 跟 --nav-offset */
+      .top-nav .nav-inner.nav-inner-with-search {
+        height: auto !important;
+        max-height: none !important;
+        flex-wrap: wrap !important;
+        align-items: center;
+      }
+
+      .layout { grid-template-columns: 1fr; padding: 0 12px 88px; }
       .sidebar {
         position: fixed;
         top: var(--nav-offset, var(--nav-height, 56px));
@@ -293,12 +316,64 @@
         transition: transform .25s;
         border-radius: 0;
         max-height: none;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
       }
       .sidebar.open { transform: translateX(0); }
-      .mobile-toggle { display: block; }
+      /* 高于顶栏(200)，低于搜索下拉(10050)；避免被顶栏盖住点不到 */
+      .mobile-toggle {
+        display: block;
+        z-index: 220;
+      }
+      .sidebar-scrim {
+        z-index: 210;
+        top: var(--nav-offset, var(--nav-height, 56px));
+      }
+
+      .detail {
+        overflow: visible; /* 避免图表/宽表被裁切 */
+        min-height: 320px;
+      }
       .detail-inner { padding: 16px; max-width: 100%; box-sizing: border-box; }
-      .detail-inner, .playbook-title, .section-body {
+      .detail-inner, .playbook-title, .section-body, .detail-head h2 {
         overflow-wrap: anywhere;
         word-break: break-word;
+      }
+      .detail-head h2 { font-size: 18px; }
+
+      .search-bar { padding: 0 12px; }
+      .hero { padding: 16px 12px 8px; }
+      .hero h1 { font-size: 18px; line-height: 1.35; }
+      .hero p { font-size: 13px; }
+
+      pre.sql-block {
+        font-size: 11px;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+      }
+      .criteria-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+      }
+
+      .dash-action {
+        min-height: 36px;
+        padding: 8px 12px;
+        display: inline-flex;
+        align-items: center;
+      }
+      .layer-header { min-height: 44px; }
+      .q-card { min-height: 44px; }
+
+      .toolbox-chart {
+        height: 240px;
+        padding: 8px 8px 12px;
+      }
+      .toolbox-table {
+        width: 100%;
+        margin: 8px 0;
+        display: block;
+        overflow-x: auto;
       }
     }

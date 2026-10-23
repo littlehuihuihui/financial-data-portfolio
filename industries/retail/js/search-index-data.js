@@ -18,7 +18,7 @@
     store: ["坪效", "门店Top10"],
     "profit-quality": ["净现比"],
     cvp: ["盈亏平衡", "安全边际"],
-    quality: ["质量评分", "对账"],
+    quality: ["质量评分", "对账", "业务日检查戳", "ODS↔DWD"],
   };
 
   const DASHBOARD_FALLBACK = [
@@ -34,7 +34,7 @@
     { id: "store", title: "门店分析", description: "门店KPI + Top10排名 + 健康度散点 + 异常预警" },
     { id: "profit-quality", title: "利润质量", description: "净现比 + 利润vs现金流 + 差异拆解" },
     { id: "cvp", title: "本量利分析", description: "盈亏平衡 + 安全边际 + 敏感性分析" },
-    { id: "quality", title: "数据质量监控大盘", description: "DQC门禁 · 每日阻断量 · 脏数据分布 · 对账" },
+    { id: "quality", title: "数据质量监控大盘", description: "DQC门禁 · 业务日检查戳 · ODS↔DWD↔DWS对账" },
   ];
 
   const SITE_PAGES = [
@@ -52,7 +52,7 @@
     },
     {
       title: "数仓架构",
-      subtitle: "站点 · sql6 · 数据源选型 · ERP 映射对账 · 29 对象字典",
+      subtitle: "站点 · sql6 · 数据源选型 · ERP 映射对账 · 约 42 对象字典",
       keywords: "数仓架构 sql6 ODS DIM DWD DWS ADS 数据字典 血缘 architecture ERP 数据源 Hive ClickHouse 选型",
       pathKey: "architecture",
     },
@@ -73,11 +73,14 @@
   const SQL6_HIGHLIGHTS = [
     { name: "ods_orders", layer: "ODS", purpose: "订单原始落地" },
     { name: "dwd_sales_wide", layer: "DWD", purpose: "销售宽表明细" },
+    { name: "dwd_fct_purchase", layer: "DWD", purpose: "采购单事实（方法论采购场景）" },
     { name: "dws_sales_daily", layer: "DWS", purpose: "销售日汇总" },
+    { name: "dws_payment_daily", layer: "DWS", purpose: "支付日汇总（资金预测）" },
     { name: "dws_sales_monthly", layer: "DWS", purpose: "销售月汇总" },
-    { name: "v_overview", layer: "ADS", purpose: "经营总览视图" },
     { name: "v_dupont", layer: "ADS", purpose: "杜邦分析视图" },
-    { name: "v_inventory_monitor", layer: "ADS", purpose: "库存监控视图" },
+    { name: "v_cashflow", layer: "ADS", purpose: "现金流/净现比" },
+    { name: "v_ad_channel_roi", layer: "ADS", purpose: "渠道广告投入产出" },
+    { name: "v_purchase_order", layer: "ADS", purpose: "采购订单兼容（读 DWD）" },
   ];
 
   function resolvePaths() {

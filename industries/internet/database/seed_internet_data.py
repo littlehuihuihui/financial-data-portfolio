@@ -65,7 +65,7 @@ TRUNCATE_TABLES = [
     "dwd_session_wide", "dwd_device_operation_wide", "dwd_user_wide",
     "ods_device_operation_log", "ods_subscription_order", "ods_channel_campaign",
     "ods_user_retention", "ods_activity", "ods_content_catalog",
-    "ods_device_profile", "ods_user_profile", "dim_user", "dim_device",
+    "ods_device_profile", "ods_user_profile", "dim_activity", "dim_user", "dim_device",
 ]
 
 
@@ -462,7 +462,7 @@ def seed_funnel_and_user_value(cur):
          total_pay_amount, total_operations, days_since_register, last_active_date,
          recency_days, rfm_segment, etl_batch_id)
         SELECT
-            CURDATE(),
+            (SELECT MAX(last_active_date) FROM dwd_user_wide),
             user_id,
             IFNULL(first_channel, '未知'),
             IFNULL(lifecycle_stage, '未知'),
@@ -471,11 +471,11 @@ def seed_funnel_and_user_value(cur):
             IFNULL(total_operations, 0),
             IFNULL(days_since_register, 0),
             last_active_date,
-            DATEDIFF(CURDATE(), last_active_date),
+            DATEDIFF((SELECT MAX(last_active_date) FROM dwd_user_wide), last_active_date),
             CASE
                 WHEN IFNULL(total_pay_amount, 0) >= 500 AND IFNULL(total_operations, 0) >= 500 THEN '高价值'
                 WHEN IFNULL(total_pay_amount, 0) >= 100 OR IFNULL(total_operations, 0) >= 150 THEN '潜力'
-                WHEN DATEDIFF(CURDATE(), last_active_date) > 30 THEN '流失风险'
+                WHEN DATEDIFF((SELECT MAX(last_active_date) FROM dwd_user_wide), last_active_date) > 30 THEN '流失风险'
                 ELSE '一般'
             END,
             %s
@@ -525,6 +525,7 @@ def main():
             seed_payments_daily(cur)
             seed_funnel_and_user_value(cur)
             seed_activities(cur)
+            run_sql_file(cur, DDL_DIR / "10_dim_activity.sql")
             run_ddl(cur, views_only=True)
             run_sql_file(cur, DDL_DIR / "03_fact_aliases.sql")
         conn.commit()

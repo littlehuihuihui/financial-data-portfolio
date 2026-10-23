@@ -11,7 +11,7 @@ window.INDUSTRY_DASHBOARDS = [
     "id": "delivery",
     "title": "交付分析",
     "api": "/api/dashboard_delivery",
-    "description": "准时交付率OTD · 计划达成 · 逾期工单 · 在制品WIP",
+    "description": "准时交付率OTD · 计划达成 · 逾期工单（业务日） · 在制品WIP",
     "href": "../manufacturing_dashboard.html#delivery"
   },
   {

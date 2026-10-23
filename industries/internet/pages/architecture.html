@@ -136,6 +136,7 @@
     <h4>血缘应用：问题溯源与变更影响</h4>
 <p class="lineage-usage"><strong>问题溯源（自下而上）</strong>：看板 DAU 异常时，从 ADS 定位 → DWS 下钻渠道 → DWD 用户/事件抽样 → ODS 对比埋点源，逐层锁定根因。</p>
       <p class="lineage-usage"><strong>变更影响（自上而下）</strong>：改 ETL 或指标口径前查下游 ADS 与 17 个 Web 看板；变更后重跑 seed_ott 并回归 API(:5001)。</p>
+      <p class="lineage-usage"><strong>业务日锚点</strong>：看板/健康度/用户价值快照锚定 <code>MAX(dws_* .snapshot_date)</code> 或 <code>MAX(last_active_date)</code>；活动维表 <code>dim_activity</code>，禁止墙钟 <code>CURDATE()</code> 过滤演示窗口。</p>
     
           </div>
     </details>

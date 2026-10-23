@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import csv
+import random
+import re
 import sys
 from collections import defaultdict
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data" / "raw_csv"
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT.parents[2] / 'retail-finance-analysis'))
 
 from db_utils import _db_config  # noqa: E402
 
@@ -74,9 +77,14 @@ EXPENSE_BRAND = {
 TRUNCATE_TABLES = [
     "dws_store_daily",
     "dws_inventory_daily",
+    "dws_expense_daily",
+    "dws_payment_daily",
+    "dws_budget_monthly",
+    "dws_payment_monthly",
     "dws_expense_monthly",
     "dws_sales_monthly",
     "dws_sales_daily",
+    "dwd_fct_purchase",
     "dwd_inventory_wide",
     "dwd_expense_wide",
     "dwd_sales_wide",
@@ -442,6 +450,106 @@ def load_ods_ad_cost(cur) -> int:
     return len(rows)
 
 
+def load_ods_purchase(cur) -> int:
+    """演示采购单（无 CSV 时合成；对齐销售样例日期 2024-01～2026-06）。"""
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS ods_purchase (
+            purchase_id VARCHAR(50) PRIMARY KEY,
+            purchase_date DATE,
+            supplier_code VARCHAR(50),
+            supplier_name VARCHAR(100),
+            brand_code VARCHAR(20),
+            category_code VARCHAR(20),
+            purchase_amount DECIMAL(15,2),
+            purchase_qty INT,
+            unit_price DECIMAL(12,2),
+            receipt_flag TINYINT(1),
+            receipt_date DATE,
+            receipt_qty INT,
+            invoice_flag TINYINT(1),
+            invoice_amount DECIMAL(15,2),
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            etl_batch_id VARCHAR(50)
+        ) COMMENT='ODS·采购贴源'
+        """
+    )
+    cur.execute("TRUNCATE TABLE ods_purchase")
+    rng = random.Random(42)
+    suppliers = [
+        ("S001", "华东鞋材"),
+        ("S002", "华南面料"),
+        ("S003", "宁波辅料"),
+        ("S004", "泉州模具"),
+        ("S005", "苏州包装"),
+    ]
+    brands = list(BRANDS.items())  # name -> (code, tier)
+    cat_items = [(k, v) for k, v in CATEGORY_CODE.items() if k in ("鞋类", "服装", "配件")]
+    rows = []
+    pid = 1
+    d = date(2024, 1, 5)
+    end = date(2026, 6, 28)
+    while d <= end:
+        if d.weekday() in (0, 2, 4):
+            for _ in range(rng.randint(1, 2)):
+                sc, sn = rng.choice(suppliers)
+                _, (bc, _) = rng.choice(brands)
+                _, (cc, _) = rng.choice(cat_items)
+                qty = rng.randint(50, 800)
+                price = round(rng.uniform(20, 180), 2)
+                amt = round(qty * price, 2)
+                delay = rng.choice([0, 0, 0, 1, 2, 5, 10, 15])
+                received = rng.random() > 0.12
+                rdate = d + timedelta(days=3 + delay) if received else None
+                rqty = qty if received else (qty // 2 if rng.random() > 0.7 else 0)
+                inv = received and rng.random() > 0.2
+                rows.append(
+                    (
+                        f"PO{pid:06d}",
+                        d,
+                        sc,
+                        sn,
+                        bc,
+                        cc,
+                        amt,
+                        qty,
+                        price,
+                        1 if received else 0,
+                        rdate,
+                        rqty,
+                        1 if inv else 0,
+                        round(amt * 0.98, 2) if inv else 0,
+                        ETL_BATCH,
+                    )
+                )
+                pid += 1
+        d += timedelta(days=1)
+    cur.executemany(
+        """
+        INSERT INTO ods_purchase (
+            purchase_id, purchase_date, supplier_code, supplier_name, brand_code, category_code,
+            purchase_amount, purchase_qty, unit_price, receipt_flag, receipt_date, receipt_qty,
+            invoice_flag, invoice_amount, etl_batch_id
+        ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """,
+        rows,
+    )
+    print(f"  ods_purchase: {len(rows)}")
+    return len(rows)
+
+
+def apply_sql_file(cur, path: Path) -> None:
+    if not path.is_file():
+        print(f"  skip missing SQL: {path}")
+        return
+    text = path.read_text(encoding="utf-8")
+    for stmt in re.split(r";\s*", text):
+        s = stmt.strip()
+        if not s or s.upper().startswith("USE "):
+            continue
+        cur.execute(s)
+
+
 def etl_dwd(cur) -> None:
     cur.execute("TRUNCATE TABLE dwd_sales_wide")
     cur.execute(
@@ -473,6 +581,14 @@ def etl_dwd(cur) -> None:
         """,
         (ETL_BATCH,),
     )
+
+    # 采购事实：优先跑 08 DDL+ETL；表不存在时跳过
+    purchase_sql = ROOT / "sql6_portfolio_model" / "08_dwd_purchase.sql"
+    try:
+        apply_sql_file(cur, purchase_sql)
+        print("  dwd_fct_purchase: 已从 ods_purchase 装载")
+    except Exception as exc:
+        print(f"  dwd_fct_purchase: 跳过 ({exc})")
 
     cur.execute("TRUNCATE TABLE dwd_expense_wide")
     cur.execute(
@@ -613,6 +729,20 @@ def etl_dws(cur) -> None:
         GROUP BY w.order_date, w.store_name, w.region
         """
     )
+
+    # 支付/费用日汇总 + 支付/预算月汇总（供资金预测看板，禁止直读 ODS）
+    etl_sql = ROOT / "sql6_portfolio_model" / "07_dws_payment_budget_etl.sql"
+    if etl_sql.is_file():
+        raw = etl_sql.read_text(encoding="utf-8")
+        for stmt in raw.split(";"):
+            s = "\n".join(
+                ln for ln in stmt.splitlines()
+                if ln.strip() and not ln.strip().startswith("--")
+            ).strip()
+            if not s or s.upper().startswith("USE "):
+                continue
+            cur.execute(s)
+        print("  dws: payment_daily / expense_daily / payment_monthly / budget_monthly 已装载")
     print("  dws: sales_daily / sales_monthly / expense / inventory / store 已装载")
 
 
@@ -665,12 +795,17 @@ def main() -> int:
             load_ods_store_pnl(cur)
             load_ods_budget(cur)
             load_ods_ad_cost(cur)
+            load_ods_purchase(cur)
 
             print("\n>> DWD")
             etl_dwd(cur)
 
             print("\n>> DWS")
             etl_dws(cur)
+
+            print("\n>> ADS compat")
+            apply_sql_file(cur, ROOT / "sql6_portfolio_model" / "10_methodology_compat_views.sql")
+            apply_sql_file(cur, ROOT / "sql6_portfolio_model" / "05_ads.sql")
 
             validate(cur)
         conn.commit()

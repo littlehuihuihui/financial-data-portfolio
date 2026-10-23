@@ -1,14 +1,14 @@
 <section class="dashboard-page" data-dashboard="quality">
   <h2 class="dashboard-page-title">数据质量监控大盘</h2>
-  <p class="dashboard-page-desc">DQC 门禁 · 每日阻断异常量 · 脏数据分布 · ODS↔DWD↔DWS 对账 — 证明「数据基建」而不只是销售额趋势</p>
+  <p class="dashboard-page-desc">DQC 门禁 · ODS↔DWD↔DWS 对账 · 检查戳锚定 DWS 业务日（非墙钟 CURDATE）— 证明「数据基建」而不只是销售额趋势</p>
   <div id="db-kpi" class="kpi-grid"></div>
 
   <div class="charts-row">
-    <div class="chart-box"><h3>近30天 · 每日阻断异常量</h3><div id="db-chart-blocked" class="chart"></div></div>
+    <div class="chart-box"><h3>近30业务日 · 每日阻断异常量</h3><div id="db-chart-blocked" class="chart"></div></div>
     <div class="chart-box"><h3>脏数据分布（按类型）</h3><div id="db-chart-dirty" class="chart"></div></div>
   </div>
   <div class="charts-row">
-    <div class="chart-box"><h3>近7天质量评分</h3><div id="db-chart-quality" class="chart"></div></div>
+    <div class="chart-box"><h3>近7业务日质量评分</h3><div id="db-chart-quality" class="chart"></div></div>
     <div class="chart-box"><h3>分层门禁通过率</h3><div id="db-chart-gate-layer" class="chart"></div></div>
   </div>
 

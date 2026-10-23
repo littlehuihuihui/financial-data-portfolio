@@ -117,7 +117,7 @@
       "file": "dashboards/14-quality.html",
       "api": "/api/dashboard_quality",
       "filters": [],
-      "description": "DQC门禁 · 每日阻断量 · 脏数据分布 · 对账（数据基建）"
+      "description": "DQC门禁 · 业务日阻断量 · 脏数据分布 · ODS↔DWD↔DWS对账（检查戳=DWS业务日）"
     }
   ]
 }

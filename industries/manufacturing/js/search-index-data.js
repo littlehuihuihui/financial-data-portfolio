@@ -6,7 +6,7 @@
     architecture: "architecture.html",
   };
   const dashboards = [
-    ["production","生产总览","产量 产能 交付"],["delivery","交付分析","准时交付 OTD"],
+    ["production","生产总览","产量 产能 交付"],["delivery","交付分析","准时交付 OTD 逾期 欠交 业务日 dwd_production_wide"],
     ["quality","质量分析","良品率 FPY"],["scrap-rework","报废与返工","报废率"],
     ["process-yield","工序良率","工序"],["equipment","设备OEE","OEE 故障"],
     ["downtime","停机损失","停机"],["capacity","产能负荷","瓶颈 加权"],

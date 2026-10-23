@@ -1,11 +1,13 @@
 {
   "ok": true,
   "data": {
+    "as_of": "2026-06-30",
     "latest_score": 96,
     "pass_rate": 98.5,
     "open_count": 2,
     "blocked_today": 128,
     "last_check": "2026-06-30",
+    "last_check_note": "业务日检查戳=MAX(dws_sales_daily.snapshot_date)",
     "summary": [
       { "check_date": "2026-06-24", "quality_score": 95 },
       { "check_date": "2026-06-25", "quality_score": 96 },

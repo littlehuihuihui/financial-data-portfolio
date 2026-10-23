@@ -1,5 +1,47 @@
--- 从贴源 ODS 灌入 DWS（ETL 层职责；ADS 不得执行此类直读）
+-- 从贴源 ODS 灌入 DWS（ETL 层职责；ADS/看板不得执行此类直读）
+-- Kimball：支付/费用业务过程 → 日粒度汇总 → 月粒度汇总
 USE retail_finance;
+
+TRUNCATE TABLE dws_payment_daily;
+INSERT INTO dws_payment_daily (
+    snapshot_date, brand_code, channel_code, payment_method,
+    payment_amount, payment_count, success_amount, refund_amount, etl_batch_id
+)
+SELECT
+    DATE(payment_date) AS snapshot_date,
+    IFNULL(NULLIF(brand_code, ''), 'ALL'),
+    IFNULL(NULLIF(channel_code, ''), 'ALL'),
+    IFNULL(NULLIF(payment_method, ''), '其他'),
+    ROUND(SUM(IFNULL(payment_amount, 0)), 2),
+    COUNT(*),
+    ROUND(SUM(CASE WHEN payment_status IN ('成功', 'SUCCESS', 'paid', '已支付') THEN IFNULL(payment_amount, 0) ELSE 0 END), 2),
+    ROUND(SUM(CASE WHEN payment_status IN ('退款', 'REFUND') THEN IFNULL(payment_amount, 0) ELSE 0 END), 2),
+    'etl_payment_daily'
+FROM ods_payment
+GROUP BY DATE(payment_date),
+         IFNULL(NULLIF(brand_code, ''), 'ALL'),
+         IFNULL(NULLIF(channel_code, ''), 'ALL'),
+         IFNULL(NULLIF(payment_method, ''), '其他');
+
+TRUNCATE TABLE dws_expense_daily;
+INSERT INTO dws_expense_daily (
+    snapshot_date, brand_code, channel_code, expense_type,
+    expense_amount, budget_amount, expense_count, etl_batch_id
+)
+SELECT
+    expense_date AS snapshot_date,
+    IFNULL(NULLIF(brand_code, ''), 'ALL'),
+    IFNULL(NULLIF(channel_code, ''), 'ALL'),
+    IFNULL(NULLIF(expense_type, ''), 'ALL'),
+    ROUND(SUM(IFNULL(expense_amount, 0)), 2),
+    ROUND(SUM(IFNULL(budget_amount, 0)), 2),
+    COUNT(*),
+    'etl_expense_daily'
+FROM ods_expense
+GROUP BY expense_date,
+         IFNULL(NULLIF(brand_code, ''), 'ALL'),
+         IFNULL(NULLIF(channel_code, ''), 'ALL'),
+         IFNULL(NULLIF(expense_type, ''), 'ALL');
 
 TRUNCATE TABLE dws_payment_monthly;
 INSERT INTO dws_payment_monthly (

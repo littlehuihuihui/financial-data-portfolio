@@ -318,7 +318,8 @@
     // 绝对定位下拉/换行溢出会把外层测高抬高；再写 CSS 变量触发重排，易和滚动条宽度抖动死循环。
     // 禁止回写 --nav-height（.nav-inner { height: var(--nav-height) }）。
     const inner = nav.querySelector(".nav-inner") || nav;
-    const h = Math.max(40, Math.min(96, Math.round(inner.getBoundingClientRect().height)));
+    // 手机顶栏常两行（tabs + 搜索），96 会偏小导致侧栏顶进导航；上限放宽到 128
+    const h = Math.max(40, Math.min(128, Math.round(inner.getBoundingClientRect().height)));
     const next = h + "px";
     const root = document.documentElement;
     if (root.style.getPropertyValue("--nav-offset") === next) return;

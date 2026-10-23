@@ -2071,8 +2071,8 @@ window.DATA_DICTIONARY=[
     "name_cn": "生产事实宽表",
     "layer": "DWD",
     "type": "table",
-    "purpose": "DWD·生产事实宽表·增量·粒度=工单",
-    "summary": "DWD·生产事实宽表·增量·粒度=工单",
+    "purpose": "DWD·生产事实宽表·增量·粒度=工单；逾期天相对 MAX(order_date) 业务日",
+    "summary": "DWD·生产事实宽表·增量·粒度=工单；交付逾期锚业务日非 CURDATE",
     "source": "manufacturing_analytics/database",
     "downstream": [
       "dws_production_daily"

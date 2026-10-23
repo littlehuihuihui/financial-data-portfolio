@@ -131,6 +131,7 @@
       <h4>血缘应用：问题溯源与变更影响</h4>
       <p class="lineage-usage"><strong>问题溯源（自下而上）</strong>：看板指标异常时，从 ADS 定位月份/维度 → 下钻 DWS → 回查 DWD 宽表 → 对比 ODS 原始单据，逐层锁定口径、清洗或源数据问题。</p>
       <p class="lineage-usage"><strong>变更影响（自上而下）</strong>：改 ETL 或指标口径前查下游 ADS 与 13 主题看板；变更后重跑灌数并对账（差异≤2%），回归 API(:5000)。</p>
+      <p class="lineage-usage"><strong>业务日检查戳</strong>：数据质量大盘与方法论窗口锚定 <code>MAX(dws_sales_daily.snapshot_date)</code>（演示约至 2026-06），禁止用墙钟 <code>CURDATE()</code> 做过滤；采购场景经 <code>dwd_fct_purchase</code> → <code>v_purchase_*</code>，ADS 不直读 ODS。</p>
           </div>
     </details>
 
@@ -147,7 +148,7 @@
         <dt>DIM · 维度层</dt>
         <dd><strong>颗粒度：主数据实体。</strong>5 张表：dim_brand / channel / category / store / date，统一编码映射。</dd>
         <dt>DWD · 明细宽表层</dt>
-        <dd><strong>颗粒度：清洗后明细。</strong>3 张宽表：dwd_sales_wide / expense_wide / inventory_wide（宽表优先，冗余维度名称）。</dd>
+        <dd><strong>颗粒度：清洗后明细。</strong>宽表：dwd_sales_wide / expense_wide / inventory_wide；采购事实 <code>dwd_fct_purchase</code>（方法论经 ADS 视图，禁止看板直读 ODS）。</dd>
         <dt>DWS · 汇总数据层</dt>
         <dd><strong>颗粒度：日/月预聚合。</strong>5 张表：dws_sales_daily/monthly · expense_monthly · inventory_daily · store_daily。</dd>
         <dt>ADS · 应用数据层</dt>

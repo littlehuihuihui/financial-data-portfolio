@@ -325,7 +325,7 @@
             <tr><td>10</td><td>门店分析</td><td>门店 KPI · Top10 排名 · 健康度散点 · 异常预警</td><td>区域运营</td></tr>
             <tr><td>11</td><td>利润质量</td><td>净现比 · 利润 vs 现金流 · 差异拆解</td><td>CFO</td></tr>
             <tr><td>12</td><td>本量利分析</td><td>盈亏平衡 · 安全边际 · 敏感性分析</td><td>财务 BP</td></tr>
-            <tr><td>13</td><td>数据质量</td><td>质量评分 · 对账结果 · 未解决异常</td><td>CFO / 数据治理</td></tr>
+            <tr><td>13</td><td>数据质量</td><td>质量评分 · 业务日检查戳 · ODS↔DWD↔DWS 对账</td><td>CFO / 数据治理</td></tr>
           </tbody>
         </table>
         <p class="page-footnote">Web 看板入口：<code>retail_dashboard.html</code> · 配置见 <code>docs/config/dashboards.json</code>（13 个主题看板 + PDF 报告导出，共 14 项）· <strong>运维</strong>可查看全部 13 个看板（无行级过滤）</p>
@@ -486,7 +486,7 @@
             <li><strong>10 门店分析</strong>：Top10 排名 · 坪效散点 · 亏损/低坪效预警</li>
             <li><strong>11 利润质量</strong>：净现比 · 利润 vs 现金流差异</li>
             <li><strong>12 本量利分析</strong>：盈亏平衡 · 安全边际 · 敏感性</li>
-            <li><strong>13 数据质量</strong>：质量评分 · 对账结果 · 未解决异常</li>
+            <li><strong>13 数据质量</strong>：质量评分 · 业务日检查戳 · ODS↔DWD↔DWS 对账</li>
           </ul>
         </div>
 
@@ -680,7 +680,7 @@
         <div class="page-header-left">
           <div class="page-kicker">Portfolio Report</div>
           <h1 class="page-title">⚙️ 数据仓库与管道架构</h1>
-          <p class="page-subtitle">ODS → DIM → DWD → DWS → ADS 五层数仓 · sql6_portfolio_model <span class="arch-scale-badge">作品集版 · 21 表 + 8 视图 = 29 对象</span></p>
+          <p class="page-subtitle">ODS → DIM → DWD → DWS → ADS 五层数仓 · sql6_portfolio_model <span class="arch-scale-badge">作品集版 · 约 42 对象（含日支付/费用 DWS + ADS 兼容视图）</span></p>
         </div>
         <nav class="module-nav" aria-label="模块导航">
           <a href="#page-p0">📋 体系总览</a>
@@ -762,20 +762,20 @@
             </tr>
             <tr>
               <td><strong>DWD</strong></td>
-              <td>3 张宽表（dwd_sales_wide / dwd_expense_wide / dwd_inventory_wide）</td>
+              <td>宽表 + 采购事实（dwd_sales_wide / dwd_expense_wide / dwd_inventory_wide / dwd_fct_purchase）</td>
               <td>清洗后明细宽表</td>
               <td>每日 ETL</td>
             </tr>
             <tr>
               <td><strong>DWS</strong></td>
-              <td>5 张汇总表（dws_sales_daily / dws_sales_monthly 等）</td>
-              <td>日/月 × 品牌 × 渠道 × 品类</td>
+              <td>日/月汇总（dws_sales_* · dws_payment_daily · dws_expense_daily 等）</td>
+              <td>日/月 × 品牌 × 渠道 × 品类；资金日粒度</td>
               <td>每日 ETL</td>
             </tr>
             <tr>
               <td><strong>ADS</strong></td>
-              <td>8 个视图（v_overview / v_dupont / v_cashflow 等）</td>
-              <td>Tableau / Web API</td>
+              <td>业务视图（v_dupont · v_cashflow · v_ad_channel_roi 等）</td>
+              <td>Tableau / Web API / PLAYBOOKS</td>
               <td>实时</td>
             </tr>
             <tr>
@@ -827,18 +827,17 @@
             <tr><th>监控视图</th><th>解决什么业务问题</th><th>粒度</th><th>刷新频率</th></tr>
           </thead>
           <tbody>
-            <tr><td>dws_sales_monthly（按月汇总）</td><td>月度经营会怎么看？CEO 要的 3 个核心数字</td><td>月（可由日汇总）</td><td>T+1 日</td></tr>
-            <tr><td>dws_sales_monthly</td><td>哪个品牌在哪个渠道在亏钱？</td><td>月（可由日汇总）</td><td>T+1 日</td></tr>
-            <tr><td>v_expense_monthly</td><td>费用有没有超预算？超了要预警</td><td>月</td><td>T+1 日</td></tr>
-            <tr><td>v_inventory_monitor</td><td>库存积压会不会拖死现金流？</td><td>日</td><td>每周</td></tr>
-            <tr><td>v_store_monthly_rank</td><td>哪些门店要关？哪些要扩？（月累计）</td><td>月</td><td>月度</td></tr>
-            <tr><td>dws_store_daily</td><td>今日/当周/当月门店销售排名</td><td>日（支持汇总到周/月）</td><td>T+1 日</td></tr>
-            <tr><td>v_budget_vs_actual</td><td>全年目标还差多少？</td><td>月</td><td>T+1 日</td></tr>
+            <tr><td>v_overview / dws_sales_monthly</td><td>月度经营会怎么看？CEO 要的 3 个核心数字</td><td>月（可由日汇总）</td><td>T+1 日</td></tr>
+            <tr><td>v_brand / v_channel</td><td>哪个品牌在哪个渠道在亏钱？</td><td>月（可由日汇总）</td><td>T+1 日</td></tr>
+            <tr><td>v_expense_budget / dws_expense_monthly</td><td>费用有没有超预算？超了要预警</td><td>月</td><td>T+1 日</td></tr>
+            <tr><td>v_inventory</td><td>库存积压会不会拖死现金流？</td><td>日</td><td>每周</td></tr>
+            <tr><td>dws_store_daily</td><td>哪些门店要关？哪些要扩？今日/当月排名</td><td>日→月</td><td>T+1 日</td></tr>
+            <tr><td>v_budget / dws_budget_monthly</td><td>全年目标还差多少？</td><td>月</td><td>T+1 日</td></tr>
             <tr><td>v_dupont</td><td>ROE 下滑是哪个因子拖累？</td><td>月</td><td>月度</td></tr>
-            <tr><td>ods_payment + dws_sales_monthly（净现比推导）_analysis</td><td>利润有没有变成现金？</td><td>月</td><td>月度</td></tr>
-            <tr><td>dws_sales_monthly + dws_expense_monthly（本量利推导）</td><td>盈亏平衡点与安全边际？</td><td>月</td><td>月度</td></tr>
-            <tr><td>dws_expense_monthly_tracking</td><td>超预算 10% 红色预警</td><td>月</td><td>月度</td></tr>
-            <tr><td>v_forecast_analysis</td><td>未来 3 个月收入趋势</td><td>月</td><td>滚动</td></tr>
+            <tr><td>v_cashflow</td><td>利润有没有变成现金？（净现比）</td><td>月</td><td>月度</td></tr>
+            <tr><td>dws_payment_daily + dws_expense_daily</td><td>资金缺口预测 / 银行余额</td><td>日</td><td>T+1 日</td></tr>
+            <tr><td>v_ad_channel_roi</td><td>渠道广告投入产出（ROAS）</td><td>月</td><td>T+1 日</td></tr>
+            <tr><td>dws_sales_monthly + dws_expense_monthly</td><td>盈亏平衡点与安全边际（本量利）</td><td>月</td><td>月度</td></tr>
           </tbody>
         </table>
       </div>
@@ -846,19 +845,19 @@
       <!-- 区块5b：数据字典（PDF 静态摘要） -->
       <div class="section-block section-compact" id="page-p3-dictionary">
         <h3 class="section-block-title">数据字典（生产级全量 ODS/DWD/DWS/ADS）</h3>
-        <p class="lineage-intro">完整交互版（29 对象 · 可折叠血缘）见 <code>architecture.html#data-dictionary-section</code> · DDL 见 <code>sql6_portfolio_model/</code></p>
+        <p class="lineage-intro">完整交互版（约 42 对象 · 可折叠血缘）见 <code>architecture.html#data-dictionary-section</code> · DDL 见 <code>sql6_portfolio_model/</code></p>
         <table class="data-table pdf-dd-compact">
           <thead><tr><th>层级</th><th>对象数</th><th>字段标准</th><th>代表对象</th><th>血缘路径（简）</th></tr></thead>
           <tbody>
-            <tr><td>ODS</td><td>8 表</td><td>30~80 字段</td><td><code>ods_orders</code></td><td>ERP SO → dwd_sales_wide → dws_sales_daily → 经营总览</td></tr>
-            <tr><td>DWD-DIM</td><td>5 表</td><td>12~20 字段</td><td><code>dim_brand</code></td><td>MDM → dwd_sales_wide 维度关联</td></tr>
-            <tr><td>DWD</td><td>3 表</td><td>20~35 字段</td><td><code>dwd_sales_wide</code></td><td>ods_orders → dws_sales_daily → dws_sales_monthly（按月汇总）</td></tr>
-            <tr><td>DWS</td><td>5 表</td><td>15~25 字段</td><td><code>dws_sales_daily</code></td><td>dwd_* 聚合 → 各 ADS 看板 API</td></tr>
-            <tr><td>ADS</td><td>8 视图</td><td>10~20 字段</td><td><code>dws_sales_monthly（按月汇总）</code></td><td>dws_sales_daily → 8 项 KPI</td></tr>
-            <tr><td>元数据</td><td>2 表+1 视图</td><td>—</td><td><code>field_lineage</code></td><td>ODS 字段 → ADS 字段全链路映射</td></tr>
+            <tr><td>ODS</td><td>8 表</td><td>≥10 字段</td><td><code>ods_orders</code></td><td>ERP/CSV → DWD → DWS → ADS</td></tr>
+            <tr><td>DIM</td><td>5 表</td><td>≥10 字段</td><td><code>dim_brand</code></td><td>MDM → DWD/DWS 关联</td></tr>
+            <tr><td>DWD</td><td>3 宽表</td><td>≥15 字段</td><td><code>dwd_sales_wide</code></td><td>ods_orders → dws_sales_daily / monthly</td></tr>
+            <tr><td>DWS</td><td>日/月汇总</td><td>≥8 字段</td><td><code>dws_sales_daily</code> · <code>dws_payment_daily</code></td><td>dwd_* 聚合 → 看板/方法论</td></tr>
+            <tr><td>ADS</td><td>业务视图</td><td>≥5 列</td><td><code>v_dupont</code> · <code>v_cashflow</code> · <code>v_ad_channel_roi</code></td><td>DWS → 看板 API / PLAYBOOKS</td></tr>
+            <tr><td>元数据</td><td>作品集库</td><td>—</td><td><code>version_history</code></td><td>配置快照与变更日志</td></tr>
           </tbody>
         </table>
-        <p class="lineage-chain-example"><strong>字段血缘示例 · 净收入：</strong> ods_orders.payment_amount → dwd_sales_wide.payment_amount → dws_sales_daily.revenue → dws_sales_monthly（按月汇总）.revenue → 经营总览 KPI</p>
+        <p class="lineage-chain-example"><strong>字段血缘示例 · 净收入：</strong> ods_orders.payment_amount → dwd_sales_wide.payment_amount → dws_sales_daily.revenue → dws_sales_monthly.revenue → v_overview / 经营总览 KPI</p>
       </div>
 
       <!-- 区块6：血缘应用说明 -->

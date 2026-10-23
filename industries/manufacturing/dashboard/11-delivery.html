@@ -1,6 +1,6 @@
 <section class="dashboard-page" data-dashboard="delivery">
   <h2 class="dashboard-page-title">交付分析（OTD）</h2>
-  <p class="dashboard-page-desc">准时交付率 · 计划达成率 · 逾期工单清单 · 在制品WIP · 数据源：dwd_production_wide / fact_process_operation</p>
+  <p class="dashboard-page-desc">准时交付率 · 计划达成率 · 逾期工单清单 · 在制品WIP · 数据源：dwd_production_wide（逾期天相对 MAX(order_date) 业务日）</p>
   <div id="db-kpi" class="kpi-grid"></div>
   <div class="chart-box"><h3>准时交付率 / 计划达成率趋势</h3><div id="db-chart-otd-trend" class="chart"></div></div>
   <div class="chart-box"><h3>在制品（WIP）工序分布</h3><div id="db-chart-wip" class="chart"></div></div>
