@@ -34,9 +34,11 @@ INDUSTRY_META = {
         "report_file": "pages/report.html",
         "report_core_content": "体系总览 + P0b监控五层(北极星/围栏) + 13 主题看板摘要 + 六层方法论 + 31 问清单 + sql6 数仓架构 PDF",
         "nav_tabs": [
-            {"id": "dashboard", "label": "数据展示", "path": "retail_dashboard.html", "description": "13 个主题看板 + 角色切换"},
-            {"id": "methodology", "label": "分析方法论", "path": "pages/anomaly.html", "description": "六层分析框架 · 31 问 · 第六层工具箱（右侧详情）"},
-            {"id": "architecture", "label": "数仓架构", "path": "pages/architecture.html", "description": "数据源选型 · ERP 映射对账 · sql6 字典与血缘"},
+            {"id": "dashboard", "label": "数据展示", "path": "retail_dashboard.html", "description": "13 个主题看板 + 分阶段北极星 + 角色切换"},
+            {"id": "methodology", "label": "分析方法论", "path": "pages/anomaly.html", "description": "六层分析框架 · 31 问 · 第一层工具箱（右侧详情）"},
+            {"id": "architecture", "label": "数仓架构", "path": "pages/architecture.html", "description": "全景图 · 数据字典 · 数仓血缘 · 分层/技术栈答疑 · sql6"},
+            {"id": "platform_graph", "label": "知识图谱", "path": "pages/platform-graph.html", "description": "看板 · 分析方法 · 五层数仓 · 指标（控密度三层聚焦）"},
+            {"id": "dictionary", "label": "数据字典", "path": "pages/dictionary.html", "description": "全屏 Master-Detail · 指标口径 · 看板引用"},
         ],
         # PDF 入口已对用户隐藏（页面仍保留，直链可访问）
         "report_nav_hidden": True,
@@ -45,7 +47,7 @@ INDUSTRY_META = {
         "local_playbook": ROOT / "industries" / "retail" / "js" / "methodology-playbook-data.js",
         "local_toolbox": ROOT / "industries" / "retail" / "js" / "analysis-toolbox-data.js",
         "config_dir": ROOT / "industries" / "retail" / "config",
-        "schema_version": "2.2",
+        "schema_version": "2.3",
     },
     "manufacturing": {
         "industry_code": "manufacturing",
@@ -61,9 +63,11 @@ INDUSTRY_META = {
         "report_file": "pdf/report.html",
         "report_core_content": "体系总览 + P0b监控五层(CMEI/围栏) + 14 主题看板摘要 + 六层方法论 + 工具箱 + 数仓架构 PDF",
         "nav_tabs": [
-            {"id": "dashboard", "label": "数据展示", "path": "manufacturing_dashboard.html", "description": "14 个主题看板 + 角色切换"},
-            {"id": "methodology", "label": "分析方法论", "path": "pages/methodology.html", "description": "六层分析框架 · 制造场景 · 第六层工具箱"},
-            {"id": "architecture", "label": "数仓架构", "path": "pages/architecture.html", "description": "ODS→ADS · 数据字典与血缘"},
+            {"id": "dashboard", "label": "数据展示", "path": "manufacturing_dashboard.html", "description": "14 个主题看板 + 分阶段北极星 + 角色切换"},
+            {"id": "methodology", "label": "分析方法论", "path": "pages/methodology.html", "description": "六层分析框架 · 制造场景 · 第一层工具箱"},
+            {"id": "architecture", "label": "数仓架构", "path": "pages/architecture.html", "description": "全景图 · 数据字典 · 数仓血缘 · 分层/技术栈答疑"},
+            {"id": "platform_graph", "label": "知识图谱", "path": "pages/platform-graph.html", "description": "看板 · 分析方法 · 五层数仓 · 指标（控密度三层聚焦）"},
+            {"id": "dictionary", "label": "数据字典", "path": "pages/dictionary.html", "description": "全屏 Master-Detail · 指标口径"},
         ],
         "report_nav_hidden": True,
         "docs_playbook": None,
@@ -87,9 +91,11 @@ INDUSTRY_META = {
         "report_file": "pdf/report.html",
         "report_core_content": "体系总览 + P0b监控五层(有效MAU/围栏) + 17 主题看板摘要 + 六层方法论 + 工具箱 + 数仓架构 PDF",
         "nav_tabs": [
-            {"id": "dashboard", "label": "数据展示", "path": "internet_dashboard.html", "description": "17 个主题看板 + 角色切换"},
-            {"id": "methodology", "label": "分析方法论", "path": "pages/methodology.html", "description": "六层分析框架 · OTT 场景 · 第六层工具箱"},
-            {"id": "architecture", "label": "数仓架构", "path": "pages/architecture.html", "description": "OTT 雪花模型 · 数据字典"},
+            {"id": "dashboard", "label": "数据展示", "path": "internet_dashboard.html", "description": "17 个主题看板 + 分阶段北极星 + 角色切换"},
+            {"id": "methodology", "label": "分析方法论", "path": "pages/methodology.html", "description": "六层分析框架 · OTT 场景 · 第一层工具箱"},
+            {"id": "architecture", "label": "数仓架构", "path": "pages/architecture.html", "description": "OTT 雪花模型 · 数据字典 · 数仓血缘 · 分层/技术栈答疑"},
+            {"id": "platform_graph", "label": "知识图谱", "path": "pages/platform-graph.html", "description": "看板 · 分析方法 · 五层数仓 · 指标（控密度三层聚焦）"},
+            {"id": "dictionary", "label": "数据字典", "path": "pages/dictionary.html", "description": "全屏 Master-Detail · 指标口径"},
         ],
         "report_nav_hidden": True,
         "docs_playbook": None,
@@ -149,6 +155,9 @@ def strip_chart_data(toolbox: dict) -> dict:
         "layerQuestion": toolbox.get("layerQuestion"),
         "opening": toolbox.get("opening"),
         "intro": toolbox.get("intro"),
+        "usageRules": toolbox.get("usageRules"),
+        "decisionTree": toolbox.get("decisionTree"),
+        "comboTips": toolbox.get("comboTips"),
         "categories": [],
     }
     for cat in toolbox.get("categories", []):
@@ -164,12 +173,13 @@ def strip_chart_data(toolbox: dict) -> dict:
     return out
 
 
-def toolbox_to_layer6(toolbox: dict) -> tuple[dict, list]:
+def toolbox_to_layer1(toolbox: dict) -> tuple[dict, dict]:
+    """工具箱为第一层；原描述–优化为 L2–L6。"""
     categories = [cat.get("name", "") for cat in toolbox.get("categories", [])]
     layer_meta = {
-        "id": "l6",
+        "id": "l1",
         "name": "分析方法工具箱",
-        "short": "第六层",
+        "short": "第一层",
         "question": toolbox.get("layerQuestion", "用什么手法？"),
         "color": "#f472b6",
         "categories": categories,
@@ -179,18 +189,24 @@ def toolbox_to_layer6(toolbox: dict) -> tuple[dict, list]:
         for m in cat.get("methods", []):
             methods.append({
                 "id": m.get("id"),
-                "layer": "l6",
+                "layer": "l1",
                 "category": cat.get("name", ""),
                 "title": m.get("title"),
                 "aliases": m.get("aliases", ""),
                 "desc": m.get("explain", ""),
                 "bizQuestion": m.get("businessQuestion", ""),
                 "portfolio": m.get("portfolio", ""),
+                "servesLayers": m.get("servesLayers", ""),
+                "has_sql": bool(m.get("sql")),
+                "has_judge": bool(m.get("judgeCriteria")),
             })
     toolbox_section = {
         "layer": layer_meta,
         "opening": toolbox.get("opening", ""),
         "intro": toolbox.get("intro", ""),
+        "usageRules": toolbox.get("usageRules", ""),
+        "decisionTree": toolbox.get("decisionTree", ""),
+        "comboTips": toolbox.get("comboTips", ""),
         "methods": methods,
         "method_count": len(methods),
     }
@@ -237,7 +253,8 @@ def build_navigation(meta: dict) -> dict:
             "path": "/index.html",
         },
         f"{meta['industry_code']}_tabs": meta["nav_tabs"],
-        "methodology_sidebar_layers": ["l1", "l2", "l3", "l4", "l5"],
+        # 侧栏问题列表为 L2–L6；L1 工具箱单独渲染在侧栏顶部
+        "methodology_sidebar_layers": ["l2", "l3", "l4", "l5", "l6"],
         "global_search": True,
         "report_nav_hidden": bool(meta.get("report_nav_hidden", False)),
     }
@@ -265,7 +282,9 @@ def resolve_playbook_toolbox(meta: dict) -> tuple[list, list, dict]:
     layers, playbooks, toolbox_from_playbook = load_methodology_data(Path(playbook_js))
 
     toolbox_raw = toolbox_from_playbook
-    toolbox_js = meta.get("docs_toolbox") or meta.get("local_toolbox")
+    toolbox_js = meta.get("docs_toolbox")
+    if not toolbox_js or not Path(toolbox_js).exists():
+        toolbox_js = meta.get("local_toolbox")
     if toolbox_js and Path(toolbox_js).exists():
         toolbox_raw = load_analysis_toolbox(Path(toolbox_js)) or toolbox_raw
     if not toolbox_raw:
@@ -277,8 +296,8 @@ def build_config(industry: str) -> dict:
     meta = INDUSTRY_META[industry]
     layers, playbooks, toolbox_raw = resolve_playbook_toolbox(meta)
     toolbox_clean = strip_chart_data(toolbox_raw)
-    layer6_meta, layer6_toolbox = toolbox_to_layer6(toolbox_clean)
-    all_layers = layers + [layer6_meta]
+    layer1_meta, layer1_toolbox = toolbox_to_layer1(toolbox_clean)
+    all_layers = [layer1_meta] + layers
 
     cfg_dir = meta["config_dir"]
     dashboards_cfg = json.loads((cfg_dir / "dashboards.json").read_text(encoding="utf-8"))
@@ -295,17 +314,20 @@ def build_config(industry: str) -> dict:
         "source_dashboards_version": dashboards_cfg.get("version"),
         "analysis_framework": {
             "layers": all_layers,
+            "layers_l2_to_l6": layers,
+            # 兼容旧字段名
             "layers_l1_to_l5": layers,
-            "layer6_toolbox": layer6_toolbox,
+            "layer1_toolbox": layer1_toolbox,
+            "layer6_toolbox": layer1_toolbox,
             "playbooks": playbooks,
             "playbook_count": len(playbooks),
-            "sidebar_note": "左侧导航展示六层框架（l1-l5 问题列表 + l6 工具箱入口）",
+            "sidebar_note": "左侧导航：第一层工具箱置顶 + L2–L6 问题列表",
         },
         "statistics": {
             "dashboard_count": len(dashboards),
             "theme_dashboard_count": theme_count,
             "playbook_count": len(playbooks),
-            "toolbox_method_count": layer6_toolbox["method_count"],
+            "toolbox_method_count": layer1_toolbox["method_count"],
             "analysis_layers": 6,
         },
     }

@@ -21,6 +21,7 @@ SQL_FILES = [
     "08_search_index.sql",
     "09_alter_version_history_config.sql",
     "10_system_config.sql",
+    "11_etl_lineage.sql",
 ]
 
 sys.path.insert(0, str(ROOT.parent / "retail-finance-analysis"))

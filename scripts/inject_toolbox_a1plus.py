@@ -186,7 +186,7 @@ def patch_file(path: Path, industry: str) -> int:
 def main() -> None:
     files = [
         (ROOT / "portfolio/industries/retail/js/analysis-toolbox-data.js", "retail"),
-        (ROOT / "retail-finance-analysis/docs/shared/analysis-toolbox-data.js", "retail"),
+        (ROOT / "industries/retail/js/analysis-toolbox-data.js", "retail"),
         (ROOT / "portfolio/industries/internet/js/methodology-playbook-data.js", "internet"),
         (ROOT / "portfolio/industries/manufacturing/js/methodology-playbook-data.js", "manufacturing"),
     ]
